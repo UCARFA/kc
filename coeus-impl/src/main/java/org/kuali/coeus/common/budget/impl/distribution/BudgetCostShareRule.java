@@ -38,6 +38,7 @@ public class BudgetCostShareRule extends CostShareRuleResearchDocumentBase {
     public boolean processAddBudgetCostShareBusinessRules(AddBudgetCostShareEvent budgetCostShareEvent) {
         boolean retVal = !areDuplicatesPresent(budgetCostShareEvent.getBudget(), budgetCostShareEvent.getBudgetCostShare());
         retVal &= validateProjectPeriod(budgetCostShareEvent);
+        retVal &= validateUnit(budgetCostShareEvent.getBudgetCostShare().getUnitNumber(), "newBudgetCostShare.unitNumber");
         return retVal;
     }
 

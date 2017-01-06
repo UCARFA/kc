@@ -104,8 +104,10 @@ public class AwardCostShareRuleTest extends KcIntegrationTestBase {
         Assert.assertFalse(awardCostShareRule.validateCostShareFiscalYearRange(awardCostShare));
         awardCostShare.setSource(TEST_FISCAL_YEAR);
     }
-    
-    
 
+    @Test
+    public void testValidateCostShareUnit() {
+        Assert.assertFalse(awardCostShareRule.validateUnit("abc", ""));
+    }
 
 }

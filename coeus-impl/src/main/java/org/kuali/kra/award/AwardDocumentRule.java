@@ -703,7 +703,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
 
         boolean success = award.getUnitNumber() != null && award.getUnit() != null;
         if(!success) {
-            errorMap.putError("unitNumber", "error.award.unitNumber", award.getUnitNumber());    
+            errorMap.putError("unitNumber", KeyConstants.ERROR_UNIT_INVALID, award.getUnitNumber());
         }
 
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);

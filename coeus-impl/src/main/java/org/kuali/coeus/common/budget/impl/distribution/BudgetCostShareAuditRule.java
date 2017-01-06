@@ -75,7 +75,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
             for (int i = 0; i < costShares.size(); i++) {
                 getAuditErrors(BUDGET_COST_SHARE_ERROR_KEY, Constants.BUDGET_COST_SHARE_PANEL_NAME)
                         .add(
-                                new AuditError("document.budget.budgetCostShare[" + i + "].shareAmount",
+                                new AuditError("document.budget.budgetCostShares[" + i + "].shareAmount",
                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
                                     Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
                                     params));
@@ -98,7 +98,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
                 retval = false;
                 getAuditErrors(BUDGET_COST_SHARE_ERROR_KEY, Constants.BUDGET_COST_SHARE_PANEL_NAME)
                         .add(
-                                new AuditError("document.budget.budgetCostShare[" + i + "].sourceAccount",
+                                new AuditError("document.budget.budgetCostShares[" + i + "].sourceAccount",
                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
                                     Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
                                     params));
@@ -107,10 +107,10 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
             if (budget.getBudgetPeriods() != null) {
                 numberOfProjectPeriods = budget.getBudgetPeriods().size();
             }
-            validateProjectPeriod(fiscalYear, "document.budget.budgetCostShare[" + i + "].projectPeriod", numberOfProjectPeriods);
+            validateProjectPeriod(fiscalYear, "document.budget.budgetCostShares[" + i + "].projectPeriod", numberOfProjectPeriods);
             if (getCostShareService().validateProjectPeriodAsProjectPeriod()) {
                 List<AuditError> errors = new ArrayList<AuditError>();
-                validatePeriodNumber(costShare, "document.budget.budgetCostShare[" + i + "].projectPeriod", numberOfProjectPeriods, errors);
+                validatePeriodNumber(costShare, "document.budget.budgetCostShares[" + i + "].projectPeriod", numberOfProjectPeriods, errors);
                 if (!errors.isEmpty()) {
                     getAuditErrors(BUDGET_COST_SHARE_ERROR_KEY, Constants.BUDGET_COST_SHARE_PANEL_NAME).addAll(errors);
                 }
@@ -180,7 +180,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
                 		KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO, budgetCostSharingRule.getPageId(), params));
             }else {
                 for (int i = 0; i < costShares.size(); i++) {
-                    getAuditErrors(budgetCostSharingRule.getErrorKey(), budgetCostSharingRule.getLabel()).add(new AuditError("budget.budgetCostShare[" + i + "].shareAmount",
+                    getAuditErrors(budgetCostSharingRule.getErrorKey(), budgetCostSharingRule.getLabel()).add(new AuditError("budget.budgetCostShares[" + i + "].shareAmount",
                                         KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
                                         budgetCostSharingRule.getPageId(), params));
                 }

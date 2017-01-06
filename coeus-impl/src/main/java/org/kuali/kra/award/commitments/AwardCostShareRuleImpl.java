@@ -31,8 +31,6 @@ import java.util.Map;
 
 public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase implements AwardCostShareRule {
 
-    
-    //private static final String NEW_AWARD_COST_SHARE = "costShareFormHelper.newAwardCostShare";
     private AwardCostShare awardCostShare;
     private String fieldStarter = "";
     
@@ -67,7 +65,7 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
         
         // test if cost share met is valid
         isValid &= validateCostShareMet(awardCostShare.getCostShareMet());
-        
+
         return isValid;
     }
     
@@ -79,8 +77,8 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
     public boolean processCommonValidations(AwardCostShare awardCostShare) {
         boolean validSourceAndDestination = validateCostShareSourceAndDestinationForEquality(awardCostShare);
         boolean validFiscalYearRange = validateCostShareFiscalYearRange(awardCostShare);
-        
-        return validSourceAndDestination && validFiscalYearRange;
+        boolean validUnit = validateUnit(awardCostShare.getUnitNumber(),this.fieldStarter + ".unitNumber");
+        return validSourceAndDestination && validFiscalYearRange && validUnit;
     }
     
     /**
@@ -167,4 +165,6 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
         }
         return isValid;
     }
+
+
 }

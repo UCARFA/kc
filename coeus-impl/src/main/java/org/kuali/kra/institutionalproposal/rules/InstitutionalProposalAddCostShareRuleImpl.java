@@ -64,6 +64,7 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
             isValid &= validateCostShareType(institutionalProposalCostShare.getCostShareTypeCode());
             isValid &= validateAmount(institutionalProposalCostShare.getAmount());
             isValid &= validateSourceAccount(institutionalProposalCostShare.getSourceAccount());
+            isValid &= validateUnit(institutionalProposalCostShare.getUnitNumber(),this.fieldStarter + ".unitNumber");
         }
         
         return isValid;

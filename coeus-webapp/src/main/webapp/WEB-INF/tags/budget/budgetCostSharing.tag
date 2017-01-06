@@ -97,23 +97,25 @@
 							<tr>
 			          			<th><div align="right">${status.index + 1}</div></th>		            		
 			            		<td><div align="center">
-									<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].projectPeriod" attributeEntry="${budgetCostShareAttributes.projectPeriod}" />            				
+									<kul:htmlControlAttribute property="document.budget.budgetCostShares[${status.index}].projectPeriod" attributeEntry="${budgetCostShareAttributes.projectPeriod}" />
+
 			        			</div></td>
 			        			
 			            		<td><div align="center">
-			            			<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].sharePercentage" attributeEntry="${budgetCostShareAttributes.sharePercentage}" styleClass="amount" />
+			            			<kul:htmlControlAttribute property="document.budget.budgetCostShares[${status.index}].sharePercentage" attributeEntry="${budgetCostShareAttributes.sharePercentage}"
+															  styleClass="amount" />
 			    				</div></td>
 			            		
 			            		<td><div align="center">
-			        				<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].sourceAccount" attributeEntry="${budgetCostShareAttributes.sourceAccount}" />
+			        				<kul:htmlControlAttribute property="document.budget.budgetCostShares[${status.index}].sourceAccount" attributeEntry="${budgetCostShareAttributes.sourceAccount}" />
 			        			</div></td>
 			            		
 			            		<td><div align="center">
-			            			<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].shareAmount" attributeEntry="${budgetCostShareAttributes.shareAmount}" styleClass="amount" />
+			            			<kul:htmlControlAttribute property="document.budget.budgetCostShares[${status.index}].shareAmount" attributeEntry="${budgetCostShareAttributes.shareAmount}" styleClass="amount" />
 			        			</div></td>
 
 								<td>
-									<html:hidden property="document.budget.budgetCostShare[${status.index}].unitName" />
+									<html:hidden property="document.budget.budgetCostShares[${status.index}].unitName" />
 									<div align="center">
 										<c:choose>
 											<c:when test="${empty budgetCostShare.unitName}">
@@ -124,13 +126,13 @@
 											</c:otherwise>
 										</c:choose>
 										&nbsp; <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit"
-														   fieldConversions="unitNumber:document.budget.budgetCostShare[${status.index}].unitNumber,unitName:document.budget.budgetCostShare[${status.index}].unitName" />
+														   fieldConversions="unitNumber:document.budget.budgetCostShares[${status.index}].unitNumber,unitName:document.budget.budgetCostShares[${status.index}].unitName" />
 										<kul:directInquiry boClassName="org.kuali.coeus.common.framework.unit.Unit" inquiryParameters="budget_cost_share_unit.identifier_${status.index}:unitNumber"
 														   anchor="${tabKey}" />
 									</div></td>
 
 								<td><div align="center">
-									<kul:htmlControlAttribute property="document.budget.budgetCostShare[${status.index}].unitNumber" attributeEntry="${budgetCostShareAttributes.unitNumber}" />
+									<kul:htmlControlAttribute property="document.budget.budgetCostShares[${status.index}].unitNumber" attributeEntry="${budgetCostShareAttributes.unitNumber}" />
 								</div></td>
 			            		<td>
 			            			<div align=center>

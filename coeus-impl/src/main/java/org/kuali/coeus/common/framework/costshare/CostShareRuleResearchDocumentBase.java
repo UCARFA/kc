@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.framework.costshare;
 
+import org.kuali.coeus.common.api.unit.UnitRepositoryService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
@@ -41,7 +42,8 @@ public abstract class CostShareRuleResearchDocumentBase extends KcTransactionalD
 	private ErrorReporter errorReporter;
 	
     private CostShareService costShareService;
-    
+    private transient UnitRepositoryService unitRepositoryService;
+
     /**
      * 
      * This method validate the project period field.
@@ -144,5 +146,23 @@ public abstract class CostShareRuleResearchDocumentBase extends KcTransactionalD
 			String... errorParams) {
 		getErrorReporter().reportError(propertyName, errorKey, errorParams);
 	}
+
+    public boolean validateUnit(String unitNumber, String field) {
+        if (unitNumber != null) {
+            if (getUnitRepositoryService().findUnitByUnitNumber(unitNumber) == null) {
+                this.reportError(field, KeyConstants.ERROR_UNIT_INVALID, unitNumber);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    protected UnitRepositoryService getUnitRepositoryService() {
+        if (unitRepositoryService == null) {
+            unitRepositoryService = KcServiceLocator.getService(UnitRepositoryService.class);
+        }
+        return unitRepositoryService;
+    }
 
 }
