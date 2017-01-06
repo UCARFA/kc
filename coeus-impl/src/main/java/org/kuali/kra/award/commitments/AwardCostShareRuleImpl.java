@@ -18,12 +18,10 @@
  */
 package org.kuali.kra.award.commitments;
 
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,21 +32,13 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
     private AwardCostShare awardCostShare;
     private String fieldStarter = "";
     
-    /**
-     * @see org.kuali.kra.award.commitments.AwardCostShareRule#processCostShareBusinessRules
-     * (org.kuali.kra.award.commitments.AwardCostShareRuleEvent)
-     */
+    @Override
     public boolean processCostShareBusinessRules(AwardCostShareRuleEvent awardCostShareRuleEvent, int i) {
         this.fieldStarter = "document.awardList[0].awardCostShares[" + i + "]";
         this.awardCostShare = awardCostShareRuleEvent.getCostShareForValidation();
         return processCommonValidations(awardCostShare);
     }
-    
-    /**
-     * This method checks the Cost Share fields for validity.
-     * @param awardCostShareRuleEvent
-     * @return true if valid, false otherwise
-     */
+
     public boolean processAddCostShareBusinessRules(AwardCostShareRuleEvent awardCostShareRuleEvent) {
         this.awardCostShare = awardCostShareRuleEvent.getCostShareForValidation();
         this.fieldStarter = "costShareFormHelper.newAwardCostShare";
@@ -68,25 +58,14 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
 
         return isValid;
     }
-    
-    /**
-     * This method processes common validations for business rules
-     * @param event
-     * @return
-     */
+
     public boolean processCommonValidations(AwardCostShare awardCostShare) {
         boolean validSourceAndDestination = validateCostShareSourceAndDestinationForEquality(awardCostShare);
         boolean validFiscalYearRange = validateCostShareFiscalYearRange(awardCostShare);
         boolean validUnit = validateUnit(awardCostShare.getUnitNumber(),this.fieldStarter + ".unitNumber");
         return validSourceAndDestination && validFiscalYearRange && validUnit;
     }
-    
-    /**
-    *
-    * Test source and destination for equality in AwardCostShare.
-    * @param AwardCostShare, MessageMap
-    * @return Boolean
-    */
+
     public boolean validateCostShareSourceAndDestinationForEquality(AwardCostShare awardCostShare){
         boolean valid = true;
         if (awardCostShare.getSource() != null && awardCostShare.getDestination() != null) {
@@ -97,25 +76,11 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
         }
         return valid;
     }
-    
-   /**
-    *
-    * Test fiscal year for valid range.
-    * @param AwardCostShare
-    * @return Boolean
-    */
+
     public boolean validateCostShareFiscalYearRange(AwardCostShare awardCostShare) {
         String projectPeriodField = fieldStarter + ".projectPeriod";
-        //int numberOfProjectPeriods = 51;
-        //return this.validateProjectPeriod(awardCostShare.getProjectPeriod(), projectPeriodField, numberOfProjectPeriods);
         return this.validateProjectPeriod(awardCostShare.getProjectPeriod(), projectPeriodField);
     }
-    
-    /*
-    private String getProjectPeriodLabel() {
-        String label = KcServiceLocator.getService(CostShareService.class).getCostShareLabel();
-        return label;
-    }*/
 
     private boolean validatePercentage(ScaleTwoDecimal percentage) {
         boolean isValid = true;
@@ -133,12 +98,12 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
             isValid = false;
             this.reportError(costShareTypeCodeField, KeyConstants.ERROR_COST_SHARE_TYPE_REQUIRED);
         } else {
-            BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-            Map<String,Integer> fieldValues = new HashMap<String,Integer>();
+
+            Map<String,Integer> fieldValues = new HashMap<>();
             fieldValues.put("costShareTypeCode", costShareTypeCode);
-            if (businessObjectService.countMatching(CostShareType.class, fieldValues) != 1) {
+            if (getBusinessObjectService().countMatching(CostShareType.class, fieldValues) != 1) {
                 isValid = false;
-                this.reportError(costShareTypeCodeField, KeyConstants.ERROR_COST_SHARE_TYPE_INVALID, new String[] { costShareTypeCode.toString() });
+                this.reportError(costShareTypeCodeField, KeyConstants.ERROR_COST_SHARE_TYPE_INVALID, costShareTypeCode.toString());
             }
         }
         return isValid;
@@ -152,7 +117,7 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
             this.reportError(commitmentAmountField, KeyConstants.ERROR_COST_SHARE_COMMITMENT_AMOUNT_REQUIRED);
         } else if (commitmentAmount.isLessThan(new ScaleTwoDecimal(0))) {
             isValid = false;
-            this.reportError(commitmentAmountField, KeyConstants.ERROR_COST_SHARE_COMMITMENT_AMOUNT_INVALID, new String[] { commitmentAmount.toString() });
+            this.reportError(commitmentAmountField, KeyConstants.ERROR_COST_SHARE_COMMITMENT_AMOUNT_INVALID, commitmentAmount.toString());
         }
         return isValid;
     }
@@ -161,7 +126,7 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
         boolean isValid = true;
         if (costShareMet != null && costShareMet.isLessThan(new ScaleTwoDecimal(0))) {
             isValid = false;
-            this.reportError(fieldStarter + ".costShareMet", KeyConstants.ERROR_COST_SHARE_MET_INVALID, new String[] { costShareMet.toString() });
+            this.reportError(fieldStarter + ".costShareMet", KeyConstants.ERROR_COST_SHARE_MET_INVALID, costShareMet.toString());
         }
         return isValid;
     }

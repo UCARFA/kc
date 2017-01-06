@@ -25,10 +25,6 @@ import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-/**
- * 
- * This class ProcessDefinitionDefinitiones Budget Project Income rules.
- */
 @KcBusinessRule("budgetCostShareRule")
 public class BudgetCostShareRule extends CostShareRuleResearchDocumentBase {
 
@@ -45,16 +41,15 @@ public class BudgetCostShareRule extends CostShareRuleResearchDocumentBase {
     /**
      * This method ensures that an added BudgetCostShare won't duplicate another. A duplicate record would have the same source
      * account, share amount, and fiscal year as another already in the list.
-     * 
-     * @param testBudgetCostShare
-     * @return
      */
     protected boolean areDuplicatesPresent(Budget budget, BudgetCostShare testBudgetCostShare) {
-        boolean duplicate = false;
 
         if (testBudgetCostShare == null) {
-            return duplicate;
+            return false;
         }
+
+        boolean duplicate = false;
+
         for (BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
             duplicate = checkForDuplicateFields(testBudgetCostShare, budgetCostShare);
             if (duplicate) {
@@ -66,11 +61,7 @@ public class BudgetCostShareRule extends CostShareRuleResearchDocumentBase {
 
     /**
      * This method checks if two BudgetCostShare objects are duplicates, meaning the fiscalYear, shareAmount, and sourceAccount are
-     * equal
-     * 
-     * @param testBudgetCostShare
-     * @param budgetCostShare
-     * @return
+     * equal.
      */
     private boolean checkForDuplicateFields(BudgetCostShare testBudgetCostShare,
                                             BudgetCostShare budgetCostShare) {

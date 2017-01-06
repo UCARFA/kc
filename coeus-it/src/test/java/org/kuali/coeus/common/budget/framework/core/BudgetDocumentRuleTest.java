@@ -57,8 +57,6 @@ public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
     public void testBudgetProjectIncomeBusinessRule() throws Exception {
         
         ParameterService ps = KcServiceLocator.getService(ParameterService.class);
-        //ps.clearCache();
-        //ps.setParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");
         Parameter parameter = ps.getParameter(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel");
         Parameter.Builder parameterForUpdate = Parameter.Builder.create(parameter);
         parameterForUpdate.setValue("Fiscal Year");

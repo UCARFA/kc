@@ -29,7 +29,6 @@ import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetCostLimitAuditRule;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
@@ -57,7 +56,8 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
 	@Autowired
 	@Qualifier("kcBusinessRulesEngine")
 	private KcBusinessRulesEngine kcBusinessRulesEngine;
-	
+
+	@Override
 	protected boolean processCustomSaveDocumentBusinessRules(Document document) {
 		boolean result = true;
         GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
@@ -214,10 +214,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     }
 
     /**
-     * This method checks for a valid applicable rate
-     * 
-     * @param applicableRate
-     * @return
+     * This method checks for a valid applicable rate.
      */
     private int verifyApplicableRate(ScaleTwoDecimal applicableRate) {
         // problematic, such as -100.00 will get 'less than or equal to 999.99 error, also problem with negative less than 1. so rewrote it
@@ -231,7 +228,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     }
     
     /**
-     * This method checks business rules related to Budget Expenses functionality
+     * This method checks business rules related to Budget Expenses functionality.
      */
     @KcEventMethod
     public boolean processBudgetExpenseBusinessRules(BudgetSaveEvent event) {
@@ -258,7 +255,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
                     valid = false;
                 }
 
-                if (budgetLineItem!=null && budgetLineItem.getQuantity() != null && budgetLineItem.getQuantity().intValue()<0) {
+                if (budgetLineItem!=null && budgetLineItem.getQuantity() != null && budgetLineItem.getQuantity() < 0) {
                     errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].quantity", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Quantity");
                     valid = false;
                 }
@@ -270,6 +267,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         return valid;
     }
 
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         

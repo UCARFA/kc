@@ -47,7 +47,7 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
 
     @Before
     public void setUp() throws Exception {
-        awardFandaRateList = new ArrayList<AwardFandaRate>();
+        awardFandaRateList = new ArrayList<>();
         awardDocumentRule = new AwardDocumentRule();
         awardFandaRate1 = new AwardFandaRate();
         awardFandaRate2 = new AwardFandaRate();
@@ -85,33 +85,33 @@ public class AwardDocumentRuleTest extends AwardDocumentRule{
     
     @Test
     public final void testEvaluateBusinessRuleForReportCodeField(){
-        int i=0;
+
         awardReportTerm.setReportClassCode("1");
         awardReportTerm.setReportCode("5");        
-        Assert.assertTrue(awardDocumentRule.isValidReportCode(awardReportTerm, getReportCodes("1")));
+        Assert.assertTrue(awardDocumentRule.isValidReportCode(awardReportTerm, getReportCodes()));
         
         awardReportTerm.setReportClassCode("1");
         awardReportTerm.setReportCode("36");
-        Assert.assertFalse(awardDocumentRule.isValidReportCode(awardReportTerm, getReportCodes("1")));
+        Assert.assertFalse(awardDocumentRule.isValidReportCode(awardReportTerm, getReportCodes()));
     }
     
     @Test
     public final void testIsValidFrequencyBase(){
         awardReportTerm.setFrequencyBaseCode("5");
-        Assert.assertTrue(awardDocumentRule.isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes("5")));
+        Assert.assertTrue(awardDocumentRule.isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes()));
         awardReportTerm.setFrequencyBaseCode("6");
-        Assert.assertFalse(awardDocumentRule.isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes("5")));
+        Assert.assertFalse(awardDocumentRule.isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes()));
     }
     
-    protected List<KeyValue> getReportCodes(String reportClassCode){        
-        List<KeyValue> reportCodes = new ArrayList<KeyValue>();
+    protected List<KeyValue> getReportCodes(){
+        List<KeyValue> reportCodes = new ArrayList<>();
         reportCodes.add(new ConcreteKeyValue("5", "Final"));
         reportCodes.add(new ConcreteKeyValue("39", "SF Something"));
         return reportCodes;
     }
     
-    protected List<KeyValue> getFrequencyBaseCodes(String frequencyCode){        
-        List<KeyValue> frequencyBaseCodes = new ArrayList<KeyValue>();
+    protected List<KeyValue> getFrequencyBaseCodes(){
+        List<KeyValue> frequencyBaseCodes = new ArrayList<>();
         frequencyBaseCodes.add(new ConcreteKeyValue("5", "Final"));
         return frequencyBaseCodes;
     }

@@ -22,7 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetAuditEvent;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
-import org.kuali.coeus.common.budget.framework.core.Budget.FiscalYearSummary;
 import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleEvent;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
@@ -38,16 +37,12 @@ import java.util.List;
 
 import static org.kuali.rice.krad.util.GlobalVariables.getAuditErrorMap;
 
-/**
- * 
- * This class handels the budget cost share rules.
- */
+
 @KcBusinessRule("budgetCostShareAuditRule")
 public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase {
     public static final String BUDGET_COST_SHARE_ERROR_KEY = "budgetCostShareAuditErrors";
     
     @KcEventMethod
-    @Deprecated
     public boolean processCostShareAuditRules(BudgetAuditEvent event) {
         Budget budget = event.getBudget();
 
@@ -81,19 +76,12 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
                                     params));
             }
         }
-        String source = null;
-        Integer fiscalYear = null;
-
-        List<Integer> validFiscalYears = new ArrayList<Integer>();
-        for (FiscalYearSummary fys : budget.getFiscalYearCostShareTotals()) {
-            validFiscalYears.add(fys.getFiscalYear());
-        }
 
         int i = 0;
         // Forces inclusion of source account
         for (BudgetCostShare costShare : costShares) {
-            source = costShare.getSourceAccount();
-            fiscalYear = costShare.getProjectPeriod();
+            String source = costShare.getSourceAccount();
+            Integer fiscalYear = costShare.getProjectPeriod();
             if (null == source || source.length() == 0) {
                 retval = false;
                 getAuditErrors(BUDGET_COST_SHARE_ERROR_KEY, Constants.BUDGET_COST_SHARE_PANEL_NAME)
@@ -109,7 +97,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
             }
             validateProjectPeriod(fiscalYear, "document.budget.budgetCostShares[" + i + "].projectPeriod", numberOfProjectPeriods);
             if (getCostShareService().validateProjectPeriodAsProjectPeriod()) {
-                List<AuditError> errors = new ArrayList<AuditError>();
+                List<AuditError> errors = new ArrayList<>();
                 validatePeriodNumber(costShare, "document.budget.budgetCostShares[" + i + "].projectPeriod", numberOfProjectPeriods, errors);
                 if (!errors.isEmpty()) {
                     getAuditErrors(BUDGET_COST_SHARE_ERROR_KEY, Constants.BUDGET_COST_SHARE_PANEL_NAME).addAll(errors);
@@ -134,15 +122,13 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
     }
     
     protected boolean verifySourceAccount(Budget budget, List<BudgetCostShare> costShares, String[] params) {
-        String source = null;
-        Integer fiscalYear = null;
         BudgetConstants.BudgetAuditRules budgetCostSharingRule = BudgetConstants.BudgetAuditRules.COST_SHARING;
 
         boolean isValid = true;
         // Forces inclusion of source account
         for (BudgetCostShare costShare : costShares) {
-            source = costShare.getSourceAccount();
-            fiscalYear = costShare.getProjectPeriod();
+            String source = costShare.getSourceAccount();
+            Integer fiscalYear = costShare.getProjectPeriod();
             if (StringUtils.isEmpty(source) || source.length() == 0) {
                 getAuditErrors(budgetCostSharingRule.getErrorKey(), budgetCostSharingRule.getLabel()).add(new AuditError(budgetCostSharingRule.getPageId(),
                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
@@ -215,12 +201,12 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditProblems(String problemType, String costShareKey, String costShareLabel) {
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        List<AuditError> auditErrors = new ArrayList<>();
         if (!getAuditErrorMap().containsKey(costShareKey)) {
             getAuditErrorMap().put(costShareKey,
                     new AuditCluster(costShareLabel, auditErrors, problemType));
         }else {
-            auditErrors = ((AuditCluster) getAuditErrorMap().get(costShareKey)).getAuditErrorList();
+            auditErrors = getAuditErrorMap().get(costShareKey).getAuditErrorList();
         }
 
         return auditErrors;

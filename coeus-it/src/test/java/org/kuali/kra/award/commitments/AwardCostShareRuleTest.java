@@ -31,9 +31,6 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
-/**
- * This class tests <code>AwardCostShareRule</code>
- */
 public class AwardCostShareRuleTest extends KcIntegrationTestBase {
     
     private static final String TEST_SOURCE = "54321";
@@ -64,20 +61,12 @@ public class AwardCostShareRuleTest extends KcIntegrationTestBase {
         awardCostShareRule = null;
         awardCostShare = null;
     }
-    
-    /**
-     * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule#processCommonValidations
-     * (org.kuali.kra.award.commitments.AwardCostShare)}.
-     */
+
     @Test
     public final void testProcessCommonValidations() {
         Assert.assertTrue(awardCostShareRule.processCommonValidations(awardCostShare));
     }
-    
-    /**
-     * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule#validateCostShareSourceAndDestinationForEquality
-     * (org.kuali.kra.award.commitments.AwardCostShare)}.
-     */
+
     @Test
     public final void testValidateCostShareSourceAndDestinationForEquality() {
         Assert.assertTrue
@@ -87,11 +76,7 @@ public class AwardCostShareRuleTest extends KcIntegrationTestBase {
             (awardCostShareRule.validateCostShareSourceAndDestinationForEquality(awardCostShare));
         awardCostShare.setSource(TEST_SOURCE);
     }
-    
-    /**
-     * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule#validateCostShareFiscalYearRange
-     * (org.kuali.kra.award.commitments.AwardCostShare)}.
-     */
+
     @Test
     public final void testValidateCostShareFiscalYearRange() {
         updateParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");        
