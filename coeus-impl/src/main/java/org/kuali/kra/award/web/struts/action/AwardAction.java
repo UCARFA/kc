@@ -49,6 +49,7 @@ import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
+import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentFormBean;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
@@ -967,7 +968,7 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm)form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
 
-        if( awardDocument.getAward().getTemplateCode() == null ) {
+        if( awardDocument.getAward().getTemplateCode() == null || !isValidTemplateCode(awardDocument.getAward().getTemplateCode())) {
             GlobalVariables.getMessageMap().clearErrorMessages();
             GlobalVariables.getMessageMap().putError(DOCUMENT_AWARD_AWARD_TEMPLATE,KeyConstants.ERROR_NO_TEMPLATE_CODE);
             awardForm.setOldTemplateCode(null);
@@ -1016,6 +1017,10 @@ public class AwardAction extends BudgetParentActionBase {
         }
      
         return proceedToProcessSyncAward?processSyncAward(mapping,form,request,response):mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+
+    protected boolean isValidTemplateCode(Integer templateCode) {
+        return getBusinessObjectService().countMatching(AwardTemplate.class, Collections.singletonMap("templateCode", templateCode)) > 0;
     }
     
     protected StrutsConfirmation buildAwardSyncParameterizedConfirmationQuestion(ActionMapping mapping, ActionForm form,
