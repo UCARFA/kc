@@ -62,9 +62,8 @@ public abstract class AbstractProjectRetrievalService implements ProjectRetrieva
     }
 
     protected Map<String, List<ProjectPerson>> getPersonsMap() {
-        return jdbcOperations.query(c -> c.prepareStatement(allProjectPersonQuery()), (rs, rowNum) -> {
-            return toProjectPerson(rs);
-        }).stream().collect(Collectors.groupingBy(ProjectPerson::getSourceIdentifier));
+        return jdbcOperations.query(c -> c.prepareStatement(allProjectPersonQuery()),
+                (rs, rowNum) -> toProjectPerson(rs)).stream().collect(Collectors.groupingBy(ProjectPerson::getSourceIdentifier));
     }
 
     @Override
@@ -84,9 +83,7 @@ public abstract class AbstractProjectRetrievalService implements ProjectRetrieva
                 PreparedStatement statement = c.prepareStatement(projectPersonQuery());
                 statement.setString(1, sourceIdentifier);
                 return statement;
-            }, (rs, rowNum) -> {
-                return toProjectPerson(rs);
-            });
+            }, (rs, rowNum) -> toProjectPerson(rs));
             project.setPersons(persons);
         }
 
