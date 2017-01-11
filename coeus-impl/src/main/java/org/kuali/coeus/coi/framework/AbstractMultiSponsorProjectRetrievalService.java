@@ -36,9 +36,8 @@ public abstract class AbstractMultiSponsorProjectRetrievalService extends Abstra
             final Map<String, List<ProjectPerson>> persons = getPersonsMap();
             persons.forEach((k,v) -> projects.get(k).setPersons(v));
 
-            final Map<String, List<ProjectSponsor>> sponsors = getJdbcOperations().query(c -> c.prepareStatement(allProjectSponsorQuery()), (rs, rowNum) -> {
-                return toProjectSponsor(rs);
-            }).stream().collect(Collectors.groupingBy(ProjectSponsor::getSourceIdentifier));
+            final Map<String, List<ProjectSponsor>> sponsors = getJdbcOperations().query(c -> c.prepareStatement(allProjectSponsorQuery()),
+                    (rs, rowNum) -> toProjectSponsor(rs)).stream().collect(Collectors.groupingBy(ProjectSponsor::getSourceIdentifier));
             sponsors.forEach((k, v) -> setSponsorFields(v, projects.get(k)));
         }
 
@@ -54,9 +53,7 @@ public abstract class AbstractMultiSponsorProjectRetrievalService extends Abstra
                 PreparedStatement statement = c.prepareStatement(projectSponsorQuery());
                 statement.setString(1, sourceIdentifier);
                 return statement;
-            }, (rs, rowNum) -> {
-                return toProjectSponsor(rs);
-            });
+            }, (rs, rowNum) -> toProjectSponsor(rs));
             setSponsorFields(sponsors, project);
         }
 
