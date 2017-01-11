@@ -28,7 +28,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,6 +63,7 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
             isValid &= validateCostShareType(institutionalProposalCostShare.getCostShareTypeCode());
             isValid &= validateAmount(institutionalProposalCostShare.getAmount());
             isValid &= validateSourceAccount(institutionalProposalCostShare.getSourceAccount());
+            isValid &= validateUnit(institutionalProposalCostShare.getUnitNumber(),this.fieldStarter + ".unitNumber");
         }
         
         return isValid;
@@ -84,31 +84,15 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
         return parameterService;
     }
 
-    /**
-     * This method processes common validations for business rules
-     * @return
-     */
+
     public boolean processCommonValidations(InstitutionalProposalCostShare institutionalProposalCostShare) {
-        boolean validFiscalYearRange = validateCostShareFiscalYearRange(institutionalProposalCostShare);
-        
-        return validFiscalYearRange;
+        return validateCostShareFiscalYearRange(institutionalProposalCostShare);
     }
-    
-   /**
-    *
-    * Test fiscal year for valid range.
-    * @return Boolean
-    */
+
     public boolean validateCostShareFiscalYearRange(InstitutionalProposalCostShare institutionalProposalCostShare){
         String projectPeriodField = this.fieldStarter + ".projectPeriod";
         return this.validateProjectPeriod(institutionalProposalCostShare.getProjectPeriod(), projectPeriodField);
     }
-    
-    /*
-    private String getProjectPeriodLabel() {
-        String label = KcServiceLocator.getService(CostShareService.class).getCostShareLabel();
-        return label;
-    }*/
 
     private boolean validatePercentage(ScaleTwoDecimal percentage) {
         boolean isValid = true;
@@ -129,12 +113,11 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
                 this.reportError(costShareTypeCodeField, KeyConstants.ERROR_IP_COST_SHARE_TYPE_REQUIRED);
             }
         } else {
-            BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-            Map<String,Integer> fieldValues = new HashMap<String,Integer>();
+            Map<String,Integer> fieldValues = new HashMap<>();
             fieldValues.put("costShareTypeCode", costShareTypeCode);
-            if (businessObjectService.countMatching(CostShareType.class, fieldValues) != 1) {
+            if (getBusinessObjectService().countMatching(CostShareType.class, fieldValues) != 1) {
                 isValid = false;
-                this.reportError(costShareTypeCodeField, KeyConstants.ERROR_IP_COST_SHARE_TYPE_INVALID, new String[] { costShareTypeCode.toString() });
+                this.reportError(costShareTypeCodeField, KeyConstants.ERROR_IP_COST_SHARE_TYPE_INVALID, costShareTypeCode.toString());
             }
         }
         return isValid;
@@ -150,7 +133,7 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
             }
         } else if (commitmentAmount.isLessThan(new ScaleTwoDecimal(0))) {
             isValid = false;
-            this.reportError(commitmentAmountField, KeyConstants.ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_INVALID, new String[] { commitmentAmount.toString() });
+            this.reportError(commitmentAmountField, KeyConstants.ERROR_IP_COST_SHARE_COMMITMENT_AMOUNT_INVALID, commitmentAmount.toString());
         }
         return isValid;
     }

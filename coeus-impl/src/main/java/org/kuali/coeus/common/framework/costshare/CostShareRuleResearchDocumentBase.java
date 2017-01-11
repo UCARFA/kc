@@ -18,15 +18,13 @@
  */
 package org.kuali.coeus.common.framework.costshare;
 
+import org.kuali.coeus.common.api.unit.UnitRepositoryService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.AuditError;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -35,20 +33,12 @@ import java.util.List;
  * This class extends ResearchDocumentRuleBase as an abstract and implents validation functions for cost share stuff.
  */
 public abstract class CostShareRuleResearchDocumentBase extends KcTransactionalDocumentRuleBase {
-
-	@Autowired
-	@Qualifier("errorReporter")
-	private ErrorReporter errorReporter;
 	
     private CostShareService costShareService;
-    
+    private transient UnitRepositoryService unitRepositoryService;
+
     /**
-     * 
      * This method validate the project period field.
-     * @param projectPeriod
-     * @param projectPeriodField
-     * @param numberOfProjectPeriods
-     * @return
      */
     protected boolean validateProjectPeriod(Object projectPeriod, String projectPeriodField, int numberOfProjectPeriods) {
         boolean valid = true;
@@ -67,8 +57,6 @@ public abstract class CostShareRuleResearchDocumentBase extends KcTransactionalD
                       String[] params = {getProjectPeriodLabel(), String.valueOf(numberOfProjectPeriods)};
                       reportError(projectPeriodField, KeyConstants.ERROR_PROJECT_PERIOD_RANGE, params);
                   }
-                } else {
-                    //the project period is not a project period nor is it a fiscal year, no validation requirements at this time.
                 }
             } catch (NumberFormatException e) {
                 valid = false;
@@ -129,20 +117,22 @@ public abstract class CostShareRuleResearchDocumentBase extends KcTransactionalD
         
     }
 
-	public ErrorReporter getErrorReporter() {
-		if (errorReporter == null) {
-			errorReporter = KcServiceLocator.getService(ErrorReporter.class);
-		}
-		return errorReporter;
-	}
+    public boolean validateUnit(String unitNumber, String field) {
+        if (unitNumber != null) {
+            if (getUnitRepositoryService().findUnitByUnitNumber(unitNumber) == null) {
+                this.reportError(field, KeyConstants.ERROR_UNIT_INVALID, unitNumber);
+                return false;
+            }
+        }
 
-	public void setErrorReporter(ErrorReporter errorReporter) {
-		this.errorReporter = errorReporter;
-	}
+        return true;
+    }
 
-	public void reportError(String propertyName, String errorKey,
-			String... errorParams) {
-		getErrorReporter().reportError(propertyName, errorKey, errorParams);
-	}
+    protected UnitRepositoryService getUnitRepositoryService() {
+        if (unitRepositoryService == null) {
+            unitRepositoryService = KcServiceLocator.getService(UnitRepositoryService.class);
+        }
+        return unitRepositoryService;
+    }
 
 }

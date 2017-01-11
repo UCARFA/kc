@@ -57,8 +57,6 @@ public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
     public void testBudgetProjectIncomeBusinessRule() throws Exception {
         
         ParameterService ps = KcServiceLocator.getService(ParameterService.class);
-        //ps.clearCache();
-        //ps.setParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year");
         Parameter parameter = ps.getParameter(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel");
         Parameter.Builder parameterForUpdate = Parameter.Builder.create(parameter);
         parameterForUpdate.setValue("Fiscal Year");
@@ -94,14 +92,19 @@ public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
         
         budget.getBudgetCostShares().get(0).setProjectPeriod(2010);
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
-        
+
+        budget.getBudgetCostShares().get(0).setUnitNumber("000001");
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
+
         budget.getBudgetCostShares().get(1).setProjectPeriod(2010);
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
         
         budget.getBudgetCostShares().get(1).setSourceAccount(null);
         assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
-        
-        
+
+        budget.getBudgetCostShares().get(1).setUnitNumber("abc");
+        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
+
         budget.getBudgetCostShares().clear();
     }
     

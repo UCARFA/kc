@@ -29,7 +29,6 @@ import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetCostLimitAuditRule;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
@@ -57,7 +56,8 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
 	@Autowired
 	@Qualifier("kcBusinessRulesEngine")
 	private KcBusinessRulesEngine kcBusinessRulesEngine;
-	
+
+	@Override
 	protected boolean processCustomSaveDocumentBusinessRules(Document document) {
 		boolean result = true;
         GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
@@ -85,8 +85,12 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         MessageMap errorMap = GlobalVariables.getMessageMap();
         int i = 0;
         for (BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
-            String errorPath = "budgetCostShare[" + i + "]";
+            String errorPath = "budget.budgetCostShares[" + i + "]";
             errorMap.addToErrorPath(errorPath);
+            if (budgetCostShare.getUnitNumber() != null) {
+                valid &= validateUnit(budgetCostShare.getUnitNumber(), "unitNumber");
+            }
+
             if(budgetCostShare.getSharePercentage()!=null && (budgetCostShare.getSharePercentage().isLessThan(new ScaleTwoDecimal(0)) ||
                budgetCostShare.getSharePercentage().isGreaterThan(new ScaleTwoDecimal(100)))) {
                 errorMap.putError("sharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE);
@@ -109,7 +113,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
             }        
             
             //validate project period stuff            
-            String currentField = "document.budget.budgetCostShare[" + i + "].projectPeriod";
+            String currentField = "document.budget.budgetCostShares[" + i + "].projectPeriod";
             int numberOfProjectPeriods = budget.getBudgetPeriods().size();
             boolean validationCheck = this.validateProjectPeriod(budgetCostShare.getProjectPeriod(), currentField, numberOfProjectPeriods);            
             valid &= validationCheck;
@@ -210,10 +214,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     }
 
     /**
-     * This method checks for a valid applicable rate
-     * 
-     * @param applicableRate
-     * @return
+     * This method checks for a valid applicable rate.
      */
     private int verifyApplicableRate(ScaleTwoDecimal applicableRate) {
         // problematic, such as -100.00 will get 'less than or equal to 999.99 error, also problem with negative less than 1. so rewrote it
@@ -227,7 +228,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     }
     
     /**
-     * This method checks business rules related to Budget Expenses functionality
+     * This method checks business rules related to Budget Expenses functionality.
      */
     @KcEventMethod
     public boolean processBudgetExpenseBusinessRules(BudgetSaveEvent event) {
@@ -254,7 +255,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
                     valid = false;
                 }
 
-                if (budgetLineItem!=null && budgetLineItem.getQuantity() != null && budgetLineItem.getQuantity().intValue()<0) {
+                if (budgetLineItem!=null && budgetLineItem.getQuantity() != null && budgetLineItem.getQuantity() < 0) {
                     errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].quantity", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Quantity");
                     valid = false;
                 }
@@ -266,6 +267,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         return valid;
     }
 
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         

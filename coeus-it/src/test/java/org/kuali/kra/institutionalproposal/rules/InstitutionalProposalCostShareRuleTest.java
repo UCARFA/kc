@@ -60,21 +60,13 @@ public class InstitutionalProposalCostShareRuleTest extends KcIntegrationTestBas
         institutionalProposalAddCostShareRule = null;
         institutionalProposalCostShare = null;
     }
-    
-    /**
-     * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule#processCommonValidations
-     * (org.kuali.kra.award.commitments.AwardCostShare)}.
-     */
+
     @Test
     public final void testProcessCommonValidations() {
         Assert.assertTrue(institutionalProposalAddCostShareRule.processCommonValidations(institutionalProposalCostShare));
     }
     
-    
-    /**
-     * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule#validateCostShareFiscalYearRange
-     * (org.kuali.kra.award.commitments.AwardCostShare)}.
-     */
+
     @Test
     public final void testValidateCostShareFiscalYearRange() {
         updateParameterForTesting(CostShareServiceTest.class, "CostShareProjectPeriodNameLabel", "Fiscal Year"); 
@@ -87,6 +79,10 @@ public class InstitutionalProposalCostShareRuleTest extends KcIntegrationTestBas
         Assert.assertFalse(institutionalProposalAddCostShareRule.validateCostShareFiscalYearRange(institutionalProposalCostShare));
         institutionalProposalCostShare.setSourceAccount(TEST_FISCAL_YEAR);
     }
-    
+
+    @Test
+    public void testValidateCostShareUnit() {
+        Assert.assertFalse(institutionalProposalAddCostShareRule.validateUnit("abc", ""));
+    }
 }
 
