@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-697: avoiding STE on invalid template
+  * Travis Schneeberger on Fri, 6 Jan 2017 16:45:12 -0500 [View Commit](../../commit/c109a730907b5b263fcb6b594c3729ce4da4ad82)
+* RESKC-1871: Adding unit validation to cost shares in PD budget, Award Budget, Award, and IP. Making sure cost sharing errors display properly for both Award Budget and PD Budget by making the rules and UI use budgetCostShares property names instead of budgetCostShare.
+  * Travis Schneeberger on Fri, 6 Jan 2017 12:28:44 -0500 [View Commit](../../commit/5188cb75b8c63b953b905960bf441a2d105988d6)
+
+##coeus-1701.0005
 * fixes incorrect oracle script for nsf code changes
   * Terry Durkin on Fri, 6 Jan 2017 13:30:43 -0500 [View Commit](../../commit/34d03e8db62e4491735c3caadcbaec49f00ae231)
 
