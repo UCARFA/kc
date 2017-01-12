@@ -82,7 +82,7 @@ public class InstitutionalProposalCostShareRuleTest extends KcIntegrationTestBas
 
     @Test
     public void testValidateCostShareUnit() {
-        Assert.assertFalse(institutionalProposalAddCostShareRule.validateUnit("abc", ""));
+        Assert.assertFalse(institutionalProposalAddCostShareRule.validateUnit("abc", "aField"));
     }
 }
 
