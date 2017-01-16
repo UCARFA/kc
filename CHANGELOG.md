@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1701.0007
+* No Changes
+
+
 ##coeus-1701.0006
 * RESKC-697: avoiding STE on invalid template
   * Travis Schneeberger on Fri, 6 Jan 2017 16:45:12 -0500 [View Commit](../../commit/c109a730907b5b263fcb6b594c3729ce4da4ad82)
