@@ -29,34 +29,45 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
 
-	private static final String ARG_VALUE_VALUES_FINDER_PREFER_DESCRIPTION = "ARG_VALUE_VALUES_FINDER_PREFER_DESCRIPTION";
-	private ParameterService parameterService;
+	private enum ArgValueConfig { VALUE, DESCRIPTION, BOTH}
+	private static final ConcreteKeyValue SELECT = new ConcreteKeyValue("", "select");
+	private static final String ARGUMENT_NAME = "argumentName";
+	private static final String ARG_VALUE_VALUES_FINDER_DEFAULT_CONFIG = "ARG_VALUE_VALUES_FINDER_DEFAULT_CONFIG";
+	private static final String ARG_VALUE_VALUES_FINDER_ARG_CONFIG ="ARG_VALUE_VALUES_FINDER_ARG_CONFIG";
+
+	private transient ParameterService parameterService;
+	private transient BusinessObjectService businessObjectService;
     private String argName;
 
     @Override
     public List<KeyValue> getKeyValues() {
+        final Collection<ArgValueLookup> argValueLookups = getBusinessObjectService().findMatching(ArgValueLookup.class, Collections.singletonMap(ARGUMENT_NAME, argName));
 
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("argumentName", argName);
-        Collection<ArgValueLookup> argValueLookups = (Collection<ArgValueLookup>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(ArgValueLookup.class, fieldValues);
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        for (ArgValueLookup argValueLookup : argValueLookups) {
-            keyValues.add(new ConcreteKeyValue(argValueLookup.getValue(), getKeyValueValue(argValueLookup)));
-        }
-        keyValues.add(0, new ConcreteKeyValue("", "select"));
-        return keyValues;
+		final String defaultConfig = getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+				Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ARG_VALUE_VALUES_FINDER_DEFAULT_CONFIG);
+		final String argConfig = getParameterService().getSubParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+				Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ARG_VALUE_VALUES_FINDER_ARG_CONFIG, argName);
+		final String cfg = StringUtils.isNotBlank(argConfig) ? argConfig : defaultConfig;
+
+		return Stream.concat(Stream.of(SELECT), argValueLookups.stream()
+				.map(argValueLookup -> new ConcreteKeyValue(argValueLookup.getValue(), getKeyValueValue(argValueLookup, cfg))))
+				.collect(Collectors.toList());
     }
 
-	protected String getKeyValueValue(ArgValueLookup argValueLookup) {
-		if (StringUtils.isBlank(argValueLookup.getDescription()) 
-			|| !getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, 
-				Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ARG_VALUE_VALUES_FINDER_PREFER_DESCRIPTION)) {
+	protected String getKeyValueValue(ArgValueLookup argValueLookup, String cfg) {
+		if (ArgValueConfig.VALUE.toString().equals(cfg)) {
 			return argValueLookup.getValue();
-		} else {
+		} else if (ArgValueConfig.DESCRIPTION.toString().equals(cfg))  {
 			return argValueLookup.getDescription();
+		} else if (ArgValueConfig.BOTH.toString().equals(cfg)) {
+			return argValueLookup.getValue() + (StringUtils.isNotBlank(argValueLookup.getDescription()) ? ( " - " + argValueLookup.getDescription()) : "");
+		} else {
+			return  argValueLookup.getValue();
 		}
 	}
 
@@ -79,4 +90,14 @@ public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
 		this.parameterService = parameterService;
 	}
 
+	public BusinessObjectService getBusinessObjectService() {
+		if (businessObjectService == null) {
+			businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+		}
+    	return businessObjectService;
+	}
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
 }
