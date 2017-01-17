@@ -17,7 +17,13 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-update krcr_parm_t set PARM_NM = 'ARG_VALUE_VALUES_FINDER_DEFAULT_CONFIG', VAL = 'DESCRIPTION',
+update krcr_parm_t set VAL = 'DESCRIPTION'
+where NMSPC_CD = 'KC-GEN' and CMPNT_CD = 'All' and APPL_ID = 'KC' and PARM_NM = 'ARG_VALUE_VALUES_FINDER_PREFER_DESCRIPTION' and lower(VAL) in ('true', 'yes', 'y', 'on', '1', 't', 'enabled');
+
+update krcr_parm_t set VAL = 'VALUE'
+where NMSPC_CD = 'KC-GEN' and CMPNT_CD = 'All' and APPL_ID = 'KC' and PARM_NM = 'ARG_VALUE_VALUES_FINDER_PREFER_DESCRIPTION' and lower(VAL) not in ('true', 'yes', 'y', 'on', '1', 't', 'enabled');
+
+update krcr_parm_t set PARM_NM = 'ARG_VALUE_VALUES_FINDER_DEFAULT_CONFIG',
 	PARM_DESC_TXT = 'When set to "DESCRIPTION", Argument Values will display the description.
 	When set to "VALUE", Argument Values will display the value.
 	When set to "BOTH", Argument Values will display the value and the description.
