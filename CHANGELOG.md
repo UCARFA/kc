@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1701.0011
 * RESKC-1953: Award Budget Personnel Screen Locks Up when You add a Summary Line Item (#2156)
 
   * Steps to Recreate: On award budget document, navigate to the Personnel page and attempt to add a line item with the Person "Summary". I confirmed this with Object Codes Grad Assistants and Dual Non Teaching, but when I chose a person the line added properly.
