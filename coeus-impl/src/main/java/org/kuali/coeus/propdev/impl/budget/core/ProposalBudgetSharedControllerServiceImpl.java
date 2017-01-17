@@ -218,10 +218,8 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
                 }
             }
         }
-        ((SelectableBudget) form).setSelectedBudget(selectedBudget);
-        if(selectedBudget.getBudgetSummaryDetails().isEmpty()) {
-            getBudgetCalculationService().populateBudgetSummaryTotals(selectedBudget);
-        }
+        form.setSelectedBudget(selectedBudget);
+
         return getModelAndViewService().showDialog(BUDGET_SUMMARY_DIALOG_ID, true, form);
     }	
 	

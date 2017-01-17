@@ -157,9 +157,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
     private List<BudgetPeriod> budgetPeriods;
     
     @Transient
-    private List<Period> budgetSummaryDetails;
-    
-    @Transient
     private Date summaryPeriodStartDate;
 
     @Transient
@@ -266,7 +263,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         budgetCategoryTypeCodes = new ArrayList<>();
         budgetPrintForms = new ArrayList<>();
         budgetSubAwards = new ArrayList<>();
-        budgetSummaryDetails = new ArrayList<>();
         budgetCostShares = new ArrayList<>();
         setOnOffCampusFlag("D");
     }
@@ -1499,7 +1495,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
         private static final long serialVersionUID = 8230902362851330642L;
 
-        public int compare(RateClassType rateClassType1, RateClassType rateClassType2) {
+        @Override public int compare(RateClassType rateClassType1, RateClassType rateClassType2) {
             return rateClassType1.getSortId().compareTo(rateClassType2.getSortId());
         }
     }
@@ -1555,11 +1551,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 	}
 
 	public List<Period> getBudgetSummaryDetails() {
-		return budgetSummaryDetails;
-	}
-
-	public void setBudgetSummaryDetails(List<Period> budgetSummaryDetails) {
-		this.budgetSummaryDetails = budgetSummaryDetails;
+		return getBudgetCalculationService().retrieveBudgetSummaryTotals(this);
 	}
 
     protected BudgetCalculationService getBudgetCalculationService() {

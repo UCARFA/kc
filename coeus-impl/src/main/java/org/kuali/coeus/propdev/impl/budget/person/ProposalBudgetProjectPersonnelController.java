@@ -98,7 +98,6 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		       for (int index=0 ; index < person.getQuantity();  index++) {
 		    	   BudgetPerson newPerson = new BudgetPerson(person);
                        newPerson.setPersonName(getNextTbnName(form.getBudget().getBudgetPersons(), newPerson));
-                       newPerson.setTbnId(newPerson.getTbnId() + (index + 1));
 	    	       getBudgetPersonService().addBudgetPerson(form.getBudget(), newPerson);
 		       }
 	       }

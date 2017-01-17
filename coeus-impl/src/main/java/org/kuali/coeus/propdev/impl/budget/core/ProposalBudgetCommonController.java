@@ -483,11 +483,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 
     @Transactional @RequestMapping(params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-SummaryPage"})
    public ModelAndView navigateToBudgetSummary(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
-    	ModelAndView modelAndView = super.navigate(form);
-    	if(form.getBudget().getBudgetSummaryDetails().isEmpty()) {
-           	getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
-    	}
-        return modelAndView;
+    	return super.navigate(form);
     }
 
     @Transactional @RequestMapping(params="methodToCall=populateBudgetSummary")

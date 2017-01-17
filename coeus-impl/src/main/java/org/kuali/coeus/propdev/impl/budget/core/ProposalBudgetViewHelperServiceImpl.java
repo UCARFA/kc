@@ -299,10 +299,6 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     public void prepareHierarchySummary(ProposalBudgetForm form) {
         if (form.getDevelopmentProposal().isInHierarchy()) {
             form.setHierarchyDevelopmentProposals(getProposalHierarchyService().getHierarchyProposals(form.getDevelopmentProposal()));
-
-            form.getHierarchyDevelopmentProposals().stream()
-                    .filter(developmentProposal -> developmentProposal.getHierarchySummaryBudget().getBudgetSummaryDetails().isEmpty())
-                    .forEach(developmentProposal -> getBudgetCalculationService().populateBudgetSummaryTotals(developmentProposal.getHierarchySummaryBudget()));
         }
     }
 

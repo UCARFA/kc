@@ -939,8 +939,9 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }
-    
-    public void populateBudgetSummaryTotals(Budget budget){
+
+    @Override
+    public List<Period> retrieveBudgetSummaryTotals(Budget budget){
     	BudgetCategoryType personnelCategoryType = getPersonnelCategoryType();
     	String personnelBudgetCategoryType = personnelCategoryType.getCode();
     	
@@ -980,8 +981,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         	summaryPeriod.getLineItemGroups().add(totalsGroup);
             budgetSummaryPeriods.add(summaryPeriod);
         }
-        budget.setBudgetSummaryDetails(budgetSummaryPeriods);
-    	
+        return budgetSummaryPeriods;
     }
 
     /**
@@ -1164,7 +1164,13 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 			if(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equalsIgnoreCase(personnelBudgetCategoryType)) {
 				if(budgetLineItem.getBudgetPersonnelDetailsList().size() > 0) {
 		            for(BudgetPersonnelDetails budgetPersonnelDetail : budgetLineItem.getBudgetPersonnelDetailsList()) {
-		            	uniquePersonList.put(budgetPersonnelDetail.getPersonId(), budgetPersonnelDetail.getBudgetPerson().getPersonName());
+		                if (StringUtils.isNotBlank(budgetPersonnelDetail.getBudgetPerson().getTbnId())) {
+                            uniquePersonList.put(budgetPersonnelDetail.getBudgetPersonnelLineItemId() + "$tbn$" + budgetPersonnelDetail.getPersonId(), budgetPersonnelDetail.getBudgetPerson().getPersonName());
+                        } else if (budgetPersonnelDetail.getBudgetPerson().getRolodexId() != null) {
+                            uniquePersonList.put("$rolodex$" + budgetPersonnelDetail.getPersonId(), budgetPersonnelDetail.getBudgetPerson().getPersonName());
+                        } else {
+                            uniquePersonList.put(budgetPersonnelDetail.getPersonId(), budgetPersonnelDetail.getBudgetPerson().getPersonName());
+                        }
 		            }
 				}else {
 	            	uniquePersonList.put(BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonId(), BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonName());

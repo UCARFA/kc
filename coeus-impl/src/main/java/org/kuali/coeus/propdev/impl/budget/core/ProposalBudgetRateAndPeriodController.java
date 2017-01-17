@@ -158,7 +158,6 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
             	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
                 getBudgetSummaryService().generateAllPeriods(budget);
                 form.setSelectedBudget(budget);
-                getBudgetCalculationService().populateBudgetSummaryTotals(form.getSelectedBudget());
             }
         }
         return getModelAndViewService().getModelAndView(form);
@@ -178,6 +177,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     }
 
     @Transactional @RequestMapping(params={"methodToCall=save", "pageId=PropBudget-PeriodsPage"})
+    @Override
     public ModelAndView save(ProposalBudgetForm form) {
     	ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
         Budget budget = form.getBudget();
