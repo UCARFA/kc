@@ -153,7 +153,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         		form.setDefaultBudgetPeriodWarningMessage(getKualiConfigurationService().getPropertyValueAsString(QUESTION_RECALCULATE_BUDGET_CONFIRMATION));
             	return getModelAndViewService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
         	}
-            boolean confirmRecalculate = dialogResponse !=null ? dialogResponse.getResponseAsBoolean() : true;
+            boolean confirmRecalculate = dialogResponse == null || dialogResponse.getResponseAsBoolean();
             if(confirmRecalculate) {
             	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
                 getBudgetSummaryService().generateAllPeriods(budget);
@@ -179,7 +179,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     @Transactional @RequestMapping(params={"methodToCall=save", "pageId=PropBudget-PeriodsPage"})
     @Override
     public ModelAndView save(ProposalBudgetForm form) {
-    	ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
+    	getModelAndViewService().getModelAndView(form);
         Budget budget = form.getBudget();
         if (isBudgetPeriodDateChanged(budget) && isOnlyLineItemDateError()) {
         	getGlobalVariableService().getMessageMap().clearErrorMessages();
@@ -199,8 +199,6 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     
     /**
      * Method is to verify whether budget dates changed.
-     * @param budget
-     * @return
      */
     private boolean isBudgetPeriodDateChanged(Budget budget) {
     	boolean budgetPeriodDateChanged = false;
@@ -214,20 +212,16 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     }
     
     private boolean isBudgetPeriodDateChanged(BudgetPeriod budgetPeriod) {
-        if (budgetPeriod.getStartDate() != null && budgetPeriod.getOldStartDate() != null && 
-                budgetPeriod.getEndDate() != null && budgetPeriod.getOldEndDate() != null && 
+        return budgetPeriod.getStartDate() != null && budgetPeriod.getOldStartDate() != null &&
+                budgetPeriod.getEndDate() != null && budgetPeriod.getOldEndDate() != null &&
                 (budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0
-                || budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0)) {
-            return true;
-        }
-        return false;
+                        || budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0);
     }
 
     /**
      * This method is to check the error map to see if there is any error other than line item date error.
      * line item date date error should be resolved with adjustlineitem start/end date.
      * This is called after rule verification and before save.
-     * @return
      */
     private boolean isOnlyLineItemDateError() {
     	Map<String, List<ErrorMessage>> errors = getGlobalVariableService().getMessageMap().getErrorMessages();
@@ -248,10 +242,9 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     /**
      * List of line item errors specific to date that we can skip 
      * to adjust line item dates as per adjusted period dates
-     * @return
      */
     private List<String> getLineItemDateErrors() {
-    	List<String> lineItemDateErrors = new ArrayList<String>();
+    	List<String> lineItemDateErrors = new ArrayList<>();
     	lineItemDateErrors.add("error.lineItem.dateDoesNotmatch");
     	lineItemDateErrors.add("error.line.item.start.date");
     	lineItemDateErrors.add("error.line.item.end.date");

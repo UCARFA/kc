@@ -152,11 +152,13 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	}	
 	
 	@Transactional @RequestMapping(params="methodToCall=save")
+	@Override
 	public ModelAndView save(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		return super.save(form);
 	}
 
 	@RequestMapping(params = "methodToCall=navigate")
+	@Override
 	public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		return super.navigate(form);
 	}
@@ -250,7 +252,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         	return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.CONFIRM_RATE_CHANGES_DIALOG_ID, true, form);
     	}
 
-		if (applyOnOffCampusFlagToLineItems(originalBudget, budget)) {
+		if (applyOnOffCampusFlagToLineItems(budget)) {
 			getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
 		}
 
@@ -264,7 +266,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		return getRefreshControllerService().refresh(form);
 	}
 
-	private boolean applyOnOffCampusFlagToLineItems(Budget originalBudget, Budget currentBudget) {
+	private boolean applyOnOffCampusFlagToLineItems(Budget currentBudget) {
 		return !OnOffCampusFlagConstants.Default.getCode().equals(currentBudget.getOnOffCampusFlag());
 	}
 
@@ -353,6 +355,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	}
 
 	@Transactional @RequestMapping(params="methodToCall=saveLine")
+	@Override
 	public ModelAndView saveLine(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		return super.saveLine(form);
 	}

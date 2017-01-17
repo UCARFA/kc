@@ -60,10 +60,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-
-/**
- * This class implements all methods declared in BudgetCalculationService
- */
 @Component("budgetCalculationService")
 public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 
@@ -163,11 +159,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 
 		fieldValues.put("budgetId", budgetPeriod.getBudgetId());
 		fieldValues.put("budgetPeriod", budgetPeriod.getBudgetPeriod());
-		
 
-		final Collection<? extends BudgetLineItem> deletedLineItems
-		    = this.dataObjectService.findMatching(BudgetLineItem.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
-		return deletedLineItems;
+        return this.dataObjectService.findMatching(BudgetLineItem.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
 	}
 	
     protected void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
@@ -189,10 +182,9 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 
     @Override
     public void calculateBudgetLineItem(Budget budget,BudgetLineItem budgetLineItem){
-        BudgetLineItem budgetLineItemToCalc = budgetLineItem;
-        List<BudgetPersonnelDetails> budgetPersonnelDetList = budgetLineItemToCalc.getBudgetPersonnelDetailsList();
-        if(budgetLineItemToCalc.isBudgetPersonnelLineItemDeleted() || (budgetPersonnelDetList!=null && !budgetPersonnelDetList.isEmpty())){
-            updatePersonnelBudgetRate(budgetLineItemToCalc);
+        List<BudgetPersonnelDetails> budgetPersonnelDetList = budgetLineItem.getBudgetPersonnelDetailsList();
+        if(budgetLineItem.isBudgetPersonnelLineItemDeleted() || (budgetPersonnelDetList!=null && !budgetPersonnelDetList.isEmpty())){
+            updatePersonnelBudgetRate(budgetLineItem);
             ScaleTwoDecimal personnelLineItemTotal  = ScaleTwoDecimal.ZERO;
             ScaleTwoDecimal personnelTotalCostSharing  = ScaleTwoDecimal.ZERO;
             Map<String, ScaleTwoDecimal> totalCalculatedCost = new HashMap<> ();
@@ -205,7 +197,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             ScaleTwoDecimal calcIndirectCost = ScaleTwoDecimal.ZERO;
             ScaleTwoDecimal calcTotalCostSharing = ScaleTwoDecimal.ZERO;
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetList) {
-                copyLineItemToPersonnelDetails(budgetLineItemToCalc, budgetPersonnelDetails);
+                copyLineItemToPersonnelDetails(budgetLineItem, budgetPersonnelDetails);
                 new PersonnelLineItemCalculator(budget,budgetPersonnelDetails).calculate();
                 personnelLineItemTotal = personnelLineItemTotal.add(budgetPersonnelDetails.getLineItemCost());
                 personnelTotalCostSharing = personnelTotalCostSharing.add(budgetPersonnelDetails.getCostSharingAmount());
@@ -268,7 +260,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 lineItemCalcAmntsOutOfDate = true;
             }
             if (lineItemCalcAmntsOutOfDate) {
-                rePopulateCalculatedAmount(budget, budgetLineItemToCalc);
+                rePopulateCalculatedAmount(budget, budgetLineItem);
             }
             
             List <BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
@@ -520,8 +512,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         SortedSet<String> objectCodePersonnelSalaryTotalsByPeriod = new TreeSet<>();
         SortedSet<String> objectCodePersonnelFringeTotalsByPeriod = new TreeSet<>();
 
-        SortedMap<RateType, List<ScaleTwoDecimal>> personnelCalculatedExpenseTotals = new TreeMap<>();
-        SortedMap<RateType, List<ScaleTwoDecimal>> nonPersonnelCalculatedExpenseTotals = new TreeMap<>();
+        SortedMap<RateType, List<ScaleTwoDecimal>> personnelCalculatedExpenseTotals;
+        SortedMap<RateType, List<ScaleTwoDecimal>> nonPersonnelCalculatedExpenseTotals;
 
         List <ScaleTwoDecimal> periodSummarySalaryTotals = new ArrayList<>();
         for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
@@ -542,7 +534,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         if(CollectionUtils.isNotEmpty(personnelObjectCodes)) {
             for(CostElement personnelCostElement : personnelObjectCodes) {
                 if(!objectCodeUniquePersonnelList.containsKey(personnelCostElement)) {
-                    objectCodeUniquePersonnelList.put(personnelCostElement, new ArrayList<BudgetPersonnelDetails>());
+                    objectCodeUniquePersonnelList.put(personnelCostElement, new ArrayList<>());
                 }
                 
                 for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
@@ -790,7 +782,6 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     @Deprecated
-
     protected void calculateBudgetTotals(Budget budget){
         // do we need to cache the totals ?
         SortedMap<CostElement, List<ScaleTwoDecimal>> objectCodeTotals = new TreeMap <> ();
@@ -1087,8 +1078,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
   		QueryList<BudgetLineItem> lineItemQueryList = new QueryList<>();
         lineItemQueryList.addAll(budgetPeriod.getBudgetLineItems());
         Equals costElementEquals = new Equals("costElement", costElement);
-        QueryList<BudgetLineItem> periodLineItemCostElementQueryList = lineItemQueryList.filter(costElementEquals);
-        return periodLineItemCostElementQueryList;
+        return lineItemQueryList.filter(costElementEquals);
     }
 
     /**
@@ -1179,7 +1169,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         }
         return uniquePersonList;
     }
-    
+
+    @Override
     public String getPersonnelBudgetCategoryTypeCode() {
         return this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.DOCUMENT_COMPONENT,Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
     }
@@ -1249,6 +1240,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     	return budgetLineItemCalculatedAmount.getRateType();
     }
 
+    @Override
     public void updateBudgetTotalCost(Budget budget) {
         ScaleTwoDecimal totalDirectCost = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal totalIndirectCost = ScaleTwoDecimal.ZERO;
@@ -1266,7 +1258,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         budget.setTotalIndirectCost(totalIndirectCost);
         budget.setTotalCost(totalCost);
     }
-    
+
+    @Override
     public void resetBudgetLineItemCalculatedAmounts(Budget budget) {
     	for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
         	for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
@@ -1277,7 +1270,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         	}
     	}
     }
-    
+
+    @Override
     public void calculateAndUpdateFormulatedCost(BudgetLineItem budgetLineItem) {
         if(budgetLineItem.getFormulatedCostElementFlag() && !CollectionUtils.isEmpty(budgetLineItem.getBudgetFormulatedCosts())){
             ScaleTwoDecimal formulatedCostTotal = getFormulatedCostsTotal(budgetLineItem);
