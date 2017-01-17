@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1951: allowing description, value, or both to be displayed for arg value.
+  * Travis Schneeberger on Mon, 16 Jan 2017 15:30:40 -0500 [View Commit](../../commit/2754ff464f2b5b1b46276f5a60377647f7e952c5)
+
+##coeus-1701.0009
 * No Changes
 
 

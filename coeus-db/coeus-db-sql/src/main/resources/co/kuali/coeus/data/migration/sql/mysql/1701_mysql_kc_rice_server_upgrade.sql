@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1701_001__return.sql
+\. ./rice/bootstrap/V1701_005__ArgValuesConfigParam.sql
 commit;
