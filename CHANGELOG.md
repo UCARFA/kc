@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1915: making person Id unique in regards to tbn persons in summary calculation, making sure rolodex and employee id don't conflict in summary calculation, fixing foreign key on budget person for tbn, making summary calculation on demand rather than caching and conditionally rebuilding since it needs to be built when navigating to the summary page regardless so caching/invalidate just complicates things.
+  * Travis Schneeberger on Tue, 17 Jan 2017 15:42:26 -0500 [View Commit](../../commit/00d5fbdcc97f419ce1f8d77e676c846f676895fb)
+
+##coeus-1701.0012
 * No Changes
 
 
