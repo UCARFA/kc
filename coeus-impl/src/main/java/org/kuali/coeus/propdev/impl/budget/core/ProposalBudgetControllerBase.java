@@ -164,7 +164,6 @@ public abstract class ProposalBudgetControllerBase {
         if (form.isCanEditView()) {
         	saveBudget(form);
         } else {
-            getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
             getBudgetSummaryService().setupOldStartEndDate(form.getBudget(), false);
             form.setBudgetModularSummary(budgetModularService.processModularSummary(form.getBudget(),true));
             validateBudgetExpenses(form);
@@ -185,7 +184,6 @@ public abstract class ProposalBudgetControllerBase {
     	if(getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(form.getBudget()))) {
             budgetService.calculateBudgetOnSave(form.getBudget());
             form.setBudget(getDataObjectService().save(form.getBudget()));
-            getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
             getBudgetJustificationService().preSave(form.getBudget(), form.getBudgetJustificationWrapper());
             getBudgetSummaryService().setupOldStartEndDate(form.getBudget(), false);
             form.setBudgetModularSummary(budgetModularService.processModularSummary(form.getBudget(),true));

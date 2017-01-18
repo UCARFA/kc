@@ -106,6 +106,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
     @Qualifier("proposalBudgetLockService")
     private ProposalBudgetLockService proposalBudgetLockService;
 
+    @Override
     public ModelAndView addBudget(String budgetName, Boolean summaryBudget, Boolean modularBudget, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception {
 		ProposalDevelopmentBudgetExt budget = null;
 		Map<String, Object> options = new HashMap<String, Object>();
@@ -128,6 +129,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
         
     }
 
+	@Override
 	public ModelAndView copyBudget(String budgetName, Long originalBudgetId, Boolean allPeriods, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception {
 		ProposalDevelopmentBudgetExt budget = null;
 		if (kcBusinessRulesEngine.applyRules(new ProposalAddBudgetVersionEvent("copyBudgetDto", developmentProposal, budgetName))) {
@@ -149,6 +151,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
         }		
 	}
 
+	@Override
 	public ModelAndView openBudget(String budgetId, boolean viewOnly, UifFormBase form) throws Exception {
 		if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
 			form.setDirtyForm(false);
@@ -164,6 +167,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 		}
 	}
 
+	@Override
     public void markBudgetVersionStatus(ProposalDevelopmentBudgetExt budget, String status) {
         String budgetStatus = getParameterService().getParameterValueAsString(
                 Budget.class,status);
@@ -172,6 +176,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
         getDataObjectService().save(budget);
     }
 
+	@Override
     public boolean isBudgetLocked(int budgetVersion, List<PessimisticLock> locks, String errorPath) {
         Person user = getGlobalVariableService().getUserSession().getPerson();
         for (PessimisticLock lock : locks) {
@@ -183,6 +188,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
         return false;
     }
 
+	@Override
     public ProposalDevelopmentBudgetExt getSelectedBudget(Long budgetId, List<ProposalDevelopmentBudgetExt> budgets) {
         for (ProposalDevelopmentBudgetExt curBudget : budgets) {
             if (ObjectUtils.equals(budgetId, curBudget.getBudgetId())) {
@@ -192,12 +198,13 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
         return null;
     }
 
+	@Override
     public boolean isAllowedToCompleteBudget(ProposalDevelopmentBudgetExt budget, String errorPath) {
 		getKcBusinessRulesEngine().applyRules(new BudgetAuditRuleEvent(budget));
 		boolean isRulePassed = getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(budget));
 
-		boolean isAuditRulePassed = !getGlobalVariableService().getAuditErrorMap().entrySet().stream()
-				.anyMatch(entry -> entry.getValue().getCategory().equals(Constants.AUDIT_ERRORS) &&
+		boolean isAuditRulePassed = getGlobalVariableService().getAuditErrorMap().entrySet().stream()
+				.noneMatch(entry -> entry.getValue().getCategory().equals(Constants.AUDIT_ERRORS) &&
 						!entry.getValue().getAuditErrorList().isEmpty());
         if(!isAuditRulePassed) {
             getGlobalVariableService().getMessageMap().putError(errorPath, KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
@@ -207,7 +214,8 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 		}
         return true;
     }
-	
+
+	@Override
     public <T extends UifFormBase & SelectableBudget> ModelAndView populateBudgetSummary(Long budgetId, 
     		List<ProposalDevelopmentBudgetExt> budgets, T form) throws Exception {
         ProposalDevelopmentBudgetExt selectedBudget = null;
@@ -218,13 +226,12 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
                 }
             }
         }
-        ((SelectableBudget) form).setSelectedBudget(selectedBudget);
-        if(selectedBudget.getBudgetSummaryDetails().isEmpty()) {
-            getBudgetCalculationService().populateBudgetSummaryTotals(selectedBudget);
-        }
+        form.setSelectedBudget(selectedBudget);
+
         return getModelAndViewService().showDialog(BUDGET_SUMMARY_DIALOG_ID, true, form);
-    }	
-	
+    }
+
+	@Override
     public <T extends UifFormBase & SelectableBudget> ModelAndView populatePrintForms(Long budgetId, 
     		List<ProposalDevelopmentBudgetExt> budgets, T form) throws Exception {
 
@@ -236,23 +243,23 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 				}
 			}
 		}
-		((SelectableBudget) form).setSelectedBudget(selectedBudget);
+		form.setSelectedBudget(selectedBudget);
 		if (selectedBudget.getBudgetPrintForms().isEmpty()) {
 			getBudgetPrintService().populateBudgetPrintForms(selectedBudget);
 		}
 		return getModelAndViewService().showDialog(BUDGET_PRINT_FORMS_DIALOG_ID, true, form);
 	}
-	
+
+	@Override
 	public <T extends UifFormBase & SelectableBudget> ModelAndView printBudgetForms(ProposalDevelopmentBudgetExt selectedBudget, 
 			T form, HttpServletResponse response) throws Exception {
-		List<BudgetPrintForm> selectedBudgetPrintForms = new ArrayList<BudgetPrintForm>();
+		List<BudgetPrintForm> selectedBudgetPrintForms = new ArrayList<>();
 		for (BudgetPrintForm selectedForm : selectedBudget.getBudgetPrintForms()) {
 			if (Boolean.TRUE.equals(selectedForm.getSelectToPrint())) {
 				selectedBudgetPrintForms.add(selectedForm);
 			}
 		}
-		if (selectedBudgetPrintForms != null
-				&& selectedBudgetPrintForms.size() > 0) {
+		if (selectedBudgetPrintForms.size() > 0) {
 			String reportName = selectedBudgetPrintForms.size() > 1 ? BUDGET_PRINT_FORMS_REPORT_NAME : selectedBudgetPrintForms.get(0).getBudgetReportName();
 			AttachmentDataSource dataStream = 
 					getBudgetPrintService().readBudgetSelectedPrintStreams(selectedBudget,

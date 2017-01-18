@@ -866,15 +866,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
             } else {
                 form.setSelectedBudget(form.getDevelopmentProposal().getLatestBudget());
             }
-            if(form.getSelectedBudget().getBudgetSummaryDetails().isEmpty()) {
-               getBudgetCalculationService().populateBudgetSummaryTotals(form.getSelectedBudget());
-            }
-        }
-
-        for (DevelopmentProposal developmentProposal : form.getHierarchyDevelopmentProposals()) {
-                if (developmentProposal.getHierarchySummaryBudget().getBudgetSummaryDetails().isEmpty()){
-                    getBudgetCalculationService().populateBudgetSummaryTotals(developmentProposal.getHierarchySummaryBudget());
-                }
         }
     }
 

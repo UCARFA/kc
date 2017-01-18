@@ -20,7 +20,6 @@ package org.kuali.coeus.common.budget.framework.core;
 
 import com.codiform.moo.annotation.CollectionProperty;
 import com.codiform.moo.annotation.Ignore;
-import com.codiform.moo.annotation.Property;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -115,12 +114,12 @@ public class Budget extends AbstractBudget implements BudgetContract {
     @JoinColumn(name = "OH_RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
-    @CollectionProperty(update = false)
+    @CollectionProperty
     @Ignore
     @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetRate> budgetRates;
 
-    @CollectionProperty(update = false)
+    @CollectionProperty
     @Ignore
     @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetLaRate> budgetLaRates;
@@ -155,9 +154,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
     @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
     @OrderBy("budgetPeriod")
     private List<BudgetPeriod> budgetPeriods;
-    
-    @Transient
-    private List<Period> budgetSummaryDetails;
     
     @Transient
     private Date summaryPeriodStartDate;
@@ -266,7 +262,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         budgetCategoryTypeCodes = new ArrayList<>();
         budgetPrintForms = new ArrayList<>();
         budgetSubAwards = new ArrayList<>();
-        budgetSummaryDetails = new ArrayList<>();
         budgetCostShares = new ArrayList<>();
         setOnOffCampusFlag("D");
     }
@@ -337,12 +332,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
         if (periodIds.isEmpty()) {
             return;
         }
-        for (final Iterator<BudgetProjectIncome> i = this.getBudgetProjectIncomes().iterator(); i.hasNext(); ) {
-            final BudgetProjectIncome budgetProjectIncome = i.next();
-            if (periodIds.contains(budgetProjectIncome.getBudgetPeriodId())) {
-                i.remove();
-            }
-        }
+        this.getBudgetProjectIncomes().removeIf(budgetProjectIncome -> periodIds.contains(budgetProjectIncome.getBudgetPeriodId()));
     }
 
     public List<ScaleTwoDecimal> getProjectIncomePeriodTotalsForEachBudgetPeriod() {
@@ -619,7 +609,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
             rateClassTypesReloaded = false;
             getBudgetRatesService().getBudgetRates(this.rateClassTypes, this);
         }
-        Collections.sort(rateClassTypes, new RateClassTypeComparator());
+        rateClassTypes.sort(new RateClassTypeComparator());
         return rateClassTypes;
     }
 
@@ -754,7 +744,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
     @Override
     public List<BudgetPerson> getBudgetPersons() {
-    	Collections.sort(budgetPersons, new PersonRolodexComparator());
+    	budgetPersons.sort(new PersonRolodexComparator());
         return budgetPersons;
     }
 
@@ -953,7 +943,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     }
 
     private List<FiscalYearSummary> findCostShareTotalsForBudgetPeriods(Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears) {
-        List<FiscalYearSummary> fiscalYearSummaries = new ArrayList<FiscalYearSummary>();
+        List<FiscalYearSummary> fiscalYearSummaries = new ArrayList<>();
         for (Map.Entry<Integer, List<BudgetPeriod>> entry : budgetPeriodFiscalYears.entrySet()) {
             ScaleTwoDecimal fiscalYearCostShareAmount = ScaleTwoDecimal.ZERO;
             ScaleTwoDecimal fiscalYearUnrecoveredFandA = ScaleTwoDecimal.ZERO;
@@ -1012,13 +1002,9 @@ public class Budget extends AbstractBudget implements BudgetContract {
         Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = new TreeMap<>();
         for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
             Integer fiscalYear = budgetPeriod.calculateFiscalYear(getFiscalYearStart());
-            List<BudgetPeriod> budgetPeriodsInFiscalYear = budgetPeriodFiscalYears.get(fiscalYear);
-            if (budgetPeriodsInFiscalYear == null) {
-                budgetPeriodsInFiscalYear = new ArrayList<>();
-                budgetPeriodFiscalYears.put(fiscalYear, budgetPeriodsInFiscalYear);
-            }
+            List<BudgetPeriod> budgetPeriodsInFiscalYear = budgetPeriodFiscalYears.computeIfAbsent(fiscalYear, k -> new ArrayList<>());
             budgetPeriodsInFiscalYear.add(budgetPeriod);
-            Collections.sort(budgetPeriodsInFiscalYear, BudgetPeriod.getBudgetPeriodDateComparator());
+            budgetPeriodsInFiscalYear.sort(BudgetPeriod.getBudgetPeriodDateComparator());
         }
         return budgetPeriodFiscalYears;
     }
@@ -1499,7 +1485,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
         private static final long serialVersionUID = 8230902362851330642L;
 
-        public int compare(RateClassType rateClassType1, RateClassType rateClassType2) {
+        @Override public int compare(RateClassType rateClassType1, RateClassType rateClassType2) {
             return rateClassType1.getSortId().compareTo(rateClassType2.getSortId());
         }
     }
@@ -1555,11 +1541,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 	}
 
 	public List<Period> getBudgetSummaryDetails() {
-		return budgetSummaryDetails;
-	}
-
-	public void setBudgetSummaryDetails(List<Period> budgetSummaryDetails) {
-		this.budgetSummaryDetails = budgetSummaryDetails;
+		return getBudgetCalculationService().retrieveBudgetSummaryTotals(this);
 	}
 
     protected BudgetCalculationService getBudgetCalculationService() {
