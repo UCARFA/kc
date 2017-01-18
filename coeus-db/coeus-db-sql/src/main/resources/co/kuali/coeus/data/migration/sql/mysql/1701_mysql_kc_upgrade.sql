@@ -21,4 +21,5 @@
 \. ./kc/bootstrap/V1701_002__return.sql
 \. ./kc/bootstrap/V1701_003__question_fix.sql
 \. ./kc/bootstrap/V1701_004__NSF-cover-page1-7.sql
+\. ./kc/bootstrap/V1701_006__RESKC-1956.sql
 commit;
