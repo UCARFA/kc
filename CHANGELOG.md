@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1915: fix display of salary and fringe on Budget Summary page.
+  * Travis Schneeberger on Thu, 19 Jan 2017 10:42:04 -0500 [View Commit](../../commit/229fe964cfbcc85ab1eb10d5f7c2549517d60825)
+
+##coeus-1701.0014
 * RESKC-1956: NSF CP 1.7 errors. (#2160)
 
   * Gayathri Athreya on Wed, 18 Jan 2017 14:19:54 -0700 [View Commit](../../commit/402c660d8e8008c4051c9bef03bef21441d47d9e)
