@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* RESKC-1879: SQL and JPA changes (#2162)
+
+* RESKC-1879: SQL and JPA changes
+  * RESKC-1879: Added feature flag and values finder.
+  * RESKC-1879: More cost sharing page changes. Made it so validations kick in on navigate or save on the cost share page. Modified inquiry view.
+  * 
+* RESKC-1879: PR review changes.
+  * Gayathri Athreya on Fri, 20 Jan 2017 11:08:02 -0700 [View Commit](../../commit/78a7c79ef3ea6638efb602c492b62f5a2ba18c2c)
+
+##coeus-1701.0018
 * RESKC-1915: fix display of salary and fringe on Budget Summary page.
   * Travis Schneeberger on Thu, 19 Jan 2017 21:45:06 -0500 [View Commit](../../commit/1d5421ef852a8ae0958e978fd898ce079ea74bc5)
 

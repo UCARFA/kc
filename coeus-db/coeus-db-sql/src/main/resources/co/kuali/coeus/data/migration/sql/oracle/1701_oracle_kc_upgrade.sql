@@ -25,4 +25,5 @@ spool 1701_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1701_003__question_fix.sql
 @./kc/bootstrap/V1701_004__NSF-cover-page1-7.sql
 @./kc/bootstrap/V1701_006__RESKC-1956.sql
+@./kc/bootstrap/V1701_007__cost_share_type.sql
 commit;
