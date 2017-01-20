@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1915: fix display of salary and fringe on Budget Summary page.
+  * Travis Schneeberger on Thu, 19 Jan 2017 21:45:06 -0500 [View Commit](../../commit/1d5421ef852a8ae0958e978fd898ce079ea74bc5)
+
+##coeus-1701.0017
 * No Changes
 
 
