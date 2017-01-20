@@ -18,15 +18,9 @@
  */
 package org.kuali.coeus.propdev.impl.budget.core;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.lock.ProposalBudgetLockService;
@@ -51,23 +45,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
 @Controller("proposalBudgetCommonController")
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetCommonController extends ProposalBudgetControllerBase {
 
-	@Autowired
+    @Autowired
 	@Qualifier("proposalBudgetSharedControllerService")
 	private ProposalBudgetSharedControllerService proposalBudgetSharedController;
-	
-	@Autowired
-	@Qualifier("parameterService")
-	private ParameterService parameterService;
 
     @Autowired
     @Qualifier("proposalBudgetLockService")
     private ProposalBudgetLockService proposalBudgetLockService;
 
-	@MethodAccessible
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("proposalBudgetService")
+    private ProposalBudgetService proposalBudgetService;
+
+    @MethodAccessible
 	@Transactional @RequestMapping(params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
         return getTransactionalDocumentControllerService().start(form);
@@ -154,10 +158,13 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	@Transactional @RequestMapping(params="methodToCall=save")
 	@Override
 	public ModelAndView save(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
-		return super.save(form);
+        if (form.getPageId().equalsIgnoreCase(Constants.PROP_BUDGET_COST_SHARING_PAGE) || form.getPageId().equalsIgnoreCase(Constants.PROP_BUDGET_UNRECOVERED_FAND_APAGE)) {
+            proposalBudgetService.validateCostShare(form.getBudget());
+        }
+        return super.save(form);
 	}
 
-	@RequestMapping(params = "methodToCall=navigate")
+    @RequestMapping(params = "methodToCall=navigate")
 	@Override
 	public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		return super.navigate(form);
@@ -219,7 +226,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         if(dialogResponse == null) {
             return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.COMPLETE_CONFIRMATION_DIALOG, false, form);
         } else if (dialogResponse.getResponseAsBoolean()){
-            String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
+            String budgetStatusCompleteCode = parameterService.getParameterValueAsString(
                     Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
             form.getBudget().setBudgetStatus(budgetStatusCompleteCode);
             getDataObjectService().wrap(form.getBudget()).fetchRelationship("budgetStatusDo");
@@ -510,15 +517,6 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 			HttpServletResponse response) throws Exception {
 		return getProposalBudgetSharedController().printBudgetForms(form.getSelectedBudget(), form, response);
 	}
-    
-	public ParameterService getParameterService() {
-		return parameterService;
-	}
-
-	public void setParameterService(ParameterService parameterService) {
-		this.parameterService = parameterService;
-	}
-
 
     public ProposalBudgetLockService getProposalBudgetLockService() {
         return proposalBudgetLockService;

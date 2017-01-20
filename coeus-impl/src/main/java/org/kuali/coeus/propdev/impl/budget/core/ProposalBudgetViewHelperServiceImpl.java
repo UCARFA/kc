@@ -49,6 +49,7 @@ import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.view.ViewModel;
@@ -178,6 +179,12 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     public String getProposalStatusForDisplay(DevelopmentProposal proposal) {
         final ProposalState state = proposal.getHierarchyAwareProposalStatus();
         return state != null ? state.getDescription() : "";
+    }
+
+    public boolean isCostShareTypeEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.ENABLE_COST_SHARE_ACCOUNT_VALIDATION);
     }
 
     public String getWizardMaxResults() {

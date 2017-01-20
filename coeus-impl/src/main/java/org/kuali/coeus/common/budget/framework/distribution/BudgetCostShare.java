@@ -18,8 +18,6 @@
  */
 package org.kuali.coeus.common.budget.framework.distribution;
 
-import javax.persistence.*;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -34,6 +32,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -84,6 +83,9 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
     @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
+
+    @Column(name = "COST_SHARE_TYPE_CODE")
+    private Integer costShareTypeCode;
 
     public BudgetCostShare() {
         super();
@@ -163,6 +165,14 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
     @Override
     public String getSourceAccount() {
         return sourceAccount;
+    }
+
+    public Integer getCostShareTypeCode() {
+        return costShareTypeCode;
+    }
+
+    public void setCostShareTypeCode(Integer costShareTypeCode) {
+        this.costShareTypeCode = costShareTypeCode;
     }
 
     @Override

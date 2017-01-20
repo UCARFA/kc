@@ -307,7 +307,12 @@
           <property name="collectionObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministrator"/>
           <property name="items">
             <list>
-              <bean p:propertyName="person.fullName" parent="Uif-DataField"/>
+              <bean p:propertyName="person.fullName" parent="Uif-DataField">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
+                              p:inquiryParameters="personId:principalId"/>
+                    </property>
+              </bean>
               <bean p:propertyName="unitAdministratorType.description" parent="Uif-DataField"/>
               <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
             </list>

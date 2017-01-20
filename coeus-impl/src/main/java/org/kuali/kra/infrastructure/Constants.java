@@ -943,5 +943,8 @@ public interface Constants {
     String ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI = "ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI";
     String KC_SYS = "KC-SYS";
     String PENDING = "PENDING";
+    String ENABLE_COST_SHARE_ACCOUNT_VALIDATION = "ENABLE_COST_SHARE_ACCOUNT_VALIDATION";
+    String PROP_BUDGET_COST_SHARING_PAGE = "PropBudget-CostSharingPage";
+    String PROP_BUDGET_UNRECOVERED_FAND_APAGE = "PropBudget-UnrecoveredFandAPage";
 }
 

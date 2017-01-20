@@ -21,29 +21,28 @@ package org.kuali.coeus.propdev.impl.budget;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
-import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalAddBudgetVersionEvent;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularService;
+import org.kuali.coeus.propdev.impl.budget.subaward.*;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.budget.core.ProposalAddBudgetVersionEvent;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardAttachment;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
-import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.CopyOption;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.PersistenceOption;
@@ -66,6 +65,9 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public static final String ADD_BUDGET_DTO = "addBudgetDto";
     public static final String COST_ELEMENT_BO = "costElementBO";
     public static final String BUDGET_CATEGORY = "budgetCategory";
+    public static final String SOURCE_ACCOUNT = "sourceAccount";
+    public static final String UNIT = "unit";
+    private static final String COST_SHARE_TYPE = "costShareType";
 
     @Autowired
     @Qualifier("budgetCalculationService")
@@ -98,6 +100,11 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     @Autowired
     @Qualifier("budgetSummaryService")
     private BudgetSummaryService budgetSummaryService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
 
     @Override
     public ProposalDevelopmentBudgetExt getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String budgetName, Map<String, Object> options){
@@ -451,6 +458,28 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
 
     protected PropDevBudgetSubAwardService getPropDevBudgetSubAwardService() {
         return propDevBudgetSubAwardService;
+    }
+
+    public void validateCostShare(ProposalDevelopmentBudgetExt budget) {
+        if(isCostShareTypeEnabled()) {
+            budget.getBudgetCostShares().stream().forEach(budgetCostShare -> {
+                if (Objects.isNull(budgetCostShare.getSourceAccount())) {
+                    globalVariableService.getMessageMap().putError(SOURCE_ACCOUNT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING);
+                }
+                if (Objects.isNull(budgetCostShare.getUnit())) {
+                    globalVariableService.getMessageMap().putError(UNIT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_UNIT_MISSING);
+                }
+                if (Objects.isNull(budgetCostShare.getCostShareTypeCode())) {
+                    globalVariableService.getMessageMap().putError(COST_SHARE_TYPE, KeyConstants.ERROR_BUDGET_DISTRIBUTION_COST_SHARE_TYPE_MISSING);
+                }
+            });
+        }
+    }
+
+    public boolean isCostShareTypeEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.ENABLE_COST_SHARE_ACCOUNT_VALIDATION);
     }
 
     public void setPropDevBudgetSubAwardService(PropDevBudgetSubAwardService propDevBudgetSubAwardService) {

@@ -30,11 +30,16 @@
           parent="PropBudget-Page" p:fieldBindingObjectPath="budget">
 		<property name="items">
 		    <list>
-                <bean id="PropBudget-CostSharingPage-CollectionGroup" parent="PropBudget-CostSharingPage-CollectionGroup-parentBean" p:order="10" 
+                <bean id="PropBudget-CostSharingPage-CollectionGroup" parent="PropBudget-CostSharingPage-CollectionGroup-parentBean" p:order="10"
                       p:render="@{#this.isCostSharingEditFormVisible()}" />
                 <bean parent="Uif-Message" p:order="20"
                       p:messageText="Cost Sharing doesn't apply or is not available"
                       p:render="@{!#this.isCostSharingEditFormVisible()}" />
+                <bean parent="Uif-InputField" p:propertyName="costShareComment" p:order="30"  p:style="float: right;" p:render="@{#ViewHelper.isCostShareTypeEnabled() and #this.isCostSharingEditFormVisible()}">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl"/>
+                    </property>
+                </bean>
             </list>
 		</property>
 	</bean>
@@ -98,7 +103,21 @@
                 </bean>
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="sourceAccount" p:skipInTabOrder="false" p:order="30" />
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="shareAmount" p:skipInTabOrder="false" p:order="40" p:label="Amount" />
-                <bean parent="Kc-InlineEdit-InputField" p:propertyName="unitNumber" p:skipInTabOrder="false" p:order="50" />
+                <bean parent="Uif-InputField" p:propertyName="unitNumber" p:order="50" p:label="Unit Details">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+                              p:directInquiryAction.actionLabel="Details" p:inquiryParameters="unitNumber:unitNumber" p:directInquiryAction.iconClass="icon-book" p:enableDirectInquiry="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="costShareTypeCode" p:order="60"
+                      p:label="Cost Share Type" p:render="@{#ViewHelper.isCostShareTypeEnabled()}" p:skipInTabOrder="false">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.coeus.common.budget.impl.core.CostShareTypeValuesFinder" p:addBlankOption="true"/>
+                    </property>
+                </bean>
             </list>
 		</property>
 

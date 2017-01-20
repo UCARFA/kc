@@ -48,7 +48,10 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
     
     @Column(name = "STATUS_CODE")
     private String budgetStatus;
-    
+
+    @Column(name = "COST_SHARE_COMMENT")
+    private String costShareComment;
+
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "STATUS_CODE", referencedColumnName = "BUDGET_STATUS_CODE", insertable = false, updatable = false)
     private BudgetStatus budgetStatusDo;
@@ -131,7 +134,15 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
 		return true;
 	}
 
-	@Override
+    public String getCostShareComment() {
+        return costShareComment;
+    }
+
+    public void setCostShareComment(String costShareComment) {
+        this.costShareComment = costShareComment;
+    }
+
+    @Override
     public DocumentNextvalue getNewNextValue() {
     	return new DocumentNextvalue();
     }

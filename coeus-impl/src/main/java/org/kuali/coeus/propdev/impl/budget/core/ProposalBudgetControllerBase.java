@@ -43,6 +43,7 @@ import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.ScaleTwoDecimalEditor;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -139,7 +140,11 @@ public abstract class ProposalBudgetControllerBase {
     @Autowired
     @Qualifier("budgetRatesService")
     private BudgetRatesService budgetRatesService;
-    
+
+    @Autowired
+    @Qualifier("proposalBudgetService")
+    private ProposalBudgetService proposalBudgetService;
+
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalBudgetForm();
     }
@@ -191,10 +196,9 @@ public abstract class ProposalBudgetControllerBase {
     	}
     }
 
-    
     protected void validateBudgetExpenses(ProposalBudgetForm form) {
     	String errorPath = null;
-    	if(form.getPageId().equalsIgnoreCase(BudgetConstants.BudgetAuditRules.NON_PERSONNEL_COSTS.getPageId())) {
+        if(form.getPageId().equalsIgnoreCase(BudgetConstants.BudgetAuditRules.NON_PERSONNEL_COSTS.getPageId())) {
     		errorPath = BudgetConstants.BudgetAuditRules.NON_PERSONNEL_COSTS.getPageId();
     	}else if(form.getPageId().equalsIgnoreCase(BudgetConstants.BudgetAuditRules.PERSONNEL_COSTS.getPageId())) {
     		errorPath = BudgetConstants.BudgetAuditRules.PERSONNEL_COSTS.getPageId();
@@ -217,13 +221,16 @@ public abstract class ProposalBudgetControllerBase {
     
     protected ModelAndView navigate(ProposalBudgetForm form) throws Exception {
     	ModelAndView modelAndView = save(form);
-		if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
-	        String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
+        String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
+        if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
 	        if (StringUtils.isNotEmpty(pageId)) {
 	            form.setDirtyForm(false);
 	            form.setPageId(pageId);
 	        }
 		}
+        if (pageId.equalsIgnoreCase(Constants.PROP_BUDGET_COST_SHARING_PAGE)) {
+            proposalBudgetService.validateCostShare(form.getBudget());
+        }
 		return modelAndView;
     }
     

@@ -1143,7 +1143,10 @@ public final class KeyConstants {
     // unit errors
     public static final String PARENT_UNIT_REQUIRED = "error.required.parent.unit";
     public static final String UNIT_SAME_AS_PARENT = "error.same.as.parent";
-    
+    public static final String ERROR_BUDGET_DISTRIBUTION_UNIT_MISSING = "error.budget.distribution.unitMissing";
+    public static final String ERROR_BUDGET_DISTRIBUTION_COST_SHARE_TYPE_MISSING = "error.budget.distribution.costShareTypeMissing";
+    public static final String ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING = "error.budget.distribution.sourceMissing";
+
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.

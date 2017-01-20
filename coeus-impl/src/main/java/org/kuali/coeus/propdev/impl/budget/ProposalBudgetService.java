@@ -20,6 +20,7 @@ package org.kuali.coeus.propdev.impl.budget;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -43,4 +44,7 @@ public interface ProposalBudgetService extends BudgetCommonService<DevelopmentPr
     boolean isBudgetMarkedForSubmission(Budget finalBudget, Budget currentBudget);
 
     void syncBudgetReferencesForCopy(ProposalDevelopmentBudgetExt budget);
-}
+
+    void validateCostShare(ProposalDevelopmentBudgetExt budget);
+
+    }
