@@ -21,4 +21,5 @@
 \. ./rice/bootstrap/V1701_001__return.sql
 \. ./rice/bootstrap/V1701_005__ArgValuesConfigParam.sql
 \. ./rice/bootstrap/V1701_008__cost_share_type_flag.sql
+\. ./rice/bootstrap/V1701_009__cost_share_type_flag_rename.sql
 commit;

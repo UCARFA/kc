@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Rename parm (#2164)
+
+  * Gayathri Athreya on Fri, 20 Jan 2017 13:29:09 -0700 [View Commit](../../commit/3d4e03a0f1088e250519fa3f81ea31ab896f5896)
+
+##coeus-1701.0019
 * RESKC-1879: SQL and JPA changes (#2162)
 
 * RESKC-1879: SQL and JPA changes
