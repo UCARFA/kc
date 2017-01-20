@@ -1029,14 +1029,16 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             LineItemObject salaryLineItemObject = new LineItemObject(personnelCostElement.getCostElement(), personnelCostElement.getDescription(), totalSalaryForCostElement);
             LineItemObject fringeLineItemObject = new LineItemObject(personnelCostElement.getCostElement(), personnelCostElement.getDescription(), totalFringeForCostElement);
             for(Map.Entry<String, List<BudgetPersonnelDetails>> personInfo : uniquePersonList.entrySet()) {
-         		String personId = personInfo.getKey();
+         		final String personId = personInfo.getKey();
                 final boolean summaryPerson = BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonId().equals(personId);
 
                 final ScaleTwoDecimal personSalaryTotalsForCurrentPeriod = summaryPerson ? totalSalaryForCostElement : personInfo.getValue().stream()
+                        .filter(b -> b.getBudgetPeriodId().equals(budgetPeriod.getBudgetPeriodId()))
                         .map(BudgetPersonnelDetails::getSalaryRequested)
                         .reduce(ScaleTwoDecimal.ZERO, ScaleTwoDecimal::add);
 
                 final ScaleTwoDecimal personFringeTotalsForCurrentPeriod =  summaryPerson ? totalFringeForCostElement : personInfo.getValue().stream()
+                        .filter(b -> b.getBudgetPeriodId().equals(budgetPeriod.getBudgetPeriodId()))
                         .map(BudgetPersonnelDetails::getCalculatedFringe)
                         .reduce(ScaleTwoDecimal.ZERO, ScaleTwoDecimal::add);
 
@@ -1145,7 +1147,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 		            for(BudgetPersonnelDetails budgetPersonnelDetail : budgetLineItem.getBudgetPersonnelDetailsList()) {
 		                final String key;
 		                if (StringUtils.isNotBlank(budgetPersonnelDetail.getBudgetPerson().getTbnId())) {
-                            key = budgetPersonnelDetail.getBudgetPersonnelLineItemId() + "$tbn$" + budgetPersonnelDetail.getPersonId();
+                            key = budgetPersonnelDetail.getBudgetPerson().getPersonName() + "$tbn$" + budgetPersonnelDetail.getPersonId();
                         } else if (budgetPersonnelDetail.getBudgetPerson().getRolodexId() != null) {
                             key = "$rolodex$" + budgetPersonnelDetail.getPersonId();
                         } else {
