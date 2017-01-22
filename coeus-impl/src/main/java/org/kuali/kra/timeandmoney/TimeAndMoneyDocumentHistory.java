@@ -27,9 +27,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 /**
  * A collection of this class is maintained on Time And Money Document.  There will be one entry for each Time And
@@ -100,12 +99,13 @@ public class TimeAndMoneyDocumentHistory implements Serializable{
      */
     public List<AwardAmountInfoHistory> getValidAwardAmountInfoHistoryList() {
         if(isParameterOn(SORT_TIME_AND_MONEY_TRANSACTIONS_DESCENDING, Constants.MODULE_NAMESPACE_AWARD, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE)) {
-            AwardAmountInfoHistory initialTransaction = validAwardAmountInfoHistoryList.stream().filter(
+            Optional<AwardAmountInfoHistory> initialTransaction = validAwardAmountInfoHistoryList.stream().filter(
                     validAwardAmountInfoHistoryItem -> validAwardAmountInfoHistoryItem.getTransactionType().equalsIgnoreCase(TransactionType.INITIAL.toString())
-            ).findFirst().get();
-            validAwardAmountInfoHistoryList.remove(initialTransaction);
+            ).findFirst();
             Collections.reverse(validAwardAmountInfoHistoryList);
-            validAwardAmountInfoHistoryList.add(initialTransaction);
+            if (initialTransaction.isPresent()) {
+                validAwardAmountInfoHistoryList.add(validAwardAmountInfoHistoryList.remove(validAwardAmountInfoHistoryList.indexOf((initialTransaction.get()))));
+            }
         }
         return validAwardAmountInfoHistoryList;
     }
