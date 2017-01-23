@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* fix oracle scripts
+  * Gayathri Athreya on Mon, 23 Jan 2017 13:16:19 -0700 [View Commit](../../commit/675965864cfb9624c57902f05320bc617f07f8fa)
+
+##coeus-1701.0023
 * RESKC-1966, RESKC-1967: Fixes for NSF CP 1.7 (#2169)
 
   * Gayathri Athreya on Mon, 23 Jan 2017 13:27:52 -0700 [View Commit](../../commit/0beac5a58e9a58339f34bed9170ca1bd58825e07)
