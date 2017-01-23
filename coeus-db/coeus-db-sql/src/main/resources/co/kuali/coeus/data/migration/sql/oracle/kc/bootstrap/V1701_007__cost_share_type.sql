@@ -17,7 +17,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-alter table COST_SHARE_TYPE add COST_SHARE_TYPE_CODE NUMBER(3);
+alter table EPS_PROP_COST_SHARING add COST_SHARE_TYPE_CODE NUMBER(3);
 alter table EPS_PROPOSAL_BUDGET_EXT add COST_SHARE_COMMENT CLOB;
 
 
