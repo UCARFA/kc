@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1966, RESKC-1967: Fixes for NSF CP 1.7 (#2169)
+
+  * Gayathri Athreya on Mon, 23 Jan 2017 13:27:52 -0700 [View Commit](../../commit/0beac5a58e9a58339f34bed9170ca1bd58825e07)
+
+##coeus-1701.0022
 * RESKC-1965: Fix NPE when T&M history is sorted descending
   * Terry Durkin on Sun, 22 Jan 2017 11:39:58 -0500 [View Commit](../../commit/f6593b4383a6dfde8708295b72d3e25b64540d13)
 
