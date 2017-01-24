@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* RESKC-1916: Fixing PD budget Assign to Personnel drop down. (#2171)
+
+  * Gayathri Athreya on Tue, 24 Jan 2017 10:23:51 -0700 [View Commit](../../commit/1a4fd4cdc519a9794042b04a8f2de1900ca23794)
+* adding default value for existing records
+  * Travis Schneeberger on Tue, 24 Jan 2017 11:05:21 -0500 [View Commit](../../commit/27430d102b129989c0b07f0f127a381709ecc60e)
+
+##coeus-1701.0024
 * fix oracle scripts
   * Gayathri Athreya on Mon, 23 Jan 2017 13:16:19 -0700 [View Commit](../../commit/675965864cfb9624c57902f05320bc617f07f8fa)
 
