@@ -30,14 +30,12 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Finds the available set of supported Narrative Statuses.  See
@@ -95,6 +93,9 @@ public class BudgetPersonValuesFinder extends UifKeyValuesFinderBase {
     	uniqueKey.append(budgetPerson.getPersonRolodexTbnId());
     	uniqueKey.append(budgetPerson.getJobCode());
     	uniqueKey.append(budgetPerson.getEffectiveDate());
+        if(Objects.nonNull(budgetPerson.getTbnId())) {
+            uniqueKey.append('-' + budgetPerson.getPersonSequenceNumber());
+        }
     	return uniqueKey.toString();
     }
     
