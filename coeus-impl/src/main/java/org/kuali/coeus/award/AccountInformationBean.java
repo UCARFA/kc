@@ -28,7 +28,7 @@ public class AccountInformationBean {
     private ScaleTwoDecimal income;
     private ScaleTwoDecimal expense;
     private ScaleTwoDecimal available;
-
+    private String comment;
 
     public AccountInformationBean() {
             this.status = AccountStatus.AVAILABLE.name();
@@ -37,6 +37,7 @@ public class AccountInformationBean {
             this.setAvailable(ScaleTwoDecimal.ZERO);
             this.setExpense(ScaleTwoDecimal.ZERO);
             this.setBudgeted(ScaleTwoDecimal.ZERO);
+            comment = "";
     }
 
     public ScaleTwoDecimal getBudgeted() {
@@ -87,5 +88,11 @@ public class AccountInformationBean {
         this.status = status;
     }
 
+    public String getComment() {
+        return comment;
+    }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }

@@ -143,7 +143,19 @@
                                 </div>
                             </td>
                         </tr>
-                            </c:when>
+                        <tr>
+                            <th>
+                                <div>
+                                    <kul:htmlAttributeLabel attributeEntry="${accountInformationBeanAttributes.comment}" />
+                                </div>
+                            </th>
+                            <td class="infoline">
+                                <div>
+                                    <c:out value="${accountInformationBean.comment}"/>
+                                </div>
+                            </td>
+                         </tr>
+                         </c:when>
                         </c:choose>
                     </table>
                 </c:when>

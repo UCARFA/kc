@@ -49,6 +49,8 @@ public class AwardAccount extends KcPersistableBusinessObjectBase {
     private ScaleTwoDecimal expense;
     @Column(name="AVAILABLE")
     private ScaleTwoDecimal available;
+    @Column(name="COMMENT")
+    private String comment;
 
     public AwardAccount() {
         status = AccountStatus.AVAILABLE.name();
@@ -57,6 +59,7 @@ public class AwardAccount extends KcPersistableBusinessObjectBase {
         income = ScaleTwoDecimal.ZERO;
         expense = ScaleTwoDecimal.ZERO;
         available = ScaleTwoDecimal.ZERO;
+        comment = "";
     }
 
     public Long getId() {
@@ -129,5 +132,13 @@ public class AwardAccount extends KcPersistableBusinessObjectBase {
 
     public void setAvailable(ScaleTwoDecimal available) {
         this.available = available;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

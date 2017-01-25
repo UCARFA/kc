@@ -498,6 +498,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
                 accountInformationBean.setAvailable(account.getAvailable());
                 accountInformationBean.setExpense(account.getExpense());
                 accountInformationBean.setPending(account.getPending());
+                accountInformationBean.setComment(account.getComment());
             }
         }
     }

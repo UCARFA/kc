@@ -43,6 +43,7 @@ public class AccountDto {
     private ScaleTwoDecimal expense;
     @Digits(integer = 10, fraction = 2)
     private ScaleTwoDecimal available;
+    private String comment;
 
     public Long getId() {
         return id;
@@ -114,5 +115,13 @@ public class AccountDto {
 
     public void setAvailable(ScaleTwoDecimal available) {
         this.available = available;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

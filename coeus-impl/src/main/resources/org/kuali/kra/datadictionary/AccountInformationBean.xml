@@ -35,6 +35,7 @@
         <ref bean="AccountInformationBean-income"/>
         <ref bean="AccountInformationBean-expense" />
         <ref bean="AccountInformationBean-available"/>
+        <ref bean="AccountInformationBean-comment" />
       </list>
     </property>
   </bean>
@@ -85,6 +86,14 @@
       <property name="label" value="Available" />
       <property name="shortLabel" value="Available" />
       <property name="required" value="false"/>
+    </bean>
+
+    <bean id="AccountInformationBean-comment" parent="AccountInformationBean-comment-parentBean" />
+    <bean id="AccountInformationBean-comment-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="comment" />
+        <property name="label" value="Comment" />
+        <property name="shortLabel" value="Comment" />
+        <property name="required" value="false"/>
     </bean>
 </beans>
 

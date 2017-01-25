@@ -75,7 +75,7 @@ public class AwardAccountController extends RestController {
     @RequestMapping(method=RequestMethod.PUT, value="v1/accounts/{accountNumber}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     public
-    void updateAccount(@Valid @RequestBody AccountDto account, @PathVariable String accountNumber, HttpServletResponse response) throws Exception {
+    void updateAccount(@Valid @RequestBody AccountDto account, @PathVariable String accountNumber) throws Exception {
         AwardAccount currentAccount = accountDao.getAccount(accountNumber);
         if(Objects.isNull(currentAccount)) {
             sendErrorResponse(NO_SUCH_ACCOUNT);
@@ -86,6 +86,7 @@ public class AwardAccountController extends RestController {
             if (account.getAvailable() != null) currentAccount.setAvailable(account.getAvailable());
             if (account.getExpense() != null) currentAccount.setExpense(account.getExpense());
             if (account.getIncome() != null) currentAccount.setIncome(account.getIncome());
+            if (account.getComment() != null) currentAccount.setComment(account.getComment());
 
             accountDao.saveAccount(currentAccount);
         }
@@ -93,8 +94,7 @@ public class AwardAccountController extends RestController {
 
     @RequestMapping(method=RequestMethod.GET, value="v1/accounts/{accountNumber}")
     public @ResponseBody
-    AccountResults getAccount(@PathVariable String accountNumber,
-                              HttpServletResponse response) throws Exception {
+    AccountResults getAccount(@PathVariable String accountNumber) throws Exception {
         AwardAccount account = accountDao.getAccount(accountNumber);
         ArrayList<AwardAccount> accounts = new ArrayList<>();
         accounts.add(account);
