@@ -346,7 +346,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
     @Override
     public String getType() {
-        return type;
+        return getContentType();
     }
 
     public void setType(String type) {
