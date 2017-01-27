@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Apparently comment is a keyword in oracle. (#2178)
+
+  * Gayathri Athreya on Fri, 27 Jan 2017 11:16:58 -0700 [View Commit](../../commit/959229da3e0d74ce938ccebb88fdd29308d5494c)
+
+##coeus-1701.0029
 * RESKC-1878: Cost share account maint doc, validations and corresponding PD changes. (#2177)
 
   * Gayathri Athreya on Fri, 27 Jan 2017 09:10:20 -0700 [View Commit](../../commit/7baed4adeb15a9aa56856ab2bbf41c354d7837d2)
