@@ -24,4 +24,5 @@ spool 1701_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1701_001__return.sql
 @./rice/bootstrap/V1701_005__ArgValuesConfigParam.sql
 @./rice/bootstrap/V1701_008__cost_share_type_flag.sql
+@./rice/bootstrap/V1701_013__cost_share_account.sql
 commit;
