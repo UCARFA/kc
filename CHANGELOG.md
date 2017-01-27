@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1981: Reviewers are downloading or just clicking the attachment link is adding a .txt to the file so it is then opened in a text editor. If the .txt is removed then the document is viewable. The file is showing like document.pdf.txt. This happens most in safari but has come up in firefox also. (#2179)
+
+  * Gayathri Athreya on Fri, 27 Jan 2017 14:54:09 -0700 [View Commit](../../commit/058e23f7c5dd5d306f4064c85c4b36ed17693c4c)
+
+##coeus-1701.0030
 * Apparently comment is a keyword in oracle. (#2178)
 
   * Gayathri Athreya on Fri, 27 Jan 2017 11:16:58 -0700 [View Commit](../../commit/959229da3e0d74ce938ccebb88fdd29308d5494c)
