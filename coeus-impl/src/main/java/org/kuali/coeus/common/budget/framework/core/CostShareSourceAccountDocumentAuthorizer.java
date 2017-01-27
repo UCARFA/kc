@@ -16,33 +16,35 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.common.impl.person.attr;
+package org.kuali.coeus.common.budget.framework.core;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class TrainingMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
-    public static final String PERMISSION_MAINTAIN_TRAINING = "Maintain Training";
+public class CostShareSourceAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
+    public static final String PERMISSION_MAINTAIN_COST_SHARE_SOURCE_ACCOUNT = "Create Cost Share Source Account Document";
     public static final String KC_SYS = "KC-SYS";
-    
-    
+
+
     @Override
     public boolean canInitiate(String documentTypeName, Person user) {
-        Map<String, String> permissionDetails = new HashMap<String, String>();
+        Map<String, String> permissionDetails = new HashMap<>();
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
-        
-        boolean retVal =  getPermissionService().isAuthorized(user.getPrincipalId(), KC_SYS, PERMISSION_MAINTAIN_TRAINING, permissionDetails);
+
+        boolean retVal = getPermissionService().isAuthorized(user.getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PERMISSION_MAINTAIN_COST_SHARE_SOURCE_ACCOUNT, permissionDetails);
         return retVal;
     }
-    
+
     @Override
-    public boolean canMaintain(Object dataObject, Person user) {    
-        Map<String, String> permissionDetails = new HashMap<>(2);
+    public boolean canMaintain(Object dataObject, Person user) {
+        Map<String, String> permissionDetails = new HashMap<String, String>(2);
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME,
                 getDocumentDictionaryService().getMaintenanceDocumentTypeName(
                         dataObject.getClass()));
@@ -51,9 +53,13 @@ public class TrainingMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
                 KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT,
                 permissionDetails)
                 || isAuthorizedByTemplate(
-                        dataObject,
-                        KC_SYS,
-                        KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT,
-                        user.getPrincipalId(), permissionDetails, null);
+                dataObject,
+                KC_SYS,
+                KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT,
+                user.getPrincipalId(), permissionDetails, null);
+    }
+
+    public boolean canCopy(Document document, Person user) {
+        return canInitiate(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), user);
     }
 }

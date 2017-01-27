@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   -
+   - Copyright 2005-2016 Kuali, Inc.
+   -
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   -
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   -
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="CostShareSourceAccount" parent="CostShareSourceAccount-parentBean" />
+    <bean id="CostShareSourceAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccount" />
+        <property name="objectLabel" value="Cost Share Source Account" />
+        <property name="inquiryDefinition" >
+            <ref bean="CostShareSourceAccount-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="CostShareSourceAccount-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="costShareSourceAccount" />
+        <property name="attributes" >
+            <list>
+                <ref bean="CostShareSourceAccount-code" />
+                <ref bean="CostShareSourceAccount-name" />
+                <ref bean="CostShareSourceAccount-description" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="CostShareSourceAccount-code" parent="CostShareSourceAccount-code-parentBean" />
+    <bean id="CostShareSourceAccount-code-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="code" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Source account code" />
+        <property name="shortLabel" value="Source account code" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="12" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Source account code" />
+        <property name="description" value="Source account code" />
+    </bean>
+
+    <bean id="CostShareSourceAccount-name" parent="CostShareSourceAccount-name-parentBean" />
+    <bean id="CostShareSourceAccount-name-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="name" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Source account name" />
+        <property name="shortLabel" value="Source account name" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern">
+                <property name="allowUnderscore" value="true"/>
+                <property name="allowDash" value="true"/>
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint">
+                <property name="allowUnderscore" value="true"/>
+                <property name="allowDash" value="true"/>
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="60"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="60" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Source account name" />
+        <property name="description" value="Source account name" />
+    </bean>
+
+    <bean id="CostShareSourceAccount-description" parent="CostShareSourceAccount-description-parentBean" />
+    <bean id="CostShareSourceAccount-description-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="description" />
+        <property name="forceUppercase" value="false" />
+        <property name="required" value="false" />
+        <property name="label" value="Source account description" />
+        <property name="shortLabel" value="Source account description" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern">
+                <property name="allowUnderscore" value="true"/>
+                <property name="allowDash" value="true"/>
+                <property name="allowWhitespace" value="true"/>
+                <property name="allowPeriod" value="true"/>
+            </bean>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint">
+                <property name="allowUnderscore" value="true"/>
+                <property name="allowDash" value="true"/>
+                <property name="allowWhitespace" value="true"/>
+                <property name="allowPeriod" value="true"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="200"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="200" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Source account description" />
+        <property name="description" value="Source account description" />
+    </bean>
+
+
+    <bean id="CostShareSourceAccount-versionNumber" parent="CostShareSourceAccount-versionNumber-parentBean" />
+    <bean id="CostShareSourceAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="CostShareSourceAccount-inquiryDefinition" parent="CostShareSourceAccount-inquiryDefinition-parentBean" />
+    <bean id="CostShareSourceAccount-InquiryView" parent="CostShareSourceAccount-InquiryView-parentBean"/>
+    <bean id="CostShareSourceAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Cost Share Source Account" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Cost Share Source Account" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="name" p:forceInquiry="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="description"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CostShareSourceAccount-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+        <property name="headerText" value="Cost Share Source Account"/>
+        <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccount"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-GridSection">
+                    <property name="headerText" value="Abstract Type"/>
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="items">
+                        <list>
+                            <bean p:propertyName="code" parent="Uif-DataField"/>
+                            <bean p:propertyName="name" parent="Uif-DataField"/>
+                            <bean p:propertyName="description" parent="Uif-DataField"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="CostShareSourceAccount-lookupDefinition" parent="CostShareSourceAccount-lookupDefinition-parentBean" />
+    <bean id="CostShareSourceAccount-LookupView" parent="CostShareSourceAccount-LookupView-parentBean"/>
+    <bean id="CostShareSourceAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Cost Share Source Account Lookup" /><property name="defaultSort" >
+        <bean parent="SortDefinition"/>
+    </property>
+        <property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="abstractTypeMaintenanceHelp" p:parameterDetailType="Document"/>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="code"/>
+                <bean parent="FieldDefinition" p:attributeName="name"/>
+                <bean parent="FieldDefinition" p:attributeName="description"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="name"/>
+                <bean parent="FieldDefinition" p:attributeName="description"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CostShareSourceAccount-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+        <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccount"/>
+        <property name="headerText" value="Cost Share Source Account Lookup"/>
+        <property name="criteriaFields">
+            <list>
+                <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="name" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean p:propertyName="code" parent="Uif-DataField"/>
+                <bean p:propertyName="name" parent="Uif-DataField"/>
+                <bean p:propertyName="description" parent="Uif-DataField"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

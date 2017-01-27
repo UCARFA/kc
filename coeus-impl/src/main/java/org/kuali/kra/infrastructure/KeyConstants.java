@@ -1145,7 +1145,10 @@ public final class KeyConstants {
     public static final String UNIT_SAME_AS_PARENT = "error.same.as.parent";
     public static final String ERROR_BUDGET_DISTRIBUTION_UNIT_MISSING = "error.budget.distribution.unitMissing";
     public static final String ERROR_BUDGET_DISTRIBUTION_COST_SHARE_TYPE_MISSING = "error.budget.distribution.costShareTypeMissing";
+    public static final String INVALID_SOURCE_ACCOUNT = "error.budget.distribution.costShare.sourceAccount.invalid";
     public static final String ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING = "error.budget.distribution.sourceMissing";
+    public static final String ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE = "error.format.org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern.allowUnderscore.allowDash.allowWhitespace";
+    public static final String ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE_PERIOD = "error.format.org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern.allowUnderscore.allowDash.allowWhitespace.allowPeriod";
 
     /**
      * private utility class ctor.

@@ -21,10 +21,7 @@ package org.kuali.coeus.propdev.impl.budget;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
-import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
+import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
@@ -68,6 +65,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public static final String SOURCE_ACCOUNT = "sourceAccount";
     public static final String UNIT = "unit";
     private static final String COST_SHARE_TYPE = "costShareType";
+    public static final String CODE = "code";
 
     @Autowired
     @Qualifier("budgetCalculationService")
@@ -471,6 +469,13 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
                 }
                 if (Objects.isNull(budgetCostShare.getCostShareTypeCode())) {
                     globalVariableService.getMessageMap().putError(COST_SHARE_TYPE, KeyConstants.ERROR_BUDGET_DISTRIBUTION_COST_SHARE_TYPE_MISSING);
+                }
+                if (!Objects.isNull(budgetCostShare.getSourceAccount())) {
+                    Map<String, Object> fieldValues = new HashMap<>();
+                    fieldValues.put(CODE, budgetCostShare.getSourceAccount());
+                    if(getBusinessObjectService().countMatching(CostShareSourceAccount.class, fieldValues) == 0) {
+                        globalVariableService.getMessageMap().putError(COST_SHARE_TYPE, KeyConstants.INVALID_SOURCE_ACCOUNT, budgetCostShare.getSourceAccount());
+                    }
                 }
             });
         }

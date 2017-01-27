@@ -101,7 +101,15 @@
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="sharePercentage" p:skipInTabOrder="false" p:order="20" p:label="Percentage" >
                     <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
                 </bean>
-                <bean parent="Kc-InlineEdit-InputField" p:propertyName="sourceAccount" p:skipInTabOrder="false" p:order="30" />
+
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="sourceAccount" p:skipInTabOrder="false" p:order="30" p:render="@{!#ViewHelper.isCostShareTypeEnabled()}"/>
+                <bean parent="Uif-InputField" p:propertyName="sourceAccount" p:order="35" p:label="Source Account" p:render="@{#ViewHelper.isCostShareTypeEnabled()}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccount"
+                                p:fieldConversions="code:sourceAccount" p:returnByScript="true"/>
+                    </property>
+                </bean>
+
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="shareAmount" p:skipInTabOrder="false" p:order="40" p:label="Amount" />
                 <bean parent="Uif-InputField" p:propertyName="unitNumber" p:order="50" p:label="Unit Details">
                     <property name="inquiry">
