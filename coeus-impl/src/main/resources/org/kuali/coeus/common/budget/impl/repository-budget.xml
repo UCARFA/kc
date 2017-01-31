@@ -564,7 +564,7 @@
 
     <class-descriptor class="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccount" table="COST_SHARE_SOURCE_ACCOUNT">
         <field-descriptor name="code" column="CODE" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_COST_SHARE_ACCOUNT_ID" />
-        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceAccountNumber" column="SOURCE_ACCOUNT_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

@@ -23,9 +23,9 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public class CostShareSourceAccount extends KcPersistableBusinessObjectBase {
 
-    Long code;
-    String name;
-    String description;
+    private Long code;
+    private String sourceAccountNumber;
+    private String description;
 
     public Long getCode() {
         return code;
@@ -35,12 +35,12 @@ public class CostShareSourceAccount extends KcPersistableBusinessObjectBase {
         this.code = code;
     }
 
-    public String getName() {
-        return name;
+    public String getSourceAccountNumber() {
+        return sourceAccountNumber;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSourceAccountNumber(String sourceAccountNumber) {
+        this.sourceAccountNumber = sourceAccountNumber;
     }
 
     public String getDescription() {

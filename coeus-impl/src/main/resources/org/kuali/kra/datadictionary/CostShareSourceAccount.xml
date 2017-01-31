@@ -32,7 +32,7 @@
         <property name="attributes" >
             <list>
                 <ref bean="CostShareSourceAccount-code" />
-                <ref bean="CostShareSourceAccount-name" />
+                <ref bean="CostShareSourceAccount-sourceAccountNumber" />
                 <ref bean="CostShareSourceAccount-description" />
             </list>
         </property>
@@ -64,13 +64,13 @@
         <property name="description" value="Source account code" />
     </bean>
 
-    <bean id="CostShareSourceAccount-name" parent="CostShareSourceAccount-name-parentBean" />
-    <bean id="CostShareSourceAccount-name-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="name" />
+    <bean id="CostShareSourceAccount-sourceAccountNumber" parent="CostShareSourceAccount-sourceAccountNumber-parentBean" />
+    <bean id="CostShareSourceAccount-sourceAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sourceAccountNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Source account name" />
-        <property name="shortLabel" value="Source account name" />
-        <property name="maxLength" value="60" />
+        <property name="label" value="Source account number" />
+        <property name="shortLabel" value="Source account number" />
+        <property name="maxLength" value="16" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern">
                 <property name="allowUnderscore" value="true"/>
@@ -86,13 +86,13 @@
             </bean>
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition" p:size="60"/>
+            <bean parent="TextControlDefinition" p:size="16"/>
         </property>
         <property name="controlField">
-            <bean p:size="60" parent="Uif-TextControl"/>
+            <bean p:size="16" parent="Uif-TextControl"/>
         </property>
-        <property name="summary" value="Source account name" />
-        <property name="description" value="Source account name" />
+        <property name="summary" value="Source account number" />
+        <property name="description" value="Source account number" />
     </bean>
 
     <bean id="CostShareSourceAccount-description" parent="CostShareSourceAccount-description-parentBean" />
@@ -146,7 +146,7 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
-                            <bean parent="FieldDefinition" p:attributeName="name" p:forceInquiry="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="sourceAccountNumber" p:forceInquiry="true"/>
                             <bean parent="FieldDefinition" p:attributeName="description"/>
                         </list>
                     </property>
@@ -166,7 +166,7 @@
                     <property name="items">
                         <list>
                             <bean p:propertyName="code" parent="Uif-DataField"/>
-                            <bean p:propertyName="name" parent="Uif-DataField"/>
+                            <bean p:propertyName="sourceAccountNumber" parent="Uif-DataField"/>
                             <bean p:propertyName="description" parent="Uif-DataField"/>
                         </list>
                     </property>
@@ -182,20 +182,17 @@
         <property name="title" value="Cost Share Source Account Lookup" /><property name="defaultSort" >
         <bean parent="SortDefinition"/>
     </property>
-        <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="abstractTypeMaintenanceHelp" p:parameterDetailType="Document"/>
-        </property>
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition" p:attributeName="code"/>
-                <bean parent="FieldDefinition" p:attributeName="name"/>
+                <bean parent="FieldDefinition" p:attributeName="sourceAccountNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="description"/>
             </list>
         </property>
         <property name="resultFields">
             <list>
                 <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
-                <bean parent="FieldDefinition" p:attributeName="name"/>
+                <bean parent="FieldDefinition" p:attributeName="sourceAccountNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="description"/>
             </list>
         </property>
@@ -207,14 +204,14 @@
         <property name="criteriaFields">
             <list>
                 <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
-                <bean p:propertyName="name" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="sourceAccountNumber" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
                 <bean p:propertyName="code" parent="Uif-DataField"/>
-                <bean p:propertyName="name" parent="Uif-DataField"/>
+                <bean p:propertyName="sourceAccountNumber" parent="Uif-DataField"/>
                 <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
         </property>

@@ -48,7 +48,7 @@
 		<property name="title" value="Edit Account Type"/>
 		<property name="maintainableItems">
 			<list>
-                <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="sourceAccountNumber" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
 			</list>
 		</property>

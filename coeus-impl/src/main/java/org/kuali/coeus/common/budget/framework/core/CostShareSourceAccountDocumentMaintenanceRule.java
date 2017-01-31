@@ -29,12 +29,14 @@ import java.util.*;
 
 public class CostShareSourceAccountDocumentMaintenanceRule extends KcMaintenanceDocumentRuleBase {
 
-    private static final String NAME = "name";
-    private static final String NAME_TITLE = "Name";
-    private static final String NAME_KEY = "document.newMaintainableObject.name";
+    private static final String SOURCE_ACCOUNT_NUMBER = "sourceAccountNumber";
+    private static final String SOURCE_ACCOUNT_NUMBER_TITLE = "Source Account Number";
+    private static final String NAME_KEY = "document.newMaintainableObject.sourceAccountNumber";
     public static final String ALPHA_NUMERIC_VALIDATION_PATTERN_KEY = "error.format.org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern";
     public static final String DESCRIPTION_KEY = "document.newMaintainableObject.description";
     public static final String DESCRIPTION = "description";
+    private static final String DESCRIPTION_TITLE = "Description";
+
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -46,14 +48,14 @@ public class CostShareSourceAccountDocumentMaintenanceRule extends KcMaintenance
         if(Objects.nonNull(errorMessages.get(NAME_KEY))) {
 
             errorMessages.get(NAME_KEY).remove(new ErrorMessage(ALPHA_NUMERIC_VALIDATION_PATTERN_KEY));
-            messages.add(new ErrorMessage(KeyConstants.ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE, NAME));
+            messages.add(new ErrorMessage(KeyConstants.ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE, SOURCE_ACCOUNT_NUMBER_TITLE));
             errorMessages.put(NAME_KEY, messages);
         }
 
         if(Objects.nonNull(errorMessages.get(DESCRIPTION_KEY))) {
             messages = new ArrayList<>();
             errorMessages.get(DESCRIPTION_KEY).remove(new ErrorMessage(ALPHA_NUMERIC_VALIDATION_PATTERN_KEY));
-            messages.add(new ErrorMessage(KeyConstants.ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE_PERIOD, DESCRIPTION));
+            messages.add(new ErrorMessage(KeyConstants.ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE_PERIOD, DESCRIPTION_TITLE));
             errorMessages.put(DESCRIPTION_KEY, messages);
         }
 
@@ -72,12 +74,14 @@ public class CostShareSourceAccountDocumentMaintenanceRule extends KcMaintenance
         return Boolean.TRUE;
     }
 
-    private boolean validate(CostShareSourceAccount costShareSourceAccount) {
+    protected boolean validate(CostShareSourceAccount costShareSourceAccount) {
         Map<String, String> pk = new HashMap<>();
-        pk.put(NAME, costShareSourceAccount.getName());
+        pk.put(SOURCE_ACCOUNT_NUMBER, costShareSourceAccount.getSourceAccountNumber());
         boolean valid = getBoService().countMatching(CostShareSourceAccount.class, pk) == 0;
         if (!valid) {
-            getGlobalVariableService().getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + NAME, RiceKeyConstants.ERROR_DUPLICATE_ELEMENT, NAME_TITLE, costShareSourceAccount.getName());
+            getGlobalVariableService().getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + SOURCE_ACCOUNT_NUMBER,
+                    RiceKeyConstants.ERROR_DUPLICATE_ELEMENT, SOURCE_ACCOUNT_NUMBER_TITLE,
+                    costShareSourceAccount.getSourceAccountNumber());
         }
 
         return valid;
