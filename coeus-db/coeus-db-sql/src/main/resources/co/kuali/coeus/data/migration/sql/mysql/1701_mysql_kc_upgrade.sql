@@ -27,4 +27,5 @@
 \. ./kc/bootstrap/V1701_011__RESKC-1441_credit_split.sql
 \. ./kc/bootstrap/V1701_012__RESKC-1972_award_post_comment.sql
 \. ./kc/bootstrap/V1701_014__costShareAccountTable.sql
+\. ./kc/bootstrap/V1701_015__costShareAccountTable.sql
 commit;
