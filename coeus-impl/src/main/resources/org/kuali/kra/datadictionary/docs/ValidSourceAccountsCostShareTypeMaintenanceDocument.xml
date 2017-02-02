@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+ <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ValidSourceAccountsCostShareTypeMaintenanceDocument" parent="ValidSourceAccountsCostShareTypeMaintenanceDocument-parentBean"/>
+	<bean id="ValidSourceAccountsCostShareTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.ValidSourceAccountsCostShareType"/>
+		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+		<property name="maintainableSections">
+			<list>
+				<ref bean="ValidSourceAccountsCostShareTypeMaintenanceDocument-EditValidSourceAccountsCostShareType"/>
+                <ref bean="ValidSourceAccountsCostShareTypeMaintenanceDocument-EditActive"/>
+            </list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+                <value>costShareTypeCode</value>
+                <value>sourceAccountCode</value>
+			</list>
+		</property>
+		<property name="allowsRecordDeletion" value="true" />
+
+        <property name="documentTypeName" value="ValidSourceAccountsCostShareTypeMaintenanceDocument"/>
+        <property name="businessRulesClass" value="org.kuali.coeus.common.budget.framework.core.ValidSourceAccountsCostShareTypeMaintenanceRule"/>
+        <property name="documentAuthorizerClass" value="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccountDocumentAuthorizer"/>
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+	
+	<bean id="ValidSourceAccountsCostShareTypeMaintenanceDocument-EditValidSourceAccountsCostShareType" parent="ValidSourceAccountsCostShareTypeMaintenanceDocument-EditValidSourceAccountsCostShareType-parentBean"/>
+	<bean id="ValidSourceAccountsCostShareTypeMaintenanceDocument-EditValidSourceAccountsCostShareType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Valid Source Accounts Cost Share Type"/>
+		<property name="title" value="Edit Valid Source Accounts Cost Share Type"/>
+		<property name="maintainableItems">
+			<list>
+                <bean parent="MaintainableFieldDefinition" p:name="costShareTypeCode" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="sourceAccountCode" p:required="true"/>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="ValidSourceAccountsCostShareTypeMaintenanceDocument-EditActive" parent="ValidSourceAccountsCostShareTypeMaintenanceDocument-EditActive-parentBean"/>
+    <bean id="ValidSourceAccountsCostShareTypeMaintenanceDocument-EditActive-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Active Flag"/>
+        <property name="title" value="Edit Active Flag"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+            </list>
+        </property>
+    </bean>
+</beans>

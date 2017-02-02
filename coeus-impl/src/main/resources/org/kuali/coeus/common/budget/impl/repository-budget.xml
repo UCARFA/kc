@@ -572,6 +572,24 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     </class-descriptor>
 
+    <class-descriptor class="org.kuali.coeus.common.budget.framework.core.ValidSourceAccountsCostShareType" table="VAL_SRC_ACNTS_COST_TYP">
+        <field-descriptor name="code" column="CODE" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_VAL_SRC_ACNTS_COST_ID" />
+        <field-descriptor name="costShareTypeCode" column="COST_SHARE_TYPE_CODE" jdbc-type="INTEGER"/>
+        <field-descriptor name="sourceAccountCode" column="SOURCE_ACCOUNT_CODE" jdbc-type="BIGINT"/>
+        <field-descriptor name="active" column="ACTIVE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+
+        <reference-descriptor name="costShareType" class-ref="org.kuali.kra.bo.CostShareType" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="costShareTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="costShareSourceAccount" class-ref="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="sourceAccountCode"/>
+        </reference-descriptor>
+    </class-descriptor>
+
 	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.BudgetRate" table="EPS_PROP_RATES">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" /> 	
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR" primarykey="true"/>

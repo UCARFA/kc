@@ -49,10 +49,10 @@
         <property name="shortLabel" value="Source account code" />
         <property name="maxLength" value="12" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
+            <bean parent="IntegerValidationPattern" p:allowNegative="true"/>
         </property>
         <property name="validCharactersConstraint">
-            <bean parent="NumericPatternConstraint"/>
+            <bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition" p:size="12"/>
@@ -161,7 +161,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Disclosure-GridSection">
-                    <property name="headerText" value="Abstract Type"/>
+                    <property name="headerText" value="Cost Share Source Account"/>
                     <property name="layoutManager.numberOfColumns" value="2"/>
                     <property name="items">
                         <list>

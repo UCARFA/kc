@@ -249,6 +249,8 @@
                 <value>classpath:org/kuali/coeus/common/budget/impl/core/CostElement.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CostShareSourceAccount.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/CostShareSourceAccountMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/ValidSourceAccountsCostShareType.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/docs/ValidSourceAccountsCostShareTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CostShareType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/custom/attr/CustomAttribute.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/custom/attr/CustomAttributeDataType.xml</value>

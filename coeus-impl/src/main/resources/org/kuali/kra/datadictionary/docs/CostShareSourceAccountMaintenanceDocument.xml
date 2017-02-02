@@ -44,8 +44,8 @@
 	
 	<bean id="CostShareSourceAccountMaintenanceDocument-EditCostShareSourceAccount" parent="CostShareSourceAccountMaintenanceDocument-EditCostShareSourceAccount-parentBean"/>
 	<bean id="CostShareSourceAccountMaintenanceDocument-EditCostShareSourceAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Account Type"/>
-		<property name="title" value="Edit Account Type"/>
+		<property name="id" value="Edit Cost Share Type"/>
+		<property name="title" value="Edit Cost Share Type"/>
 		<property name="maintainableItems">
 			<list>
                 <bean parent="MaintainableFieldDefinition" p:name="sourceAccountNumber" p:required="true"/>
