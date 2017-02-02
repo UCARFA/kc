@@ -31,4 +31,5 @@ spool 1701_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1701_012__RESKC-1972_award_post_comment.sql
 @./kc/bootstrap/V1701_014__costShareAccountTable.sql
 @./kc/bootstrap/V1701_015__costShareAccountTable.sql
+@./kc/bootstrap/V1701_016__costShareTypeSourceAccountTable.sql
 commit;

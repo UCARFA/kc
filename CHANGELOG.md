@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1869: Valid cost share type source account maintenance document. (#2184)
+
+  * Gayathri Athreya on Thu, 2 Feb 2017 09:20:43 -0700 [View Commit](../../commit/4e4c3e41c70bef6d9d555f00479fd3ef9b117edc)
+
+##coeus-1702.0001
 * RESKC-1990: Changing size and name of source account field. (#2183)
 
   * Gayathri Athreya on Tue, 31 Jan 2017 15:30:11 -0700 [View Commit](../../commit/abf5203506f04bd0cb20a7efa322e17206569574)
