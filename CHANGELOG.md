@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1970: Adding a parameter for validation message type. (#2187)
+
+  * Gayathri Athreya on Fri, 3 Feb 2017 14:56:09 -0700 [View Commit](../../commit/c10a8fb9abd72df5a0b9eaf0aa5bffe0cb8a39b6)
+
+##coeus-1702.0005
 * RESKC-1984: Fixes to cost share type feature, (#2186)
 
   * Gayathri Athreya on Fri, 3 Feb 2017 11:10:30 -0700 [View Commit](../../commit/7c863f243aa303121efb39dbf4aea4dfd2b0d02e)

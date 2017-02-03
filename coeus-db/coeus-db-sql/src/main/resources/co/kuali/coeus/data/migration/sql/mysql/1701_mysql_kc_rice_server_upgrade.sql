@@ -24,4 +24,5 @@
 \. ./rice/bootstrap/V1701_009__cost_share_type_flag_rename.sql
 \. ./rice/bootstrap/V1701_013__cost_share_account.sql
 \. ./rice/bootstrap/V1701_018__cost_share_account_perms.sql
+\. ./rice/bootstrap/V1701_019__cost_share_validation_flag.sql
 commit;
