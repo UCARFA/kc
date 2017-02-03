@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1984: Fixes to cost share type feature, (#2186)
+
+  * Gayathri Athreya on Fri, 3 Feb 2017 11:10:30 -0700 [View Commit](../../commit/7c863f243aa303121efb39dbf4aea4dfd2b0d02e)
+
+##coeus-1702.0004
 * No Changes
 
 
