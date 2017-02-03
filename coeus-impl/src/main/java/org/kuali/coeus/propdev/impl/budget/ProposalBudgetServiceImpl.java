@@ -461,24 +461,33 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
 
     public void validateCostShare(ProposalDevelopmentBudgetExt budget) {
         if(isCostShareTypeEnabled()) {
+            String validationMessageType = getValidationMessageType();
             budget.getBudgetCostShares().stream().forEach(budgetCostShare -> {
                 if (Objects.isNull(budgetCostShare.getSourceAccount())) {
-                    globalVariableService.getMessageMap().putError(SOURCE_ACCOUNT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING);
+                    addValidationMessage(validationMessageType, SOURCE_ACCOUNT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING);
                 }
                 if (Objects.isNull(budgetCostShare.getUnit())) {
-                    globalVariableService.getMessageMap().putError(UNIT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_UNIT_MISSING);
+                    addValidationMessage(validationMessageType, UNIT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_UNIT_MISSING);
                 }
                 if (Objects.isNull(budgetCostShare.getCostShareTypeCode())) {
-                    globalVariableService.getMessageMap().putError(COST_SHARE_TYPE, KeyConstants.ERROR_BUDGET_DISTRIBUTION_COST_SHARE_TYPE_MISSING);
+                    addValidationMessage(validationMessageType, COST_SHARE_TYPE, KeyConstants.ERROR_BUDGET_DISTRIBUTION_COST_SHARE_TYPE_MISSING);
                 }
                 if (!Objects.isNull(budgetCostShare.getSourceAccount())) {
                     Map<String, Object> fieldValues = new HashMap<>();
                     fieldValues.put(ACCOUNT_NUMBER, budgetCostShare.getSourceAccount());
                     if(getBusinessObjectService().countMatching(Account.class, fieldValues) == 0) {
-                        globalVariableService.getMessageMap().putError(SOURCE_ACCOUNT, KeyConstants.INVALID_SOURCE_ACCOUNT, budgetCostShare.getSourceAccount());
+                        addValidationMessage(validationMessageType, SOURCE_ACCOUNT, KeyConstants.INVALID_SOURCE_ACCOUNT, budgetCostShare.getSourceAccount());
                     }
                 }
             });
+        }
+    }
+
+    public void addValidationMessage(String validationMessageType, String field, String errorMessageKey, String... errorParameters) {
+        if (StringUtils.equalsIgnoreCase(Constants.VALIDATION_MESSAGE_ERROR, validationMessageType)) {
+            globalVariableService.getMessageMap().putError(field, errorMessageKey, errorParameters);
+        } else if (StringUtils.equalsIgnoreCase(Constants.VALIDATION_MESSAGE_WARNING, validationMessageType)) {
+            globalVariableService.getMessageMap().putWarning(field, errorMessageKey, errorParameters);
         }
     }
 
@@ -486,6 +495,12 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 ParameterConstants.ALL_COMPONENT,
                 Constants.ENABLE_COST_SHARE_ACCOUNT_VALIDATION);
+    }
+
+    public String getValidationMessageType() {
+        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.COST_SHARE_ACCOUNT_VALIDATION_MESSAGE_FLAG);
     }
 
     public void setPropDevBudgetSubAwardService(PropDevBudgetSubAwardService propDevBudgetSubAwardService) {
