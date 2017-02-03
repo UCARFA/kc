@@ -19,13 +19,13 @@
  -->
  <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="CostShareSourceAccountMaintenanceDocument" parent="CostShareSourceAccountMaintenanceDocument-parentBean"/>
-	<bean id="CostShareSourceAccountMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccount"/>
+	<bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean"/>
+	<bean id="AccountMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.Account"/>
 		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>
-				<ref bean="CostShareSourceAccountMaintenanceDocument-EditCostShareSourceAccount"/>
+				<ref bean="AccountMaintenanceDocument-EditAccount"/>
 			</list>
 		</property>
 		<property name="lockingKeys">
@@ -35,20 +35,20 @@
 		</property>
 		<property name="allowsRecordDeletion" value="true" />
 
-        <property name="documentTypeName" value="CostShareSourceAccountMaintenanceDocument"/>
-        <property name="businessRulesClass" value="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccountDocumentMaintenanceRule"/>
-        <property name="documentAuthorizerClass" value="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccountDocumentAuthorizer"/>
+        <property name="documentTypeName" value="AccountMaintenanceDocument"/>
+        <property name="businessRulesClass" value="org.kuali.coeus.common.budget.framework.core.AccountDocumentMaintenanceRule"/>
+        <property name="documentAuthorizerClass" value="org.kuali.coeus.common.budget.framework.core.AccountDocumentAuthorizer"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
 	
-	<bean id="CostShareSourceAccountMaintenanceDocument-EditCostShareSourceAccount" parent="CostShareSourceAccountMaintenanceDocument-EditCostShareSourceAccount-parentBean"/>
-	<bean id="CostShareSourceAccountMaintenanceDocument-EditCostShareSourceAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+	<bean id="AccountMaintenanceDocument-EditAccount" parent="AccountMaintenanceDocument-EditAccount-parentBean"/>
+	<bean id="AccountMaintenanceDocument-EditAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="Edit Cost Share Type"/>
 		<property name="title" value="Edit Cost Share Type"/>
 		<property name="maintainableItems">
 			<list>
-                <bean parent="MaintainableFieldDefinition" p:name="sourceAccountNumber" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
 			</list>
 		</property>

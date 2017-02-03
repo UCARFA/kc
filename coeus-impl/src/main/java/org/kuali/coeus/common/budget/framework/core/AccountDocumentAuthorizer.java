@@ -28,8 +28,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CostShareSourceAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
-    public static final String PERMISSION_MAINTAIN_COST_SHARE_SOURCE_ACCOUNT = "Create Cost Share Source Account Document";
+public class AccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
+    public static final String PERMISSION_MAINTAIN_ACCOUNT = "Create Account Document";
     public static final String KC_SYS = "KC-SYS";
 
 
@@ -38,7 +38,7 @@ public class CostShareSourceAccountDocumentAuthorizer extends MaintenanceDocumen
         Map<String, String> permissionDetails = new HashMap<>();
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
 
-        boolean retVal = getPermissionService().isAuthorized(user.getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PERMISSION_MAINTAIN_COST_SHARE_SOURCE_ACCOUNT, permissionDetails);
+        boolean retVal = getPermissionService().isAuthorized(user.getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PERMISSION_MAINTAIN_ACCOUNT, permissionDetails);
         return retVal;
     }
 

@@ -21,7 +21,7 @@
     <bean id="ValidSourceAccountsCostShareType" parent="ValidSourceAccountsCostShareType-parentBean" />
     <bean id="ValidSourceAccountsCostShareType-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.ValidSourceAccountsCostShareType" />
-        <property name="objectLabel" value="Cost Share Source Account" />
+        <property name="objectLabel" value="Account" />
         <property name="inquiryDefinition" >
             <ref bean="ValidSourceAccountsCostShareType-inquiryDefinition" />
         </property>
@@ -46,8 +46,8 @@
     <bean id="ValidSourceAccountsCostShareType-code-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="code" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Source account code" />
-        <property name="shortLabel" value="Source account code" />
+        <property name="label" value="Valid source accounts cost share type code" />
+        <property name="shortLabel" value="Valid source accounts cost share type code" />
         <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -61,8 +61,8 @@
         <property name="controlField">
             <bean p:size="12" parent="Uif-TextControl"/>
         </property>
-        <property name="summary" value="Source account code" />
-        <property name="description" value="Source account code" />
+        <property name="summary" value="Valid source accounts cost share type code" />
+        <property name="description" value="Valid source accounts cost share type code" />
     </bean>
 
     <bean id="ValidSourceAccountsCostShareType-costShareTypeCode" parent="ValidSourceAccountsCostShareType-costShareTypeCode-parentBean" />

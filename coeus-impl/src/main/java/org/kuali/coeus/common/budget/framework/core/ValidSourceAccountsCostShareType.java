@@ -28,7 +28,7 @@ public class ValidSourceAccountsCostShareType extends KcPersistableBusinessObjec
     private Integer costShareTypeCode;
     private Long sourceAccountCode;
     private CostShareType costShareType;
-    private CostShareSourceAccount costShareSourceAccount;
+    private Account account;
     private Boolean active = Boolean.TRUE;
 
     public Long getCode() {
@@ -63,12 +63,12 @@ public class ValidSourceAccountsCostShareType extends KcPersistableBusinessObjec
         this.costShareType = costShareType;
     }
 
-    public CostShareSourceAccount getCostShareSourceAccount() {
-        return costShareSourceAccount;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setCostShareSourceAccount(CostShareSourceAccount costShareSourceAccount) {
-        this.costShareSourceAccount = costShareSourceAccount;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Boolean getActive() {

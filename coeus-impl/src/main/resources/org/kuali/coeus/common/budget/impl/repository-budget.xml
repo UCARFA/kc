@@ -378,20 +378,13 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<!--		
-		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="budgetId"/> 
-		</reference-descriptor>
-		-->
 		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount" table="BUDGET_PERSONNEL_CAL_AMTS">
 		<field-descriptor name="budgetPersonnelCalculatedAmountId" column="BUDGET_PERSONNEL_CAL_AMTS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_PER_CAL_AMTS_ID"/> 	
-
-		<!--<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_NUMBER" jdbc-type="BIGINT"/>-->
-		<field-descriptor name="budgetPersonnelLineItemId" column="BUDGET_PERSONNEL_DETAILS_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="budgetPersonnelLineItemId" column="BUDGET_PERSONNEL_DETAILS_ID" jdbc-type="BIGINT"/>
 
 		<field-descriptor name="lineItemNumber" column="LINE_ITEM_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="personNumber" column="PERSON_NUMBER" jdbc-type="INTEGER"/>
@@ -562,9 +555,9 @@
 		</reference-descriptor>
 	</class-descriptor>
 
-    <class-descriptor class="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccount" table="COST_SHARE_SOURCE_ACCOUNT">
-        <field-descriptor name="code" column="CODE" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_COST_SHARE_ACCOUNT_ID" />
-        <field-descriptor name="sourceAccountNumber" column="SOURCE_ACCOUNT_NUMBER" jdbc-type="VARCHAR" />
+    <class-descriptor class="org.kuali.coeus.common.budget.framework.core.Account" table="ACCOUNT">
+        <field-descriptor name="code" column="CODE" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_ACCOUNT_ID" />
+        <field-descriptor name="accountNumber" column="ACCOUNT_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -585,7 +578,7 @@
         <reference-descriptor name="costShareType" class-ref="org.kuali.kra.bo.CostShareType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="costShareTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="costShareSourceAccount" class-ref="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="account" class-ref="org.kuali.coeus.common.budget.framework.core.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="sourceAccountCode"/>
         </reference-descriptor>
     </class-descriptor>
@@ -706,7 +699,6 @@
 		<field-descriptor id="1" name="code" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="rateClassTypeCode" column="RATE_CLASS_TYPE" jdbc-type="CHAR"/>
-<!--		<field-descriptor name="icrTypeCode" column="ICR_TYPE_CODE" jdbc-type="VARCHAR" />-->
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
@@ -733,10 +725,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<!-- <collection-descriptor name="ValidCeRateTypes" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.rate.ValidCeRateType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none">
-			<inverse-foreignkey field-ref="rateClassCode"/>
-			<inverse-foreignkey field-ref="rateTypeCode"/>
-		</collection-descriptor> -->
+
 		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
@@ -823,7 +812,6 @@
 		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" primarykey="true"/>
-
 		<field-descriptor name="applicableRate" column="APPLICABLE_RATE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>
 		<field-descriptor name="instituteRate" column="INSTITUTE_RATE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -837,12 +825,8 @@
 		<reference-descriptor name="rateType" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
-		</reference-descriptor><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
-
-	--></class-descriptor>
+    </class-descriptor>
 	
 	<class-descriptor class="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails" table="BUDGET_PERSONNEL_DETAILS">
 		<field-descriptor name="budgetPersonnelLineItemId" column="BUDGET_PERSONNEL_DETAILS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_PER_DET_ID"/> 	
@@ -919,10 +903,7 @@
     	
     	<collection-descriptor name="budgetModularIdcs" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
     		<inverse-foreignkey field-ref="budgetPeriodId"/>
-		</collection-descriptor><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="budgetId"/> 
-		</reference-descriptor>
+		</collection-descriptor>
 
 	--></class-descriptor>
 	
@@ -966,10 +947,10 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
+
 	<class-descriptor class="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards" table="BUDGET_SUB_AWARDS">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" /> 	
 		<field-descriptor name="subAwardNumber" column="SUB_AWARD_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
-
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="subAwardStatusCode" column="SUB_AWARD_STATUS_CODE" jdbc-type="INTEGER"/>

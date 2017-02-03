@@ -18,22 +18,22 @@
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="CostShareSourceAccount" parent="CostShareSourceAccount-parentBean" />
-    <bean id="CostShareSourceAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccount" />
-        <property name="objectLabel" value="Cost Share Source Account" />
+    <bean id="Account" parent="Account-parentBean" />
+    <bean id="Account-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.Account" />
+        <property name="objectLabel" value="Account" />
         <property name="inquiryDefinition" >
-            <ref bean="CostShareSourceAccount-inquiryDefinition" />
+            <ref bean="Account-inquiryDefinition" />
         </property>
         <property name="lookupDefinition" >
-            <ref bean="CostShareSourceAccount-lookupDefinition" />
+            <ref bean="Account-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="costShareSourceAccount" />
+        <property name="titleAttribute" value="Account" />
         <property name="attributes" >
             <list>
-                <ref bean="CostShareSourceAccount-code" />
-                <ref bean="CostShareSourceAccount-sourceAccountNumber" />
-                <ref bean="CostShareSourceAccount-description" />
+                <ref bean="Account-code" />
+                <ref bean="Account-accountNumber" />
+                <ref bean="Account-description" />
             </list>
         </property>
     </bean>
@@ -41,12 +41,12 @@
     <!-- Attribute Definitions -->
 
 
-    <bean id="CostShareSourceAccount-code" parent="CostShareSourceAccount-code-parentBean" />
-    <bean id="CostShareSourceAccount-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="Account-code" parent="Account-code-parentBean" />
+    <bean id="Account-code-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="code" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Source account code" />
-        <property name="shortLabel" value="Source account code" />
+        <property name="label" value="Account code" />
+        <property name="shortLabel" value="Account code" />
         <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="IntegerValidationPattern" p:allowNegative="true"/>
@@ -60,16 +60,16 @@
         <property name="controlField">
             <bean p:size="12" parent="Uif-TextControl"/>
         </property>
-        <property name="summary" value="Source account code" />
-        <property name="description" value="Source account code" />
+        <property name="summary" value="Account code" />
+        <property name="description" value="Account code" />
     </bean>
 
-    <bean id="CostShareSourceAccount-sourceAccountNumber" parent="CostShareSourceAccount-sourceAccountNumber-parentBean" />
-    <bean id="CostShareSourceAccount-sourceAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="sourceAccountNumber" />
+    <bean id="Account-accountNumber" parent="Account-accountNumber-parentBean" />
+    <bean id="Account-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="accountNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Source account number" />
-        <property name="shortLabel" value="Source account number" />
+        <property name="label" value="Account number" />
+        <property name="shortLabel" value="Account number" />
         <property name="maxLength" value="16" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern">
@@ -91,17 +91,17 @@
         <property name="controlField">
             <bean p:size="16" parent="Uif-TextControl"/>
         </property>
-        <property name="summary" value="Source account number" />
-        <property name="description" value="Source account number" />
+        <property name="summary" value="Account number" />
+        <property name="description" value="Account number" />
     </bean>
 
-    <bean id="CostShareSourceAccount-description" parent="CostShareSourceAccount-description-parentBean" />
-    <bean id="CostShareSourceAccount-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="Account-description" parent="Account-description-parentBean" />
+    <bean id="Account-description-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="description" />
         <property name="forceUppercase" value="false" />
         <property name="required" value="false" />
-        <property name="label" value="Source account description" />
-        <property name="shortLabel" value="Source account description" />
+        <property name="label" value="Account description" />
+        <property name="shortLabel" value="Account description" />
         <property name="maxLength" value="200" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern">
@@ -125,28 +125,28 @@
         <property name="controlField">
             <bean p:size="200" parent="Uif-TextControl"/>
         </property>
-        <property name="summary" value="Source account description" />
-        <property name="description" value="Source account description" />
+        <property name="summary" value="Account description" />
+        <property name="description" value="Account description" />
     </bean>
 
 
-    <bean id="CostShareSourceAccount-versionNumber" parent="CostShareSourceAccount-versionNumber-parentBean" />
-    <bean id="CostShareSourceAccount-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+    <bean id="Account-versionNumber" parent="Account-versionNumber-parentBean" />
+    <bean id="Account-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 
     <!-- Business Object Inquiry Definition -->
-    <bean id="CostShareSourceAccount-inquiryDefinition" parent="CostShareSourceAccount-inquiryDefinition-parentBean" />
-    <bean id="CostShareSourceAccount-InquiryView" parent="CostShareSourceAccount-InquiryView-parentBean"/>
-    <bean id="CostShareSourceAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Cost Share Source Account" />
+    <bean id="Account-inquiryDefinition" parent="Account-inquiryDefinition-parentBean" />
+    <bean id="Account-InquiryView" parent="Account-InquiryView-parentBean"/>
+    <bean id="Account-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Account" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Cost Share Source Account" />
+                    <property name="title" value="Account" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
-                            <bean parent="FieldDefinition" p:attributeName="sourceAccountNumber" p:forceInquiry="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="accountNumber" p:forceInquiry="true"/>
                             <bean parent="FieldDefinition" p:attributeName="description"/>
                         </list>
                     </property>
@@ -155,18 +155,18 @@
         </property>
     </bean>
 
-    <bean id="CostShareSourceAccount-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
-        <property name="headerText" value="Cost Share Source Account"/>
-        <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccount"/>
+    <bean id="Account-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+        <property name="headerText" value="Account"/>
+        <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.Account"/>
         <property name="items">
             <list>
                 <bean parent="Uif-Disclosure-GridSection">
-                    <property name="headerText" value="Cost Share Source Account"/>
+                    <property name="headerText" value="Account"/>
                     <property name="layoutManager.numberOfColumns" value="2"/>
                     <property name="items">
                         <list>
                             <bean p:propertyName="code" parent="Uif-DataField"/>
-                            <bean p:propertyName="sourceAccountNumber" parent="Uif-DataField"/>
+                            <bean p:propertyName="accountNumber" parent="Uif-DataField"/>
                             <bean p:propertyName="description" parent="Uif-DataField"/>
                         </list>
                     </property>
@@ -176,42 +176,42 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
-    <bean id="CostShareSourceAccount-lookupDefinition" parent="CostShareSourceAccount-lookupDefinition-parentBean" />
-    <bean id="CostShareSourceAccount-LookupView" parent="CostShareSourceAccount-LookupView-parentBean"/>
-    <bean id="CostShareSourceAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Cost Share Source Account Lookup" /><property name="defaultSort" >
+    <bean id="Account-lookupDefinition" parent="Account-lookupDefinition-parentBean" />
+    <bean id="Account-LookupView" parent="Account-LookupView-parentBean"/>
+    <bean id="Account-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Account Lookup" /><property name="defaultSort" >
         <bean parent="SortDefinition"/>
     </property>
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition" p:attributeName="code"/>
-                <bean parent="FieldDefinition" p:attributeName="sourceAccountNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="description"/>
             </list>
         </property>
         <property name="resultFields">
             <list>
                 <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
-                <bean parent="FieldDefinition" p:attributeName="sourceAccountNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="description"/>
             </list>
         </property>
     </bean>
 
-    <bean id="CostShareSourceAccount-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-        <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccount"/>
-        <property name="headerText" value="Cost Share Source Account Lookup"/>
+    <bean id="Account-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+        <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.Account"/>
+        <property name="headerText" value="Account Lookup"/>
         <property name="criteriaFields">
             <list>
                 <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
-                <bean p:propertyName="sourceAccountNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="accountNumber" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
                 <bean p:propertyName="code" parent="Uif-DataField"/>
-                <bean p:propertyName="sourceAccountNumber" parent="Uif-DataField"/>
+                <bean p:propertyName="accountNumber" parent="Uif-DataField"/>
                 <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
         </property>

@@ -66,6 +66,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public static final String UNIT = "unit";
     private static final String COST_SHARE_TYPE = "costShareType";
     public static final String CODE = "code";
+    public static final String ACCOUNT_NUMBER = "accountNumber";
 
     @Autowired
     @Qualifier("budgetCalculationService")
@@ -472,9 +473,9 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
                 }
                 if (!Objects.isNull(budgetCostShare.getSourceAccount())) {
                     Map<String, Object> fieldValues = new HashMap<>();
-                    fieldValues.put(CODE, budgetCostShare.getSourceAccount());
-                    if(getBusinessObjectService().countMatching(CostShareSourceAccount.class, fieldValues) == 0) {
-                        globalVariableService.getMessageMap().putError(COST_SHARE_TYPE, KeyConstants.INVALID_SOURCE_ACCOUNT, budgetCostShare.getSourceAccount());
+                    fieldValues.put(ACCOUNT_NUMBER, budgetCostShare.getSourceAccount());
+                    if(getBusinessObjectService().countMatching(Account.class, fieldValues) == 0) {
+                        globalVariableService.getMessageMap().putError(SOURCE_ACCOUNT, KeyConstants.INVALID_SOURCE_ACCOUNT, budgetCostShare.getSourceAccount());
                     }
                 }
             });

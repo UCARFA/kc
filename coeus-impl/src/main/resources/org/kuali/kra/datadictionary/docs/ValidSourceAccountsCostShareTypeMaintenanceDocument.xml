@@ -39,7 +39,7 @@
 
         <property name="documentTypeName" value="ValidSourceAccountsCostShareTypeMaintenanceDocument"/>
         <property name="businessRulesClass" value="org.kuali.coeus.common.budget.framework.core.ValidSourceAccountsCostShareTypeMaintenanceRule"/>
-        <property name="documentAuthorizerClass" value="org.kuali.coeus.common.budget.framework.core.CostShareSourceAccountDocumentAuthorizer"/>
+        <property name="documentAuthorizerClass" value="org.kuali.coeus.common.budget.framework.core.AccountDocumentAuthorizer"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

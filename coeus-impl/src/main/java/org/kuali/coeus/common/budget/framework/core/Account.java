@@ -21,10 +21,10 @@ package org.kuali.coeus.common.budget.framework.core;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class CostShareSourceAccount extends KcPersistableBusinessObjectBase {
+public class Account extends KcPersistableBusinessObjectBase {
 
     private Long code;
-    private String sourceAccountNumber;
+    private String accountNumber;
     private String description;
 
     public Long getCode() {
@@ -35,12 +35,12 @@ public class CostShareSourceAccount extends KcPersistableBusinessObjectBase {
         this.code = code;
     }
 
-    public String getSourceAccountNumber() {
-        return sourceAccountNumber;
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setSourceAccountNumber(String sourceAccountNumber) {
-        this.sourceAccountNumber = sourceAccountNumber;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public String getDescription() {

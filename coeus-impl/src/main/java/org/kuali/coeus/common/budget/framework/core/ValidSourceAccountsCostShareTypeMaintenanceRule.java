@@ -48,7 +48,7 @@ public class ValidSourceAccountsCostShareTypeMaintenanceRule extends KcMaintenan
         ValidSourceAccountsCostShareType validSourceAccountsCostShareType = (ValidSourceAccountsCostShareType) document.getDocumentBusinessObject();
         Map<String, Object> pk = new HashMap<>();
         pk.put(CODE, validSourceAccountsCostShareType.getSourceAccountCode());
-        valid &= checkExistenceFromTable(CostShareSourceAccount.class, pk, SOURCE_ACCOUNT_CODE, SOURCE_ACCOUNT_CODE_FIELD);
+        valid &= checkExistenceFromTable(Account.class, pk, SOURCE_ACCOUNT_CODE, SOURCE_ACCOUNT_CODE_FIELD);
         pk = new HashMap<>();
         pk.put(COST_SHARE_TYPE_CODE, validSourceAccountsCostShareType.getCostShareTypeCode());
         valid &= checkExistenceFromTable(CostShareType.class, pk, COST_SHARE_TYPE_CODE, COST_SHARE_TYPE_CODE_FIELD);
