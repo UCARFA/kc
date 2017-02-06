@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* set markdown-it-anchor to specific version to avoid error caused by upgrade
+  * blackcathacker on Sun, 5 Feb 2017 17:16:02 -0800 [View Commit](../../commit/ab6f8ba32ca2d3c2796f48cefe432cba674e5daf)
+* RESKC-1936 & RESKC-2000: upgrade s2s version
+  * Terry Durkin on Sun, 5 Feb 2017 08:00:03 -0500 [View Commit](../../commit/e8615cecbdf60ded466aa94e4c86d2d6c07bcf35)
+
+##coeus-1702.0006
 * RESKC-1970: Adding a parameter for validation message type. (#2187)
 
   * Gayathri Athreya on Fri, 3 Feb 2017 14:56:09 -0700 [View Commit](../../commit/c10a8fb9abd72df5a0b9eaf0aa5bffe0cb8a39b6)
