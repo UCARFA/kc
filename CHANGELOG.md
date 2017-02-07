@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1881: Adding cost share elements to IP feed (#2189)
+
+  * Gayathri Athreya on Tue, 7 Feb 2017 08:17:47 -0700 [View Commit](../../commit/9b5b674cd4c87760e1fe69f2b0b9b801109220bc)
+
+##coeus-1702.0007
 * set markdown-it-anchor to specific version to avoid error caused by upgrade
   * blackcathacker on Sun, 5 Feb 2017 17:16:02 -0800 [View Commit](../../commit/ab6f8ba32ca2d3c2796f48cefe432cba674e5daf)
 * RESKC-1936 & RESKC-2000: upgrade s2s version
