@@ -24,6 +24,10 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.coi.framework.Project;
 import org.kuali.coeus.coi.framework.ProjectPublisher;
 import org.kuali.coeus.coi.framework.ProjectRetrievalService;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
@@ -31,23 +35,24 @@ import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.VersioningService;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalTypeService;
+import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
-import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
-import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
-import org.kuali.kra.institutionalproposal.contacts.*;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnitCreditSplit;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.dao.InstitutionalProposalDao;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
@@ -60,7 +65,6 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -660,12 +664,17 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             institutionalProposal.setTotalDirectCostTotal(new ScaleTwoDecimal(budget.getTotalDirectCost().bigDecimalValue()));
             institutionalProposal.setTotalIndirectCostTotal(new ScaleTwoDecimal(budget.getTotalIndirectCost().bigDecimalValue()));
         }
-        
+
         // Cost Shares (from Budget)
+        final boolean costShareTypeEnabled = isCostShareTypeEnabled();
         institutionalProposal.getInstitutionalProposalCostShares().clear();
         for (BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
             InstitutionalProposalCostShare ipCostShare = new InstitutionalProposalCostShare();
-            ipCostShare.setCostShareTypeCode(getDefaultCostShareTypeCode());
+            ipCostShare.setCostShareTypeCode(costShareTypeEnabled ? budgetCostShare.getCostShareTypeCode() : DEFAULT_COST_SHARE_TYPE_CODE);
+            if (costShareTypeEnabled) {
+                ProposalDevelopmentBudgetExt budgetExt = (ProposalDevelopmentBudgetExt) budgetCostShare.getBudget();
+                institutionalProposal.getCostShareComment().setComments(budgetExt.getCostShareComment());
+            }
             ipCostShare.setAmount(new ScaleTwoDecimal(budgetCostShare.getShareAmount().bigDecimalValue()));
             ipCostShare.setCostSharePercentage(new ScaleTwoDecimal(budgetCostShare.getSharePercentage().bigDecimalValue()));
             ipCostShare.setProjectPeriod(budgetCostShare.getProjectPeriod().toString());
@@ -702,12 +711,12 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     protected Integer getWithdrawnStatusCode() {
         return WITHDRAWN_STATUS_CODE;
     }
-    
-    protected Integer getDefaultCostShareTypeCode() {
-        return DEFAULT_COST_SHARE_TYPE_CODE;
+
+    protected boolean isCostShareTypeEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.ENABLE_COST_SHARE_ACCOUNT_VALIDATION);
     }
-    
-    
     @Override
     public InstitutionalProposalDocument createAndSaveNewVersion(InstitutionalProposal currentInstitutionalProposal, 
             InstitutionalProposalDocument currentInstitutionalProposalDocument) throws VersionException, 
