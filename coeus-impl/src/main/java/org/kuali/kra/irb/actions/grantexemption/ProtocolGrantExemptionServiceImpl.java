@@ -33,6 +33,7 @@ import java.sql.Timestamp;
  */
 public class ProtocolGrantExemptionServiceImpl implements ProtocolGrantExemptionService {
 
+    public static final String PROTOCOL_STATUS = "protocolStatus";
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
@@ -73,11 +74,11 @@ public class ProtocolGrantExemptionServiceImpl implements ProtocolGrantExemption
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocolAction.setSubmissionIdFk(protocol.getLastProtocolAction().getSubmissionIdFk());
         protocolAction.setSubmissionNumber(protocol.getLastProtocolAction().getSubmissionNumber());
+        protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
-        protocol.setApprovalDate(actionBean.getApprovalDate());
-        protocol.refreshReferenceObject("protocolStatus");
+        protocol.refreshReferenceObject(PROTOCOL_STATUS);
         protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
     }
 }
