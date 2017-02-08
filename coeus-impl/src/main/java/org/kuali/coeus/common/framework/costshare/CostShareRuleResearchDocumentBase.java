@@ -120,11 +120,9 @@ public abstract class CostShareRuleResearchDocumentBase extends KcTransactionalD
     public boolean validateUnit(String unitNumber, String field) {
         if (unitNumber != null) {
             if (getUnitRepositoryService().findUnitByUnitNumber(unitNumber) == null) {
-                this.reportError(field, KeyConstants.ERROR_UNIT_INVALID, unitNumber);
-                return false;
+                this.reportWarning(field, KeyConstants.ERROR_UNIT_INVALID, unitNumber);
             }
         }
-
         return true;
     }
 

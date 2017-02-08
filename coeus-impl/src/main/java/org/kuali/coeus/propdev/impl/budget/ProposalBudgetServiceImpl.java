@@ -20,8 +20,10 @@ package org.kuali.coeus.propdev.impl.budget;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.api.unit.UnitRepositoryService;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.*;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
@@ -104,6 +106,9 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     @Qualifier("parameterService")
     private ParameterService parameterService;
 
+    @Autowired
+    @Qualifier("unitRepositoryService")
+    private UnitRepositoryService unitRepositoryService;
 
     @Override
     public ProposalDevelopmentBudgetExt getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String budgetName, Map<String, Object> options){
@@ -459,36 +464,57 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         return propDevBudgetSubAwardService;
     }
 
-    public void validateCostShare(ProposalDevelopmentBudgetExt budget) {
+    public boolean validateCostShare(ProposalDevelopmentBudgetExt budget) {
+        boolean valid = Boolean.TRUE;
+        for(BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
+            if (budgetCostShare.getUnitNumber() != null) {
+                valid &= validateUnit(budgetCostShare.getUnitNumber(), "unitNumber");
+            }
+        }
+
         if(isCostShareTypeEnabled()) {
             String validationMessageType = getValidationMessageType();
-            budget.getBudgetCostShares().stream().forEach(budgetCostShare -> {
+            for(BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
                 if (Objects.isNull(budgetCostShare.getSourceAccount())) {
-                    addValidationMessage(validationMessageType, SOURCE_ACCOUNT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING);
+                    valid &= addValidationMessage(validationMessageType, SOURCE_ACCOUNT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING);
                 }
                 if (Objects.isNull(budgetCostShare.getUnit())) {
-                    addValidationMessage(validationMessageType, UNIT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_UNIT_MISSING);
+                    valid &= addValidationMessage(validationMessageType, UNIT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_UNIT_MISSING);
                 }
                 if (Objects.isNull(budgetCostShare.getCostShareTypeCode())) {
-                    addValidationMessage(validationMessageType, COST_SHARE_TYPE, KeyConstants.ERROR_BUDGET_DISTRIBUTION_COST_SHARE_TYPE_MISSING);
+                    valid &= addValidationMessage(validationMessageType, COST_SHARE_TYPE, KeyConstants.ERROR_BUDGET_DISTRIBUTION_COST_SHARE_TYPE_MISSING);
                 }
                 if (!Objects.isNull(budgetCostShare.getSourceAccount())) {
                     Map<String, Object> fieldValues = new HashMap<>();
                     fieldValues.put(ACCOUNT_NUMBER, budgetCostShare.getSourceAccount());
                     if(getBusinessObjectService().countMatching(Account.class, fieldValues) == 0) {
-                        addValidationMessage(validationMessageType, SOURCE_ACCOUNT, KeyConstants.INVALID_SOURCE_ACCOUNT, budgetCostShare.getSourceAccount());
+                        valid &= addValidationMessage(validationMessageType, SOURCE_ACCOUNT, KeyConstants.INVALID_SOURCE_ACCOUNT, budgetCostShare.getSourceAccount());
                     }
                 }
-            });
+            }
         }
+        return valid;
     }
 
-    public void addValidationMessage(String validationMessageType, String field, String errorMessageKey, String... errorParameters) {
+    public boolean validateUnit(String unitNumber, String field) {
+        if (unitNumber != null) {
+            if (unitRepositoryService.findUnitByUnitNumber(unitNumber) == null) {
+                globalVariableService.getMessageMap().putError(field, KeyConstants.ERROR_UNIT_INVALID, unitNumber);
+                return Boolean.FALSE;
+            }
+        }
+        return Boolean.TRUE;
+    }
+
+    public boolean addValidationMessage(String validationMessageType, String field, String errorMessageKey, String... errorParameters) {
         if (StringUtils.equalsIgnoreCase(Constants.VALIDATION_MESSAGE_ERROR, validationMessageType)) {
             globalVariableService.getMessageMap().putError(field, errorMessageKey, errorParameters);
+            return Boolean.FALSE;
         } else if (StringUtils.equalsIgnoreCase(Constants.VALIDATION_MESSAGE_WARNING, validationMessageType)) {
             globalVariableService.getMessageMap().putWarning(field, errorMessageKey, errorParameters);
+            return Boolean.TRUE;
         }
+        return Boolean.TRUE;
     }
 
     public boolean isCostShareTypeEnabled() {

@@ -87,9 +87,6 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         for (BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
             String errorPath = "budget.budgetCostShares[" + i + "]";
             errorMap.addToErrorPath(errorPath);
-            if (budgetCostShare.getUnitNumber() != null) {
-                valid &= validateUnit(budgetCostShare.getUnitNumber(), "unitNumber");
-            }
 
             if(budgetCostShare.getSharePercentage()!=null && (budgetCostShare.getSharePercentage().isLessThan(new ScaleTwoDecimal(0)) ||
                budgetCostShare.getSharePercentage().isGreaterThan(new ScaleTwoDecimal(100)))) {

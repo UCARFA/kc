@@ -45,6 +45,6 @@ public interface ProposalBudgetService extends BudgetCommonService<DevelopmentPr
 
     void syncBudgetReferencesForCopy(ProposalDevelopmentBudgetExt budget);
 
-    void validateCostShare(ProposalDevelopmentBudgetExt budget);
+    boolean validateCostShare(ProposalDevelopmentBudgetExt budget);
 
     }

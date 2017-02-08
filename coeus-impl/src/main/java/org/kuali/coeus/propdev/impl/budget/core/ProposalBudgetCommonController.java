@@ -158,10 +158,11 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	@Transactional @RequestMapping(params="methodToCall=save")
 	@Override
 	public ModelAndView save(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
+        boolean valid = true;
         if (form.getPageId().equalsIgnoreCase(Constants.PROP_BUDGET_COST_SHARING_PAGE) || form.getPageId().equalsIgnoreCase(Constants.PROP_BUDGET_UNRECOVERED_FAND_APAGE)) {
-            proposalBudgetService.validateCostShare(form.getBudget());
+            valid &= proposalBudgetService.validateCostShare(form.getBudget());
         }
-        return super.save(form);
+        return valid? super.save(form) : getModelAndViewService().getModelAndView(form);
 	}
 
     @RequestMapping(params = "methodToCall=navigate")
