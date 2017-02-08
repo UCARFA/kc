@@ -234,6 +234,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     private transient AccountDao accountDao;
     private transient KcPersonService kcPersonService;
     private transient TimeAndMoneyPostsDao timeAndMoneyPostsDao;
+    private Boolean isBudgetVersionSummaryCumulative;
 
     /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
@@ -1682,6 +1683,15 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
             disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
         }
         return disclosureStatusRetrievalService;
+    }
+
+    public boolean isBudgetVersionSummaryCumulative() {
+        if (isBudgetVersionSummaryCumulative == null) {
+            isBudgetVersionSummaryCumulative = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_AWARD_BUDGET,
+                    ParameterConstants.ALL_COMPONENT,
+                    Constants.AWARD_BUDGET_SUMMARY_CUMULATIVE);
+        }
+        return isBudgetVersionSummaryCumulative;
     }
 
 }

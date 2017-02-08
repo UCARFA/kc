@@ -947,9 +947,10 @@ public interface Constants {
     String ENABLE_COST_SHARE_ACCOUNT_VALIDATION = "ENABLE_COST_SHARE_ACCOUNT_VALIDATION";
     String PROP_BUDGET_COST_SHARING_PAGE = "PropBudget-CostSharingPage";
     String PROP_BUDGET_UNRECOVERED_FAND_APAGE = "PropBudget-UnrecoveredFandAPage";
-
-
     String VALIDATION_MESSAGE_WARNING = "W";
     String VALIDATION_MESSAGE_ERROR = "E";
+
+    String AWARD_BUDGET_SUMMARY_CUMULATIVE = "Award_budget_version_summary_cumulative";
+
 }
 

@@ -33,6 +33,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.web.ui.ExtraButton;
@@ -49,7 +51,9 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
     private String awardInMultipleNodeHierarchy;
     private String budgetParentId;
     private AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount;
-    
+    private ParameterService parameterService;
+    private Boolean isBudgetVersionSummaryCumulative;
+
     @Override
     protected String getDefaultDocumentTypeName() {
         return "AwardBudgetDocument";
@@ -69,9 +73,24 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
         return awardInMultipleNodeHierarchy;
     }
 
-
     public void setAwardInMultipleNodeHierarchy(String awardInMultipleNodeHierarchy) {
         this.awardInMultipleNodeHierarchy = awardInMultipleNodeHierarchy;
+    }
+
+    public boolean isBudgetVersionSummaryCumulative() {
+        if (isBudgetVersionSummaryCumulative == null) {
+            isBudgetVersionSummaryCumulative = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_AWARD_BUDGET,
+                    ParameterConstants.ALL_COMPONENT,
+                    Constants.AWARD_BUDGET_SUMMARY_CUMULATIVE);
+        }
+        return isBudgetVersionSummaryCumulative;
+    }
+
+    public ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
     }
 
     @Override
