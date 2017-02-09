@@ -76,13 +76,29 @@
                                     <catalog>${gg.wsdl.location}/schemas/gg-catalog.xml</catalog>
                                     <extraargs>
                                         <extraarg>-verbose</extraarg>
-                                        <!-- Need to remove the validation from the class generation because of various bugs in
-                                         CXF 2.7.0 related to validation when there are xsd imports present. Refer
-                                         https://issues.apache.org/jira/browse/CXF-4487
-                                         https://issues.apache.org/jira/browse/CXF-4488
-                                         https://issues.apache.org/jira/browse/CXF-4489
-
-                                         <extraarg>-validate</extraarg>-->
+                                        <extraarg>-validate</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>generate-nih-submission-validation</id>
+                        <phase>generate-sources</phase>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <disableDirectoryScan>true</disableDirectoryScan>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <noAddressBinding>true</noAddressBinding>
+                                    <wsdl>${gg.wsdl.location}/SubmissionValidationService.wsdl</wsdl>
+                                    <catalog>${gg.wsdl.location}/schemas/gg-catalog.xml</catalog>
+                                    <extraargs>
+                                        <extraarg>-verbose</extraarg>
+                                        <extraarg>-validate</extraarg>
                                     </extraargs>
                                 </wsdlOption>
                             </wsdlOptions>

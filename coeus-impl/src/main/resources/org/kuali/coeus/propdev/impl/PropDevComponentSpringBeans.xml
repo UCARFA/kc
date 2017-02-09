@@ -221,32 +221,32 @@
         <property name="labelAttributeName" value="description"/>
     </bean>
 
-    <bean id="grantsGovConnectorService"
-          class="org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorServiceBase">
-        <property name="serviceHost" value="grants.gov.s2s.host"/>
-        <property name="servicePort" value="grants.gov.s2s.port"/>
-        <property name="s2sCertificateReader">
-            <bean class="org.kuali.coeus.propdev.impl.s2s.connect.S2SCertificateReaderBase">
-                <property name="keyStoreLocation" value="s2s.keystore.location"/>
-                <property name="keyStorePassword" value="s2s.keystore.password"/>
-                <property name="trustStoreLocation" value="s2s.truststore.location"/>
-                <property name="trustStorePassword" value="s2s.truststore.password"/>
-                <property name="jksType" value="JKS"/>
+    <bean id="grantsGovConnectorService" class="org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorServiceBase">
+        <property name="s2SConfigurationReader">
+            <bean class="org.kuali.coeus.propdev.impl.s2s.connect.S2SConfigurationReaderBase">
+                <property name="keyStoreLocationProperty" value="s2s.keystore.location"/>
+                <property name="keyStorePasswordProperty" value="s2s.keystore.password"/>
+                <property name="trustStoreLocationProperty" value="s2s.truststore.location"/>
+                <property name="trustStorePasswordProperty" value="s2s.truststore.password"/>
+                <property name="certAlgorithmProperty" value="s2s.cert.algorithm" />
+                <property name="serviceHostProperty" value="grants.gov.s2s.host" />
+                <property name="servicePortProperty" value="grants.gov.s2s.port" />
+                <property name="disableCNCheckProperty" value="s2s.cert.disable.cn.check" />
             </bean>
         </property>
     </bean>
 
-    <bean id="researchGovConnectorService"
-          class="org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorServiceBase">
-        <property name="serviceHost" value="research.gov.s2s.host"/>
-        <property name="servicePort" value="research.gov.s2s.port"/>
-        <property name="s2sCertificateReader">
-            <bean class="org.kuali.coeus.propdev.impl.s2s.connect.S2SCertificateReaderBase">
-                <property name="keyStoreLocation" value="research.gov.keystore.location"/>
-                <property name="keyStorePassword" value="research.gov.keystore.password"/>
-                <property name="trustStoreLocation" value="research.gov.truststore.location"/>
-                <property name="trustStorePassword" value="research.gov.truststore.password"/>
-                <property name="jksType" value="JKS"/>
+    <bean id="researchGovConnectorService" class="org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorServiceBase">
+        <property name="s2SConfigurationReader">
+            <bean class="org.kuali.coeus.propdev.impl.s2s.connect.S2SConfigurationReaderBase">
+                <property name="keyStoreLocationProperty" value="research.gov.keystore.location"/>
+                <property name="keyStorePasswordProperty" value="research.gov.keystore.password"/>
+                <property name="trustStoreLocationProperty" value="research.gov.truststore.location"/>
+                <property name="trustStorePasswordProperty" value="research.gov.truststore.password"/>
+                <property name="certAlgorithmProperty" value="research.gov.cert.algorithm" />
+                <property name="serviceHostProperty" value="research.gov.s2s.host" />
+                <property name="servicePortProperty" value="research.gov.s2s.port" />
+                <property name="disableCNCheckProperty" value="research.gov.cn.check" />
             </bean>
         </property>
     </bean>

@@ -57,10 +57,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
 import java.security.*;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
 import java.util.*;
 
 /**
@@ -82,9 +79,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
     @Qualifier("s2SConfigurationService")
     private S2SConfigurationService s2SConfigurationService;
 
-    protected S2SCertificateReader s2sCertificateReader;
-    protected String serviceHost;
-    protected String servicePort;
+    protected S2SConfigurationReader s2SConfigurationReader;
 
     /**
      * This method is to get Opportunity List for the given cfda number,opportunity Id and competition Id from the grants guv. It
@@ -153,8 +148,6 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @param proposalNumber proposal number.
      * @return GetApplicationListResponse application list.
      * @throws S2sCommunicationException
-     * @see org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService#getApplicationList(java.lang.String, java.lang.String,
-     *      java.lang.String)
      */
     public GetApplicationListResponse getApplicationList(String opportunityId, String cfdaNumber, String proposalNumber)
             throws S2sCommunicationException {
@@ -254,7 +247,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         //Couldn't find MIME boundary: --uuid
         //disable for research.gov. This is not a big deal because submissions with attachments
         // go to grants.gov anyways and not to research.gov
-        if (!StringUtils.equalsIgnoreCase(serviceHost, Constants.RESEARCH_GOV_SERVICE_HOST)) {
+        if (!StringUtils.equalsIgnoreCase(s2SConfigurationReader.getServiceHost(), Constants.RESEARCH_GOV_SERVICE_HOST)) {
             Map<String,Object> properties = new HashMap<>();
             properties.put("mtom-enabled", Boolean.TRUE);
             factory.setProperties(properties);
@@ -292,50 +285,34 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         filters.getInclude().add(".*_WITH_NULL_.*");
         filters.getInclude().add(".*_DH_anon_.*");
 
-        tlsConfig.setDisableCNCheck(true);
-
-        String certAlgorithm = getS2SConfigurationService().getValueAsString("s2s.cert.algorithm");
-        if(certAlgorithm!=null){
-            tlsConfig.setSecureSocketProtocol(certAlgorithm);
-        }
-
+        tlsConfig.setDisableCNCheck(s2SConfigurationReader.getDisableCNCheck());
+        tlsConfig.setSecureSocketProtocol(s2SConfigurationReader.getCertAlgorithm());
         tlsConfig.setCipherSuitesFilter(filters);
     }
 
     /**
      * This method is to confgiure KeyStore and Truststore for Grants.Gov webservice client
-     * @param tlsConfig
-     * @param alias
-     * @param mulitCampusEnabled
-     * @throws S2sCommunicationException
      */
     protected void configureKeyStoreAndTrustStore(TLSClientParameters tlsConfig, String alias, boolean mulitCampusEnabled)
             throws S2sCommunicationException {
-        KeyStore keyStore = s2sCertificateReader.getKeyStore();
+        KeyStore keyStore = s2SConfigurationReader.getKeyStore();
         KeyManagerFactory keyManagerFactory;
         try {
             keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             if (alias != null && mulitCampusEnabled) {
-                KeyStore keyStoreAlias;
-                keyStoreAlias = KeyStore.getInstance(s2sCertificateReader.getJksType());
-                Certificate[] certificates = keyStore.getCertificateChain(alias);
-                Key key = keyStore.getKey(alias, s2SConfigurationService.getValueAsString(s2sCertificateReader.getKeyStorePassword()).toCharArray());
-                keyStoreAlias.load(null, null);
-                keyStoreAlias.setKeyEntry(alias, key,
-                        s2SConfigurationService.getValueAsString(s2sCertificateReader.getKeyStorePassword()).toCharArray(), certificates);
-                keyManagerFactory.init(keyStoreAlias,
-                        s2SConfigurationService.getValueAsString(s2sCertificateReader.getKeyStorePassword()).toCharArray());
+                KeyStore keyStoreAlias = s2SConfigurationReader.getKeyStoreAlias(alias);
+                keyManagerFactory.init(keyStoreAlias, s2SConfigurationReader.getKeyStorePassword().toCharArray());
             }else {
-                keyManagerFactory.init(keyStore, s2SConfigurationService.getValueAsString(s2sCertificateReader.getKeyStorePassword()).toCharArray());
+                keyManagerFactory.init(keyStore, s2SConfigurationReader.getKeyStorePassword().toCharArray());
             }
             KeyManager[] km = keyManagerFactory.getKeyManagers();
             tlsConfig.setKeyManagers(km);
-            KeyStore trustStore = s2sCertificateReader.getTrustStore();
+            KeyStore trustStore = s2SConfigurationReader.getTrustStore();
             TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(trustStore);
             TrustManager[] tm = trustManagerFactory.getTrustManagers();
             tlsConfig.setTrustManagers(tm);
-        }catch (NoSuchAlgorithmException|KeyStoreException|UnrecoverableKeyException|CertificateException|IOException e){
+        }catch (NoSuchAlgorithmException|KeyStoreException|UnrecoverableKeyException e){
             LOG.error(e.getMessage(), e);
             throw new S2sCommunicationException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }
@@ -348,11 +325,10 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @return {@link String} host URL
      * @throws S2sCommunicationException if unable to read property file
      */
-
     protected String getS2SSoapHost() throws S2sCommunicationException {
         StringBuilder host = new StringBuilder();
-        host.append(s2SConfigurationService.getValueAsString(getServiceHost()));
-        String port = s2SConfigurationService.getValueAsString(getServicePort());
+        host.append(s2SConfigurationReader.getServiceHost());
+        String port = s2SConfigurationReader.getServicePort();
         if ((!host.toString().endsWith("/")) && (!port.startsWith("/"))) {
             host.append("/");
         }
@@ -360,29 +336,12 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         return host.toString();
     }
 
-
-    public String getServiceHost() {
-        return serviceHost;
+    public S2SConfigurationReader getS2SConfigurationReader() {
+        return s2SConfigurationReader;
     }
 
-    public void setServiceHost(String serviceHost) {
-        this.serviceHost = serviceHost;
-    }
-
-    public String getServicePort() {
-        return servicePort;
-    }
-
-    public void setServicePort(String servicePort) {
-        this.servicePort = servicePort;
-    }
-
-    public S2SCertificateReader getS2sCertificateReader() {
-        return s2sCertificateReader;
-    }
-
-    public void setS2sCertificateReader(S2SCertificateReader s2sCertificateReader) {
-        this.s2sCertificateReader = s2sCertificateReader;
+    public void setS2SConfigurationReader(S2SConfigurationReader s2SConfigurationReader) {
+        this.s2SConfigurationReader = s2SConfigurationReader;
     }
 
     public DataObjectService getDataObjectService() {
