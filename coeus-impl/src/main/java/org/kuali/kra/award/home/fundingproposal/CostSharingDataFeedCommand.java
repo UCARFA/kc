@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
@@ -25,6 +26,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 
 import java.util.List;
+import java.util.Objects;
 
 
 class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
@@ -37,21 +39,29 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
     @Override
     void performDataFeed() {
         if (mergeType != FundingProposalMergeType.NOCHANGE) {
-            int copyCount = 0;
+            int costshareCount = 0;
             List<InstitutionalProposalCostShare> costShares = proposal.getInstitutionalProposalCostShares();
             for (InstitutionalProposalCostShare ipCostShare : costShares) {
                 award.add(copyCostShare(ipCostShare));
-                copyCount++;
+                costshareCount++;
             }
-            if (copyCount > 0) {
+            if (costshareCount > 0) {
                 addCostShareComment(proposal);
             }
+
+
         }
     }
 
-    private void addCostShareComment(InstitutionalProposal proposal) {
-        String newComment = String.format(COST_SHARE_COMMENT_PATTERN, proposal.getProposalNumber());
-        appendComments(findOrCreateCommentOfSpecifiedType(new AwardCommentFactory().createCostShareComment()), newComment);
+    protected void addCostShareComment(InstitutionalProposal proposal) {
+        if (mergeType == FundingProposalMergeType.NEWAWARD
+                && !Objects.isNull(this.proposal.getCostShareComment())
+                && !StringUtils.isEmpty(this.proposal.getCostShareComment().getComments())) {
+            this.award.getAwardCostShareComment().setComments(this.proposal.getCostShareComment().getComments());
+        } else {
+            String newComment = String.format(COST_SHARE_COMMENT_PATTERN, proposal.getProposalNumber());
+            appendComments(findOrCreateCommentOfSpecifiedType(new AwardCommentFactory().createCostShareComment()), newComment);
+        }
     }
 
     private AwardCostShare copyCostShare(InstitutionalProposalCostShare ipCostShare) {
