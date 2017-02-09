@@ -38,7 +38,7 @@ public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
     private GlobalVariableService globalVariableService;
 
     public List<DataValidationItem> populateDataValidation() {
-        List<DataValidationItem> dataValidationItems = new ArrayList<DataValidationItem>();
+        List<DataValidationItem> dataValidationItems = new ArrayList<>();
         for (Map.Entry<String,AuditCluster> entry : getGlobalVariableService().getAuditErrorMap().entrySet()) {
             AuditCluster auditCluster = entry.getValue();
             List<AuditError> auditErrors = auditCluster.getAuditErrorList();
@@ -63,7 +63,7 @@ public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
             }
         }
 
-        Collections.sort(dataValidationItems, (o1, o2) -> o1.getArea().compareTo(o2.getArea()));
+        dataValidationItems.sort(Comparator.comparing(DataValidationItem::getArea));
         return dataValidationItems;
     }
 

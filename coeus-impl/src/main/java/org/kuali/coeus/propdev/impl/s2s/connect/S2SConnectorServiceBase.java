@@ -80,8 +80,6 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
     private S2SConfigurationService s2SConfigurationService;
 
     protected S2SConfigurationReader s2SConfigurationReader;
-    protected String serviceHost;
-    protected String servicePort;
 
     /**
      * This method is to get Opportunity List for the given cfda number,opportunity Id and competition Id from the grants guv. It
@@ -249,7 +247,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         //Couldn't find MIME boundary: --uuid
         //disable for research.gov. This is not a big deal because submissions with attachments
         // go to grants.gov anyways and not to research.gov
-        if (!StringUtils.equalsIgnoreCase(serviceHost, Constants.RESEARCH_GOV_SERVICE_HOST)) {
+        if (!StringUtils.equalsIgnoreCase(s2SConfigurationReader.getServiceHost(), Constants.RESEARCH_GOV_SERVICE_HOST)) {
             Map<String,Object> properties = new HashMap<>();
             properties.put("mtom-enabled", Boolean.TRUE);
             factory.setProperties(properties);
@@ -336,23 +334,6 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         }
         host.append(port);
         return host.toString();
-    }
-
-
-    public String getServiceHost() {
-        return serviceHost;
-    }
-
-    public void setServiceHost(String serviceHost) {
-        this.serviceHost = serviceHost;
-    }
-
-    public String getServicePort() {
-        return servicePort;
-    }
-
-    public void setServicePort(String servicePort) {
-        this.servicePort = servicePort;
     }
 
     public S2SConfigurationReader getS2SConfigurationReader() {

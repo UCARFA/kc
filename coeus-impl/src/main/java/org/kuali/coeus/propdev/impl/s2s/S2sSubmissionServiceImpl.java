@@ -115,12 +115,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     /**
      *
      * This method is used to get the application status details.
-     *
-     * @param ggTrackingId
-     *            grants gov tracking id for the application.
-     * @param proposalNumber
-     *            Proposal number.
-     * @throws S2sCommunicationException
      */
     @Override
     public String getStatusDetails(String ggTrackingId, String proposalNumber)
@@ -144,11 +138,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     /**
      * This method checks if status on grants.gov has changed since last check
      * and returns the status.
-     *
-     * @param pdDoc
-     * @param appSubmission
-     * @return status
-     * @throws S2sCommunicationException
      */
     @Override
     public boolean checkForSubmissionStatusChange(
@@ -160,10 +149,8 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
                         pdDoc.getDevelopmentProposal().getProposalNumber());
         if (applicationStatusDetailResponse != null
                 && applicationStatusDetailResponse.getDetailedStatus() != null) {
-            String statusDetail = applicationStatusDetailResponse
-                    .getDetailedStatus().toString();
-            String statusStr = statusDetail.toUpperCase().indexOf(
-                    GRANTS_GOV_STATUS_ERROR) == -1 ? statusDetail
+            String statusDetail = applicationStatusDetailResponse.getDetailedStatus();
+            String statusStr = !statusDetail.toUpperCase().contains(GRANTS_GOV_STATUS_ERROR) ? statusDetail
                     : S2sAppSubmissionConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR;
             statusChanged = !appSubmission.getStatus().equalsIgnoreCase(
                     statusStr);
@@ -252,9 +239,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     /**
      * This method populates the {@link S2sAppSubmission} BO with details from
      * {@link ProposalDevelopmentDocument}
-     *
-     * @param appSubmission
-     * @param ggApplication
      */
     @Override
     public void populateAppSubmission(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission,
@@ -284,11 +268,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     /**
      * This method fetches the application list from Grants.gov for a given
-     * proposal
-     *
-     * @param pdDoc
-     * @return {@link GetApplicationListResponse}
-     * @throws S2sCommunicationException
+     * proposal.
      */
     public GetApplicationListResponse fetchApplicationListResponse(
             ProposalDevelopmentDocument pdDoc) throws S2sCommunicationException {
@@ -308,8 +288,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      * Takes the appSubmission and proposal and if a federal tracking id has been specified, will
      * set on both the proposal development doc and the related institutional proposal doc
      * if there is not a sponsor proposal id already.
-     * @param pdDoc
-     * @param appSubmission
      */
     protected void populateSponsorProposalId(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission) {
         if (StringUtils.isNotBlank(appSubmission.getAgencyTrackingId())) {
@@ -338,7 +316,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      * @param pdDoc
      *            Proposal Development Document.
      * @return true if submitted false otherwise.
-     * @throws S2sCommunicationException
      */
     public FormGenerationResult submitApplication(ProposalDevelopmentDocument pdDoc)
             throws S2sCommunicationException {
@@ -354,8 +331,8 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
                 LOG.error("Error validating with nih.gov", ex);
                 getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(), ex.getMessageWithParams());
             }
-            Map<String, DataHandler> attachments = new HashMap<String, DataHandler>();
-            List<S2sAppAttachments> s2sAppAttachmentList = new ArrayList<S2sAppAttachments>();
+            Map<String, DataHandler> attachments = new HashMap<>();
+            List<S2sAppAttachments> s2sAppAttachmentList = new ArrayList<>();
             DataHandler attachmentFile;
             for (AttachmentData attachmentData : result.getAttachments()) {
                 attachmentFile = new DataHandler(new ByteArrayDataSource(
@@ -372,12 +349,11 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
             S2sAppSubmission appSubmission = new S2sAppSubmission();
             appSubmission.setStatus(S2sAppSubmissionConstants.GRANTS_GOV_STATUS_MESSAGE);
             appSubmission.setComments(S2sAppSubmissionConstants.GRANTS_GOV_COMMENTS_MESSAGE);
-            SubmitApplicationResponse response = null;
 
             S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
             S2SConnectorService connectorService = getS2sConnectorService(s2sOpportunity);
 
-            response = connectorService.submitApplication(
+            SubmitApplicationResponse response = connectorService.submitApplication(
                     result.getApplicationXml(), attachments, pdDoc
                             .getDevelopmentProposal().getProposalNumber());
             appSubmission.setStatus(S2sAppSubmissionConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
@@ -398,7 +374,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     protected ArrayList<S2sOpportunity> convertToArrayList(String source,
                                                            GetOpportunitiesResponse resList) {
-        ArrayList<S2sOpportunity> convList = new ArrayList<S2sOpportunity>();
+        ArrayList<S2sOpportunity> convList = new ArrayList<>();
         if (resList == null || resList.getOpportunityInfo() == null) {
             return convList;
         }
@@ -410,8 +386,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     /**
      * This method convert OpportunityInformationType to OpportunityInfo
-     *
-     * @param providerCode
      *
      * @return OpportunityInfo containing Opportunity information corresponding
      *         to the OpportunityInformationType object.
@@ -457,7 +431,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      *            parameter for the opportunity.
      * @return List&lt;S2sOpportunity&gt; a list containing the available
      *         opportunities for the corresponding parameters.
-     * @throws S2sCommunicationException
      */
     @Override
     public List<S2sOpportunity> searchOpportunity(String providerCode, String cfdaNumber,
@@ -491,10 +464,8 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      *
      * This method returns the list of forms for a given opportunity
      *
-     * @param opportunity
      * @return {@link List} of {@link S2sOppForms} which are included in the
      *         given {@link S2sOpportunity}
-     * @throws S2sCommunicationException
      */
     @Override
     public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2sCommunicationException{
@@ -503,7 +474,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     }
 
     public List<String> setMandatoryForms(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity) {
-        List<String> missingMandatoryForms = new ArrayList<String>();
+        List<String> missingMandatoryForms = new ArrayList<>();
         s2sOpportunity.setS2sProvider(getDataObjectService().find(S2sProvider.class, s2sOpportunity.getProviderCode()));
         List<S2sOppForms> s2sOppForms = parseOpportunityForms(s2sOpportunity);
         if (s2sOppForms != null) {
@@ -514,15 +485,15 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
             }
         }
         if (CollectionUtils.isEmpty(missingMandatoryForms)) {
-            Collections.sort(s2sOppForms, new Comparator<S2sOppForms>() {
-                public int compare(S2sOppForms arg0, S2sOppForms arg1) {
+            if (s2sOppForms != null) {
+                s2sOppForms.sort((arg0, arg1) -> {
                     int result = arg0.getMandatory().compareTo(arg1.getMandatory()) * -1;
                     if (result == 0) {
                         result = arg0.getFormName().compareTo(arg1.getFormName());
                     }
                     return result;
-                }
-            });
+                });
+            }
             s2sOpportunity.setS2sOppForms(s2sOppForms);
         }
         return missingMandatoryForms;
@@ -534,7 +505,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     }
 
     private String getOpportunityContent(String schemaUrl) throws S2sCommunicationException{
-        String opportunity = "";
+        final String opportunity;
         InputStream is  = null;
         BufferedInputStream br = null;
         try{
@@ -586,7 +557,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
             application.setApplication(grantApplicationXml);
             application.setProposalNumber(proposalNumber);
             application.setS2sAppAttachmentList(s2sAppAttachmentList);
-            List<S2sApplication> s2sApplicationList = new ArrayList<S2sApplication>();
+            List<S2sApplication> s2sApplicationList = new ArrayList<>();
             s2sApplicationList.add(application);
 
             appSubmission
