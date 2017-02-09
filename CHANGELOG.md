@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* RESKC-1864: Fix IP feed to Award. (#2194)
+
+  * The cost share budget on the IP distribution should be carried forward into the Award at the time it is included on the award as initial funding.
+  * The cost share from IP should populate the fields for period, cost share type, percentage, amount, source account, unit and comments in the award
+  * My testing shows that the comments from the IP do not populate on the Award section of comments  * Gayathri Athreya on Thu, 9 Feb 2017 11:08:45 -0700 [View Commit](../../commit/0c43241fb1aee4a1c662564986613a9f5b852a02)
+
+##coeus-1702.0010
 * No Changes
 
 
