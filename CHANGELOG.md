@@ -1,6 +1,24 @@
 
 
 ##CURRENT
+* Fixing int tests (#2193)
+
+  * Gayathri Athreya on Wed, 8 Feb 2017 17:21:48 -0700 [View Commit](../../commit/dd4215d48c12371d5d6a860c17b0f7377f875328)
+* RESKC-2010: Fix cost share unit validation. PD needs a hard validation and user should be allowed to navigate to fix it. Whereas this needs to be a warning on IP and Award. (#2192)
+
+  * Gayathri Athreya on Wed, 8 Feb 2017 14:48:12 -0700 [View Commit](../../commit/4407a65e697494336233cc91e771545a35b4646f)
+* RESKC-1754: Parametrizing award budget summary cumulative option. (#2190)
+
+  * Gayathri Athreya on Wed, 8 Feb 2017 08:19:42 -0700 [View Commit](../../commit/91427a59037b19837d0d10801f60f7a9c6a2fa8a)
+* RESKC-1964: Fix approval date. (#2191)
+
+  * Create a protocol
+  * Submit protocol as exempt review type with checklist
+  * assign to a committee (not a schedule, don't assign reviewers)
+  * then Grant Exemption
+  * Result: Sometimes the Approval Date on the first tab is populated and sometimes not. Not sure why it is inconsistent.  * Gayathri Athreya on Wed, 8 Feb 2017 08:17:14 -0700 [View Commit](../../commit/fe3412a799747259e14018d6bcadfceff71b5969)
+
+##coeus-1702.0008
 * RESKC-1881: Adding cost share elements to IP feed (#2189)
 
   * Gayathri Athreya on Tue, 7 Feb 2017 08:17:47 -0700 [View Commit](../../commit/9b5b674cd4c87760e1fe69f2b0b9b801109220bc)
