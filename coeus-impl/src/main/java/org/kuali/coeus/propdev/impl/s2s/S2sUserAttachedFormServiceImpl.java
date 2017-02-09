@@ -37,13 +37,21 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import gov.nih.era.svs.types.ValidateApplicationResponse;
+import gov.nih.era.svs.types.ValidationMessage;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xpath.XPathAPI;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
+import org.kuali.coeus.propdev.impl.s2s.nih.NihSubmissionValidationService;
+import org.kuali.coeus.propdev.impl.s2s.nih.NihValidationServiceUtils;
 import org.kuali.coeus.s2sgen.api.core.InfastructureConstants;
+import org.kuali.coeus.s2sgen.api.generate.FormGenerationResult;
 import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
-import org.kuali.coeus.s2sgen.api.generate.FormValidationResult;
 import org.kuali.coeus.s2sgen.api.hash.GrantApplicationHashService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
@@ -73,12 +81,18 @@ import com.lowagie.text.pdf.XfaForm;
 @Component("s2sUserAttachedFormService")
 public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormService {
 
+    private static final Log LOG = LogFactory.getLog(S2sUserAttachedFormServiceImpl.class);
+
     private static final String DUPLICATE_FILE_NAMES = "Attachments contain duplicate file names";
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
 
     @Autowired
     @Qualifier("formGeneratorService")
     private FormGeneratorService formGeneratorService;
+
+    @Autowired
+    @Qualifier("nihSubmissionValidationService")
+    private NihSubmissionValidationService nihSubmissionValidationService;
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -337,7 +351,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
 
         S2sUserAttachedFormFile newUserAttachedFormFile = new S2sUserAttachedFormFile();
         newUserAttachedFormFile.setXmlFile(formXML);
-        if(!validateUserAttachedFormFile(newUserAttachedFormFile, formname))
+        if(!validateUserAttachedFormFile(newUserAttachedFormFile, formname, developmentProposal))
             return null;
 
         validateForm(developmentProposal,newUserAttachedForm);
@@ -380,17 +394,32 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         }
     }   
 
-    private boolean validateUserAttachedFormFile(S2sUserAttachedFormFile userAttachedFormFile, String formName) throws Exception{
-        FormValidationResult result = formGeneratorService.validateUserAttachedFormFile(userAttachedFormFile, formName);
+    private boolean validateUserAttachedFormFile(S2sUserAttachedFormFile userAttachedFormFile, String formName, ProposalDevelopmentDocument developmentProposal) throws Exception{
+        FormGenerationResult result = formGeneratorService.validateUserAttachedFormFile(userAttachedFormFile, formName);
         if(!result.isValid()) {
             setValidationErrorMessage(result);
             return false;
         }else{
-            return true;
+            try {
+                ValidateApplicationResponse response = nihSubmissionValidationService.validateApplication(result.getApplicationXml(), result.getAttachments(), developmentProposal.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber());
+                setValidationErrorMessage(response);
+                return response.getValidationMessageList().getValidationMessage().isEmpty();
+            } catch (S2sCommunicationException ex) {
+                LOG.error("Error validating with nih.gov", ex);
+                getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(), ex.getMessageWithParams());
+                return false;
+            }
         }
         
     }
-    protected void setValidationErrorMessage(FormValidationResult result) {
+
+    protected void setValidationErrorMessage(ValidateApplicationResponse result) {
+        for (ValidationMessage error : result.getValidationMessageList().getValidationMessage()) {
+            globalVariableService.getMessageMap().putError("userAttachedFormsErrors", KeyConstants.S2S_USER_ATTACHED_FORM_NOT_VALID, NihValidationServiceUtils.toMessageString(error));
+        }
+    }
+
+    protected void setValidationErrorMessage(FormGenerationResult result) {
         for (AuditError error : result.getErrors()) {
             globalVariableService.getMessageMap().putError("userAttachedFormsErrors", KeyConstants.S2S_USER_ATTACHED_FORM_NOT_VALID, error.getMessageKey());
         }
@@ -578,5 +607,13 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
 
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
+    }
+
+    public NihSubmissionValidationService getNihSubmissionValidationService() {
+        return nihSubmissionValidationService;
+    }
+
+    public void setNihSubmissionValidationService(NihSubmissionValidationService nihSubmissionValidationService) {
+        this.nihSubmissionValidationService = nihSubmissionValidationService;
     }
 }

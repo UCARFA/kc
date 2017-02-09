@@ -70,7 +70,7 @@ public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
     public String getErrorCssClass(String severity) {
         if (severity.endsWith(Constants.AUDIT_ERRORS)) {
             return "label-danger";
-        } else if (severity.equals(Constants.AUDIT_WARNINGS)) {
+        } else if (severity.endsWith(Constants.AUDIT_WARNINGS)) {
             return "label-warning";
         }
         return "label-info";

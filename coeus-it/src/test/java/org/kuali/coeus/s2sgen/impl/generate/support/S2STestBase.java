@@ -90,7 +90,7 @@ public abstract class S2STestBase extends KcIntegrationTestBase {
         ((FormPrintServiceImpl) formPrintService).setS2SFormGeneratorService(new S2SFormGeneratorRetrievalService() {
             @Override
             public S2SFormGenerator getS2SGenerator(String proposalNumber, String nameSpace) throws S2SException {
-                generatorObject = (S2SBaseFormGenerator) KcServiceLocator.getService(getFormGeneratorName());
+                generatorObject = KcServiceLocator.getService(getFormGeneratorName());
                 return generatorObject;
             }
 

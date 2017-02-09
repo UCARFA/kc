@@ -26,7 +26,7 @@ public class S2sCommunicationException extends RuntimeException {
     private String errorKey = KeyConstants.ERROR_S2S_UNKNOWN;
     private String tabErrorKey;
     private int messageType;
-    private String[] params;
+    private String[] params = new String[0];
 
     /**
      * Creates new <code>KraException</code> without detail message.
@@ -53,8 +53,10 @@ public class S2sCommunicationException extends RuntimeException {
      *
      * @param ex
      */
-    public S2sCommunicationException(String message, Exception ex) {
-        super(message,ex);
+    public S2sCommunicationException(String errorKey, Exception ex) {
+        super(ex);
+        this.errorKey = errorKey;
+        this.errorMessage = ex.getMessage();
     }
     /**
      * Constructs an <code>KraException</code> with the specified detail message.

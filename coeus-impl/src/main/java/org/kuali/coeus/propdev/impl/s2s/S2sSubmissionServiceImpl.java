@@ -22,6 +22,7 @@ import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListRespo
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailResponse;
 import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesResponse;
 import gov.grants.apply.services.applicantwebservices_v2.SubmitApplicationResponse;
+import gov.nih.era.svs.types.ValidateApplicationResponse;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -35,6 +36,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
+import org.kuali.coeus.propdev.impl.s2s.nih.NihSubmissionValidationService;
 import org.kuali.coeus.s2sgen.api.generate.FormGenerationResult;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -85,6 +87,10 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     @Autowired
     @Qualifier("formGeneratorService")
     private FormGeneratorService s2SService;
+
+    @Autowired
+    @Qualifier("nihSubmissionValidationService")
+    private NihSubmissionValidationService nihSubmissionValidationService;
 
     @Autowired
     @Qualifier("s2sProviderService")
@@ -340,6 +346,14 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         final FormGenerationResult result = s2SService.generateAndValidateForms(pdDoc);
         if (result.isValid()) {
 
+            try {
+                final ValidateApplicationResponse response = nihSubmissionValidationService.validateApplication(result.getApplicationXml(), result.getAttachments(), pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber());
+                result.setValid(response.getValidationMessageList().getValidationMessage().isEmpty());
+            } catch (S2sCommunicationException ex) {
+                result.setValid(false);
+                LOG.error("Error validating with nih.gov", ex);
+                getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(), ex.getMessageWithParams());
+            }
             Map<String, DataHandler> attachments = new HashMap<String, DataHandler>();
             List<S2sAppAttachments> s2sAppAttachmentList = new ArrayList<S2sAppAttachments>();
             DataHandler attachmentFile;
@@ -701,5 +715,13 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
+    }
+
+    public NihSubmissionValidationService getNihSubmissionValidationService() {
+        return nihSubmissionValidationService;
+    }
+
+    public void setNihSubmissionValidationService(NihSubmissionValidationService nihSubmissionValidationService) {
+        this.nihSubmissionValidationService = nihSubmissionValidationService;
     }
 }
