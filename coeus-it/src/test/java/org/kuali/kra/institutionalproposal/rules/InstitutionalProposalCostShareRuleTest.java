@@ -82,7 +82,8 @@ public class InstitutionalProposalCostShareRuleTest extends KcIntegrationTestBas
 
     @Test
     public void testValidateCostShareUnit() {
-        Assert.assertFalse(institutionalProposalAddCostShareRule.validateUnit("abc", "aField"));
-    }
+        Assert.assertTrue(institutionalProposalAddCostShareRule.validateUnit("abc", "aField"));
+        Assert.assertTrue(GlobalVariables.getMessageMap().getWarningMessages().size() == 1);
+        Assert.assertTrue(GlobalVariables.getMessageMap().getWarningMessages().get("aField") != null);    }
 }
 

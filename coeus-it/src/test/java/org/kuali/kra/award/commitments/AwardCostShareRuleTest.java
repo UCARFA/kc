@@ -92,7 +92,9 @@ public class AwardCostShareRuleTest extends KcIntegrationTestBase {
 
     @Test
     public void testValidateCostShareUnit() {
-        Assert.assertFalse(awardCostShareRule.validateUnit("abc", "aField"));
+        Assert.assertTrue(awardCostShareRule.validateUnit("abc", "aField"));
+        Assert.assertTrue(GlobalVariables.getMessageMap().getWarningMessages().size() == 1);
+        Assert.assertTrue(GlobalVariables.getMessageMap().getWarningMessages().get("aField") != null);
     }
 
 }
