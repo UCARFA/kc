@@ -20,7 +20,6 @@ package org.kuali.coeus.propdev.impl.budget;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.api.unit.UnitRepositoryService;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
@@ -30,6 +29,7 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalAddBudgetVersionEvent;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularService;
 import org.kuali.coeus.propdev.impl.budget.subaward.*;
@@ -69,6 +69,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     private static final String COST_SHARE_TYPE = "costShareType";
     public static final String CODE = "code";
     public static final String ACCOUNT_NUMBER = "accountNumber";
+    public static final String UNIT_NUMBER = "unitNumber";
 
     @Autowired
     @Qualifier("budgetCalculationService")
@@ -107,8 +108,8 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     private ParameterService parameterService;
 
     @Autowired
-    @Qualifier("unitRepositoryService")
-    private UnitRepositoryService unitRepositoryService;
+    @Qualifier("unitService")
+    private UnitService unitService;
 
     @Override
     public ProposalDevelopmentBudgetExt getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String budgetName, Map<String, Object> options){
@@ -468,7 +469,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         boolean valid = Boolean.TRUE;
         for(BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
             if (budgetCostShare.getUnitNumber() != null) {
-                valid &= validateUnit(budgetCostShare.getUnitNumber(), "unitNumber");
+                valid &= validateUnit(budgetCostShare.getUnitNumber(), UNIT_NUMBER);
             }
         }
 
@@ -498,7 +499,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
 
     public boolean validateUnit(String unitNumber, String field) {
         if (unitNumber != null) {
-            if (unitRepositoryService.findUnitByUnitNumber(unitNumber) == null) {
+            if (unitService.getActiveUnit(unitNumber) == null) {
                 globalVariableService.getMessageMap().putError(field, KeyConstants.ERROR_UNIT_INVALID, unitNumber);
                 return Boolean.FALSE;
             }

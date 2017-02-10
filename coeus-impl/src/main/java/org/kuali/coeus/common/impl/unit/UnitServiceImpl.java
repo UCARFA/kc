@@ -81,7 +81,7 @@ public class UnitServiceImpl implements UnitService {
     }
 
     private final Supplier<List<Unit>> allUnitsCache = Suppliers.memoizeWithExpiration(
-            () -> new ArrayList<>(getBusinessObjectService().findAllOrderBy(Unit.class, "unitNumber", true)), 1, TimeUnit.MINUTES);
+            () -> new ArrayList<>(getBusinessObjectService().findAllOrderBy(Unit.class, UNIT_NUMBER, true)), 1, TimeUnit.MINUTES);
 
     @Override
     public Unit getUnit(String unitNumber) {
@@ -90,6 +90,18 @@ public class UnitServiceImpl implements UnitService {
             return getBusinessObjectService().findBySinglePrimaryKey(Unit.class, unitNumber);
         }
 
+        return null;
+    }
+
+    @Override
+    public Unit getActiveUnit(String unitNumber) {
+        if (StringUtils.isNotEmpty(unitNumber)) {
+            Map<String, Object> fields = new HashMap<>();
+            fields.put(UNIT_NUMBER, unitNumber);
+            fields.put(ACTIVE, Boolean.TRUE);
+            final List<Unit> units = (List<Unit>) getBusinessObjectService().findMatching(Unit.class, fields);
+            return units.size() != 0 ? units.get(0) : null;
+        }
         return null;
     }
 

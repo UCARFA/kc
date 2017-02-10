@@ -54,7 +54,9 @@ public interface UnitService {
      * @return the unit or null if not found.
      */
     public Unit getUnit(String unitNumber);
-    
+
+    Unit getActiveUnit(String unitNumber);
+
     /**
      * Get the list of immediate sub-units for the given unit.
      * @param unitNumber the number of unit to find sub-units for

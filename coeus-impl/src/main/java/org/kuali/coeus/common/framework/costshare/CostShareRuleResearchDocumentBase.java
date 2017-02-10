@@ -18,10 +18,10 @@
  */
 package org.kuali.coeus.common.framework.costshare;
 
-import org.kuali.coeus.common.api.unit.UnitRepositoryService;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.AuditError;
@@ -35,7 +35,7 @@ import java.util.List;
 public abstract class CostShareRuleResearchDocumentBase extends KcTransactionalDocumentRuleBase {
 	
     private CostShareService costShareService;
-    private transient UnitRepositoryService unitRepositoryService;
+    private transient UnitService unitService;
 
     /**
      * This method validate the project period field.
@@ -119,18 +119,18 @@ public abstract class CostShareRuleResearchDocumentBase extends KcTransactionalD
 
     public boolean validateUnit(String unitNumber, String field) {
         if (unitNumber != null) {
-            if (getUnitRepositoryService().findUnitByUnitNumber(unitNumber) == null) {
+            if (getUnitService().getActiveUnit(unitNumber) == null) {
                 this.reportWarning(field, KeyConstants.ERROR_UNIT_INVALID, unitNumber);
             }
         }
         return true;
     }
 
-    protected UnitRepositoryService getUnitRepositoryService() {
-        if (unitRepositoryService == null) {
-            unitRepositoryService = KcServiceLocator.getService(UnitRepositoryService.class);
+    protected UnitService getUnitService() {
+        if (unitService == null) {
+            unitService = KcServiceLocator.getService(UnitService.class);
         }
-        return unitRepositoryService;
+        return unitService;
     }
 
 }
