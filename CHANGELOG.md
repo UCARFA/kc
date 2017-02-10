@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* RESKC-2006: Adding comment to API docs. (#2197)
+
+  * Gayathri Athreya on Thu, 9 Feb 2017 22:11:19 -0700 [View Commit](../../commit/9672ca0d0b44e52a72e17d4c6f020e2ce977a180)
+* RESKC-1305: adding NIH Validation Service Integration.
+  * Travis Schneeberger on Thu, 9 Feb 2017 14:58:01 -0500 [View Commit](../../commit/b08eeeb5df0d8a33553df741128b1aff90086b2a)
+
+##coeus-1702.0011
 * RESKC-1864: Fix IP feed to Award. (#2194)
 
   * The cost share budget on the IP distribution should be carried forward into the Award at the time it is included on the award as initial funding.
