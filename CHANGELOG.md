@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2016: Validation to prevent inactive units in cost share. (#2198)
+
+  * Gayathri Athreya on Fri, 10 Feb 2017 11:12:24 -0700 [View Commit](../../commit/328f78b4e722ca09898c05c5c97817d3ee972e1f)
+
+##coeus-1702.0012
 * RESKC-2006: Adding comment to API docs. (#2197)
 
   * Gayathri Athreya on Thu, 9 Feb 2017 22:11:19 -0700 [View Commit](../../commit/9672ca0d0b44e52a72e17d4c6f020e2ce977a180)
