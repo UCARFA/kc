@@ -25,7 +25,7 @@ Get all accounts that are available for use
 
     + Body
 
-            {"totalFound": 1, "count": 1, "accounts": [ {"id": 1, "accountNumber": "55555", "createdByAwardId": 2609, "status": "AVAILABLE", "budgeted": 0, "pending": 0, "income": 0, "expense": 0, "available": 0 }]}
+            {"totalFound": 1, "count": 1, "accounts": [ {"id": 1, "accountNumber": "55555", "createdByAwardId": 2609, "status": "AVAILABLE", "budgeted": 0, "pending": 0, "income": 0, "expense": 0, "available": 0, "comment": "Lorem ipsum dolor sit amet" }]}
 
 ### Get Account [GET /award/api/v1/accounts/55555]
 
@@ -52,7 +52,7 @@ Get information on a particular account
 
     + Body
 
-            {"totalFound":1,"count":1,"accounts":[{"id":9,"accountNumber":"55555","createdByAwardId":2742,"status":"CLOSED","budgeted":6.69,"pending":7.70,"income":999.99,"expense":8.80,"available":5.50}],"awards":[2742,2778]}
+            {"totalFound":1,"count":1,"accounts":[{"id":9,"accountNumber":"55555","createdByAwardId":2742, "status":"CLOSED","budgeted":6.69,"pending":7.70,"income":999.99,"expense":8.80,"available":5.50, "comment": "Lorem ipsum dolor sit amet"}],"awards":[2742,2778]}
 
 ### Update Account [PUT /award/api/v1/accounts/878787]
 
@@ -66,16 +66,15 @@ Set various fields on an account. Fields not provided will not be updated.
 
     + Body
 
-            {"available":5.5, "budgeted":6.688, "pending":7.7, "expense":8.8, "income":999.99, "status":"CLOSED"}
-
-
-    + Attributes
-      + available (number) - available amount (max integral digits = 12, max fractional digits = 2)
-      + budgeted (number) - budgeted amount (max integral digits = 12, max fractional digits = 2)
-      + pending (number) - pending amount (max integral digits = 12, max fractional digits = 2)
-      + expense (number) - expense amount (max integral digits = 12, max fractional digits = 2)
-      + income (number) - income amount (max integral digits = 12, max fractional digits = 2)
-      + status (string) - status (min size = 1, max size = 15], pattern [a-zA-Z]+)
+            {
+              "status":"CLOSED",
+              "budgeted":6.69,
+              "pending":7.70,
+              "income":999.99,
+              "expense":8.80,
+              "available":5.50,
+              "comment": "Lorem ipsum dolor sit amet"
+            }
 
 + Response 200
     + Headers
@@ -83,8 +82,3 @@ Set various fields on an account. Fields not provided will not be updated.
             Content-Length:0
 
     + Body
-
-
-
-
-
