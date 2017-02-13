@@ -25,6 +25,7 @@ import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,11 +41,15 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
     void performDataFeed() {
         if (mergeType != FundingProposalMergeType.NOCHANGE) {
             int costshareCount = 0;
+            if (mergeType == FundingProposalMergeType.REPLACE) {
+                award.setAwardCostShares(new ArrayList<>());
+            }
             List<InstitutionalProposalCostShare> costShares = proposal.getInstitutionalProposalCostShares();
             for (InstitutionalProposalCostShare ipCostShare : costShares) {
                 award.add(copyCostShare(ipCostShare));
                 costshareCount++;
             }
+
             if (costshareCount > 0) {
                 addCostShareComment(proposal);
             }
@@ -54,9 +59,12 @@ class CostSharingDataFeedCommand extends ProposalDataFeedCommandBase {
     }
 
     protected void addCostShareComment(InstitutionalProposal proposal) {
-        if (mergeType == FundingProposalMergeType.NEWAWARD
+        if ((mergeType == FundingProposalMergeType.NEWAWARD || mergeType == FundingProposalMergeType.REPLACE)
                 && !Objects.isNull(this.proposal.getCostShareComment())
                 && !StringUtils.isEmpty(this.proposal.getCostShareComment().getComments())) {
+            if (mergeType == FundingProposalMergeType.REPLACE) {
+                award.getAwardCostShareComment().setComments(StringUtils.EMPTY);
+            }
             this.award.getAwardCostShareComment().setComments(this.proposal.getCostShareComment().getComments());
         } else {
             String newComment = String.format(COST_SHARE_COMMENT_PATTERN, proposal.getProposalNumber());
