@@ -162,9 +162,18 @@ public class KcIntegrationTestBase implements KcIntegrationTestMethodAware {
 
     protected void updateParameterForTesting(Class componentClass, String parameterName, String newValue) {
         final ParameterService parameterService = CoreFrameworkServiceLocator.getParameterService();
+        updateParameter(parameterService.getParameter(componentClass, parameterName), newValue);
+    }
 
-        Parameter parameter = parameterService.getParameter(componentClass, parameterName);
-        Parameter.Builder parameterForUpdate = Parameter.Builder.create(parameter);
+    protected void updateParameterForTesting(String namespaceCode, String componentCode, String parameterName, String newValue) {
+        final ParameterService parameterService = CoreFrameworkServiceLocator.getParameterService();
+        updateParameter(parameterService.getParameter(namespaceCode, componentCode, parameterName), newValue);
+    }
+
+    private void updateParameter(Parameter parameter, String newValue) {
+        final ParameterService parameterService = CoreFrameworkServiceLocator.getParameterService();
+
+        final Parameter.Builder parameterForUpdate = Parameter.Builder.create(parameter);
         parameterForUpdate.setValue(newValue);
         parameterService.updateParameter(parameterForUpdate.build());
     }

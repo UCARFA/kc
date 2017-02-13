@@ -25,6 +25,7 @@ import gov.nih.era.svs.types.AttachmentMetaData;
 import gov.nih.era.svs.types.ValidateApplicationRequest;
 import gov.nih.era.svs.types.ValidateApplicationResponse;
 import gov.nih.era.svs.types.ValidationMessageList;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
@@ -74,21 +75,23 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
 
         final ValidateApplicationResponse response;
 
-        if (!s2SConfigurationService.getValueAsBoolean(ENABLE_NIH_VALIDATION_SERVICE)) {
+        if (StringUtils.isBlank(xmlText) || !s2SConfigurationService.getValueAsBoolean(ENABLE_NIH_VALIDATION_SERVICE)) {
             response = new ValidateApplicationResponse();
         } else {
             final ValidateApplicationRequest parameters = new ValidateApplicationRequest();
             parameters.setGrantApplicationXML(xmlText);
-            final List<AttachmentMetaData> attachmentMetaDatas = parameters.getAttachmentMetaData();
 
-            attachments.stream().map(attachment -> {
-                final AttachmentMetaData attachmentMetaData = new AttachmentMetaData();
-                attachmentMetaData.setFileLocation(attachment.getContentId());
-                attachmentMetaData.setFileName(attachment.getFileName());
-                attachmentMetaData.setMimeType(attachment.getContentType());
-                attachmentMetaData.setSizeInBytes(attachment.getContent().length);
-                return attachmentMetaData;
-            }).forEach(attachmentMetaDatas::add);
+            if (attachments != null) {
+                final List<AttachmentMetaData> attachmentMetaDatas = parameters.getAttachmentMetaData();
+                attachments.stream().map(attachment -> {
+                    final AttachmentMetaData attachmentMetaData = new AttachmentMetaData();
+                    attachmentMetaData.setFileLocation(attachment.getContentId());
+                    attachmentMetaData.setFileName(attachment.getFileName());
+                    attachmentMetaData.setMimeType(attachment.getContentType());
+                    attachmentMetaData.setSizeInBytes(attachment.getContent().length);
+                    return attachmentMetaData;
+                }).forEach(attachmentMetaDatas::add);
+            }
 
             try {
                 response = createConfiguredService(dunsNumber).validateApplication(parameters);
@@ -118,7 +121,7 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
             keyStore.load(new FileInputStream(s2SConfigurationService.getValueAsString(NIH_GOV_S2S_KEYSTORE_LOCATION)), keyStorePassword.toCharArray());
             final KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
 
-            if (dunsNumber != null && multiCampusEnabled) {
+            if (StringUtils.isNotBlank(dunsNumber) && multiCampusEnabled) {
                 final KeyStore keyStoreAlias = KeyStore.getInstance(KEY_TYPE);
                 final Certificate[] certificates = keyStore.getCertificateChain(dunsNumber);
                 final Key key = keyStore.getKey(dunsNumber, keyStorePassword.toCharArray());
