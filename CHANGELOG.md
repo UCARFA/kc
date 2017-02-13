@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* RESKC-1914: Removing FAIN from the FDP xsl stylesheet
+  * Travis Schneeberger on Mon, 13 Feb 2017 17:27:29 -0500 [View Commit](../../commit/0eeb1b944cbb9378bfa9c986a8d49dcf6b4756af)
+* RESKC-1867: Fix cost share with IP is merged into Award with REPLACE. (#2203)
+
+  * Gayathri Athreya on Mon, 13 Feb 2017 15:13:22 -0700 [View Commit](../../commit/7afec29dcce2c189ff459f5e31e09685b772c302)
+* RESKC-1914: Removing FAIN from the FDP xsl stylesheet
+  * Travis Schneeberger on Mon, 13 Feb 2017 16:18:39 -0500 [View Commit](../../commit/55bfb1590bcdd608aaec5d06cb24f7fb6435624c)
+
+##coeus-1702.0014
 * RESKC-2018: Add unit validation to award budget. (#2200)
 
   * Gayathri Athreya on Mon, 13 Feb 2017 13:11:41 -0700 [View Commit](../../commit/3bcb0f416372f86a2c7b7daf50fec675299abb4e)
