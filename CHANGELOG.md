@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* RESKC-2018: Add unit validation to award budget. (#2200)
+
+  * Gayathri Athreya on Mon, 13 Feb 2017 13:11:41 -0700 [View Commit](../../commit/3bcb0f416372f86a2c7b7daf50fec675299abb4e)
+* RESKC-1305: adding NIH Validation Service Integration.
+  * Travis Schneeberger on Mon, 13 Feb 2017 14:37:28 -0500 [View Commit](../../commit/cb0cd3ddf31d461f58f8c51e7166696fee275259)
+
+##coeus-1702.0013
 * RESKC-2016: Validation to prevent inactive units in cost share. (#2198)
 
   * Gayathri Athreya on Fri, 10 Feb 2017 11:12:24 -0700 [View Commit](../../commit/328f78b4e722ca09898c05c5c97817d3ee972e1f)
