@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+* Reskc 1950 subawards (#2204)
+
+* RESKC-1950: Fixing subaward FDP print out.
+  * 
+* RESKC-1950: Clean code.
+  * Gayathri Athreya on Wed, 15 Feb 2017 08:57:20 -0700 [View Commit](../../commit/34f45b1e24a605c8cac4e02d7fc74555377dbb42)
+* RESKC-2020: The Valid Source Account Cost Share Type needs to allow user select modify and change the active/inactive flag and submit the document. Currently error message appears. (#2205)
+
+  * Gayathri Athreya on Wed, 15 Feb 2017 08:55:46 -0700 [View Commit](../../commit/6ef74fa7d3172bd50e797e9c531319ff15bea0be)
+* RESKC-2029: Adding description and account number instead of codes. (#2207)
+
+  * Gayathri Athreya on Wed, 15 Feb 2017 08:55:20 -0700 [View Commit](../../commit/f0b242b4dc49f9a04c22518ab40e111b2ffe84bb)
+
+##coeus-1702.0016
 * No Changes
 
 
