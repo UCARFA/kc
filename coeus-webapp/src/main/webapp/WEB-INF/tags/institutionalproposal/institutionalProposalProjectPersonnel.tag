@@ -128,10 +128,12 @@
 			</tr>
 			</c:if>
 
-            <c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
-            <c:set var="coiDisclosureStatuses" value="${KualiForm.disclosureProjectStatuses}" />
-            <c:set var="coiDispositionViewEnabled" value="${KualiForm.coiDispositionViewEnabled}" />
-            <c:set var="projectStatusEnabled" value="${KualiForm.displayCoiProjectStatus}" />
+			<c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
+			<c:set var="coiDispositionViewEnabled" value="${KualiForm.coiDispositionViewEnabled}" />
+			<c:set var="projectStatusEnabled" value="${KualiForm.displayCoiProjectStatus}" />
+			<c:if test="${displayCoiProjectStatus && (coiDispositionViewEnabled || projectStatusEnabled)}">
+				<c:set var="coiDisclosureStatuses" value="${KualiForm.disclosureProjectStatuses}" />
+			</c:if>
 
 			<c:forEach var="institutionalProposalContact" items="${krafn:copy(KualiForm.document.institutionalProposalList[0].projectPersons)}" varStatus="institutionalProposalContactRowStatus">
 				<tr>

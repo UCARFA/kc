@@ -439,9 +439,11 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     }
 
     public void refreshDisclosureProjectStatuses() {
-        disclosureProjectStatuses = getDisclosureStatusRetrievalService().getDisclosureStatusesForProject(
-                Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, getInstitutionalProposalDocument().getInstitutionalProposal().getInstProposalNumber()
-        );
+        if (getDisplayCoiProjectStatus() && (isCoiDispositionViewEnabled() || getDisplayCoiDisclosureStatus())) {
+            disclosureProjectStatuses = getDisclosureStatusRetrievalService().getDisclosureStatusesForProject(
+                    Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, getInstitutionalProposalDocument().getInstitutionalProposal().getInstProposalNumber()
+            );
+        }
     }
 
     protected DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
