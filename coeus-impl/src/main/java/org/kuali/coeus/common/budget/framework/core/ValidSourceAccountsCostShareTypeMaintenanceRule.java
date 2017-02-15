@@ -56,7 +56,9 @@ public class ValidSourceAccountsCostShareTypeMaintenanceRule extends KcMaintenan
     }
 
     protected Boolean doesEntryExist(MaintenanceDocument document) {
-        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
+        final String maintenanceAction = document.getNewMaintainableObject().getMaintenanceAction();
+        if (!maintenanceAction.equals(KRADConstants.MAINTENANCE_DELETE_ACTION) &&
+            !maintenanceAction.equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
             ValidSourceAccountsCostShareType validSourceAccountsCostShareType = (ValidSourceAccountsCostShareType) document.getDocumentBusinessObject();
             return validate(validSourceAccountsCostShareType);
         }
