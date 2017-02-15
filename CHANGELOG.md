@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2022: Only call COI services when parameters are enabled (previously called but did not display when disabled)
+  * Terry Durkin on Wed, 15 Feb 2017 15:06:30 -0500 [View Commit](../../commit/2a4d48d86a1d4f061ebebb6c018e97e67521fb82)
+
+##coeus-1702.0017
 * Reskc 1950 subawards (#2204)
 
 * RESKC-1950: Fixing subaward FDP print out.
