@@ -34,6 +34,8 @@
                 <ref bean="ValidSourceAccountsCostShareType-code" />
                 <ref bean="ValidSourceAccountsCostShareType-costShareTypeCode" />
                 <ref bean="ValidSourceAccountsCostShareType-sourceAccountCode" />
+                <ref bean="ValidSourceAccountsCostShareType-costShareType.description" />
+                <ref bean="ValidSourceAccountsCostShareType-account.accountNumber" />
                 <ref bean="ValidSourceAccountsCostShareType-active" />
             </list>
         </property>
@@ -87,6 +89,20 @@
         </property>
         <property name="summary" value="Cost Share Type Code" />
         <property name="description" value="Cost Share Type Code" />
+    </bean>
+
+    <bean id="ValidSourceAccountsCostShareType-costShareType.description" parent="ValidSourceAccountsCostShareType-costShareType.description-parentBean" />
+    <bean id="ValidSourceAccountsCostShareType-costShareType.description-parentBean" abstract="true" parent="CostShareType-description">
+        <property name="name" value="costShareType.description" />
+        <property name="label" value="Cost Share Type Description" />
+        <property name="shortLabel" value="Cost Share Type Description" />
+    </bean>
+
+    <bean id="ValidSourceAccountsCostShareType-account.accountNumber" parent="ValidSourceAccountsCostShareType-account.accountNumber-parentBean" />
+    <bean id="ValidSourceAccountsCostShareType-account.accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+        <property name="name" value="account.accountNumber" />
+        <property name="label" value="Source Account Number" />
+        <property name="shortLabel" value="Source Account Number" />
     </bean>
 
     <bean id="ValidSourceAccountsCostShareType-sourceAccountCode" parent="ValidSourceAccountsCostShareType-sourceAccountCode-parentBean" />
@@ -155,6 +171,8 @@
                             <bean parent="FieldDefinition" p:attributeName="code"/>
                             <bean parent="FieldDefinition" p:attributeName="costShareTypeCode" p:forceInquiry="true"/>
                             <bean parent="FieldDefinition" p:attributeName="sourceAccountCode" p:forceInquiry="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="costShareType.description" p:forceInquiry="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="account.accountNumber" p:forceInquiry="true"/>
                             <bean parent="FieldDefinition" p:attributeName="active"/>
                         </list>
                     </property>
@@ -176,6 +194,8 @@
                             <bean p:propertyName="code" parent="Uif-DataField"/>
                             <bean p:propertyName="costShareTypeCode" parent="Uif-DataField"/>
                             <bean p:propertyName="sourceAccountCode" parent="Uif-DataField"/>
+                            <bean p:propertyName="costShareType.description" parent="Uif-DataField"/>
+                            <bean p:propertyName="account.accountNumber" parent="Uif-DataField"/>
                             <bean p:propertyName="active" parent="Uif-DataField"/>
                         </list>
                     </property>
@@ -202,8 +222,8 @@
         <property name="resultFields">
             <list>
                 <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
-                <bean parent="FieldDefinition" p:attributeName="costShareTypeCode"/>
-                <bean parent="FieldDefinition" p:attributeName="sourceAccountCode"/>
+                <bean parent="FieldDefinition" p:attributeName="costShareType.description"/>
+                <bean parent="FieldDefinition" p:attributeName="account.accountNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
         </property>
@@ -223,8 +243,8 @@
         <property name="resultFields" >
             <list>
                 <bean p:propertyName="code" parent="Uif-DataField"/>
-                <bean p:propertyName="costShareTypeCode" parent="Uif-DataField"/>
-                <bean p:propertyName="sourceAccountCode" parent="Uif-DataField"/>
+                <bean p:propertyName="costShareType.description" parent="Uif-DataField"/>
+                <bean p:propertyName="account.accountNumber" parent="Uif-DataField"/>
                 <bean p:propertyName="active" parent="Uif-DataField"/>
             </list>
         </property>
