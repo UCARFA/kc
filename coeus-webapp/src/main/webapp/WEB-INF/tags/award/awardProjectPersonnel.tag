@@ -200,9 +200,11 @@
     			</c:if>
 
                 <c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
-                <c:set var="coiDisclosureStatuses" value="${KualiForm.disclosureProjectStatuses}" />
                 <c:set var="coiDispositionViewEnabled" value="${KualiForm.coiDispositionViewEnabled}" />
-                <c:set var="projectStatusEnabled" value="${KualiForm.displayCoiProjectStatus}" />
+				<c:set var="projectStatusEnabled" value="${KualiForm.displayCoiProjectStatus}" />
+				<c:if test="${displayCoiProjectStatus && (coiDispositionViewEnabled || projectStatusEnabled)}">
+					<c:set var="coiDisclosureStatuses" value="${KualiForm.disclosureProjectStatuses}" />
+				</c:if>
 
                 <c:forEach var="awardContact" items="${KualiForm.document.awardList[0].projectPersons}" varStatus="awardContactRowStatus">
     				<tr>
