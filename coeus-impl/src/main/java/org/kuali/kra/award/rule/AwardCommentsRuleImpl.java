@@ -82,7 +82,7 @@ public class AwardCommentsRuleImpl extends KcTransactionalDocumentRuleBase imple
     }
 
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("MissingCasesInEnumSwitch")
     private boolean checkPaymentAndInvoiceCommentRule( AwardCommentsRuleEvent awardCommentsRuleEvent, String errorKey ) {
         boolean valid = true;
         AwardDocument awardDocument = (AwardDocument)awardCommentsRuleEvent.getDocument();

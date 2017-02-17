@@ -370,7 +370,8 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         protocolForm.getIacucProtocolProceduresHelper().setCurrentProcedureDetailTab(IacucProcedureNavigation.PROCEDURES);
         return actionForward;        
     }
-    
+
+    @SuppressWarnings("MissingCasesInEnumSwitch")
     private String getProcedureActionForward(IacucProtocolForm protocolForm) {
         IacucProcedureNavigation currentProcedureTab = protocolForm.getIacucProtocolProceduresHelper().getCurrentProcedureDetailTab();
         String procedureActionForwardName = Constants.MAPPING_BASIC;

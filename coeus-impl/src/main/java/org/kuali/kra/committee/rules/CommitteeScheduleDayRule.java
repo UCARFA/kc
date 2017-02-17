@@ -35,10 +35,11 @@ public class CommitteeScheduleDayRule extends KcTransactionalDocumentRuleBase im
     public static final String SCHEDULEDATA_YEARLY_DAY = "committeeHelper.scheduleData.yearlySchedule.day";
     
     @Override
+    @SuppressWarnings("MissingCasesInEnumSwitch")
     public boolean processRules(CommitteeScheduleDayEvent event) {
         boolean rulePassed = true;
         ScheduleData scheduleData = event.getScheduleData();
-        StyleKey key = StyleKey.valueOf(scheduleData.getRecurrenceType());        
+        StyleKey key = StyleKey.valueOf(scheduleData.getRecurrenceType());
         switch (key) {
             case MONTHLY :
                 MonthlyScheduleDetails.optionValues monthOption = MonthlyScheduleDetails.optionValues.valueOf(scheduleData.getMonthlySchedule().getMonthOption());

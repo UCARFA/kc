@@ -186,6 +186,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             switch(periodEndDate.compareTo(projectEndDate)) {
                 case 1:
                     periodEndDate = projectEndDate;
+                    break;
                 case 0:
                     budgetPeriodExists = false;
                     break;
