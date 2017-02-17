@@ -23,4 +23,5 @@ set sqlblanklines on
 spool 1702_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1702_002__fdp_form_update.sql
 @./kc/bootstrap/V1702_003__fdp_form_update.sql
+@./kc/bootstrap/V1702_004__fdp_form_update.sql
 commit;
