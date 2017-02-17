@@ -84,6 +84,7 @@ public class CoiPrintingServiceImpl  implements CoiPrintingService {
        
 
     @Override
+    @SuppressWarnings("MissingCasesInEnumSwitch")
     public AbstractPrint getCoiPrintable(CoiReportType reportType) {
     	AbstractPrint printable = null;
         switch(reportType) {
