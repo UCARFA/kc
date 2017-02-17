@@ -166,6 +166,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     }
 
     @Override
+    @SuppressWarnings("FallThrough")
     public List<BudgetPeriod> generateBudgetPeriods(Budget budget) {
     	List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
         Date projectStartDate = budget.getStartDate();
@@ -186,7 +187,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             switch(periodEndDate.compareTo(projectEndDate)) {
                 case 1:
                     periodEndDate = projectEndDate;
-                    break;
+                    //the break statement is purposefully missing.
                 case 0:
                     budgetPeriodExists = false;
                     break;
