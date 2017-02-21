@@ -21,7 +21,7 @@
   <bean id="BudgetColumnsToAlter" parent="BudgetColumnsToAlter-parentBean" />
   <bean id="BudgetColumnsToAlter-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.budget.editable.BudgetColumnsToAlter" />
-		<property name="objectLabel" value="Budget Columns To Alter" />
+		<property name="objectLabel" value="Proposal Budget Columns To Alter" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetColumnsToAlter-inquiryDefinition" />
     </property>
@@ -215,7 +215,7 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Budget Columns To Alter" />
+          <property name="title" value="Proposal Budget Columns To Alter" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -239,7 +239,7 @@
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
-          <property name="headerText" value="Budget Columns To Alter"/>
+          <property name="headerText" value="Proposal Budget Columns To Alter"/>
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
@@ -261,7 +261,7 @@
   <bean id="BudgetColumnsToAlter-lookupDefinition" parent="BudgetColumnsToAlter-lookupDefinition-parentBean" />
   <bean id="BudgetColumnsToAlter-LookupView" parent="BudgetColumnsToAlter-LookupView-parentBean"/>
   <bean id="BudgetColumnsToAlter-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Columns To Alter Lookup" />
+    <property name="title" value="Proposal Budget Columns To Alter Lookup" />
     <property name="lookupableID" value="customLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
@@ -291,7 +291,7 @@
 
   <bean id="BudgetColumnsToAlter-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.budget.editable.BudgetColumnsToAlter"/>
-    <property name="headerText" value="Budget Columns To Alter Lookup"/>
+    <property name="headerText" value="Proposal Budget Columns To Alter Lookup"/>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="columnName" parent="Uif-LookupCriteriaInputField"/>
