@@ -21,8 +21,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>BudgetColumnsToAlterMaintenanceDocument</name>
-			<description>Create a New Budget Column To Alter</description>
-			<label>Budget Column To Alter</label>
+			<description>Create a New Proposal Budget Column To Alter</description>
+			<label>Proposal Budget Column To Alter</label>
 			<parent>KcMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
