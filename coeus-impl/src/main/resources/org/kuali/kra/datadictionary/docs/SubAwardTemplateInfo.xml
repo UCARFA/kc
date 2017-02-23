@@ -57,6 +57,9 @@
                 <ref bean="SubAwardTemplateInfo-rAndD" />
                 <ref bean="SubAwardTemplateInfo-includesCostSharing" />
                 <ref bean="SubAwardTemplateInfo-fcio" />
+                <ref bean="SubAwardTemplateInfo-invoicesEmailed" />
+                <ref bean="SubAwardTemplateInfo-invoiceAddressDifferent" />
+                <ref bean="SubAwardTemplateInfo-invoiceEmailDifferent" />
 		      </list>
 		     </property>
     </bean>
@@ -449,6 +452,33 @@
         <property name="shortLabel" value="Prime Sponsor is PHS for FCOI regulation" />
         <property name="summary" value="Prime Sponsor is PHS for FCOI regulation" />
         <property name="description" value="Prime Sponsor is PHS for FCOI regulation" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-invoicesEmailed" parent="SubAwardTemplateInfo-invoicesEmailed-parentBean"/>
+    <bean id="SubAwardTemplateInfo-invoicesEmailed-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="invoicesEmailed" />
+        <property name="label" value="Invoices emailed" />
+        <property name="shortLabel" value="Invoices emailed" />
+        <property name="summary" value="Invoices emailed" />
+        <property name="description" value="Invoices emailed" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-invoiceAddressDifferent" parent="SubAwardTemplateInfo-invoiceAddressDifferent-parentBean"/>
+    <bean id="SubAwardTemplateInfo-invoiceAddressDifferent-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="invoiceAddressDifferent" />
+        <property name="label" value="Invoice Address if different from contact" />
+        <property name="shortLabel" value="Invoice Address if different from contact" />
+        <property name="summary" value="Invoice Address if different from contact" />
+        <property name="description" value="Invoice Address if different from contact" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-invoiceEmailDifferent" parent="SubAwardTemplateInfo-invoiceEmailDifferent-parentBean"/>
+    <bean id="SubAwardTemplateInfo-invoiceEmailDifferent-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="invoiceEmailDifferent" />
+        <property name="label" value="Email different from Financial Contact's" />
+        <property name="shortLabel" value="Email different from Financial Contact's" />
+        <property name="summary" value="Email different from Financial Contact's" />
+        <property name="description" value="Email different from Financial Contact's" />
     </bean>
 
     <!-- Business Object Inquiry Definition -->

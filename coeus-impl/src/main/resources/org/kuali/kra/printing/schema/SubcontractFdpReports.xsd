@@ -321,6 +321,7 @@
                             <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="CoiContactEmail" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
@@ -332,6 +333,9 @@
                             <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="InvoicesEmailed" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="InvoiceEmailDifferent" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="InvoiceAddressDifferent" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
@@ -343,6 +347,7 @@
                             <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="ContactTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="ContactTypeDesc" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="CentralEmail" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="RolodexDetails" type="subcontract:RolodexDetailsType" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>

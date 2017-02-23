@@ -137,6 +137,27 @@
                         <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].fcio" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.fcio}" />
                     </td>
                 </tr>
+                <tr>
+                    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.invoicesEmailed}" /></div></th>
+                    <td>
+                        <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].invoicesEmailed" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.invoicesEmailed}"  />
+                    </td>
+                    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.invoiceEmailDifferent}" /></div></th>
+                    <td>
+                        <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].invoiceEmailDifferent" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.invoiceEmailDifferent}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.invoiceAddressDifferent}" /></div></th>
+                    <td>
+                        <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].invoiceAddressDifferent" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.invoiceAddressDifferent}"  />
+                    </td>
+                    <th><div align="right">&nbsp;</div></th>
+                    <td>
+                        <div>&nbsp;</div>
+                    </td>
+                </tr>
             </table>
    			</div>
 	</kul:tabTop>

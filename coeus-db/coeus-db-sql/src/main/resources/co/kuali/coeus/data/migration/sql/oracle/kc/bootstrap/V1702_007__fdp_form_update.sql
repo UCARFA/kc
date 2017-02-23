@@ -1,7 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+--
+-- Copyright 2005-2016 Kuali, Inc.
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+--
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
+delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP_ATT_3A';
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_ATT_3A',	'FDP Attachment 3A',sysdate,'admin', EMPTY_CLOB(),'FDP Attachment 3A.xsl','application/octet-stream',1,SYS_GUID(),3);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
     <xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
-    <xsl:param name="SV_OutputFormat" select="'PDF'"/>
+    <xsl:param name="SV_OutputFormat" select="''PDF''"/>
     <xsl:variable name="XML" select="/"/>
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
@@ -84,8 +111,8 @@
                                                         </fo:block>
                                                     </fo:block>
                                                 </fo:block>
-                                                
-                                                
+
+
   <fo:inline-container>
                                                     <fo:block>
                                                         <xsl:text>&#x2029;</xsl:text>
@@ -106,18 +133,26 @@
                                                             </fo:block>
                                                         </fo:block>
                                                     </fo:block>
-                                                </fo:block>                                                
+                                                </fo:block>
                                                    <fo:inline>
                                                     <xsl:text>Subaward Number:</xsl:text>
-                                                </fo:inline>
-                                                <xsl:for-each select="subcontract:SubContractData">
+                                                </fo:inline>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                <xsl:for-each select="subcontract:SubContractData">
                                                     <xsl:for-each select="subcontract:SubcontractDetail">
                                                         <xsl:for-each select="subcontract:PONumber">
                                                             <xsl:variable name="value-of-template">
                                                                 <xsl:apply-templates/>
                                                             </xsl:variable>
                                                             <xsl:choose>
-                                                                <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                     <fo:block>
                                                                         <xsl:copy-of select="$value-of-template"/>
                                                                     </fo:block>
@@ -135,7 +170,7 @@
                                             </fo:block>
                                         </fo:table-cell>
                                     </fo:table-row>
-                                  
+
                                     <fo:table-row>
                                         <fo:table-cell number-columns-spanned="9" padding="2pt" display-align="center">
                                             <fo:block>
@@ -181,7 +216,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -203,8 +238,16 @@
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
-                                                        <fo:table-row>
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                        <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
                                                                 <fo:block>
                                                                     <fo:inline-container>
@@ -234,7 +277,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -258,7 +301,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -282,7 +325,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -304,8 +347,16 @@
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
-                                                        <fo:table-row>
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                        <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
                                                                 <fo:block>
                                                                     <fo:inline-container>
@@ -339,7 +390,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -373,7 +424,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -403,7 +454,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -422,8 +473,16 @@
                                                                                 </fo:table-cell>
                                                                             </fo:table-row>
                                                                         </fo:table-body>
-                                                                    </fo:table>
-                                                                </fo:block>
+                                                                    </fo:table>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                                </fo:block>
                                                             </fo:table-cell>
                                                         </fo:table-row>
                                                     </fo:table-body>
@@ -472,7 +531,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -514,8 +573,16 @@
                                                                                             <xsl:text>Address:</xsl:text>
                                                                                         </fo:inline>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
-                                                                                <fo:table-cell padding="1.5pt" display-align="center">
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                                                <fo:table-cell padding="1.5pt" display-align="center">
                                                                                     <fo:block>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
                                                                                             <xsl:for-each select="subcontract:PrimeAdministrativeContact">
@@ -525,7 +592,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -549,7 +616,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -573,7 +640,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -595,8 +662,16 @@
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
-                                                        <fo:table-row>
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                        <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
                                                                 <fo:block>
                                                                     <fo:inline-container>
@@ -630,7 +705,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -664,7 +739,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -694,7 +769,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -716,8 +791,16 @@
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
-                                                        <fo:table-row>
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                        <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
                                                                 <fo:block>
                                                                     <fo:inline-container>
@@ -754,7 +837,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -784,7 +867,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -825,7 +908,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''''&#x2029;'''')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -846,8 +929,16 @@
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
-
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
 
                                                         <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
@@ -858,7 +949,7 @@
                                                                         </fo:block>
                                                                     </fo:inline-container>
 
-                                                                   
+
                                                                 </fo:block>
                                                             </fo:table-cell>
                                                         </fo:table-row>
@@ -907,7 +998,7 @@
                                                                                                         <xsl:apply-templates/>
                                                                                                     </xsl:variable>
                                                                                                     <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                        <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                             <fo:block>
                                                                                                                 <xsl:copy-of select="$value-of-template"/>
                                                                                                             </fo:block>
@@ -948,8 +1039,16 @@
                                                                                             <xsl:text>Address:</xsl:text>
                                                                                         </fo:inline>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
-                                                                                <fo:table-cell padding="1.5pt" display-align="center">
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                                                <fo:table-cell padding="1.5pt" display-align="center">
                                                                                     <fo:block>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
                                                                                             <xsl:for-each select="subcontract:PrimePrincipalInvestigator">
@@ -958,7 +1057,7 @@
                                                                                                         <xsl:apply-templates/>
                                                                                                     </xsl:variable>
                                                                                                     <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                        <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                             <fo:block>
                                                                                                                 <xsl:copy-of select="$value-of-template"/>
                                                                                                             </fo:block>
@@ -980,7 +1079,7 @@
                                                                                                         <xsl:apply-templates/>
                                                                                                     </xsl:variable>
                                                                                                     <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                        <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                             <fo:block>
                                                                                                                 <xsl:copy-of select="$value-of-template"/>
                                                                                                             </fo:block>
@@ -1002,7 +1101,7 @@
                                                                                                         <xsl:apply-templates/>
                                                                                                     </xsl:variable>
                                                                                                     <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                        <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                             <fo:block>
                                                                                                                 <xsl:copy-of select="$value-of-template"/>
                                                                                                             </fo:block>
@@ -1047,8 +1146,16 @@
                                                                                             <xsl:text>City:</xsl:text>
                                                                                         </fo:inline>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
-                                                                                <fo:table-cell padding="1.5pt" text-align="left" display-align="center">
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                                                <fo:table-cell padding="1.5pt" text-align="left" display-align="center">
                                                                                     <fo:block>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
                                                                                             <xsl:for-each select="subcontract:PrimePrincipalInvestigator">
@@ -1057,7 +1164,7 @@
                                                                                                         <xsl:apply-templates/>
                                                                                                     </xsl:variable>
                                                                                                     <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                        <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                             <fo:block>
                                                                                                                 <xsl:copy-of select="$value-of-template"/>
                                                                                                             </fo:block>
@@ -1089,7 +1196,7 @@
                                                                                                         <xsl:apply-templates/>
                                                                                                     </xsl:variable>
                                                                                                     <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                        <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                             <fo:block>
                                                                                                                 <xsl:copy-of select="$value-of-template"/>
                                                                                                             </fo:block>
@@ -1117,7 +1224,7 @@
                                                                                                         <xsl:apply-templates/>
                                                                                                     </xsl:variable>
                                                                                                     <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                        <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                             <fo:block>
                                                                                                                 <xsl:copy-of select="$value-of-template"/>
                                                                                                             </fo:block>
@@ -1138,8 +1245,16 @@
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
-                                                        <fo:table-row>
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                        <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
                                                                 <fo:block>
                                                                     <fo:inline-container>
@@ -1176,7 +1291,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1206,7 +1321,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1234,8 +1349,16 @@
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
-                                                        <fo:table-row>
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                        <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
                                                                 <fo:block>
                                                                     <fo:inline-container>
@@ -1244,7 +1367,7 @@
                                                                         </fo:block>
                                                                     </fo:inline-container>
 
-                                                                   
+
                                                                 </fo:block>
                                                             </fo:table-cell>
                                                         </fo:table-row>
@@ -1294,7 +1417,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1336,8 +1459,16 @@
                                                                                             <xsl:text>Address:</xsl:text>
                                                                                         </fo:inline>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
-                                                                                <fo:table-cell padding="1.5pt" display-align="center">
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                                                <fo:table-cell padding="1.5pt" display-align="center">
                                                                                     <fo:block>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
                                                                                             <xsl:for-each select="subcontract:PrimeFinancialContact">
@@ -1347,7 +1478,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1371,7 +1502,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1395,7 +1526,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1441,8 +1572,16 @@
                                                                                             <xsl:text>City:</xsl:text>
                                                                                         </fo:inline>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
-                                                                                <fo:table-cell padding="1.5pt" text-align="left" display-align="center">
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                                                <fo:table-cell padding="1.5pt" text-align="left" display-align="center">
                                                                                     <fo:block>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
                                                                                             <xsl:for-each select="subcontract:PrimeFinancialContact">
@@ -1452,7 +1591,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1486,7 +1625,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1516,7 +1655,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1562,8 +1701,16 @@
                                                                                           <xsl:text>Telephone:</xsl:text>
                                                                                         </fo:inline>
                                                                                     </fo:block>
-                                                                                </fo:table-cell>
-                                                                                <fo:table-cell padding="1.5pt" text-align="left" display-align="center">
+                                                                                </fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                                                <fo:table-cell padding="1.5pt" text-align="left" display-align="center">
                                                                                     <fo:block>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
                                                                                             <xsl:for-each select="subcontract:PrimeFinancialContact">
@@ -1576,7 +1723,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1606,7 +1753,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1643,9 +1790,9 @@
                                                                             <xsl:text>&#x2029;</xsl:text>
                                                                         </fo:block>
                                                                     </fo:inline-container>
-                                                                   
 
- <!--============= New Field PTE Financial Contact, change mapping here=================-->                                                                                
+
+ <!--============= New Field PTE Financial Contact, change mapping here=================-->
                                                                                  <fo:table font-family="Arial" font-size="9pt" table-layout="fixed" width="100%" border-spacing=".25">
                                                                         <fo:table-column column-width="10%"/>
                                                                         <fo:table-column column-width="25%"/>
@@ -1654,9 +1801,17 @@
                                                                         <fo:table-column column-width="proportional-column-width(1)"/>
                                                                         <fo:table-column column-width="proportional-column-width(1)"/>
                                                                         <fo:table-body start-indent="0pt">
-                                                                       
-  <fo:table-row>
-<fo:table-cell padding="1pt"  number-columns-spanned="2"  display-align="center">
+
+  <fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='<fo:table-cell padding="1pt"  number-columns-spanned="2"  display-align="center">
 <fo:block>
 <fo:inline>
 <xsl:text>Email Invoice? </xsl:text>
@@ -1758,7 +1913,7 @@
                                                                                                         <xsl:apply-templates/>
                                                                                                     </xsl:variable>
                                                                                                     <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                        <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                             <fo:block>
                                                                                                                 <xsl:copy-of select="$value-of-template"/>
                                                                                                             </fo:block>
@@ -1774,8 +1929,16 @@
                                                                                         </xsl:for-each>
                                                                                     </fo:block>
 </fo:table-cell>
-</fo:table-row>                     
-                                                                            <fo:table-row>
+</fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                                            <fo:table-row>
                                                                             <fo:table-cell padding="1.5pt" text-align="left" display-align="center" number-columns-spanned="6">
                                                                                     <fo:block>
                                                                                         <fo:inline>
@@ -1788,7 +1951,7 @@
                                                                                                         <xsl:apply-templates/>
                                                                                                     </xsl:variable>
                                                                                                     <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                        <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                             <fo:block>
                                                                                                                 <xsl:copy-of select="$value-of-template"/>
                                                                                                             </fo:block>
@@ -1817,7 +1980,7 @@
                                                                         <fo:block>
                                                                             <xsl:text>&#x2029;</xsl:text>
                                                                         </fo:block>
-                                                                    </fo:inline-container>                                                                  
+                                                                    </fo:inline-container>
                                                                 </fo:block>
                                                             </fo:table-cell>
                                                         </fo:table-row>
@@ -1873,7 +2036,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1895,8 +2058,16 @@
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
-                                                        <fo:table-row>
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                        <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
                                                                 <fo:block>
                                                                     <fo:inline-container>
@@ -1926,7 +2097,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1950,7 +2121,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1974,7 +2145,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -1996,8 +2167,16 @@
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
-                                                        <fo:table-row>
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                        <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
                                                                 <fo:block>
                                                                     <fo:inline-container>
@@ -2031,7 +2210,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -2065,7 +2244,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -2095,7 +2274,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -2117,8 +2296,16 @@
                                                                     </fo:table>
                                                                 </fo:block>
                                                             </fo:table-cell>
-                                                        </fo:table-row>
-                                                        <fo:table-row>
+                                                        </fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='                                                        <fo:table-row>
                                                             <fo:table-cell padding="1.5pt" display-align="center">
                                                                 <fo:block>
                                                                     <fo:inline-container>
@@ -2155,7 +2342,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -2185,7 +2372,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -2210,9 +2397,17 @@
                                                                                 </fo:table-cell>
                                                                                 </fo:table-row>
                                                     </fo:table-body>
-                                                </fo:table>
-                                                                                
-                        <!--============= New Field Central Email Begin, change email mapping here=================-->                                                                                
+                                                </fo:table>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=3 AND FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+  buffer :='
+                        <!--============= New Field Central Email Begin, change email mapping here=================-->
                                                                                  <fo:table font-family="Arial" font-size="9pt" table-layout="fixed" width="100%" border-spacing=".25">
                                                                         <fo:table-column column-width="20%"/>
                                                                         <fo:table-column column-width="25%"/>
@@ -2222,8 +2417,8 @@
                                                                         <fo:table-column column-width="proportional-column-width(1)"/>
                                                                         <fo:table-body start-indent="0pt">
                                                                             <fo:table-row>
-                                                                              
-                                                                                
+
+
                                                                                 <fo:table-cell padding="1.5pt" text-align="left" display-align="center" number-columns-spanned="6">
                                                                                     <fo:block>
                                                                                         <fo:inline>
@@ -2236,7 +2431,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
@@ -2265,15 +2460,15 @@
                                                                         <fo:block>
                                                                             <xsl:text>&#x2029;</xsl:text>
                                                                         </fo:block>
-                                                                    </fo:inline-container>                                                                  
+                                                                    </fo:inline-container>
                                                                 </fo:block>
                                                             </fo:table-cell>
                                                         </fo:table-row>
                                                     </fo:table-body>
                                                 </fo:table>
 
-                                                
-                                                
+
+
                                                 <fo:block text-align="center">
                                                     <fo:leader leader-pattern="rule" rule-thickness="0.5" leader-length="100%" color="black"/>
                                                 </fo:block>
@@ -2297,13 +2492,13 @@
     <xsl:template name="double-backslash">
         <xsl:param name="text"/>
         <xsl:param name="text-length"/>
-        <xsl:variable name="text-after-bs" select="substring-after($text, '\')"/>
+        <xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
         <xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
         <xsl:choose>
             <xsl:when test="$text-after-bs-length = 0">
                 <xsl:choose>
-                    <xsl:when test="substring($text, $text-length) = '\'">
-                        <xsl:value-of select="concat(substring($text,1,$text-length - 1), '\\')"/>
+                    <xsl:when test="substring($text, $text-length) = ''\''">
+                        <xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:value-of select="$text"/>
@@ -2311,7 +2506,7 @@
                 </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), '\\')"/>
+                <xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
                 <xsl:call-template name="double-backslash">
                     <xsl:with-param name="text" select="$text-after-bs"/>
                     <xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -2319,4 +2514,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-</xsl:stylesheet>
+</xsl:stylesheet>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/

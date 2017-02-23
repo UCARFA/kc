@@ -82,6 +82,11 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     public static final String OBLIGATED_TOTAL = "obligatedTotal";
     public static final String ANTICIPATED_TOTAL = "anticipatedTotal";
     public static final String SUB_AWARD_REPORT_TYPE_CODE = "subAwardReportTypeCode";
+    public static final String INVOICES_EMAILED = "invoicesEmailed";
+    public static final String INVOICE_ADDRESS_DIFFERENT = "invoiceAddressDifferent";
+    public static final String INVOICE_EMAIL_DIFFERENT = "invoiceEmailDifferent";
+    public static final String FDP_PTE_INVOICE_EMAIL = "FDP_PTE_Invoice_email";
+    public static final String FDP_PTE_INVOICE_ADDRESS = "FDP_PTE_Invoice_address";
 
     private BusinessObjectService businessObjectService;
 
@@ -96,6 +101,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private Boolean ffata;
     private Boolean randd;
     private Boolean costshare;
+    private Boolean invoicesEmailed;
+    private Boolean invoiceAddressDifferent;
+    private Boolean invoiceEmailDifferent;
     private String primeSponsorName;
     private Calendar noticeDate;
     private BigDecimal obligatedTotal;
@@ -121,6 +129,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         this.ffata = (Boolean) reportParameters.get(FFATA);
         this.randd = (Boolean) reportParameters.get(RANDD);
         this.costshare = (Boolean) reportParameters.get(COSTSHARE);
+        this.invoicesEmailed = (Boolean) reportParameters.get(INVOICES_EMAILED);
+        this.invoiceAddressDifferent = (Boolean) reportParameters.get(INVOICE_ADDRESS_DIFFERENT);
+        this.invoiceEmailDifferent = (Boolean) reportParameters.get(INVOICE_EMAIL_DIFFERENT);
         this.primeSponsorName = (String) reportParameters.get(PRIME_SPONSOR_NAME);
         this.noticeDate = (Calendar) reportParameters.get(NOTICE_DATE);
         this.obligatedTotal = (BigDecimal) reportParameters.get(OBLIGATED_TOTAL);
@@ -533,6 +544,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                         rolodexdetails.setPhoneNumber(rolodex.getPhoneNumber());
                         rolodexdetails.setFax(rolodex.getFaxNumber());
                         rolodexdetails.setEmail(rolodex.getEmailAddress());
+
+                        primeAdministrativeContact.setCoiContactEmail(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, "FDP_COI_Contact_email"));
                     }
                 }
             }
@@ -615,6 +628,16 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                         rolodexDetails.setPhoneNumber(rolodex.getPhoneNumber());
                         rolodexDetails.setFax(rolodex.getFaxNumber());
                         rolodexDetails.setEmail(rolodex.getEmailAddress());
+
+                        primeFinancialContact.setInvoicesEmailed(toFlag(invoicesEmailed));
+
+                        if (invoiceEmailDifferent != null && invoiceEmailDifferent) {
+                            primeFinancialContact.setInvoiceEmailDifferent(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, FDP_PTE_INVOICE_EMAIL));
+                        }
+
+                        if (invoiceAddressDifferent != null && invoiceAddressDifferent) {
+                            primeFinancialContact.setInvoiceAddressDifferent(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, FDP_PTE_INVOICE_ADDRESS));
+                        }
                     }
                 }
             }
@@ -663,6 +686,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                         rolodexDetails.setPhoneNumber(rolodex.getPhoneNumber());
                         rolodexDetails.setFax(rolodex.getFaxNumber());
                         rolodexDetails.setEmail(rolodex.getEmailAddress());
+
+                        primeAuthorisedOfficial.setCentralEmail(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, "FDP_PTE_AOR_Central_email"));
+
                     }
                 }
             }

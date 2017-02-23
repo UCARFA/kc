@@ -76,6 +76,12 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
 
     private Boolean fcio;
 
+    private Boolean invoicesEmailed;
+
+    private Boolean invoiceAddressDifferent;
+
+    private Boolean invoiceEmailDifferent;
+
     public String getSubAwardCode() {
         return subAwardCode;
     }
@@ -282,5 +288,29 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
 
     public void setFcio(Boolean fcio) {
         this.fcio = fcio;
+    }
+
+    public Boolean getInvoicesEmailed() {
+        return invoicesEmailed;
+    }
+
+    public void setInvoicesEmailed(Boolean invoicesEmailed) {
+        this.invoicesEmailed = invoicesEmailed;
+    }
+
+    public Boolean getInvoiceAddressDifferent() {
+        return invoiceAddressDifferent;
+    }
+
+    public void setInvoiceAddressDifferent(Boolean invoiceAddressDifferent) {
+        this.invoiceAddressDifferent = invoiceAddressDifferent;
+    }
+
+    public Boolean getInvoiceEmailDifferent() {
+        return invoiceEmailDifferent;
+    }
+
+    public void setInvoiceEmailDifferent(Boolean invoiceEmailDifferent) {
+        this.invoiceEmailDifferent = invoiceEmailDifferent;
     }
 }
