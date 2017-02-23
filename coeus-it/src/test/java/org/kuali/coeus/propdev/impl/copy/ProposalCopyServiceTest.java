@@ -201,7 +201,7 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         opportunity.setOpeningDate(date1.toGregorianCalendar());
         Boolean mandatoryFormNotAvailable = false;
         opportunity.setS2sProvider(getDataObjectService().find(S2sProvider.class, opportunity.getProviderCode()));
-        List<S2sOppForms> s2sOppForms = getS2sSubmissionService().parseOpportunityForms(opportunity);
+        List<S2sOppForms> s2sOppForms = getForms(proposal);
         if(s2sOppForms!=null){
             for(S2sOppForms s2sOppForm:s2sOppForms){
                 if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
@@ -223,6 +223,36 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         return opportunity;
     }
 
+    protected List<S2sOppForms> getForms(DevelopmentProposal proposal) {
+        List<S2sOppForms> forms = new ArrayList<>();
+        S2sOppForms rrSF424 = new S2sOppForms();
+        rrSF424.setFormName("rrSF424-V2.0");
+        rrSF424.setInclude(true);
+        rrSF424.setMandatory(true);
+        rrSF424.setAvailable(true);
+        rrSF424.setSchemaUrl("https://trainingapply.grants.gov/apply/forms/schemas/rrSF424-V2.0.xsd");
+        rrSF424.setSelectToPrint(null);
+        S2sOppForms.S2sOppFormsId oppFormId = new S2sOppForms.S2sOppFormsId();
+        oppFormId.setProposalNumber(proposal.getProposalNumber());
+        oppFormId.setOppNameSpace("https://trainingapply.grants.gov/apply/forms/schemas/rrSF424-V2.0");
+        rrSF424.setS2sOppFormsId(oppFormId);
+        rrSF424.setUserAttachedForm(false);
+        forms.add(rrSF424);
+        S2sOppForms phsResearchPlan = new S2sOppForms();
+        phsResearchPlan.setFormName("rrSF424-V2.0");
+        phsResearchPlan.setInclude(true);
+        phsResearchPlan.setAvailable(true);
+        phsResearchPlan.setMandatory(true);
+        phsResearchPlan.setSchemaUrl("https://trainingapply.grants.gov/apply/forms/schemas/phsResearchPlan-V2.0.xsd");
+        oppFormId = new S2sOppForms.S2sOppFormsId();
+        oppFormId.setProposalNumber(proposal.getProposalNumber());
+        oppFormId.setOppNameSpace("https://trainingapply.grants.gov/apply/forms/schemas/phsResearchPlan-V2.0");
+        phsResearchPlan.setS2sOppFormsId(oppFormId);
+        phsResearchPlan.setSelectToPrint(null);
+        phsResearchPlan.setUserAttachedForm(false);
+        forms.add(phsResearchPlan);
+        return forms;
+    }
     protected void addNote(ProposalDevelopmentDocument proposalDocument) {
         Note note = new Note();
         note.setNoteText("testNote");
@@ -316,7 +346,7 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
 
         assertTrue(copiedDocument.getDevelopmentProposal().getS2sOpportunity() != null);
         assertEquals(copiedDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId(), OPP_ID);
-        assertTrue(copiedDocument.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms().size() == 11);
+        assertTrue(copiedDocument.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms().size() == 2);
 
         assertFalse(copiedDocument.getDevelopmentProposal().getS2sUserAttachedForms().isEmpty());
         assertFalse(copiedDocument.getDevelopmentProposal().getS2sUserAttachedForms().get(0).getS2sUserAttachedFormFileList().isEmpty());
