@@ -19,4 +19,7 @@
 
 
 \. ./rice/bootstrap/V1702_001__nih_validation_service.sql
+\. ./rice/bootstrap/V1702_005__key_personnel_cert_feature_flag.sql
+\. ./rice/bootstrap/V1702_006__RESKC-1938_KRMS_func.sql
+\. ./rice/bootstrap/V1702_009__fdp_params.sql
 commit;

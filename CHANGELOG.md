@@ -1,6 +1,24 @@
 
 
 ##CURRENT
+* RESKC-2050: Fixing integration tests (#2219)
+
+  * Gayathri Athreya on Thu, 23 Feb 2017 14:33:14 -0700 [View Commit](../../commit/c7f84eff1959344c2e7af330dd9ba1e96a6326d7)
+* RESKC-1760, RESKC-1949, RESKC-1510, RESKC-1765: fdp form updates
+  * Travis Schneeberger on Thu, 23 Feb 2017 11:24:29 -0500 [View Commit](../../commit/0e50fc5bd3aed75e056de0831b9f46c8b00ad24c)
+* RESKC-1938: New cost share type rule. (#2216)
+
+  * Gayathri Athreya on Thu, 23 Feb 2017 12:42:12 -0700 [View Commit](../../commit/5166491be2d7f24837faf2c936630a3a455eb05e)
+* RESKC-1997: cert fix (#2215)
+
+* RESKC-1997: cert fix
+  * 
+* PR changes
+  * Gayathri Athreya on Thu, 23 Feb 2017 12:41:55 -0700 [View Commit](../../commit/cf980326a845f596ee9d4963616f8291bed55e30)
+* RESKC-50: Putting the correct columns in the Proposal Budget Editable Column list.  Sorting columns, moving maintenance link, relabeling maintenance link and document.
+  * Travis Schneeberger on Tue, 21 Feb 2017 11:34:51 -0500 [View Commit](../../commit/92bc85aa06e9eaa6ac9e20b7f1d3d8fefebf8959)
+
+##coeus-1702.0020
 * RESKC-1947: updating fdp form 3A
   * Travis Schneeberger on Fri, 17 Feb 2017 11:23:25 -0500 [View Commit](../../commit/200565dd70408555f5e306cb65740aa51cbeda0c)
 

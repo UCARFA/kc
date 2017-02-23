@@ -21,4 +21,6 @@
 \. ./kc/bootstrap/V1702_002__fdp_form_update.sql
 \. ./kc/bootstrap/V1702_003__fdp_form_update.sql
 \. ./kc/bootstrap/V1702_004__fdp_form_update.sql
+\. ./kc/bootstrap/V1702_007__fdp_form_update.sql
+\. ./kc/bootstrap/V1702_008__template_fields.sql
 commit;
