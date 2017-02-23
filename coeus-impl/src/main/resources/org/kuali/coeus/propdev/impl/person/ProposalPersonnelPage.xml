@@ -673,7 +673,7 @@
                       p:order="20" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="clearAnswers" p:actionLabel="Clear All Answers"
                       p:actionParameters="personNumber:@{(#line.proposalPersonNumber)}"
-                      p:render="@{!document.developmentProposal.isChild() and #ViewHelper.canSaveCertification(document,#line)}"
+                      p:render="@{!document.developmentProposal.isChild() and #ViewHelper.canSaveCertification(document,#line) and !#ViewHelper.hasProposalPersonApproved(document, #line)}"
                       p:order="30">
                     <property name="confirmationDialog">
                         <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to clear all the answers?"/>
@@ -681,6 +681,7 @@
                 </bean>
                 <bean parent="Questionnaire-QuestionsGroup" p:propertyName="questionnaireHelper.answerHeaders[0].questions"
                       p:render="@{#ViewHelper.renderQuestionnaire(#line)}"
+                      p:readOnly="true"
                       p:order="40">
                       <property name="subCollections">
 						<list>

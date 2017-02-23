@@ -952,5 +952,6 @@ public interface Constants {
 
     String AWARD_BUDGET_SUMMARY_CUMULATIVE = "Award_budget_version_summary_cumulative";
 
+    String RESKC_1977_MAKE_CERT_READ_ONLY_AFTER_APPROVAL = "RESKC_1977_Make_Cert_Read_Only_After_Approval";
 }
 

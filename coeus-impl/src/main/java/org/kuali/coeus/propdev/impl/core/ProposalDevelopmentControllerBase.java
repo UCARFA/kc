@@ -19,7 +19,9 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.coi.framework.*;
+import org.kuali.coeus.coi.framework.Project;
+import org.kuali.coeus.coi.framework.ProjectPublisher;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
@@ -28,6 +30,7 @@ import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
+import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.coi.CoiConstants;
@@ -57,6 +60,7 @@ import org.kuali.rice.core.api.criteria.QueryResults;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.DocumentBase;
@@ -82,7 +86,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.*;
 
 public abstract class ProposalDevelopmentControllerBase {
@@ -543,12 +546,13 @@ public abstract class ProposalDevelopmentControllerBase {
                         updatePersonCertificationInfo(person, developmentProposal.getProjectId());
                         requiresUpdate = true;
                     } else {
+                        boolean sameAnswers = isKeyPersonCertIsEnabled() ? answersIncompleteOrUnchanged(answerHeader, currentAnswerHeader) : Boolean.TRUE;
                         getLegacyDataAdapter().save(answerHeader);
 
                         person.getQuestionnaireHelper().populateAnswers();
                         boolean isComplete = person.getQuestionnaireHelper().getAnswerHeaders().get(0).isCompleted();
                         allCertificationAreNowComplete &= isComplete;
-                        if (isComplete && !wasComplete) {
+                        if ((isComplete && !wasComplete) || !sameAnswers) {
                             person.setCertifiedBy(getGlobalVariableService().getUserSession().getPrincipalId());
                             person.setCertifiedTime(getDateTimeService().getCurrentTimestamp());
                             if (getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PROP_PERSON_COI_STATUS_FLAG) &&
@@ -578,6 +582,46 @@ public abstract class ProposalDevelopmentControllerBase {
             ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(developmentProposal);
             getKcNotificationService().sendNotification(context);
         }
+    }
+
+    protected boolean answersIncompleteOrUnchanged(AnswerHeader newAnswerHeader, AnswerHeader currentAnswerHeader) {
+        if (newAnswerHeader == null || currentAnswerHeader == null ||
+           (newAnswerHeader.getAnswers() == null && currentAnswerHeader.getAnswers() == null)) {
+            return Boolean.TRUE;
+        }
+        if (newAnswerHeader.isCompleted()) {
+            if (currentAnswerHeader.getAnswers() == null || newAnswerHeader.getAnswers() == null) {
+                return Boolean.FALSE;
+            }
+            for (Answer answer : newAnswerHeader.getAnswers()) {
+                for (Answer currentAnswer : currentAnswerHeader.getAnswers()) {
+                    if (answerIsDifferent(currentAnswer, answer)) {
+                        return Boolean.FALSE;
+                    }
+                }
+            }
+        }
+        return Boolean.TRUE;
+    }
+
+    protected boolean answerIsDifferent(Answer currentAnswer, Answer newAnswer) {
+        if (currentAnswer == null && newAnswer == null) {
+            return Boolean.FALSE;
+        }
+        if (currentAnswer == null || newAnswer == null) {
+            return Boolean.TRUE;
+        }
+        if (currentAnswer.getAnswer() == null && newAnswer.getAnswer() == null) {
+            return Boolean.FALSE;
+        }
+        return (currentAnswer.getAnswer() == null || newAnswer.getAnswer() == null) ||
+        (currentAnswer.getQuestionId().equals(newAnswer.getQuestionId()) &&
+                        !newAnswer.getAnswer().equalsIgnoreCase(currentAnswer.getAnswer()));
+    }
+
+    protected boolean isKeyPersonCertIsEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.ALL_COMPONENT, Constants.RESKC_1977_MAKE_CERT_READ_ONLY_AFTER_APPROVAL);
+
     }
 
     protected void sendCoiDisclosureRequiredNotification(DevelopmentProposal developmentProposal,ProposalPerson person) {

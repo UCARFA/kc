@@ -47,7 +47,10 @@ import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsServ
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
@@ -410,6 +413,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     public boolean canSaveCertificationForPerson(ProposalDevelopmentDocument document, Person user,ProposalPerson proposalPerson){
         return isProposalStateEditableForCertification(document.getDevelopmentProposal()) && hasCertificationPermissions(document,user,proposalPerson);
     }
+
     protected boolean canSaveCertification(ProposalDevelopmentDocument document, Person user) {
         final DevelopmentProposal proposal = document.getDevelopmentProposal();
 
@@ -443,8 +447,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     	return getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.VIEW_CERTIFICATION);
     }
 
-    protected boolean isProposalStateEditableForCertification(DevelopmentProposal developmentProposal) {
-    	return getProposalStatesEditableForCertification().contains(developmentProposal.getProposalStateTypeCode());
+    protected boolean isProposalStateEditableForCertification(DevelopmentProposal proposal) {
+    	return getProposalStatesEditableForCertification().contains(proposal.getProposalStateTypeCode());
     }
     
     protected Set<String> getProposalStatesEditableForCertification() {
@@ -452,15 +456,55 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if(isCertificationRequiredOnlyBeforeApproval()) {
         	proposalStates.add(ProposalState.IN_PROGRESS);
         	proposalStates.add(ProposalState.REVISIONS_REQUESTED);
-        	proposalStates.add(ProposalState.APPROVAL_PENDING);
         	proposalStates.add(ProposalState.APPROVAL_PENDING_SUBMITTED);
+            proposalStates.add(ProposalState.APPROVAL_PENDING);
         }else {
         	proposalStates.add(ProposalState.IN_PROGRESS);
         	proposalStates.add(ProposalState.REVISIONS_REQUESTED);
         }
         return proposalStates;
     }
-   
+
+    public boolean hasProposalPersonApproved(ProposalDevelopmentDocument document, ProposalPerson proposalPerson) {
+        // In the proposal personnel tab for each person, if this proposalPerson has approved the PD or
+        final String personId = proposalPerson.getPersonId();
+        final ProposalPerson principalInvestigator = document.getDevelopmentProposal().getPrincipalInvestigator();
+
+        final String principalInvestigatorId = principalInvestigator.getPersonId() == null ?
+                principalInvestigator.getRolodexId().toString() : principalInvestigator.getPersonId();
+        boolean proposalPersonApprovedDocument = Boolean.FALSE;
+        boolean personIsInRouteLog = Boolean.FALSE;
+        List<ActionTaken> actionsTaken = getActionsTaken(document);
+        if (personId != null) {
+            proposalPersonApprovedDocument = actionsTaken.stream().anyMatch(actionTaken ->
+                    KewApiConstants.ACTION_REQUEST_APPROVE_REQ.equalsIgnoreCase(actionTaken.getActionTaken().getCode()) &&
+                            personId.equalsIgnoreCase(actionTaken.getPrincipalId()));
+            List<String> principalIdsInRouteLog = getPrincipalIdsInRouteLog(document);
+            personIsInRouteLog = principalIdsInRouteLog.stream().anyMatch(ids ->
+                    ids.equalsIgnoreCase(personId));
+
+        }
+        // if this person is not in workflow approval but PI has approved, then make uneditable
+        boolean piApprovedDocument = actionsTaken.stream().anyMatch(actionTaken ->
+                KewApiConstants.ACTION_REQUEST_APPROVE_REQ.equalsIgnoreCase(actionTaken.getActionTaken().getCode()) &&
+                        principalInvestigatorId.equalsIgnoreCase(actionTaken.getPrincipalId()));
+         return proposalPersonApprovedDocument || (!personIsInRouteLog && piApprovedDocument);
+        // pi could be a rolodex and the pi is part of the approval process -- this is an edge case that
+        // probably never happens so ignoring this scenario
+    }
+
+    protected List<ActionTaken> getActionsTaken(ProposalDevelopmentDocument document) {
+        return document.getDocumentHeader().getWorkflowDocument().getActionsTaken();
+    }
+
+    protected List<String> getPrincipalIdsInRouteLog(ProposalDevelopmentDocument document) {
+        return getWorkflowDocumentActionsService().getPrincipalIdsInRouteLog(document.getDocumentNumber(), true);
+    }
+
+    public WorkflowDocumentActionsService getWorkflowDocumentActionsService() {
+        return KcServiceLocator.getService("workflowDocumentActionsService");
+    }
+
     protected boolean isCertificationRequiredOnlyBeforeApproval() {
         String keyPersonCertDefferalParam =  ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.KEY_PERSON_CERTIFICATION_DEFERRAL_PARM);
         if(keyPersonCertDefferalParam.equalsIgnoreCase(ProposalDevelopmentConstants.ParameterValues.KEY_PERSON_CERTIFICATION_BEFORE_APPROVE)) {

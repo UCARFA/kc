@@ -1005,8 +1005,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public boolean canViewCertificationTab(ProposalDevelopmentDocument document,ProposalPerson proposalPerson) {
     	String currentUser = getGlobalVariableService().getUserSession().getPrincipalName();
     	Person person = getPersonService().getPersonByPrincipalName(currentUser);
-    	return getProposalDevelopmentPermissionsService().hasCertificationPermissions(document, person, proposalPerson) || 
-    			getKraAuthorizationService().hasPermission(person.getPrincipalId(), document, PermissionConstants.VIEW_CERTIFICATION);
+        return getProposalDevelopmentPermissionsService().hasCertificationPermissions(document, person, proposalPerson) ||
+                getKraAuthorizationService().hasPermission(person.getPrincipalId(), document, PermissionConstants.VIEW_CERTIFICATION);
     }
 
     public boolean displayCoiDisclosureStatus() {
@@ -1020,8 +1020,21 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         ProposalDevelopmentDocumentAuthorizer proposalDevelopmentDocumentAuthorizer = (ProposalDevelopmentDocumentAuthorizer) proposalDevelopmentDocumentViewAuthorizer.getDocumentAuthorizer();
         Person currentUser = getGlobalVariableService().getUserSession().getPerson();
         boolean canSaveCertify = proposalDevelopmentDocumentAuthorizer.canSaveCertificationForPerson(document,currentUser,proposalPerson);
-        document.setCertifyViewOnly(!canSaveCertify);
+        document.setCertifyViewOnly(!canSaveCertify || hasProposalPersonApproved(document, proposalPerson));
         return canSaveCertify;
+    }
+
+    public boolean hasProposalPersonApproved(ProposalDevelopmentDocument document, ProposalPerson proposalPerson) {
+        if (isKeyPersonCertIsEnabled()) {
+            ProposalDevelopmentDocumentAuthorizer proposalDevelopmentDocumentAuthorizer = (ProposalDevelopmentDocumentAuthorizer) proposalDevelopmentDocumentViewAuthorizer.getDocumentAuthorizer();
+            return proposalDevelopmentDocumentAuthorizer.hasProposalPersonApproved(document, proposalPerson);
+        }
+        return Boolean.FALSE;
+    }
+
+    public boolean isKeyPersonCertIsEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.ALL_COMPONENT, Constants.RESKC_1977_MAKE_CERT_READ_ONLY_AFTER_APPROVAL);
+
     }
 
     public boolean isViewOnly(ProposalDevelopmentDocument document){
