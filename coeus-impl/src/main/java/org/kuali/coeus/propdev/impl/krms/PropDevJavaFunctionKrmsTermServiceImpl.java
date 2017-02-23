@@ -19,17 +19,15 @@
 package org.kuali.coeus.propdev.impl.krms;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -632,6 +630,21 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     			.anyMatch(code -> code.equalsIgnoreCase(developmentProposal.getProposalTypeCode()));
     	}
     	return Boolean.FALSE;
+    }
+
+    public Boolean costShareTypeInBudgetCostShareRule(DevelopmentProposal developmentProposal, String costShareTypeCodes) {
+        Budget budget = developmentProposal.getFinalBudget();
+        if (budget == null || costShareTypeCodes == null) {
+            return Boolean.FALSE;
+        }
+
+        Set<String> costShareTypesInBudget = budget.getBudgetCostShares().stream().map(
+                budgetCostShare -> budgetCostShare.getCostShareTypeCode() != null ? budgetCostShare.getCostShareTypeCode().toString() : StringUtils.EMPTY).
+                collect(Collectors.toSet());
+        return Stream.of(costShareTypeCodes.split(","))
+                .map(String::trim)
+                .filter(StringUtils::isNotEmpty)
+                .anyMatch(code -> costShareTypesInBudget.contains(code));
     }
 
     @Override

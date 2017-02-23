@@ -29,6 +29,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import junit.framework.Assert;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -37,6 +39,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.AppointmentType;
@@ -919,6 +922,50 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 		assertEquals(FALSE, propDevJavaFunctionKrmsTermService.deadlineDateRule(developmentProposal, deadLineDate.toString()));
 		assertEquals(FALSE, propDevJavaFunctionKrmsTermService.deadlineDateRule(null, deadLineDate.toString()));
 	}
+
+    @Test
+    public void test_costShareTypeInBudgetCostShareRule() {
+        final DevelopmentProposal developmentProposal = createDevelopmentProposal();
+
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, "3, 4, 5"));
+
+        ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudget();
+        BudgetCostShare costShare1 = new BudgetCostShare();
+        costShare1.setCostShareTypeCode(1);
+        budget.getBudgetCostShares().add(costShare1);
+        BudgetCostShare costShare2 = new BudgetCostShare();
+        costShare2.setCostShareTypeCode(2);
+        budget.getBudgetCostShares().add(costShare2);
+        developmentProposal.getBudgets().add(0, budget);
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, "3, 4, 5"));
+
+        costShare1 = new BudgetCostShare();
+        costShare1.setCostShareTypeCode(1);
+        budget.getBudgetCostShares().add(costShare1);
+        costShare2 = new BudgetCostShare();
+        costShare2.setCostShareTypeCode(2);
+        developmentProposal.getBudgets().get(0).getBudgetCostShares().add(costShare2);
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, "1, 2"));
+
+        developmentProposal.setFinalBudget(budget);
+        Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, "1, 2"));
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, ""));
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, null));
+        Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, "1"));
+
+        BudgetCostShare costShare3 = new BudgetCostShare();
+        costShare3.setCostShareTypeCode(3);
+        developmentProposal.getFinalBudget().getBudgetCostShares().add(costShare3);
+        Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, "3, 4, 5"));
+        Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, "3,4,5"));
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, "3;4;5"));
+
+        developmentProposal.getFinalBudget().getBudgetCostShares().stream().forEach(budgetCostShare -> {
+            budgetCostShare.setCostShareTypeCode(null);
+        });
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, "3, 4, 5"));
+
+    }
 
 	public DevelopmentProposal createDevelopmentProposal() {
 		final ProposalDevelopmentDocument proposalDevelopmentDocument = new ProposalDevelopmentDocument();
