@@ -25,4 +25,5 @@ spool 1702_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1702_005__key_personnel_cert_feature_flag.sql
 @./rice/bootstrap/V1702_006__RESKC-1938_KRMS_func.sql
 @./rice/bootstrap/V1702_009__fdp_params.sql
+@./rice/bootstrap/V1702_010__RESKC-1939_KRMS_func.sql
 commit;

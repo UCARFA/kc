@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1939: Cost share unit KRMS rule (#2221)
+
+  * Gayathri Athreya on Fri, 24 Feb 2017 09:17:02 -0700 [View Commit](../../commit/850cd6fa4e9bb922f17fa9741ee18e607248e97c)
+
+##coeus-1702.0022
 * No Changes
 
 
