@@ -647,6 +647,21 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
                 .anyMatch(code -> costShareTypesInBudget.contains(code));
     }
 
+    public Boolean costShareUnitRule(DevelopmentProposal developmentProposal, String costShareUnits) {
+        Budget budget = developmentProposal.getFinalBudget();
+        if (budget == null || costShareUnits == null) {
+            return Boolean.FALSE;
+        }
+
+        Set<String> costShareUnitsInBudget = budget.getBudgetCostShares().stream().map(
+                budgetCostShare -> budgetCostShare.getUnitNumber() != null ? budgetCostShare.getUnitNumber() : StringUtils.EMPTY).
+                collect(Collectors.toSet());
+        return Stream.of(costShareUnits.split(","))
+                .map(String::trim)
+                .filter(StringUtils::isNotEmpty)
+                .anyMatch(unit -> costShareUnitsInBudget.contains(unit));
+    }
+
     @Override
     public String proposalUnitRule(DevelopmentProposal developmentProposal, String unitNumber) {
         for (ProposalPerson person : developmentProposal.getProposalPersons()) {

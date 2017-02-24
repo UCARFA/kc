@@ -924,6 +924,39 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 	}
 
     @Test
+    public void test_costShareUnitRule() {
+        final DevelopmentProposal developmentProposal = createDevelopmentProposal();
+
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareUnitRule(developmentProposal, "000001, IN-IN"));
+
+        ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudget();
+        BudgetCostShare costShare1 = new BudgetCostShare();
+        costShare1.setUnitNumber("000001");
+        budget.getBudgetCostShares().add(costShare1);
+        BudgetCostShare costShare2 = new BudgetCostShare();
+        costShare2.setUnitNumber("IN-IN");
+        budget.getBudgetCostShares().add(costShare2);
+        developmentProposal.getBudgets().add(0, budget);
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareUnitRule(developmentProposal, "000001, IN-IN"));
+
+        developmentProposal.setFinalBudget(budget);
+        Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareUnitRule(developmentProposal, "000001, IN-IN"));
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareUnitRule(developmentProposal, ""));
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareUnitRule(developmentProposal, null));
+        Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareUnitRule(developmentProposal, "IN-IN"));
+
+        BudgetCostShare costShare3 = new BudgetCostShare();
+        costShare3.setUnitNumber("BL-BL");
+        developmentProposal.getFinalBudget().getBudgetCostShares().add(costShare3);
+        Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareUnitRule(developmentProposal, "000001, IN-IN, BL-BL"));
+        Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareUnitRule(developmentProposal, "000001,IN-IN,BL-BL"));
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareUnitRule(developmentProposal, "000001;IN-IN;BL-BL"));
+
+        developmentProposal.getFinalBudget().getBudgetCostShares().stream().forEach(budgetCostShare -> budgetCostShare.setUnitNumber(null));
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareUnitRule(developmentProposal, "000001, IN-IN, BL-BL"));
+    }
+
+    @Test
     public void test_costShareTypeInBudgetCostShareRule() {
         final DevelopmentProposal developmentProposal = createDevelopmentProposal();
 
@@ -960,9 +993,7 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
         Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, "3,4,5"));
         Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, "3;4;5"));
 
-        developmentProposal.getFinalBudget().getBudgetCostShares().stream().forEach(budgetCostShare -> {
-            budgetCostShare.setCostShareTypeCode(null);
-        });
+        developmentProposal.getFinalBudget().getBudgetCostShares().stream().forEach(budgetCostShare -> budgetCostShare.setCostShareTypeCode(null));
         Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareTypeInBudgetCostShareRule(developmentProposal, "3, 4, 5"));
 
     }
