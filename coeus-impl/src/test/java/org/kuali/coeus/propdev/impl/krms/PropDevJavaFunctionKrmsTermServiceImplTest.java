@@ -998,6 +998,48 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 
     }
 
+    @Test
+    public void test_costShareSourceAccountInBudgetCostShareRule() {
+        final DevelopmentProposal developmentProposal = createDevelopmentProposal();
+
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareSourceAccountRule(developmentProposal, "2345, 3456, 6589"));
+
+        ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudget();
+        BudgetCostShare costShare1 = new BudgetCostShare();
+        costShare1.setSourceAccount("23456");
+        budget.getBudgetCostShares().add(costShare1);
+        BudgetCostShare costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("1234");
+        budget.getBudgetCostShares().add(costShare2);
+        developmentProposal.getBudgets().add(0, budget);
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareSourceAccountRule(developmentProposal, "2345, 3456, 6589"));
+
+        costShare1 = new BudgetCostShare();
+        costShare1.setSourceAccount("23456");
+        budget.getBudgetCostShares().add(costShare1);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("1234");
+        developmentProposal.getBudgets().get(0).getBudgetCostShares().add(costShare2);
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareSourceAccountRule(developmentProposal, "2345, 3456, 6589"));
+
+        developmentProposal.setFinalBudget(budget);
+        Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareSourceAccountRule(developmentProposal, "23456, 2"));
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareSourceAccountRule(developmentProposal, ""));
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareSourceAccountRule(developmentProposal, null));
+        Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareSourceAccountRule(developmentProposal, "1234"));
+
+        BudgetCostShare costShare3 = new BudgetCostShare();
+        costShare3.setSourceAccount("23456");
+        developmentProposal.getFinalBudget().getBudgetCostShares().add(costShare3);
+        Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareSourceAccountRule(developmentProposal, "23456, 3456, 6589"));
+        Assert.assertTrue(propDevJavaFunctionKrmsTermService.costShareSourceAccountRule(developmentProposal, "23456,3456,6589"));
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareSourceAccountRule(developmentProposal, "23456; 3456; 6589"));
+
+        developmentProposal.getFinalBudget().getBudgetCostShares().stream().forEach(budgetCostShare -> budgetCostShare.setSourceAccount(null));
+        Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareSourceAccountRule(developmentProposal, "23456, 3456, 6589"));
+
+    }
+
 	public DevelopmentProposal createDevelopmentProposal() {
 		final ProposalDevelopmentDocument proposalDevelopmentDocument = new ProposalDevelopmentDocument();
 		proposalDevelopmentDocument.getDocumentHeader().setDocumentNumber("123");

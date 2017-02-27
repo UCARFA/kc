@@ -74,7 +74,8 @@ public interface PropDevJavaFunctionKrmsTermService extends KcKrmsJavaFunctionTe
     public Boolean proposalTypeInRule(DevelopmentProposal developmentProposal, String proposalTypeCodes);
     public Boolean costShareUnitRule(DevelopmentProposal developmentProposal, String costShareUnits);
     public String completeNarrativeRule(DevelopmentProposal developmentProposal);
-    
+    public Boolean costShareSourceAccountRule(DevelopmentProposal developmentProposal, String costShareSourceAccounts);
+
     public String investigatorCitizenshipTypeRule(DevelopmentProposal developmentProposal, String citizenshipTypeToCheck);
     public String piAppointmentTypeRule(DevelopmentProposal developmentProposal);
     public String proposalCampusRule(DevelopmentProposal developmentProposal, String a2SCampusCode);
