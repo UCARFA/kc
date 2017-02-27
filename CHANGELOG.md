@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* RESKC-2061: Fixing oracle scripts. (#2224)
+
+  * Gayathri Athreya on Mon, 27 Feb 2017 09:58:12 -0700 [View Commit](../../commit/65c1859de216523776ba37ef1d246d968b7591a5)
+* RESKC-2056: fixing validation for maintenance document
+  * Travis Schneeberger on Fri, 24 Feb 2017 16:22:41 -0500 [View Commit](../../commit/a063260d62c608a33df7d72ff6f2bcff495c3a19)
+
+##coeus-1702.0024
 * RESKC-1840: removing double space from person name columns
   * Travis Schneeberger on Fri, 24 Feb 2017 13:25:54 -0500 [View Commit](../../commit/9467697da6f14e0195f189812e069443b94c5e31)
 

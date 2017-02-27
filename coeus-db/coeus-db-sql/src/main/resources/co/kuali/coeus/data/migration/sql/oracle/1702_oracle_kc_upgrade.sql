@@ -27,4 +27,5 @@ spool 1702_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1702_007__fdp_form_update.sql
 @./kc/bootstrap/V1702_008__template_fields.sql
 @./kc/bootstrap/V1702_011__name_fix.sql
+@./kc/bootstrap/V1702_012__fix_fin_api.sql
 commit;
