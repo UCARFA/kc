@@ -49,7 +49,7 @@ public class AwardAccount extends KcPersistableBusinessObjectBase {
     private ScaleTwoDecimal expense;
     @Column(name="AVAILABLE")
     private ScaleTwoDecimal available;
-    @Column(name="COMMENT")
+    @Column(name="AWARD_ACCOUNT_COMMENT")
     private String comment;
 
     public AwardAccount() {
