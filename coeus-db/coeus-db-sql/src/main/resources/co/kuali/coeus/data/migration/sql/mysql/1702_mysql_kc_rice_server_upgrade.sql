@@ -23,4 +23,5 @@
 \. ./rice/bootstrap/V1702_006__RESKC-1938_KRMS_func.sql
 \. ./rice/bootstrap/V1702_009__fdp_params.sql
 \. ./rice/bootstrap/V1702_010__RESKC-1939_KRMS_func.sql
+\. ./rice/bootstrap/V1702_013__RESKC-1940_KRMS_func.sql
 commit;
