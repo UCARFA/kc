@@ -22,13 +22,12 @@ import javax.persistence.*;
 
 import org.kuali.coeus.common.budget.api.personnel.TbnPersonContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
-/**
- * To Be Named person business object
- */
 @Entity
 @Table(name = "TBN")
-public class TbnPerson extends KcPersistableBusinessObjectBase implements TbnPersonContract {
+public class TbnPerson extends KcPersistableBusinessObjectBase implements TbnPersonContract, Inactivatable {
 
     @Id
     @Column(name = "TBN_ID")
@@ -39,6 +38,10 @@ public class TbnPerson extends KcPersistableBusinessObjectBase implements TbnPer
 
     @Column(name = "JOB_CODE")
     private String jobCode;
+
+    @Column(name = "ACTIVE_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
+    private boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "JOB_CODE", referencedColumnName = "JOB_CODE", insertable = false, updatable = false)
@@ -93,4 +96,13 @@ public class TbnPerson extends KcPersistableBusinessObjectBase implements TbnPer
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

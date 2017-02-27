@@ -33,6 +33,7 @@
       <list>
         <ref bean="TbnPerson-tbnId" />
         <ref bean="TbnPerson-jobCode" />
+        <ref bean="TbnPerson-active" />
         <ref bean="TbnPerson-jobCodeReference.jobTitle" />
         <ref bean="TbnPerson-personName" />
         <ref bean="TbnPerson-versionNumber" />
@@ -87,6 +88,15 @@
   <bean id="TbnPerson-jobCode" parent="TbnPerson-jobCode-parentBean"/>
   <bean id="TbnPerson-jobCode-parentBean" abstract="true"  parent="JobCode-jobCode" p:required="true"/>
 
+  <bean id="TbnPerson-active" parent="TbnPerson-active-parentBean"/>
+  <bean abstract="true" id="TbnPerson-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active"/>
+    <property name="label" value="Is Active"/>
+    <property name="shortLabel" value="Is Active"/>
+    <property name="summary" value="Is Active"/>
+    <property name="description" value="Is Active"/>
+  </bean>
+
   <bean id="TbnPerson-jobCodeReference.jobTitle" parent="TbnPerson-jobCodeReference.jobTitle-parentBean"/>
   <bean id="TbnPerson-jobCodeReference.jobTitle-parentBean" abstract="true" parent="JobCode-jobTitle">
     <property name="name" value="jobCodeReference.jobTitle" />
@@ -128,6 +138,7 @@
               <bean parent="FieldDefinition" p:attributeName="tbnId" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="personName"/>
               <bean parent="FieldDefinition" p:attributeName="jobCodeReference.jobTitle" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -148,6 +159,7 @@
               <bean p:propertyName="tbnId" parent="Uif-DataField"/>
               <bean p:propertyName="personName" parent="Uif-DataField"/>
               <bean p:propertyName="jobCodeReference.jobTitle" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
             </list>
           </property>
         </bean>
@@ -170,6 +182,7 @@
         <bean parent="FieldDefinition" p:attributeName="tbnId"/>
         <bean parent="FieldDefinition" p:attributeName="personName"/>
         <bean parent="FieldDefinition" p:attributeName="jobCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields">
@@ -177,6 +190,7 @@
         <bean parent="FieldDefinition" p:attributeName="tbnId" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="personName"/>
         <bean parent="FieldDefinition" p:attributeName="jobCodeReference.jobTitle" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
   </bean>
@@ -189,6 +203,7 @@
         <bean p:propertyName="tbnId" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="personName" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="jobCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
@@ -196,6 +211,7 @@
         <bean p:propertyName="tbnId" parent="Uif-DataField"/>
         <bean p:propertyName="personName" parent="Uif-DataField"/>
         <bean p:propertyName="jobCodeReference.jobTitle" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>
