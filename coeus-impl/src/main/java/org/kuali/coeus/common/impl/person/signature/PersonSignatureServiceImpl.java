@@ -46,18 +46,17 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
     
     private static final String CORRESPONDENCE_SIGNATURE_TYPE = "CORRESPONDENCE_SIGNATURE_TYPE";
     private static final String CORRESPONDENCE_SIGNATURE_TAG = "CORRESPONDENCE_SIGNATURE_TAG";
-    private BusinessObjectService businessObjectService;
-    private ParameterService parameterService;
-
     private static final float ADDITIONAL_SPACE_BETWEEN_TAG_AND_IMAGE = 120f;
-
-    protected static final String PERSON_SIGNATURE_ACTIVE = "signatureActive";
-    protected static final String PERSON_SIGNATURE_PERSON_ID = "personId";
-    protected static final String DEFAULT_SIGNATURE = "defaultSignature";
+    private static final String PERSON_SIGNATURE_ACTIVE = "signatureActive";
+    private static final String PERSON_SIGNATURE_PERSON_ID = "personId";
+    private static final String DEFAULT_SIGNATURE = "defaultSignature";
     protected static final String MODULE_CODE = "moduleCode";
     
     private static final Log LOG = LogFactory.getLog(PersonSignatureServiceImpl.class);
-    
+
+    private BusinessObjectService businessObjectService;
+    private ParameterService parameterService;
+
     /**
      * Configure signature type required
      * D - Always use Default signature
@@ -71,7 +70,7 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
 
         private String signatureType;
 
-        private SignatureTypes(String signatureType) {
+        SignatureTypes(String signatureType) {
             this.signatureType = signatureType;
         }
 
@@ -91,11 +90,11 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
     }    
 
     @Override
-    public byte[] applySignature(byte[] pdfBytes) throws Exception {
+    public byte[] applySignature(byte[] pdfBytes) throws IOException {
         byte[] pdfFileData = pdfBytes;
-        ByteArrayOutputStream byteArrayOutputStream = getOriginalPdfDocumentAsOutputsStream(pdfBytes); //getFlattenedPdfForm(pdfFileData);
+        ByteArrayOutputStream byteArrayOutputStream = getOriginalPdfDocumentAsOutputsStream(pdfBytes);
         byteArrayOutputStream = identifyModeAndApplySignature(byteArrayOutputStream);
-        if(ObjectUtils.isNotNull(byteArrayOutputStream)) {
+        if(Objects.nonNull(byteArrayOutputStream)) {
             pdfFileData = byteArrayOutputStream.toByteArray();
         }
         return pdfFileData;
@@ -105,15 +104,12 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
      * This method is to identify signature mode and invoke appropriate method
      * If signature is not available, return the original.
      * to sign the document.
-     * @param originalByteArrayOutputStream
-     * @return
-     * @throws Exception
      */
-    protected ByteArrayOutputStream identifyModeAndApplySignature(ByteArrayOutputStream originalByteArrayOutputStream) throws Exception {
+    protected ByteArrayOutputStream identifyModeAndApplySignature(ByteArrayOutputStream originalByteArrayOutputStream) throws IOException {
         ByteArrayOutputStream outputStream = originalByteArrayOutputStream;
         String signatureTypeParam = getSignatureTypeParameter();
         SignatureTypes signatureType = SignatureTypes.NO_SIGNATURE_REQURIED;
-        if(ObjectUtils.isNotNull(signatureTypeParam)) {
+        if(Objects.nonNull(signatureTypeParam)) {
             signatureType = SignatureTypes.getSignatureMode(signatureTypeParam);
         }
         
@@ -139,15 +135,12 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
     /**
      * This method is to print default module authorized signature.
      * Original document is returned if signature is not available.
-     * @param originalByteArrayOutputStream
-     * @return
-     * @throws Exception
      */
-    protected ByteArrayOutputStream printDefaultSignature(ByteArrayOutputStream originalByteArrayOutputStream) throws Exception{
+    protected ByteArrayOutputStream printDefaultSignature(ByteArrayOutputStream originalByteArrayOutputStream) throws IOException {
         ByteArrayOutputStream outputStream = originalByteArrayOutputStream;
         PersonSignature authorizedSignature = getDefaultSignature();
         if(ObjectUtils.isNotNull(authorizedSignature)) {
-            if(ObjectUtils.isNotNull(authorizedSignature.getAttachmentContent())) {
+            if(Objects.nonNull(authorizedSignature.getAttachmentContent())) {
                 outputStream = applyAutographInDocument(authorizedSignature, outputStream);
             }
         }
@@ -158,19 +151,15 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
      * This method is to print logged in user signature.
      * If logged in user signature is not available, get the default signature for applicable module.
      * Original document is returned if signature is not available.
-     * @param personId
-     * @param originalByteArrayOutputStream
-     * @return
-     * @throws Exception
      */
-    protected ByteArrayOutputStream printLoggedInUserSignature(String personId, ByteArrayOutputStream originalByteArrayOutputStream) throws Exception{
+    protected ByteArrayOutputStream printLoggedInUserSignature(String personId, ByteArrayOutputStream originalByteArrayOutputStream) throws IOException{
         PersonSignature userSignature = getLoggedinPersonSignature(personId);
         ByteArrayOutputStream outputStream = originalByteArrayOutputStream;
         if(ObjectUtils.isNull(userSignature)) {
             userSignature = getDefaultSignature();
         }
         if(ObjectUtils.isNotNull(userSignature)) {
-            if(ObjectUtils.isNotNull(userSignature.getAttachmentContent())) {
+            if(Objects.nonNull(userSignature.getAttachmentContent())) {
                 outputStream = applyAutographInDocument(userSignature, outputStream);
             }
         }
@@ -179,9 +168,6 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
     
     /**
      * This method is to apply signature in the document.
-     * @param personSignature
-     * @param originalByteArrayOutputStream
-     * @return
      */
     protected ByteArrayOutputStream applyAutographInDocument(PersonSignature personSignature, ByteArrayOutputStream originalByteArrayOutputStream) {
         ByteArrayOutputStream outputStream = originalByteArrayOutputStream;
@@ -189,8 +175,7 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
             if (personSignature.getAttachmentContent() != null) {
                 outputStream = scanAndApplyAutographInEachPage(personSignature.getAttachmentContent(), outputStream);
             }
-        }catch (Exception ex) {
-                LOG.error("Exception while applying signature : Method applyAutographInDocument : " + ex.getMessage());
+        }catch (IOException ex) {
                 LOG.error(ex.getMessage(), ex);
         }
         return outputStream;
@@ -200,7 +185,7 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
      * This method is to scan for signature tag in each page and apply the signature
      * at desired location.
      */
-    protected ByteArrayOutputStream scanAndApplyAutographInEachPage(byte[] imageData, ByteArrayOutputStream originalByteArrayOutputStream) throws Exception {
+    protected ByteArrayOutputStream scanAndApplyAutographInEachPage(byte[] imageData, ByteArrayOutputStream originalByteArrayOutputStream) throws IOException {
 
         byte[] pdfFileData = originalByteArrayOutputStream.toByteArray();
         final PDDocument originalDocument = getPdfDocument(pdfFileData);
@@ -234,13 +219,12 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
         return originalByteArrayOutputStream;
     }
     
-    private PDDocument getPdfDocument(byte[] pdfFileData) throws Exception{
+    private PDDocument getPdfDocument(byte[] pdfFileData) throws IOException {
         InputStream is = new ByteArrayInputStream(pdfFileData);
-        PDDocument originalDocument = PDDocument.load(is);
-        return originalDocument;
+        return PDDocument.load(is);
     }
     
-    private ByteArrayOutputStream getOriginalPdfDocumentAsOutputsStream(byte[] pdfFileData) throws Exception{
+    private ByteArrayOutputStream getOriginalPdfDocumentAsOutputsStream(byte[] pdfFileData) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         InputStream is = new ByteArrayInputStream(pdfFileData);
         PDDocument originalDocument = PDDocument.load(is);
@@ -250,20 +234,15 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
     }
     
     /**
-     * This method is to get buffered image from image data
-     * @param imageData
-     * @return
-     * @throws Exception
+     * This method is to get buffered image from image data.
      */
     protected BufferedImage getBufferedImage(byte[] imageData) throws IOException {
         InputStream in = new ByteArrayInputStream(imageData);
-        BufferedImage image = ImageIO.read(in);
-        return image;
+        return ImageIO.read(in);
     }
     
     /**
-     * This method is to get the default signature for module
-     * @return
+     * This method is to get the default signature for module.
      */
     protected PersonSignature getDefaultSignature() {
         List<PersonSignatureModule> moduleSignatures = getAuthorizedDefaultSignatory();
@@ -276,16 +255,14 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
     
     /**
      * This method is to get logged in person signature
-     * Check whether user is authorized to sign in given module
-     * @param personId
-     * @return
+     * Check whether user is authorized to sign in given module.
      */
     protected PersonSignature getLoggedinPersonSignature(String personId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        Map<String, Object> fieldValues = new HashMap<>();
         boolean isAuthorized = false;
         fieldValues.put(PERSON_SIGNATURE_PERSON_ID, personId);
         fieldValues.put(PERSON_SIGNATURE_ACTIVE, Boolean.TRUE);
-        PersonSignature personSignature = (PersonSignature) getBusinessObjectService().findByPrimaryKey(PersonSignature.class, fieldValues);
+        PersonSignature personSignature = getBusinessObjectService().findByPrimaryKey(PersonSignature.class, fieldValues);
         if(ObjectUtils.isNotNull(personSignature)) {
             for(PersonSignatureModule personSignatureModule : personSignature.getPersonSignatureModules()) {
                 if(personSignatureModule.getModuleCode().equalsIgnoreCase(getModuleCodeHook()) && personSignatureModule.isSignatureActive()) {
@@ -301,10 +278,9 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
     /**
      * This method is to get authorized default signatory for a given module.
      * get all active signatures.
-     * @return
      */
     protected List<PersonSignatureModule> getAuthorizedDefaultSignatory() {    
-        Map<String, Object> matchingKey = new HashMap<String, Object>();
+        Map<String, Object> matchingKey = new HashMap<>();
         matchingKey.put(MODULE_CODE, getModuleCodeHook());
         matchingKey.put(PERSON_SIGNATURE_ACTIVE, Boolean.TRUE);
         matchingKey.put(DEFAULT_SIGNATURE, Boolean.TRUE);

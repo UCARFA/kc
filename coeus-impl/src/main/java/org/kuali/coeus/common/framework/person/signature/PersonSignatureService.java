@@ -19,6 +19,8 @@
 package org.kuali.coeus.common.framework.person.signature;
 
 
+import java.io.IOException;
+
 public interface PersonSignatureService {
 
     /**
@@ -26,10 +28,7 @@ public interface PersonSignatureService {
      * This method is to apply signature to the pdf document.
      * In this method the input pdfBytes are merged with appropriate signature and 
      * the result is returned.
-     * @param pdfBytes
-     * @return pdfFileData
-     * @throws Exception
      */
-    byte[] applySignature(byte[] pdfBytes) throws Exception;
+    byte[] applySignature(byte[] pdfBytes) throws IOException;
 
 }
