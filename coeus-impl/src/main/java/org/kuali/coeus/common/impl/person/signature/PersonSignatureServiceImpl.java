@@ -20,17 +20,13 @@ package org.kuali.coeus.common.impl.person.signature;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.pdfbox.Overlay;
+import org.apache.pdfbox.multipdf.Overlay;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.common.PDStream;
-import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.graphics.xobject.PDJpeg;
-import org.kuali.coeus.common.framework.person.signature.PersonSignature;
-import org.kuali.coeus.common.framework.person.signature.PersonSignatureLocationHelper;
-import org.kuali.coeus.common.framework.person.signature.PersonSignatureModule;
-import org.kuali.coeus.common.framework.person.signature.PersonSignaturePrintHelper;
-import org.kuali.coeus.common.framework.person.signature.PersonSignatureService;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.kuali.coeus.common.framework.person.signature.*;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -41,8 +37,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.IntStream;
 
 public abstract class PersonSignatureServiceImpl implements PersonSignatureService {
     
@@ -51,7 +49,7 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
 
-    private static final float ADDITIONAL_SPACE_BETWEEN_TAG_AND_IMAGE = 10f;
+    private static final float ADDITIONAL_SPACE_BETWEEN_TAG_AND_IMAGE = 120f;
 
     protected static final String PERSON_SIGNATURE_ACTIVE = "signatureActive";
     protected static final String PERSON_SIGNATURE_PERSON_ID = "personId";
@@ -201,46 +199,39 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
     /**
      * This method is to scan for signature tag in each page and apply the signature
      * at desired location.
-     * @param imageData
-     * @param originalByteArrayOutputStream
      */
-    @SuppressWarnings("unchecked")
     protected ByteArrayOutputStream scanAndApplyAutographInEachPage(byte[] imageData, ByteArrayOutputStream originalByteArrayOutputStream) throws Exception {
-        ByteArrayOutputStream outputStream = originalByteArrayOutputStream;
+
         byte[] pdfFileData = originalByteArrayOutputStream.toByteArray();
-        PDDocument originalDocument = getPdfDocument(pdfFileData); //PDDocument.load(is);
-        PDDocument signatureDocument = new PDDocument();
-        List<PDPage> originalDocumentPages = originalDocument.getDocumentCatalog().getAllPages();
-        for (PDPage page: originalDocumentPages) {
-            List<String> signatureTags = new ArrayList<String>(getSignatureTagParameter());
-            PersonSignatureLocationHelper printer = new PersonSignatureLocationHelper(signatureTags);
-            PDStream contents = page.getContents();
-            if( contents != null ) {
-                printer.processStream( page, page.findResources(), page.getContents().getStream() );
-            }
-            PDPage signaturePage = new PDPage();
-            if(printer.isSignatureTagExists()) {
-                PDJpeg signatureImage = new PDJpeg(signatureDocument, getBufferedImage(imageData));
-                PDPageContentStream stream = new PDPageContentStream( signatureDocument, signaturePage, true, true);
-                for(PersonSignaturePrintHelper signatureHelper : printer.getPersonSignatureLocations()) {
-                    float coordinateX = signatureHelper.getCoordinateX();
-                    float coordinateY = signatureHelper.getCoordinateY() - signatureImage.getHeight() - ADDITIONAL_SPACE_BETWEEN_TAG_AND_IMAGE;
-                    stream.drawImage(signatureImage, coordinateX, coordinateY);
+        final PDDocument originalDocument = getPdfDocument(pdfFileData);
+        final List<PrintTextLocator.PDFTextLocation> locations = new PrintTextLocator(originalDocument, new HashSet<>(getSignatureTagParameter())).doSearch();
+        final PDDocument signatureDocument = new PDDocument();
+
+        IntStream.rangeClosed(1, originalDocument.getDocumentCatalog().getPages().getCount()).forEach(pageNumber -> {
+            final PDPage signaturePage = new PDPage();
+            locations.stream().filter(location -> location.isFound() && pageNumber == location.getPage()).forEach(location -> {
+                try {
+                    final PDImageXObject signatureImage = JPEGFactory.createFromImage(signatureDocument, getBufferedImage(imageData));
+                    final PDPageContentStream stream = new PDPageContentStream(signatureDocument, signaturePage, PDPageContentStream.AppendMode.APPEND, true, false);
+                    stream.drawImage(signatureImage, location.getX(), location.getY() - signatureImage.getHeight() - ADDITIONAL_SPACE_BETWEEN_TAG_AND_IMAGE);
                     stream.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            }else {
-                signaturePage = page;
-            }
+            });
             signatureDocument.addPage(signaturePage);
-        }
-        
-        Overlay overlay = new Overlay();
-        overlay.overlay(signatureDocument, originalDocument);
-        
-        originalDocument.save(outputStream);
+        });
+
+        final Overlay overlay = new Overlay();
+        overlay.setDefaultOverlayPDF(signatureDocument);
+        overlay.setInputPDF(originalDocument);
+        final PDDocument overlayed = overlay.overlay(Collections.emptyMap());
+
+        overlayed.save(originalByteArrayOutputStream);
+        overlayed.close();
         originalDocument.close();
         signatureDocument.close();
-        return outputStream;
+        return originalByteArrayOutputStream;
     }
     
     private PDDocument getPdfDocument(byte[] pdfFileData) throws Exception{
@@ -264,7 +255,7 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
      * @return
      * @throws Exception
      */
-    protected BufferedImage getBufferedImage(byte[] imageData) throws Exception {
+    protected BufferedImage getBufferedImage(byte[] imageData) throws IOException {
         InputStream in = new ByteArrayInputStream(imageData);
         BufferedImage image = ImageIO.read(in);
         return image;
