@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2049: Updating pdfbox
+  * Travis Schneeberger on Wed, 1 Mar 2017 09:48:33 -0500 [View Commit](../../commit/a83eb17c020865ca91130c8cae5354bdd53269ed)
+
+##coeus-1703.0001
 * RESKC-1961: Adding active flag to tbn person
   * Travis Schneeberger on Mon, 27 Feb 2017 15:12:20 -0500 [View Commit](../../commit/0a0b644597aac98429f7ab1d3e07202ee096cb95)
 
