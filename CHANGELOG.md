@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1961: Adding active flag to tbn person
+  * Travis Schneeberger on Mon, 27 Feb 2017 15:12:20 -0500 [View Commit](../../commit/0a0b644597aac98429f7ab1d3e07202ee096cb95)
+
+##coeus-1702.0029
 * No Changes
 
 

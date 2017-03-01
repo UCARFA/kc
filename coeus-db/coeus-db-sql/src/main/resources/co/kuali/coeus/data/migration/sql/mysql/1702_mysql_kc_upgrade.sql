@@ -25,4 +25,5 @@
 \. ./kc/bootstrap/V1702_008__template_fields.sql
 \. ./kc/bootstrap/V1702_011__name_fix.sql
 \. ./kc/bootstrap/V1702_012__fix_fin_api.sql
+\. ./kc/bootstrap/V1702_014__tbn_active.sql
 commit;
