@@ -175,6 +175,7 @@
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.TbnPerson"
 		p:layoutManager.renderSequenceField="false" p:renderLineActions="false"
 		p:renderAddLine="false"
+	    p:showInactiveLines="false"
 		p:progressiveRender="@{addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).TBN.code}'}">
 		<property name="layoutManager.richTable.templateOptions">
 			<map>
