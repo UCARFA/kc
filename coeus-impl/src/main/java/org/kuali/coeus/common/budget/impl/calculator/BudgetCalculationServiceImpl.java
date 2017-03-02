@@ -1033,12 +1033,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 final boolean summaryPerson = BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonId().equals(personId);
 
                 final ScaleTwoDecimal personSalaryTotalsForCurrentPeriod = summaryPerson ? totalSalaryForCostElement : personInfo.getValue().stream()
-                        .filter(b -> b.getBudgetPeriodId().equals(budgetPeriod.getBudgetPeriodId()))
+                        .filter(b -> b.getBudgetLineItem().getBudgetPeriodId().equals(budgetPeriod.getBudgetPeriodId()))
                         .map(BudgetPersonnelDetails::getSalaryRequested)
                         .reduce(ScaleTwoDecimal.ZERO, ScaleTwoDecimal::add);
 
                 final ScaleTwoDecimal personFringeTotalsForCurrentPeriod =  summaryPerson ? totalFringeForCostElement : personInfo.getValue().stream()
-                        .filter(b -> b.getBudgetPeriodId().equals(budgetPeriod.getBudgetPeriodId()))
+                        .filter(b -> b.getBudgetLineItem().getBudgetPeriodId().equals(budgetPeriod.getBudgetPeriodId()))
                         .map(BudgetPersonnelDetails::getCalculatedFringe)
                         .reduce(ScaleTwoDecimal.ZERO, ScaleTwoDecimal::add);
 
