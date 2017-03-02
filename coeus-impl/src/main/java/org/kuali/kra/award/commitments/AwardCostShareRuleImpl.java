@@ -18,8 +18,11 @@
  */
 package org.kuali.kra.award.commitments;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
@@ -31,7 +34,9 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
 
     private AwardCostShare awardCostShare;
     private String fieldStarter = "";
-    
+    private AwardBudgetService awardBudgetService;
+    public static final String AWARD_COST_SHARE_FIELD = "costShareFormHelper.newAwardCostShare.source";
+
     @Override
     public boolean processCostShareBusinessRules(AwardCostShareRuleEvent awardCostShareRuleEvent, int i) {
         this.fieldStarter = "document.awardList[0].awardCostShares[" + i + "]";
@@ -49,7 +54,9 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
         
         // test if type is selected and valid
         isValid &= validateCostShareType(awardCostShare.getCostShareTypeCode());
-        
+
+        isValid &= getAwardBudgetService().isValidSourceAccountCostShareType(Constants.VALIDATION_MESSAGE_ERROR, awardCostShare, awardCostShareRuleEvent.getFieldName());
+
         // test if commitment amount is entered and valid
         isValid &= validateCommitmentAmount(awardCostShare.getCommitmentAmount());
         
@@ -63,7 +70,8 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
         boolean validSourceAndDestination = validateCostShareSourceAndDestinationForEquality(awardCostShare);
         boolean validFiscalYearRange = validateCostShareFiscalYearRange(awardCostShare);
         boolean validUnit = validateUnit(awardCostShare.getUnitNumber(),this.fieldStarter + ".unitNumber");
-        return validSourceAndDestination && validFiscalYearRange && validUnit;
+        boolean validSourceAccountCostShareType = getAwardBudgetService().isValidSourceAccountCostShareType(Constants.VALIDATION_MESSAGE_ERROR, awardCostShare, AWARD_COST_SHARE_FIELD);
+        return validSourceAndDestination && validFiscalYearRange && validUnit && validSourceAccountCostShareType;
     }
 
     public boolean validateCostShareSourceAndDestinationForEquality(AwardCostShare awardCostShare){
@@ -131,5 +139,10 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
         return isValid;
     }
 
-
+    protected AwardBudgetService getAwardBudgetService() {
+        if (awardBudgetService == null) {
+            awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
+        }
+        return awardBudgetService;
+    }
 }

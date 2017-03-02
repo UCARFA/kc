@@ -38,6 +38,7 @@ import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
@@ -409,6 +410,11 @@ public class PropDevBudgetSubAwardServiceTest {
 
         @Override
         public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod) {
+            return null;
+        }
+
+        @Override
+        public GlobalVariableService getGlobalVariableService() {
             return null;
         }
     }

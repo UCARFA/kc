@@ -22,7 +22,6 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.Collection;
 import java.util.Map;
@@ -30,26 +29,29 @@ import java.util.Map;
 public interface BudgetService<T extends BudgetParent>  {
     
 
-    public Budget addBudgetVersion(BudgetParentDocument<T> budgetParent, String versionName, Map<String, Object> options);
+    Budget addBudgetVersion(BudgetParentDocument<T> budgetParent, String versionName, Map<String, Object> options);
     
     /**
      * check if this line item CE has inflation rate
      * @param budgetLineItem
      * @return
      */
-    public boolean validInflationCeRate(BudgetLineItemBase budgetLineItem);
+    boolean validInflationCeRate(BudgetLineItemBase budgetLineItem);
     
-    public String getActivityTypeForBudget(Budget budget);
+    String getActivityTypeForBudget(Budget budget);
 
-    public Collection<BudgetRate> getSavedProposalRates(Budget budgetToOpen);
+    Collection<BudgetRate> getSavedProposalRates(Budget budgetToOpen);
 
-    public boolean isBudgetVersionNameValid(BudgetParent parent, String versionName);
+    boolean isBudgetVersionNameValid(BudgetParent parent, String versionName);
 
     /**
      * Returns a new finalized BudgetDocument with the data from the given BudgetDocument copied over.
-     */    
-    public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod);
+     */
+    Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod);
     
-    public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod);
+    void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod);
 
-}
+    boolean isValidSourceAccountCostShareType(String validationMessageType, CostShare budgetCostShare, String costShareField);
+
+
+    }

@@ -53,6 +53,7 @@ import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.commitments.AwardFandaRate;
@@ -85,7 +86,7 @@ import java.util.*;
 
 
 public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> implements AwardBudgetService {
-	private static final String HIERARCHY_PROPOSAL_NUMBER = "hierarchyProposalNumber";
+    private static final String HIERARCHY_PROPOSAL_NUMBER = "hierarchyProposalNumber";
 	private static final String HIERARCHY_PROPOSAL = "hierarchyProposal";
 	private static final Log LOG = LogFactory.getLog(AwardBudgetServiceImpl.class);
     private final static String BUDGET_VERSION_ERROR_PREFIX = "document.parentDocument.budgetDocumentVersion";
@@ -130,6 +131,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     private LegacyDataAdapter legacyDataAdapter;
     private BudgetRatesService budgetRatesService;
     private BudgetAdjustmentClient budgetAdjustmentClient;
+    private GlobalVariableService globalVariableService;
 
     @Override
     public void post(AwardBudgetDocument awardBudgetDocument) {
@@ -1413,6 +1415,14 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 	public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
 		this.budgetRatesService = budgetRatesService;
 	}
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
 
     public BudgetAdjustmentClient getBudgetAdjustmentClient() {
         return budgetAdjustmentClient;

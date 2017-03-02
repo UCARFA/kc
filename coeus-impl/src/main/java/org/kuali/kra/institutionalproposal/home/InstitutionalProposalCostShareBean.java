@@ -99,6 +99,7 @@ public class InstitutionalProposalCostShareBean implements Serializable, CostSha
                                                             "newInstitutionalProposalCostShare",
                                                             formBean.getInstitutionalProposalDocument(),
                                                             formBean.getNewInstitutionalProposalCostShare());
+        event.setFieldName("institutionalProposalCostShareBean.newInstitutionalProposalCostShare.sourceAccount");
         boolean success = new InstitutionalProposalAddCostShareRuleImpl().processAddInstitutionalProposalCostShareBusinessRules(event);
             if(success){
                 formBean.getInstitutionalProposalDocument().getInstitutionalProposal().add(formBean.getNewInstitutionalProposalCostShare());

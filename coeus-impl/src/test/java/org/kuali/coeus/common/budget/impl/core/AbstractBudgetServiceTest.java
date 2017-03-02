@@ -28,6 +28,7 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -103,6 +104,11 @@ public class AbstractBudgetServiceTest {
         @Override
         protected CostElement getCostElement(String costElement) {
             return this.costElement;
+        }
+
+        @Override
+        public GlobalVariableService getGlobalVariableService() {
+            return null;
         }
     }
 }

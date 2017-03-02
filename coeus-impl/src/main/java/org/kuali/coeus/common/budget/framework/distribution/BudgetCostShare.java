@@ -25,6 +25,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.budget.api.distribution.BudgetCostShareContract;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.CostShare;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -38,7 +39,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "EPS_PROP_COST_SHARING")
 @IdClass(BudgetCostShare.BudgetCostShareId.class)
-public class BudgetCostShare extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, BudgetCostShareContract {
+public class BudgetCostShare extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, BudgetCostShareContract, CostShare {
 
     private static final long serialVersionUID = 6199797319981907016L;
 

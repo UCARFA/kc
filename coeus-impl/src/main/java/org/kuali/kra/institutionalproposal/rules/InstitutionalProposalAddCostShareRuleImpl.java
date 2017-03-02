@@ -27,6 +27,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalBudgetService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.HashMap;
@@ -39,6 +40,8 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
     private String fieldStarter = "";
     private boolean displayNullFieldErrors = true;
     private ParameterService parameterService;
+    private InstitutionalProposalBudgetService institutionalProposalBudgetService;
+    public static final String INSTITUTIONAL_PROPOSAL_COST_SHARE_SOURCE_FIELD = "institutionalProposalCostShareBean.newInstitutionalProposalCostShare.sourceAccount";
 
     @Override
     public boolean processAddInstitutionalProposalCostShareBusinessRules(InstitutionalProposalAddCostShareRuleEvent institutionalProposalAddCostShareRuleEvent) {
@@ -64,6 +67,7 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
             isValid &= validateAmount(institutionalProposalCostShare.getAmount());
             isValid &= validateSourceAccount(institutionalProposalCostShare.getSourceAccount());
             isValid &= validateUnit(institutionalProposalCostShare.getUnitNumber(),this.fieldStarter + ".unitNumber");
+            isValid &= getInstitutionalProposalBudgetService().isValidSourceAccountCostShareType(Constants.VALIDATION_MESSAGE_ERROR, institutionalProposalCostShare, institutionalProposalAddCostShareRuleEvent.getFieldName());
         }
         
         return isValid;
@@ -84,6 +88,12 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
         return parameterService;
     }
 
+    protected InstitutionalProposalBudgetService getInstitutionalProposalBudgetService() {
+        if (institutionalProposalBudgetService == null) {
+            institutionalProposalBudgetService = KcServiceLocator.getService(InstitutionalProposalBudgetService.class);
+        }
+        return institutionalProposalBudgetService;
+    }
 
     public boolean processCommonValidations(InstitutionalProposalCostShare institutionalProposalCostShare) {
         return validateCostShareFiscalYearRange(institutionalProposalCostShare);

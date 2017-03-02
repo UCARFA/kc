@@ -19,6 +19,7 @@
 package org.kuali.kra.institutionalproposal.home;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.CostShare;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
@@ -27,7 +28,7 @@ import org.kuali.kra.bo.CostShareType;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
-public class InstitutionalProposalCostShare extends InstitutionalProposalAssociate implements ValuableItem, SequenceAssociate {
+public class InstitutionalProposalCostShare extends InstitutionalProposalAssociate implements ValuableItem, SequenceAssociate, CostShare {
 
     private static final long serialVersionUID = 1L;
 

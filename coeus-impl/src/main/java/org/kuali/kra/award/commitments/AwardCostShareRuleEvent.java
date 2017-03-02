@@ -29,6 +29,7 @@ public class AwardCostShareRuleEvent extends KcDocumentEventBase {
     private static final Log LOG = LogFactory.getLog(AwardCostShareRuleEvent.class);
     
     private AwardCostShare awardCostShare;
+    private String fieldName;
 
     public AwardCostShareRuleEvent(String errorPathPrefix, 
                                            AwardDocument awardDocument,
@@ -52,8 +53,15 @@ public class AwardCostShareRuleEvent extends KcDocumentEventBase {
     public AwardCostShare getCostShareForValidation() {
         return awardCostShare;
     }
-    
-    
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
     @Override
     protected void logEvent() {
         LOG.info("Logging AwardCostShareRuleEvent");

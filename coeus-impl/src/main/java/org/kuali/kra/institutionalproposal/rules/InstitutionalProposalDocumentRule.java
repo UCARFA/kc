@@ -225,6 +225,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         List<InstitutionalProposalCostShare> costShares = institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalCostShares();
         for (InstitutionalProposalCostShare costShare : costShares) {
             InstitutionalProposalAddCostShareRuleEvent event = new InstitutionalProposalAddCostShareRuleEvent(errorPath, institutionalProposalDocument, costShare);
+            event.setFieldName("document.institutionalProposalList[0].institutionalProposalCostShares[" + i +"].sourceAccount");
             valid &= new InstitutionalProposalAddCostShareRuleImpl().processInstitutionalProposalCostShareBusinessRules(event, i);
             i++;
         }

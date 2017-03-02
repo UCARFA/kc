@@ -301,6 +301,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
                 AwardCostShareRuleEvent event = new AwardCostShareRuleEvent(errorPath,
                         awardDocument,
                         awardCostShare);
+            event.setFieldName("document.awardList[0].awardCostShares[" + i + "].source");
                 valid &= new AwardCostShareRuleImpl().processCostShareBusinessRules(event, i);
                 errorMap.removeFromErrorPath(errorPath);
                 i++;

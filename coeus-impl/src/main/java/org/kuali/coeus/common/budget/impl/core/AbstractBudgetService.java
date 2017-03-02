@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.budget.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
@@ -31,7 +32,9 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +42,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.*;
 
-/**
- * This class implements methods specified by BudgetDocumentService interface
- */
 public abstract class AbstractBudgetService<T extends BudgetParent> implements BudgetService<T> {
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AbstractBudgetService.class);
@@ -49,11 +49,11 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     public static final String VALID_CE_RATE_TYPES = "validCeRateTypes";
     public static final String RATE_CLASS_TYPE = "rateClassType";
     public static final String ACTIVITY_TYPE_CODE = "activityTypeCode";
+    public static final String ACTIVE = "active";
 
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
-
 
     @Autowired
     @Qualifier("parameterService")
@@ -146,7 +146,45 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
                 }
             }
         }
-    }    
+    }
+
+    public boolean isValidSourceAccountCostShareType(String validationMessageType, CostShare budgetCostShare, String costShareField) {
+        boolean valid = Boolean.TRUE;
+        if (isCostShareTypeSourceAccountValidationEnabled()) {
+            Collection<ValidSourceAccountsCostShareType> activeValidSourceAccountCostSharetypes = getMatchingValidSourceAccountsCostShareTypes();
+            if (activeValidSourceAccountCostSharetypes.size() != 0) {
+                final boolean validMatches = activeValidSourceAccountCostSharetypes.stream().anyMatch(validSourceAccountsCostShareType ->
+                        budgetCostShare.getCostShareTypeCode().equals(validSourceAccountsCostShareType.getCostShareTypeCode())
+                                && budgetCostShare.getSourceAccount().equalsIgnoreCase(validSourceAccountsCostShareType.getAccount().getAccountNumber()));
+                if (!validMatches) {
+                    valid = addValidationMessage(validationMessageType, costShareField, KeyConstants.INVALID_SOURCE_ACCOUNT_COST_SHARE_TYPE,
+                            budgetCostShare.getCostShareTypeCode().toString(), budgetCostShare.getSourceAccount());
+                }
+            }
+        }
+        return valid;
+    }
+
+    public boolean isCostShareTypeSourceAccountValidationEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.ENABLE_COST_SHARE_TYPE_SOURCE_ACCOUNT_VALIDATION);
+    }
+
+    public Collection<ValidSourceAccountsCostShareType> getMatchingValidSourceAccountsCostShareTypes() {
+        Map<String, Object> fields = new HashMap<>();
+        fields.put(ACTIVE, Boolean.TRUE);
+        return getBusinessObjectService().findMatching(ValidSourceAccountsCostShareType.class, fields);
+    }
+
+    public boolean addValidationMessage(String validationMessageType, String field, String errorMessageKey, String... errorParameters) {
+        if (StringUtils.equalsIgnoreCase(Constants.VALIDATION_MESSAGE_ERROR, validationMessageType)) {
+            getGlobalVariableService().getMessageMap().putError(field, errorMessageKey, errorParameters);
+            return Boolean.FALSE;
+        } else if (StringUtils.equalsIgnoreCase(Constants.VALIDATION_MESSAGE_WARNING, validationMessageType)) {
+            getGlobalVariableService().getMessageMap().putWarning(field, errorMessageKey, errorParameters);
+            return Boolean.TRUE;
+        }
+        return Boolean.TRUE;
+    }
 
     protected boolean isBudgetFormulatedCostEnabled() {
         String formulatedCostEnabled = getParameterService().getParameterValueAsString(Budget.class, Constants.FORMULATED_COST_ENABLED);
@@ -165,6 +203,8 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
+    public abstract GlobalVariableService getGlobalVariableService();
 
     public ParameterService getParameterService() {
         return parameterService;

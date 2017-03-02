@@ -28,6 +28,7 @@ import java.io.Serializable;
 public class CostShareActionHelper implements Serializable {
     
     private static final long serialVersionUID = 8927780321198666093L;
+    public static final String AWARD_COST_SHARE_FIELD = "costShareFormHelper.newAwardCostShare.source";
 
     /**
      * This method is called when adding a new AwardCostShare
@@ -42,6 +43,7 @@ public class CostShareActionHelper implements Serializable {
                                                             formHelper.getAwardDocument(),
                                                             formHelper.getNewAwardCostShare());
         boolean success = new AwardCostShareRuleImpl().processAddCostShareBusinessRules(event);
+        event.setFieldName(AWARD_COST_SHARE_FIELD);
             if(success){
                 formHelper.getAwardDocument().getAward().add(formHelper.getNewAwardCostShare());
                 formHelper.init();

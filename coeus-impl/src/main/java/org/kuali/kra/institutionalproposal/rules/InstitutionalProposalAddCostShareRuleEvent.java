@@ -31,6 +31,7 @@ public class InstitutionalProposalAddCostShareRuleEvent extends KcDocumentEventB
     private static final Log LOG = LogFactory.getLog(InstitutionalProposalAddCostShareRuleEvent.class);
     
     private InstitutionalProposalCostShare institutionalProposalCostShare;
+    private String fieldName;
 
     public InstitutionalProposalAddCostShareRuleEvent(String errorPathPrefix, 
             InstitutionalProposalDocument institutionalProposalDocument,
@@ -38,7 +39,15 @@ public class InstitutionalProposalAddCostShareRuleEvent extends KcDocumentEventB
         super("Cost Share", errorPathPrefix, institutionalProposalDocument);
         this.institutionalProposalCostShare = institutionalProposalCostShare;
     }
-    
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
     /**
      * Convenience method to return an InstitutionalProposalDocument
      * @return

@@ -19,6 +19,7 @@
 package org.kuali.kra.award.commitments;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.CostShare;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
@@ -30,7 +31,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.sql.Date;
 import java.util.Collection;
 
-public class AwardCostShare extends AwardAssociate implements ValuableItem {
+public class AwardCostShare extends AwardAssociate implements ValuableItem, CostShare {
 
     private static final long serialVersionUID = -839007857238262207L;
 
@@ -75,6 +76,11 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
                 setCostShareType(costShareType);
             }
         }
+    }
+
+    @Override
+    public String getSourceAccount() {
+        return source;
     }
 
     public Integer getCostShareTypeCode() {

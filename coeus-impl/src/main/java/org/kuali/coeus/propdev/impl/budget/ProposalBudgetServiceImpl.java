@@ -54,6 +54,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
 /**
  * This class process requests for ProposalBudget
  */
@@ -64,12 +65,12 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public static final String ADD_BUDGET_DTO = "addBudgetDto";
     public static final String COST_ELEMENT_BO = "costElementBO";
     public static final String BUDGET_CATEGORY = "budgetCategory";
-    public static final String SOURCE_ACCOUNT = "sourceAccount";
     public static final String UNIT = "unit";
     private static final String COST_SHARE_TYPE = "costShareType";
     public static final String CODE = "code";
     public static final String ACCOUNT_NUMBER = "accountNumber";
     public static final String UNIT_NUMBER = "unitNumber";
+    public static final String SOURCE_ACCOUNT = "sourceAccount";
 
     @Autowired
     @Qualifier("budgetCalculationService")
@@ -165,7 +166,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         budgets.add(budget);
         return budget;
     }
-    
+
     @Override
     public boolean isBudgetVersionNameValid(BudgetParent parent, String name) {
     	return getKcBusinessRulesEngine().applyRules(new ProposalAddBudgetVersionEvent(ADD_BUDGET_DTO, parent, name));
@@ -471,9 +472,12 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
             if (budgetCostShare.getUnitNumber() != null) {
                 valid &= validateUnit(budgetCostShare.getUnitNumber(), UNIT_NUMBER);
             }
+            if (!Objects.isNull(budgetCostShare.getSourceAccount()) && !Objects.isNull(budgetCostShare.getCostShareTypeCode())) {
+                valid &= isValidSourceAccountCostShareType(Constants.VALIDATION_MESSAGE_ERROR, budgetCostShare, SOURCE_ACCOUNT);
+            }
         }
 
-        if(isCostShareTypeEnabled()) {
+        if (isCostShareTypeEnabled()) {
             String validationMessageType = getValidationMessageType();
             for(BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
                 if (Objects.isNull(budgetCostShare.getSourceAccount())) {
@@ -507,16 +511,6 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         return Boolean.TRUE;
     }
 
-    public boolean addValidationMessage(String validationMessageType, String field, String errorMessageKey, String... errorParameters) {
-        if (StringUtils.equalsIgnoreCase(Constants.VALIDATION_MESSAGE_ERROR, validationMessageType)) {
-            globalVariableService.getMessageMap().putError(field, errorMessageKey, errorParameters);
-            return Boolean.FALSE;
-        } else if (StringUtils.equalsIgnoreCase(Constants.VALIDATION_MESSAGE_WARNING, validationMessageType)) {
-            globalVariableService.getMessageMap().putWarning(field, errorMessageKey, errorParameters);
-            return Boolean.TRUE;
-        }
-        return Boolean.TRUE;
-    }
 
     public boolean isCostShareTypeEnabled() {
         return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,

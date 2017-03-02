@@ -91,7 +91,7 @@
             </list>
         </property>
 	</bean>
-	
+
     <bean id="businessObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="businessObjectService" />
     </bean>
@@ -273,6 +273,11 @@
         <property name="institutionalProposalDao" ref="institutionalProposalDao"/>
         <property name="instPropProjectRetrievalService" ref="instPropProjectRetrievalService" />
         <property name="dataObjectService" ref="dataObjectService" />
+    </bean>
+
+    <bean id="institutionalProposalBudgetService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalBudgetServiceImpl">
+        <property name="globalVariableService" ref="globalVariableService" />
+
     </bean>
 
     <bean id="institutionalProposalDao" parent="platformAwareDao" class="org.kuali.kra.institutionalproposal.dao.ojb.InstitutionalProposalDaoOjb"/>

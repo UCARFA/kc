@@ -55,6 +55,10 @@
         <property name="serviceName" value="budgetAdjustmentClient" />
     </bean>
 
+    <bean id="globalVariableService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="globalVariableService" />
+    </bean>
+
 	<bean id="budgetService" parent="awardBudgetService"/>
     <bean id="awardBudgetService"  class="org.kuali.kra.award.budget.AwardBudgetServiceImpl">
         <property name="parameterService" ref="parameterService" />
@@ -66,6 +70,7 @@
         <property name="awardService" ref="awardService" />
         <property name="dataObjectService" ref="dataObjectService"/>
         <property name="legacyDataAdapter" ref="legacyDataAdapter"/>
+        <property name="globalVariableService" ref="globalVariableService"/>
         <property name="budgetRatesService" ref="budgetRatesService" />
         <property name="budgetAdjustmentClient" ref="budgetAdjustmentClient" />
     </bean>
