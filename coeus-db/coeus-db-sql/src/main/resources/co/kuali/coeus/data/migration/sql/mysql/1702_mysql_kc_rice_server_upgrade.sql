@@ -24,4 +24,5 @@
 \. ./rice/bootstrap/V1702_009__fdp_params.sql
 \. ./rice/bootstrap/V1702_010__RESKC-1939_KRMS_func.sql
 \. ./rice/bootstrap/V1702_013__RESKC-1940_KRMS_func.sql
+\. ./rice/bootstrap/V1702_015__cost_share_src_account_validation.sql
 commit;
