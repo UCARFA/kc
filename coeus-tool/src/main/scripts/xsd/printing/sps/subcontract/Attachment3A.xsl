@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fo="http://www.w3.org/1999/XSL/Format" version="1.0">
     <xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
     <xsl:param name="SV_OutputFormat" select="'PDF'"/>
     <xsl:variable name="XML" select="/"/>
@@ -825,7 +825,7 @@
                                                                                                             <xsl:apply-templates/>
                                                                                                         </xsl:variable>
                                                                                                         <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
+                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
                                                                                                                 <fo:block>
                                                                                                                     <xsl:copy-of select="$value-of-template"/>
                                                                                                                 </fo:block>
