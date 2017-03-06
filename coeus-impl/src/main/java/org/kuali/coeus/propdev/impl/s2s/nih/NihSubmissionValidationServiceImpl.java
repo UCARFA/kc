@@ -26,6 +26,8 @@ import gov.nih.era.svs.types.ValidateApplicationRequest;
 import gov.nih.era.svs.types.ValidateApplicationResponse;
 import gov.nih.era.svs.types.ValidationMessageList;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
@@ -46,8 +48,12 @@ import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
@@ -65,6 +71,8 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
     private static final String NIH_GOV_S2S_PORT = "nih.gov.s2s.port";
     private static final String NIH_GOV_S2S_TRUSTSTORE_PASSWORD = "nih.gov.s2s.truststore.password";
     private static final String ENABLE_NIH_VALIDATION_SERVICE = "Enable_NIH_Validation_Service";
+
+    private static final Log LOG = LogFactory.getLog(NihSubmissionValidationServiceImpl.class);
 
     @Autowired
     @Qualifier("s2SConfigurationService")
@@ -94,7 +102,11 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
             }
 
             try {
+                debugLogJaxbObject(ValidateApplicationRequest.class, parameters);
+
                 response = createConfiguredService(dunsNumber).validateApplication(parameters);
+
+                debugLogJaxbObject(ValidateApplicationResponse.class, response);
             } catch (ValidateApplicationError validateApplicationError) {
                 throw new S2sCommunicationException(validateApplicationError);
             }
@@ -105,6 +117,21 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
         }
 
         return response;
+    }
+
+    private <T> void debugLogJaxbObject(Class<? extends T> clazz, T o) {
+        if (LOG.isDebugEnabled()) {
+            try {
+                final JAXBContext context = JAXBContext.newInstance(clazz);
+                final Marshaller m = context.createMarshaller();
+                m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+                final StringWriter sw = new StringWriter();
+                m.marshal(o, sw);
+                LOG.debug(sw.toString());
+            } catch (JAXBException e) {
+                LOG.debug("Unable to marshall object", e);
+            }
+        }
     }
 
     private SubmissionValidationServiceStub createConfiguredService(String dunsNumber) {
