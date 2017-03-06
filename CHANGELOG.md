@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* adding debug logging to NihSubmissionValidationServiceImpl
+  * Travis Schneeberger on Fri, 3 Mar 2017 13:36:49 -0500 [View Commit](../../commit/169891fd0707fb18c089886c45143037cebc2342)
+
+##coeus-1703.0005
 * No Changes
 
 
