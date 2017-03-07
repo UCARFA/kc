@@ -1,7 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+--
+-- Copyright 2005-2016 Kuali, Inc.
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+--
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
+delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP Template';
+commit;
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP Template','FDP Agreement',sysdate,'admin', EMPTY_CLOB(), 'FDP_Template_Agreement.xsl','application/octet-stream',1,SYS_GUID(),4);
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:fo="http://www.w3.org/1999/XSL/Format">
 <xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
-<xsl:param name="SV_OutputFormat" select="'PDF'"/>
+<xsl:param name="SV_OutputFormat" select="''PDF''"/>
 <xsl:variable name="XML" select="/"/>
 <xsl:variable name="fo:layout-master-set">
 <fo:layout-master-set>
@@ -62,7 +89,7 @@
 <xsl:apply-templates/>
 </xsl:variable>
 <xsl:choose>
-<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -91,7 +118,7 @@
 <xsl:apply-templates/>
 </xsl:variable>
 <xsl:choose>
-<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -107,8 +134,16 @@
 </xsl:for-each>
 </fo:block>
 </fo:table-cell>
-</fo:table-row>
-
+</fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
 
 <fo:table-row font-size="9pt" font-weight="normal">
 <fo:table-cell border="solid 1pt gray" padding="2pt" display-align="center">
@@ -123,7 +158,7 @@
 <xsl:apply-templates/>
 </xsl:variable>
 <xsl:choose>
-<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -151,7 +186,7 @@
 <xsl:apply-templates/>
 </xsl:variable>
 <xsl:choose>
-<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -189,7 +224,7 @@
 <xsl:apply-templates/>
 </xsl:variable>
 <xsl:choose>
-<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -206,8 +241,16 @@
 </xsl:for-each>
 </xsl:for-each>
 </fo:block>
-</fo:table-cell>
-                                                        <fo:table-cell  padding="2pt"  border="solid 1pt gray" display-align="center">
+</fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '                                                        <fo:table-cell  padding="2pt"  border="solid 1pt gray" display-align="center">
 <fo:block>
 <fo:inline>
 <xsl:text>PTE Federal Award No: </xsl:text>
@@ -221,7 +264,7 @@
 <xsl:apply-templates/>
 </xsl:variable>
 <xsl:choose>
-<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -260,7 +303,7 @@
 <xsl:apply-templates/>
 </xsl:variable>
 <xsl:choose>
-<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -313,18 +356,26 @@
 <xsl:for-each select="subcontract:SubcontractAmountInfo">
 <xsl:for-each select="subcontract:PerformanceStartDate">
 <fo:inline>
-<xsl:value-of select="format-number(number(substring(string(.), 6, 2)), '00')"/>
+<xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
-<xsl:value-of select="format-number(number(substring(string(.), 9, 2)), '00')"/>
+<xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
-<xsl:value-of select="format-number(number(substring(string(string(.)), 1, 4)), '0000')"/>
+<xsl:value-of select="format-number(number(substring(string(string(.)), 1, 4)), ''0000'')"/>
 </fo:inline>
 </xsl:for-each>
 </xsl:for-each>
 </xsl:for-each>
 </fo:block>
-</fo:table-cell>
-<fo:table-cell padding="1pt"  >
+</fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<fo:table-cell padding="1pt"  >
 <fo:block>
 <fo:inline>
 <xsl:text>End: </xsl:text>
@@ -333,11 +384,11 @@
 <xsl:for-each select="subcontract:SubcontractAmountInfo">
 <xsl:for-each select="subcontract:PerformanceEndDate">
 <fo:inline>
-<xsl:value-of select="format-number(number(substring(string(.), 6, 2)), '00')"/>
+<xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
-<xsl:value-of select="format-number(number(substring(string(.), 9, 2)), '00')"/>
+<xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
-<xsl:value-of select="format-number(number(substring(string(string(.)), 1, 4)), '0000')"/>
+<xsl:value-of select="format-number(number(substring(string(string(.)), 1, 4)), ''0000'')"/>
 </fo:inline>
 </xsl:for-each>
 </xsl:for-each>
@@ -363,7 +414,7 @@
 <xsl:text>$</xsl:text>
 </fo:inline>
 <fo:inline>
-<xsl:value-of select="format-number(number(string(.)), '###,##0.00')"/>
+<xsl:value-of select="format-number(number(string(.)), ''###,##0.00'')"/>
 </fo:inline>
 </xsl:for-each>
 </xsl:for-each>
@@ -388,7 +439,7 @@
 <xsl:apply-templates/>
 </xsl:variable>
 <xsl:choose>
-<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -431,18 +482,26 @@
 <xsl:for-each select="subcontract:SubcontractDetail">
 <xsl:for-each select="subcontract:StartDate">
 <fo:inline>
-<xsl:value-of select="format-number(number(substring(string(.), 6, 2)), '00')"/>
+<xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
-<xsl:value-of select="format-number(number(substring(string(.), 9, 2)), '00')"/>
+<xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
-<xsl:value-of select="format-number(number(substring(string(string(.)), 1, 4)), '0000')"/>
+<xsl:value-of select="format-number(number(substring(string(string(.)), 1, 4)), ''0000'')"/>
 </fo:inline>
 </xsl:for-each>
 </xsl:for-each>
 </xsl:for-each>
 </fo:block>
-</fo:table-cell>
-<fo:table-cell  >
+</fo:table-cell>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<fo:table-cell  >
 <fo:block>
 <fo:inline>
 <xsl:text>End: </xsl:text>
@@ -451,11 +510,11 @@
 <xsl:for-each select="subcontract:SubcontractDetail">
 <xsl:for-each select="subcontract:EndDate">
 <fo:inline>
-<xsl:value-of select="format-number(number(substring(string(.), 6, 2)), '00')"/>
+<xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
-<xsl:value-of select="format-number(number(substring(string(.), 9, 2)), '00')"/>
+<xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
-<xsl:value-of select="format-number(number(substring(string(string(.)), 1, 4)), '0000')"/>
+<xsl:value-of select="format-number(number(substring(string(string(.)), 1, 4)), ''0000'')"/>
 </fo:inline>
 </xsl:for-each>
 </xsl:for-each>
@@ -496,7 +555,7 @@
 <xsl:text>$</xsl:text>
 </fo:inline>
 <fo:inline>
-<xsl:value-of select="format-number(number(string(.)), '###,##0.00')"/>
+<xsl:value-of select="format-number(number(string(.)), ''###,##0.00'')"/>
 </fo:inline>
 </xsl:for-each>
 </xsl:for-each>
@@ -537,8 +596,16 @@
 </fo:inline>
 </fo:block>
 </fo:table-cell>
-</fo:table-row>
-<fo:table-row>
+</fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<fo:table-row>
 <fo:table-cell padding="1pt" number-columns-spanned="3"  display-align="center">
 <fo:block>
 <xsl:choose>
@@ -636,8 +703,16 @@
 </fo:table-body>
 </fo:table>
 </fo:table-cell>
-</fo:table-row>
-<fo:table-row>
+</fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<fo:table-row>
 <fo:table-cell number-columns-spanned="3" padding="2pt" display-align="center">
 <fo:block>
 <fo:inline font-family="Arial" font-size="9pt">
@@ -744,8 +819,16 @@
 </fo:table>
 </fo:block>
 </fo:table-cell>
-</fo:table-row>
-<fo:table-row font-size="10pt" font-weight="bold">
+</fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<fo:table-row font-size="10pt" font-weight="bold">
 <fo:table-cell number-columns-spanned="2" border="solid 1pt gray" padding="1pt" display-align="center">
 <fo:block>
 <fo:inline-container>
@@ -829,11 +912,11 @@
 <xsl:for-each select="subcontract:SubcontractTemplateInfo">
 <xsl:for-each select="subcontract:SubProposalDate">
 <fo:inline font-family="Arial" font-size="9pt">
-<xsl:value-of select="format-number(number(substring(string(string(.)), 6, 2)), '00')"/>
+<xsl:value-of select="format-number(number(substring(string(string(.)), 6, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
-<xsl:value-of select="format-number(number(substring(string(string(.)), 9, 2)), '00')"/>
+<xsl:value-of select="format-number(number(substring(string(string(.)), 9, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
-<xsl:value-of select="format-number(number(substring(string(string(string(.))), 1, 4)), '0000')"/>
+<xsl:value-of select="format-number(number(substring(string(string(string(.))), 1, 4)), ''0000'')"/>
 </fo:inline>
 </xsl:for-each>
 </xsl:for-each>
@@ -863,8 +946,16 @@
 <fo:inline font-family="Arial" font-size="8pt">
 <xsl:text>&#160;</xsl:text>
 </fo:inline>
-</xsl:when>
-<xsl:when test="subcontract:SubContractData/subcontract:SubcontractTemplateInfo/subcontract:SowOrSubProposalBudget  = &quot;Y&quot;">
+</xsl:when>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<xsl:when test="subcontract:SubContractData/subcontract:SubcontractTemplateInfo/subcontract:SowOrSubProposalBudget  = &quot;Y&quot;">
 <fo:inline font-family="Arial" font-size="9pt" font-weight="normal">
 <xsl:text>&#160;</xsl:text>
 </fo:inline>
@@ -926,11 +1017,11 @@
 <xsl:for-each select="subcontract:SubcontractTemplateInfo">
 <xsl:for-each select="subcontract:SubProposalDate">
 <fo:inline>
-<xsl:value-of select="format-number(number(substring(string(string(.)), 6, 2)), '00')"/>
+<xsl:value-of select="format-number(number(substring(string(string(.)), 6, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
-<xsl:value-of select="format-number(number(substring(string(string(.)), 9, 2)), '00')"/>
+<xsl:value-of select="format-number(number(substring(string(string(.)), 9, 2)), ''00'')"/>
 <xsl:text>/</xsl:text>
-<xsl:value-of select="format-number(number(substring(string(string(string(.))), 1, 4)), '0000')"/>
+<xsl:value-of select="format-number(number(substring(string(string(string(.))), 1, 4)), ''0000'')"/>
 </fo:inline>
 </xsl:for-each>
 </xsl:for-each>
@@ -976,9 +1067,17 @@
 <xsl:for-each select="subcontract:InvoiceOrPaymentContactDescription">
 <xsl:variable name="value-of-template">
 <xsl:apply-templates/>
-</xsl:variable>
-<xsl:choose>
-<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+</xsl:variable>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<xsl:choose>
+<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block font-family="Arial" font-size="9pt">
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -1012,7 +1111,7 @@
 <xsl:apply-templates/>
 </xsl:variable>
 <xsl:choose>
-<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block font-family="Arial" font-size="9pt">
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -1048,7 +1147,7 @@
 <xsl:apply-templates/>
 </xsl:variable>
 <xsl:choose>
-<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block font-family="Arial" font-size="9pt">
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -1073,7 +1172,16 @@
 <fo:inline font-family="Arial" font-size="9pt" font-weight="normal">
 <xsl:text> </xsl:text>  </fo:inline>
 <fo:block/> <xsl:text>7) The PTE  may issue non-substantive changes to the Period of Performance  (check one) </xsl:text>
-
+';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '
                                                <fo:external-graphic content-height="8" content-width="8">
                                                     <xsl:attribute name="src">
                                                         <xsl:text>url(</xsl:text>
@@ -1133,7 +1241,7 @@
                                                                 <xsl:apply-templates/>
                                                             </xsl:variable>
                                                             <xsl:choose>
-                                                                <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block font-family="Arial" font-size="9pt">
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -1164,7 +1272,7 @@
 <xsl:apply-templates/>
 </xsl:variable>
 <xsl:choose>
-<xsl:when test="contains(string($value-of-template),'&#x2029;')">
+<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 <fo:block>
 <xsl:copy-of select="$value-of-template"/>
 </fo:block>
@@ -1183,7 +1291,7 @@
 </fo:inline>
 <fo:block/>
 <fo:inline font-family="Arial" font-size="9pt" font-weight="normal">
-<xsl:text>11) By signing this Research Subaward Agreement Subrecipient certifies that it will perform the work under this agreement in accordance with the terms of this agreement, the applicable terms of the Prime Award, federal, state and local law, rules and regulations, including the research terms and conditions found at: RESERVED and the Subrecipient's policies </xsl:text>
+<xsl:text>11) By signing this Research Subaward Agreement Subrecipient certifies that it will perform the work under this agreement in accordance with the terms of this agreement, the applicable terms of the Prime Award, federal, state and local law, rules and regulations, including the research terms and conditions found at: RESERVED and the Subrecipient''s policies </xsl:text>
 </fo:inline>
 <fo:block/>
 <fo:inline>
@@ -1191,8 +1299,16 @@
 </fo:inline>
 </fo:block>
 </fo:table-cell>
-</fo:table-row>
-<fo:table-row font-size="9pt" font-weight="normal">
+</fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<fo:table-row font-size="9pt" font-weight="normal">
 <fo:table-cell border="solid 1pt gray" padding="1pt" display-align="center">
 <fo:block>
 <fo:inline-container>
@@ -1293,8 +1409,16 @@
 </fo:inline>
 </fo:block>
 </fo:table-cell>
-</fo:table-row>
-<fo:table-row>
+</fo:table-row>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<fo:table-row>
 <fo:table-cell padding="2pt" display-align="center">
 <fo:block>
 <fo:inline>
@@ -1402,8 +1526,16 @@
 </fo:table-cell>
 </fo:table-row>
 </fo:table-body>
-</fo:table>
-<fo:inline-container>
+</fo:table>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<fo:inline-container>
 <fo:block>
 <xsl:text>&#x2029;</xsl:text>
 </fo:block>
@@ -1509,8 +1641,16 @@
 <fo:block>
 <xsl:text>&#x2029;</xsl:text>
 </fo:block>
-</fo:inline-container>
-<fo:block text-align="left" margin="0pt">
+</fo:inline-container>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '<fo:block text-align="left" margin="0pt">
 <fo:block>
 <fo:inline font-family="Arial" font-size="12pt" font-weight="bold">
 <xsl:text>Audit and Access to Records</xsl:text>
@@ -1600,13 +1740,13 @@ accurately and appropriately described</xsl:text>
 <xsl:template name="double-backslash">
 <xsl:param name="text"/>
 <xsl:param name="text-length"/>
-<xsl:variable name="text-after-bs" select="substring-after($text, '\')"/>
+<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
 <xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 <xsl:choose>
 <xsl:when test="$text-after-bs-length = 0">
 <xsl:choose>
-<xsl:when test="substring($text, $text-length) = '\'">
-<xsl:value-of select="concat(substring($text,1,$text-length - 1), '\')"/>
+<xsl:when test="substring($text, $text-length) = ''\''">
+<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\'')"/>
 </xsl:when>
 <xsl:otherwise>
 <xsl:value-of select="$text"/>
@@ -1614,7 +1754,7 @@ accurately and appropriately described</xsl:text>
 </xsl:choose>
 </xsl:when>
 <xsl:otherwise>
-<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), '\')"/>
+<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\'')"/>
 <xsl:call-template name="double-backslash">
 <xsl:with-param name="text" select="$text-after-bs"/>
 <xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -1622,4 +1762,16 @@ accurately and appropriately described</xsl:text>
 </xsl:otherwise>
 </xsl:choose>
 </xsl:template>
-</xsl:stylesheet>
+</xsl:stylesheet>';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+  SELECT FORM INTO data FROM SUBAWARD_FORMS
+  WHERE
+    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
+  buffer := '';
+  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
