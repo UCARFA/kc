@@ -24,10 +24,12 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.coi.framework.Project;
 import org.kuali.coeus.coi.framework.ProjectPublisher;
 import org.kuali.coeus.coi.framework.ProjectRetrievalService;
+import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
@@ -59,6 +61,7 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.exception.InstitutionalProposalCreationException;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalFandA;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
@@ -702,14 +705,42 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         if (!institutionalProposal.getInstitutionalProposalUnrecoveredFandAs().isEmpty()) {
             institutionalProposal.setIdcRateIndicator(TRUE_INDICATOR_VALUE);
         }
+
+        copyIndirectRates(institutionalProposal, budget);
+
     }
-    
+
+    protected void copyIndirectRates(InstitutionalProposal institutionalProposal, Budget budget) {
+        if (isLifecyleRatesFlowthruEnabled() && budget.getBudgetRates() != null) {
+            budget.getBudgetRates().stream().filter(budgetRate -> budgetRate.getRateClass().getRateClassTypeCode().equalsIgnoreCase(RateClassType.OVERHEAD.getRateClassType()) &&
+                    budgetRate.getRateClassCode().equalsIgnoreCase(budget.getRateClass().getCode())).forEach(budgetRate -> {
+                        InstitutionalProposalFandA fandA = new InstitutionalProposalFandA();
+                        fandA.setRateClassCode(budgetRate.getRateClassCode());
+                        fandA.setRateTypeCode(budgetRate.getRateTypeCode());
+                        fandA.setActivityTypeCode(budgetRate.getActivityTypeCode());
+                        fandA.setFiscalYear(budgetRate.getFiscalYear());
+                        fandA.setApplicableRate(budgetRate.getApplicableRate());
+                        fandA.setInstituteRate(budgetRate.getInstituteRate());
+                        fandA.setOnOffCampusFlag(budgetRate.getOnOffCampusFlag());
+                        fandA.setStartDate(budgetRate.getStartDate());
+                        institutionalProposal.add(fandA);
+                    }
+            );
+        }
+    }
+
     protected Integer getDefaultStatusCode() {
         return DEFAULT_STATUS_CODE;
     }
     
     protected Integer getWithdrawnStatusCode() {
         return WITHDRAWN_STATUS_CODE;
+    }
+
+    protected boolean isLifecyleRatesFlowthruEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.ENABLE_LIFECYCLE_RATES_FLOWTHRU);
     }
 
     protected boolean isCostShareTypeEnabled() {

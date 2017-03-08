@@ -38,11 +38,15 @@ public class InstitutionalProposalDistributionAction extends InstitutionalPropos
     private static final String CONFIRM_DELETE_COST_SHARE_KEY = "confirmDeleteCostShareKey";
     
     private static final String CONFIRM_DELETE_UNRECOVERED_FNA = "confirmDeleteUnrecoveredFandA";
+    private static final String CONFIRM_DELETE_FNA = "confirmDeleteFandA";
+
     private static final String CONFIRM_DELETE_UNRECOVERED_FNA_KEY = "confirmDeleteUnrecoveredFandAKey";
-    
+    private static final String CONFIRM_DELETE_FNA_KEY = "confirmDeleteFandAKey";
+
     private InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean;
     private InstitutionalProposalCostShareBean institutionalProposalCostShareBean;
-    
+    private InstitutionalProposalFandABean institutionalProposalFandABean;
+
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InstitutionalProposal institutionalProposal = ((InstitutionalProposalForm)form).getInstitutionalProposalDocument().getInstitutionalProposal();
@@ -63,6 +67,8 @@ public class InstitutionalProposalDistributionAction extends InstitutionalPropos
     public InstitutionalProposalDistributionAction(){
         institutionalProposalCostShareBean = new InstitutionalProposalCostShareBean();
         institutionalProposalUnrecoveredFandABean = new InstitutionalProposalUnrecoveredFandABean();
+        institutionalProposalFandABean = new InstitutionalProposalFandABean();
+
     }
     
     /**
@@ -194,7 +200,13 @@ public class InstitutionalProposalDistributionAction extends InstitutionalPropos
         institutionalProposalUnrecoveredFandABean.addUnrecoveredFandA(((InstitutionalProposalForm)form).getInstitutionalProposalUnrecoveredFandABean());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
+    public ActionForward addFandA(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                             HttpServletResponse response) throws Exception {
+        institutionalProposalFandABean.addFandA(((InstitutionalProposalForm) form).getInstitutionalProposalFandABean());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
     /**
      * 
      * This method is a convenience method for adding an <code>InstitutionalProposalUnrecovered F and A</code> to
@@ -224,7 +236,15 @@ public class InstitutionalProposalDistributionAction extends InstitutionalPropos
         return confirm(buildDeleteUnrecoveredFandAConfirmationQuestion(mapping, form, request, response,
                 delCostShare+1), CONFIRM_DELETE_UNRECOVERED_FNA, "");
     }
-    
+
+
+    public ActionForward deleteFandA(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                     HttpServletResponse response) throws Exception {
+        int delCostShare = getLineToDelete(request);
+        return confirm(buildDeleteFandAConfirmationQuestion(mapping, form, request, response,
+                delCostShare + 1), CONFIRM_DELETE_FNA, "");
+    }
+
     /**
      * 
      * This method is a convenience method for deleting an <code>InstitutionalProposalFandaRate</code> from
@@ -259,7 +279,17 @@ public class InstitutionalProposalDistributionAction extends InstitutionalPropos
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
+    public ActionForward confirmDeleteFandA(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                                       HttpServletResponse response) throws Exception {
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+        InstitutionalProposalDocument institutionalProposalDocument = institutionalProposalForm.getInstitutionalProposalDocument();
+        int delCostShare = getLineToDelete(request);
+
+        institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalFandAs().remove(delCostShare);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     /**
      * This method is used to recalculate the Total commitment amount in the Cost Share panel.
      * 
@@ -291,6 +321,12 @@ public class InstitutionalProposalDistributionAction extends InstitutionalPropos
             HttpServletRequest request, HttpServletResponse response, int deleteCostShare) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_UNRECOVERED_FNA_KEY,
                 KeyConstants.QUESTION_DELETE_UNRECOVERED_FNA, Integer.toString(deleteCostShare));
+    }
+
+    private StrutsConfirmation buildDeleteFandAConfirmationQuestion(ActionMapping mapping, ActionForm form,
+                                                                               HttpServletRequest request, HttpServletResponse response, int deleteCostShare) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_FNA_KEY,
+                KeyConstants.QUESTION_DELETE_FNA, Integer.toString(deleteCostShare));
     }
 
 }

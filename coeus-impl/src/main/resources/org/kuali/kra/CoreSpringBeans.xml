@@ -511,7 +511,8 @@
                 <value>classpath:org/kuali/coeus/common/impl/person/PropAwardPersonRoleMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/institutionalproposal/datadictionary/ProposalLog.xml</value>
                 <value>classpath:org/kuali/kra/institutionalproposal/datadictionary/ProposalLogStatus.xml</value>
-                <value>classpath:org/kuali/kra/institutionalproposal/datadictionary/ProposalLogType.xml</value> 
+                <value>classpath:org/kuali/kra/institutionalproposal/datadictionary/ProposalLogType.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalFandA.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalStatus.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/type/ProposalType.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/creditsplit/ProposalUnitCreditSplit.xml</value>

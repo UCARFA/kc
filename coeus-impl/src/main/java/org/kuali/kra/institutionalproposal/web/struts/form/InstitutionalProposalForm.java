@@ -38,6 +38,7 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitCon
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataFormHelper;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShareBean;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalFandABean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandABean;
 import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationContext;
@@ -76,6 +77,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
     private InstitutionalProposalCostShareBean institutionalProposalCostShareBean;
     private InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean;
+    private InstitutionalProposalFandABean institutionalProposalFandABean;
     private InstitutionalProposalProjectPersonnelBean projectPersonnelBean;
     private InstitutionalProposalCreditSplitBean institutionalProposalCreditSplitBean;
     private InstitutionalProposalUnitContactsBean unitContactsBean;
@@ -118,7 +120,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean(this);
         institutionalProposalCostShareBean = new InstitutionalProposalCostShareBean(this);
         institutionalProposalUnrecoveredFandABean = new InstitutionalProposalUnrecoveredFandABean(this);
-        
+        institutionalProposalFandABean = new InstitutionalProposalFandABean(this);
         projectPersonnelBean = new InstitutionalProposalProjectPersonnelBean(this);
         institutionalProposalCreditSplitBean = new InstitutionalProposalCreditSplitBean(this);
         medusaBean = new MedusaBean();
@@ -211,6 +213,14 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
 
     public void setInstitutionalProposalCostShareBean(InstitutionalProposalCostShareBean institutionalProposalCostShareBean) {
         this.institutionalProposalCostShareBean = institutionalProposalCostShareBean;
+    }
+
+    public InstitutionalProposalFandABean getInstitutionalProposalFandABean() {
+        return institutionalProposalFandABean;
+    }
+
+    public void setInstitutionalProposalFandABean(InstitutionalProposalFandABean institutionalProposalFandABean) {
+        this.institutionalProposalFandABean = institutionalProposalFandABean;
     }
 
     public InstitutionalProposalUnrecoveredFandABean getInstitutionalProposalUnrecoveredFandABean() {
@@ -427,6 +437,11 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     public boolean isCoiDispositionViewEnabled() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_DISPOSITION_STATUS_FROM_COI_MODULE);
+    }
+
+    public boolean isLifecycleRatesFlowthruEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.ENABLE_LIFECYCLE_RATES_FLOWTHRU);
     }
 
     public List<DisclosureProjectStatus> getDisclosureProjectStatuses() {

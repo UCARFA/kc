@@ -113,6 +113,7 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
         managedLists.add(institutionalProposal.getInstitutionalProposalScienceKeywords());
         managedLists.add(institutionalProposal.getInstitutionalProposalCostShares());
         managedLists.add(institutionalProposal.getInstitutionalProposalUnrecoveredFandAs());
+        managedLists.add(institutionalProposal.getInstitutionalProposalFandAs());
         managedLists.add(institutionalProposal.getAwardFundingProposals());
         managedLists.add(institutionalProposal.getInstitutionalProposalNotepads());
         

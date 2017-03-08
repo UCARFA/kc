@@ -7,7 +7,7 @@
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -183,6 +183,8 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords;
     private List<InstitutionalProposalCostShare> institutionalProposalCostShares;
     private List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs;
+    private List<InstitutionalProposalFandA> institutionalProposalFandAs;
+
     @SkipVersioning
     private List<AwardFundingProposal> awardFundingProposals;
     @SkipVersioning
@@ -249,6 +251,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         awardFundingProposals = new ArrayList<>();
         allFundingProposals = new ArrayList<>();
         institutionalProposalUnitContacts = new ArrayList<>();
+        institutionalProposalFandAs = new ArrayList<>();
         proposalComments = new ArrayList<>();
     }
 
@@ -329,6 +332,9 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         awardFundingProposals.add(afp);
     }
 
+    public void add(InstitutionalProposalFandA fandA) {
+        institutionalProposalFandAs.add(fandA);
+    }
 
     public void add(InstitutionalProposalNotepad institutionalProposalNotepad) {
         institutionalProposalNotepad.setEntryNumber(getInstitutionalProposalNotepads().size() + 1);
@@ -381,6 +387,10 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     public ScaleTwoDecimal getTotalUnrecoveredFandAAmount() {
         return getTotalAmount(institutionalProposalUnrecoveredFandAs);
+    }
+
+    public ScaleTwoDecimal getTotalFandAAmount() {
+        return getTotalAmount(institutionalProposalFandAs);
     }
 
     public List<InstitutionalProposalSpecialReview> getSpecialReviews() {
@@ -1294,6 +1304,13 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         }
     }
 
+    public List<InstitutionalProposalFandA> getInstitutionalProposalFandAs() {
+        return institutionalProposalFandAs;
+    }
+
+    public void setInstitutionalProposalFandAs(List<InstitutionalProposalFandA> institutionalProposalFandAs) {
+        this.institutionalProposalFandAs = institutionalProposalFandAs;
+    }
 
     /**
      * This method lazy inits ActivityType

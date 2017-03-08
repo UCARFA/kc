@@ -29,14 +29,23 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="distribution">
-  	
-  	<div align="right">
+
+    <c:set var="lifecycleRatesFlowthruEnabled" value="${KualiForm.lifecycleRatesFlowthruEnabled}" />
+
+    <div align="right">
        <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
        <kul:help documentTypeName="InstitutionalProposalDocument" pageName="Distribution" />
     </div>
 
 <kra-ip:institutionalProposalCostShare/>
-<kra-ip:institutionalProposalUnrecoveredFAndA />
+<c:choose>
+    <c:when test="${lifecycleRatesFlowthruEnabled}">
+        <kra-ip:institutionalProposalFAndA />
+    </c:when>
+    <c:otherwise>
+        <kra-ip:institutionalProposalUnrecoveredFAndA />
+    </c:otherwise>
+</c:choose>
 
 <kul:panelFooter />	
  
