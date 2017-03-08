@@ -1656,7 +1656,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PROJECT_STATUS_FEATURE_FLAG);
     }
 
-    public boolean isCoiDispositionViewEnabled() {
+    public boolean getDisplayCoiDispositionStatus() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_AWARD,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_DISPOSITION_STATUS_FROM_COI_MODULE);
     }
@@ -1671,7 +1671,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     }
 
     public void refreshDisclosureProjectStatuses() {
-        if (getDisplayCoiProjectStatus() && (isCoiDispositionViewEnabled() || getDisplayCoiDisclosureStatus())) {
+        if (getDisplayCoiDispositionStatus() || getDisplayCoiDisclosureStatus()) {
             disclosureProjectStatuses = getDisclosureStatusRetrievalService().getDisclosureStatusesForProject(
                     Constants.MODULE_NAMESPACE_AWARD, getAwardDocument().getAward().getAwardNumber()
             );

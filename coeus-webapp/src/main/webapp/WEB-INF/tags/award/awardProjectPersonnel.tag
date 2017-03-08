@@ -200,9 +200,9 @@
     			</c:if>
 
                 <c:set var="displayCoiDisclosureStatus" value="${KualiForm.displayCoiDisclosureStatus}" />
-                <c:set var="coiDispositionViewEnabled" value="${KualiForm.coiDispositionViewEnabled}" />
-				<c:set var="projectStatusEnabled" value="${KualiForm.displayCoiProjectStatus}" />
-				<c:if test="${displayCoiProjectStatus && (coiDispositionViewEnabled || projectStatusEnabled)}">
+                <c:set var="displayCoiDispositionStatus" value="${KualiForm.displayCoiDispositionStatus}" />
+				<c:set var="displayCoiProjectStatus" value="${KualiForm.displayCoiProjectStatus}" />
+				<c:if test="${displayCoiDisclosureStatus || displayCoiDispositionStatus}">
 					<c:set var="coiDisclosureStatuses" value="${KualiForm.disclosureProjectStatuses}" />
 				</c:if>
 
@@ -295,7 +295,7 @@
                                             </td>
                                         </tr>
                                         <c:choose>
-                                            <c:when test="${projectStatusEnabled}">
+                                            <c:when test="${displayCoiProjectStatus}">
                                                 <tr>
                                                     <td colspan="1" nowrap>
                                                         <font color="#999999"><b>COI Project Status:</b></font>
@@ -312,15 +312,15 @@
                         </c:when>
                     </c:choose>
                     <c:choose>
-                        <c:when test="${coiDispositionViewEnabled && awardContact.canViewDisclosureDisposition}">
+                        <c:when test="${displayCoiDispositionStatus && awardContact.canViewDisclosureDisposition}">
                             <c:forEach items="${coiDisclosureStatuses}" var="projectStatus">
                                 <c:choose>
                                     <c:when test="${awardContact.genericId eq projectStatus.userId}">
                                         <tr>
-                                            <td colspan="1" nowrap class="tab-subhead">
-                                                COI Disposition Status:
+                                            <td colspan="1" nowrap>
+                                                <font color="#999999"><b>COI Disposition Status:</b></font>
                                             </td>
-                                            <td colspan="5" nowrap class="tab-subhead">
+                                            <td colspan="5" nowrap>
                                                     ${projectStatus.disposition}
                                             </td>
                                         </tr>

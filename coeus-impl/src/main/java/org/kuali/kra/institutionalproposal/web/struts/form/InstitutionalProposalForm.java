@@ -434,7 +434,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PROJECT_STATUS_FEATURE_FLAG);
     }
 
-    public boolean isCoiDispositionViewEnabled() {
+    public boolean getDisplayCoiDispositionStatus() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_DISCLOSURE_DISPOSITION_STATUS_FROM_COI_MODULE);
     }
@@ -454,7 +454,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     }
 
     public void refreshDisclosureProjectStatuses() {
-        if (getDisplayCoiProjectStatus() && (isCoiDispositionViewEnabled() || getDisplayCoiDisclosureStatus())) {
+        if (getDisplayCoiDispositionStatus() || getDisplayCoiDisclosureStatus()) {
             disclosureProjectStatuses = getDisclosureStatusRetrievalService().getDisclosureStatusesForProject(
                     Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, getInstitutionalProposalDocument().getInstitutionalProposal().getInstProposalNumber()
             );
