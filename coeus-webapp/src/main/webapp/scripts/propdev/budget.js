@@ -30,7 +30,7 @@ Kc.PropDev.Budget = Kc.PropDev.Budget || {};
         return namespace.calculateTotalFromValues(values, $('#PropBudget-CostSharingPage-CollectionGroup').data('total_costsharing'));
     };
     namespace.calculateTotalFromValues = function (values, total) {
-        var calcTotal = total.replace(/[$,]/g, '') * 100;
+        var calcTotal = String(total).replace(/[$,]/g, '') * 100;
         for (var i = 0; i < values.length; i++) {
             calcTotal -= (values[i] * 100);
         }
@@ -43,7 +43,7 @@ Kc.PropDev.Budget = Kc.PropDev.Budget || {};
 	namespace.calculateTotal = function(inputField) {
 		var total = 0;
 		$(inputField).parents('tr').first().find('.calculateTotal input.form-control').each(function() {
-			var fieldValue = $(this).val().replace(/[$,]/g, '');
+			var fieldValue = String($(this).val()).replace(/[$,]/g, '');
 			if (fieldValue == '') fieldValue = 0;
 			total = total + parseFloat(fieldValue);
 		});
