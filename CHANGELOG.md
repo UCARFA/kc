@@ -1,6 +1,23 @@
 
 
 ##CURRENT
+* RESKC-2097: Fix cost sharing issue.There appears to be an issue with Cost Sharing distribution: (#2243)
+
+  * There appears to be an issue with Cost Sharing distribution:
+  * When a user enters an object code (e.g. personnel) with cost sharing and then navigates to the Cost sharing distribution section, the user gets Javascript errors and gets stuck (the screen's formatting is impacted and the Total Unallocated amount is shown as N/A instead of the actual amount).
+  * 
+  * Uncaught TypeError: total.replace is not a function  * Gayathri Athreya on Thu, 9 Mar 2017 10:26:05 -0700 [View Commit](../../commit/acd408d10029e12e043015651e8f855b40746795)
+* RESKC-2089: Fixing COI disposition status on award and ip (#2240)
+
+  * Gayathri Athreya on Wed, 8 Mar 2017 15:38:43 -0700 [View Commit](../../commit/a38c42eeee56f9237bd0c51785c12214cccf145b)
+* RESKC-2008: Ability to carry through PD indirecct rates to IP and award (#2236)
+
+* RESKC-2008: Ability to carry through PD indirecct rates to IP and award
+  * 
+* RESKC-2008: DD changes
+  * Gayathri Athreya on Wed, 8 Mar 2017 10:55:40 -0700 [View Commit](../../commit/26e6128e2b78f932fe0e5d6ae5b0657b4ce1d39e)
+
+##coeus-1703.0008
 * RESKC-1766: updating fdp form
   * Travis Schneeberger on Tue, 7 Mar 2017 09:44:13 -0500 [View Commit](../../commit/4ecba36d4265f9f629ee3cfec6952f52dcb5d0d2)
 

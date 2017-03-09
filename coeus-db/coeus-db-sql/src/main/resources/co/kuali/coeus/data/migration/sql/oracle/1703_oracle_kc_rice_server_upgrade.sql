@@ -20,7 +20,6 @@
 set define off
 set sqlblanklines on
 
-spool 1703_oracle_kc_upgrade.sql.log
-@./kc/bootstrap/V1703_001__fdp_form_update.sql
-@./kc/bootstrap/V1703_002__ip_fAndARate_table.sql
+spool 1703_oracle_kc_rice_server_upgrade.sql.log
+@./rice/bootstrap/V1703_003__ip_fAndA_rate_feature.sql
 commit;
