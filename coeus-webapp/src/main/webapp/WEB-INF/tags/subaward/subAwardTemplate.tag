@@ -20,13 +20,35 @@
 
 <c:set var="subAwardTemplateInfoAttributes" value="${DataDictionary.SubAwardTemplateInfo.attributes}" />
 <c:set var="attachments" value="${KualiForm.document.subAwardList[0].subAwardTemplateInfo}"/>
-<kul:tabTop tabTitle="Template" defaultOpen="true" tabErrorKey="document.subAwardList[0].subAwardTemplateInfo[0].*" >
+<kul:tabTop tabTitle="Template" defaultOpen="true" tabErrorKey="document.subAwardList[0].subAwardTemplateInfo[0].sowOrSubProposalBudget*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].subProposalDate*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].invoiceOrPaymentContact*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].finalStmtOfCostscontact*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].changeRequestsContact*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].terminationContact*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].noCostExtensionContact*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].perfSiteDiffFromOrgAddr*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].subRegisteredInCcr*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].parentCongressionalDistrict*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].parentDunsNumber*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].copyRightType*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].exemptFromRprtgExecComp*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].carryForwardRequestsSentTo*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].automaticCarryForward*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegulations*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].treatmentPrgmIncomeAdditive*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegsDate*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].rAndD*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].includesCostSharing*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].invoicesEmailed*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].invoiceEmailDifferent*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].invoiceAddressDifferent*">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Template</span>
    			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.subaward.bo.SubAwardTemplateInfo"  altText="help"/></span>
    			</h3>
-   			<table id="attachments-table" class="tab" cellpadding="4" cellspacing="0" summary="">
+   			<table id="template-table" class="tab" cellpadding="4" cellspacing="0" summary="">
    			<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.sowOrSubProposalBudget}" /></div></th>
                 <td>
@@ -132,9 +154,9 @@
                     <td>
                         <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].includesCostSharing" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.includesCostSharing}"  />
                     </td>
-                    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.fcio}" /></div></th>
+                    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.invoiceAddressDifferent}" /></div></th>
                     <td>
-                        <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].fcio" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.fcio}" />
+                        <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].invoiceAddressDifferent" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.invoiceAddressDifferent}"  />
                     </td>
                 </tr>
                 <tr>
@@ -145,17 +167,6 @@
                     <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.invoiceEmailDifferent}" /></div></th>
                     <td>
                         <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].invoiceEmailDifferent" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.invoiceEmailDifferent}" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.invoiceAddressDifferent}" /></div></th>
-                    <td>
-                        <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].invoiceAddressDifferent" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.invoiceAddressDifferent}"  />
-                    </td>
-                    <th><div align="right">&nbsp;</div></th>
-                    <td>
-                        <div>&nbsp;</div>
                     </td>
                 </tr>
             </table>

@@ -434,6 +434,15 @@
         <field-descriptor name="invoicesEmailed" column="INVOICES_EMAILED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="invoiceAddressDifferent" column="INVOICE_ADDRESS_DIFF" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="invoiceEmailDifferent" column="INVOICE_EMAIL_DIFF" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="fcioSubrecPolicyCd" column="FCIO_SUBREC_POLICY_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="animalFlag" column="ANIMAL_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="animalPteSendCd" column="ANIMAL_PTE_SEND_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="animalPteNrCd" column="ANIMAL_PTE_NR_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="humanFlag" column="HUMAN_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="humanPteSendCd" column="HUMAN_PTE_SEND_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="humanPteNrCd" column="HUMAN_PTE_NR_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="humanDataExchangeAgreeCd" column="HUMAN_DATA_EXCHANGE_AGREE_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="humanDataExchangeTermsCd" column="HUMAN_DATA_EXCHANGE_TERMS_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
     </class-descriptor>
