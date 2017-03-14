@@ -1766,12 +1766,3 @@ accurately and appropriately described</xsl:text>
   DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 end;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Template' FOR UPDATE;
-  buffer := '';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
