@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2059: updating demo data for NIH validation service.  Tweaking validation service to assume pdf attachments based on file name.
+  * Travis Schneeberger on Tue, 14 Mar 2017 15:13:07 -0400 [View Commit](../../commit/593c52883695f9f6bf368fefb25eeda2578c7920)
+
+##coeus-1703.0011
 * No Changes
 
 
