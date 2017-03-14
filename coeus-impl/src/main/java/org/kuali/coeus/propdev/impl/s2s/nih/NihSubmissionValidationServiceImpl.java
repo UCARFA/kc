@@ -71,6 +71,7 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
     private static final String NIH_GOV_S2S_PORT = "nih.gov.s2s.port";
     private static final String NIH_GOV_S2S_TRUSTSTORE_PASSWORD = "nih.gov.s2s.truststore.password";
     private static final String ENABLE_NIH_VALIDATION_SERVICE = "Enable_NIH_Validation_Service";
+    private static final String APPLICATION_PDF = "application/pdf";
 
     private static final Log LOG = LogFactory.getLog(NihSubmissionValidationServiceImpl.class);
 
@@ -91,14 +92,7 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
 
             if (attachments != null) {
                 final List<AttachmentMetaData> attachmentMetaDatas = parameters.getAttachmentMetaData();
-                attachments.stream().map(attachment -> {
-                    final AttachmentMetaData attachmentMetaData = new AttachmentMetaData();
-                    attachmentMetaData.setFileLocation(attachment.getContentId());
-                    attachmentMetaData.setFileName(attachment.getFileName());
-                    attachmentMetaData.setMimeType(attachment.getContentType());
-                    attachmentMetaData.setSizeInBytes(attachment.getContent().length);
-                    return attachmentMetaData;
-                }).forEach(attachmentMetaDatas::add);
+                attachments.stream().map(this::toAttachmentMetaData).forEach(attachmentMetaDatas::add);
             }
 
             try {
@@ -117,6 +111,15 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
         }
 
         return response;
+    }
+
+    private AttachmentMetaData toAttachmentMetaData(AttachmentData attachment) {
+        final AttachmentMetaData attachmentMetaData = new AttachmentMetaData();
+        attachmentMetaData.setFileLocation(attachment.getContentId());
+        attachmentMetaData.setFileName(attachment.getFileName());
+        attachmentMetaData.setMimeType(attachment.getFileName().toLowerCase().endsWith(".pdf") ? APPLICATION_PDF : attachment.getContentType());
+        attachmentMetaData.setSizeInBytes(attachment.getContent().length);
+        return attachmentMetaData;
     }
 
     private <T> void debugLogJaxbObject(Class<? extends T> clazz, T o) {
