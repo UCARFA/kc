@@ -2,7 +2,7 @@ package org.kuali.coeus.common.framework.person.signature;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -26,7 +26,7 @@ public class PrintTextLocator extends PDFTextStripper {
     };
 
     private final Set<String> searchStrings;
-    private List<PDFTextLocation> locations;
+    private Set<PDFTextLocation> locations;
 
     public PrintTextLocator(PDDocument document, Set<String> searchStrings) throws IOException {
         super.setSortByPosition(true);
@@ -35,8 +35,8 @@ public class PrintTextLocator extends PDFTextStripper {
         this.output = NO_OP;
     }
 
-    public List<PDFTextLocation> doSearch() throws IOException {
-        locations = new ArrayList<>();
+    public Set<PDFTextLocation> doSearch() throws IOException {
+        locations = new HashSet<>();
         processPages(document.getDocumentCatalog().getPages());
         return locations;
     }
@@ -47,7 +47,8 @@ public class PrintTextLocator extends PDFTextStripper {
 
         for (String searchString: searchStrings) {
             int start = text.indexOf(searchString);
-            if (start!=-1) {
+            if (start != -1) {
+                //textPositions will have an entry for every character in the String text.
                 final TextPosition pos = textPositions.get(start);
                 final PDFTextLocation textLoc = new PDFTextLocation();
                 textLoc.setText(text);
@@ -106,6 +107,30 @@ public class PrintTextLocator extends PDFTextStripper {
 
         public void setY(float y) {
             this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            PDFTextLocation that = (PDFTextLocation) o;
+
+            if (found != that.found) return false;
+            if (page != that.page) return false;
+            if (Float.compare(that.x, x) != 0) return false;
+            if (Float.compare(that.y, y) != 0) return false;
+            return text != null ? text.equals(that.text) : that.text == null;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = (found ? 1 : 0);
+            result = 31 * result + (text != null ? text.hashCode() : 0);
+            result = 31 * result + page;
+            result = 31 * result + (x != +0.0f ? Float.floatToIntBits(x) : 0);
+            result = 31 * result + (y != +0.0f ? Float.floatToIntBits(y) : 0);
+            return result;
         }
 
         @Override
