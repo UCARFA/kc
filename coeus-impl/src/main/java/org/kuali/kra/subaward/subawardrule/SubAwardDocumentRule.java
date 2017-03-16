@@ -85,7 +85,19 @@ SubAwardFfataReportingRule {
     private static final String CARRY_FORWARD_REQUESTS_SENT_TO = "document.subAwardList[0].subAwardTemplateInfo[0].carryForwardRequestsSentTo";
 
     private static final Log LOG = LogFactory.getLog(SubAwardDocumentRule.class);
-    
+    public static final String ANIMAL_PTE_SEND_CD = "document.subAwardList[0].subAwardTemplateInfo[0].animalPteSendCd";
+    public static final String ERROR_REQUIRED_ANIMAL_PTE_SEND_CD = "error.required.subaward.templateinfo.animalPteSendCd";
+    public static final String ANIMAL_PTE_NR_CD = "document.subAwardList[0].subAwardTemplateInfo[0].animalPteNrCd";
+    public static final String ERROR_REQUIRED_ANIMAL_PTE_NR_CD = "error.required.subaward.templateinfo.animalPteNrCd";
+    public static final String HUMAN_PTE_SEND_CD = "document.subAwardList[0].subAwardTemplateInfo[0].humanPteSendCd";
+    public static final String ERROR_REQUIRED_HUMAN_PTE_SEND_CD = "error.required.subaward.templateinfo.humanPteSendCd";
+    public static final String HUMAN_PTE_NR_CD = "document.subAwardList[0].subAwardTemplateInfo[0].humanPteNrCd";
+    public static final String ERROR_REQUIRED_HUMAN_PTE_NR_CD = "error.required.subaward.templateinfo.humanPteNrCd";
+    public static final String HUMAN_DATA_EXCHANGE_AGREE_CD = "document.subAwardList[0].subAwardTemplateInfo[0].humanDataExchangeAgreeCd";
+    public static final String HUMAN_DATA_EXCHANGE_TERMS_CD = "document.subAwardList[0].subAwardTemplateInfo[0].humanDataExchangeTermsCd";
+    public static final String ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_AGREE_CD = "error.required.subaward.templateinfo.humanDataExchangeAgreeCd";
+    public static final String ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_TERMS_CD = "error.required.subaward.templateinfo.humanDataExchangeTermsCd";
+
     private AwardService awardService;
 
     @Override
@@ -371,7 +383,35 @@ SubAwardFfataReportingRule {
                 LOG.debug(ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
                 reportError(CARRY_FORWARD_REQUESTS_SENT_TO, ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
              }
-          }  
+          }
+
+            if (subAwardTemplateInfo.getAnimalFlag() != null && subAwardTemplateInfo.getAnimalFlag()) {
+                if (StringUtils.isBlank(subAwardTemplateInfo.getAnimalPteSendCd())) {
+                    rulePassed = false;
+                    reportError(ANIMAL_PTE_SEND_CD, ERROR_REQUIRED_ANIMAL_PTE_SEND_CD);
+                } else if (PteSend.NOT_REQUIRED.getCode().equals(subAwardTemplateInfo.getAnimalPteSendCd()) && StringUtils.isBlank(subAwardTemplateInfo.getAnimalPteNrCd())) {
+                    rulePassed = false;
+                    reportError(ANIMAL_PTE_NR_CD, ERROR_REQUIRED_ANIMAL_PTE_NR_CD);
+                }
+            }
+
+            if (subAwardTemplateInfo.getHumanFlag() != null && subAwardTemplateInfo.getHumanFlag()) {
+                if (StringUtils.isBlank(subAwardTemplateInfo.getHumanPteSendCd())) {
+                    rulePassed = false;
+                    reportError(HUMAN_PTE_SEND_CD, ERROR_REQUIRED_HUMAN_PTE_SEND_CD);
+                } else if (PteSend.NOT_REQUIRED.getCode().equals(subAwardTemplateInfo.getHumanPteSendCd()) && StringUtils.isBlank(subAwardTemplateInfo.getHumanPteNrCd())) {
+                    rulePassed = false;
+                    reportError(HUMAN_PTE_NR_CD, ERROR_REQUIRED_HUMAN_PTE_NR_CD);
+                }
+
+                if (StringUtils.isBlank(subAwardTemplateInfo.getHumanDataExchangeAgreeCd())) {
+                    rulePassed = false;
+                    reportError(HUMAN_DATA_EXCHANGE_AGREE_CD, ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_AGREE_CD);
+                } else if (!HumanDataExchangeAgreement.NOT_APPLICABLE.getCode().equals(subAwardTemplateInfo.getHumanDataExchangeAgreeCd()) && StringUtils.isBlank(subAwardTemplateInfo.getHumanDataExchangeTermsCd())) {
+                    rulePassed = false;
+                    reportError(HUMAN_DATA_EXCHANGE_TERMS_CD, ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_TERMS_CD);
+                }
+            }
         }
         return rulePassed;
     }

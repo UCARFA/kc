@@ -25,62 +25,43 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
     
     private String subAwardCode;
-    
     private Integer sequenceNumber;
-    
     private Long subAwardId;
-  
     private String sowOrSubProposalBudget="N";
-    
     private Date subProposalDate;
-    
     private Integer invoiceOrPaymentContact;
-    
     private Integer finalStmtOfCostscontact;
-    
     private Integer changeRequestsContact;
-    
     private Integer terminationContact;
-   
     private Integer noCostExtensionContact;
-    
     private String perfSiteDiffFromOrgAddr="N";
-    
     private String perfSiteSameAsSubPiAddr="N";
-    
     private String subRegisteredInCcr="N";
-    
     private String subExemptFromReportingComp="N";
-    
     private String parentDunsNumber;
-    
     private String parentCongressionalDistrict;
-    
     private String exemptFromRprtgExecComp="N";
-    
     private Integer copyRightType;
-    
     private String automaticCarryForward="N";
-    
     private Integer carryForwardRequestsSentTo;
-    
     private String treatmentPrgmIncomeAdditive="N";
-    
     private String applicableProgramRegulations;
-    
     private Date applicableProgramRegsDate;
-
     private Boolean rAndD;
-
     private Boolean includesCostSharing;
-
     private Boolean fcio;
-
     private Boolean invoicesEmailed;
-
     private Boolean invoiceAddressDifferent;
-
     private Boolean invoiceEmailDifferent;
+    private String fcioSubrecPolicyCd;
+    private Boolean animalFlag;
+    private String animalPteSendCd;
+    private String animalPteNrCd;
+    private Boolean humanFlag;
+    private String humanPteSendCd;
+    private String humanPteNrCd;
+    private String humanDataExchangeAgreeCd;
+    private String humanDataExchangeTermsCd;
 
     public String getSubAwardCode() {
         return subAwardCode;
@@ -312,5 +293,77 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
 
     public void setInvoiceEmailDifferent(Boolean invoiceEmailDifferent) {
         this.invoiceEmailDifferent = invoiceEmailDifferent;
+    }
+
+    public String getFcioSubrecPolicyCd() {
+        return fcioSubrecPolicyCd;
+    }
+
+    public void setFcioSubrecPolicyCd(String fcioSubrecPolicyCd) {
+        this.fcioSubrecPolicyCd = fcioSubrecPolicyCd;
+    }
+
+    public Boolean getAnimalFlag() {
+        return animalFlag;
+    }
+
+    public void setAnimalFlag(Boolean animalFlag) {
+        this.animalFlag = animalFlag;
+    }
+
+    public String getAnimalPteSendCd() {
+        return animalPteSendCd;
+    }
+
+    public void setAnimalPteSendCd(String animalPteSendCd) {
+        this.animalPteSendCd = animalPteSendCd;
+    }
+
+    public String getAnimalPteNrCd() {
+        return animalPteNrCd;
+    }
+
+    public void setAnimalPteNrCd(String animalPteNrCd) {
+        this.animalPteNrCd = animalPteNrCd;
+    }
+
+    public Boolean getHumanFlag() {
+        return humanFlag;
+    }
+
+    public void setHumanFlag(Boolean humanFlag) {
+        this.humanFlag = humanFlag;
+    }
+
+    public String getHumanPteSendCd() {
+        return humanPteSendCd;
+    }
+
+    public void setHumanPteSendCd(String humanPteSendCd) {
+        this.humanPteSendCd = humanPteSendCd;
+    }
+
+    public String getHumanPteNrCd() {
+        return humanPteNrCd;
+    }
+
+    public void setHumanPteNrCd(String humanPteNrCd) {
+        this.humanPteNrCd = humanPteNrCd;
+    }
+
+    public String getHumanDataExchangeAgreeCd() {
+        return humanDataExchangeAgreeCd;
+    }
+
+    public void setHumanDataExchangeAgreeCd(String humanDataExchangeAgreeCd) {
+        this.humanDataExchangeAgreeCd = humanDataExchangeAgreeCd;
+    }
+
+    public String getHumanDataExchangeTermsCd() {
+        return humanDataExchangeTermsCd;
+    }
+
+    public void setHumanDataExchangeTermsCd(String humanDataExchangeTermsCd) {
+        this.humanDataExchangeTermsCd = humanDataExchangeTermsCd;
     }
 }
