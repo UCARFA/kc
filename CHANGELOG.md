@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1945: adding template fields for compliance
+  * Travis Schneeberger on Mon, 13 Mar 2017 16:33:56 -0400 [View Commit](../../commit/a74e81975611c45b5ff348266e47ff342540bc87)
+
+##coeus-1703.0013
 * RESKC-2049: changing the way signature images are placed on a pdf.  Mainly changing the way y coordinates are calculated by subtracting the page height.
   * Travis Schneeberger on Thu, 16 Mar 2017 11:14:39 -0400 [View Commit](../../commit/1695ace56bf40126c65b22c0b6adddb2c92afcc3)
 
