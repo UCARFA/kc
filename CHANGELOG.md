@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2049: changing the way signature images are placed on a pdf.  Mainly changing the way y coordinates are calculated by subtracting the page height.
+  * Travis Schneeberger on Thu, 16 Mar 2017 11:14:39 -0400 [View Commit](../../commit/1695ace56bf40126c65b22c0b6adddb2c92afcc3)
+
+##coeus-1703.0012
 * RESKC-2059: updating demo data for NIH validation service.  Tweaking validation service to assume pdf attachments based on file name.
   * Travis Schneeberger on Tue, 14 Mar 2017 15:13:07 -0400 [View Commit](../../commit/593c52883695f9f6bf368fefb25eeda2578c7920)
 
