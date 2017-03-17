@@ -116,6 +116,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     AwardDto getAward(@PathVariable Long awardId, @RequestParam(value = "includeBudgets", required = false) boolean includeBudgets) {
+        commonApiService.clearErrors();
         Award award = getAwardDao().getAward(awardId);
         if(award == null) {
             throw new ResourceNotFoundException("Award with award id " + awardId + " not found.");
@@ -140,6 +141,7 @@ public class AwardController extends AwardControllerBase implements Initializing
                                          @RequestParam(value = "awardHierarchy", required = false) String awardHierarchy,
                                          @RequestParam(value = "includeBudgets", required = false) boolean includeBudgets
                                          ) {
+        commonApiService.clearErrors();
         List<AwardDto> awardDtos = new ArrayList<>();
         if(StringUtils.isBlank(awardNumber) && StringUtils.isBlank(awardHierarchy)) {
             throw new NotImplementedException("GET all awards not yet implemented in version 2.");
@@ -160,6 +162,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     AwardDto versionAward(@RequestBody AwardDto awardDto, @PathVariable Long awardId) throws Exception {
+        commonApiService.clearErrors();
         Award award = getAwardDao().getAward(awardId);
         if(award == null) {
             throw new ResourceNotFoundException("Award with award id " + awardId + " not found.");
@@ -168,7 +171,6 @@ public class AwardController extends AwardControllerBase implements Initializing
     }
 
     protected AwardDto versionAward(AwardDto awardDto, Award awardToVersion) throws WorkflowException {
-        commonApiService.clearErrors();
         AwardDocument oldAwardDocument = (AwardDocument) commonApiService.getDocumentFromDocId(Long.parseLong(awardToVersion.getAwardDocument().getDocumentNumber()));
         String rootAwardNumber = awardService.getRootAwardNumber(awardToVersion.getAwardNumber());
         if(timeAndMoneyExistenceService.validateTimeAndMoneyRule(awardToVersion, rootAwardNumber)) {
@@ -271,6 +273,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     List<AwardBudgetExtDto> getBudgets( @PathVariable Long awardId) {
+        commonApiService.clearErrors();
         Award award = getAwardDao().getAward(awardId);
         if(award == null) {
             throw new ResourceNotFoundException("Award with award id " + awardId + " not found.");
