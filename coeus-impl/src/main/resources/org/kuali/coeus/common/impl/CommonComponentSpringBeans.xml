@@ -40,6 +40,7 @@
     <context:component-scan base-package="org.kuali.coeus.common.api" />
     <context:component-scan base-package="org.kuali.coeus.common.framework" />
     <context:component-scan base-package="org.kuali.coeus.common.impl" />
+    <context:component-scan base-package="org.kuali.coeus.common.impl.costshare" />
     <context:component-scan base-package="org.kuali.kra.external.unit.service.impl" />
     <context:component-scan base-package="org.kuali.coeus.common.questionnaire.impl" />
     <mvc:annotation-driven/>

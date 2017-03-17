@@ -51,6 +51,8 @@ public class UnitServiceImpl implements UnitService {
     private static final String PARENT_UNIT_NUMBER = "parentUnitNumber";
     public static final String ACTIVE = "active";
     public static final String ACTIVE_YES = "Y";
+    public static final String DELIMITER = ",";
+    public static final String UNIT_ADMINISTRATOR_TYPE_CODE = "unitAdministratorTypeCode";
 
     @Autowired
     @Qualifier("unitLookupDao")
@@ -145,6 +147,29 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public List<Unit> getUnitHierarchyForUnit(String unitNumber) {
         return getParentUnitsInclusive(getUnits(),unitNumber);
+    }
+
+    public boolean appliesToUnit(String unit, String unitNumbers) {
+        if(unitNumbers == null) {
+            return Boolean.FALSE;
+        }
+        for (String environmentUnitNumber : unitNumbers.split(DELIMITER)) {
+            List<Unit> unitHierarchyForUnit = getUnitHierarchyForUnit(environmentUnitNumber);
+            if (appliesToAnyUnitInHierarchy(unit, unitHierarchyForUnit)) {
+                return Boolean.TRUE;
+            }
+        }
+        return Boolean.FALSE;
+    }
+
+    public boolean appliesToAnyUnitInHierarchy(String unitNumberToCheck, List<Unit> unitHierarchyForUnit) {
+        for (Unit unit : unitHierarchyForUnit) {
+            String unitNumber = unit.getUnitNumber();
+            if (unitNumber.equals(unitNumberToCheck)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected List<Unit> getParentUnitsInclusive(List<Unit> units, final String unit) {
@@ -261,6 +286,15 @@ public class UnitServiceImpl implements UnitService {
     public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumber(String unitNumber) {
         return (List<UnitAdministrator>) getBusinessObjectService()
                 .findMatching(UnitAdministrator.class, Collections.singletonMap(UNIT_NUMBER, unitNumber));
+    }
+
+    @Override
+    public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumberAndType(String unitNumber, String typeCode) {
+        Map<String, String> fields = new HashMap<>();
+        fields.put(UNIT_NUMBER, unitNumber);
+        fields.put(UNIT_ADMINISTRATOR_TYPE_CODE, typeCode);
+        return (List<UnitAdministrator>) getBusinessObjectService()
+                .findMatching(UnitAdministrator.class, fields);
     }
 
     @Override

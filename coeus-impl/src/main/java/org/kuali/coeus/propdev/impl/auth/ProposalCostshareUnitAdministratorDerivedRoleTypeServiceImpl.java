@@ -22,25 +22,25 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministrator;
-import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
-import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministratorDerivedRoleTypeService;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@Component("proposalAllUnitAdministratorDerivedRoleTypeService")
-public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends AbstractUnitAdministratorDerivedRoleTypeService
+@Component("proposalCostShareUnitAdministratorDerivedRoleTypeService")
+public class ProposalCostshareUnitAdministratorDerivedRoleTypeServiceImpl extends AbstractUnitAdministratorDerivedRoleTypeService
         implements RoleTypeService {
 
     @Autowired
@@ -48,13 +48,17 @@ public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abst
     private UnitService unitService;
 
     @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
+    @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
-    
+
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
     }
-    
+
     protected UnitService getUnitService() {
         return unitService;
     }
@@ -67,35 +71,39 @@ public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abst
         this.dataObjectService = dataObjectService;
     }
 
-    @Override
     public List<? extends AbstractUnitAdministrator> getUnitAdministrators(Map<String, String> qualifiers) {
         String proposalNumber = qualifiers.get(KcKimAttributes.PROPOSAL);
-        String unitNumber = qualifiers.get(KcKimAttributes.UNIT_NUMBER);
-        List<UnitAdministrator> result = new ArrayList<UnitAdministrator>();
+        List<UnitAdministrator> result = new ArrayList<>();
         if (proposalNumber != null) {
             DevelopmentProposal proposal = getDataObjectService().find(DevelopmentProposal.class,proposalNumber);
             Set<String> units = getApplicableUnits(proposal);
-            for (String unit : units) {
-                if (StringUtils.isNotBlank(unit)) {
-                    result.addAll(unitService.retrieveUnitAdministratorsByUnitNumber(unit));
-                }
+            String costShareAdministratorTypeCode = getCostShareAdministratorTypeCode();
+            if (units != null) {
+                result = units.stream().
+                        filter(unit -> StringUtils.isNotBlank(unit)).
+                        map(unit -> unitService.retrieveUnitAdministratorsByUnitNumberAndType(unit, costShareAdministratorTypeCode)).
+                        flatMap(l -> l.stream()).
+                        collect(Collectors.toList());
             }
-        } else if (unitNumber != null) {
-        	result.addAll(unitService.retrieveUnitAdministratorsByUnitNumber(getUnitNumberForPersonUnit(unitService.getUnit(unitNumber))));
         }
         return result;
     }
 
-	public Set<String> getApplicableUnits(DevelopmentProposal proposal) {
-		return proposal.getProposalPersons().stream()
-				  .flatMap(person -> person.getUnits().stream())
-				  .map(unit -> getUnitNumberForPersonUnit(unit.getUnit()))
-				  .filter(Objects::nonNull)
-				  .collect(Collectors.toSet());
-	}
+    public String getCostShareAdministratorTypeCode() {
+        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.COST_SHARE_ADMINISTRATOR_TYPE_CODE);
+    }
 
-	protected String getUnitNumberForPersonUnit(Unit unit) {
-		return unit.getUnitNumber();
+	public Set<String> getApplicableUnits(DevelopmentProposal proposal) {
+        ProposalDevelopmentBudgetExt budget = proposal.getFinalBudget();
+        if (Objects.isNull(budget) || Objects.isNull(budget.getBudgetCostShares()) || budget.getBudgetCostShares().size() == 0) {
+            return new HashSet<>();
+        }
+
+		return budget.getBudgetCostShares().stream()
+                .filter(budgetCostShare -> budgetCostShare.getUnit() != null)
+                .map(budgetCostShare -> budgetCostShare.getUnit().getUnitNumber())
+                .collect(Collectors.toSet());
 	}
 
 }

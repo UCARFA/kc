@@ -955,5 +955,7 @@ public interface Constants {
     String RESKC_1977_MAKE_CERT_READ_ONLY_AFTER_APPROVAL = "RESKC_1977_Make_Cert_Read_Only_After_Approval";
     String ENABLE_COST_SHARE_TYPE_SOURCE_ACCOUNT_VALIDATION = "Enable_Cost_Share_Type_Source_Account_Validation";
     String ENABLE_LIFECYCLE_RATES_FLOWTHRU = "Enable_Lifecycle_Rates_Flowthru";
+    String COST_SHARE_AGENDA_UNITS = "costShareAgendaUnits";
+    String COST_SHARE_ADMINISTRATOR_TYPE_CODE = "COST_SHARE_ADMINISTRATOR_TYPE_CODE";
 }
 
