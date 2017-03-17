@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2117: IRB controller is swallowing audit errors, fixing it. (#2251)
+
+  * Gayathri Athreya on Fri, 17 Mar 2017 09:48:07 -0700 [View Commit](../../commit/951800378afd5218e3b3fc52ed9726f376d275a3)
+
+##coeus-1703.0015
 * RESKC-2042: Cost share workflow (#2249)
 
 * RESKC-2042: Cost share workflow
