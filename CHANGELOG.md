@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2057: Remove code from lookup (#2253)
+
+  * Gayathri Athreya on Mon, 20 Mar 2017 07:55:46 -0700 [View Commit](../../commit/0c774e8177c827c89c1c3f529d17b43b2b5fe48a)
+
+##coeus-1703.0016
 * RESKC-2117: IRB controller is swallowing audit errors, fixing it. (#2251)
 
   * Gayathri Athreya on Fri, 17 Mar 2017 09:48:07 -0700 [View Commit](../../commit/951800378afd5218e3b3fc52ed9726f376d275a3)
