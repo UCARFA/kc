@@ -154,11 +154,11 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
             Collection<ValidSourceAccountsCostShareType> activeValidSourceAccountCostSharetypes = getMatchingValidSourceAccountsCostShareTypes();
             if (activeValidSourceAccountCostSharetypes.size() != 0) {
                 final boolean validMatches = activeValidSourceAccountCostSharetypes.stream().anyMatch(validSourceAccountsCostShareType ->
-                        budgetCostShare.getCostShareTypeCode().equals(validSourceAccountsCostShareType.getCostShareTypeCode())
+                        validSourceAccountsCostShareType.getCostShareTypeCode().equals(budgetCostShare.getCostShareTypeCode())
                                 && budgetCostShare.getSourceAccount().equalsIgnoreCase(validSourceAccountsCostShareType.getAccount().getAccountNumber()));
                 if (!validMatches) {
                     valid = addValidationMessage(validationMessageType, costShareField, KeyConstants.INVALID_SOURCE_ACCOUNT_COST_SHARE_TYPE,
-                            budgetCostShare.getCostShareTypeCode().toString(), budgetCostShare.getSourceAccount());
+                            budgetCostShare.getCostShareTypeCode() != null ? budgetCostShare.getCostShareTypeCode().toString() : "", budgetCostShare.getSourceAccount());
                 }
             }
         }

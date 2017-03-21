@@ -100,7 +100,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private static final String INST_PROPOSAL_ID = "instProposalId";
     private static final int DEFAULT_STATUS_CODE = 1;
     private static final int WITHDRAWN_STATUS_CODE = 5;
-    private static final int DEFAULT_COST_SHARE_TYPE_CODE = 1;
+    private static final Integer DEFAULT_COST_SHARE_TYPE_CODE = 1;
     private static final String VALID_FUNDING_PROPOSAL_STATUS_CODES = "validFundingProposalStatusCodes";
     private static final String SEPARATOR = ",";
     private static final String TRUE_INDICATOR_VALUE = "1";
@@ -744,7 +744,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     }
 
     protected boolean isCostShareTypeEnabled() {
-        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_GEN,
                 ParameterConstants.ALL_COMPONENT,
                 Constants.ENABLE_COST_SHARE_ACCOUNT_VALIDATION);
     }

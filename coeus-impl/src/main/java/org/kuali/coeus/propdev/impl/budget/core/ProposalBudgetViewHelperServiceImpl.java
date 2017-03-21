@@ -182,7 +182,7 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     }
 
     public boolean isCostShareTypeEnabled() {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_GEN,
                 ParameterConstants.ALL_COMPONENT,
                 Constants.ENABLE_COST_SHARE_ACCOUNT_VALIDATION);
     }
