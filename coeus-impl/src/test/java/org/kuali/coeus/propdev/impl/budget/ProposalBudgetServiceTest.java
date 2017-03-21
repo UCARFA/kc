@@ -24,11 +24,13 @@ import static org.junit.Assert.assertNull;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.core.Account;
+import org.kuali.coeus.common.budget.framework.core.CostShare;
 import org.kuali.coeus.common.budget.framework.core.ValidSourceAccountsCostShareType;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.impl.gv.GlobalVariableServiceImpl;
+import org.kuali.kra.bo.CostShareType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -92,6 +94,9 @@ public class ProposalBudgetServiceTest {
     public void testIsValidSourceAccountCostShareType() {
         ProposalBudgetServiceImpl proposalBudgetServiceImpl = new ProposalBudgetServiceImpl() {
 
+            public void refreshReference(CostShare budgetCostShare) {
+            }
+
             public Collection<ValidSourceAccountsCostShareType> getMatchingValidSourceAccountsCostShareTypes() {
                 List<ValidSourceAccountsCostShareType> validSourceAccountsCostShareTypeList = new ArrayList<>();
                 final ValidSourceAccountsCostShareType validSourceAccountsCostShareType1 = new ValidSourceAccountsCostShareType();
@@ -121,6 +126,9 @@ public class ProposalBudgetServiceTest {
         BudgetCostShare budgetCostShare1 = new BudgetCostShare();
         budgetCostShare1.setCostShareTypeCode(1);
         budgetCostShare1.setSourceAccount("2345");
+        CostShareType costShareType = new CostShareType();
+        costShareType.setDescription("test");
+        budgetCostShare1.setCostShareType(costShareType);
         Assert.assertTrue(proposalBudgetServiceImpl.isValidSourceAccountCostShareType("W", budgetCostShare1, COST_SHARE_FIELD));
         Assert.assertTrue(proposalBudgetServiceImpl.isValidSourceAccountCostShareType("E", budgetCostShare1, COST_SHARE_FIELD));
 
@@ -134,6 +142,9 @@ public class ProposalBudgetServiceTest {
 
         budgetCostShare1 = new BudgetCostShare();
         budgetCostShare1.setCostShareTypeCode(1);
+        costShareType = new CostShareType();
+        costShareType.setDescription("test");
+        budgetCostShare1.setCostShareType(costShareType);
         budgetCostShare1.setSourceAccount("3456");
         Assert.assertFalse(proposalBudgetServiceImpl.isValidSourceAccountCostShareType("E", budgetCostShare1, COST_SHARE_FIELD));
         Assert.assertTrue(proposalBudgetServiceImpl.getGlobalVariableService().getMessageMap().getErrorMessages().size() == 1);
@@ -144,6 +155,9 @@ public class ProposalBudgetServiceTest {
 
         budgetCostShare1 = new BudgetCostShare();
         budgetCostShare1.setCostShareTypeCode(2);
+        costShareType = new CostShareType();
+        costShareType.setDescription("test");
+        budgetCostShare1.setCostShareType(costShareType);
         budgetCostShare1.setSourceAccount("9999");
         Assert.assertFalse(proposalBudgetServiceImpl.isValidSourceAccountCostShareType("E", budgetCostShare1, COST_SHARE_FIELD));
         Assert.assertTrue(proposalBudgetServiceImpl.getGlobalVariableService().getMessageMap().getErrorMessages().size() == 1);

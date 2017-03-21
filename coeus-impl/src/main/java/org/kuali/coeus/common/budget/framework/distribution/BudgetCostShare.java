@@ -31,6 +31,7 @@ import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.kra.bo.CostShareType;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
@@ -87,6 +88,10 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
 
     @Column(name = "COST_SHARE_TYPE_CODE")
     private Integer costShareTypeCode;
+
+    @ManyToOne(targetEntity = CostShareType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "COST_SHARE_TYPE_CODE", referencedColumnName = "COST_SHARE_TYPE_CODE", insertable = false, updatable = false)
+    private CostShareType costShareType;
 
     public BudgetCostShare() {
         super();
@@ -170,6 +175,11 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
 
     public Integer getCostShareTypeCode() {
         return costShareTypeCode;
+    }
+
+    @Override
+    public CostShareType getCostShareType() {
+        return costShareType;
     }
 
     public void setCostShareTypeCode(Integer costShareTypeCode) {
@@ -297,7 +307,11 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
         }
     }
 
-	public Budget getBudget() {
+    public void setCostShareType(CostShareType costShareType) {
+        this.costShareType = costShareType;
+    }
+
+    public Budget getBudget() {
 		return budget;
 	}
 
