@@ -20,4 +20,5 @@
 
 \. ./rice/bootstrap/V1703_003__ip_fAndA_rate_feature.sql
 \. ./rice/bootstrap/V1703_007__cost_share_agenda_type.sql
+\. ./rice/bootstrap/V1703_008__cost_share_param_change.sql
 commit;

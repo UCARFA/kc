@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2123: Fixing issue when cost share type is null in PD (#2255)
+
+  * Gayathri Athreya on Tue, 21 Mar 2017 09:04:38 -0700 [View Commit](../../commit/dfab9149c74e91bbc791bb6830fe73ad342498ad)
+
+##coeus-1703.0018
 * No Changes
 
 
