@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2093: Fix cost share type validation message. (#2252)
+
+* RESKC-2093: Fix cost share type validation message.
+  * 
+* RESKC-2093: Fix tests
+  * Gayathri Athreya on Tue, 21 Mar 2017 13:21:00 -0700 [View Commit](../../commit/47fe0487f682bf90565b4e03a446cc2e305643f0)
+
+##coeus-1703.0019
 * RESKC-2123: Fixing issue when cost share type is null in PD (#2255)
 
   * Gayathri Athreya on Tue, 21 Mar 2017 09:04:38 -0700 [View Commit](../../commit/dfab9149c74e91bbc791bb6830fe73ad342498ad)
