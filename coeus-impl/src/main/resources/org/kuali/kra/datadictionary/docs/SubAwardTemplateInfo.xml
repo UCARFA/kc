@@ -494,8 +494,8 @@
     <bean id="SubAwardTemplateInfo-fcioSubrecPolicyCd-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="fcioSubrecPolicyCd" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Applicable FCIO policy for subrecipient's" />
-        <property name="shortLabel" value="Applicable FCIO policy for subrecipient's" />
+        <property name="label" value="Applicable FCOI policy for subrecipient" />
+        <property name="shortLabel" value="Applicable FCOI policy for subrecipient" />
         <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -506,8 +506,8 @@
         <property name="control">
             <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.FcioSubrecipientPolicyFinder" />
         </property>
-        <property name="summary" value="Applicable FCIO policy for subrecipient's" />
-        <property name="description" value="Applicable FCIO policy for subrecipient's" />
+        <property name="summary" value="Applicable FCOI policy for subrecipient" />
+        <property name="description" value="Applicable FCOI policy for subrecipient" />
     </bean>
 
     <bean id="SubAwardTemplateInfo-animalFlag" parent="SubAwardTemplateInfo-animalFlag-parentBean"/>
