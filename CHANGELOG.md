@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2119: fixing null pointer in protocols (#2261)
+
+  * Gayathri Athreya on Wed, 22 Mar 2017 14:36:22 -0700 [View Commit](../../commit/0ce1caeeeb1ab22947f76458fbad82ea35b48077)
+
+##coeus-1703.0021
 * RESKC-2126: fix label
   * Travis Schneeberger on Wed, 22 Mar 2017 14:39:45 -0400 [View Commit](../../commit/189c29959a1516dfe993a28722ae5a3d5de327a8)
 * RESKC-1944: Reorganize fields. (#2256)
