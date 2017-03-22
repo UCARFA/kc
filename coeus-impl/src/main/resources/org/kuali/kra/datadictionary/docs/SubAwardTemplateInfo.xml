@@ -43,7 +43,6 @@
 		        <ref bean="SubAwardTemplateInfo-terminationContact" />
 		        <ref bean="SubAwardTemplateInfo-noCostExtensionContact" />
 		        <ref bean="SubAwardTemplateInfo-perfSiteDiffFromOrgAddr" />
-		        <ref bean="SubAwardTemplateInfo-perfSiteSameAsSubPiAddr" />
 		        <ref bean="SubAwardTemplateInfo-subRegisteredInCcr" />
 				<ref bean="SubAwardTemplateInfo-parentDunsNumber" />
 		        <ref bean="SubAwardTemplateInfo-parentCongressionalDistrict" />
@@ -235,20 +234,6 @@
     <property name="description" value="Performance Site same as Org address?" />    
   </bean>
   
-  <bean id="SubAwardTemplateInfo-perfSiteSameAsSubPiAddr" parent="SubAwardTemplateInfo-perfSiteSameAsSubPiAddr-parentBean" />
-    <bean id="SubAwardTemplateInfo-perfSiteSameAsSubPiAddr-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="perfSiteSameAsSubPiAddr" />
-    <property name="label" value="Performance Site same as PI address?" />
-    <property name="shortLabel" value="Performance Site same as PI address?" />
-    <property name="control" >
-     <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-    <property name="summary" value="Performance Site same as PI address?" />
-    <property name="description" value="Performance Site same as PI address?" />    
-  </bean>
-  
   <bean id="SubAwardTemplateInfo-subRegisteredInCcr" parent="SubAwardTemplateInfo-subRegisteredInCcr-parentBean" />
     <bean id="SubAwardTemplateInfo-subRegisteredInCcr-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="subRegisteredInCcr" />
@@ -319,8 +304,8 @@
    <bean id="SubAwardTemplateInfo-copyRightType-parentBean" abstract="true" parent="AttributeDefinition">
        <property name="name" value="copyRightType" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Copyrights / Data Rights" />
-    <property name="shortLabel" value="Copyrights / Data Rights" />
+    <property name="label" value="Copyrights" />
+    <property name="shortLabel" value="Copyrights" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -335,8 +320,8 @@
             p:keyAttribute="copyRightTypeCode"
             p:labelAttribute="copyRightTypeDescription" />
     </property>
-    <property name="summary" value="Copyrights / Data Rights" />
-    <property name="description" value="Copyrights / Data Rights" />    
+    <property name="summary" value="Copyrights" />
+    <property name="description" value="Copyrights" />
   </bean>
   
   <bean id="SubAwardTemplateInfo-automaticCarryForward" parent="SubAwardTemplateInfo-automaticCarryForward-parentBean" />
@@ -718,7 +703,6 @@
             <bean p:attributeName="terminationContact"   parent="FieldDefinition"/>
             <bean p:attributeName="noCostExtensionContact"   parent="FieldDefinition"/>
             <bean p:attributeName="perfSiteDiffFromOrgAddr"   parent="FieldDefinition"/>
-            <bean p:attributeName="perfSiteSameAsSubPiAddr"   parent="FieldDefinition"/>
             <bean p:attributeName="subRegisteredInCcr"   parent="FieldDefinition"/>
             <bean p:attributeName="parentDunsNumber"   parent="FieldDefinition"/>
             <bean p:attributeName="parentCongressionalDistrict"   parent="FieldDefinition"/>
@@ -759,7 +743,6 @@
             <bean p:attributeName="terminationContact"   parent="FieldDefinition"/>
             <bean p:attributeName="noCostExtensionContact"   parent="FieldDefinition"/>
             <bean p:attributeName="perfSiteDiffFromOrgAddr"   parent="FieldDefinition"/>
-            <bean p:attributeName="perfSiteSameAsSubPiAddr"   parent="FieldDefinition"/>
             <bean p:attributeName="subRegisteredInCcr"   parent="FieldDefinition"/>
             <bean p:attributeName="parentDunsNumber"   parent="FieldDefinition"/>
             <bean p:attributeName="parentCongressionalDistrict"   parent="FieldDefinition"/>
