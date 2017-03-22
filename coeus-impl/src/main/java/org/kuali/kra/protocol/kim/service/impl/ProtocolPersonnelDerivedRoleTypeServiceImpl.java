@@ -67,7 +67,8 @@ public class ProtocolPersonnelDerivedRoleTypeServiceImpl extends DerivedRoleType
         final String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
         final Protocol protocol = getProtocol(protocolNumber);
 
-        return protocol.getProtocolPersons().stream()
+        return protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons()) &&
+                protocol.getProtocolPersons().stream()
                 .filter(protocolPersonBase -> principalId.equals(protocolPersonBase.getPersonId()))
                 .anyMatch(employeeMatchesRole(roleName));
     }
