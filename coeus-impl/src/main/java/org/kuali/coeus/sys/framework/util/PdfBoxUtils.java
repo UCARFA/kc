@@ -38,6 +38,13 @@ public final class PdfBoxUtils {
 
     private static final Log LOG = LogFactory.getLog(PdfBoxUtils.class);
     private static final String DEFAULT_APPEARANCE = "/TimesNewRoman 0 Tf 0 0 0 rg";
+    private static final String SEPARATOR = ".";
+    private static final String TOP_LEVEL = "|--";
+    private static final String CHILD_LEVEL = "|  ";
+    private static final String FIELD_VAL_SEPARATOR = " = ";
+    private static final String TYPE_STR = "type=";
+    private static final String NO_FORM_FIELDS_MSG = " top-level fields were found on the form";
+    private static final String COMMA_SEPARATOR = ",  ";
 
     private PdfBoxUtils() {
         throw new UnsupportedOperationException("do not call");
@@ -65,11 +72,7 @@ public final class PdfBoxUtils {
             try {
                 if (field instanceof PDCheckBox) {
                     field.setValue("Yes");
-                } else if (field instanceof PDComboBox) {
-                    field.setValue(value);
-                } else if (field instanceof PDListBox) {
-                    field.setValue(value);
-                } else if (field instanceof PDRadioButton) {
+                } else if (field instanceof PDComboBox || field instanceof PDListBox || field instanceof PDRadioButton) {
                     field.setValue(value);
                 } else if (field instanceof PDTextField) {
                     field.setValue(value);
@@ -126,8 +129,8 @@ public final class PdfBoxUtils {
         final PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
         final PDAcroForm acroForm = docCatalog.getAcroForm();
         final List<PDField> fields = acroForm.getFields();
-        LOG.info(fields.size() + " top-level fields were found on the form");
-        fields.forEach(field -> processField(field, "|--", field.getPartialName()));
+        LOG.info(fields.size() + NO_FORM_FIELDS_MSG);
+        fields.forEach(field -> processField(field, TOP_LEVEL, field.getPartialName()));
     }
 
     private static void processField(PDField field, String sLevel, String sParent) {
@@ -136,22 +139,22 @@ public final class PdfBoxUtils {
         if (field instanceof PDNonTerminalField) {
             if (!sParent.equals(field.getPartialName())) {
                 if (partialName != null) {
-                    sParent = sParent + "." + partialName;
+                    sParent = sParent + SEPARATOR + partialName;
                 }
             }
             LOG.info(sLevel + sParent);
             for (PDField child : ((PDNonTerminalField)field).getChildren()) {
-                processField(child, "|  " + sLevel, sParent);
+                processField(child, CHILD_LEVEL + sLevel, sParent);
             }
         } else {
             final String fieldValue = field.getValueAsString();
             final StringBuilder outputString = new StringBuilder(sLevel);
             outputString.append(sParent);
             if (partialName != null) {
-                outputString.append(".").append(partialName);
+                outputString.append(SEPARATOR).append(partialName);
             }
-            outputString.append(" = ").append(fieldValue);
-            outputString.append(",  type=").append(field.getClass().getName());
+            outputString.append(FIELD_VAL_SEPARATOR).append(fieldValue).append(COMMA_SEPARATOR);
+            outputString.append(TYPE_STR).append(field.getClass().getName());
             LOG.info(outputString);
         }
     }
