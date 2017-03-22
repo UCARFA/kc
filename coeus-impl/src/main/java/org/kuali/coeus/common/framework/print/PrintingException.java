@@ -39,4 +39,8 @@ public class PrintingException extends RuntimeException {
 	public PrintingException(String message, Throwable t) {
 		super(message, t);
 	}
+
+	public PrintingException(Throwable t) {
+		super(t);
+	}
 }

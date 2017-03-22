@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.protocol.actions.correspondence;
 
+import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.watermark.Watermarkable;
@@ -95,7 +96,7 @@ public abstract class ProtocolActionsCorrespondenceBase extends AbstractPrint {
     }
     
     @Override
-    public Map<String, byte[]> renderXML() throws PrintingException {
+    public Map<String, XmlObject> renderXML() throws PrintingException {
         setXmlStream(getCorrespondenceXmlStream());
         return super.renderXML();
     }

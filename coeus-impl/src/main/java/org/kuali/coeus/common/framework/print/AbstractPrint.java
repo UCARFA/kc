@@ -18,14 +18,17 @@
  */
 package org.kuali.coeus.common.framework.print;
 
+
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.print.watermark.Watermarkable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.springframework.core.io.Resource;
 
 import javax.xml.transform.Source;
+
 import java.io.InputStream;
-import java.util.LinkedHashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +36,6 @@ import java.util.Map;
  * This class provides all the objects required for printing reports. It
  * provides methods for fetching XML generator {@link XmlStream},{@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase},
  * {@link Map} of parameters required for printing.
- * 
- * @author
  * 
  */
 public abstract class AbstractPrint implements Printable {
@@ -91,20 +92,13 @@ public abstract class AbstractPrint implements Printable {
 	public void setReportParameters(Map<String, Object> reportParameters) {
 		this.reportParameters = reportParameters;
 	}
-
+	@Override
 	public Map<String, byte[]> getAttachments() {
 		return attachments;
 	}
 
 	public void setAttachments(Map<String, byte[]> attachments) {
 		this.attachments = attachments;
-	}
-
-	protected byte[] getBytes(XmlObject xmlObject) {
-		byte[] xmlBytes = null;
-		String xmlString = xmlObject.xmlText();
-		xmlBytes = xmlString.getBytes();
-		return xmlBytes;
 	}
 
 	/**
@@ -115,30 +109,44 @@ public abstract class AbstractPrint implements Printable {
 	 * @throws PrintingException
 	 *             in case of any errors occur during XML generation
 	 */
-	public Map<String, byte[]> renderXML() throws PrintingException {
-		Map<String, byte[]> xmlStreamMap = new LinkedHashMap<String, byte[]>();
-		Map<String, XmlObject> xmlObjectMap = getXmlStream().generateXmlStream(
+	@Override
+	public Map<String, XmlObject> renderXML() throws PrintingException {
+		return getXmlStream().generateXmlStream(
 				getPrintableBusinessObject(), getReportParameters());
-		for (String xmlObjectKey : xmlObjectMap.keySet()) {
-			xmlStreamMap.put(xmlObjectKey, getBytes(xmlObjectMap
-					.get(xmlObjectKey)));
-		}
-		return xmlStreamMap;
 	}
 	
 	/**
 	 * This method should be overridden if any printable artifacts wants to send Templates with separate bookmarks.
 	 */
+	@Override
     public Map<String,Source> getXSLTemplateWithBookmarks(){
         return null;
     }
+	@Override
     public List<Source> getXSLTemplates(){
         return null;
     }
+
+    @Override
+    public Map<String, Resource> getPdfForms() {
+    	return Collections.emptyMap();
+	}
+
+	@Override
+	public Map<String, byte[]> fillPdfForms(Map<String, Resource> pdfForms, Map<String, XmlObject> xml) {
+		return Collections.emptyMap();
+	}
+
+	@Override
+	public Map<String, byte[]> sortPdfForms(Map<String, byte[]> forms) {
+		return forms;
+	}
+
 	/**
 	 * This method for checking watermark is enable or disable
 	 * @see org.kuali.coeus.common.framework.print.Printable#isWatermarkEnabled()
 	 */
+	@Override
     public boolean isWatermarkEnabled(){
         return false;
     }
@@ -147,6 +155,7 @@ public abstract class AbstractPrint implements Printable {
      *This method for getting the watermark object 
      *with respect to the appropriate document.
      */
+	@Override
     public Watermarkable getWatermarkable(){
         if(isWatermarkEnabled()){
             throw new RuntimeException("Watermarkable not implemented");
