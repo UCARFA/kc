@@ -24,7 +24,6 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 
 import javax.xml.transform.Source;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,7 +38,7 @@ public class ProposalLogPrint extends AbstractPrint {
 
     @Override
 	public List<Source> getXSLTemplates() {
-		ArrayList<Source> sourceList = PrintingUtils
+		List<Source> sourceList = PrintingUtils
 				.getXSLTforReport(ProposalLogPrintingService.PROPOSAL_LOG_REPORT_TYPE);
 		return sourceList;
 	}

@@ -39,12 +39,12 @@ public class CorrespondencePrint extends AbstractPrint {
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
     public List<Source> getXSLTemplates() {
-        List<Source> sourceList = new ArrayList<Source>();
+        List<Source> sourceList = new ArrayList<>();
         Object template = getReportParameters().get("template");
         if (template != null && ((byte[]) template).length > 0) {
             sourceList.add(new StreamSource(new ByteArrayInputStream((byte[]) template)));
         } else {
-            Source src = new StreamSource(new PrintingUtils().getClass().getResourceAsStream(
+            Source src = new StreamSource(PrintingUtils.class.getResourceAsStream(
                     XSL_CONTEXT_DIR + "/QuestionnaireReport.xsl"));
             sourceList.add(src);
         }

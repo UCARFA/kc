@@ -368,6 +368,7 @@
     <bean id="institutionalProposalXmlStream" class="org.kuali.kra.institutionalproposal.printing.xmlstream.InstitutionalProposalXmlStream" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
+        <property name="parameterService" ref="parameterService" />
     </bean>
 
 	<bean id="institutionalProposalFactBuilderService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalFactBuilderServiceImpl">

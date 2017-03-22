@@ -26,7 +26,6 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
-import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -47,13 +46,15 @@ import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContrac
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.*;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -89,6 +90,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     public static final String FDP_PTE_INVOICE_ADDRESS = "FDP_PTE_Invoice_address";
 
     private BusinessObjectService businessObjectService;
+    private CountryService countryService;
+    private StateService stateService;
+    private ConfigurationService configurationService;
 
     private String awardNumber;
     private String awardTitle;
@@ -110,7 +114,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private BigDecimal anticipatedTotal;
     private List<SubAwardForms> sponsorTemplates;
     private ParameterService parameterService;
-    private PrintingUtils printingUtils;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -266,7 +269,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             String countryCode = subaward.getRolodex().getCountryCode();
             String stateName = subaward.getRolodex().getState();
             if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
-                State state = getPrintingUtils().getStateFromName(countryCode, stateName);
+                final Country country = getCountryService().getCountryByAlternateCode(countryCode);
+                final State state = getStateService().getState(country.getCode(), stateName);
                 if(state != null){
                     rolodexDetails.setStateDescription(state.getName());
                 }
@@ -287,7 +291,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             String countryCode = subaward.getOrganization().getRolodex().getCountryCode();
             String stateName = subaward.getOrganization().getRolodex().getState();
             if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
-                State state = getPrintingUtils().getStateFromName(countryCode, stateName);
+                final Country country = getCountryService().getCountryByAlternateCode(countryCode);
+                final State state = getStateService().getState(country.getCode(), stateName);
                 if(state != null){
                     rolodexDetailsType.setStateDescription(state.getName());
                 }
@@ -455,7 +460,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             String countryCode = rolodex.getCountryCode();
             String stateName = rolodex.getState();
             if (countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0) {
-                State state = getPrintingUtils().getStateFromName(countryCode, stateName);
+                final Country country = getCountryService().getCountryByAlternateCode(countryCode);
+                final State state = getStateService().getState(country.getCode(), stateName);
                 if (state != null) {
                     rolodexDetails.setStateDescription(state.getName());
                 }
@@ -468,17 +474,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         subContractData.setPrimeRecipientContacts(primeReceipient);
     }
 
-    public PrintingUtils getPrintingUtils() {
-        if (printingUtils == null) {
-            printingUtils = KcServiceLocator.getService(PrintingUtils.class);
-
-        }
-        return printingUtils;
-    }
-
     public void setPrintRequirement(SubContractData subContractData) {
         PrintRequirement printrequirement =PrintRequirement.Factory.newInstance();
-        ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
+
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
         String imagePath=configurationService.getPropertyValueAsString(externalImageURL);
@@ -535,7 +533,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                         String countryCode = rolodex.getCountryCode();
                         String stateName = rolodex.getState();
                         if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
-                            State state = getPrintingUtils().getStateFromName(countryCode, stateName);
+                            final Country country = getCountryService().getCountryByAlternateCode(countryCode);
+                            final State state = getStateService().getState(country.getCode(), stateName);
                             if(state != null){
                                 rolodexdetails.setStateDescription(state.getName());
                             }
@@ -574,7 +573,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 String countryCode = awardPersons.getCountryCode();
                 String stateName = awardPersons.getState();
                 if (countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0) {
-                    State state = getPrintingUtils().getStateFromName(countryCode, stateName);
+                    final Country country = getCountryService().getCountryByAlternateCode(countryCode);
+                    final State state = getStateService().getState(country.getCode(), stateName);
                     if (state != null) {
                         personDetails.setState(state.getName());
                     }
@@ -619,7 +619,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                         String countryCode = rolodex.getCountryCode();
                         String stateName = rolodex.getState();
                         if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
-                            State state = getPrintingUtils().getStateFromName(countryCode, stateName);
+                            final Country country = getCountryService().getCountryByAlternateCode(countryCode);
+                            final State state = getStateService().getState(country.getCode(), stateName);
                             if(state != null){
                                 rolodexDetails.setStateDescription(state.getName());
                             }
@@ -677,7 +678,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                         String countryCode = rolodex.getCountryCode();
                         String stateName = rolodex.getState();
                         if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
-                            State state = getPrintingUtils().getStateFromName(countryCode, stateName);
+                            final Country country = getCountryService().getCountryByAlternateCode(countryCode);
+                            final State state = getStateService().getState(country.getCode(), stateName);
                             if(state != null){
                                 rolodexDetails.setStateDescription(state.getName());
                             }
@@ -729,7 +731,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                         String countryCode = rolodex.getCountryCode();
                         String stateName = rolodex.getState();
                         if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
-                            State state = getPrintingUtils().getStateFromName(countryCode, stateName);
+                            final Country country = getCountryService().getCountryByAlternateCode(countryCode);
+                            final State state = getStateService().getState(country.getCode(), stateName);
                             if(state != null){
                                 rolodexDetails.setStateDescription(state.getName());
                             }
@@ -776,7 +779,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                         String countryCode = rolodex.getCountryCode();
                         String stateName = rolodex.getState();
                         if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
-                            State state = getPrintingUtils().getStateFromName(countryCode, stateName);
+                            final Country country = getCountryService().getCountryByAlternateCode(countryCode);
+                            final State state = getStateService().getState(country.getCode(), stateName);
                             if(state != null){
                                 rolodexDetails.setStateDescription(state.getName());
                             }
@@ -825,7 +829,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                         String countryCode = rolodex.getCountryCode();
                         String stateName = rolodex.getState();
                         if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
-                            State state = getPrintingUtils().getStateFromName(countryCode, stateName);
+                            final Country country = getCountryService().getCountryByAlternateCode(countryCode);
+                            final State state = getStateService().getState(country.getCode(), stateName);
                             if(state != null){
                                 rolodexDetails.setStateDescription(state.getName());
                             }
@@ -886,5 +891,29 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public CountryService getCountryService() {
+        return countryService;
+    }
+
+    public void setCountryService(CountryService countryService) {
+        this.countryService = countryService;
+    }
+
+    public StateService getStateService() {
+        return stateService;
+    }
+
+    public void setStateService(StateService stateService) {
+        this.stateService = stateService;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }

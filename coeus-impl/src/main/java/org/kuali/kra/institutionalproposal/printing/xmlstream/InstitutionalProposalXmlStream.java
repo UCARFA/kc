@@ -25,11 +25,11 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.common.framework.noo.NoticeOfOpportunity;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
-import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardType;
@@ -76,6 +76,7 @@ public class InstitutionalProposalXmlStream implements XmlStream {
 
 	private BusinessObjectService businessObjectService;
 	private DateTimeService dateTimeService;
+	private ParameterService parameterService;
 
 	@Override
 	public Map<String, XmlObject> generateXmlStream(
@@ -130,8 +131,8 @@ public class InstitutionalProposalXmlStream implements XmlStream {
 		instituteProposalXmlObject
 				.setScienceCodeArray(getScienceCodes(institutionalProposal));
 		instituteProposalXmlObject.setSchoolInfo(getSchoolInfoType());
-		// TODO : To be fixed
-		IPDisclosureItemType[] disclosureItemTypes = getDisclosureItems(institutionalProposal);
+
+		IPDisclosureItemType[] disclosureItemTypes = getDisclosureItems();
 		instituteProposalXmlObject.setDisclosureItemArray(disclosureItemTypes);
 		instituteProposalXmlObject.setKeyPersonsArray(getKeyPersons(
 				institutionalProposal));
@@ -347,8 +348,7 @@ public class InstitutionalProposalXmlStream implements XmlStream {
 	/*
 	 * This method will set the values to disclosure items xml object.
 	 */
-	private IPDisclosureItemType[] getDisclosureItems(
-			InstitutionalProposal institutionalProposal) {
+	private IPDisclosureItemType[] getDisclosureItems() {
 
 		List<IPDisclosureItemType> disclosureItemTypesList = new ArrayList<>();
 		IPDisclosureItemType disclosureItemType = IPDisclosureItemType.Factory
@@ -975,7 +975,8 @@ public class InstitutionalProposalXmlStream implements XmlStream {
 	}
 
 	private String getIPParameterValue(String param) {
-		return PrintingUtils.getParameterValue(param);
+		return getParameterService().getParameterValueAsString(
+				ProposalDevelopmentDocument.class, param);
 	}
 
 	public BusinessObjectService getBusinessObjectService() {
@@ -992,5 +993,13 @@ public class InstitutionalProposalXmlStream implements XmlStream {
 
 	public void setDateTimeService(DateTimeService dateTimeService) {
 		this.dateTimeService = dateTimeService;
+	}
+
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
 	}
 }

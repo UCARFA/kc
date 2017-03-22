@@ -18,8 +18,10 @@
  */
 package org.kuali.coeus.common.framework.print;
 
+import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.watermark.Watermarkable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.springframework.core.io.Resource;
 
 import javax.xml.transform.Source;
 import java.io.Serializable;
@@ -34,6 +36,9 @@ import java.util.Map;
  */
 public interface Printable extends Serializable {
 
+	Map<String, Resource> getPdfForms();
+	Map<String, byte[]> fillPdfForms(Map<String, Resource> pdfForms, Map<String, XmlObject> xml);
+	Map<String, byte[]> sortPdfForms(Map<String, byte[]> forms);
 	/**
 	 * 
 	 * This method provides a way to get the XSL Transform(s) for the KC
@@ -41,15 +46,15 @@ public interface Printable extends Serializable {
 	 * will be converted to PDF. Note that multiple transforms are possible on
 	 * this data.
 	 */
-    public List<Source> getXSLTemplates();
+    List<Source> getXSLTemplates();
 
-    public Map<String,Source> getXSLTemplateWithBookmarks();
+    Map<String,Source> getXSLTemplateWithBookmarks();
 	/**
 	 * 
 	 * This method will provide the either reflected or XML-Bean based XML for
 	 * input to the Transform into XML-FO.
 	 */
-	public Map<String, byte[]> renderXML() throws PrintingException;
+	Map<String, XmlObject> renderXML() throws PrintingException;
 
 	/**
 	 * 
@@ -58,7 +63,7 @@ public interface Printable extends Serializable {
 	 * 
 	 * @return ResearchDocument
 	 */
-	public KcPersistableBusinessObjectBase getPrintableBusinessObject();
+	KcPersistableBusinessObjectBase getPrintableBusinessObject();
 	
 	/**
 	 * This method will return the PDF attachments specific to the printable.
@@ -66,7 +71,7 @@ public interface Printable extends Serializable {
 	 * The Key in the map is used as the name of the bookmark.
 	 * @return Map of Attachment pdf bytes with bookmark names.
 	 */
-	public Map<String, byte[]> getAttachments();
+	Map<String, byte[]> getAttachments();
 	
 	/**
 	 * 
@@ -74,12 +79,12 @@ public interface Printable extends Serializable {
 	 *in the report.
 	 * @return boolean Value
 	 */
-	public boolean isWatermarkEnabled();
+	boolean isWatermarkEnabled();
 	/**
 	 *  
 	 * This method for setting the appropriate watermark
 	 * with respect to the document.
 	 * @return Watermarkable
 	 */
-	public Watermarkable getWatermarkable();
+	Watermarkable getWatermarkable();
 }

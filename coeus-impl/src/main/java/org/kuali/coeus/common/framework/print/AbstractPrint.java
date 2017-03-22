@@ -18,14 +18,16 @@
  */
 package org.kuali.coeus.common.framework.print;
 
+
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.print.watermark.Watermarkable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.springframework.core.io.Resource;
 
 import javax.xml.transform.Source;
-import java.io.InputStream;
-import java.util.LinkedHashMap;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +35,6 @@ import java.util.Map;
  * This class provides all the objects required for printing reports. It
  * provides methods for fetching XML generator {@link XmlStream},{@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase},
  * {@link Map} of parameters required for printing.
- * 
- * @author
  * 
  */
 public abstract class AbstractPrint implements Printable {
@@ -45,53 +45,31 @@ public abstract class AbstractPrint implements Printable {
 	private Map<String, Object> reportParameters;
 	private Map<String, byte[]> attachments;
 	
-    /**
-	 * @return the xmlStream
-	 */
+
 	public XmlStream getXmlStream() {
 		return xmlStream;
 	}
 
-	/**
-	 * @param xmlStream
-	 *            the xmlStream to set
-	 */
 	public void setXmlStream(XmlStream xmlStream) {
 		this.xmlStream = xmlStream;
 	}
 
-    /**
-     * Fetches the {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase}
-     * 
-     * @return {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} document
-     */
     public KcPersistableBusinessObjectBase getPrintableBusinessObject() {
         return printableBusinessObject;
     }
 
-	/**
-	 * @param printableBusinessObject
-	 *            the document to set
-	 */
 	public void setPrintableBusinessObject(KcPersistableBusinessObjectBase printableBusinessObject) {
 		this.printableBusinessObject = printableBusinessObject;
 	}
 
-	/**
-	 * @return the reportParameters
-	 */
 	public Map<String, Object> getReportParameters() {
 		return reportParameters;
 	}
 
-	/**
-	 * @param reportParameters
-	 *            the reportParameters to set
-	 */
 	public void setReportParameters(Map<String, Object> reportParameters) {
 		this.reportParameters = reportParameters;
 	}
-
+	@Override
 	public Map<String, byte[]> getAttachments() {
 		return attachments;
 	}
@@ -100,53 +78,42 @@ public abstract class AbstractPrint implements Printable {
 		this.attachments = attachments;
 	}
 
-	protected byte[] getBytes(XmlObject xmlObject) {
-		byte[] xmlBytes = null;
-		String xmlString = xmlObject.xmlText();
-		xmlBytes = xmlString.getBytes();
-		return xmlBytes;
+	@Override
+	public Map<String, XmlObject> renderXML() throws PrintingException {
+		return getXmlStream().generateXmlStream(
+				getPrintableBusinessObject(), getReportParameters());
 	}
 
-	/**
-	 * This method generates the XML that conforms to Delta Report XSD returns
-	 * it as {@link InputStream}
-	 * 
-	 * @return {@link InputStream} of generated XML
-	 * @throws PrintingException
-	 *             in case of any errors occur during XML generation
-	 */
-	public Map<String, byte[]> renderXML() throws PrintingException {
-		Map<String, byte[]> xmlStreamMap = new LinkedHashMap<String, byte[]>();
-		Map<String, XmlObject> xmlObjectMap = getXmlStream().generateXmlStream(
-				getPrintableBusinessObject(), getReportParameters());
-		for (String xmlObjectKey : xmlObjectMap.keySet()) {
-			xmlStreamMap.put(xmlObjectKey, getBytes(xmlObjectMap
-					.get(xmlObjectKey)));
-		}
-		return xmlStreamMap;
-	}
-	
-	/**
-	 * This method should be overridden if any printable artifacts wants to send Templates with separate bookmarks.
-	 */
+	@Override
     public Map<String,Source> getXSLTemplateWithBookmarks(){
         return null;
     }
+	@Override
     public List<Source> getXSLTemplates(){
         return null;
     }
-	/**
-	 * This method for checking watermark is enable or disable
-	 * @see org.kuali.coeus.common.framework.print.Printable#isWatermarkEnabled()
-	 */
+
+    @Override
+    public Map<String, Resource> getPdfForms() {
+    	return Collections.emptyMap();
+	}
+
+	@Override
+	public Map<String, byte[]> fillPdfForms(Map<String, Resource> pdfForms, Map<String, XmlObject> xml) {
+		return Collections.emptyMap();
+	}
+
+	@Override
+	public Map<String, byte[]> sortPdfForms(Map<String, byte[]> forms) {
+		return forms;
+	}
+
+	@Override
     public boolean isWatermarkEnabled(){
         return false;
     }
-    /**
-     * 
-     *This method for getting the watermark object 
-     *with respect to the appropriate document.
-     */
+
+	@Override
     public Watermarkable getWatermarkable(){
         if(isWatermarkEnabled()){
             throw new RuntimeException("Watermarkable not implemented");

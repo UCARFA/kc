@@ -57,7 +57,6 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
@@ -205,7 +204,7 @@ public class NIHResearchAndRelatedXmlStream extends
         researchAndRelatedProjectDocument
         .setResearchAndRelatedProject(getResearchAndRelatedProject(
                 developmentProposal, budget));
-        Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
+        Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
         xmlObjectList.put(REPORT_NAME, researchAndRelatedProjectDocument);
         return xmlObjectList;
     }
@@ -224,7 +223,7 @@ public class NIHResearchAndRelatedXmlStream extends
                 higeshSequenceAwarAmountInfo = amountInfo;
                 highestSequenceNumber = amountInfo.getSequenceNumber();
                 highestAwardAmountInfoId = amountInfo.getAwardAmountInfoId();
-            }else if(highestSequenceNumber == amountInfo.getSequenceNumber()
+            }else if(highestSequenceNumber.equals(amountInfo.getSequenceNumber())
                     && highestAwardAmountInfoId < amountInfo.getAwardAmountInfoId()){
                 higeshSequenceAwarAmountInfo = amountInfo;
                 highestSequenceNumber = amountInfo.getSequenceNumber();
@@ -343,7 +342,7 @@ public class NIHResearchAndRelatedXmlStream extends
      * @return Difference of the Months of the Dates.
      */
     private BigDecimal getMonthsBetweenDates(Date pFrom, Date pTo) {
-        ScaleTwoDecimal projectDuration = null;
+        ScaleTwoDecimal projectDuration;
         Calendar calendarStart = Calendar.getInstance();
         calendarStart.setTimeInMillis(pFrom.getTime());
         Calendar calendarEnd = Calendar.getInstance();
@@ -369,9 +368,9 @@ public class NIHResearchAndRelatedXmlStream extends
 
     private AbstractType[] getAbstractArray(
             DevelopmentProposal developmentProposal) {
-        List<AbstractType> abstractTypeList = new ArrayList<AbstractType>();
-        AbstractType abstractType = null;
-        BigInteger abstractTypeCode = null;
+        List<AbstractType> abstractTypeList = new ArrayList<>();
+        AbstractType abstractType;
+        BigInteger abstractTypeCode;
         for (ProposalAbstract proposalAbstract : developmentProposal
                 .getProposalAbstracts()) {
             if (proposalAbstract.getAbstractType() != null) {
@@ -440,7 +439,7 @@ public class NIHResearchAndRelatedXmlStream extends
         BigDecimal summerMonths = ScaleTwoDecimal.ZERO.bigDecimalValue();
         if(budget!=null)
             for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-                if (budgetPeriod.getBudgetPeriod().intValue() == 1) {
+                if (budgetPeriod.getBudgetPeriod() == 1) {
                     for (BudgetLineItem lineItem : budgetPeriod
                             .getBudgetLineItems()) {
                         for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
@@ -471,12 +470,12 @@ public class NIHResearchAndRelatedXmlStream extends
 
     private String getDegree(ProposalPerson proposalPerson) {
         List<ProposalPersonDegree> proposalPersonDegrees = proposalPerson.getProposalPersonDegrees();
-        return proposalPersonDegrees.stream().map(p -> p.getDegree()).collect(Collectors.joining(","));
+        return proposalPersonDegrees.stream().map(ProposalPersonDegree::getDegree).collect(Collectors.joining(","));
     }
 
     private String getGraduationYear(ProposalPerson proposalPerson) {
         List<ProposalPersonDegree> proposalPersonDegrees = proposalPerson.getProposalPersonDegrees();
-        return proposalPersonDegrees.stream().map(p -> p.getGraduationYear()).collect(Collectors.joining(","));
+        return proposalPersonDegrees.stream().map(ProposalPersonDegree::getGraduationYear).collect(Collectors.joining(","));
     }
 
 
@@ -495,9 +494,9 @@ public class NIHResearchAndRelatedXmlStream extends
      * return KeyPersonType xml object.
      */
     private KeyPersonType[] getKeyPersonArray(DevelopmentProposal developmentProposal) {
-        List<ProposalPerson> propKeyPersons = new ArrayList<ProposalPerson>();
-        List<ProposalPerson> propInvestigators = new ArrayList<ProposalPerson>();
-        List<ProposalPerson> propPIs = new ArrayList<ProposalPerson>();
+        List<ProposalPerson> propKeyPersons = new ArrayList<>();
+        List<ProposalPerson> propInvestigators = new ArrayList<>();
+        List<ProposalPerson> propPIs = new ArrayList<>();
         for (ProposalPerson proposalPerson : developmentProposal
                 .getProposalPersons()) {
             if (ContactRole.PI_CODE.equals(proposalPerson.getProposalPersonRoleId())) {
@@ -517,7 +516,7 @@ public class NIHResearchAndRelatedXmlStream extends
                 developmentProposal, propInvestigators,false);
         List<KeyPersonType> keyPersonKeyPersonList = getKeyPersonForPropKeyPerson(
                 developmentProposal, propKeyPersons);
-        List<KeyPersonType> allKeyPersonList = new ArrayList<KeyPersonType>();
+        List<KeyPersonType> allKeyPersonList = new ArrayList<>();
         allKeyPersonList.addAll(keyPersonPIList);
         allKeyPersonList.addAll(keyPersonInvestigatorList);
         allKeyPersonList.addAll(keyPersonKeyPersonList);
@@ -525,7 +524,7 @@ public class NIHResearchAndRelatedXmlStream extends
     }
 
     private List<KeyPersonType> getKeyPersonForPropKeyPerson(DevelopmentProposal developmentProposal,List<ProposalPerson> proposalKeyPersons) {
-        List<KeyPersonType> keyPersonlist = new ArrayList<KeyPersonType>();
+        List<KeyPersonType> keyPersonlist = new ArrayList<>();
         for (ProposalPerson proposalPerson : proposalKeyPersons) {
             KeyPersonType keyPersonType = KeyPersonType.Factory.newInstance();
             PersonFullNameType personFullNameType = getPersonFullName(proposalPerson);
@@ -595,7 +594,7 @@ public class NIHResearchAndRelatedXmlStream extends
     private List<KeyPersonType> getKeyPersonForPropInvestigator(
             DevelopmentProposal developmentProposal,
             List<ProposalPerson> proposalPersonList,boolean piFlag) {
-        List<KeyPersonType> keyPersonTypeList = new ArrayList<KeyPersonType>();
+        List<KeyPersonType> keyPersonTypeList = new ArrayList<>();
         for (ProposalPerson proposalPerson : proposalPersonList) {
             KeyPersonType keyPersonType = KeyPersonType.Factory.newInstance();
             PersonFullNameType personFullNameType = getPersonFullName(proposalPerson);
@@ -771,7 +770,7 @@ public class NIHResearchAndRelatedXmlStream extends
     private gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod[] getBudgetPeriodArray(
             DevelopmentProposal developmentProposal,List<BudgetPeriod> budgetPeriodList) {
         List<gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod> budgetPeriods = 
-            new ArrayList<gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod>();
+            new ArrayList<>();
         for (BudgetPeriod budgetPeriod : budgetPeriodList) {
             Budget budget = budgetPeriod.getBudget();
             if (budgetPeriod.getBudgetPeriod() != null) {
@@ -819,7 +818,7 @@ public class NIHResearchAndRelatedXmlStream extends
     private void setIndirectCostDetails(BudgetPeriod budgetPeriod,
             gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType) {
         Budget budget = budgetPeriod.getBudget();
-        Map<String,IndirectCostDetailsBean> ohAmountsMap = new HashMap<String,IndirectCostDetailsBean>();
+        Map<String,IndirectCostDetailsBean> ohAmountsMap = new HashMap<>();
         if(budget.getModularBudgetFlag()){
             BudgetModular budgetModular = budgetPeriod.getBudgetModular();
             List<BudgetModularIdc> budgetModularIdcs = budgetModular.getBudgetModularIdcs();
@@ -865,12 +864,11 @@ public class NIHResearchAndRelatedXmlStream extends
                 }
             }
         }
-        for (Iterator<String> iterator = ohAmountsMap.keySet().iterator(); iterator.hasNext();) {
-            String key = iterator.next();
+        for (String key : ohAmountsMap.keySet()) {
             IndirectCostDetailsBean indirectCostDetailBean = ohAmountsMap.get(key);
             IndirectCostDetails indDetailsType = budgetPeriodType.addNewIndirectCostDetails();
-            indDetailsType.setCostType( indirectCostDetailBean.rateTypeDescription == null ? "UNKNOWN" :
-                indirectCostDetailBean.rateTypeDescription);
+            indDetailsType.setCostType(indirectCostDetailBean.rateTypeDescription == null ? "UNKNOWN" :
+                    indirectCostDetailBean.rateTypeDescription);
             indDetailsType.setBaseAmount(indirectCostDetailBean.baseAmount.bigDecimalValue());
             indDetailsType.setRate(indirectCostDetailBean.rate.bigDecimalValue());
             indDetailsType.setFundsRequested(indirectCostDetailBean.fund.bigDecimalValue());
@@ -907,7 +905,7 @@ public class NIHResearchAndRelatedXmlStream extends
             String fnaGt25KParamValue = getParameterService().getParameterValueAsString(Budget.class, "SUBCONTRACTOR_F_AND_A_GT_25K");
             String fnaLt25KParamValue = getParameterService().getParameterValueAsString(Budget.class, "SUBCONTRACTOR_F_AND_A_LT_25K");
             String fnaBroadParamValue = getParameterService().getParameterValueAsString(Budget.class, "BROAD_F_AND_A");
-            Map<String, String> categoryMap = new HashMap<String, String>();
+            Map<String, String> categoryMap = new HashMap<>();
             categoryMap.put(KEY_TARGET_CATEGORY_CODE, "04");
             categoryMap.put(KEY_MAPPING_NAME, mappingName);
             List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
@@ -1045,14 +1043,14 @@ public class NIHResearchAndRelatedXmlStream extends
     }
 
     private OtherPersonInfo getOtherPersonInfo(BudgetPeriod budgetPeriod, String categoryMappingName, String categoryCode) {
-        Map<String, String> categoryMap = new HashMap<String, String>();
+        Map<String, String> categoryMap = new HashMap<>();
         categoryMap.put(KEY_TARGET_CATEGORY_CODE, categoryCode);
         categoryMap.put(KEY_MAPPING_NAME, categoryMappingName);
         List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
         OtherPersonInfo otherPersonInfo = new OtherPersonInfo();
         for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-            Integer quantity = 0;
+
                 if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode())) {
                     addOtherPersonInfo(otherPersonInfo, lineItem);
                     break;
@@ -1091,7 +1089,7 @@ public class NIHResearchAndRelatedXmlStream extends
     private void setSalaryAndWages(DevelopmentProposal developmentProposal,Budget budget,
             BudgetPeriod budgetPeriod,
             gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType ) {
-        List<SalariesAndWagesType> salariesAndWagesTypeList = new ArrayList<SalariesAndWagesType>();
+        List<SalariesAndWagesType> salariesAndWagesTypeList = new ArrayList<>();
         List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
         ScaleTwoDecimal totalSalary = ScaleTwoDecimal.ZERO;
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
@@ -1360,7 +1358,7 @@ public class NIHResearchAndRelatedXmlStream extends
     private ProgramDirectorPrincipalInvestigator getProgramDirectorPrincipalInvestigatorForResearchCoverPage(
             DevelopmentProposal developmentProposal) {
         ProgramDirectorPrincipalInvestigator principalInvestigatorType = ProgramDirectorPrincipalInvestigator.Factory.newInstance();
-        ProposalPerson principalInvestigator = PrintingUtils.getPrincipalInvestigator(developmentProposal.getProposalPersons());
+        ProposalPerson principalInvestigator = developmentProposal.getPrincipalInvestigator();
         if (principalInvestigator != null) {
             principalInvestigatorType.setContactInformation(getPersonContactInformation(principalInvestigator));
             principalInvestigatorType.setName(getContactPersonFullName(principalInvestigator.getLastName(), principalInvestigator
@@ -1717,7 +1715,7 @@ public class NIHResearchAndRelatedXmlStream extends
      */
     private void setEXemptionNumber(DevelopmentProposal developmentProposal,
             HumanSubjectsType humanSubjectsType, String[] exemptionNumber) {
-        if (humanSubjectsType.getHumanSubjectsUsedQuestion() == true) {
+        if (humanSubjectsType.getHumanSubjectsUsedQuestion()) {
             String humanSubAssurance = getHumanAssuranceNumber(developmentProposal);
             if (humanSubAssurance != null) {
                 humanSubjectsType.setAssuranceNumber(humanSubAssurance);
@@ -1733,7 +1731,7 @@ public class NIHResearchAndRelatedXmlStream extends
      */
     private String getSpecialReviewComments(
             ProposalSpecialReview proposalSpecialReview) {
-        String comments = null;
+        String comments;
         if (proposalSpecialReview.getComments() == null) {
             comments = DEFAULT_VALUE_UNKNOWN;
         } else {
@@ -1760,14 +1758,14 @@ public class NIHResearchAndRelatedXmlStream extends
         BigDecimal fundingMonths = ScaleTwoDecimal.ZERO.bigDecimalValue();
         if (personExistsInProposal(developmentProposal, budgetPersonnelDetails)
                 && budgetPeriodType.equals(budgetPersonnelDetails.getPeriodTypeCode())) {
-            if (budgetPersonnelDetails != null) {
+
                 BigDecimal totalMonths = getMonthsBetweenDates(
                         budgetPersonnelDetails.getStartDate(),
                         budgetPersonnelDetails.getEndDate());
                 fundingMonths = budgetPersonnelDetails.getPercentEffort().bigDecimalValue().multiply(
                         new ScaleTwoDecimal(totalMonths).bigDecimalValue());
                 fundingMonths = fundingMonths.divide(new ScaleTwoDecimal(100).bigDecimalValue(), RoundingMode.HALF_UP);
-            }
+
         }
         return fundingMonths.setScale(0);
     }
@@ -1796,18 +1794,10 @@ public class NIHResearchAndRelatedXmlStream extends
         this.organizationRepositoryService = organizationRepositoryService;
     }
 
-    /**
-     * Sets the awardService attribute value.
-     * @param awardService The awardService to set.
-     */
     public void setAwardService(AwardService awardService) {
         this.awardService = awardService;
     }
 
-    /**
-     * Gets the awardService attribute.
-     * @return Returns the awardService.
-     */
     public AwardService getAwardService() {
         return awardService;
     }

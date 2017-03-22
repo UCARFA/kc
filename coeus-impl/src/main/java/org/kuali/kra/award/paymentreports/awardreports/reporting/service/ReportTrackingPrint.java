@@ -29,13 +29,10 @@ import java.util.List;
  * generates XML that conforms with delta Report XSD, fetches XSL style-sheets
  * applicable to this XML, returns XML and XSL for any consumer that would use
  * this XML and XSls for any purpose like report generation, PDF streaming etc.
- * 
- * @author
- * 
  */
 public class ReportTrackingPrint extends AwardReportTracking {
 
-      ArrayList<Source> sourceList;
+      List<Source> sourceList;
     
     /**
      * This method fetches the XSL style-sheets required for transforming the

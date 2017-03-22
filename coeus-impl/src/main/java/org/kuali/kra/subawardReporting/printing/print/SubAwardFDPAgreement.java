@@ -19,49 +19,50 @@
 package org.kuali.kra.subawardReporting.printing.print;
 
 import java.io.ByteArrayInputStream;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+
+import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.subaward.bo.SubAwardForms;
 import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.core.io.Resource;
+
 
 public class SubAwardFDPAgreement extends AbstractPrint {
-    
-    private BusinessObjectService businessObjectService;
-    
-    /**
-     * Gets the businessObjectService attribute. 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return KcServiceLocator.getService(BusinessObjectService.class);
-    }
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-    
+    private Map<String, Resource> pdfForms;
+
+    @Override
     public Map<String,Source> getXSLTemplateWithBookmarks() {
-        Map<String,Source> sourceMap = new LinkedHashMap<String,Source>(); 
-        List<SubAwardForms> printFormTemplates = (List<SubAwardForms>)getReportParameters().get(SubAwardPrintingService.SELECTED_TEMPLATES);
-        for (SubAwardForms sponsorFormTemplate : printFormTemplates) {
-            SubAwardForms sponsorTemplate = (SubAwardForms) getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, 
-                    sponsorFormTemplate.getFormId());
-            sourceMap.put(sponsorFormTemplate.getDescription(),new StreamSource(new ByteArrayInputStream(sponsorTemplate.getAttachmentContent())));
-        }
-        
-        return sourceMap;
+        return getSelectedTemplates().stream()
+                .map(s -> CollectionUtils.<String, Source>entry(s.getFormId(), new StreamSource(new ByteArrayInputStream(s.getAttachmentContent()))))
+                .collect(CollectionUtils.entriesToMap());
     }
 
+    private Collection<SubAwardForms> getSelectedTemplates() {
+        return (Collection<SubAwardForms> ) getReportParameters().get(SubAwardPrintingService.SELECTED_TEMPLATES);
+    }
+
+    @Override
+    public Map<String, Resource> getPdfForms() {
+        return pdfForms;
+    }
+
+    public void setPdfForms(Map<String, Resource> pdfForms) {
+        this.pdfForms = pdfForms;
+    }
+
+    @Override
+    public Map<String, byte[]> fillPdfForms(Map<String, Resource> pdfForms, Map<String, XmlObject> xml) {
+        return Collections.emptyMap();
+    }
+
+    @Override
+    public Map<String, byte[]> sortPdfForms(Map<String, byte[]> forms) {
+        return forms;
+    }
 }
