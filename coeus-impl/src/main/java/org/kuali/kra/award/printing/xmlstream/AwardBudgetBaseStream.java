@@ -20,13 +20,10 @@
 package org.kuali.kra.award.printing.xmlstream;
 
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
-import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.printing.schema.AwardTransactionType;
 import org.kuali.kra.printing.schema.AwardType.AwardTransactionInfo;
 import org.kuali.kra.printing.schema.SchoolInfoType2;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
@@ -46,13 +43,8 @@ import java.util.Map;
  * All award report XML stream implementations need to extend and use the
  * functions defined in this class.
  * </p>
- * 
- * @author
- * 
  */
 public abstract class AwardBudgetBaseStream implements XmlStream {
-
-	private static final Log LOG = LogFactory.getLog(AwardBudgetBaseStream.class);
 
 	protected BusinessObjectService businessObjectService = null;
 	protected DateTimeService dateTimeService = null;
@@ -69,10 +61,10 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 	 * @return AwardTransactionInfo xml object
 	 */
 	protected AwardTransactionInfo getAwardTransactiontInfo(Award award) {
-		List<AwardTransactionType> awardTransactionTypeList = new ArrayList<AwardTransactionType>();
+		List<AwardTransactionType> awardTransactionTypeList = new ArrayList<>();
 		AwardTransactionInfo awardTransactionInfo = AwardTransactionInfo.Factory
 				.newInstance();
-		AwardTransactionType awardTransactionType = null;
+		AwardTransactionType awardTransactionType;
 		for (org.kuali.kra.award.home.AwardAmountInfo awardAmount : award
 				.getAwardAmountInfos()) {
 			AwardAmountTransaction awardAmountTransaction = getAwardAmountTransaction(awardAmount
@@ -185,25 +177,13 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 	}
 
 	private String getAwardParameterValue(String param) {
-		String value = null;
-		try {
-			value = PrintingUtils.getParameterValue(param);
-		} catch (Exception e) {
-			LOG.error(e.getMessage(), e);
-		}
-		return value;
+		return getParameterService().getParameterValueAsString(
+				ProposalDevelopmentDocument.class, param);
 	}
-    /**
-     * Gets the parameterService attribute. 
-     * @return Returns the parameterService.
-     */
     public ParameterService getParameterService() {
         return parameterService;
     }
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }

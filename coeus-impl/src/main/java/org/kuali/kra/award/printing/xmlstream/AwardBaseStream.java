@@ -23,7 +23,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
-import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.term.SponsorTermType;
@@ -80,7 +79,9 @@ import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -136,6 +137,8 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected DateTimeService dateTimeService = null;
 	private ParameterService parameterService;
 	private CostShareService costShareService;
+	private StateService stateService;
+	private CountryService countryService;
 
 	protected abstract PrintRequirement getPrintRequirement(
 			Map<String, Object> reportParameters);
@@ -534,7 +537,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected AwardFundingProposals getAwardFundingProposals() {
 		AwardFundingProposals awardFundingProposals = AwardFundingProposals.Factory
 				.newInstance();
-		List<FundingProposal> fundingProposals = new ArrayList<FundingProposal>();
+		List<FundingProposal> fundingProposals = new ArrayList<>();
 		for (AwardFundingProposal awardFundingProposal : award
 				.getFundingProposals()) {
 			FundingProposal fundingProposal = FundingProposal.Factory
@@ -1627,7 +1630,8 @@ public abstract class AwardBaseStream implements XmlStream {
 	private String getState(Rolodex rolodex) {
 		String stateDesc = null;
 		if (StringUtils.isNotBlank(rolodex.getState()) && StringUtils.isNotBlank(rolodex.getCountryCode())) {
-			State state = PrintingUtils.getStateFromName(rolodex.getCountryCode(), rolodex.getState());
+			final Country country = getCountryService().getCountryByAlternateCode(rolodex.getCountryCode());
+			final State state = getStateService().getState(country.getCode(), rolodex.getState());
 			if (state != null) {
 				stateDesc = state.getName();
 			}
@@ -1669,7 +1673,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	private String getCountryDescription(Rolodex rolodex) {
 		String countryDesc = null;
 		if (StringUtils.isNotBlank(rolodex.getCountryCode())) {
-			Country country = PrintingUtils.getCountryFromCode(rolodex
+			Country country = getCountryService().getCountryByAlternateCode(rolodex
 					.getCountryCode());
 			if (country != null) {
 				countryDesc = country.getName();
@@ -2895,5 +2899,21 @@ public abstract class AwardBaseStream implements XmlStream {
 
 	public void setCostShareService(CostShareService costShareService) {
 		this.costShareService = costShareService;
+	}
+
+	public StateService getStateService() {
+		return stateService;
+	}
+
+	public void setStateService(StateService stateService) {
+		this.stateService = stateService;
+	}
+
+	public CountryService getCountryService() {
+		return countryService;
+	}
+
+	public void setCountryService(CountryService countryService) {
+		this.countryService = countryService;
 	}
 }

@@ -43,7 +43,7 @@ public class CoiCertificationPrint extends AbstractPrint {
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
 	public List<Source> getXSLTemplates() {
-		ArrayList<Source> sourceList = PrintingUtils.getXSLTforReport(CoiDisclosureType.APPROVED_DISCLOSURE_TYPE.getCoiDisclosureType()); 
+		List<Source> sourceList = PrintingUtils.getXSLTforReport(CoiDisclosureType.APPROVED_DISCLOSURE_TYPE.getCoiDisclosureType());
 	    return sourceList;
 	}
 

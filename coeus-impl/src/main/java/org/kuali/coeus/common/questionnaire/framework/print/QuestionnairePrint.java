@@ -63,7 +63,7 @@ public class QuestionnairePrint extends AbstractPrint {
         if (template != null && ((byte[]) template).length > 0) {
             sourceList.add(new StreamSource(new ByteArrayInputStream((byte[]) template)));
         } else {
-            Source src = new StreamSource(new PrintingUtils().getClass().getResourceAsStream(
+            Source src = new StreamSource(PrintingUtils.class.getResourceAsStream(
                     XSL_CONTEXT_DIR + "/QuestionnaireReport.xsl"));
             sourceList.add(src);
         }

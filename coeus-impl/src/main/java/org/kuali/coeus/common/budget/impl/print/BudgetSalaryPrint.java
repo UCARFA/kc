@@ -57,7 +57,7 @@ public class BudgetSalaryPrint extends AbstractPrint {
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
 	public List<Source> getXSLTemplates() {
-		ArrayList<Source> sourceList = PrintingUtils
+		List<Source> sourceList = PrintingUtils
 				.getXSLTforReport(BudgetPrintType.BUDGET_SALARY_REPORT
 						.getBudgetPrintType());
 		return sourceList;

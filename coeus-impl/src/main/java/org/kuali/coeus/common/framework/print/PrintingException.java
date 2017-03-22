@@ -21,9 +21,6 @@ package org.kuali.coeus.common.framework.print;
 /**
  * This is an Exception class and is used to encapsulate all errors thrown
  * during the the execution of activities related to report printing.
- * 
- * @author
- * 
  */
 public class PrintingException extends RuntimeException {
 

@@ -23,13 +23,12 @@ import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 
 import javax.xml.transform.Source;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SubAwardSF294Print extends AbstractPrint {
 
     public List<Source> getXSLTemplates() {
-        ArrayList<Source> sourceList = PrintingUtils
+        List<Source> sourceList = PrintingUtils
                 .getXSLTforReport(SubAwardPrintType.SUB_AWARD_SF_294_PRINT_TYPE
                         .getSubAwardPrintType());
         return sourceList;

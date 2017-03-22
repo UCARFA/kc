@@ -27,7 +27,6 @@ import org.springframework.core.io.Resource;
 
 import javax.xml.transform.Source;
 
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -46,49 +45,27 @@ public abstract class AbstractPrint implements Printable {
 	private Map<String, Object> reportParameters;
 	private Map<String, byte[]> attachments;
 	
-    /**
-	 * @return the xmlStream
-	 */
+
 	public XmlStream getXmlStream() {
 		return xmlStream;
 	}
 
-	/**
-	 * @param xmlStream
-	 *            the xmlStream to set
-	 */
 	public void setXmlStream(XmlStream xmlStream) {
 		this.xmlStream = xmlStream;
 	}
 
-    /**
-     * Fetches the {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase}
-     * 
-     * @return {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} document
-     */
     public KcPersistableBusinessObjectBase getPrintableBusinessObject() {
         return printableBusinessObject;
     }
 
-	/**
-	 * @param printableBusinessObject
-	 *            the document to set
-	 */
 	public void setPrintableBusinessObject(KcPersistableBusinessObjectBase printableBusinessObject) {
 		this.printableBusinessObject = printableBusinessObject;
 	}
 
-	/**
-	 * @return the reportParameters
-	 */
 	public Map<String, Object> getReportParameters() {
 		return reportParameters;
 	}
 
-	/**
-	 * @param reportParameters
-	 *            the reportParameters to set
-	 */
 	public void setReportParameters(Map<String, Object> reportParameters) {
 		this.reportParameters = reportParameters;
 	}
@@ -101,23 +78,12 @@ public abstract class AbstractPrint implements Printable {
 		this.attachments = attachments;
 	}
 
-	/**
-	 * This method generates the XML that conforms to Delta Report XSD returns
-	 * it as {@link InputStream}
-	 * 
-	 * @return {@link InputStream} of generated XML
-	 * @throws PrintingException
-	 *             in case of any errors occur during XML generation
-	 */
 	@Override
 	public Map<String, XmlObject> renderXML() throws PrintingException {
 		return getXmlStream().generateXmlStream(
 				getPrintableBusinessObject(), getReportParameters());
 	}
-	
-	/**
-	 * This method should be overridden if any printable artifacts wants to send Templates with separate bookmarks.
-	 */
+
 	@Override
     public Map<String,Source> getXSLTemplateWithBookmarks(){
         return null;
@@ -142,19 +108,11 @@ public abstract class AbstractPrint implements Printable {
 		return forms;
 	}
 
-	/**
-	 * This method for checking watermark is enable or disable
-	 * @see org.kuali.coeus.common.framework.print.Printable#isWatermarkEnabled()
-	 */
 	@Override
     public boolean isWatermarkEnabled(){
         return false;
     }
-    /**
-     * 
-     *This method for getting the watermark object 
-     *with respect to the appropriate document.
-     */
+
 	@Override
     public Watermarkable getWatermarkable(){
         if(isWatermarkEnabled()){

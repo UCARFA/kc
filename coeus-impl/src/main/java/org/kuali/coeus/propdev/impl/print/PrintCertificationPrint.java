@@ -57,7 +57,7 @@ public class PrintCertificationPrint extends AbstractPrint {
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
 	public List<Source> getXSLTemplates() {
-		ArrayList<Source> sourceList = PrintingUtils
+		List<Source> sourceList = PrintingUtils
 				.getXSLTforReport(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_REPORT);
 		return sourceList;
 	}

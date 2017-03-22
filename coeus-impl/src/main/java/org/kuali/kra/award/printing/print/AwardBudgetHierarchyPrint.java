@@ -44,7 +44,7 @@ public class AwardBudgetHierarchyPrint extends AbstractPrint {
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
 	public List<Source> getXSLTemplates() {
-		ArrayList<Source> sourceList = PrintingUtils
+		List<Source> sourceList = PrintingUtils
 				.getXSLTforReport(AwardPrintType.AWARD_BUDGET_HIERARCHY
 						.getAwardPrintType());
 		return sourceList;

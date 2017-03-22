@@ -22,10 +22,10 @@ package org.kuali.coeus.propdev.impl.print;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
@@ -35,6 +35,9 @@ import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.PrintCertificationDocument.PrintCertification;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -79,6 +82,10 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	private static final String STATEMENT_FEDERAL_AGENCY_LOBBY = "I certify that I have not and will not lobby any federal agency on behalf of this award: http://web.mit.edu/osp/www/fedlobrg.htm";
 	private static final String STATEMENT_REQUIREMENT_FAMILIARITY = "I am familiar with the requirements of the Procurement Integrity Act [OFPP, Section 27 (a-e)] and will report any violations to the Office of Sponsored Programs: http://web.mit.edu/osp/www/Procuint.htm";
 
+	@Autowired
+	@Qualifier("parameterService")
+	private ParameterService parameterService;
+
 	/**
 	 * This method generates XML for Print Certification Report. It uses data
 	 * passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The
@@ -92,16 +99,16 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	 * @throws PrintingException
 	 *             in case of any errors occur during XML generation.
 	 */
+	@Override
 	public Map<String, XmlObject> generateXmlStream(
 			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
+		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
 		DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
 		ProposalPerson personToPrint = (ProposalPerson) reportParameters.get(ProposalDevelopmentPrintingService.PRINT_CERTIFICATION_PERSON);
 		for (ProposalPerson proposalPerson : developmentProposal.getProposalPersons()) {
 		    if (personToPrint == null || personToPrint.equals(proposalPerson)) {
     			PrintCertificationDocument printCertDocument = PrintCertificationDocument.Factory.newInstance();
-    			PrintCertification printCertification = PrintCertification.Factory.newInstance();
-    			printCertification = getPrintCertification(developmentProposal, proposalPerson);
+				PrintCertification printCertification = getPrintCertification(developmentProposal, proposalPerson);
     			printCertDocument.setPrintCertification(printCertification);
     			xmlObjectList.put(getPersonName(proposalPerson), printCertDocument);
 		    }
@@ -132,7 +139,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 						.getApplicantOrganization()));
 		Certification[] certifications = getCertifications(proposalPerson
 				.getProposalPersonYnqs(), developmentProposal.getSponsor()
-				.getSponsorTypeCode(), developmentProposal.getSponsorCode(),
+				.getSponsorTypeCode(),
 				developmentProposal.getPrimeSponsorCode());
 		printCertification.setCertificationsArray(certifications);
 		printCertification.setLogoPath(IMAGES_PATH);
@@ -166,9 +173,8 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	 * List of ProposalYnq and list of ProposalPersonYnq
 	 */
 	private Certification[] getCertifications(
-			List<ProposalPersonYnq> proposalPersonYnqs, String sponsorTypeCode,
-			String sponsorCode, String primeSponsorCode) {
-		List<Certification> certificationList = new ArrayList<Certification>();
+			List<ProposalPersonYnq> proposalPersonYnqs, String sponsorTypeCode, String primeSponsorCode) {
+		List<Certification> certificationList = new ArrayList<>();
 		int statementNumber = 1;
 		for (ProposalPersonYnq proposalPersonYnq : proposalPersonYnqs) {
 			if (proposalPersonYnq.getQuestionId() != null) {
@@ -182,7 +188,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 			}
 		}
 		List<String> questionIds = getQuestionIdsForCertification(
-				sponsorTypeCode, sponsorCode, primeSponsorCode);
+				sponsorTypeCode, primeSponsorCode);
 		for (String questionId : questionIds) {
 			Certification certification = Certification.Factory.newInstance();
 			String statement = getStatementForCertification(questionId);
@@ -200,9 +206,8 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	 * sponsorCode in SponsorHirarchy if available return set of questions. If
 	 * the typeCode other than 0 then return only Z1 questionId
 	 */
-	private List<String> getQuestionIdsForCertification(String sponsorTypeCode,
-			String sponsorCode, String primeSponsorCode) {
-		List<String> questionIds = new ArrayList<String>();
+	private List<String> getQuestionIdsForCertification(String sponsorTypeCode, String primeSponsorCode) {
+		List<String> questionIds = new ArrayList<>();
 		String primSponsorTypeCode = getSponsorTypeCodeFromSponsor(primeSponsorCode);
 		List<String> questionIdsList = getQuestionIdsFromArgValueLookup();
 		if (sponsorTypeCode.equals(SPONSOR_TYPE_CODE_ZERO)
@@ -384,10 +389,10 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	 * database
 	 */
 	private String getSponsorTypeCodeFromSponsor(String sponsorCode) {
-		Map<String, String> sponsorCodeMap = new HashMap<String, String>();
+		Map<String, String> sponsorCodeMap = new HashMap<>();
 		sponsorCodeMap.put(Constants.SPONSOR_CODE, sponsorCode);
 		String sponsorTypeCode = EMPTY_STRING;
-		org.kuali.coeus.common.framework.sponsor.Sponsor sponsor = (org.kuali.coeus.common.framework.sponsor.Sponsor) getBusinessObjectService()
+		org.kuali.coeus.common.framework.sponsor.Sponsor sponsor = getBusinessObjectService()
 		            .findByPrimaryKey(org.kuali.coeus.common.framework.sponsor.Sponsor.class,sponsorCodeMap);
 		if (sponsor != null) {
 			sponsorTypeCode = sponsor.getSponsorTypeCode();
@@ -400,11 +405,11 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	 * argumentName and finally return list of values as questionIds
 	 */
 	private List<String> getQuestionIdsFromArgValueLookup() {
-		Map<String, String> questionMap = new HashMap<String, String>();
+		Map<String, String> questionMap = new HashMap<>();
 		questionMap.put(ARGUMENT_NAME, PI_QUESTION);
 		List<ArgValueLookup> argValueLookupList = (List<ArgValueLookup>) getBusinessObjectService()
 				.findMatching(ArgValueLookup.class, questionMap);
-		List<String> questionIds = new ArrayList<String>();
+		List<String> questionIds = new ArrayList<>();
 		for (ArgValueLookup argValueLookup : argValueLookupList) {
 			questionIds.add(argValueLookup.getValue());
 		}
@@ -417,7 +422,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	 */
 	private boolean isSponsorCodeInSponsorHierarchy() {
 		boolean available = false;
-		Map<String, String> sponsorHirarchyMap = new HashMap<String, String>();
+		Map<String, String> sponsorHirarchyMap = new HashMap<>();
 		sponsorHirarchyMap.put(Constants.HIERARCHY_NAME, SPONSOR_GROUPS);
 		List<SponsorHierarchy> sponsorHierarchyList = (List<SponsorHierarchy>) getBusinessObjectService()
 				.findMatching(SponsorHierarchy.class, sponsorHirarchyMap);
@@ -443,10 +448,10 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 		if (proposalPerson.getPerson() != null) {
 			personName = proposalPerson.getPerson().getFullName();
 		} else {
-			Map<String, String> conditionMap = new HashMap<String, String>();
+			Map<String, String> conditionMap = new HashMap<>();
 			conditionMap.put(KEY_ROLODEX_ID, proposalPerson.getRolodexId()
 					.toString());
-			Rolodex rolodex = (Rolodex) getBusinessObjectService().findByPrimaryKey(
+			Rolodex rolodex = getBusinessObjectService().findByPrimaryKey(
 					Rolodex.class, conditionMap);
 			if (rolodex != null) {
 				personName = rolodex.getFullName();
@@ -455,11 +460,15 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 		return personName;
 	}
 	private String getCertificationParameterValue(String param){
-		String value=null;
-		try{
-			value = PrintingUtils.getParameterValue(param);
-		}catch (Exception e) {
-		}
-		return value;
+		return getParameterService().getParameterValueAsString(
+				ProposalDevelopmentDocument.class, param);
+	}
+
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
 	}
 }
