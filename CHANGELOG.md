@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1703.0022
 * RESKC-2119: fixing null pointer in protocols (#2261)
 
   * Gayathri Athreya on Wed, 22 Mar 2017 14:36:22 -0700 [View Commit](../../commit/0ce1caeeeb1ab22947f76458fbad82ea35b48077)
