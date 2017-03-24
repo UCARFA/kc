@@ -83,6 +83,7 @@ SubAwardFfataReportingRule {
     private static final String NEW_ATTACHMENT_NEW_FILE = "subAwardAttachmentFormBean.newAttachment.newFile";
     private static final String NEW_ATTACHMENT_DESCRIPTION = "subAwardAttachmentFormBean.newAttachment.description";
     private static final String CARRY_FORWARD_REQUESTS_SENT_TO = "document.subAwardList[0].subAwardTemplateInfo[0].carryForwardRequestsSentTo";
+    private static final String MPI_LEADERSHIP_PLAN = "document.subAwardList[0].subAwardTemplateInfo[0].mpiLeadershipPlan";
 
     private static final Log LOG = LogFactory.getLog(SubAwardDocumentRule.class);
     public static final String ANIMAL_PTE_SEND_CD = "document.subAwardList[0].subAwardTemplateInfo[0].animalPteSendCd";
@@ -377,13 +378,20 @@ SubAwardFfataReportingRule {
     protected boolean processSaveSubAwardTemplateInfoBusinessRules(SubAward subAward){
         boolean rulePassed = true;
         for (SubAwardTemplateInfo subAwardTemplateInfo : subAward.getSubAwardTemplateInfo()) {
-          if (((subAwardTemplateInfo.getAutomaticCarryForward()!=null) && (subAwardTemplateInfo.getAutomaticCarryForward().equals("Y")))) {
-             if (subAwardTemplateInfo.getCarryForwardRequestsSentTo()==null) {
-                rulePassed = false;            
-                LOG.debug(ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
-                reportError(CARRY_FORWARD_REQUESTS_SENT_TO, ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
-             }
-          }
+            if ("Y".equalsIgnoreCase(subAwardTemplateInfo.getAutomaticCarryForward())) {
+                if (subAwardTemplateInfo.getCarryForwardRequestsSentTo()==null) {
+                    rulePassed = false;
+                    LOG.debug(ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
+                    reportError(CARRY_FORWARD_REQUESTS_SENT_TO, ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
+                }
+            }
+
+            if (subAwardTemplateInfo.getMpiAward()) {
+                if (subAwardTemplateInfo.getMpiLeadershipPlan() == null) {
+                    rulePassed = false;
+                    reportError(MPI_LEADERSHIP_PLAN, ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_MPI_LEADERSHIP_PLAN);
+                }
+            }
 
             if (subAwardTemplateInfo.getAnimalFlag() != null && subAwardTemplateInfo.getAnimalFlag()) {
                 if (StringUtils.isBlank(subAwardTemplateInfo.getAnimalPteSendCd())) {

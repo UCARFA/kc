@@ -62,6 +62,24 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
     private String humanPteNrCd;
     private String humanDataExchangeAgreeCd;
     private String humanDataExchangeTermsCd;
+    private Boolean mpiAward = Boolean.FALSE;
+    private String mpiLeadershipPlan;
+
+    public String getMpiLeadershipPlan() {
+        return mpiLeadershipPlan;
+    }
+
+    public void setMpiLeadershipPlan(String mpiLeadershipPlan) {
+        this.mpiLeadershipPlan = mpiLeadershipPlan;
+    }
+
+    public Boolean getMpiAward() {
+        return mpiAward;
+    }
+
+    public void setMpiAward(Boolean mpiAward) {
+        this.mpiAward = mpiAward;
+    }
 
     public String getSubAwardCode() {
         return subAwardCode;

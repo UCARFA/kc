@@ -68,7 +68,10 @@
                 <ref bean="SubAwardTemplateInfo-humanPteNrCd" />
                 <ref bean="SubAwardTemplateInfo-humanDataExchangeAgreeCd" />
                 <ref bean="SubAwardTemplateInfo-humanDataExchangeTermsCd" />
-		      </list>
+                <ref bean="SubAwardTemplateInfo-mpiAward" />
+                <ref bean="SubAwardTemplateInfo-mpiLeadershipPlan" />
+
+              </list>
 		     </property>
     </bean>
 
@@ -420,6 +423,46 @@
         <property name="description" value="Is R&amp;D" />
     </bean>
 
+    <bean id="SubAwardTemplateInfo-mpiAward" parent="SubAwardTemplateInfo-mpiAward-parentBean"/>
+    <bean id="SubAwardTemplateInfo-mpiAward-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="mpiAward" />
+        <property name="label" value="Is an MPI award" />
+        <property name="shortLabel" value="Is an MPI award" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="RadioControlDefinition"
+                  p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersBooleanValuesFinder"
+                  p:includeKeyInLabel="true" />
+        </property>
+        <property name="summary" value="Is an MPI award" />
+        <property name="description" value="Is an MPI award" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-mpiLeadershipPlan" parent="SubAwardTemplateInfo-mpiLeadershipPlan-parentBean" />
+    <bean id="SubAwardTemplateInfo-mpiLeadershipPlan-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="mpiLeadershipPlan" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="MPI Leadership Plan" />
+        <property name="shortLabel" value="MPI Leadership Plan" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.MpiLeadershipPlanValuesFinder" />
+        </property>
+        <property name="summary" value="MPI Leadership Plan" />
+        <property name="description" value="MPI Leadership Plan" />
+    </bean>
+
     <bean id="SubAwardTemplateInfo-includesCostSharing" parent="SubAwardTemplateInfo-includesCostSharing-parentBean"/>
     <bean id="SubAwardTemplateInfo-includesCostSharing-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
         <property name="name" value="includesCostSharing" />
@@ -465,15 +508,15 @@
     <bean id="SubAwardTemplateInfo-invoiceAddressDifferent" parent="SubAwardTemplateInfo-invoiceAddressDifferent-parentBean"/>
     <bean id="SubAwardTemplateInfo-invoiceAddressDifferent-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
         <property name="name" value="invoiceAddressDifferent" />
-        <property name="label" value="Invoice Address if different from contact" />
-        <property name="shortLabel" value="Invoice Address if different from contact" />
+        <property name="label" value="Invoice Address different from Financial contact's" />
+        <property name="shortLabel" value="Invoice Address different from Financial contact's" />
         <property name="control">
             <bean parent="RadioControlDefinition"
                   p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersBooleanValuesFinder"
                   p:includeKeyInLabel="true" />
         </property>
-        <property name="summary" value="Invoice Address if different from contact" />
-        <property name="description" value="Invoice Address if different from contact" />
+        <property name="summary" value="Invoice Address different from Financial contact's" />
+        <property name="description" value="Invoice Address different from Financial contact's" />
     </bean>
 
     <bean id="SubAwardTemplateInfo-invoiceEmailDifferent" parent="SubAwardTemplateInfo-invoiceEmailDifferent-parentBean"/>
@@ -728,7 +771,10 @@
             <bean p:attributeName="humanPteNrCd"   parent="FieldDefinition"/>
             <bean p:attributeName="humanDataExchangeAgreeCd"   parent="FieldDefinition"/>
             <bean p:attributeName="humanDataExchangeTermsCd"   parent="FieldDefinition"/>
-     </list>
+            <bean p:attributeName="mpiAward"   parent="FieldDefinition"/>
+            <bean p:attributeName="mpiLeadershipPlan"   parent="FieldDefinition"/>
+
+      </list>
     </property>
     <property name="resultFields" >
       <list>      
@@ -768,6 +814,8 @@
             <bean p:attributeName="humanPteNrCd"   parent="FieldDefinition"/>
             <bean p:attributeName="humanDataExchangeAgreeCd"   parent="FieldDefinition"/>
             <bean p:attributeName="humanDataExchangeTermsCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="mpiAward"   parent="FieldDefinition"/>
+            <bean p:attributeName="mpiLeadershipPlan"   parent="FieldDefinition"/>
       </list>
     </property>
   </bean> 

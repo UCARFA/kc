@@ -63,21 +63,17 @@
                 </td>
             </tr>
             <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.perfSiteDiffFromOrgAddr}" /></div></th>
-                <td>
-                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].perfSiteDiffFromOrgAddr" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.perfSiteDiffFromOrgAddr}"  />
-                </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.includesCostSharing}" /></div></th>
                 <td>
                     <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].includesCostSharing" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.includesCostSharing}"  />
                 </td>
-            </tr>
-            <tr>
 
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.subRegisteredInCcr}" /></div></th>
                 <td>
                     <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].subRegisteredInCcr" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.subRegisteredInCcr}"  />
                 </td>
+            </tr>
+            <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.exemptFromRprtgExecComp}" /></div></th>
                 <td>
                     <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].exemptFromRprtgExecComp" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.exemptFromRprtgExecComp}"  />

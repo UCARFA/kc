@@ -25,7 +25,8 @@
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].automaticCarryForward*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegulations*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].treatmentPrgmIncomeAdditive*,
-                                                                document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegsDate*">
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegsDate*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].mpiLeadershipPlan*">
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Terms and Conditions</span>
@@ -56,6 +57,16 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.treatmentPrgmIncomeAdditive}" /></div></th>
                 <td>
                     <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].treatmentPrgmIncomeAdditive" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.treatmentPrgmIncomeAdditive}"  />
+                </td>
+            </tr>
+            <tr>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.mpiAward}" /></div></th>
+                <td>
+                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].mpiAward" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.mpiAward}"  />
+                </td>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.mpiLeadershipPlan}" /></div></th>
+                <td>
+                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].mpiLeadershipPlan" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.mpiLeadershipPlan}"  />
                 </td>
             </tr>
         </table>

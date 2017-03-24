@@ -197,6 +197,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             subContractTemplateInfo.setSowOrSubProposalBudget(subawardTemplate.getSowOrSubProposalBudget());
             subContractTemplateInfo.setExemptFromRprtgExecComp(subawardTemplate.getExemptFromRprtgExecComp());
             subContractTemplateInfo.setSubRegisteredInCcr(subawardTemplate.getSubRegisteredInCcr());
+
             if(subawardTemplate.getPerfSiteDiffFromOrgAddr() != null){
                 subContractTemplateInfo.setPerfSiteDiffFromOrgAddr(subawardTemplate.getPerfSiteDiffFromOrgAddr());
             }
@@ -366,16 +367,16 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             subContractAmountInfo.setObligatedChange(lastSubAwardAmountInfo.getObligatedChange().bigDecimalValue());
             subContractAmountInfo.setAnticipatedChange(lastSubAwardAmountInfo.getAnticipatedChange().bigDecimalValue());
 
-            if(lastSubAwardAmountInfo.getPeriodofPerformanceStartDate() != null){
+            if (lastSubAwardAmountInfo.getPeriodofPerformanceStartDate() != null){
                 subContractAmountInfo.setPerformanceStartDate(getDateTimeService().getCalendar(lastSubAwardAmountInfo.getPeriodofPerformanceStartDate()));
             }
 
-            Optional<Date>periodOfPerformanceEndDate = getPeriodOfPerformanceEndDate(subaward);
+            Optional<Date> periodOfPerformanceEndDate = getPeriodOfPerformanceEndDate(subaward);
             if(periodOfPerformanceEndDate.isPresent()) {
                 subContractAmountInfo.setPerformanceEndDate(getDateTimeService().getCalendar(periodOfPerformanceEndDate.get()));
             }
 
-            if(lastSubAwardAmountInfo.getModificationEffectiveDate() != null){
+            if (lastSubAwardAmountInfo.getModificationEffectiveDate() != null){
                 subContractAmountInfo.setModificationEffectiveDate(getDateTimeService().getCalendar(lastSubAwardAmountInfo.getModificationEffectiveDate()));
             }
             if (lastSubAwardAmountInfo.getModificationID() != null) {
@@ -597,7 +598,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         Map<String, Integer> rolodexId = new HashMap<>();
         String administrativeFinancialCode = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
                                                                                                 ParameterConstants.DOCUMENT_COMPONENT,
-                                                                                                Constants.PARAMETER_FDP_PRIME_FINANCIAL_CONTACT_CODE);
+                Constants.PARAMETER_FDP_PRIME_FINANCIAL_CONTACT_CODE);
         administrativeMap.put(CONTACT_TYPE_CODE, administrativeFinancialCode);
         ContactUsage contactUsage =   getBusinessObjectService().findByPrimaryKey(ContactUsage.class, administrativeMap);
         if(contactUsage.getModuleCode().equals(CoeusModule.SUBCONTRACTS_MODULE_CODE)){
@@ -756,7 +757,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         Map<String, Integer> rolodexId = new HashMap<>();
         String financialContactCode = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
                                                                                         ParameterConstants.DOCUMENT_COMPONENT,
-                                                                                        Constants.PARAMETER_FDP_SUB_FINANCIAL_CONTACT_CODE);
+                Constants.PARAMETER_FDP_SUB_FINANCIAL_CONTACT_CODE);
         administrativeMap.put(CONTACT_TYPE_CODE, financialContactCode);
         ContactUsage contactUsage =   getBusinessObjectService().findByPrimaryKey(ContactUsage.class, administrativeMap);
         if(contactUsage.getModuleCode().equals(CoeusModule.SUBCONTRACTS_MODULE_CODE)){
