@@ -228,14 +228,27 @@
     <bean id="printingService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="printingService" />
     </bean>
-    
-    <bean id="subAwardFDPAgreement" class="org.kuali.kra.subawardReporting.printing.print.SubAwardFDPAgreement" scope="prototype">
+
+    <bean id="abstractSubawardFdp" abstract="true" class="org.kuali.kra.subawardReporting.printing.print.AbstractSubawardFdp" scope="prototype">
         <property name="xmlStream" ref="subAwardFDPPrintXmlStream" />
+        <property name="pdfForms">
+            <map>
+                <entry key="FDP_AFOSR" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
+                <entry key="FDP_AMRMC" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
+                <entry key="FDP_ARO" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
+                <entry key="FDP_DOE" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
+                <entry key="FDP_EPA" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
+                <entry key="FDP_NASA" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
+                <entry key="FDP_NIH" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
+                <entry key="FDP_NSF" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
+                <entry key="FDP_ONR" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
+                <entry key="FDP_USDA" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
+            </map>
+        </property>
     </bean>
-    
-    <bean id="subAwardFDPModification" class="org.kuali.kra.subawardReporting.printing.print.SubAwardFDPModification" scope="prototype">
-        <property name="xmlStream" ref="subAwardFDPPrintXmlStream" />
-    </bean>
+
+    <bean id="subAwardFDPAgreement" class="org.kuali.kra.subawardReporting.printing.print.SubAwardFDPAgreement" scope="prototype" parent="abstractSubawardFdp" />
+    <bean id="subAwardFDPModification" class="org.kuali.kra.subawardReporting.printing.print.SubAwardFDPModification" scope="prototype" parent="abstractSubawardFdp" />
     
     <bean id="subAwardFDPPrintXmlStream" class="org.kuali.kra.subawardReporting.printing.xmlstream.SubAwardFDPPrintXmlStream" scope="prototype">
         <property name="dateTimeService" ref="dateTimeService" />

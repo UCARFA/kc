@@ -21,6 +21,8 @@ package org.kuali.kra.subaward.bo;
 import org.kuali.coeus.sys.api.model.Coded;
 import org.kuali.coeus.sys.api.model.Describable;
 
+import java.util.Arrays;
+
 
 public enum HumanPteSendNotRequiredReason implements org.kuali.rice.core.api.mo.common.Coded, Coded, Describable {
     PTE_AS_IRB("PI", "PTE is acting as the IRB"),
@@ -45,4 +47,9 @@ public enum HumanPteSendNotRequiredReason implements org.kuali.rice.core.api.mo.
     public String getDescription() {
         return description;
     }
+
+    public static HumanPteSendNotRequiredReason fromCode(String code) {
+        return Arrays.stream(HumanPteSendNotRequiredReason.values()).filter(v -> v.getCode().equals(code)).findFirst().orElse(null);
+    }
+
 }

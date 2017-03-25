@@ -59,6 +59,8 @@ import org.kuali.rice.location.api.state.StateService;
 import java.math.BigDecimal;
 import java.util.*;
 
+
+
 public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private static final String ORGANIZATION_ID = "organizationId";
     private static final String FDP_ORG_FROM_REQUISITIONER_UNIT = "FDP_ORG_FROM_REQUISITIONER_UNIT";
@@ -88,6 +90,16 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     public static final String INVOICE_EMAIL_DIFFERENT = "invoiceEmailDifferent";
     public static final String FDP_PTE_INVOICE_EMAIL = "FDP_PTE_Invoice_email";
     public static final String FDP_PTE_INVOICE_ADDRESS = "FDP_PTE_Invoice_address";
+    private static final String FDP_NIH_POLICY = "FDP_NIH_Policy";
+    private static final String FDP_NIH_GRANTS_POLICY_STATEMENT = "FDP_NIH_Grants_Policy_Statement";
+    private static final String FDP_NIH_INTERIM_RESEARCH_TERMS = "FDP_NIH_Interim_Research_Terms";
+    private static final String FDP_NIH_AGENCY_REQUIREMENTS = "FDP_NIH_Agency_Requirements";
+    private static final String FDP_NIH_FCOI_GUIDANCE = "FDP_NIH_FCOI_Guidance";
+    private static final String FDP_NSF_POLICY = "FDP_NSF_Policy";
+    private static final String FDP_NSF_GRANTS_POLICY_STATEMENT = "FDP_NSF_Grants_Policy_Statement";
+    private static final String FDP_NSF_INTERIM_RESEARCH_TERMS = "FDP_NSF_Interim_Research_Terms";
+    private static final String FDP_NSF_AGENCY_REQUIREMENTS = "FDP_NSF_Agency_Requirements";
+    private static final String FDP_NSF_FCOI_GUIDANCE = "FDP_NSF_FCOI_Guidance";
 
     private BusinessObjectService businessObjectService;
     private CountryService countryService;
@@ -139,9 +151,11 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         this.noticeDate = (Calendar) reportParameters.get(NOTICE_DATE);
         this.obligatedTotal = (BigDecimal) reportParameters.get(OBLIGATED_TOTAL);
         this.anticipatedTotal = (BigDecimal) reportParameters.get(ANTICIPATED_TOTAL);
+
         final SubAward subaward=(SubAward) printableBusinessObject;
         final SubContractData subContractData = SubContractData.Factory.newInstance();
 
+        setOtherConfigInfo(subContractData);
 
         setSubcontractTemplateInfo(subContractData,subaward);
         setFundingSource(subContractData);
@@ -166,6 +180,46 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         final Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
         xmlObjectList.put(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType(), subContractDataDoc);
         return xmlObjectList;
+    }
+
+    public void setOtherConfigInfo(SubContractData subContractData) {
+        final OtherConfigInfo otherConfigInfo = OtherConfigInfo.Factory.newInstance();
+        final List<OtherConfigInfo> otherConfigInfoList = new ArrayList<>();
+
+        otherConfigInfo.setFdpNihPolicy(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NIH_POLICY));
+        otherConfigInfo.setFdpNihGrantsPolicyStatement(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NIH_GRANTS_POLICY_STATEMENT));
+        otherConfigInfo.setFdpNihInterimResearchTerms(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NIH_INTERIM_RESEARCH_TERMS));
+        otherConfigInfo.setFdpNihAgencyRequirements(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NIH_AGENCY_REQUIREMENTS));
+        otherConfigInfo.setFdpNihFCoiGuidance(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NIH_FCOI_GUIDANCE));
+
+        otherConfigInfo.setFdpNsfPolicy(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NSF_POLICY));
+        otherConfigInfo.setFdpNsfGrantsPolicyStatement(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NSF_GRANTS_POLICY_STATEMENT));
+        otherConfigInfo.setFdpNsfInterimResearchTerms(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NSF_INTERIM_RESEARCH_TERMS));
+        otherConfigInfo.setFdpNsfAgencyRequirements(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NSF_AGENCY_REQUIREMENTS));
+        otherConfigInfo.setFdpNsfFCoiGuidance(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NSF_FCOI_GUIDANCE));
+
+        otherConfigInfoList.add(otherConfigInfo);
+        subContractData.setOtherConfigInfoArray(otherConfigInfoList.toArray(new OtherConfigInfo[0]));
     }
 
     public void setSubcontractTemplateInfo(SubContractData subContractData, SubAward subaward) {
@@ -233,8 +287,53 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 ContactType contactTypeCode = getBusinessObjectService().findBySinglePrimaryKey(ContactType.class, subawardTemplate.getCarryForwardRequestsSentTo());
                 if(contactTypeCode.getDescription() != null) {
                     subContractTemplateInfo.setCarryForwardRequestsSentToDescription(contactTypeCode.getDescription());
+                    subContractTemplateInfo.setCarryForwardRequestsSentTo(contactTypeCode.getContactTypeCode());
                 }
 
+            }
+
+            subContractTemplateInfo.setRAndD(toFlag(subawardTemplate.getrAndD()));
+            subContractTemplateInfo.setIncludesCostSharing(toFlag(subawardTemplate.getIncludesCostSharing()));
+            subContractTemplateInfo.setFcio(toFlag(subawardTemplate.getFcio()));
+            subContractTemplateInfo.setInvoicesEmailed(toFlag(subawardTemplate.getInvoicesEmailed()));
+            subContractTemplateInfo.setInvoiceAddressDifferent(toFlag(subawardTemplate.getInvoiceAddressDifferent()));
+
+            if (subawardTemplate.getFcioSubrecPolicyCd() != null) {
+                subContractTemplateInfo.setFcioSubrecPolicyCd(subawardTemplate.getFcioSubrecPolicyCd());
+            }
+
+            subContractTemplateInfo.setAnimalFlag(toFlag(subawardTemplate.getAnimalFlag()));
+
+            if (subawardTemplate.getAnimalPteSendCd() != null) {
+                subContractTemplateInfo.setAnimalPteSendCd(subawardTemplate.getAnimalPteSendCd());
+            }
+
+            if (subawardTemplate.getAnimalPteNrCd() != null) {
+                subContractTemplateInfo.setAnimalPteNrCd(subawardTemplate.getAnimalPteNrCd());
+            }
+
+            subContractTemplateInfo.setHumanFlag(toFlag(subawardTemplate.getHumanFlag()));
+
+            if (subawardTemplate.getHumanPteSendCd() != null) {
+                subContractTemplateInfo.setHumanPteSendCd(subawardTemplate.getHumanPteSendCd());
+            }
+
+            if (subawardTemplate.getHumanPteNrCd() != null) {
+                subContractTemplateInfo.setHumanPteNrCd(subawardTemplate.getHumanPteNrCd());
+            }
+
+            if (subawardTemplate.getHumanDataExchangeAgreeCd() != null) {
+                subContractTemplateInfo.setHumanDataExchangeAgreeCd(subawardTemplate.getHumanDataExchangeAgreeCd());
+            }
+
+            if (subawardTemplate.getHumanDataExchangeTermsCd() != null) {
+                subContractTemplateInfo.setHumanDataExchangeTermsCd(subawardTemplate.getHumanDataExchangeTermsCd());
+            }
+
+            subContractTemplateInfo.setMpiAward(toFlag(subawardTemplate.getMpiAward()));
+
+            if (subawardTemplate.getMpiLeadershipPlan() != null) {
+                subContractTemplateInfo.setMpiLeadershipPlan(subawardTemplate.getMpiLeadershipPlan());
             }
 
             templateDataList.add(subContractTemplateInfo);
