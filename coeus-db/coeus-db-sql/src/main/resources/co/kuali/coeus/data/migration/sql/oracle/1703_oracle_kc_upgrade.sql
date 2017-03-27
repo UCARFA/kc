@@ -25,4 +25,5 @@ spool 1703_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1703_002__ip_fAndARate_table.sql
 @./kc/bootstrap/V1703_006__compliance.sql
 @./kc/bootstrap/V1703_009__cost_share_table_change.sql
+@./kc/bootstrap/V1703_010__subaward_template_fields.sql
 commit;

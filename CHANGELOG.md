@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* RESKC-2121: fixing a NPE for existing subawards
+  * Travis Schneeberger on Mon, 27 Mar 2017 09:46:12 -0400 [View Commit](../../commit/a0cc942c58e188b41ef338cc7f03b0ec4e3d76ee)
+* RESKC-2121: Adding new fields to subaward template. (#2263)
+
+* RESKC-2121: Adding new fields to subaward template.
+  * 
+* RESKC-2121: PR review changes
+  * Gayathri Athreya on Fri, 24 Mar 2017 12:25:54 -0700 [View Commit](../../commit/f4f532f84fe7e87f5e9f5ab8300cb65c25968ece)
+
+##coeus-1703.0023
 * No Changes
 
 
