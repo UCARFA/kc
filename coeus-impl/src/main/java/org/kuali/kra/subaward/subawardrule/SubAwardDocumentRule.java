@@ -386,7 +386,7 @@ SubAwardFfataReportingRule {
                 }
             }
 
-            if (subAwardTemplateInfo.getMpiAward()) {
+            if (subAwardTemplateInfo.getMpiAward() != null && subAwardTemplateInfo.getMpiAward()) {
                 if (subAwardTemplateInfo.getMpiLeadershipPlan() == null) {
                     rulePassed = false;
                     reportError(MPI_LEADERSHIP_PLAN, ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_MPI_LEADERSHIP_PLAN);
