@@ -21,6 +21,8 @@ package org.kuali.kra.subaward.bo;
 import org.kuali.coeus.sys.api.model.Coded;
 import org.kuali.coeus.sys.api.model.Describable;
 
+import java.util.Arrays;
+
 public enum AnimalPteSendNotRequiredReason implements org.kuali.rice.core.api.mo.common.Coded, Coded, Describable {
     RELIANCE_AGREEMENT("RA", "Reliance agreement for this project"),
     APPROVAL_YEAR_ONE("AYO", "Approval will be sought after year 1");
@@ -41,5 +43,9 @@ public enum AnimalPteSendNotRequiredReason implements org.kuali.rice.core.api.mo
     @Override
     public String getDescription() {
         return description;
+    }
+
+    public static AnimalPteSendNotRequiredReason fromCode(String code) {
+        return Arrays.stream(AnimalPteSendNotRequiredReason.values()).filter(v -> v.getCode().equals(code)).findFirst().orElse(null);
     }
 }

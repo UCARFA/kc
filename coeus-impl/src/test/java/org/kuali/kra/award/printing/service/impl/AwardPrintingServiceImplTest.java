@@ -45,6 +45,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.schema.AwardType;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class AwardPrintingServiceImplTest {
@@ -64,6 +65,7 @@ public class AwardPrintingServiceImplTest {
 		printService = new PrintingServiceImpl();
 		
 		final DateTimeService dateTimeService = context.mock(DateTimeService.class);
+		final ParameterService parameterService = context.mock(ParameterService.class);
 		final Date now = new Date();
 		context.checking(new Expectations() {
 			{
@@ -83,8 +85,14 @@ public class AwardPrintingServiceImplTest {
 				will(returnValue(new GregorianCalendar()));
 			}
 		});
+		context.checking(new Expectations() {
+			{
+				oneOf(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "FORCED_XSL_FORMS");
+				will(returnValue(Collections.emptyList()));
+			}
+		});
 		printService.setDateTimeService(dateTimeService);
-		
+		printService.setParameterService(parameterService);
 		final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 		context.checking(new Expectations() {
 			{

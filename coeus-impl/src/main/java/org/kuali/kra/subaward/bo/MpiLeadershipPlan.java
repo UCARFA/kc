@@ -21,6 +21,8 @@ package org.kuali.kra.subaward.bo;
 import org.kuali.coeus.sys.api.model.Coded;
 import org.kuali.coeus.sys.api.model.Describable;
 
+import java.util.Arrays;
+
 
 public enum MpiLeadershipPlan implements org.kuali.rice.core.api.mo.common.Coded, Coded, Describable {
     REQUEST("0", "The PTE will make the MPI plan available upon request"),
@@ -42,5 +44,9 @@ public enum MpiLeadershipPlan implements org.kuali.rice.core.api.mo.common.Coded
     @Override
     public String getDescription() {
         return description;
+    }
+
+    public static MpiLeadershipPlan fromCode(String code) {
+        return Arrays.stream(MpiLeadershipPlan.values()).filter(v -> v.getCode().equals(code)).findFirst().orElse(null);
     }
 }

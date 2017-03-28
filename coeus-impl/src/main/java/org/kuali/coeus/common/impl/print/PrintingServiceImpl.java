@@ -39,6 +39,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,6 +53,8 @@ import java.sql.Timestamp;
 import java.util.*;
 import java.util.List;
 
+import static org.kuali.coeus.sys.framework.util.CollectionUtils.entriesToMap;
+
 /**
  * This class provides the functionality for printing any {@link Printable} object. It uses the methods available in Printable
  * object to generate XML, fetch XSL style-sheets, then transforms the XML to a PDF after applying the style sheet.
@@ -60,6 +63,7 @@ import java.util.List;
 @Component("printingService")
 public class PrintingServiceImpl implements PrintingService {
 
+    private static final String FORCED_XSL_FORMS_PARAMETER = "FORCED_XSL_FORMS";
 
     private static final Log LOG = LogFactory.getLog(PrintingServiceImpl.class);
 
@@ -71,6 +75,9 @@ public class PrintingServiceImpl implements PrintingService {
     @Qualifier("kualiConfigurationService")
     private ConfigurationService kualiConfigurationService;
 
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     /**
      * This method receives a {@link Printable} object, generates XML for it, transforms into PDF after applying style-sheet and
@@ -90,7 +97,12 @@ public class PrintingServiceImpl implements PrintingService {
             logPrintDetails(streamMap);
         }
 
-        pdfByteMap.putAll(printableArtifact.fillPdfForms(printableArtifact.getPdfForms(), streamMap));
+        final Collection<String> forms = parameterService.getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, FORCED_XSL_FORMS_PARAMETER);
+
+        pdfByteMap.putAll(printableArtifact.fillPdfForms(printableArtifact.getPdfForms().entrySet().stream()
+                .filter(e -> !forms.contains(e.getKey()))
+                .collect(entriesToMap()), streamMap));
+
         final Set<String> ignored = pdfByteMap.keySet();
         try {
             // Apply all the style sheets to the xml document and generate the
@@ -396,4 +408,11 @@ public class PrintingServiceImpl implements PrintingService {
         return kualiConfigurationService;
     }
 
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }
