@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* RESKC-2136: Fix integration tests (#2268)
+
+  * Gayathri Athreya on Tue, 28 Mar 2017 10:42:19 -0700 [View Commit](../../commit/bdd119f5d15d8c216f5d34c356f7fed9d9ce4a9e)
+* RESKC-2136: FDP subaward modification template changes (#2267)
+
+* RESKC-2136: FDP subaward modification template changes
+  * 
+* RESKC-2136: Add template file to project
+  * Gayathri Athreya on Tue, 28 Mar 2017 09:13:46 -0700 [View Commit](../../commit/38708b6aaa10a59e8da2f7c868d0edfaed3a0c54)
+
+##coeus-1703.0028
 * No Changes
 
 
