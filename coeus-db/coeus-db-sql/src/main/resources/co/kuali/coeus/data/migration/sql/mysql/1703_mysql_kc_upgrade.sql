@@ -26,4 +26,5 @@
 \. ./kc/bootstrap/V1703_011__fdp_mod_update.sql
 \. ./kc/bootstrap/V1703_012__fdp_mod_update.sql
 \. ./kc/bootstrap/V1703_016__fdp_form_update.sql
+\. ./kc/bootstrap/V1703_017__line_item_number_expand.sql
 commit;

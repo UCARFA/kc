@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1980, expand the line_item_number
+  * Travis Schneeberger on Wed, 29 Mar 2017 15:45:08 -0400 [View Commit](../../commit/1117b10faf92410980da286a707eb53afc05c3d4)
+
+##coeus-1703.0032
 * RESKC-2138: fixing display of phone and email for fdp form attachment 3a, fixing form attachment 3a for rolodex people.
   * Travis Schneeberger on Tue, 28 Mar 2017 17:11:51 -0400 [View Commit](../../commit/e87af4c1111575044216d800b6a4cc4bf8e94dcb)
 
