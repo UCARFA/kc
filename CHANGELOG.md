@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2138: fixing display of phone and email for fdp form attachment 3a, fixing form attachment 3a for rolodex people.
+  * Travis Schneeberger on Tue, 28 Mar 2017 17:11:51 -0400 [View Commit](../../commit/e87af4c1111575044216d800b6a4cc4bf8e94dcb)
+
+##coeus-1703.0031
 * RESKC-1890, RESKC-1943, RESKC-1893, RESKC-1946: changing several mappings for attachment 2 forms
   * Travis Schneeberger on Wed, 29 Mar 2017 08:44:51 -0400 [View Commit](../../commit/d6e52af13428d8de5bd7bf7cb8c98a284426a888)
 

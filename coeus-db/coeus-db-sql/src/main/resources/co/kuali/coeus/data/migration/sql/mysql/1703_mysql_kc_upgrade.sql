@@ -25,4 +25,5 @@
 \. ./kc/bootstrap/V1703_010__subaward_template_fields.sql
 \. ./kc/bootstrap/V1703_011__fdp_mod_update.sql
 \. ./kc/bootstrap/V1703_012__fdp_mod_update.sql
+\. ./kc/bootstrap/V1703_016__fdp_form_update.sql
 commit;
