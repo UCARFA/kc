@@ -1,6 +1,7 @@
 package org.kuali.kra.subawardReporting.printing.print;
 
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
@@ -99,9 +100,9 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
                     final boolean onrForm = FDP_ONR_FORM.equals(e.getKey());
                     final boolean usdaForm = FDP_USDA_FORM.equals(e.getKey());
 
-                    final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail();
-                    final SubContractDataDocument.SubContractData.OtherConfigInfo configInfo = xmlObject.getSubContractData().getOtherConfigInfoArray(0);
-                    final SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo = xmlObject.getSubContractData().getSubcontractTemplateInfoArray(0);
+                    final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
+                    final SubContractDataDocument.SubContractData.OtherConfigInfo configInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getOtherConfigInfoArray()) ? xmlObject.getSubContractData().getOtherConfigInfoArray(0) : SubContractDataDocument.SubContractData.OtherConfigInfo.Factory.newInstance();
+                    final SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractTemplateInfoArray()) ? xmlObject.getSubContractData().getSubcontractTemplateInfoArray(0) : SubContractDataDocument.SubContractData.SubcontractTemplateInfo.Factory.newInstance();
 
                     //Sponsor Agency
                     setSponsorAgency(document, afosrForm, amrmcForm, aroForm, doeForm, epaForm, nasaForm, nihForm, nsfForm, onrForm, usdaForm);
@@ -155,7 +156,7 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
 
     private void setDataSharingPubAccessPolicy(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
         if (fromYN(templateInfo.getHumanFlag())) {
-            if (HumanDataExchangeAgreement.APPLICABLE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd())) {
+            if (HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) || HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd())) {
                 setField(document, Pdf.Field.SUBRECIPIENT_AGREES_TO_COMPLY.getfName(), true);
             }
         }
@@ -181,7 +182,7 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
 
     private void setHumanSubjectsDataExchange(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
         setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_NOT_APPLICABLE.getfName(), HumanDataExchangeAgreement.NOT_APPLICABLE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_APPLICABLE.getfName(), HumanDataExchangeAgreement.APPLICABLE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_APPLICABLE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) || HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
         setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_SUB_TO_PTE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
         setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_PTE_TO_SUB.getfName(), HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
     }
