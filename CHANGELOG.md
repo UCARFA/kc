@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1890, RESKC-1943, RESKC-1893, RESKC-1946: changing several mappings for attachment 2 forms
+  * Travis Schneeberger on Wed, 29 Mar 2017 08:44:51 -0400 [View Commit](../../commit/d6e52af13428d8de5bd7bf7cb8c98a284426a888)
+
+##coeus-1703.0030
 * resequencing sql scripts
   * Travis Schneeberger on Tue, 28 Mar 2017 16:23:14 -0400 [View Commit](../../commit/9d3bb0a90ea909b6e01e2e4443e8609f72120fa4)
 * RESKC-1890, RESKC-1943, RESKC-1893, RESKC-1946: updating FDP Attachment 2 form for NIH and NSF
