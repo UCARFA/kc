@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2147: Fixing oracle scripts (#2276)
+
+  * Gayathri Athreya on Thu, 30 Mar 2017 12:40:46 -0700 [View Commit](../../commit/8726c31fad1b4a00ebf2d5aadfead6e3a8bd45a8)
+
+##coeus-1703.0036
 * RESKC-2146: Expanding more columns (#2275)
 
 * RESKC-2146: Expanding more columns
