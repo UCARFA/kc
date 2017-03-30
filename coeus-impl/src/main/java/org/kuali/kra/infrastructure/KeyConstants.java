@@ -1015,6 +1015,9 @@ public final class KeyConstants {
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_GREATER_THAN_ANTICIPATED_AMOUNT = "subaward.error.obligated.amount.greater.than.anticipated.amount";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE = "subaward.error.obligated.amount.less.than.zero";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO = "subaward.error.obligated.amount.equal.to.zero";
+    public static final String ERROR_AMOUNT_INFO_OBLIGATED_DIRECT_AMOUNT_ZERO = "subaward.error.obligated.direct.amount.equal.to.zero";
+    public static final String ERROR_AMOUNT_INFO_OBLIGATED_INDIRECT_AMOUNT_ZERO = "subaward.error.obligated.indirect.amount.equal.to.zero";
+
     public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_NEGATIVE = "subaward.error.anticipated.amount.less.than.zero";
     public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO = "subaward.error.anticipated.amount.equal.to.zero";
     public static final String ERROR_SUBAWARD_CONTACT = "subaward.contact.not.added";

@@ -153,8 +153,12 @@
         <field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="obligatedChange" column="OBLIGATED_CHANGE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+        <field-descriptor name="obligatedChangeDirect" column="OBLIGATED_CHANGE_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+        <field-descriptor name="obligatedChangeIndirect" column="OBLIGATED_CHANGE_INDIRECT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="anticipatedAmount" column="ANTICIPATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="anticipatedChange" column="ANTICIPATED_CHANGE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+        <field-descriptor name="anticipatedChangeDirect" column="ANTICIPATED_CHANGE_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+        <field-descriptor name="anticipatedChangeIndirect" column="ANTICIPATED_CHANGE_INDIRECT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="effectiveDate" column="EFFECTIVE_DATE" jdbc-type="DATE" />
         <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />

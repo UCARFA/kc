@@ -123,24 +123,49 @@ public class SubAwardServiceImpl implements SubAwardService {
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
+    protected boolean isCostSplitEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SUBAWARD, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.ENABLE_SUBAWARD_DC_IDC);
+    }
+
     @Override
     public SubAward calculateAmountInfo(SubAward subAward) {
 
         List<SubAwardAmountInfo> subAwardAmountInfoList = subAward.getAllSubAwardAmountInfos();
         List<SubAwardAmountReleased> subAwardAmountReleasedList = subAward.getSubAwardAmountReleasedList();
-        ScaleTwoDecimal totalObligatedAmount = ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal totalAnticipatedAmount = ScaleTwoDecimal.ZERO;
+
         ScaleTwoDecimal totalAmountReleased = ScaleTwoDecimal.ZERO;
+        initializeAmounts(subAward);
+
         if (subAwardAmountInfoList != null && subAwardAmountInfoList.size() > 0) {
             for (SubAwardAmountInfo subAwardAmountInfo: subAwardAmountInfoList) {
-                if (subAwardAmountInfo.getObligatedChange() != null) {
-                    subAward.setTotalObligatedAmount(totalObligatedAmount.add(subAwardAmountInfo.getObligatedChange()));
-                    totalObligatedAmount = subAward.getTotalObligatedAmount();
+                if (!isCostSplitEnabled()) {
+                    if (subAwardAmountInfo.getObligatedChange() != null) {
+                        subAward.setTotalObligatedAmount(subAward.getTotalObligatedAmount().add(subAwardAmountInfo.getObligatedChange()));
+                    }
+                    if (subAwardAmountInfo.getAnticipatedChange() != null) {
+                        subAward.setTotalAnticipatedAmount(subAward.getTotalAnticipatedAmount().add(subAwardAmountInfo.getAnticipatedChange()));
+                    }
+                } else {
+                    if (subAwardAmountInfo.getObligatedChangeDirect() != null) {
+                        subAward.setTotalObligatedAmount(subAward.getTotalObligatedAmount().add(subAwardAmountInfo.getObligatedChangeDirect()));
+                        subAward.setTotalObligatedDirectAmount(subAward.getTotalObligatedDirectAmount().add(subAwardAmountInfo.getObligatedChangeDirect()));
+                    }
+                    if (subAwardAmountInfo.getObligatedChangeIndirect() != null) {
+                        subAward.setTotalObligatedAmount(subAward.getTotalObligatedAmount().add(subAwardAmountInfo.getObligatedChangeIndirect()));
+                        subAward.setTotalObligatedIndirectAmount(subAward.getTotalObligatedIndirectAmount().add(subAwardAmountInfo.getObligatedChangeIndirect()));
+
+                    }
+                    if (subAwardAmountInfo.getAnticipatedChangeDirect() != null) {
+                        subAward.setTotalAnticipatedAmount(subAward.getTotalAnticipatedAmount().add(subAwardAmountInfo.getAnticipatedChangeDirect()));
+                        subAward.setTotalAnticipatedDirectAmount(subAward.getTotalAnticipatedDirectAmount().add(subAwardAmountInfo.getAnticipatedChangeDirect()));
+
+                    }
+                    if (subAwardAmountInfo.getAnticipatedChangeIndirect() != null) {
+                        subAward.setTotalAnticipatedAmount(subAward.getTotalAnticipatedAmount().add(subAwardAmountInfo.getAnticipatedChangeIndirect()));
+                        subAward.setTotalAnticipatedIndirectAmount(subAward.getTotalAnticipatedIndirectAmount().add(subAwardAmountInfo.getAnticipatedChangeIndirect()));
+                    }
                 }
-                if (subAwardAmountInfo.getAnticipatedChange() != null) {
-                    subAward.setTotalAnticipatedAmount(totalAnticipatedAmount.add(subAwardAmountInfo.getAnticipatedChange()));
-                    totalAnticipatedAmount = subAward.getTotalAnticipatedAmount();
-                }
+
                 if (subAwardAmountInfo.getModificationEffectiveDate() != null) {
                     subAward.setModificationEffectiveDate(subAwardAmountInfo.getModificationEffectiveDate());
                 }
@@ -165,15 +190,23 @@ public class SubAwardServiceImpl implements SubAwardService {
                 }
             }
             SubAwardAmountInfo amountInfo = subAward.getAllSubAwardAmountInfos().get(subAward.getAllSubAwardAmountInfos().size()-1);
-            amountInfo.setAnticipatedAmount(totalAnticipatedAmount);
-            amountInfo.setObligatedAmount(totalObligatedAmount);
+            amountInfo.setAnticipatedAmount(subAward.getTotalAnticipatedAmount());
+            amountInfo.setObligatedAmount(subAward.getTotalObligatedAmount());
         }
-        subAward.setTotalObligatedAmount(totalObligatedAmount);
-        subAward.setTotalAnticipatedAmount(totalAnticipatedAmount);
+
         subAward.setTotalAmountReleased(totalAmountReleased);
-        subAward.setTotalAvailableAmount(totalObligatedAmount.subtract(totalAmountReleased));
+        subAward.setTotalAvailableAmount(subAward.getTotalObligatedAmount().subtract(totalAmountReleased));
 
         return subAward;
+    }
+
+    public void initializeAmounts(SubAward subAward) {
+        subAward.setTotalObligatedAmount(ScaleTwoDecimal.ZERO);
+        subAward.setTotalObligatedDirectAmount(ScaleTwoDecimal.ZERO);
+        subAward.setTotalObligatedIndirectAmount(ScaleTwoDecimal.ZERO);
+        subAward.setTotalAnticipatedAmount(ScaleTwoDecimal.ZERO);
+        subAward.setTotalAnticipatedDirectAmount(ScaleTwoDecimal.ZERO);
+        subAward.setTotalAnticipatedIndirectAmount(ScaleTwoDecimal.ZERO);
     }
 
     @Override

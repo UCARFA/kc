@@ -58,9 +58,13 @@
         <ref bean="SubAward-organization.organizationName" />
         <ref bean="SubAward-subAwardStatus.description" />
         <ref bean="SubAward-subAwardType.description" />
-        <ref bean="SubAward-totalObligatedAmount" />      
-        <ref bean="SubAward-totalAnticipatedAmount" />      
-        <ref bean="SubAward-totalAmountReleased" />      
+        <ref bean="SubAward-totalObligatedAmount" />
+        <ref bean="SubAward-totalObligatedDirectAmount" />
+        <ref bean="SubAward-totalObligatedIndirectAmount" />
+        <ref bean="SubAward-totalAnticipatedAmount" />
+        <ref bean="SubAward-totalAnticipatedDirectAmount" />
+        <ref bean="SubAward-totalAnticipatedIndirectAmount" />
+        <ref bean="SubAward-totalAmountReleased" />
         <ref bean="SubAward-totalAvailableAmount" />    
         <ref bean="SubAward-docIdStatus" />  
         <ref bean="SubAward-lastUpdate" />
@@ -702,7 +706,79 @@
     <property name="summary" value="Obligated Amount" />
     <property name="description" value="Obligated Amount" />    
   </bean>
-  
+
+    <bean id="SubAward-totalObligatedDirectAmount" parent="SubAward-totalObligatedDirectAmount-parentBean" />
+    <bean id="SubAward-totalObligatedDirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="totalObligatedDirectAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Direct Amount" />
+        <property name="shortLabel" value="Obligated Direct Amount" />
+        <property name="maxLength" value="22" />
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Obligated Direct Amount" />
+        <property name="description" value="Obligated Direct Amount" />
+    </bean>
+
+    <bean id="SubAward-totalObligatedIndirectAmount" parent="SubAward-totalObligatedIndirectAmount-parentBean" />
+    <bean id="SubAward-totalObligatedIndirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="totalObligatedIndirectAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Obligated Indirect Amount" />
+        <property name="shortLabel" value="Obligated Indirect Amount" />
+        <property name="maxLength" value="22" />
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Obligated Indirect Amount" />
+        <property name="description" value="Obligated Indirect Amount" />
+    </bean>
+
+    <bean id="SubAward-totalAnticipatedDirectAmount" parent="SubAward-totalAnticipatedDirectAmount-parentBean" />
+    <bean id="SubAward-totalAnticipatedDirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="totalAnticipatedDirectAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Direct Amount" />
+        <property name="shortLabel" value="Anticipated Direct Amount" />
+        <property name="maxLength" value="22" />
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Anticipated Direct Amount" />
+        <property name="description" value="Anticipated Direct Amount" />
+    </bean>
+
+    <bean id="SubAward-totalAnticipatedIndirectAmount" parent="SubAward-totalAnticipatedIndirectAmount-parentBean" />
+    <bean id="SubAward-totalAnticipatedIndirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="totalAnticipatedIndirectAmount" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Anticipated Indirect Amount" />
+        <property name="shortLabel" value="Anticipated Indirect Amount" />
+        <property name="maxLength" value="22" />
+        <property name="required" value="false" />
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Anticipated Indirect Amount" />
+        <property name="description" value="Anticipated Indirect Amount" />
+    </bean>
+
   <bean id="SubAward-totalAnticipatedAmount" parent="SubAward-totalAnticipatedAmount-parentBean" />
    <bean id="SubAward-totalAnticipatedAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="totalAnticipatedAmount" />

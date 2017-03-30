@@ -957,5 +957,6 @@ public interface Constants {
     String ENABLE_LIFECYCLE_RATES_FLOWTHRU = "Enable_Lifecycle_Rates_Flowthru";
     String COST_SHARE_AGENDA_UNITS = "costShareAgendaUnits";
     String COST_SHARE_ADMINISTRATOR_TYPE_CODE = "COST_SHARE_ADMINISTRATOR_TYPE_CODE";
+    String ENABLE_SUBAWARD_DC_IDC = "Enable_Subaward_DC_IDC";
 }
 

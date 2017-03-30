@@ -48,10 +48,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.util.AutoPopulatingList;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SubAward extends KcPersistableBusinessObjectBase
@@ -126,8 +123,14 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     private KcPerson kcPerson;
     private String subAwardSequenceStatus;
     private boolean newVersion;
-    private ScaleTwoDecimal totalObligatedAmount ;
+    private ScaleTwoDecimal totalObligatedAmount;
+    private ScaleTwoDecimal totalObligatedDirectAmount;
+    private ScaleTwoDecimal totalObligatedIndirectAmount;
+
     private ScaleTwoDecimal totalAnticipatedAmount;
+    private ScaleTwoDecimal totalAnticipatedDirectAmount;
+    private ScaleTwoDecimal totalAnticipatedIndirectAmount;
+
     private ScaleTwoDecimal totalAmountReleased;
     private ScaleTwoDecimal totalAvailableAmount;
     private transient String docIdStatus;
@@ -630,10 +633,14 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
         if (this.subAwardAmountReleasedList == null) {
             Map<String, Object> values = new HashMap<>();
             values.put("subAwardCode", this.getSubAwardCode());
-            this.setSubAwardAmountReleasedList((List<SubAwardAmountReleased>)KcServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false));
+            this.setSubAwardAmountReleasedList((List<SubAwardAmountReleased>) getCreatedDate(values));
         }
         return this.subAwardAmountReleasedList;
 	}
+
+    public Collection<SubAwardAmountReleased> getCreatedDate(Map<String, Object> values) {
+        return KcServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false);
+    }
 
     public void setSubAwardAmountReleasedList(List<SubAwardAmountReleased> subAwardAmountReleasedList) {
         this.subAwardAmountReleasedList = subAwardAmountReleasedList;
@@ -1126,6 +1133,38 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 				.filter(amountInfo -> !currentAmountInfoIds.contains(amountInfo.getSubAwardAmountInfoId()))
 				.collect(Collectors.toList());
 	}
+
+    public ScaleTwoDecimal getTotalObligatedDirectAmount() {
+        return totalObligatedDirectAmount;
+    }
+
+    public void setTotalObligatedDirectAmount(ScaleTwoDecimal totalObligatedDirectAmount) {
+        this.totalObligatedDirectAmount = totalObligatedDirectAmount;
+    }
+
+    public ScaleTwoDecimal getTotalObligatedIndirectAmount() {
+        return totalObligatedIndirectAmount;
+    }
+
+    public void setTotalObligatedIndirectAmount(ScaleTwoDecimal totalObligatedIndirectAmount) {
+        this.totalObligatedIndirectAmount = totalObligatedIndirectAmount;
+    }
+
+    public ScaleTwoDecimal getTotalAnticipatedDirectAmount() {
+        return totalAnticipatedDirectAmount;
+    }
+
+    public void setTotalAnticipatedDirectAmount(ScaleTwoDecimal totalAnticipatedDirectAmount) {
+        this.totalAnticipatedDirectAmount = totalAnticipatedDirectAmount;
+    }
+
+    public ScaleTwoDecimal getTotalAnticipatedIndirectAmount() {
+        return totalAnticipatedIndirectAmount;
+    }
+
+    public void setTotalAnticipatedIndirectAmount(ScaleTwoDecimal totalAnticipatedIndirectAmount) {
+        this.totalAnticipatedIndirectAmount = totalAnticipatedIndirectAmount;
+    }
 
     @Override
     public List<? extends DocumentCustomData> getCustomDataList() {

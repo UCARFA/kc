@@ -30,10 +30,12 @@ import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.kra.subaward.subawardrule.events.AddSubAwardAttachmentEvent;
@@ -63,7 +65,11 @@ SubAwardFfataReportingRule {
     private static final String SUBAWARD_START_DATE =".startDate";
     private static final String SITEINVESTIGATOR =".siteInvestigatorId";
     private static final String AMOUNT_INFO_OBLIGATED_AMOUNT = "newSubAwardAmountInfo.obligatedChange";
+    private static final String AMOUNT_INFO_OBLIGATED_DIRECT_AMOUNT = "newSubAwardAmountInfo.obligatedChangeDirect";
+    private static final String AMOUNT_INFO_OBLIGATED_INDIRECT_AMOUNT = "newSubAwardAmountInfo.obligatedChangeIndirect";
     private static final String AMOUNT_INFO_ANTICIPATED_AMOUNT = "newSubAwardAmountInfo.anticipatedChange";
+    private static final String AMOUNT_INFO_ANTICIPATED_DIRECT_AMOUNT = "newSubAwardAmountInfo.anticipatedChangeDirect";
+    private static final String AMOUNT_INFO_ANTICIPATED_INDIRECT_AMOUNT = "newSubAwardAmountInfo.anticipatedChangeIndirect";
     private static final String ROLODEX_ID="newSubAwardContact.rolodex.fullName";
     private static final String CONTACT_TYPE_CODE="newSubAwardContact.contactTypeCode";
     private static final String CLOSEOUT_TYPE_CODE="newSubAwardCloseout.closeoutTypeCode";
@@ -100,6 +106,7 @@ SubAwardFfataReportingRule {
     public static final String ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_TERMS_CD = "error.required.subaward.templateinfo.humanDataExchangeTermsCd";
 
     private AwardService awardService;
+    private ParameterService parameterService;
 
     @Override
     public boolean processAddSubAwardBusinessRules(SubAward subAward) {
@@ -173,23 +180,54 @@ SubAwardFfataReportingRule {
     @Override
     public boolean processAddSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo,SubAward subAward) {
         boolean rulePassed = getDictionaryValidationService().isBusinessObjectValid(amountInfo, NEW_SUB_AWARD_AMOUNT_INFO);
-        
+        boolean isCostSplitEnabled = isCostSplitEnabled();
+
+        if (!isCostSplitEnabled) {
+            if (amountInfo.getObligatedChange() == null || amountInfo.getObligatedChange().isZero()) {
+                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO);
+            }
+            if (amountInfo.getAnticipatedChange() == null || amountInfo.getAnticipatedChange().isZero()) {
+                reportError(AMOUNT_INFO_ANTICIPATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO);
+            }
+        } else {
+            if (amountInfo.getObligatedChangeDirect() == null || amountInfo.getObligatedChangeDirect().isZero()) {
+                reportError(AMOUNT_INFO_OBLIGATED_DIRECT_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE);
+            }
+            if (amountInfo.getObligatedChangeIndirect() == null || amountInfo.getObligatedChangeIndirect().isZero()) {
+                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE);
+            }
+            if (amountInfo.getAnticipatedChangeDirect() == null || amountInfo.getAnticipatedChangeDirect().isZero()) {
+                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE);
+            }
+            if (amountInfo.getAnticipatedChangeIndirect() == null || amountInfo.getAnticipatedChangeIndirect().isZero()) {
+                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE);
+            }
+        }
+
         ScaleTwoDecimal obligatedAmount = subAward.getTotalObligatedAmount();
-        if (amountInfo.getObligatedChange() != null) {
-            obligatedAmount = obligatedAmount.add(amountInfo.getObligatedChange());
+            if (!isCostSplitEnabled) {
+                obligatedAmount = amountInfo.getObligatedChange() != null ? obligatedAmount.add(amountInfo.getObligatedChange()) : obligatedAmount;
+            } else {
+                obligatedAmount = amountInfo.getObligatedChangeDirect() != null ? obligatedAmount.add(amountInfo.getObligatedChangeDirect()) : obligatedAmount;
+                obligatedAmount = amountInfo.getObligatedChangeIndirect() != null ? obligatedAmount.add(amountInfo.getObligatedChangeIndirect()) : obligatedAmount;
+            }
             if (obligatedAmount.isNegative()) {
                 rulePassed = false; 
                 reportError(AMOUNT_INFO_OBLIGATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE); 
             }
-        }
+
         ScaleTwoDecimal anticipatedAmount = subAward.getTotalAnticipatedAmount();
-        if (amountInfo.getAnticipatedChange() != null) {
-            anticipatedAmount = anticipatedAmount.add(amountInfo.getAnticipatedChange());
+            if (!isCostSplitEnabled) {
+                anticipatedAmount = amountInfo.getAnticipatedChange() != null ? anticipatedAmount.add(amountInfo.getAnticipatedChange()) : anticipatedAmount;
+            } else {
+                anticipatedAmount = amountInfo.getAnticipatedChangeDirect() != null ? anticipatedAmount.add(amountInfo.getAnticipatedChangeDirect()) : anticipatedAmount;
+                anticipatedAmount = amountInfo.getAnticipatedChangeIndirect() != null ? anticipatedAmount.add(amountInfo.getAnticipatedChangeIndirect()) : anticipatedAmount;
+            }
+
             if (anticipatedAmount.isNegative()) {
                 rulePassed = false; 
                 reportError(AMOUNT_INFO_ANTICIPATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_NEGATIVE); 
             }
-        }
         
         if (obligatedAmount.isGreaterThan(anticipatedAmount)) {
             rulePassed = false;
@@ -209,6 +247,17 @@ SubAwardFfataReportingRule {
             }
         }
         return rulePassed;
+    }
+
+    public boolean isCostSplitEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SUBAWARD, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.ENABLE_SUBAWARD_DC_IDC);
+    }
+
+    protected ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
     }
 
     @Override

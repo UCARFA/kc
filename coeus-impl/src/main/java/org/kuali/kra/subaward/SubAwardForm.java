@@ -393,6 +393,10 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SUBAWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, USE_SUBAWARD_INVOICE_INQUIRY);
     }
 
+    public boolean isCostSplitEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SUBAWARD, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.ENABLE_SUBAWARD_DC_IDC);
+    }
+
     public ParameterService getParameterService() {
         if (parameterService == null) {
             parameterService = KcServiceLocator.getService(ParameterService.class);
