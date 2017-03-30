@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2146: Expanding more columns (#2275)
+
+* RESKC-2146: Expanding more columns
+  * 
+* RESKC-2146: Oracle
+  * Gayathri Athreya on Thu, 30 Mar 2017 11:39:34 -0700 [View Commit](../../commit/e617d2e92d3e3890cae3a78372887167bc452221)
+
+##coeus-1703.0035
 * RESKC-2134: Adding indirect and direct cost fields. (#2273)
 
 * RESKC-2134: Adding indirect and direct cost fields.

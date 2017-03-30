@@ -30,4 +30,5 @@ spool 1703_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1703_016__fdp_form_update.sql
 @./kc/bootstrap/V1703_017__line_item_number_expand.sql
 @./kc/bootstrap/V1703_019__subaward_idc_fields.sql
+@./kc/bootstrap/V1703_020__line_item_sequence_expand.sql
 commit;
