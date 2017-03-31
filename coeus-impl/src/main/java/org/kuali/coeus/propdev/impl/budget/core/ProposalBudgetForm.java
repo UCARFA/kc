@@ -20,7 +20,6 @@ package org.kuali.coeus.propdev.impl.budget.core;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,11 +28,16 @@ import org.kuali.coeus.common.budget.framework.income.BudgetPeriodIncomeTotal;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.notification.impl.NotificationAwareForm;
+import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.budget.editable.BudgetChangedData;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularSummary;
 import org.kuali.coeus.propdev.impl.budget.nonpersonnel.AddProjectBudgetLineItemHelper;
 import org.kuali.coeus.propdev.impl.budget.person.AddProjectPersonnelHelper;
+import org.kuali.coeus.propdev.impl.core.AddLineHelper;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -46,9 +50,10 @@ import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
-public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, Auditable, SelectableBudget {
+public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, Auditable, SelectableBudget, NotificationAwareForm<ProposalDevelopmentNotificationContext> {
 
 	private ProposalDevelopmentBudgetExt budget;
 	private String defaultBudgetPeriodWarningMessage;
@@ -65,6 +70,12 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
     private boolean viewOnly = false;
     private List<DevelopmentProposal> hierarchyDevelopmentProposals;
     private boolean submitBudgetIndicator;
+    private BudgetChangedData newBudgetChangedData;
+    private NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper;
+    private boolean sendOverrideNotification;
+    private AddLineHelper addRecipientHelper;
+    private MessageMap deferredMessages;
+
 
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
@@ -72,6 +83,9 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
     	addProjectBudgetLineItemHelper = new AddProjectBudgetLineItemHelper();
         budgetJustificationWrapper = new BudgetJustificationWrapper (budget.getBudgetJustification());
         dataValidationItems = new ArrayList<DataValidationItem>();
+        newBudgetChangedData = new BudgetChangedData();
+        notificationHelper = new NotificationHelper<>();
+        addRecipientHelper = new AddLineHelper();
     }
 
     public ProposalDevelopmentBudgetExt getBudget() {
@@ -264,6 +278,58 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
     public void setSubmitBudgetIndicator(boolean submitBudgetIndicator) {
         this.submitBudgetIndicator = submitBudgetIndicator;
     }
+
+    public BudgetChangedData getNewBudgetChangedData() {
+        return newBudgetChangedData;
+    }
+
+    public void setNewBudgetChangedData(BudgetChangedData newBudgetChangedData) {
+        this.newBudgetChangedData = newBudgetChangedData;
+    }
+
+    public NotificationHelper<ProposalDevelopmentNotificationContext> getNotificationHelper() {
+        return notificationHelper;
+    }
+
+    public void setNotificationHelper(NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper) {
+        this.notificationHelper = notificationHelper;
+    }
+
+    public boolean isSendOverrideNotification() {
+        return sendOverrideNotification;
+    }
+
+    public void setSendOverrideNotification(boolean proposalChangedDataSendNotification) {
+        this.sendOverrideNotification = proposalChangedDataSendNotification;
+    }
+
+    public AddLineHelper getAddRecipientHelper() {
+        return addRecipientHelper;
+    }
+
+    @Override
+    public boolean isSendNotification() {
+        return isSendOverrideNotification();
+    }
+
+    @Override
+    public void setSendNotification(boolean sendNotification) {
+        setSendOverrideNotification(sendNotification);
+    }
+
+    public void setAddRecipientHelper(AddLineHelper addRecipientHelper) {
+        this.addRecipientHelper = addRecipientHelper;
+    }
+
+    public MessageMap getDeferredMessages() {
+        return deferredMessages;
+    }
+
+    public void setDeferredMessages(MessageMap deferredMessages) {
+        this.deferredMessages = deferredMessages;
+    }
+
+
 
     public boolean isProposalDevelopmentDocumentLocked() {
         getBudget().getDevelopmentProposal().getProposalDocument().refreshPessimisticLocks();

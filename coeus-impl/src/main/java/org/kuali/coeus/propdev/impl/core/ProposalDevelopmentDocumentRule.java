@@ -32,7 +32,6 @@ import org.kuali.coeus.propdev.impl.attachment.*;
 import org.kuali.coeus.propdev.impl.attachment.institute.*;
 import org.kuali.coeus.propdev.impl.abstrct.AbstractsRule;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
-import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentProposalRequiredFieldsAuditRule;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
@@ -121,7 +120,6 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     private SubmissionInfoService submissionInfoService;
     private ParameterService parameterService;
     private KcBusinessRulesEngine kcBusinessRulesEngine;
-    private ProposalDevelopmentPermissionsService permissionsService;
 
     protected DataDictionaryService getDataDictionaryService (){
         if (dataDictionaryService == null)
@@ -665,14 +663,8 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     }
     
     public boolean processBudgetDataOverrideRules(BudgetDataOverrideEvent budgetDataOverrideEvent) {
-        try {
         return new ProposalBudgetDataOverrideRule().processBudgetDataOverrideRules(budgetDataOverrideEvent);
-        } catch (NullPointerException e) {
-          LOG.warn("NPE caught when calling: new ProposalBudgetDataOverrideRule().processBudgetDataOverrideRules(budgetDataOverrideEvent)", e);
-          return false;
-        }
     }
-    
     
     public boolean processResubmissionPromptBusinessRules(ResubmissionRuleEvent resubmissionRuleEvent) {
         return new ProposalDevelopmentResubmissionPromptRule().processResubmissionPromptBusinessRules(resubmissionRuleEvent);

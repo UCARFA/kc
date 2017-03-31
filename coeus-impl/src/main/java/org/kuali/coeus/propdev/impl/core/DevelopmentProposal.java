@@ -1685,8 +1685,19 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         // Arranging Proposal Change History   
         if (CollectionUtils.isNotEmpty(this.getProposalChangedDataList())) {
             for (ProposalChangedData proposalChangedData : this.getProposalChangedDataList()) {
-                this.getProposalChangeHistory().computeIfAbsent(proposalChangedData.getEditableColumn().getColumnLabel(), k -> new ArrayList<>());
-                this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()).add(proposalChangedData);
+                proposalChangeHistory.computeIfAbsent(proposalChangedData.getEditableColumn().getColumnLabel(), k -> new ArrayList<>());
+                proposalChangeHistory.get(proposalChangedData.getEditableColumn().getColumnLabel()).add(proposalChangedData);
+            }
+        }
+    }
+
+    public void updateBudgetChangeHistory() {
+        budgetChangeHistory = new TreeMap<>();
+        // Arranging Proposal Change History
+        if (CollectionUtils.isNotEmpty(this.getBudgetChangedDataList())) {
+            for (BudgetChangedData budgetChangedData : this.getBudgetChangedDataList()) {
+                budgetChangeHistory.computeIfAbsent(budgetChangedData.getEditableColumn().getColumnLabel(), k -> new ArrayList<>());
+                budgetChangeHistory.get(budgetChangedData.getEditableColumn().getColumnLabel()).add(budgetChangedData);
             }
         }
     }

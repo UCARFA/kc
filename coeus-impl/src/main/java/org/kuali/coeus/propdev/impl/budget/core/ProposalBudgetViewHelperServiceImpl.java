@@ -51,6 +51,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -98,6 +99,14 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     @Autowired
     @Qualifier("proposalBudgetNavigationService")
     private ProposalBudgetNavigationService proposalBudgetNavigationService;
+
+    @Autowired
+    @Qualifier("personService")
+    private PersonService personService;
+
+    public String displayFullName(String userName){
+        return ObjectUtils.isNull(userName) ? "" : getPersonService().getPersonByPrincipalName(userName).getName();
+    }
 
     public void finalizeNavigationLinks(Action action, Object model, String direction) {
         ProposalBudgetForm propBudgetForm = (ProposalBudgetForm) model;
@@ -327,5 +336,13 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
 
     public void setProposalBudgetNavigationService(ProposalBudgetNavigationService proposalBudgetNavigationService) {
         this.proposalBudgetNavigationService = proposalBudgetNavigationService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 }

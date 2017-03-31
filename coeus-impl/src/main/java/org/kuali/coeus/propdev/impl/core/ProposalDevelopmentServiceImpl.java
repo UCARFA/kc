@@ -24,10 +24,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
-import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
@@ -36,7 +34,6 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -64,10 +61,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
-
-    @Autowired
-    @Qualifier("kcPersistenceStructureService")
-    private KcPersistenceStructureService kcPersistenceStructureService;
 
     @Autowired
     @Qualifier("parameterService")
@@ -159,15 +152,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return getUnitsForCreateProposal(userId);
     }
 
-    protected ProposalDevelopmentBudgetExt getBudgetVersionOverview(String proposalNumber) {
-        DevelopmentProposal proposal = getDataObjectService().findUnique(DevelopmentProposal.class,
-                QueryByCriteria.Builder.forAttribute("PROPOSAL_NUMBER", proposalNumber).build());
-        if (proposal != null) {
-        	return proposal.getFinalBudget();
-        }
-        return null;
-    }
-
     protected String getPropertyValue(BusinessObject businessObject, String fieldName) {
         String displayValue = "";
         try {
@@ -178,20 +162,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             LOG.warn(e.getMessage(), e);
         }
         return displayValue;
-    }
-    
-    public Object getBudgetFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) {
-        Object fieldValue = null;        
-        Map<String, String> fieldMap = getKcPersistenceStructureService().getDBColumnToObjectAttributeMap(Budget.class);
-        String budgetAttributeName = fieldMap.get(dbColumnName);
-        if (StringUtils.isNotEmpty(budgetAttributeName)) {
-            Budget currentBudget = getBudgetVersionOverview(proposalNumber);            
-            if (currentBudget != null) {
-                fieldValue = ObjectUtils.getPropertyValue(currentBudget, budgetAttributeName);
-            }
-        }            
-        return fieldValue;    
-             
     }
 
     public boolean isGrantsGovEnabledForProposal(DevelopmentProposal devProposal) {
@@ -362,14 +332,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
-    }
-
-    public KcPersistenceStructureService getKcPersistenceStructureService() {
-        return kcPersistenceStructureService;
-    }
-
-    public void setKcPersistenceStructureService(KcPersistenceStructureService kcPersistenceStructureService) {
-        this.kcPersistenceStructureService = kcPersistenceStructureService;
     }
 
     public ProposalTypeService getProposalTypeService() {

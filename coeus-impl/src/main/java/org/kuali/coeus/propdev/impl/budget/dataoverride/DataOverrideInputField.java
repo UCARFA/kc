@@ -16,42 +16,31 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.propdev.impl.dataovveride;
+package org.kuali.coeus.propdev.impl.budget.dataoverride;
 
-import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.propdev.impl.dataovveride.common.AbstractDataOverrideInputField;
-import org.kuali.rice.krad.uif.util.ComponentFactory;
 
 
 public class DataOverrideInputField extends AbstractDataOverrideInputField {
-    private static final String MAILING_ADDRESS_COLUMN = "MAILING_ADDRESS_ID";
 
     @Override
     public String getEntryName() {
-        return "DevelopmentProposal";
+        return "Budget";
     }
 
     @Override
     public void performInitialization(Object model){
         if(!isInCollection()) {
-            this.setDictionaryAttributeName(((ProposalDevelopmentDocumentForm)model).getNewProposalChangedData().getAttributeName());
+            this.setDictionaryAttributeName(((ProposalBudgetForm)model).getNewBudgetChangedData().getAttributeName());
             if(this.getDictionaryAttributeName() == null) {
                 this.setDictionaryAttributeName("title");
             }
         }
-        this.setDictionaryObjectEntry(DevelopmentProposal.class.getName());
+        this.setDictionaryObjectEntry(Budget.class.getName());
 
-        if (StringUtils.equals(((ProposalDevelopmentDocumentForm)model).getNewProposalChangedData().getColumnName(),MAILING_ADDRESS_COLUMN)) {
-            this.setControl(ComponentFactory.getTextControl());
 
-            this.setQuickfinder(ComponentFactory.getQuickFinder());
-            this.getQuickfinder().setReturnByScript(true);
-            this.getQuickfinder().setDataObjectClassName(Rolodex.class.getName());
-            this.getQuickfinder().getFieldConversions().put("rolodexId","newProposalChangedData.changedValue");
-        }
         super.performInitialization(model);
     }
 }

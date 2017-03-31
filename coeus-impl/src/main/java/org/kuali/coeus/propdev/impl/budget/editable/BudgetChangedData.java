@@ -18,15 +18,19 @@
  */
 package org.kuali.coeus.propdev.impl.budget.editable;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.budget.framework.core.AbstractBudget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.propdev.api.budget.editable.BudgetChangedDataContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 
 @Entity
 @Table(name = "BUDGET_CHANGED_DATA")
@@ -60,9 +64,6 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase implement
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "COLUMN_NAME", referencedColumnName = "COLUMN_NAME", insertable = false, updatable = false)
     private BudgetColumnsToAlter editableColumn;
-
-    @Transient
-    private String attributeName;
 
     @Override
     public Integer getChangeNumber() {
@@ -137,11 +138,28 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase implement
     }
 
     public String getAttributeName() {
+        String attributeName = getAttributeName(Budget.class);
+        if (StringUtils.isBlank(attributeName)) {
+            attributeName  = getAttributeName(AbstractBudget.class);
+        }
+
         return attributeName;
     }
 
-    public void setAttributeName(String attributeName) {
-        this.attributeName = attributeName;
+    public String getAttributeName(Class<?> clazz) {
+        for (Field field : clazz.getDeclaredFields()) {
+            Column column = field.getAnnotation(Column.class);
+            if (column != null && column.name().equals(getColumnName())){
+                return field.getName();
+            }
+        }
+
+        return "";
+    }
+
+    @Override
+    public void prePersist() {
+        super.prePersist();
     }
 
     public static final class BudgetChangedDataId implements Serializable, Comparable<BudgetChangedDataId> {

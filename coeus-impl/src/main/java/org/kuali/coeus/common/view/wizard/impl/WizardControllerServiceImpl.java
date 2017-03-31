@@ -32,13 +32,16 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.impl.role.RoleBo;
+import org.kuali.rice.kim.impl.role.RoleBoLite;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.data.metadata.DataObjectAttribute;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component("wizardControllerService")
 public class WizardControllerServiceImpl implements WizardControllerService {
@@ -79,7 +82,7 @@ public class WizardControllerServiceImpl implements WizardControllerService {
         getKcPersonService().modifyFieldValues(searchCriteria);
         searchCriteria.put("active","Y");
         searchCriteria.remove("officePhone");
-        List<Person> persons = getPersonService().findPeople(filterCriteria(searchCriteria),false);
+        List<Person> persons = getPersonService().findPeople(filterCriteria(searchCriteria, searchCriteria.keySet()),false);
         searchCriteria.put("officePhone",searchCriteria.get("phoneNumber"));
         searchCriteria.remove("phoneNumber");
         List<KcPerson> kcPersons = getKcPersonService().createKcPersonsFromPeople(persons);
@@ -97,10 +100,13 @@ public class WizardControllerServiceImpl implements WizardControllerService {
 
 
         QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
+        final Set<String> attrs = getDataObjectService().getMetadataRepository().getMetadata(Rolodex.class).getAttributes().stream()
+                .map(DataObjectAttribute::getName).collect(Collectors.toSet());
+
         builder.setPredicates(PredicateFactory.and(
                 PredicateFactory.isNotNull("firstName"),
                 PredicateFactory.isNotNull("lastName")),
-                PredicateUtils.convertMapToPredicate(filterCriteria(searchCriteria)));
+                PredicateUtils.convertMapToPredicate(filterCriteria(searchCriteria, attrs)));
         builder.setMaxResults(Integer.parseInt(getParameterService().getParameterValueAsString(KRADConstants.KRAD_NAMESPACE,
                 KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE,
                 KRADConstants.SystemGroupParameterNames.LOOKUP_RESULTS_LIMIT)));
@@ -121,7 +127,10 @@ public class WizardControllerServiceImpl implements WizardControllerService {
         List<Object> results = new ArrayList<Object>();
         searchCriteria.put("active","Y");
         QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
-        builder.setPredicates(PredicateUtils.convertMapToPredicate(filterCriteria(searchCriteria)));
+        final Set<String> attrs = getDataObjectService().getMetadataRepository().getMetadata(RoleBoLite.class).getAttributes().stream()
+                .map(DataObjectAttribute::getName).collect(Collectors.toSet());
+
+        builder.setPredicates(PredicateUtils.convertMapToPredicate(filterCriteria(searchCriteria, attrs)));
         builder.setMaxResults(Integer.parseInt(getParameterService().getParameterValueAsString(KRADConstants.KRAD_NAMESPACE,
                 KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE,
                 KRADConstants.SystemGroupParameterNames.LOOKUP_RESULTS_LIMIT)));
@@ -134,10 +143,10 @@ public class WizardControllerServiceImpl implements WizardControllerService {
         return results;
     }
 
-    private Map<String,String> filterCriteria(Map<String,String> lookupCriteria) {
-        Map<String,String> filteredCriteria = new HashMap<String,String>();
+    private Map<String,String> filterCriteria(Map<String,String> lookupCriteria, Collection<String> validAttributes) {
+        final Map<String,String> filteredCriteria = new HashMap<>();
         for (Map.Entry<String,String> entry : lookupCriteria.entrySet()) {
-            if (StringUtils.isNotEmpty(entry.getValue())) {
+            if (StringUtils.isNotEmpty(entry.getValue()) && validAttributes.contains(entry.getKey())) {
                 filteredCriteria.put(entry.getKey(),entry.getValue());
             }
         }
