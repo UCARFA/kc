@@ -78,7 +78,7 @@ public class WizardControllerServiceImpl implements WizardControllerService {
     }
 
     protected List<Object> preparePersonResults(Map<String,String> searchCriteria) {
-        List<Object> results = new ArrayList<Object>();
+        List<Object> results = new ArrayList<>();
         getKcPersonService().modifyFieldValues(searchCriteria);
         searchCriteria.put("active","Y");
         searchCriteria.remove("officePhone");
@@ -95,7 +95,7 @@ public class WizardControllerServiceImpl implements WizardControllerService {
     }
 
     protected List<Object> prepareRolodexResults(Map<String,String> searchCriteria) {
-        List<Object> results = new ArrayList<Object>();
+        List<Object> results = new ArrayList<>();
         searchCriteria.put("active","Y");
 
 
@@ -124,7 +124,7 @@ public class WizardControllerServiceImpl implements WizardControllerService {
     }
 
     protected List<Object> prepareRoleResults(Map<String,String> searchCriteria) {
-        List<Object> results = new ArrayList<Object>();
+        List<Object> results = new ArrayList<>();
         searchCriteria.put("active","Y");
         QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
         final Set<String> attrs = getDataObjectService().getMetadataRepository().getMetadata(RoleBoLite.class).getAttributes().stream()

@@ -740,6 +740,7 @@ public abstract class ProposalDevelopmentControllerBase {
             super(List.class, true);
         }
 
+        @Override
         protected Object convertElement(Object element) {
             if (element != null && element instanceof String) {
                 return new PropScienceKeyword(null, getScienceKeyword(element));
@@ -748,6 +749,7 @@ public abstract class ProposalDevelopmentControllerBase {
             return element;
         }
 
+        @Override
         public String getAsText() {
             if (this.getValue() != null) {
                 @SuppressWarnings("unchecked")
@@ -776,7 +778,8 @@ public abstract class ProposalDevelopmentControllerBase {
  			super(List.class, true);
  		}
 
- 		protected Object convertElement(Object element) {
+ 		@Override
+        protected Object convertElement(Object element) {
  			if (element != null && element instanceof String) {
  				return new ProposalSpecialReviewExemption(null, getExemptionType(element));
  			}
@@ -784,6 +787,7 @@ public abstract class ProposalDevelopmentControllerBase {
             return element;
  		}
 
+        @Override
         public String getAsText() {
             if (this.getValue() != null) {
                 @SuppressWarnings("unchecked")

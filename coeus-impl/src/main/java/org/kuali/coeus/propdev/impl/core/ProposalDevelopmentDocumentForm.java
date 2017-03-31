@@ -501,6 +501,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 		this.copyBudgetDto = copyBudgetDto;
 	}
 
+	@Override
     public NotificationHelper<ProposalDevelopmentNotificationContext> getNotificationHelper() {
         return notificationHelper;
     }
@@ -533,10 +534,12 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.narrativeUserRightsSelectedAttachment = narrativeUserRightsSelectedAttachment;
     }
 
+    @Override
     public MessageMap getDeferredMessages() {
         return deferredMessages;
     }
 
+    @Override
     public void setDeferredMessages(MessageMap deferredMessages) {
         this.deferredMessages = deferredMessages;
     }
