@@ -16,11 +16,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.propdev.impl.budget.editable;
-
-import org.kuali.rice.krad.rules.rule.BusinessRule;
-
-public interface BudgetDataOverrideRule extends BusinessRule {
-
-    boolean processBudgetDataOverrideRules(BudgetDataOverrideEvent budgetDataOverrideEvent);
-}
+var Kc = Kc || {};
+Kc.PropBudget = Kc.PropBudget || {};
+Kc.PropBudget.DataOverride = Kc.PropBudget.DataOverride || {};
+(function(namespace, $) {
+    namespace.init = function() {
+        $('#PropBudget-DataOverride-ColumnName').on('change', function(e) {ajaxSubmitForm('prepareDataOverride');})
+        $('#PropBudget-DataOverride-Dialog').on(kradVariables.EVENTS.UPDATE_CONTENT, function(e) {
+            $('#PropBudget-DataOverride-ColumnName').on('change', function(e) {ajaxSubmitForm('prepareDataOverride');});
+        })
+    };
+})(Kc.PropBudget.DataOverride, jQuery);

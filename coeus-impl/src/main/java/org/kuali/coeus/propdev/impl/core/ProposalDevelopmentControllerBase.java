@@ -859,19 +859,6 @@ public abstract class ProposalDevelopmentControllerBase {
         }
     }
 
-    public void populateDeferredMessages(ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm){
-        if (proposalDevelopmentDocumentForm.getDeferredMessages() != null
-                && proposalDevelopmentDocumentForm.getDeferredMessages().hasMessages()){
-            MessageMap messageMap = proposalDevelopmentDocumentForm.getDeferredMessages();
-            MessageMap currentMessageMap = getGlobalVariableService().getMessageMap();
-            messageMap.getErrorMessages().putAll(currentMessageMap.getErrorMessages());
-            messageMap.getInfoMessages().putAll(currentMessageMap.getInfoMessages());
-            messageMap.getWarningMessages().putAll(currentMessageMap.getWarningMessages());
-            getGlobalVariableService().setMessageMap(messageMap);
-        }
-        proposalDevelopmentDocumentForm.setDeferredMessages(null);
-    }
-
     protected ScienceKeyword getScienceKeyword(Object element) {
         return getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
     }
