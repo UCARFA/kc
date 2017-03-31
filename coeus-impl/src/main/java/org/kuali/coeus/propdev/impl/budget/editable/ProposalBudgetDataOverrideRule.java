@@ -21,7 +21,6 @@ package org.kuali.coeus.propdev.impl.budget.editable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -56,7 +55,6 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
     }
     private KcPersistenceStructureService kcPersistenceStructureService;
     private DataDictionaryService dataDictionaryService;
-    private ProposalDevelopmentService proposalDevelopmentService;
     private DateTimeService dateTimeService;
 
     protected KcPersistenceStructureService getKcPersistenceStructureService () {
@@ -70,11 +68,7 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
             dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
         return dataDictionaryService;
     }
-    protected ProposalDevelopmentService getProposalDevelopmentService (){
-        if (proposalDevelopmentService == null)
-            proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
-        return proposalDevelopmentService;
-    }
+
     protected DateTimeService getDateTimeService (){
         if(dateTimeService == null)
             dateTimeService = KcServiceLocator.getService(DateTimeService.class);
@@ -121,7 +115,7 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
 
         BudgetChangedData budgetOverriddenData = budgetDataOverrideEvent.getBudgetChangedData();
 
-        ProposalDevelopmentService proposalDevelopmentService = getProposalDevelopmentService();
+
         DateTimeService dateTimeService = getDateTimeService();
 
         String overriddenValue = budgetOverriddenData.getChangedValue();

@@ -91,7 +91,7 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
         if(getKualiRuleService().applyRules(new ProposalDataOverrideEvent(pdDocument, newProposalChangedData))){
             getCommonDataOverrideService().setChangedValue(pdDocument.getDevelopmentProposal(),newProposalChangedData.getAttributeName(), newProposalChangedData.getChangedValue());
             growProposalChangedHistory(pdDocument, newProposalChangedData);
-            List<ProposalChangedData> proposalChangedDataList= new ArrayList<ProposalChangedData>();
+            List<ProposalChangedData> proposalChangedDataList= new ArrayList<>();
             proposalChangedDataList.add(newProposalChangedData);
             proposalChangedDataList.addAll(form.getDevelopmentProposal().getProposalChangedDataList());
             form.getDevelopmentProposal().setProposalChangedDataList(proposalChangedDataList);
