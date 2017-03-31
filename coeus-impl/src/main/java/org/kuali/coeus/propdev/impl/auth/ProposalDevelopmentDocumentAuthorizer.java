@@ -213,11 +213,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         }
                 
         if (isAuthorizedToAlterProposalData(doc, user)) {
-            editModes.add("alterProposalData");
+            editModes.add(ProposalDevelopmentConstants.AuthConstants.ALTER_PROPOSAL_DATA);
         }
                 
         if (isAuthorizedToShowAlterProposalData(doc, user)) {
-            editModes.add("showAlterProposalData");
+            editModes.add(ProposalDevelopmentConstants.AuthConstants.SHOW_ALTER_PROPOSAL_DATA);
         }
                 
         if (isAuthorizedToSubmitToSponsor(doc, user)) {

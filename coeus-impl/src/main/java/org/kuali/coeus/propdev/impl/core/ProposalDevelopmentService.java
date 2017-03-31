@@ -40,8 +40,6 @@ public interface ProposalDevelopmentService {
      * @return A Map in the form of Unit Number, Unit Name representing the units for which the userId passed in has the Proposal Aggregator role.
      */
     List<Unit> getDefaultModifyProposalUnitsForUser(String userId);
-    
-    Object getBudgetFieldValueFromDBColumnName(String documentNumber, String dbColumnName);
 
     /**
      * For the proposal, based on the hierarchy status and sponsor code is grants gov enabled
