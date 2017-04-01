@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2103: adding support for proposal budget data override
+  * Travis Schneeberger on Fri, 31 Mar 2017 14:42:38 -0400 [View Commit](../../commit/b41ebcf34bb4ad633b45b6e3af2b8c3cd023abd3)
+
+##coeus-1703.0037
 * RESKC-2147: Fixing oracle scripts (#2276)
 
   * Gayathri Athreya on Thu, 30 Mar 2017 12:40:46 -0700 [View Commit](../../commit/8726c31fad1b4a00ebf2d5aadfead6e3a8bd45a8)
