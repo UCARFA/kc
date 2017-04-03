@@ -22,5 +22,5 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface BudgetDataOverrideRule extends BusinessRule {
 
-    boolean processBudgetDataOverrideRules(BudgetDataOverrideEvent budgetDataOverrideEvent);
+    public boolean processBudgetDataOverrideRules(BudgetDataOverrideEvent budgetDataOverrideEvent);
 }

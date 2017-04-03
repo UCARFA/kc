@@ -1691,17 +1691,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         }
     }
 
-    public void updateBudgetChangeHistory() {
-        budgetChangeHistory = new TreeMap<>();
-        // Arranging Proposal Change History
-        if (CollectionUtils.isNotEmpty(this.getBudgetChangedDataList())) {
-            for (BudgetChangedData budgetChangedData : this.getBudgetChangedDataList()) {
-                this.getBudgetChangeHistory().computeIfAbsent(budgetChangedData.getEditableColumn().getColumnLabel(), k -> new ArrayList<>());
-                this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()).add(budgetChangedData);
-            }
-        }
-    }
-
     public void setProposalType(ProposalType proposalType) {
         this.proposalType = proposalType;
     }

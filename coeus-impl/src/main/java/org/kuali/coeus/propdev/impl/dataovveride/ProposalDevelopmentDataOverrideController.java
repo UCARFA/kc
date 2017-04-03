@@ -18,16 +18,20 @@
  */
 package org.kuali.coeus.propdev.impl.dataovveride;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.propdev.impl.core.*;
-import org.kuali.coeus.propdev.impl.dataovveride.common.CommonDataOverrideService;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter;
 import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
-import org.kuali.coeus.propdev.impl.notification.NotificationControllerService;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.data.DataType;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
+import org.kuali.rice.krad.data.metadata.DataObjectRelationship;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,22 +42,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 
 @Controller
 public class ProposalDevelopmentDataOverrideController extends ProposalDevelopmentControllerBase {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDataOverrideController.class);
 
     @Autowired
     @Qualifier("kualiRuleService")
     private KualiRuleService kualiRuleService;
 
     @Autowired
-    @Qualifier("notificationControllerService")
-    private NotificationControllerService notificationControllerService;
+    @Qualifier("kcNotificationService")
+    private KcNotificationService kcNotificationService;
 
     @Autowired
-    @Qualifier("commonDataOverrideService")
-    private CommonDataOverrideService commonDataOverrideService;
+    @Qualifier("dateTimeService")
+    private DateTimeService dateTimeService;
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareDataOverride")
     public ModelAndView prepareDataOverride(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)
@@ -64,8 +71,18 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
         form.getNewProposalChangedData().setEditableColumn(getDataObjectService().find(ProposalColumnsToAlter.class,
                 columnName));
 
-        String propertyValue = getCommonDataOverrideService().getChangedValue(form.getDevelopmentProposal(),form.getNewProposalChangedData().getAttributeName());
-
+        Object propertyObject = getPropertyValue(form.getDevelopmentProposal(),form.getNewProposalChangedData().getAttributeName());
+        DataType dataType = DataType.getDataTypeFromClass(DevelopmentProposal.class.getDeclaredField(form.getNewProposalChangedData().getAttributeName()).getType());
+        String propertyValue = null;
+        if (propertyObject != null) {
+            if (dataType.isTemporal()) {
+                propertyValue = getDateTimeService().toDateString((Date)propertyObject);
+            } else if (dataType.equals(DataType.STRING)){
+                propertyValue = (String) propertyObject;
+            } else {
+                propertyValue = propertyObject.toString();
+            }
+        }
         form.getNewProposalChangedData().setDisplayValue(propertyValue);
         form.getNewProposalChangedData().setOldDisplayValue(propertyValue);
         } else {
@@ -89,18 +106,16 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
         newProposalChangedData.setDisplayValue(newProposalChangedData.getChangedValue());
 
         if(getKualiRuleService().applyRules(new ProposalDataOverrideEvent(pdDocument, newProposalChangedData))){
-            getCommonDataOverrideService().setChangedValue(pdDocument.getDevelopmentProposal(),newProposalChangedData.getAttributeName(), newProposalChangedData.getChangedValue());
+            setChangedValue(pdDocument.getDevelopmentProposal(),newProposalChangedData);
             growProposalChangedHistory(pdDocument, newProposalChangedData);
-            List<ProposalChangedData> proposalChangedDataList= new ArrayList<>();
+            List<ProposalChangedData> proposalChangedDataList= new ArrayList<ProposalChangedData>();
             proposalChangedDataList.add(newProposalChangedData);
             proposalChangedDataList.addAll(form.getDevelopmentProposal().getProposalChangedDataList());
             form.getDevelopmentProposal().setProposalChangedDataList(proposalChangedDataList);
 
             super.save(form);
-            String s = getCommonDataOverrideService().getDisplayReferenceValue(form.getDevelopmentProposal(), newProposalChangedData.getAttributeName(), DevelopmentProposal.class);
-            if (s != null) {
-                newProposalChangedData.setDisplayValue(s);
-            }
+
+            getDisplayReferenceValue(newProposalChangedData,form.getDevelopmentProposal());
             form.setNewProposalChangedData(new ProposalChangedData());
 
             ProposalDevelopmentNotificationContext context =
@@ -108,21 +123,94 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
             ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setProposalChangedData(newProposalChangedData);
             ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(pdDocument.getDevelopmentProposal());
 
-            getNotificationControllerService().sendNotificationIfNoErrors(form, context);
+            sendNotificationIfNoErrors(form, context);
 
         }
 
        return getRefreshControllerService().refresh(form);
     }
 
+    protected void sendNotificationIfNoErrors(ProposalDevelopmentDocumentForm form, ProposalDevelopmentNotificationContext context) {
+        if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
+            if (form.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                form.getNotificationHelper().initializeDefaultValues(context);
+                form.setSendOverrideNotification(true);
+            } else {
+                getKcNotificationService().sendNotification(context);
+            }
+        } else {
+            form.setSendOverrideNotification(false);
+        }
+    }
+
+    protected void setChangedValue(DevelopmentProposal developmentProposal, ProposalChangedData proposalChangedData) throws Exception {
+        String propertyName = proposalChangedData.getAttributeName();
+        DataType dataType = DataType.getDataTypeFromClass(DevelopmentProposal.class.getDeclaredField(propertyName).getType());
+        if (dataType.isTemporal()) {
+            PropertyUtils.setNestedProperty(developmentProposal,propertyName,getDateTimeService().convertToSqlDate(proposalChangedData.getChangedValue()));
+        } else if (dataType.equals(DataType.INTEGER)){
+            PropertyUtils.setNestedProperty(developmentProposal, propertyName, Integer.valueOf(proposalChangedData.getChangedValue()));
+        } else if (dataType.equals(DataType.LONG)){
+            PropertyUtils.setNestedProperty(developmentProposal, propertyName, Long.valueOf(proposalChangedData.getChangedValue()));
+        } else if (dataType.equals(DataType.FLOAT)){
+            PropertyUtils.setNestedProperty(developmentProposal, propertyName, Float.valueOf(proposalChangedData.getChangedValue()));
+        } else if (dataType.equals(DataType.DOUBLE)){
+            PropertyUtils.setNestedProperty(developmentProposal, propertyName, Double.valueOf(proposalChangedData.getChangedValue()));
+        } else if (dataType.equals(DataType.LARGE_INTEGER)){
+            PropertyUtils.setNestedProperty(developmentProposal, propertyName, BigInteger.valueOf(Long.valueOf(proposalChangedData.getChangedValue())));
+        } else if (dataType.equals(DataType.PRECISE_DECIMAL)){
+            PropertyUtils.setNestedProperty(developmentProposal, propertyName, BigDecimal.valueOf(Long.valueOf(proposalChangedData.getChangedValue())));
+        } else if (dataType.equals(DataType.STRING)){
+            PropertyUtils.setNestedProperty(developmentProposal,propertyName,proposalChangedData.getChangedValue());
+        } else {
+            throw new RuntimeException("Data override does not work for this class");
+        }
+    }
+
+    protected void getDisplayReferenceValue(ProposalChangedData proposalChangedData, DevelopmentProposal proposal) {
+        String refName = "";
+
+        DataObjectRelationship relationship = getDataObjectService().getMetadataRepository().getMetadata(DevelopmentProposal.class).getRelationshipByLastAttributeInRelationship(proposalChangedData.getAttributeName());
+        if (relationship != null) {
+            refName = relationship.getName();
+        }
+
+        if (StringUtils.isNotEmpty(refName)){
+            getDataObjectService().wrap(proposal).fetchRelationship(refName);
+            try {
+                Object refObject = PropertyUtils.getNestedProperty(proposal,refName);
+                String refDescription = (String) PropertyUtils.getNestedProperty(refObject,"description");
+                proposalChangedData.setDisplayValue(refDescription);
+            } catch (Exception e) {
+                LOG.warn("no description field found on ref object",e);
+            }
+        }
+    }
+
+
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendOverrideNotification")
     public ModelAndView sendOverrideNotification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
-        return getNotificationControllerService().sendNotification(form);
+        if (form.isSendOverrideNotification()) {
+            return getModelAndViewService().showDialog("Kc-SendNotification-Wizard",true,form);
+        }
+        form.setSendOverrideNotification(false);
+        return getModelAndViewService().getModelAndView(form);
+    }
+
+    protected Object getPropertyValue(DevelopmentProposal developmentProposal, String propertyName) {
+        try{
+            return PropertyUtils.getNestedProperty(developmentProposal,propertyName);
+        } catch (Exception e) {
+            throw new RiceRuntimeException("propertyName " + propertyName + "can not be found on development proposal");
+        }
     }
 
     private void growProposalChangedHistory(ProposalDevelopmentDocument pdDocument, ProposalChangedData newProposalChangedData) {
         Map<String, List<ProposalChangedData>> changeHistory = pdDocument.getDevelopmentProposal().getProposalChangeHistory();
-        changeHistory.computeIfAbsent(newProposalChangedData.getEditableColumn().getColumnLabel(), k -> new ArrayList<>());
+        if(changeHistory.get(newProposalChangedData.getEditableColumn().getColumnLabel()) == null) {
+            changeHistory.put(newProposalChangedData.getEditableColumn().getColumnLabel(), new ArrayList<ProposalChangedData>());
+        }
+
         changeHistory.get(newProposalChangedData.getEditableColumn().getColumnLabel()).add(0, newProposalChangedData);
     }
 
@@ -134,19 +222,19 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
         this.kualiRuleService = kualiRuleService;
     }
 
-    public NotificationControllerService getNotificationControllerService() {
-        return notificationControllerService;
+    public KcNotificationService getKcNotificationService() {
+        return kcNotificationService;
     }
 
-    public void setNotificationControllerService(NotificationControllerService notificationControllerService) {
-        this.notificationControllerService = notificationControllerService;
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
     }
 
-    public CommonDataOverrideService getCommonDataOverrideService() {
-        return commonDataOverrideService;
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
     }
 
-    public void setCommonDataOverrideService(CommonDataOverrideService commonDataOverrideService) {
-        this.commonDataOverrideService = commonDataOverrideService;
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

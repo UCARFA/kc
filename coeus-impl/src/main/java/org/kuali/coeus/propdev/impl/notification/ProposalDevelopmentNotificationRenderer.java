@@ -20,7 +20,6 @@ package org.kuali.coeus.propdev.impl.notification;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
-import org.kuali.coeus.propdev.impl.budget.editable.BudgetChangedData;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -56,7 +55,6 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
 
     private DevelopmentProposal developmentProposal;
     private ProposalChangedData proposalChangedData;
-    private BudgetChangedData budgetChangedData;
     private Narrative modifiedNarrative;
     private ProposalPerson proposalPerson;
     private static final String COI_URL = "coi.standalone.base.url";
@@ -114,10 +112,6 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
             result.put("{OVERRIDE_FIELD_NAME}", proposalChangedData.getEditableColumn().getColumnLabel());
             result.put("{OVERRIDE_FIELD_VALUE}", proposalChangedData.getDisplayValue());
         }
-        if (budgetChangedData != null) {
-            result.put("{OVERRIDE_FIELD_NAME}", budgetChangedData.getEditableColumn().getColumnLabel());
-            result.put("{OVERRIDE_FIELD_VALUE}", budgetChangedData.getDisplayValue());
-        }
         if (modifiedNarrative != null) {
             result.put("{NARRATIVE_MODULE_NUM}", modifiedNarrative.getModuleNumber().toString());
             result.put("{NARRATIVE_TYPE}", modifiedNarrative.getNarrativeType().getDescription());
@@ -166,14 +160,6 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
 
     public void setProposalChangedData(ProposalChangedData proposalChangedData) {
         this.proposalChangedData = proposalChangedData;
-    }
-
-    public BudgetChangedData getBudgetChangedData() {
-        return budgetChangedData;
-    }
-
-    public void setBudgetChangedData(BudgetChangedData budgetChangedData) {
-        this.budgetChangedData = budgetChangedData;
     }
 
     public Narrative getModifiedNarrative() {
