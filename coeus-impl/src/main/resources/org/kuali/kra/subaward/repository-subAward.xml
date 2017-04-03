@@ -151,6 +151,7 @@
         <field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
         <field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="rate" column="RATE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="obligatedChange" column="OBLIGATED_CHANGE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="obligatedChangeDirect" column="OBLIGATED_CHANGE_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />

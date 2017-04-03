@@ -70,6 +70,7 @@
                             <xs:element name="CostTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="CostType" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="DateOfFullyExcecuted" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="PurchaseOrderNumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="RequisitionNumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="SubcontractorDetails" type ="subcontract:OrganizationType" nillable="true" minOccurs="0"/>
                             <xs:element name="SubcontractorOrgRolodexDetails" type="subcontract:RolodexDetailsType" nillable="true" minOccurs="0"/>
@@ -183,8 +184,13 @@
                             <xs:element name="LineNumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="ObligatedAmount" type="xs:decimal" nillable="true" minOccurs="0"/>
                             <xs:element name="ObligatedChange" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="ObligatedChangeDirect" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="ObligatedChangeIndirect" type="xs:decimal" nillable="true" minOccurs="0"/>
                             <xs:element name="AnticipatedAmount" type="xs:decimal" nillable="true" minOccurs="0"/>
                             <xs:element name="AnticipatedChange" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="AnticipatedChangeDirect" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="AnticipatedChangeIndirect" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="Rate" type="xs:decimal" nillable="true" minOccurs="0"/>
                             <xs:element name="EffectiveDate" type="xs:date" nillable="true" minOccurs="0"/>
                             <xs:element name="Comments" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="PerformanceStartDate" type="xs:date" nillable="true" minOccurs="0"/>

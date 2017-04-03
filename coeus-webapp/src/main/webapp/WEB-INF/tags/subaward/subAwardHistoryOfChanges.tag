@@ -180,7 +180,7 @@
                             </td>
                             <td>
                                 <div align="center">
-                                    <kul:htmlControlAttribute property="newSubAwardAmountInfo.rate" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.rate}" />
+                                    <kul:htmlControlAttribute property="newSubAwardAmountInfo.rate" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.rate}" />%
                                 </div>
                             </td>
                         </c:otherwise>

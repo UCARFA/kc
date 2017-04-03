@@ -391,7 +391,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         if (subaward.getStartDate() != null){
             subcontractDetail.setStartDate(getDateTimeService().getCalendar(subaward.getStartDate()));
         }
-
+        if (subaward.getEndDate() != null){
+            subcontractDetail.setEndDate(getDateTimeService().getCalendar(subaward.getEndDate()));
+        }
         final List<SubAwardAmountInfo> allSubAwardAmountInfos = subaward.getAllSubAwardAmountInfos();
         if (allSubAwardAmountInfos != null && !allSubAwardAmountInfos.isEmpty()){
             getPeriodOfPerformanceEndDate(subaward).ifPresent(date -> subcontractDetail.setEndDate(getDateTimeService().getCalendar(date)));
@@ -444,9 +446,30 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             subContractAmountInfo.setAnticipatedAmount(subaward.getTotalAnticipatedAmount().bigDecimalValue());
 
             final SubAwardAmountInfo lastSubAwardAmountInfo = allSubAwardAmountInfos.get(allSubAwardAmountInfos.size() - 1);
-            subContractAmountInfo.setObligatedChange(lastSubAwardAmountInfo.getObligatedChange().bigDecimalValue());
-            subContractAmountInfo.setAnticipatedChange(lastSubAwardAmountInfo.getAnticipatedChange().bigDecimalValue());
 
+            if (lastSubAwardAmountInfo.getObligatedChange() != null) {
+                subContractAmountInfo.setObligatedChange(lastSubAwardAmountInfo.getObligatedChange().bigDecimalValue());
+            }
+            if (lastSubAwardAmountInfo.getAnticipatedChange() != null) {
+                subContractAmountInfo.setAnticipatedChange(lastSubAwardAmountInfo.getAnticipatedChange().bigDecimalValue());
+            }
+            if (lastSubAwardAmountInfo.getObligatedChangeDirect() != null) {
+                subContractAmountInfo.setObligatedChangeDirect(lastSubAwardAmountInfo.getObligatedChangeDirect().bigDecimalValue());
+                subContractAmountInfo.setObligatedChange(lastSubAwardAmountInfo.getObligatedChangeDirect().bigDecimalValue());
+            }
+            if (lastSubAwardAmountInfo.getObligatedChangeIndirect() != null) {
+                subContractAmountInfo.setObligatedChangeIndirect(lastSubAwardAmountInfo.getObligatedChangeIndirect().bigDecimalValue());
+                subContractAmountInfo.setObligatedChange(subContractAmountInfo.getObligatedChange().add(lastSubAwardAmountInfo.getObligatedChangeIndirect().bigDecimalValue()));
+            }
+            if (lastSubAwardAmountInfo.getAnticipatedChangeDirect() != null) {
+                subContractAmountInfo.setAnticipatedChangeDirect(lastSubAwardAmountInfo.getAnticipatedChangeDirect().bigDecimalValue());
+            }
+            if (lastSubAwardAmountInfo.getAnticipatedChangeIndirect() != null) {
+                subContractAmountInfo.setAnticipatedChangeIndirect(lastSubAwardAmountInfo.getAnticipatedChangeIndirect().bigDecimalValue());
+            }
+            if (lastSubAwardAmountInfo.getRate() != null) {
+                subContractAmountInfo.setRate(lastSubAwardAmountInfo.getRate().bigDecimalValue());
+            }
             if (lastSubAwardAmountInfo.getPeriodofPerformanceStartDate() != null){
                 subContractAmountInfo.setPerformanceStartDate(getDateTimeService().getCalendar(lastSubAwardAmountInfo.getPeriodofPerformanceStartDate()));
             }
@@ -927,7 +950,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
-
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
