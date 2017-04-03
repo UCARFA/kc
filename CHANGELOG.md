@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2135: subaward template changes (#2278)
+
+  * Gayathri Athreya on Mon, 3 Apr 2017 08:10:39 -0700 [View Commit](../../commit/906c29cb9cbe0fabeb061cd40cbffdc3993ac3f8)
+
+##coeus-1703.0038
 * RESKC-2103: adding support for proposal budget data override
   * Travis Schneeberger on Fri, 31 Mar 2017 14:42:38 -0400 [View Commit](../../commit/b41ebcf34bb4ad633b45b6e3af2b8c3cd023abd3)
 

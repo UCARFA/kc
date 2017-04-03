@@ -29,4 +29,5 @@
 \. ./kc/bootstrap/V1703_017__line_item_number_expand.sql
 \. ./kc/bootstrap/V1703_019__subaward_idc_fields.sql
 \. ./kc/bootstrap/V1703_020__line_item_sequence_expand.sql
+\. ./kc/bootstrap/V1703_021__subaward_mod_type.sql
 commit;
