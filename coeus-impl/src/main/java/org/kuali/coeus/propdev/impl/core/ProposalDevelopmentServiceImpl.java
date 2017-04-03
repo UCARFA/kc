@@ -24,8 +24,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
@@ -34,6 +36,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -63,6 +66,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private DataObjectService dataObjectService;
 
     @Autowired
+    @Qualifier("kcPersistenceStructureService")
+    private KcPersistenceStructureService kcPersistenceStructureService;
+
+    @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
 
@@ -90,7 +97,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * This method gets called from the "save" action. It initializes the applicant org. on the first save; it also sets the
      * performing org. if the user didn't make a selection.
      */
-    @Override
     public void initializeUnitOrganizationLocation(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         ProposalSite applicantOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization();
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
@@ -137,7 +143,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return proposalDevelopmentDocument.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER);
     }
 
-    @Override
+    // see interface for Javadoc
     public void initializeProposalSiteNumbers(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         for (ProposalSite proposalSite : proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites()){
             if (proposalSite.getSiteNumber() == null) {
@@ -149,9 +155,17 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }   
     }
 
-    @Override
     public List<Unit> getDefaultModifyProposalUnitsForUser(String userId) {
         return getUnitsForCreateProposal(userId);
+    }
+
+    protected ProposalDevelopmentBudgetExt getBudgetVersionOverview(String proposalNumber) {
+        DevelopmentProposal proposal = getDataObjectService().findUnique(DevelopmentProposal.class,
+                QueryByCriteria.Builder.forAttribute("PROPOSAL_NUMBER", proposalNumber).build());
+        if (proposal != null) {
+        	return proposal.getFinalBudget();
+        }
+        return null;
     }
 
     protected String getPropertyValue(BusinessObject businessObject, String fieldName) {
@@ -165,8 +179,21 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         return displayValue;
     }
+    
+    public Object getBudgetFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) {
+        Object fieldValue = null;        
+        Map<String, String> fieldMap = getKcPersistenceStructureService().getDBColumnToObjectAttributeMap(Budget.class);
+        String budgetAttributeName = fieldMap.get(dbColumnName);
+        if (StringUtils.isNotEmpty(budgetAttributeName)) {
+            Budget currentBudget = getBudgetVersionOverview(proposalNumber);            
+            if (currentBudget != null) {
+                fieldValue = ObjectUtils.getPropertyValue(currentBudget, budgetAttributeName);
+            }
+        }            
+        return fieldValue;    
+             
+    }
 
-    @Override
     public boolean isGrantsGovEnabledForProposal(DevelopmentProposal devProposal) {
         String federalSponsorTypeCode = getParameterService().getParameterValueAsString(AwardDocument.class, Constants.FEDERAL_SPONSOR_TYPE_CODE);
         return !devProposal.isChild() && devProposal.getSponsor() != null
@@ -192,7 +219,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         this.documentService = documentService;
     }
 
-    @Override
     public Budget getFinalBudget(DevelopmentProposal proposal) {
     	return proposal.getFinalBudget();
     }
@@ -201,7 +227,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     /**
      * Return the institutional proposal linked to the development proposal.
      */
-    @Override
     public InstitutionalProposal getInstitutionalProposal(String devProposalNumber) {
         Map<String, Object> values = new HashMap<>();
         values.put("devProposalNumber", devProposalNumber);
@@ -245,8 +270,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         //the above line could potentially be a performance problem - need to revisit
         return new ArrayList<>(units);
     }
-
-    @Override
+    
     public boolean autogenerateInstitutionalProposal() {
     	return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
                 ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
@@ -338,6 +362,14 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
+    }
+
+    public KcPersistenceStructureService getKcPersistenceStructureService() {
+        return kcPersistenceStructureService;
+    }
+
+    public void setKcPersistenceStructureService(KcPersistenceStructureService kcPersistenceStructureService) {
+        this.kcPersistenceStructureService = kcPersistenceStructureService;
     }
 
     public ProposalTypeService getProposalTypeService() {

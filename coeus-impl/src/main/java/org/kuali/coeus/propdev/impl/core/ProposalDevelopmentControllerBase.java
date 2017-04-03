@@ -740,7 +740,6 @@ public abstract class ProposalDevelopmentControllerBase {
             super(List.class, true);
         }
 
-        @Override
         protected Object convertElement(Object element) {
             if (element != null && element instanceof String) {
                 return new PropScienceKeyword(null, getScienceKeyword(element));
@@ -749,7 +748,6 @@ public abstract class ProposalDevelopmentControllerBase {
             return element;
         }
 
-        @Override
         public String getAsText() {
             if (this.getValue() != null) {
                 @SuppressWarnings("unchecked")
@@ -778,8 +776,7 @@ public abstract class ProposalDevelopmentControllerBase {
  			super(List.class, true);
  		}
 
- 		@Override
-        protected Object convertElement(Object element) {
+ 		protected Object convertElement(Object element) {
  			if (element != null && element instanceof String) {
  				return new ProposalSpecialReviewExemption(null, getExemptionType(element));
  			}
@@ -787,7 +784,6 @@ public abstract class ProposalDevelopmentControllerBase {
             return element;
  		}
 
-        @Override
         public String getAsText() {
             if (this.getValue() != null) {
                 @SuppressWarnings("unchecked")
@@ -861,6 +857,19 @@ public abstract class ProposalDevelopmentControllerBase {
                 getGlobalVariableService().getMessageMap().putInfo(propertyName + "[" + i + "].proposalPersonRoleId", KeyConstants.INFO_PERSONNEL_INVALID_ROLE, person.getDevelopmentProposal().getSponsorCode(), person.getFullName());
             }
         }
+    }
+
+    public void populateDeferredMessages(ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm){
+        if (proposalDevelopmentDocumentForm.getDeferredMessages() != null
+                && proposalDevelopmentDocumentForm.getDeferredMessages().hasMessages()){
+            MessageMap messageMap = proposalDevelopmentDocumentForm.getDeferredMessages();
+            MessageMap currentMessageMap = getGlobalVariableService().getMessageMap();
+            messageMap.getErrorMessages().putAll(currentMessageMap.getErrorMessages());
+            messageMap.getInfoMessages().putAll(currentMessageMap.getInfoMessages());
+            messageMap.getWarningMessages().putAll(currentMessageMap.getWarningMessages());
+            getGlobalVariableService().setMessageMap(messageMap);
+        }
+        proposalDevelopmentDocumentForm.setDeferredMessages(null);
     }
 
     protected ScienceKeyword getScienceKeyword(Object element) {

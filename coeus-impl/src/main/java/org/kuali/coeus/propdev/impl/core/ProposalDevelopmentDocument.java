@@ -420,7 +420,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         super.processAfterRetrieve();
         if (!isProposalDeleted()) {
             getDevelopmentProposal().updateProposalChangeHistory();
-            getDevelopmentProposal().updateBudgetChangeHistory();
         }
     }
 

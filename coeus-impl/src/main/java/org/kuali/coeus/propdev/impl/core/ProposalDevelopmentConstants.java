@@ -138,8 +138,6 @@ public class ProposalDevelopmentConstants {
         public static final String MAINTAIN_HIERARCHY_EDIT_MODE = "maintainProposalHierarchy";
         public static final String CAN_SAVE_CERTIFICATION = "canSaveCertification";
         public static final String MODIFY_S2S = "modifyS2s";
-        public static final String ALTER_PROPOSAL_DATA = "alterProposalData";
-        public static final String SHOW_ALTER_PROPOSAL_DATA = "showAlterProposalData";
     }
 
     public static class KewConstants {

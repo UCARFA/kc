@@ -45,7 +45,6 @@
                 <value>scripts/common/wizard.js</value>
 				<value>scripts/common/inlineEdit.js</value>
 				<value>scripts/propdev/budget.js</value>
-				<value>scripts/propdev/budgetDataoverride.js</value>
 			</list>
 		</property>
 		<property name="additionalCssFiles">
@@ -230,11 +229,7 @@
 										  p:promptText="Have you completed your period 1 budget?  Once you Autocalculate all periods you will not be able to take this action again unless you delete the line items from all periods after Period 1." />
 								</property>
 								</bean>
-						<bean parent="Uif-ActionLink" p:actionLabel="Data Override" p:actionScript="showDialog('PropBudget-DataOverride-Dialog');"
-							  p:render="@{#editModes['showAlterProposalData'] and #editModes['alterProposalData']}"
-							  p:iconClass="icon-pencil2 @{!#emptyList(budget.developmentProposal.budgetChangedDataList)?'dataOverride':''}"
-							  p:order="70" />
-                        <bean parent="PropBudget-HelpMenu" p:order="80"/>
+                        <bean parent="PropBudget-HelpMenu" p:order="70"/>
                     </list>
 				</property>
 			</bean>

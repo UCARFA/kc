@@ -32,6 +32,7 @@ import org.kuali.coeus.propdev.impl.attachment.*;
 import org.kuali.coeus.propdev.impl.attachment.institute.*;
 import org.kuali.coeus.propdev.impl.abstrct.AbstractsRule;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
+import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentProposalRequiredFieldsAuditRule;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
@@ -120,6 +121,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     private SubmissionInfoService submissionInfoService;
     private ParameterService parameterService;
     private KcBusinessRulesEngine kcBusinessRulesEngine;
+    private ProposalDevelopmentPermissionsService permissionsService;
 
     protected DataDictionaryService getDataDictionaryService (){
         if (dataDictionaryService == null)
@@ -232,13 +234,11 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         }
         return valid;
     }
-
-    @Override
+    
     public boolean processAddCongressionalDistrictRules(AddProposalCongressionalDistrictEvent addCongressionalDistrictEvent) {
         return new ProposalDevelopmentCongressionalDistrictRule().processAddCongressionalDistrictRules(addCongressionalDistrictEvent);
     }
 
-    @Override
     public boolean processDeleteCongressionalDistrictRules(DeleteProposalCongressionalDistrictEvent deleteCongressionalDistrictEvent) {
         return new ProposalDevelopmentCongressionalDistrictRule().processDeleteCongressionalDistrictRules(deleteCongressionalDistrictEvent);
     }
@@ -394,8 +394,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     private String getS2sRevisionTypeOther() {
         return this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.S2S_REVISIONTYPE_OTHER);
     }
-
-    @Override
+    
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }
@@ -450,8 +449,11 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         
         for ( PropScienceKeyword keyword : keywords ) {
             for ( PropScienceKeyword keyword2 : keywords ) {
-                if (keyword != keyword2 && StringUtils.equalsIgnoreCase(keyword.getScienceKeyword().getCode(), keyword2.getScienceKeyword().getCode())) {
+                if ( keyword == keyword2 ) {
+                    continue;
+                } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeyword().getCode(), keyword2.getScienceKeyword().getCode()) ) {
                     GlobalVariables.getMessageMap().putError("propScienceKeyword", "error.proposalKeywords.duplicate");
+                   
                     return false;
                 }
             }
@@ -466,12 +468,10 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         return new SaveSpecialReviewRule<ProposalSpecialReview>().processRules(new SaveSpecialReviewEvent<>("propSpecialReviews",document,specialReviews,isIrbProtocolLinkingEnabled,isIacucProtocolLinkingEnabled));
     }
 
-    @Override
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent addNarrativeEvent) {
         return new ProposalDevelopmentNarrativeRule().processAddNarrativeBusinessRules(addNarrativeEvent);
     }
 
-    @Override
     public boolean processRunAuditBusinessRules(Document document){
         if (((ProposalDevelopmentDocument)document).getDevelopmentProposal().isChild()) {
             throw new RuntimeException(new ProposalHierarchyException("Cannot run validation on a Proposal Hierarchy Child."));
@@ -574,12 +574,10 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         return new ProposalDevelopmentAbstractsRule().processAddAbstractBusinessRules(document, proposalAbstract);
     }
 
-    @Override
     public boolean processSaveNarrativesBusinessRules(SaveNarrativesEvent saveNarrativesEvent) {
         return new ProposalDevelopmentNarrativeRule().processSaveNarrativesBusinessRules(saveNarrativesEvent);
     }
 
-    @Override
     public boolean processReplaceNarrativeBusinessRules(ReplaceNarrativeEvent replaceNarrativeEvent) {
         return new ProposalDevelopmentNarrativeRule().processReplaceNarrativeBusinessRules(replaceNarrativeEvent);
     }
@@ -594,12 +592,10 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         return new ProposalDevelopmentInstituteAttachmentRule().processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent);
     }
 
-    @Override
     public boolean processReplaceInstituteAttachmentBusinessRules(ReplaceInstituteAttachmentEvent event) {
         return new ProposalDevelopmentInstituteAttachmentRule().processReplaceInstituteAttachmentBusinessRules(event);
     }
 
-    @Override
     public boolean processAddPersonnelAttachmentBusinessRules(AddPersonnelAttachmentEvent addPersonnelAttachmentEvent) {
         return new ProposalDevelopmentPersonnelAttachmentRule().processAddPersonnelAttachmentBusinessRules(addPersonnelAttachmentEvent);
     }
@@ -608,7 +604,6 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         return new ProposalDevelopmentPersonnelAttachmentRule().processSavePersonnelAttachmentBusinessRules(savePersonnelAttachmentEvent);
     }
 
-    @Override
     public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event) {
         return new ProposalDevelopmentPersonnelAttachmentRule().processReplacePersonnelAttachmentBusinessRules(event);
     }
@@ -617,7 +612,6 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
      * Delegating method for the <code>{@link ChangeKeyPersonRule}</code> which is triggered by the <code>{@link org.kuali.coeus.propdev.impl.person.ChangeKeyPersonEvent}</code>
      * 
      */
-    @Override
     public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source,int index) {
         return new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(proposalPerson, source, index);
     }
@@ -627,7 +621,6 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         return new ProposalDevelopmentProposalLocationRule().processAddProposalSiteBusinessRules(addProposalLocationEvent);    
     }
 
-    @Override
     public boolean processSaveProposalSiteBusinessRules(SaveProposalSitesEvent saveProposalSitesEvent) {
         return new ProposalDevelopmentProposalLocationRule().processSaveProposalSiteBusinessRules(saveProposalSitesEvent);    
     }
@@ -652,7 +645,6 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
      * Delegate to {@link org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonsRule#processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument)
      * 
      */
-    @Override
     public boolean processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument document) {
         LOG.info("In processSaveKeyPersonBusinessRules()");
         return new ProposalDevelopmentKeyPersonsRule().processCustomSaveDocumentBusinessRules(document);
@@ -664,22 +656,24 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         return new ProposalDevelopmentNarrativeRule().processNewNarrativeUserRightsBusinessRules(document, newNarrativeUserRights, narrativeIndex);
     }
 
-    @Override
     public boolean processCalculateCreditSplitBusinessRules(ProposalDevelopmentDocument document) {
         return new ProposalDevelopmentKeyPersonsRule().processCalculateCreditSplitBusinessRules(document);
     }
 
-    @Override
     public boolean processProposalDataOverrideRules(ProposalDataOverrideEvent proposalDataOverrideEvent) {
         return new ProposalDevelopmentDataOverrideRule().processProposalDataOverrideRules(proposalDataOverrideEvent);
     }
-
-    @Override
+    
     public boolean processBudgetDataOverrideRules(BudgetDataOverrideEvent budgetDataOverrideEvent) {
+        try {
         return new ProposalBudgetDataOverrideRule().processBudgetDataOverrideRules(budgetDataOverrideEvent);
+        } catch (NullPointerException e) {
+          LOG.warn("NPE caught when calling: new ProposalBudgetDataOverrideRule().processBudgetDataOverrideRules(budgetDataOverrideEvent)", e);
+          return false;
+        }
     }
-
-    @Override
+    
+    
     public boolean processResubmissionPromptBusinessRules(ResubmissionRuleEvent resubmissionRuleEvent) {
         return new ProposalDevelopmentResubmissionPromptRule().processResubmissionPromptBusinessRules(resubmissionRuleEvent);
     }
@@ -688,7 +682,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         return new CustomDataRule().processRules(new SaveCustomDataEvent(document));
     }
 
-    @Override
+
     public boolean processRules(KcDocumentEventBaseExtension event) {
         return event.getRule().processRules(event);
     }
