@@ -715,8 +715,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             budget.getBudgetRates().stream().filter(budgetRate -> budgetRate.getRateClass().getRateClassTypeCode().equalsIgnoreCase(RateClassType.OVERHEAD.getRateClassType()) &&
                     budgetRate.getRateClassCode().equalsIgnoreCase(budget.getRateClass().getCode())).forEach(budgetRate -> {
                         InstitutionalProposalFandA fandA = new InstitutionalProposalFandA();
-                        fandA.setRateClassCode(budgetRate.getRateClassCode());
-                        fandA.setRateTypeCode(budgetRate.getRateTypeCode());
+                        fandA.setRateTypeCode(budgetRate.getRateClassCode());
                         fandA.setActivityTypeCode(budgetRate.getActivityTypeCode());
                         fandA.setFiscalYear(budgetRate.getFiscalYear());
                         fandA.setApplicableRate(budgetRate.getApplicableRate());
