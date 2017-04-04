@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2115: Fix IP indirect rates flow through from PD. (#2279)
+
+  * When Enable_Lifecycle_Rates_Flowthru parameter is set to Y; the proposal F&A Rates carry into the Institutional Proposal; however, the F&A Rate Type displayed in the Institutional Proposal is not the correct type.
+  * The system should look at the Rate Class Code in PD and match it to the F&A Rate Type Code on the IP side.  * Gayathri Athreya on Tue, 4 Apr 2017 12:06:30 -0700 [View Commit](../../commit/b6a2c386e22dbebe408fb74799595d74e238e80b)
+* Revert "RESKC-2103: adding support for proposal budget data override"
+  * Terry Durkin on Mon, 3 Apr 2017 16:20:29 -0400 [View Commit](../../commit/940b6293c18550a49c2ac57dfbcad16ce60750a9)
+
+##coeus-1704.0002
 * No Changes
 
 
