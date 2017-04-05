@@ -17,19 +17,10 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-insert into subaward_modification_type (code, description, active, update_user, update_timestamp, ver_nbr, obj_id)
-	values ('RESBOOT1004', 'Carry Forward', 'Y', 'admin', sysdate, 1, sys_guid());
-
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP Modification Unilateral';
 
-
-INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP Modification Unilateral','FDP Modification Unilateral Tempalte',sysdate,'admin', EMPTY_CLOB(),'FDP_Modification_Unilateral_Template.xsl','application/octet-stream',1,SYS_GUID(),4);
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP Modification Unilateral','FDP Modification Unilateral Template',now(),'admin',
+'<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:award="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/award" xmlns:subcontract="http://subcontractFdpReports.bean.xml.utils.coeus.mit.edu/subcontract" xmlns:fo="http://www.w3.org/1999/XSL/Format">
     <xsl:output version="1.0" method="xml" encoding="UTF-8" indent="no"/>
     <xsl:param name="SV_OutputFormat" select="''PDF''"/>
@@ -148,16 +139,6 @@ BEGIN
                                                                                     <xsl:otherwise>
                                                                                         <fo:inline>
                                                                                             <xsl:copy-of select="$value-of-template"/>
-                                                                                            ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                                                                                         </fo:inline>
                                                                                     </xsl:otherwise>
                                                                                 </xsl:choose>
@@ -296,16 +277,6 @@ BEGIN
                                                                                             <xsl:copy-of select="$value-of-template"/>
                                                                                         </fo:block>
                                                                                     </xsl:when>
-                                                                                    ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                                                                                     <xsl:otherwise>
                                                                                         <fo:inline>
                                                                                             <xsl:copy-of select="$value-of-template"/>
@@ -445,16 +416,6 @@ BEGIN
                                                                                     <xsl:apply-templates/>
                                                                                 </xsl:variable>
                                                                                 <xsl:choose>
-                                                                                ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                                                                                     <xsl:when test="contains(string($value-of-template),''&#x2029;'')">
                                                                                         <fo:block>
                                                                                             <xsl:copy-of select="$value-of-template"/>
@@ -596,16 +557,6 @@ BEGIN
                                                                 <xsl:for-each select="subcontract:SubContractData">
                                                                     <xsl:for-each select="subcontract:SubcontractDetail">
                                                                         <xsl:for-each select="subcontract:SiteInvestigator">
-                                                                        ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                                                                             <xsl:variable name="value-of-template">
                                                                                 <xsl:apply-templates/>
                                                                             </xsl:variable>
@@ -743,16 +694,6 @@ BEGIN
                                         </fo:table-cell>
                                     </fo:table-row>
                                     <fo:table-row>
-                                    ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                                         <fo:table-cell display-align="center">
                                             <fo:table padding="0" table-layout="fixed" width="100%">
                                                 <fo:table-column column-width="100%"/>
@@ -898,16 +839,6 @@ BEGIN
                                                                 </fo:table-body>
                                                             </fo:table>
                                                         </fo:table-cell>
-                                                        ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                                                         <fo:table-cell padding="2" text-align="left"  border-top="solid 1pt gray">
                                                             <fo:table padding="0" table-layout="fixed" width="100%">
                                                                 <fo:table-column column-width="100%"/>
@@ -928,7 +859,7 @@ BEGIN
                                                                             <fo:block>
                                                                                 <xsl:for-each select="subcontract:SubContractData">
                                                                                     <xsl:for-each select="subcontract:SubcontractDetail">
-                                                                                        <xsl:for-each select="subcontract:PONumber">
+                                                                                        <xsl:for-each select="subcontract:FsrsSubawardNumber">
                                                                                             <xsl:variable name="value-of-template">
                                                                                                 <xsl:apply-templates/>
                                                                                             </xsl:variable>
@@ -1048,16 +979,6 @@ BEGIN
                                                                             </fo:block>
                                                                         </fo:table-cell>
                                                                     </fo:table-row>
-                                                                    ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                                                                     <fo:table-row>
                                                                         <fo:table-cell>
                                                                             <fo:block>
@@ -1194,16 +1115,7 @@ BEGIN
                                                                 <fo:leader leader-length="100%" leader-pattern="rule" rule-thickness="1pt"/>
                                                             </fo:block>
                                                         </fo:block>
-';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
+
                                                         <fo:block linefeed-treatment="preserve" margin="2pt" text-align="left">
                                                             <xsl:if test="subcontract:SubContractData/subcontract:SubcontractDetail/subcontract:ModificationType = &quot;&quot;">
                                                                 <fo:inline>
@@ -1349,16 +1261,6 @@ BEGIN
                                                                                             </fo:inline>
                                                                                             <xsl:for-each select="subcontract:SubContractData">
                                                                                                 <xsl:for-each select="subcontract:SubcontractDetail">
-                                                                                                ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                                                                                                     <xsl:for-each select="subcontract:EndDate">
                                                                                                         <fo:inline>
                                                                                                             <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')"/>
@@ -1498,16 +1400,6 @@ BEGIN
                                                                                                         <fo:inline>
                                                                                                             <xsl:value-of select="format-number(number(string(.)), ''###,##0.00'')"/>
                                                                                                         </fo:inline>
-                                                                                                        ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                                                                                                     </xsl:for-each>
                                                                                                 </xsl:for-each>
                                                                                             </xsl:for-each>
@@ -1648,16 +1540,6 @@ BEGIN
                                                                                         <fo:block>
                                                                                             <fo:inline>
                                                                                                 <xsl:text>Total Costs:</xsl:text>
-                                                                                                ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                                                                                             </fo:inline>
                                                                                         </fo:block>
                                                                                     </fo:table-cell>
@@ -1796,16 +1678,6 @@ BEGIN
                                                                                                                             <xsl:text>Subrecipient must designate herein whether the financial conflicts of interest policy of </xsl:text>
                                                                                                                         </fo:inline>
                                                                                                                         <fo:inline>
-                                                                                                                        ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                                                                                                                             <fo:external-graphic content-height="8" content-width="7">
                                                                                                                                 <xsl:attribute name="src">
                                                                                                                                     <xsl:text>url(</xsl:text>
@@ -1949,16 +1821,6 @@ BEGIN
                                                                 <fo:table-body>
                                                                     <fo:table-row>
                                                                         <fo:table-cell number-columns-spanned="2" padding="2pt" display-align="center">
-                                                                        ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                                                                             <fo:block>
                                                                                 <fo:inline>
                                                                                     <xsl:text>By an Authorized Official of Pass-through Entity:</xsl:text>
@@ -2096,16 +1958,6 @@ BEGIN
             <xsl:when test="$text-after-bs-length = 0">
                 <xsl:choose>
                     <xsl:when test="substring($text, $text-length) = ''\\''">
-                    ';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-  SELECT FORM INTO data FROM SUBAWARD_FORMS
-  WHERE
-    TEMPLATE_TYPE_CODE=4 AND FORM_ID = 'FDP Modification Unilateral' FOR UPDATE;
-  buffer :='
                         <xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
                     </xsl:when>
                     <xsl:otherwise>
@@ -2122,7 +1974,5 @@ BEGIN
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-</xsl:stylesheet>';
-  DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-end;
-/
+</xsl:stylesheet>','FDP_Modification_Unilateral_Template.xsl','application/octet-stream',1,UUID(),4);
+

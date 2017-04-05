@@ -17,11 +17,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-insert into subaward_modification_type (code, description, active, update_user, update_timestamp, ver_nbr, obj_id)
-	values ('RESBOOT1004', 'Carry Forward', 'Y', 'admin', sysdate, 1, sys_guid());
-
 delete from SUBAWARD_FORMS WHERE FORM_ID = 'FDP Modification Unilateral';
-
 
 INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP Modification Unilateral','FDP Modification Unilateral Tempalte',sysdate,'admin', EMPTY_CLOB(),'FDP_Modification_Unilateral_Template.xsl','application/octet-stream',1,SYS_GUID(),4);
 DECLARE data CLOB; buffer VARCHAR2(30000);
@@ -928,7 +924,7 @@ BEGIN
                                                                             <fo:block>
                                                                                 <xsl:for-each select="subcontract:SubContractData">
                                                                                     <xsl:for-each select="subcontract:SubcontractDetail">
-                                                                                        <xsl:for-each select="subcontract:PONumber">
+                                                                                        <xsl:for-each select="subcontract:FsrsSubawardNumber">
                                                                                             <xsl:variable name="value-of-template">
                                                                                                 <xsl:apply-templates/>
                                                                                             </xsl:variable>

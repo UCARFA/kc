@@ -72,6 +72,7 @@
                             <xs:element name="DateOfFullyExcecuted" type="xs:date" nillable="true" minOccurs="0"/>
                             <xs:element name="PurchaseOrderNumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="RequisitionNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FsrsSubawardNumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="SubcontractorDetails" type ="subcontract:OrganizationType" nillable="true" minOccurs="0"/>
                             <xs:element name="SubcontractorOrgRolodexDetails" type="subcontract:RolodexDetailsType" nillable="true" minOccurs="0"/>
                             <xs:element name="SiteInvestigatorDetails" type="subcontract:RolodexDetailsType" nillable="true" minOccurs="0"/>
