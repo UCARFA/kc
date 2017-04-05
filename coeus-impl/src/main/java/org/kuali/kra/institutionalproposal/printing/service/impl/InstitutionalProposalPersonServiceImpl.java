@@ -90,7 +90,7 @@ public class InstitutionalProposalPersonServiceImpl implements
     @Override
     public Boolean generateCreditSplitForPerson(InstitutionalProposalPerson person) {
         final boolean optIn = isCreditSplitOptInEnabled();
-        return (person.getIncludeInCreditAllocation() && optIn) || !optIn && person.isInvestigator();
+        return (!optIn || person.getIncludeInCreditAllocation());
     }
 
     @Override

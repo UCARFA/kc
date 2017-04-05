@@ -388,7 +388,7 @@ public class AwardServiceImpl implements AwardService {
     @Override
     public Boolean generateCreditSplitForPerson(AwardPerson person) {
         final boolean optIn = isCreditSplitOptInEnabled();
-        return (person.getIncludeInCreditAllocation() && optIn) || !optIn && person.isInvestigator();
+        return (!optIn || person.getIncludeInCreditAllocation());
     }
 
     @Override

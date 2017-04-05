@@ -97,11 +97,11 @@ public class InstitutionalProposalPersonServiceImplTest {
         institutionalProposalPerson3.add(unit1);
 
         filteredPersons = service.getPersonsSelectedForCreditSplit(proposalPersons);
-        Assert.assertTrue(filteredPersons.size() == 2);
+        Assert.assertTrue(filteredPersons.size() == 3);
 
         institutionalProposalPerson1.setIncludeInCreditAllocation(true);
         filteredPersons = service.getPersonsSelectedForCreditSplit(proposalPersons);
-        Assert.assertTrue(filteredPersons.size() == 2);
+        Assert.assertTrue(filteredPersons.size() == 3);
 
     }
 }
