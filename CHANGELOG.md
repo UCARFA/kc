@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1983: Tag file fix. (#2284)
+
+  * Gayathri Athreya on Wed, 5 Apr 2017 12:48:29 -0700 [View Commit](../../commit/c61b9d6a36b677e6123b7af00a95c466e5bff4ff)
+
+##coeus-1704.0004
 * RESKC-1983: Fix tests. (#2283)
 
   * Gayathri Athreya on Wed, 5 Apr 2017 10:26:54 -0700 [View Commit](../../commit/931b8c1ef430388a552f24b37625abb9f06eb1fe)
