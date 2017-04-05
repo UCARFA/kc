@@ -1,6 +1,23 @@
 
 
 ##CURRENT
+* RESKC-1983: Fix tests. (#2283)
+
+  * Gayathri Athreya on Wed, 5 Apr 2017 10:26:54 -0700 [View Commit](../../commit/931b8c1ef430388a552f24b37625abb9f06eb1fe)
+* Reskc 2129 subaward number (#2282)
+
+* RESKC-2129: MySQL commit
+  * 
+* RESKC-2129: Oracle commit
+  * Gayathri Athreya on Wed, 5 Apr 2017 08:03:04 -0700 [View Commit](../../commit/d734f785e3f09ae955b529b5a948c1a547960c21)
+* RESKC-1983: Added opt in credit split functionality for Award and IP (#2281)
+
+* RESKC-1983: Added opt in credit split functionality for Award and IP
+  * 
+* RESKC-1983: Fix unit tests
+  * Gayathri Athreya on Wed, 5 Apr 2017 08:02:26 -0700 [View Commit](../../commit/f7cce2cadc1812ddb72b4bc0de51359dd553b003)
+
+##coeus-1704.0003
 * RESKC-2115: Fix IP indirect rates flow through from PD. (#2279)
 
   * When Enable_Lifecycle_Rates_Flowthru parameter is set to Y; the proposal F&A Rates carry into the Institutional Proposal; however, the F&A Rate Type displayed in the Institutional Proposal is not the correct type.
