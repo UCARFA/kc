@@ -30,7 +30,7 @@
 <kul:innerTab tabTitle="Person Details" parentTab="${institutionalProposalContact.fullName}" defaultOpen="false" tabErrorKey="document.institutionalProposal.projectPersons*">
 	<table cellpadding="0" cellspacing="0" summary="Project Personnel Details">
         <c:choose>
-            <c:when test="${KualiForm.creditSplitOptInEnabled}">
+            <c:when test="${KualiForm.creditSplitOptInEnabled == true}">
                 <tr>
                     <th class="infoline">
                         <div align="right">
