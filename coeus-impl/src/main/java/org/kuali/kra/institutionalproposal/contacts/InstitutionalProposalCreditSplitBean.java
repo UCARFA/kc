@@ -20,13 +20,14 @@ package org.kuali.kra.institutionalproposal.contacts;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
-import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
-import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -54,6 +55,7 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
     
     private transient Collection<InvestigatorCreditType> investigatorCreditTypes;
     private transient ParameterService parameterService;
+    private InstitutionalProposalPersonService institutionalProposalPersonService;
 
     public InstitutionalProposalCreditSplitBean(InstitutionalProposalForm institutionalProposalForm) {
         this.institutionalProposalForm = institutionalProposalForm;
@@ -163,19 +165,19 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
         }
         return this.parameterService;
     }
+
+    protected InstitutionalProposalPersonService getInstitutionalProposalPersonService() {
+        if (this.institutionalProposalPersonService == null) {
+            this.institutionalProposalPersonService = KcServiceLocator.getService(InstitutionalProposalPersonService.class);
+        }
+        return institutionalProposalPersonService;
+    }
     
 
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }
-        
-    /**
-     * This is  called to generate a map of the new credit split totals.
-     *
-     * @param document
-     * @return Map
-     * 
-     */
+
     Map<String, Map<String, ScaleTwoDecimal>> calculateCreditSplitTotals() {
         Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals = new HashMap<String, Map<String, ScaleTwoDecimal>>();
         calculatePersonTotals(allCreditSplitTotals);
@@ -209,11 +211,6 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
         return getBusinessObjectService().findMatching(InvestigatorCreditType.class, valueMap);
     }
 
-    /**
-     * @param projectPerson
-     * @param creditType
-     * @param personCreditSplitTotalMap
-     */
     private void calculatePersonTotalForCreditSplitType(InstitutionalProposalPerson projectPerson, InvestigatorCreditType creditType, 
                                                             Map<String, ScaleTwoDecimal> personCreditSplitTotalMap) {
         String creditTypeCode = creditType.getCode();
@@ -229,25 +226,17 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
             }
         }
     }
-    
-    /**
-     * @param institutionalProposal
-     * @param creditTypes
-     * @param allCreditSplitTotals
-     */
+
     private void calculatePersonTotals(Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals) {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         Map<String, ScaleTwoDecimal> personCreditSplitTotalMap = initializePersonCreditSplitTotalMap(allCreditSplitTotals);
-        for (InstitutionalProposalPerson projectPerson : getProjectPersons()) {
-            for (InvestigatorCreditType creditType : creditTypes) {                
-                calculatePersonTotalForCreditSplitType(projectPerson, creditType, personCreditSplitTotalMap);
+        for (InstitutionalProposalPerson projectPerson : getPersonsSelectedForCreditSplit()) {
+                for (InvestigatorCreditType creditType : creditTypes) {
+                    calculatePersonTotalForCreditSplitType(projectPerson, creditType, personCreditSplitTotalMap);
+                }
             }
-        }
     }
 
-    /*
-     * @param allCreditSplitTotals
-     */
     private void calculatePersonUnitTotals(Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals) {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         for (InstitutionalProposalPerson projectPerson : getProjectPersons()) {
@@ -255,7 +244,7 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
             Map<String, ScaleTwoDecimal> personUnitCreditTotals = allCreditSplitTotals.get(personKey);
             
             if (personUnitCreditTotals == null) {
-                personUnitCreditTotals = new HashMap<String, ScaleTwoDecimal>();
+                personUnitCreditTotals = new HashMap<>();
                 allCreditSplitTotals.put(personKey, personUnitCreditTotals);
             }
 
@@ -268,11 +257,7 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
             calculateUnitCreditSplitTotals(projectPerson, personUnitCreditTotals);
         }
     }
-    
-    /*
-     * @param projectPerson
-     * @param personUnitCreditTotals
-     */
+
     private void calculateUnitCreditSplitTotals(InstitutionalProposalPerson projectPerson, Map<String, ScaleTwoDecimal> personUnitCreditTotals) {
         if(projectPerson.isKeyPerson() && projectPerson.getUnits().size() == 0) {
             handleKeyPersonWithNoUnits(personUnitCreditTotals);
@@ -292,7 +277,6 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
 
     /**
      * A keyPerson may have no associated unit. To satisfy the validation checks, we apply this workaround to set the unit credit split type totals to 100.00 
-     * @param personUnitCreditTotals
      */
     private void handleKeyPersonWithNoUnits(Map<String, ScaleTwoDecimal> personUnitCreditTotals) {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
@@ -314,15 +298,13 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
         for(InstitutionalProposalPerson projectPerson: getInstitutionalProposal().getProjectPersons()) {
             InstitutionalProposalPersonUnitCreditSplitRuleEvent event = new InstitutionalProposalPersonUnitCreditSplitRuleEvent(institutionalProposalDocument, projectPerson, 
                                                                                                 totalsMap.get(getPersonKey(projectPerson)));
-            success &= rule.checkInstitutionalProposalPersonUnitCreditSplitTotals(event);
+            if (getInstitutionalProposalPersonService().generateCreditSplitForPerson(projectPerson)) {
+                success &= rule.checkInstitutionalProposalPersonUnitCreditSplitTotals(event);
+            }
         }
         return success;                                                                               
     }
 
-    /*
-     * @param creditTypes
-     * @param apu
-     */
     private void createDefaultCreditSplitMapForPersonUnit(Collection<InvestigatorCreditType> creditTypes, InstitutionalProposalPersonUnit apu) {
         Map<InvestigatorCreditType, InstitutionalProposalPersonUnitCreditSplit> personUnitCreditMap = new HashMap<InvestigatorCreditType, InstitutionalProposalPersonUnitCreditSplit>();
         for(InstitutionalProposalPersonUnitCreditSplit apuCreditSplit: apu.getCreditSplits()) {
@@ -336,10 +318,6 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
         }
     }
 
-    /*
-     * @param creditTypes
-     * @param projectPerson
-     */
     private void createDefaultCreditSplitMapForProjectPerson(Collection<InvestigatorCreditType> creditTypes, InstitutionalProposalPerson projectPerson) {
         Map<InvestigatorCreditType, InstitutionalProposalPersonCreditSplit> personCreditMap = new HashMap<InvestigatorCreditType, InstitutionalProposalPersonCreditSplit>();
         for(InstitutionalProposalPersonCreditSplit creditSplit: projectPerson.getCreditSplits()) {
@@ -352,23 +330,23 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
             }
         }
     }
-    
 
     private String getPersonKey(InstitutionalProposalPerson projectPerson) {
         return projectPerson.getFullName();
     }
 
-    /*
-     * @param allCreditSplitTotals
-     * @return
-     */
     private Map<String, ScaleTwoDecimal> initializePersonCreditSplitTotalMap(Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals) {
         Map<String, ScaleTwoDecimal> personCreditTypeTotals = allCreditSplitTotals.get(PERSON_TOTALS_KEY);
         
         if (personCreditTypeTotals == null) {
-            personCreditTypeTotals = new HashMap<String, ScaleTwoDecimal>();
+            personCreditTypeTotals = new HashMap<>();
             allCreditSplitTotals.put(PERSON_TOTALS_KEY, personCreditTypeTotals);
         }
         return personCreditTypeTotals;
-    }   
+    }
+
+    public List<InstitutionalProposalPerson> getPersonsSelectedForCreditSplit() {
+        return getInstitutionalProposalPersonService().getPersonsSelectedForCreditSplit(getProjectPersons());
+    }
+
 }

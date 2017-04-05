@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.award.home;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
@@ -27,9 +28,11 @@ import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardNumberService;
+import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.document.AwardDocument;
@@ -47,6 +50,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AwardServiceImpl implements AwardService {
 
@@ -96,9 +100,9 @@ public class AwardServiceImpl implements AwardService {
             return;
         }
 
-        final ScaleTwoDecimal obligatedDirectTotal     = aai.getObligatedTotalDirect() != null ? aai.getObligatedTotalDirect() : new ScaleTwoDecimal(0);
-        final ScaleTwoDecimal obligatedIndirectTotal   = aai.getObligatedTotalIndirect() != null ? aai.getObligatedTotalIndirect() : new ScaleTwoDecimal(0);
-        final ScaleTwoDecimal anticipatedDirectTotal   = aai.getAnticipatedTotalDirect() != null ? aai.getAnticipatedTotalDirect() : new ScaleTwoDecimal(0);
+        final ScaleTwoDecimal obligatedDirectTotal = aai.getObligatedTotalDirect() != null ? aai.getObligatedTotalDirect() : new ScaleTwoDecimal(0);
+        final ScaleTwoDecimal obligatedIndirectTotal = aai.getObligatedTotalIndirect() != null ? aai.getObligatedTotalIndirect() : new ScaleTwoDecimal(0);
+        final ScaleTwoDecimal anticipatedDirectTotal = aai.getAnticipatedTotalDirect() != null ? aai.getAnticipatedTotalDirect() : new ScaleTwoDecimal(0);
         final ScaleTwoDecimal anticipatedIndirectTotal = aai.getAnticipatedTotalIndirect() != null ? aai.getAnticipatedTotalIndirect() : new ScaleTwoDecimal(0);
 
         aai.setAmountObligatedToDate(obligatedDirectTotal.add(obligatedIndirectTotal));
@@ -373,6 +377,27 @@ public class AwardServiceImpl implements AwardService {
         values.put(DOCUMENT_NUMBER, docNumber);
         List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, values);
         return awards.get(0);
+    }
+
+    @Override
+    public Boolean isCreditSplitOptInEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                CreditSplitConstants.ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY);
+    }
+
+    @Override
+    public Boolean generateCreditSplitForPerson(AwardPerson person) {
+        final boolean optIn = isCreditSplitOptInEnabled();
+        return (person.getIncludeInCreditAllocation() && optIn) || !optIn && person.isInvestigator();
+    }
+
+    @Override
+    public List<AwardPerson> getPersonsSelectedForCreditSplit(List<AwardPerson> projectPersons) {
+        final List<AwardPerson> awardPersons = projectPersons.stream()
+                .filter(person -> generateCreditSplitForPerson(person)).
+                        filter(person -> CollectionUtils.isNotEmpty(person.getUnits()))
+                .collect(Collectors.toList());
+        return awardPersons;
     }
 
     @Override

@@ -54,8 +54,13 @@ public class AwardCreditSplitBeanTest {
             }
             Collection<InvestigatorCreditType> loadInvestigatorCreditTypes() {
                 return getMockCreditTypes();
-            }            
-        };        
+            }
+
+            @Override
+            public List<AwardPerson> getPersonsSelectedForCreditSplit() {
+                return getProjectPersons();
+            }
+        };
     }
     
     @After

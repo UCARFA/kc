@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.institutionalproposal.service.impl;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,7 +30,6 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
@@ -43,6 +43,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalTypeService;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
@@ -563,7 +564,12 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         }
         return null;
     }
-    
+
+    protected boolean getOptIn() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants
+                .KC_ALL_PARAMETER_DETAIL_TYPE_CODE, CreditSplitConstants.ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY);
+    }
+
     protected InstitutionalProposalPerson generateInstitutionalProposalPerson(ProposalPerson pdPerson) {
         InstitutionalProposalPerson ipPerson = new InstitutionalProposalPerson();
         if (ObjectUtils.isNotNull(pdPerson.getPersonId())) {
@@ -573,13 +579,31 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             ipPerson.setRolodexId(pdPerson.getRolodexId());
         }
         ipPerson.setContactRoleCode(pdPerson.getRole().getRoleCode());
-        for (ProposalPersonCreditSplit pdPersonCreditSplit : pdPerson.getCreditSplits()) {
-            InstitutionalProposalPersonCreditSplit ipPersonCreditSplit = new InstitutionalProposalPersonCreditSplit();
-            ipPersonCreditSplit.setCredit(pdPersonCreditSplit.getCredit());
-            ipPersonCreditSplit.setInvCreditTypeCode(pdPersonCreditSplit.getInvCreditTypeCode());
-            ipPersonCreditSplit.setNewCollectionRecord(pdPersonCreditSplit.isNewCollectionRecord());
-            ipPerson.add(ipPersonCreditSplit);
+        if ((BooleanUtils.isTrue(pdPerson.getIncludeInCreditAllocation()) && getOptIn()) || (!getOptIn() && pdPerson.isInvestigator())) {
+            for (ProposalPersonCreditSplit pdPersonCreditSplit : pdPerson.getCreditSplits()) {
+                InstitutionalProposalPersonCreditSplit ipPersonCreditSplit = new InstitutionalProposalPersonCreditSplit();
+                ipPersonCreditSplit.setCredit(pdPersonCreditSplit.getCredit());
+                ipPersonCreditSplit.setInvCreditTypeCode(pdPersonCreditSplit.getInvCreditTypeCode());
+                ipPersonCreditSplit.setNewCollectionRecord(pdPersonCreditSplit.isNewCollectionRecord());
+                ipPerson.add(ipPersonCreditSplit);
+            }
+
+            for (ProposalPersonUnit pdPersonUnit : pdPerson.getUnits()) {
+                InstitutionalProposalPersonUnit ipPersonUnit = new InstitutionalProposalPersonUnit();
+                ipPersonUnit.setLeadUnit(pdPersonUnit.isLeadUnit());
+                ipPersonUnit.setNewCollectionRecord(pdPersonUnit.isNewCollectionRecord());
+                ipPersonUnit.setUnitNumber(pdPersonUnit.getUnitNumber());
+                for (ProposalUnitCreditSplit pdPersonCreditSplit : pdPersonUnit.getCreditSplits()) {
+                    InstitutionalProposalPersonUnitCreditSplit ipPersonUnitCreditSplit = new InstitutionalProposalPersonUnitCreditSplit();
+                    ipPersonUnitCreditSplit.setCredit(pdPersonCreditSplit.getCredit());
+                    ipPersonUnitCreditSplit.setInvCreditTypeCode(pdPersonCreditSplit.getInvCreditTypeCode());
+                    ipPersonUnitCreditSplit.setNewCollectionRecord(pdPersonCreditSplit.isNewCollectionRecord());
+                    ipPersonUnit.add(ipPersonUnitCreditSplit);
+                }
+                ipPerson.add(ipPersonUnit);
+            }
         }
+
         ipPerson.setFaculty(pdPerson.getFacultyFlag());
         ipPerson.setFullName(pdPerson.getFullName());
         ipPerson.setKeyPersonRole(pdPerson.getProjectRole());
@@ -589,20 +613,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         ipPerson.setAcademicYearEffort(pdPerson.getAcademicYearEffort());
         ipPerson.setCalendarYearEffort(pdPerson.getCalendarYearEffort());
         ipPerson.setSummerEffort(pdPerson.getSummerEffort());
-        for (ProposalPersonUnit pdPersonUnit : pdPerson.getUnits()) {
-            InstitutionalProposalPersonUnit ipPersonUnit = new InstitutionalProposalPersonUnit();
-            ipPersonUnit.setLeadUnit(pdPersonUnit.isLeadUnit());
-            ipPersonUnit.setNewCollectionRecord(pdPersonUnit.isNewCollectionRecord());
-            ipPersonUnit.setUnitNumber(pdPersonUnit.getUnitNumber());
-            for (ProposalUnitCreditSplit pdPersonCreditSplit : pdPersonUnit.getCreditSplits()) {
-                InstitutionalProposalPersonUnitCreditSplit ipPersonUnitCreditSplit = new InstitutionalProposalPersonUnitCreditSplit();
-                ipPersonUnitCreditSplit.setCredit(pdPersonCreditSplit.getCredit());
-                ipPersonUnitCreditSplit.setInvCreditTypeCode(pdPersonCreditSplit.getInvCreditTypeCode());
-                ipPersonUnitCreditSplit.setNewCollectionRecord(pdPersonCreditSplit.isNewCollectionRecord());
-                ipPersonUnit.add(ipPersonUnitCreditSplit);
-            }
-            ipPerson.add(ipPersonUnit);
-        }
+
         
         return ipPerson;
     }

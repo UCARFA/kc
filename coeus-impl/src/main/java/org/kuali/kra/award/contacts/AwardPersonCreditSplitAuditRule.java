@@ -20,6 +20,7 @@ package org.kuali.kra.award.contacts;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
@@ -55,7 +56,8 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
     private transient Collection<InvestigatorCreditType> investigatorCreditTypes;
     private transient ParameterService parameterService;
     private List<AuditError> auditErrors;
-    
+    private transient AwardService awardService;
+
     public AwardPersonCreditSplitAuditRule() {
         auditErrors = new ArrayList<AuditError>();
     }
@@ -106,7 +108,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
         boolean noErrors = true;
         if(isAwardCreditsLimitApplicable()) {
             Map<String, Map<String, ScaleTwoDecimal>> totalsMap = calculateCreditSplitTotals(awardDocument);
-            noErrors = checkIfPersonTotalsAreValid(awardDocument, totalsMap);
+            noErrors = checkIfPersonTotalsAreValid(totalsMap);
             noErrors &= checkIfPersonUnitsTotalsAreValid(awardDocument, totalsMap);
         }
         
@@ -132,7 +134,13 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
         }
         return this.parameterService;
     }
-    
+
+    protected AwardService getAwardService() {
+        if (this.awardService == null) {
+            this.awardService = KcServiceLocator.getService(AwardService.class);
+        }
+        return awardService;
+    }
 
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
@@ -180,25 +188,17 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
             }
         }
     }
-    
-    /**
-     * @param award
-     * @param creditTypes
-     * @param allCreditSplitTotals
-     */
+
     private void calculatePersonTotals(AwardDocument awardDocument, Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals) {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         Map<String, ScaleTwoDecimal> personCreditSplitTotalMap = initializePersonCreditSplitTotalMap(allCreditSplitTotals);
-        for (AwardPerson projectPerson : getProjectPersons(awardDocument)) {
+        for (AwardPerson projectPerson : getAwardService().getPersonsSelectedForCreditSplit(getProjectPersons(awardDocument))) {
             for (InvestigatorCreditType creditType : creditTypes) {                
                 calculatePersonTotalForCreditSplitType(projectPerson, creditType, personCreditSplitTotalMap);
             }
         }
     }
 
-    /*
-     * @param allCreditSplitTotals
-     */
     private void calculatePersonUnitTotals(AwardDocument awardDocument, Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals) {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         for (AwardPerson projectPerson : getProjectPersons(awardDocument)) {
@@ -206,7 +206,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
             Map<String, ScaleTwoDecimal> personUnitCreditTotals = allCreditSplitTotals.get(personKey);
             
             if (personUnitCreditTotals == null) {
-                personUnitCreditTotals = new HashMap<String, ScaleTwoDecimal>();
+                personUnitCreditTotals = new HashMap<>();
                 allCreditSplitTotals.put(personKey, personUnitCreditTotals);
             }
 
@@ -219,11 +219,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
             calculateUnitCreditSplitTotals(projectPerson, personUnitCreditTotals);
         }
     }
-    
-    /*
-     * @param projectPerson
-     * @param personUnitCreditTotals
-     */
+
     private void calculateUnitCreditSplitTotals(AwardPerson projectPerson, Map<String, ScaleTwoDecimal> personUnitCreditTotals) {
         if(projectPerson.isKeyPerson() && projectPerson.getUnits().size() == 0) {
             handleKeyPersonWithNoUnits(personUnitCreditTotals);
@@ -252,7 +248,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
         }
     }
 
-    private boolean checkIfPersonTotalsAreValid(AwardDocument awardDocument, Map<String, Map<String, ScaleTwoDecimal>> totalsMap) {
+    private boolean checkIfPersonTotalsAreValid(Map<String, Map<String, ScaleTwoDecimal>> totalsMap) {
         int errorCount = 0; 
         for(InvestigatorCreditType creditType: loadInvestigatorCreditTypes()) {
             if(creditType.addsToHundred()) {
@@ -274,7 +270,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
     
     private boolean checkIfPersonUnitsTotalsAreValid(AwardDocument awardDocument, Map<String, Map<String, ScaleTwoDecimal>> totalsMap) {
         boolean success = true;
-        for(AwardPerson person: awardDocument.getAward().getProjectPersons()) {
+        for(AwardPerson person: getAwardService().getPersonsSelectedForCreditSplit(awardDocument.getAward().getProjectPersons())) {
             int errorCount = 0;
             Map<String, ScaleTwoDecimal> totalsByCreditSplitType = totalsMap.get(getPersonKey(person));
             for(InvestigatorCreditType creditType: loadInvestigatorCreditTypes()) {

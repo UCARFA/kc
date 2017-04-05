@@ -25,17 +25,17 @@ import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class implements an Award Person 
@@ -69,7 +69,9 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     private List<AwardPersonUnit> units;
 
     private List<AwardPersonCreditSplit> creditSplits;
-    
+    private Boolean includeInCreditAllocation;
+    private transient ParameterService parameterService;
+
     private transient boolean roleChanged;
     
     private transient PropAwardPersonRoleService propAwardPersonRoleService;
@@ -100,6 +102,10 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public void add(AwardPersonUnit awardPersonUnit) {
         units.add(awardPersonUnit);
         awardPersonUnit.setAwardPerson(this);
+    }
+
+    public void setIncludeInCreditAllocation(Boolean includeInCreditAllocation) {
+        this.includeInCreditAllocation = includeInCreditAllocation;
     }
 
     /**
@@ -416,5 +422,28 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 	public boolean isInvestigator() {
 		return isPrincipalInvestigator() || isMultiplePi() || isCoInvestigator() || (isKeyPerson() && isOptInUnitStatus());
 	}
+
+    public Boolean getIncludeInCreditAllocation() {
+        if (includeInCreditAllocation == null) {
+            includeInCreditAllocation = defaultIncludeInCreditAllocation(keyPersonRole);
+        }
+
+        return includeInCreditAllocation;
+    }
+
+    public Boolean defaultIncludeInCreditAllocation(String proposalPersonRoleId) {
+        final Collection<String> roles = getParameterService().getParameterValuesAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, CreditSplitConstants.CREDIT_SPLIT_OPT_IN_DEFAULT_ROLES);
+
+        return StringUtils.isNotBlank(proposalPersonRoleId)
+                && roles.contains(proposalPersonRoleId);
+    }
+
+    public ParameterService getParameterService() {
+        if(parameterService == null) {
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
+    }
 
 }

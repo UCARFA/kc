@@ -44,6 +44,7 @@
         <ref bean="InstitutionalProposalPerson-keyPersonRole" />
         <ref bean="InstitutionalProposalPerson-units.unit.unitName" />
         <ref bean="InstitutionalProposalPerson-units.unitNumber" />
+        <ref bean="InstitutionalProposalPerson-includeInCreditAllocation" />
       </list>
     </property>
 		<property name="collections">
@@ -54,6 +55,15 @@
   </bean>
 
 <!-- Attribute Definitions -->
+
+    <bean id="InstitutionalProposalPerson-includeInCreditAllocation" parent="InstitutionalProposalPerson-includeInCreditAllocation-parentBean"/>
+    <bean id="InstitutionalProposalPerson-includeInCreditAllocation-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="includeInCreditAllocation" />
+        <property name="label" value="Include in Credit Allocation" />
+        <property name="shortLabel" value="Include in Credit Allocation" />
+        <property name="summary" value="Include in Credit Allocation" />
+        <property name="description" value="Include in Credit Allocation" />
+    </bean>
 
 
 	<bean id="InstitutionalProposalPerson-institutionalProposalContactId" parent="InstitutionalProposalPerson-institutionalProposalContactId-parentBean" />

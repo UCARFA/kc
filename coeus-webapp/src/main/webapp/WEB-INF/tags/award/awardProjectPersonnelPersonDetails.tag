@@ -31,6 +31,24 @@
                           useCurrentTabIndexAsKey="true" 
                           tabErrorKey="document.awardList[0].projectPersons[${awardContactRowStatusIndex}].k*,document.awardList[0].projectPersons[${awardContactRowStatusIndex}].t*,document.awardList[0].projectPersons[${awardContactRowStatusIndex}].a*,document.awardList[0].projectPersons[${awardContactRowStatusIndex}].s*,document.awardList[0].projectPersons[${awardContactRowStatusIndex}].ca*">
 	<table cellpadding="0" cellspacing="0" summary="Project Personnel Details">
+
+        <c:choose>
+            <c:when test="${KualiForm.creditSplitOptInEnabled}">
+                <tr>
+                    <th class="infoline">
+                        <div align="right">
+                            <kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.includeInCreditAllocation}" useShortLabel="true" noColon="false" />
+                        </div>
+                    </th>
+                    <td>
+                        <kul:htmlControlAttribute property="document.awardList[0].projectPersons[${awardContactRowStatusIndex}].includeInCreditAllocation"
+                                          attributeEntry="${awardPersonAttributes.includeInCreditAllocation}" />
+                    </td>
+                    <th class="infoline">&nbsp;</th>
+                    <td>&nbsp;</td>
+                </tr>
+            </c:when>
+        </c:choose>
 		<tr>
 			<th class="infoline">
 				<div align="right">
@@ -72,8 +90,10 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="infoline">&nbsp;</th>
-			<td>&nbsp;</td>
+
+            <th class="infoline">&nbsp;</th>
+            <td>&nbsp;</td>
+
 			<th class="infoline">
 				<div align="right">
 					<kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.calendarYearEffort}" useShortLabel="true" noColon="false" />

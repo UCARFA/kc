@@ -23,13 +23,18 @@ import com.codiform.moo.annotation.Property;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.award.finance.AwardPosts;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.custom.CustomDataContainer;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.type.ActivityType;
@@ -39,9 +44,9 @@ import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistorySearchBo;
+import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
-import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
-import org.kuali.coeus.common.framework.auth.perm.Permissionable;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
@@ -76,11 +81,8 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Awar
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
-import org.kuali.kra.bo.*;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
+import org.kuali.kra.bo.AccountType;
+import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -95,7 +97,6 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.core.api.criteria.CountFlag;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -333,6 +334,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     @SkipVersioning
     private transient DataObjectService dataObjectService;
+    @SkipVersioning
+    private transient AwardService awardService;
 
     public Award() {
         super();
@@ -2947,5 +2950,16 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
         this.sponsorHierarchyService = sponsorHierarchyService;
+    }
+
+    protected AwardService getAwardService() {
+        if (this.awardService == null) {
+            this.awardService = KcServiceLocator.getService(AwardService.class);
+        }
+        return this.awardService;
+    }
+
+    public List<AwardPerson> getPersonsSelectedForCreditSplit() {
+        return getAwardService().getPersonsSelectedForCreditSplit(projectPersons);
     }
 }
