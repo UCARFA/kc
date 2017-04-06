@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-1983: Fix some regressions (#2286)
+
+  * Gayathri Athreya on Thu, 6 Apr 2017 12:34:41 -0700 [View Commit](../../commit/d0e2dd28c145d44b139d68bef223a658749fd7a3)
+
+##coeus-1704.0006
 * RESKC-2148: Remove validation requiring F&A rate from Create Account functionality when AWARD_POST_ENABLED is ON. (#2285)
 
   * Gayathri Athreya on Thu, 6 Apr 2017 08:16:09 -0700 [View Commit](../../commit/4825dadb76e2ecf49ab8f720f5312fa49283294a)
