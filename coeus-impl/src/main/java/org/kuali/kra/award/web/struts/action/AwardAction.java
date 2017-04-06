@@ -61,6 +61,7 @@ import org.kuali.kra.award.service.AwardReportsService;
 import org.kuali.kra.award.service.AwardSponsorTermService;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentActionBase;
+import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
@@ -145,6 +146,7 @@ public class AwardAction extends BudgetParentActionBase {
     private transient SponsorHierarchyService sponsorHierarchyService;
     private TimeAndMoneyService timeAndMoneyService;
     private TimeAndMoneyExistenceService timeAndMoneyExistenceService;
+    private AwardAccountService awardAccountService;
 
     private enum SuperUserAction {
         SUPER_USER_APPROVE, TAKE_SUPER_USER_ACTIONS
@@ -657,6 +659,13 @@ public class AwardAction extends BudgetParentActionBase {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
+    }
+
+    protected AwardAccountService getAwardAccountService() {
+        if (this.awardAccountService == null) {
+            this.awardAccountService = KcServiceLocator.getService(AwardAccountService.class);
+        }
+        return this.awardAccountService;
     }
 
     public AwardVersionService getAwardVersionService() {

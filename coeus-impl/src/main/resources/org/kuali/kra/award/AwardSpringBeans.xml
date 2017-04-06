@@ -334,6 +334,7 @@
    <!-- Exposing the award account service as a SOAP service and as a java service -->
     <bean id="awardAccountService" class="org.kuali.kra.external.award.impl.AwardAccountServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="parameterService" ref="parameterService" />
         <property name="awardAccountDtoService" ref="awardAccountDtoService" />
     </bean>
    <bean id="awardAccountServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

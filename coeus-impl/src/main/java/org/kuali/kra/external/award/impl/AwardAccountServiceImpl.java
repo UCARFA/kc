@@ -25,6 +25,9 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.external.award.AwardAccountDTO;
 import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.kra.external.service.KcDtoService;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -39,6 +42,8 @@ public class AwardAccountServiceImpl implements AwardAccountService {
 
 
     private BusinessObjectService businessObjectService;
+    private ParameterService parameterService;
+
     private static final Log LOG = LogFactory.getLog(AwardAccountServiceImpl.class);
     private KcDtoService<AwardAccountDTO, Award> awardAccountDtoService;
 
@@ -91,12 +96,22 @@ public class AwardAccountServiceImpl implements AwardAccountService {
         return awards;
     }
 
-    
-    /**
-     * Sets the businessObjectService attribute value. Injected by Spring.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
+    @Override
+    public boolean isFinancialRestApiEnabled() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.AWARD_POST_ENABLED);
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

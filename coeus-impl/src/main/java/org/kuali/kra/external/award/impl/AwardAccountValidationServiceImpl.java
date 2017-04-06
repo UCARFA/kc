@@ -20,19 +20,16 @@ package org.kuali.kra.external.award.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.ValidRates;
+import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.kra.external.award.AwardAccountValidationService;
-import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AwardAccountValidationServiceImpl implements AwardAccountValidationService {
 
@@ -45,7 +42,7 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
     private static final String AWARD_ADDRESS_NOT_COMPLETE = "error.award.createAccount.invalid.piAddress";
     private static final String AWARD_PI_NOT_SPECIFIED = "error.award.createAccount.invalid.pi";
     private static final String AWARD_F_AND_A_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.rate";
-    private BusinessObjectService businessObjectService;
+    private AwardAccountService awardAccountService;
     
     public boolean validateAwardAccountDetails(Award award) {
         boolean rulePassed = true;
@@ -97,51 +94,20 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
         
         return isValid;
     }
-  
- 
-    /**
-     * This method checks if there are F and A rates provided. 
-     * @param award
-     * @return isValid
-     */
+
     protected boolean isValidFandarate(Award award) {
         List<AwardFandaRate> rates = award.getAwardFandaRate();
         boolean isValid = true;
 
-        if (ObjectUtils.isNull(rates) || rates.size() == 0) {
-            GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, 
-                                                    KeyConstants.AWARD_F_AND_A_RATE_NOT_SPECIFIED);
-            isValid = false;
-        } 
+        if (!getAwardAccountService().isFinancialRestApiEnabled()) {
+            if (ObjectUtils.isNull(rates) || rates.size() == 0) {
+                GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED,
+                        KeyConstants.AWARD_F_AND_A_RATE_NOT_SPECIFIED);
+                isValid = false;
+            }
+        }
       
         return isValid;
-    }
-    
-    protected FinancialIndirectCostRecoveryTypeCode getIndirectCostRecoveryTypeCode(String rateClassCode, String rateTypeCode) {
-        Map <String, Object> criteria = new HashMap<String, Object>();
-        criteria.put("rateClassCode", rateClassCode);
-        criteria.put("rateTypeCode", rateTypeCode);
-        FinancialIndirectCostRecoveryTypeCode icrCostTypeCode= (FinancialIndirectCostRecoveryTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostRecoveryTypeCode.class, criteria);
-        return icrCostTypeCode;
-    }
-    
-    protected String getIcrRateCode(AwardFandaRate currentFandaRate) { 
-        String icrRateCode = "";
-        Map <String, Object> criteria = new HashMap<String, Object>();
-        if (currentFandaRate.getOnCampusFlag().equalsIgnoreCase("N")) {
-            criteria.put("onCampusRate", currentFandaRate.getApplicableFandaRate());
-        } else {
-            criteria.put("offCampusRate", currentFandaRate.getApplicableFandaRate());
-        }
-
-        List<ValidRates> rates = (List<ValidRates>) businessObjectService.findMatching(ValidRates.class, criteria);
-        
-        // you should only find one rate that matches this criteria, this check happens in the award
-        //business rules
-        if (ObjectUtils.isNotNull(rates) && !rates.isEmpty()) {
-            icrRateCode = rates.get(0).getIcrRateCode();
-        } 
-        return icrRateCode;
     }
     
     protected boolean isValidPaymentBasis(Award award) {
@@ -171,12 +137,6 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
         return true;
     }
 
-    
-    /**
-     * This method checks if the effective date is valid.
-     * @param award
-     * @return
-     */
     protected boolean isValidEffectiveDate(Award award) {
         if (award.getAwardEffectiveDate() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_EFFECTIVE_DATE_NOT_SPECIFIED, 
@@ -185,13 +145,7 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
         }
         return true; 
     }
-    
-    
-    /**
-     * This method checks the award id which is the expense guideline text.
-     * @param award
-     * @return
-     */
+
     protected boolean isValidExpenseGuidelineText(Award award) { 
         if (award.getAwardId() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_ID_NOT_SPECIFIED, 
@@ -200,13 +154,7 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
         }
         return true;
     }
-    
-    
-    /**
-     * This method checks if the expiration date is valid.
-     * @param award
-     * @return
-     */
+
     protected boolean isValidExpirationDate(Award award) {
         if (award.getProjectEndDate() == null) {
             GlobalVariables.getMessageMap().putError(AWARD_END_DATE_NOT_SPECIFIED, 
@@ -215,8 +163,12 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
         }
         return true;
     }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+
+    /*
+    Cannot autowire because of account validation service being in core spring context which
+    becomes available before award spring context
+     */
+    public AwardAccountService getAwardAccountService() {
+        return KcServiceLocator.getService(AwardAccountService.class);
     }
 }

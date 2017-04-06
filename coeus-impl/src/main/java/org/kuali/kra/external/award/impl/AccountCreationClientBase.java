@@ -225,11 +225,14 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         accountParameters.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
 
         AwardFandaRate currentFandaRate = award.getCurrentFandaRate();
-        
-        String rateClassCode = currentFandaRate.getFandaRateType().getRateClassCode();
-        String rateTypeCode = currentFandaRate.getFandaRateType().getRateTypeCode();
-        String icrTypeCode = getIndirectCostTypeCode(rateClassCode, rateTypeCode);
-        accountParameters.setOffCampusIndicator(!currentFandaRate.getOnOffCampusFlag());
+
+        if (currentFandaRate != null) {
+            String rateClassCode = currentFandaRate.getFandaRateType().getRateClassCode();
+            String rateTypeCode = currentFandaRate.getFandaRateType().getRateTypeCode();
+            String icrTypeCode = getIndirectCostTypeCode(rateClassCode, rateTypeCode);
+            accountParameters.setIndirectCostTypeCode(icrTypeCode + "");
+            accountParameters.setOffCampusIndicator(!currentFandaRate.getOnOffCampusFlag());
+        }
 
         String icrRateCode = award.getIcrRateCode();
         if (Award.ICR_RATE_CODE_NONE.equals(icrRateCode)) {
@@ -237,9 +240,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         } else {
             accountParameters.setIndirectCostRate(icrRateCode);
         }
-        
-        accountParameters.setIndirectCostTypeCode(icrTypeCode + "");
-        
+
         accountParameters.setHigherEdFunctionCode(award.getActivityType().getHigherEducationFunctionCode());
         
         return accountParameters;

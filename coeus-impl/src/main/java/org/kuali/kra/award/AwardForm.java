@@ -78,6 +78,7 @@ import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.award.printing.AwardTransactionSelectorBean;
 import org.kuali.kra.award.specialreview.SpecialReviewHelper;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
+import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.kra.external.award.web.AccountCreationPresentationHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.medusa.MedusaBean;
@@ -237,6 +238,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     private transient KcPersonService kcPersonService;
     private transient TimeAndMoneyPostsDao timeAndMoneyPostsDao;
     private Boolean isBudgetVersionSummaryCumulative;
+    private transient AwardAccountService awardAccountService;
 
     /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
@@ -485,7 +487,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
             if (isFinancialSystemIntegrationOn()) {
                 return getAwardDocument().getAward().getFinancialAccountDocumentNumber() != null;
             }
-            if (isFinancialRestApiEnabled()) {
+            if (getAwardAccountService().isFinancialRestApiEnabled()) {
                 return accountExistsInQueue();
             }
         }
@@ -504,7 +506,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
 
     private void initializeAccountBean() {
         accountInformationBean = new AccountInformationBean();
-        if (getAwardDocument().getAward().getAccountNumber() != null && isFinancialRestApiEnabled()) {
+        if (getAwardDocument().getAward().getAccountNumber() != null && getAwardAccountService().isFinancialRestApiEnabled()) {
             AwardAccount account = getAccountFromQueue();
             if (Objects.nonNull(account)) {
                 accountInformationBean.setIncome(account.getIncome());
@@ -538,14 +540,6 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
             dataObjectService = KcServiceLocator.getService(DataObjectService.class);
         }
         return dataObjectService;
-    }
-
-    protected boolean isFinancialRestApiEnabled() {
-        return getParameterService().getParameterValueAsBoolean(
-                Constants.PARAMETER_MODULE_AWARD,
-                ParameterConstants.ALL_COMPONENT,
-                Constants.AWARD_POST_ENABLED
-        );
     }
 
     protected boolean isFinancialSystemIntegrationOn() {
@@ -1391,6 +1385,13 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
             this.awardService = KcServiceLocator.getService(AwardService.class);
         }
         return awardService;
+    }
+
+    protected AwardAccountService getAwardAccountService() {
+        if (this.awardAccountService == null) {
+            this.awardAccountService = KcServiceLocator.getService(AwardAccountService.class);
+        }
+        return awardAccountService;
     }
 
     public String getDirectIndirectViewEnabled() {
