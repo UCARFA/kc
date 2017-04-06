@@ -21,4 +21,4 @@ INSERT INTO KRCR_PARM_T (APPL_ID,NMSPC_CD,PARM_TYP_CD,CMPNT_CD,PARM_NM,PARM_DESC
     VALUES ('KUALI','KC-AB','CONFG','Document','awardBudgetStatusQueued','This system parameter maps the AwardBudget status Queued','-1','A',SYS_GUID(),1);
 
 INSERT INTO KRCR_PARM_T (APPL_ID,NMSPC_CD,PARM_TYP_CD,CMPNT_CD,PARM_NM,PARM_DESC_TXT,VAL,EVAL_OPRTR_CD,OBJ_ID,VER_NBR)
-    VALUES ('KUALI','KC-AB','CONFG','Document','Enable_Award_Budget_Queued_Status','This feature will change the award budget status to queued on post.','Y','A',SYS_GUID(),1);
+    VALUES ('KUALI','KC-AB','CONFG','Document','Enable_Award_Budget_Queued_Status','This feature will change the award budget status to queued on post.','N','A',SYS_GUID(),1);
