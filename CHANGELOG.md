@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2157: Switch param (#2288)
+
+  * Gayathri Athreya on Thu, 6 Apr 2017 13:42:12 -0700 [View Commit](../../commit/246b5d5be3aacae3cef9e7242c980d284d0733a9)
+* RESKC-2157: New award budget status. (#2287)
+
+  * Add 2 new params. When param 1 is ON, when a user clicks the post button, the award budget document status will be changed to whatever is in the second param.  * Gayathri Athreya on Thu, 6 Apr 2017 13:24:26 -0700 [View Commit](../../commit/39b1183458a2b01e019b7345cc618772b1277912)
+
+##coeus-1704.0007
 * RESKC-1983: Fix some regressions (#2286)
 
   * Gayathri Athreya on Thu, 6 Apr 2017 12:34:41 -0700 [View Commit](../../commit/d0e2dd28c145d44b139d68bef223a658749fd7a3)
