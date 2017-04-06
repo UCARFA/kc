@@ -64,6 +64,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalFandA;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
+import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
@@ -115,8 +116,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private ParameterService parameterService;
     private InstitutionalProposalDao institutionalProposalDao;
     private FiscalYearMonthService fiscalYearMonthService;
-    
-    
+    private InstitutionalProposalPersonService institutionalProposalPersonService;
+
+
     public FiscalYearMonthService getFiscalYearMonthService() {
     	if (fiscalYearMonthService == null) {
     		fiscalYearMonthService = KcServiceLocator.getService(FiscalYearMonthService.class);
@@ -572,6 +574,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
 
     protected InstitutionalProposalPerson generateInstitutionalProposalPerson(ProposalPerson pdPerson) {
         InstitutionalProposalPerson ipPerson = new InstitutionalProposalPerson();
+        ipPerson.setIncludeInCreditAllocation(pdPerson.getIncludeInCreditAllocation());
         if (ObjectUtils.isNotNull(pdPerson.getPersonId())) {
             ipPerson.setPersonId(pdPerson.getPersonId());
         }
@@ -579,7 +582,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             ipPerson.setRolodexId(pdPerson.getRolodexId());
         }
         ipPerson.setContactRoleCode(pdPerson.getRole().getRoleCode());
-        if ((BooleanUtils.isTrue(pdPerson.getIncludeInCreditAllocation()) && getOptIn()) || (!getOptIn() && pdPerson.isInvestigator())) {
+        if (BooleanUtils.isTrue(getInstitutionalProposalPersonService().generateCreditSplitForPerson(ipPerson))) {
             for (ProposalPersonCreditSplit pdPersonCreditSplit : pdPerson.getCreditSplits()) {
                 InstitutionalProposalPersonCreditSplit ipPersonCreditSplit = new InstitutionalProposalPersonCreditSplit();
                 ipPersonCreditSplit.setCredit(pdPersonCreditSplit.getCredit());
@@ -833,6 +836,14 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         } else {
         	institutionalProposal.setScienceCodeIndicator(FALSE_INDICATOR_VALUE);
         }
+    }
+
+    public InstitutionalProposalPersonService getInstitutionalProposalPersonService() {
+        return institutionalProposalPersonService;
+    }
+
+    public void setInstitutionalProposalPersonService(InstitutionalProposalPersonService institutionalProposalPersonService) {
+        this.institutionalProposalPersonService = institutionalProposalPersonService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

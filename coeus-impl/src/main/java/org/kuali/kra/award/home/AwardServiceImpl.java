@@ -394,8 +394,7 @@ public class AwardServiceImpl implements AwardService {
     @Override
     public List<AwardPerson> getPersonsSelectedForCreditSplit(List<AwardPerson> projectPersons) {
         final List<AwardPerson> awardPersons = projectPersons.stream()
-                .filter(person -> generateCreditSplitForPerson(person)).
-                        filter(person -> CollectionUtils.isNotEmpty(person.getUnits()))
+                .filter(person -> generateCreditSplitForPerson(person))
                 .collect(Collectors.toList());
         return awardPersons;
     }

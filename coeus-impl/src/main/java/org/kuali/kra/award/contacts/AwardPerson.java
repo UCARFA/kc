@@ -425,7 +425,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     public Boolean getIncludeInCreditAllocation() {
         if (includeInCreditAllocation == null) {
-            includeInCreditAllocation = defaultIncludeInCreditAllocation(keyPersonRole);
+            includeInCreditAllocation = defaultIncludeInCreditAllocation(roleCode);
         }
 
         return includeInCreditAllocation;

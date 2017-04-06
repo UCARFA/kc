@@ -272,6 +272,8 @@
         <property name="parameterService" ref="parameterService" />
         <property name="institutionalProposalDao" ref="institutionalProposalDao"/>
         <property name="instPropProjectRetrievalService" ref="instPropProjectRetrievalService" />
+        <property name="institutionalProposalPersonService" ref="institutionalProposalPersonService" />
+
         <property name="dataObjectService" ref="dataObjectService" />
     </bean>
 

@@ -369,7 +369,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
 
     public Boolean getIncludeInCreditAllocation() {
         if (includeInCreditAllocation == null) {
-            includeInCreditAllocation = defaultIncludeInCreditAllocation(keyPersonRole);
+            includeInCreditAllocation = defaultIncludeInCreditAllocation(roleCode);
         }
         return includeInCreditAllocation;
     }

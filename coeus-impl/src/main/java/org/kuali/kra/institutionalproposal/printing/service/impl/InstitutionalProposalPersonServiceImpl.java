@@ -96,8 +96,7 @@ public class InstitutionalProposalPersonServiceImpl implements
     @Override
     public List<InstitutionalProposalPerson> getPersonsSelectedForCreditSplit(List<InstitutionalProposalPerson> projectPersons) {
         final List<InstitutionalProposalPerson> institutionalProposalPersons = projectPersons.stream()
-                .filter(person -> generateCreditSplitForPerson(person)).
-                        filter(person -> CollectionUtils.isNotEmpty(person.getUnits()))
+                .filter(person -> generateCreditSplitForPerson(person))
                 .collect(Collectors.toList());
         return institutionalProposalPersons;
     }
