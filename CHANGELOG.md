@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2148: Remove validation requiring F&A rate from Create Account functionality when AWARD_POST_ENABLED is ON. (#2285)
+
+  * Gayathri Athreya on Thu, 6 Apr 2017 08:16:09 -0700 [View Commit](../../commit/4825dadb76e2ecf49ab8f720f5312fa49283294a)
+
+##coeus-1704.0005
 * RESKC-1983: Tag file fix. (#2284)
 
   * Gayathri Athreya on Wed, 5 Apr 2017 12:48:29 -0700 [View Commit](../../commit/c61b9d6a36b677e6123b7af00a95c466e5bff4ff)
