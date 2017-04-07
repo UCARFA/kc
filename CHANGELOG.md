@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-2162: Fix award budget ste (#2289)
+
+  * STE is generated when clicking the post button on award budgets.
+  * Error Details: org.apache.ojb.broker.PersistenceBrokerException: org.apache.ojb.broker.OJBRuntimeException: Incorrect or not found field reference name 'costShareTypeCode' in descriptor org.apache.ojb.broker.metadata.ObjectReferenceDescriptor@504538f2[cascade_retrieve=true,cascade_store=none,cascade_delete=none,is_lazy=false,class_of_Items=class org.kuali.kra.bo.CostShareType] for class-descriptor 'org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare'  * Gayathri Athreya on Fri, 7 Apr 2017 09:49:20 -0700 [View Commit](../../commit/14cc9c3adf82647b099838e6030136133cbd5481)
+
+##coeus-1704.0008
 * RESKC-2157: Switch param (#2288)
 
   * Gayathri Athreya on Thu, 6 Apr 2017 13:42:12 -0700 [View Commit](../../commit/246b5d5be3aacae3cef9e7242c980d284d0733a9)
