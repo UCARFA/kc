@@ -35,9 +35,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
  * Handles key personnel data feed from Institutional Proposal to Award.
  */
 class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
-    
-    private boolean identicalCreditSplit;
-    
+
     /**
      * Constructs a ProjectPersonnelDataFeedCommand.java.
      * @param award Award
@@ -50,7 +48,6 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
     @Override
     void performDataFeed() {
         if (mergeType != FundingProposalMergeType.NOCHANGE) {
-            identicalCreditSplit = isCreditSplitIdentical();
             if (mergeType == FundingProposalMergeType.REPLACE
                     && doesProposalHaveCreditSplitData()
                     && !proposal.getProjectPersons().isEmpty()) {
@@ -59,7 +56,8 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
             for (InstitutionalProposalPerson proposalPerson : proposal.getProjectPersons()) {
                 AwardPerson existingAwardPerson = findExistingAwardPerson(proposalPerson);
                 if (existingAwardPerson != null) {
-                    reconcileUnits(proposalPerson, existingAwardPerson);
+                    boolean identicalCreditSplit = isCreditSplitIdentical();
+                    reconcileUnits(proposalPerson, existingAwardPerson, identicalCreditSplit);
                     if (mergeType == FundingProposalMergeType.MERGE && !identicalCreditSplit) {
                         mergeCreditSplit(existingAwardPerson, proposalPerson);
                     }
@@ -80,7 +78,7 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
         return existingAwardPerson;
     }
     
-    private void reconcileUnits(InstitutionalProposalPerson proposalPerson, AwardPerson awardPerson) {
+    private void reconcileUnits(InstitutionalProposalPerson proposalPerson, AwardPerson awardPerson, boolean identicalCreditSplit) {
         for (InstitutionalProposalPersonUnit ipPersonUnit : proposalPerson.getUnits()) {
             AwardPersonUnit awardUnit = awardPerson.getUnit(ipPersonUnit.getUnitNumber());
             if (awardUnit == null) {
@@ -119,7 +117,7 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
         awardPerson.setPhoneNumber(proposalPerson.getPhoneNumber());
         awardPerson.setSummerEffort(proposalPerson.getSummerEffort());
         awardPerson.setTotalEffort(proposalPerson.getTotalEffort());
-
+        awardPerson.setIncludeInCreditAllocation(proposalPerson.getIncludeInCreditAllocation());
         for (InstitutionalProposalPersonCreditSplit ipPersonCreditSplit : proposalPerson.getCreditSplits()) {
             awardPerson.add(createAwardPersonCreditSplit(ipPersonCreditSplit));
         }
