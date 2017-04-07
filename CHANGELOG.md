@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* RESKC-1983, RESKC-1999: IP and Award fixes. (#2290)
+
+  * ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY is set to Y
+  * If an IP is used as the funding source in the Award, the award does show the credit split information now; however, the Include in Credit Allocation checkboxes seem to come over to an award as checked for everyone, even-though in the IP it was unchecked. When information is being extracted from IP to populate the Award, the information should be copied from the IP as identified in the comment above.
+  * 
+  * I get an STE when I exclude a PI or Co-Investigator (employee and non-employee) from Credit Allocation in PD and then I try to submit the PD to sponsor (to generate the IP). When I click the Submit to Sponsor button, the following STE results. The error states that the Investigator needs a Unit, but in my proposal he/she does have a Unit assigned - see proposal no. 11676 and proposal no. 11678 and 11680 in res-tst1. This may be related to the issue identified in the comment below that when a person is excluded from the credit allocation their Unit Details are not carried over to the IP record (and Unit information is required for investigators in IP)
+  * 
+  * If a person is NOT include in Credit Allocation in PD, when that PD is submitted to Sponsor, the Unit Details for that individual do not show in the IP record created from that PD:  * Gayathri Athreya on Fri, 7 Apr 2017 13:30:44 -0700 [View Commit](../../commit/aafafcbb8004c23745416d6296df0347f814ad1a)
+
+##coeus-1704.0009
 * RESKC-2162: Fix award budget ste (#2289)
 
   * STE is generated when clicking the post button on award budgets.
