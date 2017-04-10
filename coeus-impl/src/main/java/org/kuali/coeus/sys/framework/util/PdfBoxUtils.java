@@ -294,9 +294,11 @@ public final class PdfBoxUtils {
         } else {
             if (predicate.test(field) && !(field instanceof PDButton)) {
                 final StringBuilder outputString = new StringBuilder(VAL_START);
-                outputString.append(sParent);
+
                 if (partialName != null) {
-                    outputString.append(SEPARATOR).append(partialName);
+                    outputString.append(partialName);
+                } else {
+                    outputString.append(sParent);
                 }
                 outputString.append(VAL_END);
 
