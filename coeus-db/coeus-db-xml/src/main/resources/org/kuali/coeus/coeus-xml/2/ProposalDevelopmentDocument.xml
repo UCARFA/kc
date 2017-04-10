@@ -81,18 +81,19 @@
       <split name="isHierarchyChild">
       <branch name="False">
 
-          <split name="costShareSplit">
+          <split name="costShareSplit" nextNode="OSPOfficeRouting">
               <branch name="costShare">
               <requests name="CostSharePeopleFlows" nextNode="JoinCostShare"/>
               </branch>
               <branch name="regular">
                   <requests name="PeopleFlows" nextNode="JoinCostShare" />
               </branch>
-              <join name="JoinCostShare" />
+              <join name="JoinCostShare"/>
           </split>
 
           <role name="OSPOfficeRouting" nextNode="Join" />
       </branch>
+
       <branch name="True">
         <requests name="WaitForHierarchyDisposition" nextNode="Join" />
       </branch>
