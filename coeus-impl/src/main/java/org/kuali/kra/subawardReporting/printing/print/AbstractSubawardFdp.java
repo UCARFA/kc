@@ -328,7 +328,9 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
     }
 
     private void setHeaderInformation(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail) {
-        setField(document, Pdf.Field.SUBAWARD_NUMBER.getfName(), subcontractDetail.getPONumber());
+        if (subcontractDetail.getFsrsSubawardNumber() != null) {
+            setField(document, Pdf.Field.SUBAWARD_NUMBER.getfName(), subcontractDetail.getFsrsSubawardNumber());
+        }
     }
 
     @Override
