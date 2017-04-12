@@ -27,6 +27,7 @@ import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
 import org.kuali.coeus.common.framework.print.ReportHelper;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList;
+import org.kuali.coeus.common.notification.impl.NotificationAwareForm;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentActionBean;
@@ -78,7 +79,7 @@ import java.util.stream.Collectors;
 
 @ChangeTracking
 @Link(path = "document.developmentProposal")
-public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase implements Auditable, SelectableBudget {
+public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase implements Auditable, SelectableBudget, NotificationAwareForm<ProposalDevelopmentNotificationContext> {
 
     private static final long serialVersionUID = 1381360399393420225L;
     
@@ -292,6 +293,16 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         return addRecipientHelper;
     }
 
+    @Override
+    public boolean isSendNotification() {
+        return isSendOverrideNotification();
+    }
+
+    @Override
+    public void setSendNotification(boolean sendNotification) {
+        setSendOverrideNotification(sendNotification);
+    }
+
     public void setAddRecipientHelper(AddLineHelper addRecipientHelper) {
         this.addRecipientHelper = addRecipientHelper;
     }
@@ -490,6 +501,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 		this.copyBudgetDto = copyBudgetDto;
 	}
 
+	@Override
     public NotificationHelper<ProposalDevelopmentNotificationContext> getNotificationHelper() {
         return notificationHelper;
     }
@@ -522,10 +534,12 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.narrativeUserRightsSelectedAttachment = narrativeUserRightsSelectedAttachment;
     }
 
+    @Override
     public MessageMap getDeferredMessages() {
         return deferredMessages;
     }
 
+    @Override
     public void setDeferredMessages(MessageMap deferredMessages) {
         this.deferredMessages = deferredMessages;
     }

@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.budget.impl.calculator;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;

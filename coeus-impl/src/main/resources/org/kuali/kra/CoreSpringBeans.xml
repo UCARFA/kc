@@ -165,6 +165,7 @@
                 <value>classpath:org/kuali/coeus/common/budget/impl/core/category/BudgetCategoryType.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/editable/BudgetChangedData.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/editable/BudgetColumnsToAlter.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/editable/BudgetDataOverrideDialog.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/distribution/BudgetCostShare.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/core/BudgetDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/nonpersonnel/BudgetFormulatedCostDetail.xml</value>

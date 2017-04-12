@@ -31,7 +31,7 @@ import javax.xml.namespace.QName;
 
 import com.google.common.base.CaseFormat;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
