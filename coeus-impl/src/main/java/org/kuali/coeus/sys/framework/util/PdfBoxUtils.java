@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.pdfbox.cos.COSDictionary;
+import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
@@ -207,8 +208,32 @@ public final class PdfBoxUtils {
                     field.getWidgets().forEach(w -> w.getAppearanceCharacteristics().setBackground(new PDColor(new float[]{255,255,255}, PDDeviceRGB.INSTANCE)));
                 }
             }
+
+            if (field instanceof PDRadioButton) {
+                doRadioButtonWorkaround((PDRadioButton) field);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Radio Buttons that have Export Values are not toggled like they are supposed to be.  Instead of setting the value to
+     * to one of the valid options you have to set it to the index of one of the valid options.
+     * This appears to be a bug in Pdfbox.  This is a workaround.
+     */
+    private static void doRadioButtonWorkaround(PDRadioButton field) {
+
+        if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(field.getExportValues()) && field.getWidgets() != null) {
+            field.getWidgets().forEach(w -> {
+                PDAppearanceEntry appearanceEntry = w.getAppearance().getNormalAppearance();
+
+                final int idx = field.getExportValues().indexOf((field).getValue());
+
+                if (((COSDictionary) appearanceEntry.getCOSObject()).containsKey(String.valueOf(idx))) {
+                    w.getCOSObject().setName(COSName.AS, String.valueOf(idx));
+                }
+            });
         }
     }
 

@@ -89,27 +89,41 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
                 final SubContractDataDocument xmlObject = (SubContractDataDocument) xml.get(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType());
                 if (xmlObject != null) {
 
-                    final boolean afosrForm = FDP_AFOSR_FORM.equals(e.getKey());
-                    final boolean amrmcForm = FDP_AMRMC_FORM.equals(e.getKey());
-                    final boolean aroForm = FDP_ARO_FORM.equals(e.getKey());
-                    final boolean doeForm = FDP_DOE_FORM.equals(e.getKey());
-                    final boolean epaForm = FDP_EPA_FORM.equals(e.getKey());
-                    final boolean nasaForm = FDP_NASA_FORM.equals(e.getKey());
-                    final boolean nihForm = FDP_NIH_FORM.equals(e.getKey());
-                    final boolean nsfForm = FDP_NSF_FORM.equals(e.getKey());
-                    final boolean onrForm = FDP_ONR_FORM.equals(e.getKey());
-                    final boolean usdaForm = FDP_USDA_FORM.equals(e.getKey());
+                    final SponsorFormType type;
+                    if (FDP_AFOSR_FORM.equals(e.getKey())) {
+                        type = SponsorFormType.AFSOR;
+                    } else if (FDP_AMRMC_FORM.equals(e.getKey())) {
+                        type = SponsorFormType.AMRMC;
+                    } else if (FDP_ARO_FORM.equals(e.getKey())) {
+                        type = SponsorFormType.ARO;
+                    } else if (FDP_DOE_FORM.equals(e.getKey())) {
+                        type = SponsorFormType.DOE;
+                    } else if (FDP_EPA_FORM.equals(e.getKey())) {
+                        type = SponsorFormType.EPA;
+                    } else if (FDP_NASA_FORM.equals(e.getKey())) {
+                        type = SponsorFormType.NASA;
+                    } else if (FDP_NIH_FORM.equals(e.getKey())) {
+                        type = SponsorFormType.NIH;
+                    } else if (FDP_NSF_FORM.equals(e.getKey())) {
+                        type = SponsorFormType.NSF;
+                    } else if (FDP_ONR_FORM.equals(e.getKey())) {
+                        type = SponsorFormType.ONR;
+                    } else if (FDP_USDA_FORM.equals(e.getKey())) {
+                        type = SponsorFormType.USADA;
+                    } else {
+                        throw new RuntimeException("unsupported form type " + e.getKey());
+                    }
 
                     final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
                     final SubContractDataDocument.SubContractData.OtherConfigInfo configInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getOtherConfigInfoArray()) ? xmlObject.getSubContractData().getOtherConfigInfoArray(0) : SubContractDataDocument.SubContractData.OtherConfigInfo.Factory.newInstance();
                     final SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractTemplateInfoArray()) ? xmlObject.getSubContractData().getSubcontractTemplateInfoArray(0) : SubContractDataDocument.SubContractData.SubcontractTemplateInfo.Factory.newInstance();
 
                     //Sponsor Agency
-                    setSponsorAgency(document, afosrForm, amrmcForm, aroForm, doeForm, epaForm, nasaForm, nihForm, nsfForm, onrForm, usdaForm);
+                    setSponsorAgency(document, type);
                     setHeaderInformation(document, subcontractDetail);
                     setRequiredDataElements(document);
-                    setGenTermsAndConditions(document, configInfo, nihForm, nsfForm);
-                    setMpiInfo(document, templateInfo, nihForm);
+                    setGenTermsAndConditions(document, configInfo, templateInfo, type);
+                    setMpiInfo(document, templateInfo, type);
                     setStcCopyrights(document, templateInfo);
                     setStcAutoCarryForward(document, templateInfo);
                     setHumanAnimalSubjects(document, templateInfo);
@@ -117,7 +131,7 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
                     setAnimalPteVerification(document, templateInfo);
                     setHumanSubjectsDataExchange(document, templateInfo);
                     setHumanSubjectsDataExchangeTerms(document, templateInfo);
-                    setPromotingObjectivityFcio(document, templateInfo, configInfo, nihForm, nsfForm);
+                    setPromotingObjectivityFcio(document, templateInfo, configInfo, type);
                     setDataSharingPubAccessPolicy(document, templateInfo);
                 }
 
@@ -130,26 +144,26 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         }).collect(entriesToMap());
     }
 
-    private void setSponsorAgency(PDDocument document, boolean afosrForm, boolean amrmcForm, boolean aroForm, boolean doeForm, boolean epaForm, boolean nasaForm, boolean nihForm, boolean nsfForm, boolean onrForm, boolean usdaForm) {
-        if (afosrForm) {
+    private void setSponsorAgency(PDDocument document, SponsorFormType type) {
+        if (type == SponsorFormType.AFSOR) {
             setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.AFOSR_RADIO_VALUE);
-        } else if (amrmcForm) {
+        } else if (type == SponsorFormType.AMRMC) {
             setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.AMRMC_RADIO_VALUE);
-        } else if (aroForm) {
+        } else if (type == SponsorFormType.ARO) {
             setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.ARO_RADIO_VALUE);
-        } else if (doeForm) {
+        } else if (type == SponsorFormType.DOE) {
             setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.OTHER_AGENCY_RADIO_VALUE);
-        } else if (epaForm) {
+        } else if (type == SponsorFormType.EPA) {
             setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.EPA_RADIO_VALUE);
-        } else if (nasaForm) {
+        } else if (type == SponsorFormType.NASA) {
             setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.NASA_RADIO_VALUE);
-        } else if (nihForm) {
+        } else if (type == SponsorFormType.NIH) {
             setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.NIH_RADIO_VALUE);
-        } else if (nsfForm) {
+        } else if (type == SponsorFormType.NSF) {
             setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.NSF_RADIO_VALUE);
-        } else if (onrForm) {
+        } else if (type == SponsorFormType.ONR) {
             setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.ONR_RADIO_VALUE);
-        } else if (usdaForm) {
+        } else if (type == SponsorFormType.USADA) {
             setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.USDA_RADIO_VALUE);
         }
     }
@@ -162,13 +176,13 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         }
     }
 
-    private void setPromotingObjectivityFcio(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, boolean nihForm, boolean nsfForm) {
+    private void setPromotingObjectivityFcio(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, SponsorFormType type) {
         setField(document, Pdf.Field.FCOI_PTE.getfName(), FcioSubrecipientPolicy.PTE.getCode().equals(templateInfo.getFcioSubrecPolicyCd()));
         setField(document, Pdf.Field.FCOI_SUBRECIPIENT.getfName(), FcioSubrecipientPolicy.SUBRECIPIENT.getCode().equals(templateInfo.getFcioSubrecPolicyCd()));
 
-        if (nihForm) {
+        if (type == SponsorFormType.NIH) {
             setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNihFCoiGuidance());
-        } else if (nsfForm) {
+        } else if (type == SponsorFormType.NSF) {
             setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNsfFCoiGuidance());
         }
 
@@ -278,13 +292,13 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         setField(document, Pdf.Field.COPYRIGHTS_SUBRECIPIENT_SHALL_GRANT_CHECKBOX.getfName(), COPYRIGHTS_SHALL_GRANT_CODE.equals(templateInfo.getCopyRights()));
     }
 
-    private void setMpiInfo(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, boolean nihForm) {
-        toggleFieldVisibility(document, Pdf.Field.MPI_SECTION_LABEL.getfName(), !nihForm);
-        toggleFieldVisibility(document, Pdf.Field.MPI_AWARD_CHECKBOX.getfName(), !nihForm);
-        toggleFieldVisibility(document, Pdf.Field.MPI_AWARD_LABEL.getfName(), !nihForm);
-        toggleFieldVisibility(document, Pdf.Field.NOT_MPI_AWARD_LABEL.getfName(), !nihForm);
-        toggleFieldVisibility(document, Pdf.Field.NOT_MPI_AWARD_CHECKBOX.getfName(), !nihForm);
-        if (nihForm) {
+    private void setMpiInfo(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, SponsorFormType type) {
+        toggleFieldVisibility(document, Pdf.Field.MPI_SECTION_LABEL.getfName(), type != SponsorFormType.NIH);
+        toggleFieldVisibility(document, Pdf.Field.MPI_AWARD_CHECKBOX.getfName(), type != SponsorFormType.NIH);
+        toggleFieldVisibility(document, Pdf.Field.MPI_AWARD_LABEL.getfName(), type != SponsorFormType.NIH);
+        toggleFieldVisibility(document, Pdf.Field.NOT_MPI_AWARD_LABEL.getfName(), type != SponsorFormType.NIH);
+        toggleFieldVisibility(document, Pdf.Field.NOT_MPI_AWARD_CHECKBOX.getfName(), type != SponsorFormType.NIH);
+        if (type == SponsorFormType.NIH) {
             setField(document, Pdf.Field.NOT_MPI_AWARD_CHECKBOX.getfName(), !fromYN(templateInfo.getMpiAward()));
             setField(document, Pdf.Field.MPI_AWARD_CHECKBOX.getfName(), fromYN(templateInfo.getMpiAward()));
 
@@ -299,14 +313,19 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         }
     }
 
-    private void setGenTermsAndConditions(PDDocument document, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, boolean nihForm, boolean nsfForm) {
+    private void setGenTermsAndConditions(PDDocument document, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, SponsorFormType type) {
         //General Terms and Conditions
-        if (nihForm) {
+        if (type == SponsorFormType.NIH) {
             setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), configInfo.getFdpNihPolicy());
             setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), configInfo.getFdpNihGrantsPolicyStatement());
             setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), configInfo.getFdpNihInterimResearchTerms());
             setField(document, Pdf.Field.REQUIREMENTS.getfName(), configInfo.getFdpNihAgencyRequirements());
-        } else if (nsfForm) {
+
+            if (fromYN(templateInfo.getTreatmentPrgmIncomeAdditive())) {
+                setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_ADDITIVE_VALUE);
+            }
+
+        } else if (type == SponsorFormType.NSF) {
             setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), configInfo.getFdpNsfPolicy());
             setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), configInfo.getFdpNsfGrantsPolicyStatement());
             setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), configInfo.getFdpNsfInterimResearchTerms());
@@ -357,6 +376,10 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
 
     private boolean fromYN(String s) {
         return "Y".equals(s);
+    }
+
+    private enum SponsorFormType {
+        AFSOR, AMRMC, ARO, DOE, EPA, NASA, NIH, NSF, ONR, USADA
     }
 
     static final class Pdf {
@@ -443,8 +466,9 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
             FEDERAL_AWARD_CONDITIONS("FederalAwardConditions", Collections.emptySet()),
             GRANTS_POLICY_STATEMENT("GrantsPolicyStatement", Collections.emptySet()),
             INTERIM_RES_TERMS_COND("IntRTCs", Collections.emptySet()),
-            REQUIREMENTS("RTCs", Collections.emptySet());
-            
+            REQUIREMENTS("RTCs", Collections.emptySet()),
+            TREATMENT_OF_PROGRAM_INCOME("_6_  Treatment of Program Inco_nwAbuWIn0JWsW9e68RWN8A", Stream.of(TPI_ADDITIVE_VALUE, TPI_OTHER_VALUE, TPI_OFF_VALUE).collect(Collectors.toSet()));
+
             private String fName;
             private Set<String> values;
             
@@ -477,7 +501,11 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         private static final String CF_CONTACT_FINANCIAL_CONTACT_VALUE = "Financial Contact";
         private static final String CF_CONTACT_PI_VALUE = "Principal Investigator (PI)";
         private static final String CF_CONTACT_AUTHORIZED_OFFICIAL_VALUE = "Authorized Official";
-        
+
+        private static final String TPI_ADDITIVE_VALUE = "Additive";
+        private static final String TPI_OTHER_VALUE = "Other, Pass-through Entity specify alternative from NIH Agreement";
+        private static final String TPI_OFF_VALUE = "Off";
+
         private Pdf() {
             throw new UnsupportedOperationException("do not call");
         }

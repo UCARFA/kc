@@ -6,7 +6,7 @@ import org.kuali.coeus.sys.framework.util.PdfBoxUtils;
 
 import java.io.File;
 
-public class MarkPdf {
+public class LogAndMarkPdf {
 
     public static void main(String[] args) throws Exception {
 
@@ -16,8 +16,15 @@ public class MarkPdf {
         }
 
         final File source = new File(args[0]);
+        if(!source.exists() && !source.isFile()) {
+            System.err.println("Please provide a path to a valid pdf file. Path: " + args[0]);
+            return;
+        }
+
         try(PDDocument pdfDocument = PDDocument.load(source)) {
+            PdfBoxUtils.logFields(pdfDocument);
             PdfBoxUtils.markFields(pdfDocument);
+
             pdfDocument.save(source.getParent() + File.separator + source.getName() + "-MARKED.pdf");
         }
     }
