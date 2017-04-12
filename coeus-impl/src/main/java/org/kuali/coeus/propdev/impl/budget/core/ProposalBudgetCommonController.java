@@ -56,7 +56,9 @@ import java.util.Properties;
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetCommonController extends ProposalBudgetControllerBase {
 
-    @Autowired
+	private static final String PROP_BUDGET_PERIODS_PAGE = "PropBudget-PeriodsPage";
+	private static final String INFO_DATAOVERRIDE_OCCURED_BUDGET = "info.dataoverride.occured.budget";
+	@Autowired
 	@Qualifier("proposalBudgetSharedControllerService")
 	private ProposalBudgetSharedControllerService proposalBudgetSharedController;
 
@@ -85,7 +87,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		form.setBudget(loadBudget(budgetId));
 
 		if (CollectionUtils.isNotEmpty(form.getDevelopmentProposal().getBudgetChangedDataList())) {
-			getGlobalVariableService().getMessageMap().putInfoForSectionId("PropBudget-PeriodsPage", "info.dataoverride.occured.budget");
+			getGlobalVariableService().getMessageMap().putInfoForSectionId(PROP_BUDGET_PERIODS_PAGE, INFO_DATAOVERRIDE_OCCURED_BUDGET);
 		}
 
 		if(!inViewMode) {

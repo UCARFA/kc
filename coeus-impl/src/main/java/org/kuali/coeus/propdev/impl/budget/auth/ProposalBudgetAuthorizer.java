@@ -260,10 +260,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
 
     protected boolean isAuthorizedToAlterProposalData(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
-        //standard is authorized calculation without taking child status into account.
-        boolean ret = getKcWorkflowService().isEnRoute(pdDocument) &&
-                !pdDocument.getDevelopmentProposal().getSubmitFlag() &&
-                getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.ALTER_PROPOSAL_DATA);
+        boolean ret = true;
 
         //check to see if the parent is enroute, if so deny the edit attempt.
         if(pdDocument.getDevelopmentProposal().isChild() ) {
@@ -276,6 +273,14 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
                 ret = false;
             }
         }
+
+        if (ret){
+            ret = getKcWorkflowService().isEnRoute(pdDocument) &&
+                    !pdDocument.getDevelopmentProposal().getSubmitFlag() &&
+                    getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.ALTER_PROPOSAL_DATA);
+        }
+
+
         return ret;
     }
 

@@ -51,6 +51,9 @@ public class ProposalBudgetDataOverrideController extends ProposalBudgetControll
 
     private static final String BUDGET_JUSTIFICATION = "budgetJustification";
     private static final String CHANGE_NUMBER = "proposalDevelopment.budgetChangedDataList.changeNumber";
+    private static final String AD_HOC_NOTIFICATION = "Ad-Hoc Notification";
+    private static final String PROP_BUDGET_DATA_OVERRIDE_DIALOG = "PropBudget-DataOverride-Dialog";
+
 
     @Autowired
     @Qualifier("kualiRuleService")
@@ -79,7 +82,7 @@ public class ProposalBudgetDataOverrideController extends ProposalBudgetControll
         } else {
             form.setNewBudgetChangedData(new BudgetChangedData());
         }
-        form.setUpdateComponentId("PropBudget-DataOverride-Dialog");
+        form.setUpdateComponentId(PROP_BUDGET_DATA_OVERRIDE_DIALOG);
         form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         return getRefreshControllerService().refresh(form);
     }
@@ -117,9 +120,9 @@ public class ProposalBudgetDataOverrideController extends ProposalBudgetControll
 
             super.saveBudget(form);
 
-            String s = getCommonDataOverrideService().getDisplayReferenceValue(budget, newBudgetChangedData.getAttributeName(), Budget.class);
-            if (s != null) {
-                newBudgetChangedData.setDisplayValue(s);
+            String value = getCommonDataOverrideService().getDisplayReferenceValue(budget, newBudgetChangedData.getAttributeName(), Budget.class);
+            if (value != null) {
+                newBudgetChangedData.setDisplayValue(value);
             }
             form.setNewBudgetChangedData(new BudgetChangedData());
 
@@ -154,7 +157,7 @@ public class ProposalBudgetDataOverrideController extends ProposalBudgetControll
     public ModelAndView sendNotifications(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
 
         ProposalDevelopmentNotificationRenderer renderer = new ProposalDevelopmentNotificationRenderer(form.getDevelopmentProposal());
-        ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getDevelopmentProposal(), null, "Ad-Hoc Notification", renderer);
+        ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getDevelopmentProposal(), null, AD_HOC_NOTIFICATION, renderer);
 
         return getNotificationControllerService().sendNotifications(form, context);
     }

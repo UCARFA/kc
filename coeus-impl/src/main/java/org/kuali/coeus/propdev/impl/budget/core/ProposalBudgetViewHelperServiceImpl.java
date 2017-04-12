@@ -51,6 +51,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.view.ViewModel;
@@ -105,7 +106,12 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     private PersonService personService;
 
     public String displayFullName(String userName){
-        return ObjectUtils.isNull(userName) ? "" : getPersonService().getPersonByPrincipalName(userName).getName();
+        if (ObjectUtils.isNull(userName)) {
+            return "";
+        }
+
+        final Person person = getPersonService().getPersonByPrincipalName(userName);
+        return person != null ? person.getName() : "";
     }
 
     public void finalizeNavigationLinks(Action action, Object model, String direction) {

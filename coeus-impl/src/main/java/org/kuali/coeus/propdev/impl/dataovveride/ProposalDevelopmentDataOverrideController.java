@@ -97,9 +97,9 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
             form.getDevelopmentProposal().setProposalChangedDataList(proposalChangedDataList);
 
             super.save(form);
-            String s = getCommonDataOverrideService().getDisplayReferenceValue(form.getDevelopmentProposal(), newProposalChangedData.getAttributeName(), DevelopmentProposal.class);
-            if (s != null) {
-                newProposalChangedData.setDisplayValue(s);
+            String value = getCommonDataOverrideService().getDisplayReferenceValue(form.getDevelopmentProposal(), newProposalChangedData.getAttributeName(), DevelopmentProposal.class);
+            if (value != null) {
+                newProposalChangedData.setDisplayValue(value);
             }
             form.setNewProposalChangedData(new ProposalChangedData());
 

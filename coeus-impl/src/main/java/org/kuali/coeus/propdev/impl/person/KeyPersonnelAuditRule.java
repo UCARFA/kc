@@ -19,7 +19,7 @@
 package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
-import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;

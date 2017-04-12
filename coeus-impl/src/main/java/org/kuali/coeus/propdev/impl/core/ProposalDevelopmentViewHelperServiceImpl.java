@@ -773,7 +773,12 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public String displayFullName(String userName){
-        return ObjectUtils.isNull(userName) ? "" : getPersonService().getPersonByPrincipalName(userName).getName();
+        if (ObjectUtils.isNull(userName)) {
+            return "";
+        }
+
+        final Person person = getPersonService().getPersonByPrincipalName(userName);
+        return person != null ? person.getName() : "";
     }
 
     public String replaceLineBreaks(String string) {

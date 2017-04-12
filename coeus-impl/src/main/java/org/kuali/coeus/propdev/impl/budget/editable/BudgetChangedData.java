@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.editable;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -154,7 +154,7 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase implement
             }
         }
 
-        return "";
+        return StringUtils.EMPTY;
     }
 
     @Override
