@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.pdfbox.cos.COSDictionary;
+import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
@@ -200,15 +201,46 @@ public final class PdfBoxUtils {
             }
 
             if (field instanceof PDVariableText) {
-                //for some reason flattened pdfs have invisible text unless you explicitly set the text and background color
-                //then the document must be flattened with refreshAppearances=true in order for these changes to apply
-                ((PDVariableText) field).setDefaultAppearance(DEFAULT_APPEARANCE);
-                if (field.getWidgets() != null) {
-                    field.getWidgets().forEach(w -> w.getAppearanceCharacteristics().setBackground(new PDColor(new float[]{255,255,255}, PDDeviceRGB.INSTANCE)));
-                }
+                doVariableTextWorkaround((PDVariableText) field);
+            } else if (field instanceof PDRadioButton) {
+                doRadioButtonWorkaround((PDRadioButton) field);
             }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Radio Buttons that have Export Values are not toggled like they are supposed to be.  Instead of setting the value to
+     * to one of the valid options you have to set it to the index of one of the valid options.
+     * This appears to be a bug in Pdfbox.  This is a workaround.
+     * See https://issues.apache.org/jira/browse/PDFBOX-3753
+     */
+    private static void doRadioButtonWorkaround(PDRadioButton field) {
+
+        if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(field.getExportValues()) && field.getWidgets() != null) {
+            field.getWidgets().forEach(w -> {
+                PDAppearanceEntry appearanceEntry = w.getAppearance().getNormalAppearance();
+
+                final int idx = field.getExportValues().indexOf((field).getValue());
+
+                if (((COSDictionary) appearanceEntry.getCOSObject()).containsKey(String.valueOf(idx))) {
+                    w.getCOSObject().setName(COSName.AS, String.valueOf(idx));
+                }
+            });
+        }
+    }
+
+    /**
+     * for some reason flattened pdfs have invisible text unless you explicitly set the text and background color
+     * then the document must be flattened with refreshAppearances=true in order for these changes to apply
+     * see https://issues.apache.org/jira/browse/PDFBOX-3752
+     */
+    private static void doVariableTextWorkaround(PDVariableText field) {
+        field.setDefaultAppearance(DEFAULT_APPEARANCE);
+        if (field.getWidgets() != null) {
+            field.getWidgets().forEach(w -> w.getAppearanceCharacteristics().setBackground(new PDColor(new float[]{255,255,255}, PDDeviceRGB.INSTANCE)));
         }
     }
 
@@ -228,8 +260,21 @@ public final class PdfBoxUtils {
             throw new IllegalArgumentException("pdfDocument is null");
         }
 
-        //when flattening with refreshAppearances, a NPE will occur if each widget doesn't have a
-        //PDAppearanceDictionary instance with a normal PDAppearanceEntry instance set
+        doFlatteningWorkaround(pdfDocument);
+
+        try {
+            pdfDocument.getDocumentCatalog().getAcroForm().flatten(pdfDocument.getDocumentCatalog().getAcroForm().getFields(), true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * when flattening with refreshAppearances, a NPE will occur if each widget doesn't have a
+     * PDAppearanceDictionary instance with a normal PDAppearanceEntry instance set
+     * see https://issues.apache.org/jira/browse/PDFBOX-3751
+     */
+    private static void doFlatteningWorkaround(PDDocument pdfDocument) {
         pdfDocument.getDocumentCatalog().getAcroForm().getFields()
                 .stream()
                 .flatMap(f -> f.getWidgets().stream())
@@ -239,12 +284,6 @@ public final class PdfBoxUtils {
                     appearance.setNormalAppearance(new PDAppearanceEntry(new COSDictionary()));
                     w.setAppearance(appearance);
                 });
-
-        try {
-            pdfDocument.getDocumentCatalog().getAcroForm().flatten(pdfDocument.getDocumentCatalog().getAcroForm().getFields(), true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
