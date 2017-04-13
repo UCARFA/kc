@@ -276,7 +276,7 @@
                         <bean parent="PropDev-SubmitPage-UnitCollectionGroup" />
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.isQuestionnairesCompleted()?'complete':'incomplete'} [0]"
+                <bean parent="Uif-MessageField" p:messageText="@{#line.certifiedBy != null and #line.isQuestionnairesCompleted()?'complete':'incomplete'} [0]"
                       p:fieldLabel.labelText="Proposal Person Certification"
                       p:order="40">
                     <property name="inlineComponents">
