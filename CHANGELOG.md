@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2103: making sure the submit page looks at the certifiedBy to determine completeness and the personnel page looks at questionnaire completeness
+  * Travis Schneeberger on Thu, 13 Apr 2017 13:48:28 -0400 [View Commit](../../commit/3c14751beeb3c4ef37c7edad1ae6f3e1b797086a)
+
+##coeus-1704.0017
 * No Changes
 
 
