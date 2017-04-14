@@ -86,7 +86,7 @@ public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abst
         return result;
     }
 
-	protected Set<String> getApplicableUnits(DevelopmentProposal proposal) {
+	public Set<String> getApplicableUnits(DevelopmentProposal proposal) {
 		return proposal.getProposalPersons().stream()
 				  .flatMap(person -> person.getUnits().stream())
 				  .map(unit -> getUnitNumberForPersonUnit(unit.getUnit()))

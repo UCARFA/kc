@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.sys.framework.service;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.collect.CollectionUtils;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;

@@ -20,6 +20,7 @@ package org.kuali.kra.award.home;
 
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -96,6 +97,12 @@ public interface AwardService {
     public void synchNewCustomAttributes(Award newAward, Award oldAward);
     
     public Award getAwardAssociatedWithDocument(String docNumber);
+
+    Boolean isCreditSplitOptInEnabled();
+
+    Boolean generateCreditSplitForPerson(AwardPerson person);
+
+    List<AwardPerson> getPersonsSelectedForCreditSplit(List<AwardPerson> projectPersons);
 
     /**
      * Get the Award Number for an Awrad based upon its unique id number.

@@ -37,6 +37,9 @@
 
 <div id="workarea"> 
 <kra-sub:subAwardTemplate/>
+<kra-sub:subAwardTemplateContacts/>
+<kra-sub:subAwardTemplateTermsAndConditions/>
+<kra-sub:subAwardTemplateCompliance/>
 <kra-sub:subAwardReport/>
 <kra-sub:subAwardAttachment/>
 <kul:panelFooter/>

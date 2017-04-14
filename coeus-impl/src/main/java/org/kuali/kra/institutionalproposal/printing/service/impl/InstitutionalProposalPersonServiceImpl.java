@@ -19,10 +19,15 @@
 package org.kuali.kra.institutionalproposal.printing.service.impl;
 
 
-import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
+import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
+import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +35,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * These class have different methods to provide service like pass proposal
@@ -37,12 +43,15 @@ import java.util.List;
  */
 public class InstitutionalProposalPersonServiceImpl implements
 		InstitutionalProposalPersonService {
-	private static final String PROPOSAL_NUMBER_PARAMETER = "proposalNumber";
 	private BusinessObjectService businessObjectService;
 	
 	@Autowired
 	@Qualifier("dataObjectService")
 	private DataObjectService dataObjectService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
 	/**
 	 * This method will return the list of proposal persons if proposal person
@@ -71,6 +80,26 @@ public class InstitutionalProposalPersonServiceImpl implements
 		}
 		return proposalPersonsList;
 	}
+
+    @Override
+    public Boolean isCreditSplitOptInEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                CreditSplitConstants.ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY);
+    }
+
+    @Override
+    public Boolean generateCreditSplitForPerson(InstitutionalProposalPerson person) {
+        final boolean optIn = isCreditSplitOptInEnabled();
+        return (!optIn || person.getIncludeInCreditAllocation());
+    }
+
+    @Override
+    public List<InstitutionalProposalPerson> getPersonsSelectedForCreditSplit(List<InstitutionalProposalPerson> projectPersons) {
+        final List<InstitutionalProposalPerson> institutionalProposalPersons = projectPersons.stream()
+                .filter(person -> generateCreditSplitForPerson(person))
+                .collect(Collectors.toList());
+        return institutionalProposalPersons;
+    }
 
 	public BusinessObjectService getBusinessObjectService() {
 		return businessObjectService;

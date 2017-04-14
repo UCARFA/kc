@@ -42,6 +42,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalFandABean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandABean;
 import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationContext;
+import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
 import org.kuali.kra.institutionalproposal.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.common.framework.medusa.MedusaBean;
 import org.kuali.coeus.common.framework.custom.CustomDataDocumentForm;
@@ -97,7 +98,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
 
     private transient List<DisclosureProjectStatus> disclosureProjectStatuses;
     private transient DisclosureStatusRetrievalService disclosureStatusRetrievalService;
-    
+    private transient InstitutionalProposalPersonService institutionalProposalPersonService;
 
     public InstitutionalProposalForm() {
         super();
@@ -461,6 +462,11 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         }
     }
 
+
+    public boolean isCreditSplitOptInEnabled() {
+        return getInstitutionalProposalPersonService().isCreditSplitOptInEnabled();
+    }
+
     protected DisclosureStatusRetrievalService getDisclosureStatusRetrievalService() {
         if (disclosureStatusRetrievalService == null) {
             disclosureStatusRetrievalService = KcServiceLocator.getService(DisclosureStatusRetrievalService.class);
@@ -468,4 +474,10 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         return disclosureStatusRetrievalService;
     }
 
+    public InstitutionalProposalPersonService getInstitutionalProposalPersonService() {
+        if (institutionalProposalPersonService == null) {
+            institutionalProposalPersonService = KcServiceLocator.getService(InstitutionalProposalPersonService.class);
+        }
+        return institutionalProposalPersonService;
+    }
 }

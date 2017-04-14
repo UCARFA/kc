@@ -30,10 +30,12 @@ import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.kra.subaward.subawardrule.events.AddSubAwardAttachmentEvent;
@@ -63,7 +65,11 @@ SubAwardFfataReportingRule {
     private static final String SUBAWARD_START_DATE =".startDate";
     private static final String SITEINVESTIGATOR =".siteInvestigatorId";
     private static final String AMOUNT_INFO_OBLIGATED_AMOUNT = "newSubAwardAmountInfo.obligatedChange";
+    private static final String AMOUNT_INFO_OBLIGATED_DIRECT_AMOUNT = "newSubAwardAmountInfo.obligatedChangeDirect";
+    private static final String AMOUNT_INFO_OBLIGATED_INDIRECT_AMOUNT = "newSubAwardAmountInfo.obligatedChangeIndirect";
     private static final String AMOUNT_INFO_ANTICIPATED_AMOUNT = "newSubAwardAmountInfo.anticipatedChange";
+    private static final String AMOUNT_INFO_ANTICIPATED_DIRECT_AMOUNT = "newSubAwardAmountInfo.anticipatedChangeDirect";
+    private static final String AMOUNT_INFO_ANTICIPATED_INDIRECT_AMOUNT = "newSubAwardAmountInfo.anticipatedChangeIndirect";
     private static final String ROLODEX_ID="newSubAwardContact.rolodex.fullName";
     private static final String CONTACT_TYPE_CODE="newSubAwardContact.contactTypeCode";
     private static final String CLOSEOUT_TYPE_CODE="newSubAwardCloseout.closeoutTypeCode";
@@ -83,10 +89,24 @@ SubAwardFfataReportingRule {
     private static final String NEW_ATTACHMENT_NEW_FILE = "subAwardAttachmentFormBean.newAttachment.newFile";
     private static final String NEW_ATTACHMENT_DESCRIPTION = "subAwardAttachmentFormBean.newAttachment.description";
     private static final String CARRY_FORWARD_REQUESTS_SENT_TO = "document.subAwardList[0].subAwardTemplateInfo[0].carryForwardRequestsSentTo";
+    private static final String MPI_LEADERSHIP_PLAN = "document.subAwardList[0].subAwardTemplateInfo[0].mpiLeadershipPlan";
 
     private static final Log LOG = LogFactory.getLog(SubAwardDocumentRule.class);
-    
+    public static final String ANIMAL_PTE_SEND_CD = "document.subAwardList[0].subAwardTemplateInfo[0].animalPteSendCd";
+    public static final String ERROR_REQUIRED_ANIMAL_PTE_SEND_CD = "error.required.subaward.templateinfo.animalPteSendCd";
+    public static final String ANIMAL_PTE_NR_CD = "document.subAwardList[0].subAwardTemplateInfo[0].animalPteNrCd";
+    public static final String ERROR_REQUIRED_ANIMAL_PTE_NR_CD = "error.required.subaward.templateinfo.animalPteNrCd";
+    public static final String HUMAN_PTE_SEND_CD = "document.subAwardList[0].subAwardTemplateInfo[0].humanPteSendCd";
+    public static final String ERROR_REQUIRED_HUMAN_PTE_SEND_CD = "error.required.subaward.templateinfo.humanPteSendCd";
+    public static final String HUMAN_PTE_NR_CD = "document.subAwardList[0].subAwardTemplateInfo[0].humanPteNrCd";
+    public static final String ERROR_REQUIRED_HUMAN_PTE_NR_CD = "error.required.subaward.templateinfo.humanPteNrCd";
+    public static final String HUMAN_DATA_EXCHANGE_AGREE_CD = "document.subAwardList[0].subAwardTemplateInfo[0].humanDataExchangeAgreeCd";
+    public static final String HUMAN_DATA_EXCHANGE_TERMS_CD = "document.subAwardList[0].subAwardTemplateInfo[0].humanDataExchangeTermsCd";
+    public static final String ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_AGREE_CD = "error.required.subaward.templateinfo.humanDataExchangeAgreeCd";
+    public static final String ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_TERMS_CD = "error.required.subaward.templateinfo.humanDataExchangeTermsCd";
+
     private AwardService awardService;
+    private ParameterService parameterService;
 
     @Override
     public boolean processAddSubAwardBusinessRules(SubAward subAward) {
@@ -160,23 +180,54 @@ SubAwardFfataReportingRule {
     @Override
     public boolean processAddSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo,SubAward subAward) {
         boolean rulePassed = getDictionaryValidationService().isBusinessObjectValid(amountInfo, NEW_SUB_AWARD_AMOUNT_INFO);
-        
+        boolean isCostSplitEnabled = isCostSplitEnabled();
+
+        if (!isCostSplitEnabled) {
+            if (amountInfo.getObligatedChange() == null || amountInfo.getObligatedChange().isZero()) {
+                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO);
+            }
+            if (amountInfo.getAnticipatedChange() == null || amountInfo.getAnticipatedChange().isZero()) {
+                reportError(AMOUNT_INFO_ANTICIPATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO);
+            }
+        } else {
+            if (amountInfo.getObligatedChangeDirect() == null || amountInfo.getObligatedChangeDirect().isZero()) {
+                reportError(AMOUNT_INFO_OBLIGATED_DIRECT_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE);
+            }
+            if (amountInfo.getObligatedChangeIndirect() == null || amountInfo.getObligatedChangeIndirect().isZero()) {
+                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE);
+            }
+            if (amountInfo.getAnticipatedChangeDirect() == null || amountInfo.getAnticipatedChangeDirect().isZero()) {
+                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE);
+            }
+            if (amountInfo.getAnticipatedChangeIndirect() == null || amountInfo.getAnticipatedChangeIndirect().isZero()) {
+                reportError(AMOUNT_INFO_OBLIGATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE);
+            }
+        }
+
         ScaleTwoDecimal obligatedAmount = subAward.getTotalObligatedAmount();
-        if (amountInfo.getObligatedChange() != null) {
-            obligatedAmount = obligatedAmount.add(amountInfo.getObligatedChange());
+            if (!isCostSplitEnabled) {
+                obligatedAmount = amountInfo.getObligatedChange() != null ? obligatedAmount.add(amountInfo.getObligatedChange()) : obligatedAmount;
+            } else {
+                obligatedAmount = amountInfo.getObligatedChangeDirect() != null ? obligatedAmount.add(amountInfo.getObligatedChangeDirect()) : obligatedAmount;
+                obligatedAmount = amountInfo.getObligatedChangeIndirect() != null ? obligatedAmount.add(amountInfo.getObligatedChangeIndirect()) : obligatedAmount;
+            }
             if (obligatedAmount.isNegative()) {
                 rulePassed = false; 
                 reportError(AMOUNT_INFO_OBLIGATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE); 
             }
-        }
+
         ScaleTwoDecimal anticipatedAmount = subAward.getTotalAnticipatedAmount();
-        if (amountInfo.getAnticipatedChange() != null) {
-            anticipatedAmount = anticipatedAmount.add(amountInfo.getAnticipatedChange());
+            if (!isCostSplitEnabled) {
+                anticipatedAmount = amountInfo.getAnticipatedChange() != null ? anticipatedAmount.add(amountInfo.getAnticipatedChange()) : anticipatedAmount;
+            } else {
+                anticipatedAmount = amountInfo.getAnticipatedChangeDirect() != null ? anticipatedAmount.add(amountInfo.getAnticipatedChangeDirect()) : anticipatedAmount;
+                anticipatedAmount = amountInfo.getAnticipatedChangeIndirect() != null ? anticipatedAmount.add(amountInfo.getAnticipatedChangeIndirect()) : anticipatedAmount;
+            }
+
             if (anticipatedAmount.isNegative()) {
                 rulePassed = false; 
                 reportError(AMOUNT_INFO_ANTICIPATED_AMOUNT, KeyConstants.ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_NEGATIVE); 
             }
-        }
         
         if (obligatedAmount.isGreaterThan(anticipatedAmount)) {
             rulePassed = false;
@@ -196,6 +247,17 @@ SubAwardFfataReportingRule {
             }
         }
         return rulePassed;
+    }
+
+    public boolean isCostSplitEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SUBAWARD, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.ENABLE_SUBAWARD_DC_IDC);
+    }
+
+    protected ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
     }
 
     @Override
@@ -365,13 +427,48 @@ SubAwardFfataReportingRule {
     protected boolean processSaveSubAwardTemplateInfoBusinessRules(SubAward subAward){
         boolean rulePassed = true;
         for (SubAwardTemplateInfo subAwardTemplateInfo : subAward.getSubAwardTemplateInfo()) {
-          if (((subAwardTemplateInfo.getAutomaticCarryForward()!=null) && (subAwardTemplateInfo.getAutomaticCarryForward().equals("Y")))) {
-             if (subAwardTemplateInfo.getCarryForwardRequestsSentTo()==null) {
-                rulePassed = false;            
-                LOG.debug(ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
-                reportError(CARRY_FORWARD_REQUESTS_SENT_TO, ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
-             }
-          }  
+            if ("Y".equalsIgnoreCase(subAwardTemplateInfo.getAutomaticCarryForward())) {
+                if (subAwardTemplateInfo.getCarryForwardRequestsSentTo()==null) {
+                    rulePassed = false;
+                    LOG.debug(ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
+                    reportError(CARRY_FORWARD_REQUESTS_SENT_TO, ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
+                }
+            }
+
+            if (subAwardTemplateInfo.getMpiAward() != null && subAwardTemplateInfo.getMpiAward()) {
+                if (subAwardTemplateInfo.getMpiLeadershipPlan() == null) {
+                    rulePassed = false;
+                    reportError(MPI_LEADERSHIP_PLAN, ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_MPI_LEADERSHIP_PLAN);
+                }
+            }
+
+            if (subAwardTemplateInfo.getAnimalFlag() != null && subAwardTemplateInfo.getAnimalFlag()) {
+                if (StringUtils.isBlank(subAwardTemplateInfo.getAnimalPteSendCd())) {
+                    rulePassed = false;
+                    reportError(ANIMAL_PTE_SEND_CD, ERROR_REQUIRED_ANIMAL_PTE_SEND_CD);
+                } else if (PteSend.NOT_REQUIRED.getCode().equals(subAwardTemplateInfo.getAnimalPteSendCd()) && StringUtils.isBlank(subAwardTemplateInfo.getAnimalPteNrCd())) {
+                    rulePassed = false;
+                    reportError(ANIMAL_PTE_NR_CD, ERROR_REQUIRED_ANIMAL_PTE_NR_CD);
+                }
+            }
+
+            if (subAwardTemplateInfo.getHumanFlag() != null && subAwardTemplateInfo.getHumanFlag()) {
+                if (StringUtils.isBlank(subAwardTemplateInfo.getHumanPteSendCd())) {
+                    rulePassed = false;
+                    reportError(HUMAN_PTE_SEND_CD, ERROR_REQUIRED_HUMAN_PTE_SEND_CD);
+                } else if (PteSend.NOT_REQUIRED.getCode().equals(subAwardTemplateInfo.getHumanPteSendCd()) && StringUtils.isBlank(subAwardTemplateInfo.getHumanPteNrCd())) {
+                    rulePassed = false;
+                    reportError(HUMAN_PTE_NR_CD, ERROR_REQUIRED_HUMAN_PTE_NR_CD);
+                }
+
+                if (StringUtils.isBlank(subAwardTemplateInfo.getHumanDataExchangeAgreeCd())) {
+                    rulePassed = false;
+                    reportError(HUMAN_DATA_EXCHANGE_AGREE_CD, ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_AGREE_CD);
+                } else if (!HumanDataExchangeAgreement.NOT_APPLICABLE.getCode().equals(subAwardTemplateInfo.getHumanDataExchangeAgreeCd()) && StringUtils.isBlank(subAwardTemplateInfo.getHumanDataExchangeTermsCd())) {
+                    rulePassed = false;
+                    reportError(HUMAN_DATA_EXCHANGE_TERMS_CD, ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_TERMS_CD);
+                }
+            }
         }
         return rulePassed;
     }

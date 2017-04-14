@@ -733,7 +733,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                     if (!createAccount(awardForm, award)) {
                         return mapping.findForward(Constants.MAPPING_ICR_RATE_CODE_PROMPT);
                     }
-                } else if (isFinancialRestApiEnabled()) {
+                } else if (getAwardAccountService().isFinancialRestApiEnabled()) {
                     addPostEntry(award.getAwardId(), award.getAccountNumber(), award.getAwardNumber(), awardDocument.getDocumentNumber(), Boolean.FALSE);
                     addAccountInformation(award.getAwardId(), award.getAccountNumber());
                     getDocumentService().saveDocument(awardDocument);
@@ -772,13 +772,6 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             GlobalVariables.getMessageMap().putError(ACCOUNT_ALREADY_CREATED, KeyConstants.ACCOUNT_ALREADY_CREATED);
         }
         return true;
-    }
-
-    protected boolean isFinancialRestApiEnabled() {
-        return getParameterService().getParameterValueAsBoolean(
-                Constants.PARAMETER_MODULE_AWARD,
-                ParameterConstants.ALL_COMPONENT,
-                Constants.AWARD_POST_ENABLED);
     }
 
     protected boolean isFinancialSystemIntegrationParameterOn() {

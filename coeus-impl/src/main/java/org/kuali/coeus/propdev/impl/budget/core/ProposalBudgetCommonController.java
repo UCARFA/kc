@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.core;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
@@ -55,7 +56,9 @@ import java.util.Properties;
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetCommonController extends ProposalBudgetControllerBase {
 
-    @Autowired
+	private static final String PROP_BUDGET_PERIODS_PAGE = "PropBudget-PeriodsPage";
+	private static final String INFO_DATAOVERRIDE_OCCURED_BUDGET = "info.dataoverride.occured.budget";
+	@Autowired
 	@Qualifier("proposalBudgetSharedControllerService")
 	private ProposalBudgetSharedControllerService proposalBudgetSharedController;
 
@@ -80,8 +83,13 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	@MethodAccessible
 	@Transactional @RequestMapping(params="methodToCall=start")
 	public ModelAndView start(@RequestParam("budgetId") Long budgetId, @RequestParam("viewOnly") String viewOnly, @RequestParam("auditActivated") String auditActivated, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
-		boolean inViewMode = Boolean.parseBoolean(viewOnly);
+    	boolean inViewMode = Boolean.parseBoolean(viewOnly);
 		form.setBudget(loadBudget(budgetId));
+
+		if (CollectionUtils.isNotEmpty(form.getDevelopmentProposal().getBudgetChangedDataList())) {
+			getGlobalVariableService().getMessageMap().putInfoForSectionId(PROP_BUDGET_PERIODS_PAGE, INFO_DATAOVERRIDE_OCCURED_BUDGET);
+		}
+
 		if(!inViewMode) {
 	        getProposalBudgetLockService().establishBudgetLock(form.getBudget());
 		}

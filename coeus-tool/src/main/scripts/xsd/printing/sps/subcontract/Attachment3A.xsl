@@ -1166,28 +1166,26 @@
                                                                                 <fo:table-cell padding="1.5pt" text-align="left" display-align="center">
                                                                                     <fo:block>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
-                                                                                            <xsl:for-each select="subcontract:PrimeAdministrativeContact">
-                                                                                                <xsl:for-each select="subcontract:RolodexDetails">
-                                                                                                    <xsl:for-each select="subcontract:PhoneNumber">
-                                                                                                        <fo:inline>
-                                                                                                            <xsl:text>&#160;</xsl:text>
-                                                                                                        </fo:inline>
-                                                                                                        <xsl:variable name="value-of-template">
-                                                                                                            <xsl:apply-templates/>
-                                                                                                        </xsl:variable>
-                                                                                                        <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                                <fo:block>
-                                                                                                                    <xsl:copy-of select="$value-of-template"/>
-                                                                                                                </fo:block>
-                                                                                                            </xsl:when>
-                                                                                                            <xsl:otherwise>
-                                                                                                                <fo:inline>
-                                                                                                                    <xsl:copy-of select="$value-of-template"/>
-                                                                                                                </fo:inline>
-                                                                                                            </xsl:otherwise>
-                                                                                                        </xsl:choose>
-                                                                                                    </xsl:for-each>
+                                                                                            <xsl:for-each select="subcontract:PrimePrincipalInvestigator">
+                                                                                                <xsl:for-each select="subcontract:MobilePhoneNumber">
+                                                                                                    <fo:inline>
+                                                                                                        <xsl:text>&#160;</xsl:text>
+                                                                                                    </fo:inline>
+                                                                                                    <xsl:variable name="value-of-template">
+                                                                                                        <xsl:apply-templates/>
+                                                                                                    </xsl:variable>
+                                                                                                    <xsl:choose>
+                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <fo:block>
+                                                                                                                <xsl:copy-of select="$value-of-template"/>
+                                                                                                            </fo:block>
+                                                                                                        </xsl:when>
+                                                                                                        <xsl:otherwise>
+                                                                                                            <fo:inline>
+                                                                                                                <xsl:copy-of select="$value-of-template"/>
+                                                                                                            </fo:inline>
+                                                                                                        </xsl:otherwise>
+                                                                                                    </xsl:choose>
                                                                                                 </xsl:for-each>
                                                                                             </xsl:for-each>
                                                                                         </xsl:for-each>
@@ -1199,25 +1197,23 @@
                                                                                            <xsl:text>Email: </xsl:text>
                                                                                         </fo:inline>
                                                                                         <xsl:for-each select="subcontract:SubContractData">
-                                                                                            <xsl:for-each select="subcontract:PrimeAdministrativeContact">
-                                                                                                <xsl:for-each select="subcontract:RolodexDetails">
-                                                                                                    <xsl:for-each select="subcontract:Email">
-                                                                                                        <xsl:variable name="value-of-template">
-                                                                                                            <xsl:apply-templates/>
-                                                                                                        </xsl:variable>
-                                                                                                        <xsl:choose>
-                                                                                                            <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                                <fo:block>
-                                                                                                                    <xsl:copy-of select="$value-of-template"/>
-                                                                                                                </fo:block>
-                                                                                                            </xsl:when>
-                                                                                                            <xsl:otherwise>
-                                                                                                                <fo:inline>
-                                                                                                                    <xsl:copy-of select="$value-of-template"/>
-                                                                                                                </fo:inline>
-                                                                                                            </xsl:otherwise>
-                                                                                                        </xsl:choose>
-                                                                                                    </xsl:for-each>
+                                                                                            <xsl:for-each select="subcontract:PrimePrincipalInvestigator">
+                                                                                                <xsl:for-each select="subcontract:EmailAddress">
+                                                                                                    <xsl:variable name="value-of-template">
+                                                                                                        <xsl:apply-templates/>
+                                                                                                    </xsl:variable>
+                                                                                                    <xsl:choose>
+                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                                            <fo:block>
+                                                                                                                <xsl:copy-of select="$value-of-template"/>
+                                                                                                            </fo:block>
+                                                                                                        </xsl:when>
+                                                                                                        <xsl:otherwise>
+                                                                                                            <fo:inline>
+                                                                                                                <xsl:copy-of select="$value-of-template"/>
+                                                                                                            </fo:inline>
+                                                                                                        </xsl:otherwise>
+                                                                                                    </xsl:choose>
                                                                                                 </xsl:for-each>
                                                                                             </xsl:for-each>
                                                                                         </xsl:for-each>

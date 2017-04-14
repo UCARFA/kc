@@ -41,5 +41,6 @@ public interface AwardAccountService {
                                           String financialAccountNumber,
                                           @WebParam(name="chartOfAccounts")
                                           String chartOfAccounts);
-    
+
+    boolean isFinancialRestApiEnabled();
 }

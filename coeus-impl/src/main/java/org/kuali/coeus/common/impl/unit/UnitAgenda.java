@@ -30,10 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-class UnitAgenda extends BasicAgenda {
+public class UnitAgenda extends BasicAgenda {
 
     public static final String TYPE_ID = "typeId";
-    public static final String DELIMITER = ",";
     private UnitService unitService;
     private Map<String, String> qualifiers;
     private boolean isActive;
@@ -51,39 +50,18 @@ class UnitAgenda extends BasicAgenda {
         if (!isActive) {
             return false;
         }
+
         Set<Map.Entry<String, String>> agendaQualifiers = environment.getSelectionCriteria().getAgendaQualifiers().entrySet();
         for (Map.Entry<String, String> agendaQualifier : agendaQualifiers) {
             String agendaQualifierValue = qualifiers.get(agendaQualifier.getKey());
             String environmentQualifierValue = agendaQualifier.getValue();
             if (KcKrmsConstants.UNIT_NUMBER.equals(agendaQualifier.getKey())) {
-                return appliesToUnit(agendaQualifierValue,environmentQualifierValue);
+                return unitService.appliesToUnit(agendaQualifierValue,environmentQualifierValue);
             }
         }
         return false;
     }
 
-    protected boolean appliesToUnit(String agendaQualifierValue, String environmentQualifierValue) {
-        if(environmentQualifierValue == null) {
-            return Boolean.FALSE;
-        }
-        for (String environmentUnitNumber : environmentQualifierValue.split(DELIMITER)) {
-            List<Unit> unitHierarchyForUnit = getUnitService().getUnitHierarchyForUnit(environmentUnitNumber);
-            if (appliesToAnyUnitInHierarchy(agendaQualifierValue, unitHierarchyForUnit)) {
-                return Boolean.TRUE;
-            }
-        }
-        return Boolean.FALSE;
-    }
-
-    protected boolean appliesToAnyUnitInHierarchy(String agendaQualifierValue, List<Unit> unitHierarchyForUnit) {
-        for (Unit unit : unitHierarchyForUnit) {
-            String unitNumber = unit.getUnitNumber();
-            if (unitNumber.equals(agendaQualifierValue)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public UnitService getUnitService() {
         return unitService;

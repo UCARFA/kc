@@ -59,7 +59,7 @@ public class PendingProposalPrint extends AbstractPrint {
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
 	public List<Source> getXSLTemplates() {
-		ArrayList<Source> sourceList = PrintingUtils
+		List<Source> sourceList = PrintingUtils
 				.getXSLTforReport(PrintConstants.PENDING_REPORT_TYPE);
 		return sourceList;
 	}

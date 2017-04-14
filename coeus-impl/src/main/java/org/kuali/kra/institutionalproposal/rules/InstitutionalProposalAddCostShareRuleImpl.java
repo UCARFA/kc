@@ -20,6 +20,7 @@ package org.kuali.kra.institutionalproposal.rules;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
@@ -28,6 +29,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalBudgetService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.HashMap;
@@ -42,6 +44,7 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
     private ParameterService parameterService;
     private InstitutionalProposalBudgetService institutionalProposalBudgetService;
     public static final String INSTITUTIONAL_PROPOSAL_COST_SHARE_SOURCE_FIELD = "institutionalProposalCostShareBean.newInstitutionalProposalCostShare.sourceAccount";
+    private GlobalVariableService globalVariableService;
 
     @Override
     public boolean processAddInstitutionalProposalCostShareBusinessRules(InstitutionalProposalAddCostShareRuleEvent institutionalProposalAddCostShareRuleEvent) {
@@ -95,6 +98,13 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
         return institutionalProposalBudgetService;
     }
 
+    protected GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;
+    }
+
     public boolean processCommonValidations(InstitutionalProposalCostShare institutionalProposalCostShare) {
         return validateCostShareFiscalYearRange(institutionalProposalCostShare);
     }
@@ -113,14 +123,41 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
         }
         return isValid;
     }
-    
+
+    public boolean addValidationMessage(String validationMessageType, String field, String errorMessageKey, String... errorParameters) {
+        if (StringUtils.equalsIgnoreCase(Constants.VALIDATION_MESSAGE_ERROR, validationMessageType)) {
+            getGlobalVariableService().getMessageMap().putError(field, errorMessageKey, errorParameters);
+            return Boolean.FALSE;
+        } else if (StringUtils.equalsIgnoreCase(Constants.VALIDATION_MESSAGE_WARNING, validationMessageType)) {
+            getGlobalVariableService().getMessageMap().putWarning(field, errorMessageKey, errorParameters);
+            return Boolean.TRUE;
+        }
+        return Boolean.TRUE;
+    }
+
+    public String getValidationMessageType() {
+        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_GEN,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.COST_SHARE_ACCOUNT_VALIDATION_MESSAGE_FLAG);
+    }
+
+    public boolean isCostShareTypeEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_GEN,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.ENABLE_COST_SHARE_ACCOUNT_VALIDATION);
+    }
+
     private boolean validateCostShareType(Integer costShareTypeCode) {
         boolean isValid = true;
         String costShareTypeCodeField = this.fieldStarter + ".costShareTypeCode";
         if (costShareTypeCode == null) {
-            isValid = false;
-            if (displayNullFieldErrors) {
-                this.reportError(costShareTypeCodeField, KeyConstants.ERROR_IP_COST_SHARE_TYPE_REQUIRED);
+            if (isCostShareTypeEnabled()) {
+                addValidationMessage(getValidationMessageType(), costShareTypeCodeField, KeyConstants.ERROR_BUDGET_DISTRIBUTION_COST_SHARE_TYPE_MISSING);
+            } else {
+                isValid = false;
+                if (displayNullFieldErrors) {
+                    this.reportError(costShareTypeCodeField, KeyConstants.ERROR_IP_COST_SHARE_TYPE_REQUIRED);
+                }
             }
         } else {
             Map<String,Integer> fieldValues = new HashMap<>();
@@ -152,9 +189,13 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
         boolean isValid = true;
         String sourceAccountField = this.fieldStarter + ".sourceAccount";
         if (StringUtils.isEmpty(sourceAccount)) {
-            isValid = false;
-            if (displayNullFieldErrors) {
-                this.reportError(sourceAccountField, KeyConstants.ERROR_IP_COST_SHARE_SOURCE_ACCOUNT_REQUIRED);
+            if (isCostShareTypeEnabled()) {
+                addValidationMessage(getValidationMessageType(), sourceAccountField, KeyConstants.ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING);
+            } else {
+                isValid = false;
+                if (displayNullFieldErrors) {
+                    this.reportError(sourceAccountField, KeyConstants.ERROR_IP_COST_SHARE_SOURCE_ACCOUNT_REQUIRED);
+                }
             }
         }
         

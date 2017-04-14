@@ -946,6 +946,7 @@ public final class KeyConstants {
     public static final String AWARD_BUDGET_STATUS_IN_PROGRESS = "awardBudgetStatusInProgress";
     public static final String AWARD_BUDGET_STATUS_RETURNED = "awardBudgetStatusReturned";
     public static final String AWARD_BUDGET_STATUS_POSTED = "awardBudgetStatusPosted";
+    public static final String AWARD_BUDGET_STATUS_QUEUED = "awardBudgetStatusQueued";
     public static final String AWARD_BUDGET_STATUS_TO_BE_POSTED = "awardBudgetStatusToBePosted";
     public static final String AWARD_BUDGET_STATUS_DO_NOT_POST = "awardBudgetStatusDoNotPost";
     public static final String AWARD_BUDGET_POST_ENABLED = "AWARD_BUDGET_POST_ENABLED";
@@ -1009,11 +1010,15 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER= "error.required.subaward.funding.source.award.number";
     public static final String ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST= "error.subAwardSponsorContact.person.exists";
     public static final String ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO= "error.required.subaward.templateinfo.carryForwardRequestsSentTo";
+    public static final String ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_MPI_LEADERSHIP_PLAN= "error.required.subaward.templateinfo.mpiLeadershipPlan";
     public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE= "error.required.subaward.funding.source.award.number.duplicate";
     public static final String SUBAWARD_ERROR_END_DATE_GREATER_THAN_START = "subaward.error.end.date.greater.than.start";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_GREATER_THAN_ANTICIPATED_AMOUNT = "subaward.error.obligated.amount.greater.than.anticipated.amount";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_NEGATIVE = "subaward.error.obligated.amount.less.than.zero";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO = "subaward.error.obligated.amount.equal.to.zero";
+    public static final String ERROR_AMOUNT_INFO_OBLIGATED_DIRECT_AMOUNT_ZERO = "subaward.error.obligated.direct.amount.equal.to.zero";
+    public static final String ERROR_AMOUNT_INFO_OBLIGATED_INDIRECT_AMOUNT_ZERO = "subaward.error.obligated.indirect.amount.equal.to.zero";
+
     public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_NEGATIVE = "subaward.error.anticipated.amount.less.than.zero";
     public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO = "subaward.error.anticipated.amount.equal.to.zero";
     public static final String ERROR_SUBAWARD_CONTACT = "subaward.contact.not.added";

@@ -36,6 +36,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,6 +51,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     public static final String RATE_CLASS_TYPE = "rateClassType";
     public static final String ACTIVITY_TYPE_CODE = "activityTypeCode";
     public static final String ACTIVE = "active";
+    public static final String COST_SHARE_TYPE = "costShareType";
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -58,6 +60,10 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Override
     public Budget addBudgetVersion(BudgetParentDocument<T> budgetParentDocument, String versionName, Map<String,Object> options) {
@@ -154,15 +160,20 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
             Collection<ValidSourceAccountsCostShareType> activeValidSourceAccountCostSharetypes = getMatchingValidSourceAccountsCostShareTypes();
             if (activeValidSourceAccountCostSharetypes.size() != 0) {
                 final boolean validMatches = activeValidSourceAccountCostSharetypes.stream().anyMatch(validSourceAccountsCostShareType ->
-                        budgetCostShare.getCostShareTypeCode().equals(validSourceAccountsCostShareType.getCostShareTypeCode())
+                        validSourceAccountsCostShareType.getCostShareTypeCode().equals(budgetCostShare.getCostShareTypeCode())
                                 && budgetCostShare.getSourceAccount().equalsIgnoreCase(validSourceAccountsCostShareType.getAccount().getAccountNumber()));
                 if (!validMatches) {
+                    refreshReference(budgetCostShare);
                     valid = addValidationMessage(validationMessageType, costShareField, KeyConstants.INVALID_SOURCE_ACCOUNT_COST_SHARE_TYPE,
-                            budgetCostShare.getCostShareTypeCode().toString(), budgetCostShare.getSourceAccount());
+                            budgetCostShare.getCostShareTypeCode() != null ? budgetCostShare.getCostShareType().getDescription() : "", budgetCostShare.getSourceAccount());
                 }
             }
         }
         return valid;
+    }
+
+    public void refreshReference(CostShare budgetCostShare) {
+        dataObjectService.wrap(budgetCostShare).fetchRelationship(COST_SHARE_TYPE);
     }
 
     public boolean isCostShareTypeSourceAccountValidationEnabled() {

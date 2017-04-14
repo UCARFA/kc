@@ -20,21 +20,14 @@ package org.kuali.coeus.propdev.impl.budget.editable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class BudgetDataOverrideEvent extends KcDocumentEventBase {
-private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDataOverrideEvent.class);
+private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetDataOverrideEvent.class);
     
     private BudgetChangedData budgetChangedData;
-    
-    /**
-     * Constructs an BudgetDataOverrideEvent.
-     * 
-     * @param document proposal development document
-     * @param budgetChangedData the budget Changed Data
-     */
+
     public BudgetDataOverrideEvent(ProposalDevelopmentDocument document, BudgetChangedData budgetChangedData) {
         super("Override Budget Data " + getDocumentId(document), "", document);
         this.setBudgetChangedData(budgetChangedData);
@@ -53,7 +46,7 @@ private static final org.apache.commons.logging.Log LOG = org.apache.commons.log
     }
 
     @Override
-    public Class getRuleInterfaceClass() {
+    public Class<? extends BudgetDataOverrideRule> getRuleInterfaceClass() {
         return BudgetDataOverrideRule.class;
     }
 

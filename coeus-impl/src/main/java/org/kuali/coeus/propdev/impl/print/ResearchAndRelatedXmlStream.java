@@ -27,14 +27,11 @@ import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProgramDire
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectDescriptionDocument.ProjectDescription;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchAndRelatedProjectDocument.ResearchAndRelatedProject;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ResearchCoverPageDocument.ResearchCoverPage;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -103,6 +100,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
+	@Override
 	public Map<String, XmlObject> generateXmlStream(
 			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
@@ -112,7 +110,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 		researchAndRelatedProjectDocument
 				.setResearchAndRelatedProject(getResearchAndRelatedProject(developmentProposal, budget));
 
-		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
+		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
 		xmlObjectList.put(REPORT_NAME, researchAndRelatedProjectDocument);
 		return xmlObjectList;
 	}
@@ -165,7 +163,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 * BudgetPeriodType data from budgetPeriod data
 	 */
 	private BudgetPeriodType[] getBudgetPeriodArray(DevelopmentProposal developmentProposal,List<BudgetPeriod> budgetPeriodList) {
-		List<BudgetPeriodType> budgetPeriodTypeList = new ArrayList<BudgetPeriodType>();
+		List<BudgetPeriodType> budgetPeriodTypeList = new ArrayList<>();
 		for (BudgetPeriod budgetPeriod : budgetPeriodList) {
 			if (budgetPeriod.getBudgetPeriod() != null) {
 				List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
@@ -195,26 +193,11 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	}
 
 	/*
-	 * This method gets OtherDirectType Enum value based on budgetCategory
-	 * Description if the budgetCategory description role not match with the
-	 * enum type the roleType set to Other
-	 */
-	protected gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectType.Enum getOtherDirectType(
-			String budgetCategoryDesc) {
-		gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectType.Enum otherDirectType = OtherDirectType.Enum
-				.forString(budgetCategoryDesc);
-		if (otherDirectType == null) {
-			otherDirectType = OtherDirectType.OTHER;
-		}
-		return otherDirectType;
-	}
-
-	/*
 	 * This method gets arrays of SalaryAndWagesType XMLObject
 	 */
 	private SalariesAndWagesType[] getSalaryAndWages(DevelopmentProposal developmentProposal,
 			List<BudgetLineItem> budgetLineItems) {
-		List<SalariesAndWagesType> salariesAndWagesTypeList = new ArrayList<SalariesAndWagesType>();
+		List<SalariesAndWagesType> salariesAndWagesTypeList = new ArrayList<>();
 		for (BudgetLineItem budgetLineItem : budgetLineItems) {
 			for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
 					.getBudgetPersonnelDetailsList()) {
@@ -371,9 +354,8 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 			DevelopmentProposal developmentProposal) {
 		ProgramDirectorPrincipalInvestigator principalInvestigatorType = ProgramDirectorPrincipalInvestigator.Factory
 				.newInstance();
-		ProposalPerson principalInvestigator = PrintingUtils
-				.getPrincipalInvestigator(developmentProposal
-						.getProposalPersons());
+		ProposalPerson principalInvestigator = developmentProposal
+						.getPrincipalInvestigator();
 		principalInvestigatorType
 				.setContactInformation(getPersonContactInformation(principalInvestigator));
 		principalInvestigatorType
@@ -773,7 +755,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 */
 	private void setEXemptionNumber(DevelopmentProposal developmentProposal,
 			HumanSubjectsType humanSubjectsType, String[] exemptionNumber) {
-		if (humanSubjectsType.getHumanSubjectsUsedQuestion() == true) {
+		if (humanSubjectsType.getHumanSubjectsUsedQuestion()) {
 			String humanSubAssurance = getHumanAssuranceNumber(developmentProposal);
 			if (humanSubAssurance != null) {
 				humanSubjectsType.setAssuranceNumber(humanSubAssurance);
@@ -789,7 +771,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 	 */
 	private String getSpecialReviewComments(
 			ProposalSpecialReview proposalSpecialReview) {
-		String comments = null;
+		String comments;
 		if (proposalSpecialReview.getComments() == null) {
 			comments = DEFAULT_VALUE_UNKNOWN;
 		} else {

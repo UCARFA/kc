@@ -29,6 +29,25 @@
 
 <kul:innerTab tabTitle="Person Details" parentTab="${institutionalProposalContact.fullName}" defaultOpen="false" tabErrorKey="document.institutionalProposal.projectPersons*">
 	<table cellpadding="0" cellspacing="0" summary="Project Personnel Details">
+        <c:choose>
+            <c:when test="${KualiForm.creditSplitOptInEnabled == true}">
+                <tr>
+                    <th class="infoline">
+                        <div align="right">
+                            <kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonAttributes.includeInCreditAllocation}" useShortLabel="true" noColon="false" />
+                        </div>
+                    </th>
+                    <td>
+                        <kul:htmlControlAttribute property="document.institutionalProposalList[0].projectPersons[${institutionalProposalContactRowStatusIndex}].includeInCreditAllocation"
+                                              attributeEntry="${institutionalProposalPersonAttributes.includeInCreditAllocation}" />
+                    </td>
+                    <th class="infoline">&nbsp;</th>
+                    <td>&nbsp;</td>
+                </tr>
+            </c:when>
+            <c:otherwise>
+            </c:otherwise>
+        </c:choose>
 		<tr>
 			<th class="infoline">
 				<div align="right">

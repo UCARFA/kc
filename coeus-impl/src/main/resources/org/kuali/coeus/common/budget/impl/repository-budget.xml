@@ -318,8 +318,9 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare" table="EPS_PROP_COST_SHARING">
-		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" /> 	
-		<field-descriptor name="documentComponentId" column="COST_SHARE_ID" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" />
+        <field-descriptor name="costShareTypeCode" column="COST_SHARE_TYPE_CODE" jdbc-type="INTEGER"/>
+        <field-descriptor name="documentComponentId" column="COST_SHARE_ID" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="projectPeriod" column="PROJECT_PERIOD" jdbc-type="INTEGER" />
 		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR"/>		
 		<field-descriptor name="shareAmount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>
@@ -334,6 +335,9 @@
 		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="unitNumber" />
 		</reference-descriptor>
+        <reference-descriptor name="costShareType" class-ref="org.kuali.kra.bo.CostShareType" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="costShareTypeCode" />
+        </reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" table="BUDGET_PROJECT_INCOME">

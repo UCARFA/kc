@@ -21,6 +21,8 @@
 <%@ attribute name="renderMultipart" required="false" %>
 <c:set var="subAwardAmountInfoAttributes" value="${DataDictionary.SubAwardAmountInfo.attributes}" />
 <c:set var="subAwardAttributes" value="${DataDictionary.SubAward.attributes}" />
+<c:set var="costSplitEnabled" value="${KualiForm.costSplitEnabled}" />
+
 <c:set var="action" value="subAwardFinancial" />
 
 <c:set var="newSubAwardAmountInfo" value="${KualiForm.newSubAwardAmountInfo}" />
@@ -32,18 +34,42 @@
     	<span class="subhead-right"></span>
     </h3>
 	<table cellpadding=0 cellspacing=0 summary="">
+        <c:choose>
+            <c:when test="${!costSplitEnabled}">
    				<tr>
-				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedAmount}" /></th>
-                <td colspan="2">
-                
-                     <kul:htmlControlAttribute property="document.subAwardList[0].totalObligatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalObligatedAmount}" />           
-                </td>
-				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" /></th>
-                <td colspan="2">
-                      <kul:htmlControlAttribute property="document.subAwardList[0].totalAnticipatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" />           
-                </td>
-            </tr>    
-            
+				    <th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedAmount}" /></th>
+                    <td colspan="2">
+                        <kul:htmlControlAttribute property="document.subAwardList[0].totalObligatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalObligatedAmount}" />
+                    </td>
+				    <th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" /></th>
+                    <td colspan="2">
+                        <kul:htmlControlAttribute property="document.subAwardList[0].totalAnticipatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" />
+                    </td>
+                </tr>
+            </c:when>
+            <c:otherwise>
+                <tr>
+                    <th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedDirectAmount}" /></th>
+                    <td colspan="2">
+                        <kul:htmlControlAttribute property="document.subAwardList[0].totalObligatedDirectAmount" disabled="true" attributeEntry="${subAwardAttributes.totalObligatedDirectAmount}" />
+                    </td>
+                    <th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedIndirectAmount}" /></th>
+                    <td colspan="2">
+                        <kul:htmlControlAttribute property="document.subAwardList[0].totalObligatedIndirectAmount" disabled="true" attributeEntry="${subAwardAttributes.totalObligatedIndirectAmount}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAnticipatedDirectAmount}" /></th>
+                    <td colspan="2">
+                        <kul:htmlControlAttribute property="document.subAwardList[0].totalAnticipatedDirectAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAnticipatedDirectAmount}" />
+                    </td>
+                    <th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAnticipatedIndirectAmount}" /></th>
+                    <td colspan="2">
+                        <kul:htmlControlAttribute property="document.subAwardList[0].totalAnticipatedIndirectAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAnticipatedIndirectAmount}" />
+                    </td>
+                </tr>
+            </c:otherwise>
+        </c:choose>
             <tr>
 				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAmountReleased}" /></th>
                 <td colspan="2">
@@ -88,58 +114,90 @@
    <table cellpadding=0 cellspacing=0 summary="">
        		<tbody class="addline">            
             <tr>
-              <th><div align="left">&nbsp;</div></th> 
-               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.effectiveDate}" /></div></th>
-               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.obligatedChange}" /></div></th>
-               <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.anticipatedChange}" /></div></th>
-               <th colspan="2"><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.fileName}" /></div></th>
-                <%-- <c:if test="${canModify}">  --%>
-              	    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
-          	    <%-- </c:if> --%>
+                <c:choose>
+                    <c:when test="${!costSplitEnabled}">
+                        <th><div align="left">&nbsp;</div></th>
+                        <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.effectiveDate}" /></div></th>
+                        <th><div align="center">*<kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.obligatedChange}" /></div></th>
+                        <th><div align="center">*<kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.anticipatedChange}" /></div></th>
+                        <th colspan="2"><div align="center">&nbsp;</div></th>
+                    </c:when>
+                    <c:otherwise>
+                        <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.effectiveDate}" /></div></th>
+                        <th><div align="center">*<kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.obligatedChangeDirect}" /></div></th>
+                        <th><div align="center">*<kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.obligatedChangeIndirect}" /></div></th>
+                        <th><div align="center">*<kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.anticipatedChangeDirect}" /></div></th>
+                        <th><div align="center">*<kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.anticipatedChangeIndirect}" /></div></th>
+                        <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.rate}" /></div></th>
+                    </c:otherwise>
+                </c:choose>
             </tr>
-              <c:if test="${readOnly!='true'}">
             <tr>
-    
-    				<th class="infoline" rowspan="4">
-						Add:
-					</th>
-					
-     			 
-     			<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardAmountInfo.effectiveDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.effectiveDate}" datePicker="true"/>           
-   					</div> 
-   				</td>
-   				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardAmountInfo.obligatedChange" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.obligatedChange}" />           
-   					</div> 
-   				</td>
-   				<td><div align="center">
-     					<kul:htmlControlAttribute property="newSubAwardAmountInfo.anticipatedChange" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.anticipatedChange}" />         
-   					</div> 
-   				</td>
-   				
+              <c:if test="${readOnly!='true'}">
+
+                    <c:choose>
+                        <c:when test="${!costSplitEnabled}">
+                            <th><div align="left">&nbsp;</div></th>
+                            <td><div align="center">
+                                <kul:htmlControlAttribute property="newSubAwardAmountInfo.effectiveDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.effectiveDate}" datePicker="true"/>
+                            </div>
+                            </td>
+                            <td>
+                                <div align="center">
+     					            <kul:htmlControlAttribute property="newSubAwardAmountInfo.obligatedChange" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.obligatedChange}" />
+   					            </div>
+   				            </td>
+   				            <td>
+                            <div align="center">
+     					        <kul:htmlControlAttribute property="newSubAwardAmountInfo.anticipatedChange" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.anticipatedChange}" />
+   					        </div>
+   				            </td>
+                        </c:when>
+                        <c:otherwise>
+                            <td><div align="center">
+                                <kul:htmlControlAttribute property="newSubAwardAmountInfo.effectiveDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.effectiveDate}" datePicker="true"/>
+                            </div>
+                            </td>
+                            <td>
+                                <div align="center">
+                                    <kul:htmlControlAttribute property="newSubAwardAmountInfo.obligatedChangeDirect" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.obligatedChangeDirect}" />
+                                </div>
+                            </td>
+                            <td>
+                                <div align="center">
+                                    <kul:htmlControlAttribute property="newSubAwardAmountInfo.obligatedChangeIndirect" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.obligatedChangeIndirect}" />
+                                </div>
+                            </td>
+                            <td>
+                                <div align="center">
+                                    <kul:htmlControlAttribute property="newSubAwardAmountInfo.anticipatedChangeDirect" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.anticipatedChangeDirect}" />
+                                </div>
+                            </td>
+                            <td>
+                                <div align="center">
+                                    <kul:htmlControlAttribute property="newSubAwardAmountInfo.anticipatedChangeIndirect" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.anticipatedChangeIndirect}" />
+                                </div>
+                            </td>
+                            <td>
+                                <div align="center">
+                                    <kul:htmlControlAttribute property="newSubAwardAmountInfo.rate" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.rate}" />%
+                                </div>
+                            </td>
+                        </c:otherwise>
+                    </c:choose>
+
    				   <td class="infoline" colspan="2">
-   				   <c:if test="${readOnly!='true'}">
-                	<html:file property="newSubAwardAmountInfo.newFile"  />
-                	</c:if>
-                </td>
-   				 				
-   				<td class="infoline" rowspan="4"><div align="center">
-   					<c:if test="${readOnly!='true'}">
-						<html:image property="methodToCall.addAmountInfo.anchor${tabKey}" 
-						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-						            styleClass="tinybutton"/>
-					</c:if>
-	                </div>
-	            </td>   				
-   			</tr> 
+
+                   </td>
+
+   			    </tr>
    			
    			<tr>
    				<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.modificationTypeCode}" /></div></th>
             	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.modificationEffectiveDate}" /></div></th>
             	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.modificationID}" /></div></th>
             	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceStartDate}" /></div></th>
-            	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceEndDate}" /></div></th>                          
+            	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceEndDate}" /></div></th>
             </tr>
             
             <tr>
@@ -167,15 +225,32 @@
    				<td><div align="center">
      					<kul:htmlControlAttribute property="newSubAwardAmountInfo.periodofPerformanceEndDate" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceEndDate}" datePicker="true"/>           
    					</div> 
-   				</td> 
+   				</td>
    				</tr>
    				
-        	<tr>				
+        	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.comments}" /></div></th>
-                <td colspan="3">
+                <td align="center">
                       <kul:htmlControlAttribute property="newSubAwardAmountInfo.comments" readOnly="${readOnly}" attributeEntry="${subAwardAmountInfoAttributes.comments}" />
                 </td>
-            </tr>     
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.fileName}" /></div></th>
+                <td align="center">
+                    <c:if test="${readOnly!='true'}">
+                        <html:file property="newSubAwardAmountInfo.newFile"  />
+                    </c:if>
+                </td>
+            </tr>
+            <tr>
+            <td  colspan="6" class="infoline">
+                <div align="center">
+                    <c:if test="${readOnly!='true'}">
+                        <html:image property="methodToCall.addAmountInfo.anchor${tabKey}"
+                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif'
+                                    styleClass="tinybutton"/>
+                    </c:if>
+                </div>
+            </td>
+            </tr>
    			</c:if>
    			</tbody>
    			<c:forEach var="amountInfo" items="${KualiForm.document.subAwardList[0].historicalAmountInfos}" varStatus="status">

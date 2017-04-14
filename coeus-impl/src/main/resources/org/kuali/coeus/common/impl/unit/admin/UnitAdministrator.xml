@@ -79,10 +79,10 @@
     <property name="shortLabel" value="Unit Administrator Type Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+        <bean parent="IntegerValidationPattern" p:allowNegative="true"/>
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+        <bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="5"/>

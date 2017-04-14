@@ -56,6 +56,7 @@ import org.kuali.kra.award.detailsdates.DetailsAndDatesFormHelper;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.approvedsubawards.ApprovedSubawardFormHelper;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposalBean;
@@ -77,6 +78,7 @@ import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.award.printing.AwardTransactionSelectorBean;
 import org.kuali.kra.award.specialreview.SpecialReviewHelper;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
+import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.kra.external.award.web.AccountCreationPresentationHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.medusa.MedusaBean;
@@ -219,6 +221,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     private BudgetLimitSummaryHelper budgetLimitSummary;
 
     private transient ParameterService parameterService;
+    private transient AwardService awardService;
     private transient AwardHierarchyUIService awardHierarchyUIService;
     private transient ReportTrackingService reportTrackingService;
     private transient DataObjectService dataObjectService;
@@ -235,6 +238,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     private transient KcPersonService kcPersonService;
     private transient TimeAndMoneyPostsDao timeAndMoneyPostsDao;
     private Boolean isBudgetVersionSummaryCumulative;
+    private transient AwardAccountService awardAccountService;
 
     /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
@@ -255,7 +259,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
      */
     public void initialize() {
         newAwardFandaRate = new AwardFandaRate();
-        awardCommentHistoryByType = new ArrayList<AwardComment>();
+        awardCommentHistoryByType = new ArrayList<>();
         costShareFormHelper = new CostShareFormHelper(this);
         centralAdminContactsBean = new AwardCentralAdminContactsBean(this);
         sponsorTermFormHelper = new SponsorTermFormHelper(this);
@@ -276,7 +280,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         awardCreditSplitBean = new AwardCreditSplitBean(this);
         awardCommentBean = new AwardCommentBean(this);
         awardCloseoutBean = new AwardCloseoutBean(this);
-        awardHierarchyNodes = new TreeMap<String, AwardHierarchy>();
+        awardHierarchyNodes = new TreeMap<>();
         fundingProposalBean = new AwardFundingProposalBean(this);
         awardPrintNotice = new AwardPrintNotice();
         awardPrintChangeReport = new AwardTransactionSelectorBean();
@@ -290,20 +294,31 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
 
         syncMode = false;
         awardSyncBean = new AwardSyncBean(this);
-        setDirectIndirectViewEnabled(getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
+        setDirectIndirectViewEnabled(getDirectIndirectCostEnabled());
         budgetLimitSummary = new BudgetLimitSummaryHelper();
         awardBudgetLimitsBean = new AwardBudgetLimitsBean(this);
         accountCreationHelper = new AccountCreationPresentationHelper();
     }
-    
+
+    public String getDirectIndirectCostEnabled() {
+        return getParameter(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
+    }
+
+    public String getParameter(String parameterModuleAward, String documentComponent, String parameterName) {
+        return getParameterService().getParameterValueAsString(parameterModuleAward, documentComponent, parameterName);
+    }
+
     public void buildReportTrackingBeans() {
-        reportTrackingBeans = new ArrayList<ReportTrackingBean>();
+        reportTrackingBeans = new ArrayList<>();
         int numberOfReportItems = this.getAwardDocument().getAward().getAwardReportTermItems().size();
         for (int i=0; i<numberOfReportItems; i++) {
             reportTrackingBeans.add(new ReportTrackingBean());
         }
     }
 
+    public boolean isCreditSplitOptInEnabled() {
+        return getAwardService().isCreditSplitOptInEnabled();
+    }
     /**
      * 
      * This method returns the AwardDocument object.
@@ -472,7 +487,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
             if (isFinancialSystemIntegrationOn()) {
                 return getAwardDocument().getAward().getFinancialAccountDocumentNumber() != null;
             }
-            if (isFinancialRestApiEnabled()) {
+            if (getAwardAccountService().isFinancialRestApiEnabled()) {
                 return accountExistsInQueue();
             }
         }
@@ -491,7 +506,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
 
     private void initializeAccountBean() {
         accountInformationBean = new AccountInformationBean();
-        if (getAwardDocument().getAward().getAccountNumber() != null && isFinancialRestApiEnabled()) {
+        if (getAwardDocument().getAward().getAccountNumber() != null && getAwardAccountService().isFinancialRestApiEnabled()) {
             AwardAccount account = getAccountFromQueue();
             if (Objects.nonNull(account)) {
                 accountInformationBean.setIncome(account.getIncome());
@@ -525,14 +540,6 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
             dataObjectService = KcServiceLocator.getService(DataObjectService.class);
         }
         return dataObjectService;
-    }
-
-    protected boolean isFinancialRestApiEnabled() {
-        return getParameterService().getParameterValueAsBoolean(
-                Constants.PARAMETER_MODULE_AWARD,
-                ParameterConstants.ALL_COMPONENT,
-                Constants.AWARD_POST_ENABLED
-        );
     }
 
     protected boolean isFinancialSystemIntegrationOn() {
@@ -1365,22 +1372,28 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     public AwardTransactionSelectorBean getAwardTimeAndMoneyTransactionReport() {
         return awardTimeAndMoneyTransactionReport;
     }
-    
-    /**
-     * Looks up and returns the ParameterService.
-     * @return the parameter service. 
-     */
+
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
-    
-    /**
-     * Gets the directIndirectViewEnabled attribute. 
-     * @return Returns the directIndirectViewEnabled.
-     */
+
+    protected AwardService getAwardService() {
+        if (this.awardService == null) {
+            this.awardService = KcServiceLocator.getService(AwardService.class);
+        }
+        return awardService;
+    }
+
+    protected AwardAccountService getAwardAccountService() {
+        if (this.awardAccountService == null) {
+            this.awardAccountService = KcServiceLocator.getService(AwardAccountService.class);
+        }
+        return awardAccountService;
+    }
+
     public String getDirectIndirectViewEnabled() {
         return directIndirectViewEnabled;
     }
@@ -1567,7 +1580,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
      */
     public boolean getDisplayAwardPaymentScheduleActiveLinkFields() {
         if (displayAwardPaymentScheduleActiveLinkFields == null) {
-            String parmVal = this.getParameterService().getParameterValueAsString("KC-AWARD", "Document", PAYMENT_SCHEDULE_ACTIVE_LINKS_PARAMETER);
+            String parmVal = getParameter(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, PAYMENT_SCHEDULE_ACTIVE_LINKS_PARAMETER);
             displayAwardPaymentScheduleActiveLinkFields = StringUtils.equalsIgnoreCase("Y", parmVal);
         }
         return displayAwardPaymentScheduleActiveLinkFields.booleanValue();

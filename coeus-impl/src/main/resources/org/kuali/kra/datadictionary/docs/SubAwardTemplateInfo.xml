@@ -43,7 +43,6 @@
 		        <ref bean="SubAwardTemplateInfo-terminationContact" />
 		        <ref bean="SubAwardTemplateInfo-noCostExtensionContact" />
 		        <ref bean="SubAwardTemplateInfo-perfSiteDiffFromOrgAddr" />
-		        <ref bean="SubAwardTemplateInfo-perfSiteSameAsSubPiAddr" />
 		        <ref bean="SubAwardTemplateInfo-subRegisteredInCcr" />
 				<ref bean="SubAwardTemplateInfo-parentDunsNumber" />
 		        <ref bean="SubAwardTemplateInfo-parentCongressionalDistrict" />
@@ -60,21 +59,30 @@
                 <ref bean="SubAwardTemplateInfo-invoicesEmailed" />
                 <ref bean="SubAwardTemplateInfo-invoiceAddressDifferent" />
                 <ref bean="SubAwardTemplateInfo-invoiceEmailDifferent" />
-		      </list>
+                <ref bean="SubAwardTemplateInfo-fcioSubrecPolicyCd" />
+                <ref bean="SubAwardTemplateInfo-animalFlag" />
+                <ref bean="SubAwardTemplateInfo-animalPteSendCd" />
+                <ref bean="SubAwardTemplateInfo-animalPteNrCd" />
+                <ref bean="SubAwardTemplateInfo-humanFlag" />
+                <ref bean="SubAwardTemplateInfo-humanPteSendCd" />
+                <ref bean="SubAwardTemplateInfo-humanPteNrCd" />
+                <ref bean="SubAwardTemplateInfo-humanDataExchangeAgreeCd" />
+                <ref bean="SubAwardTemplateInfo-humanDataExchangeTermsCd" />
+                <ref bean="SubAwardTemplateInfo-mpiAward" />
+                <ref bean="SubAwardTemplateInfo-mpiLeadershipPlan" />
+
+              </list>
 		     </property>
     </bean>
-    
 
 <!-- Attribute Definitions -->
  
   <bean id="SubAwardTemplateInfo-sowOrSubProposalBudget" parent="SubAwardTemplateInfo-sowOrSubProposalBudget-parentBean" />
-    <bean id="SubAwardTemplateInfo-sowOrSubProposalBudget-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="SubAwardTemplateInfo-sowOrSubProposalBudget-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="sowOrSubProposalBudget" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="SOW/Budget specified in proposal " />
     <property name="shortLabel" value="SOW/Budget specified in proposal " />
-    <property name="maxLength" value="1" />
-    <property name="control" >
+    <property name="control">
       <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
             p:includeKeyInLabel="true" />
@@ -216,12 +224,10 @@
   </bean>
   
   <bean id="SubAwardTemplateInfo-perfSiteDiffFromOrgAddr" parent="SubAwardTemplateInfo-perfSiteDiffFromOrgAddr-parentBean" />
-    <bean id="SubAwardTemplateInfo-perfSiteDiffFromOrgAddr-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="SubAwardTemplateInfo-perfSiteDiffFromOrgAddr-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="perfSiteDiffFromOrgAddr" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Performance Site same as Org address?" />
     <property name="shortLabel" value="Performance Site same as Org address?" />
-    <property name="maxLength" value="10" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
@@ -231,29 +237,11 @@
     <property name="description" value="Performance Site same as Org address?" />    
   </bean>
   
-  <bean id="SubAwardTemplateInfo-perfSiteSameAsSubPiAddr" parent="SubAwardTemplateInfo-perfSiteSameAsSubPiAddr-parentBean" />
-    <bean id="SubAwardTemplateInfo-perfSiteSameAsSubPiAddr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="perfSiteSameAsSubPiAddr" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Performance Site same as PI address?" />
-    <property name="shortLabel" value="Performance Site same as PI address?" />
-    <property name="maxLength" value="10" />
-    <property name="control" >
-     <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-    <property name="summary" value="Performance Site same as PI address?" />
-    <property name="description" value="Performance Site same as PI address?" />    
-  </bean>
-  
   <bean id="SubAwardTemplateInfo-subRegisteredInCcr" parent="SubAwardTemplateInfo-subRegisteredInCcr-parentBean" />
-    <bean id="SubAwardTemplateInfo-subRegisteredInCcr-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="SubAwardTemplateInfo-subRegisteredInCcr-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="subRegisteredInCcr" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Sub Registered in CCR?" />
     <property name="shortLabel" value="Sub Registered in CCR?" />
-    <property name="maxLength" value="10" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
@@ -302,12 +290,10 @@
   </bean>
   
   <bean id="SubAwardTemplateInfo-exemptFromRprtgExecComp" parent="SubAwardTemplateInfo-exemptFromRprtgExecComp-parentBean" />
-    <bean id="SubAwardTemplateInfo-exemptFromRprtgExecComp-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="SubAwardTemplateInfo-exemptFromRprtgExecComp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="exemptFromRprtgExecComp" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Exempt from reporting exec compensation" />
     <property name="shortLabel" value="Exempt from reporting exec compensation" />
-    <property name="maxLength" value="10" />
     <property name="control" >
      <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
@@ -321,8 +307,8 @@
    <bean id="SubAwardTemplateInfo-copyRightType-parentBean" abstract="true" parent="AttributeDefinition">
        <property name="name" value="copyRightType" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Copyrights / Data Rights" />
-    <property name="shortLabel" value="Copyrights / Data Rights" />
+    <property name="label" value="Copyrights" />
+    <property name="shortLabel" value="Copyrights" />
     <property name="maxLength" value="10" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -337,17 +323,15 @@
             p:keyAttribute="copyRightTypeCode"
             p:labelAttribute="copyRightTypeDescription" />
     </property>
-    <property name="summary" value="Copyrights / Data Rights" />
-    <property name="description" value="Copyrights / Data Rights" />    
+    <property name="summary" value="Copyrights" />
+    <property name="description" value="Copyrights" />
   </bean>
   
   <bean id="SubAwardTemplateInfo-automaticCarryForward" parent="SubAwardTemplateInfo-automaticCarryForward-parentBean" />
-    <bean id="SubAwardTemplateInfo-automaticCarryForward-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="SubAwardTemplateInfo-automaticCarryForward-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="automaticCarryForward" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Automatic Carry Forward" />
     <property name="shortLabel" value="Automatic Carry Forward" />
-    <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
@@ -382,12 +366,10 @@
   </bean>
   
   <bean id="SubAwardTemplateInfo-treatmentPrgmIncomeAdditive" parent="SubAwardTemplateInfo-treatmentPrgmIncomeAdditive-parentBean" />
-    <bean id="SubAwardTemplateInfo-treatmentPrgmIncomeAdditive-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="SubAwardTemplateInfo-treatmentPrgmIncomeAdditive-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="treatmentPrgmIncomeAdditive" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Treatment of Program Income Additive" />
     <property name="shortLabel" value="Treatment of Program Income Additive" />
-    <property name="maxLength" value="10" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
             p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
@@ -432,8 +414,53 @@
         <property name="name" value="rAndD" />
         <property name="label" value="Is R&amp;D" />
         <property name="shortLabel" value="Is R&amp;D" />
+        <property name="control">
+            <bean parent="RadioControlDefinition"
+                  p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersBooleanValuesFinder"
+                  p:includeKeyInLabel="true" />
+        </property>
         <property name="summary" value="Is R&amp;D" />
         <property name="description" value="Is R&amp;D" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-mpiAward" parent="SubAwardTemplateInfo-mpiAward-parentBean"/>
+    <bean id="SubAwardTemplateInfo-mpiAward-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="mpiAward" />
+        <property name="label" value="Is an MPI award" />
+        <property name="shortLabel" value="Is an MPI award" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="RadioControlDefinition"
+                  p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersBooleanValuesFinder"
+                  p:includeKeyInLabel="true" />
+        </property>
+        <property name="summary" value="Is an MPI award" />
+        <property name="description" value="Is an MPI award" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-mpiLeadershipPlan" parent="SubAwardTemplateInfo-mpiLeadershipPlan-parentBean" />
+    <bean id="SubAwardTemplateInfo-mpiLeadershipPlan-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="mpiLeadershipPlan" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="MPI Leadership Plan" />
+        <property name="shortLabel" value="MPI Leadership Plan" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.MpiLeadershipPlanValuesFinder" />
+        </property>
+        <property name="summary" value="MPI Leadership Plan" />
+        <property name="description" value="MPI Leadership Plan" />
     </bean>
 
     <bean id="SubAwardTemplateInfo-includesCostSharing" parent="SubAwardTemplateInfo-includesCostSharing-parentBean"/>
@@ -441,6 +468,11 @@
         <property name="name" value="includesCostSharing" />
         <property name="label" value="Includes Cost Sharing" />
         <property name="shortLabel" value="Includes Cost Sharing" />
+        <property name="control">
+            <bean parent="RadioControlDefinition"
+                  p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersBooleanValuesFinder"
+                  p:includeKeyInLabel="true" />
+        </property>
         <property name="summary" value="Includes Cost Sharing" />
         <property name="description" value="Includes Cost Sharing" />
     </bean>
@@ -450,6 +482,11 @@
         <property name="name" value="fcio" />
         <property name="label" value="Prime Sponsor is PHS for FCOI regulation" />
         <property name="shortLabel" value="Prime Sponsor is PHS for FCOI regulation" />
+        <property name="control">
+            <bean parent="RadioControlDefinition"
+                  p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersBooleanValuesFinder"
+                  p:includeKeyInLabel="true" />
+        </property>
         <property name="summary" value="Prime Sponsor is PHS for FCOI regulation" />
         <property name="description" value="Prime Sponsor is PHS for FCOI regulation" />
     </bean>
@@ -459,6 +496,11 @@
         <property name="name" value="invoicesEmailed" />
         <property name="label" value="Invoices emailed" />
         <property name="shortLabel" value="Invoices emailed" />
+        <property name="control">
+            <bean parent="RadioControlDefinition"
+                  p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersBooleanValuesFinder"
+                  p:includeKeyInLabel="true" />
+        </property>
         <property name="summary" value="Invoices emailed" />
         <property name="description" value="Invoices emailed" />
     </bean>
@@ -466,10 +508,15 @@
     <bean id="SubAwardTemplateInfo-invoiceAddressDifferent" parent="SubAwardTemplateInfo-invoiceAddressDifferent-parentBean"/>
     <bean id="SubAwardTemplateInfo-invoiceAddressDifferent-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
         <property name="name" value="invoiceAddressDifferent" />
-        <property name="label" value="Invoice Address if different from contact" />
-        <property name="shortLabel" value="Invoice Address if different from contact" />
-        <property name="summary" value="Invoice Address if different from contact" />
-        <property name="description" value="Invoice Address if different from contact" />
+        <property name="label" value="Invoice Address different from Financial contact's" />
+        <property name="shortLabel" value="Invoice Address different from Financial contact's" />
+        <property name="control">
+            <bean parent="RadioControlDefinition"
+                  p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersBooleanValuesFinder"
+                  p:includeKeyInLabel="true" />
+        </property>
+        <property name="summary" value="Invoice Address different from Financial contact's" />
+        <property name="description" value="Invoice Address different from Financial contact's" />
     </bean>
 
     <bean id="SubAwardTemplateInfo-invoiceEmailDifferent" parent="SubAwardTemplateInfo-invoiceEmailDifferent-parentBean"/>
@@ -477,8 +524,181 @@
         <property name="name" value="invoiceEmailDifferent" />
         <property name="label" value="Email different from Financial Contact's" />
         <property name="shortLabel" value="Email different from Financial Contact's" />
+        <property name="control">
+            <bean parent="RadioControlDefinition"
+                  p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersBooleanValuesFinder"
+                  p:includeKeyInLabel="true" />
+        </property>
         <property name="summary" value="Email different from Financial Contact's" />
         <property name="description" value="Email different from Financial Contact's" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-fcioSubrecPolicyCd" parent="SubAwardTemplateInfo-fcioSubrecPolicyCd-parentBean" />
+    <bean id="SubAwardTemplateInfo-fcioSubrecPolicyCd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fcioSubrecPolicyCd" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Applicable FCOI policy for subrecipient" />
+        <property name="shortLabel" value="Applicable FCOI policy for subrecipient" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.FcioSubrecipientPolicyFinder" />
+        </property>
+        <property name="summary" value="Applicable FCOI policy for subrecipient" />
+        <property name="description" value="Applicable FCOI policy for subrecipient" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-animalFlag" parent="SubAwardTemplateInfo-animalFlag-parentBean"/>
+    <bean id="SubAwardTemplateInfo-animalFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="animalFlag" />
+        <property name="label" value="Subjects Included" />
+        <property name="shortLabel" value="Subjects Included" />
+        <property name="control">
+            <bean parent="RadioControlDefinition"
+                  p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersBooleanValuesFinder"
+                  p:includeKeyInLabel="true" />
+        </property>
+        <property name="summary" value="Animal Subjects Included" />
+        <property name="description" value="Animal Subjects Included" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-animalPteSendCd" parent="SubAwardTemplateInfo-animalPteSendCd-parentBean" />
+    <bean id="SubAwardTemplateInfo-animalPteSendCd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="animalPteSendCd" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="PTE requires verification to be sent" />
+        <property name="shortLabel" value="PTE requires verification to be sent" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.PteSendFinder" />
+        </property>
+        <property name="summary" value="Animal Subjects PTE requires verification to be sent" />
+        <property name="description" value="Animal Subjects PTE requires verification to be sent" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-animalPteNrCd" parent="SubAwardTemplateInfo-animalPteNrCd-parentBean" />
+    <bean id="SubAwardTemplateInfo-animalPteNrCd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="animalPteNrCd" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Not Required Reason" />
+        <property name="shortLabel" value="Not Required Reason" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.AnimalPteSendNotRequiredReasonFinder" />
+        </property>
+        <property name="summary" value="Animal Subjects Not Required Reason" />
+        <property name="description" value="Animal Subjects Not Required Reason" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-humanFlag" parent="SubAwardTemplateInfo-humanFlag-parentBean"/>
+    <bean id="SubAwardTemplateInfo-humanFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="humanFlag" />
+        <property name="label" value="Subjects Included" />
+        <property name="shortLabel" value="Subjects Included" />
+        <property name="control">
+            <bean parent="RadioControlDefinition"
+                  p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersBooleanValuesFinder"
+                  p:includeKeyInLabel="true" />
+        </property>
+        <property name="summary" value="Human Subjects Included" />
+        <property name="description" value="Human Subjects Included" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-humanPteSendCd" parent="SubAwardTemplateInfo-humanPteSendCd-parentBean" />
+    <bean id="SubAwardTemplateInfo-humanPteSendCd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="humanPteSendCd" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="PTE requires verification to be sent" />
+        <property name="shortLabel" value="PTE requires verification to be sent" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.PteSendFinder" />
+        </property>
+        <property name="summary" value="Human Subjects PTE requires verification to be sent" />
+        <property name="description" value="Human Subjects PTE requires verification to be sent" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-humanPteNrCd" parent="SubAwardTemplateInfo-humanPteNrCd-parentBean" />
+    <bean id="SubAwardTemplateInfo-humanPteNrCd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="humanPteNrCd" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Not Required Reason" />
+        <property name="shortLabel" value="Not Required Reason" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.HumanPteSendNotRequiredReasonFinder" />
+        </property>
+        <property name="summary" value="Human Subjects Not Required Reason" />
+        <property name="description" value="Human Subjects Not Required Reason" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-humanDataExchangeAgreeCd" parent="SubAwardTemplateInfo-humanDataExchangeAgreeCd-parentBean" />
+    <bean id="SubAwardTemplateInfo-humanDataExchangeAgreeCd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="humanDataExchangeAgreeCd" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Data will be exchanged under this agreement" />
+        <property name="shortLabel" value="Data will be exchanged under this agreement" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.HumanDataExchangeAgreementFinder" />
+        </property>
+        <property name="summary" value="Human Subjects Data will be exchanged under this agreement" />
+        <property name="description" value="Human Subjects Data will be exchanged under this agreement" />
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-humanDataExchangeTermsCd" parent="SubAwardTemplateInfo-humanDataExchangeTermsCd-parentBean" />
+    <bean id="SubAwardTemplateInfo-humanDataExchangeTermsCd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="humanDataExchangeTermsCd" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="PTE will set forth the terms of exchange of human subjects data" />
+        <property name="shortLabel" value="PTE will set forth the terms of exchange of human subjects data" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.HumanDataExchangeTermsFinder" />
+        </property>
+        <property name="summary" value="Human Subjects PTE will set forth the terms of exchange of human subjects data" />
+        <property name="description" value="Human Subjects PTE will set forth the terms of exchange of human subjects data" />
     </bean>
 
     <!-- Business Object Inquiry Definition -->
@@ -517,52 +737,85 @@
         <bean parent="FieldDefinition"
                     p:attributeName="subAwardId"
                     p:forceInquiry="true" />
-                    <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
-                    <bean p:attributeName="sowOrSubProposalBudget"   parent="FieldDefinition"/>
-                    <bean p:attributeName="subProposalDate"   parent="FieldDefinition"/>
-                    <bean p:attributeName="invoiceOrPaymentContact"   parent="FieldDefinition"/>
-                    <bean p:attributeName="finalStmtOfCostscontact"   parent="FieldDefinition"/>
-                    <bean p:attributeName="changeRequestsContact"   parent="FieldDefinition"/>
-                    <bean p:attributeName="terminationContact"   parent="FieldDefinition"/>
-                    <bean p:attributeName="noCostExtensionContact"   parent="FieldDefinition"/>
-                    <bean p:attributeName="perfSiteDiffFromOrgAddr"   parent="FieldDefinition"/>
-                    <bean p:attributeName="perfSiteSameAsSubPiAddr"   parent="FieldDefinition"/>
-                    <bean p:attributeName="subRegisteredInCcr"   parent="FieldDefinition"/>
-                    <bean p:attributeName="parentDunsNumber"   parent="FieldDefinition"/>
-                    <bean p:attributeName="parentCongressionalDistrict"   parent="FieldDefinition"/>
-                    <bean p:attributeName="exemptFromRprtgExecComp"   parent="FieldDefinition"/>
-                    <bean p:attributeName="copyRightType"   parent="FieldDefinition"/>
-                    <bean p:attributeName="automaticCarryForward"   parent="FieldDefinition"/>
-                    <bean p:attributeName="carryForwardRequestsSentTo"   parent="FieldDefinition"/>
-                    <bean p:attributeName="treatmentPrgmIncomeAdditive"   parent="FieldDefinition"/>
-                    <bean p:attributeName="applicableProgramRegulations"   parent="FieldDefinition"/>
-                    <bean p:attributeName="applicableProgramRegsDate"   parent="FieldDefinition"/>
-     </list>
+            <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
+            <bean p:attributeName="sowOrSubProposalBudget"   parent="FieldDefinition"/>
+            <bean p:attributeName="subProposalDate"   parent="FieldDefinition"/>
+            <bean p:attributeName="invoiceOrPaymentContact"   parent="FieldDefinition"/>
+            <bean p:attributeName="finalStmtOfCostscontact"   parent="FieldDefinition"/>
+            <bean p:attributeName="changeRequestsContact"   parent="FieldDefinition"/>
+            <bean p:attributeName="terminationContact"   parent="FieldDefinition"/>
+            <bean p:attributeName="noCostExtensionContact"   parent="FieldDefinition"/>
+            <bean p:attributeName="perfSiteDiffFromOrgAddr"   parent="FieldDefinition"/>
+            <bean p:attributeName="subRegisteredInCcr"   parent="FieldDefinition"/>
+            <bean p:attributeName="parentDunsNumber"   parent="FieldDefinition"/>
+            <bean p:attributeName="parentCongressionalDistrict"   parent="FieldDefinition"/>
+            <bean p:attributeName="exemptFromRprtgExecComp"   parent="FieldDefinition"/>
+            <bean p:attributeName="copyRightType"   parent="FieldDefinition"/>
+            <bean p:attributeName="automaticCarryForward"   parent="FieldDefinition"/>
+            <bean p:attributeName="carryForwardRequestsSentTo"   parent="FieldDefinition"/>
+            <bean p:attributeName="treatmentPrgmIncomeAdditive"   parent="FieldDefinition"/>
+            <bean p:attributeName="applicableProgramRegulations"   parent="FieldDefinition"/>
+            <bean p:attributeName="applicableProgramRegsDate"   parent="FieldDefinition"/>
+            <bean p:attributeName="rAndD"   parent="FieldDefinition"/>
+            <bean p:attributeName="includesCostSharing"   parent="FieldDefinition"/>
+            <bean p:attributeName="fcio"   parent="FieldDefinition"/>
+            <bean p:attributeName="invoicesEmailed"   parent="FieldDefinition"/>
+            <bean p:attributeName="invoiceAddressDifferent"   parent="FieldDefinition"/>
+            <bean p:attributeName="invoiceEmailDifferent"   parent="FieldDefinition"/>
+            <bean p:attributeName="fcioSubrecPolicyCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="animalFlag"   parent="FieldDefinition"/>
+            <bean p:attributeName="animalPteSendCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="animalPteNrCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="humanFlag"   parent="FieldDefinition"/>
+            <bean p:attributeName="humanPteSendCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="humanPteNrCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="humanDataExchangeAgreeCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="humanDataExchangeTermsCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="mpiAward"   parent="FieldDefinition"/>
+            <bean p:attributeName="mpiLeadershipPlan"   parent="FieldDefinition"/>
+
+      </list>
     </property>
     <property name="resultFields" >
       <list>      
         <bean parent="FieldDefinition" p:attributeName="subAwardId" 
                 p:forceInquiry="true" />   
-                <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
-                    <bean p:attributeName="sowOrSubProposalBudget"   parent="FieldDefinition"/>
-                    <bean p:attributeName="subProposalDate"   parent="FieldDefinition"/>
-                    <bean p:attributeName="invoiceOrPaymentContact"   parent="FieldDefinition"/>
-                    <bean p:attributeName="finalStmtOfCostscontact"   parent="FieldDefinition"/>
-                    <bean p:attributeName="changeRequestsContact"   parent="FieldDefinition"/>
-                    <bean p:attributeName="terminationContact"   parent="FieldDefinition"/>
-                    <bean p:attributeName="noCostExtensionContact"   parent="FieldDefinition"/>
-                    <bean p:attributeName="perfSiteDiffFromOrgAddr"   parent="FieldDefinition"/>
-                    <bean p:attributeName="perfSiteSameAsSubPiAddr"   parent="FieldDefinition"/>
-                    <bean p:attributeName="subRegisteredInCcr"   parent="FieldDefinition"/>
-                    <bean p:attributeName="parentDunsNumber"   parent="FieldDefinition"/>
-                    <bean p:attributeName="parentCongressionalDistrict"   parent="FieldDefinition"/>
-                    <bean p:attributeName="exemptFromRprtgExecComp"   parent="FieldDefinition"/>
-                    <bean p:attributeName="copyRightType"   parent="FieldDefinition"/>
-                    <bean p:attributeName="automaticCarryForward"   parent="FieldDefinition"/>
-                    <bean p:attributeName="carryForwardRequestsSentTo"   parent="FieldDefinition"/>
-                    <bean p:attributeName="treatmentPrgmIncomeAdditive"   parent="FieldDefinition"/>
-                    <bean p:attributeName="applicableProgramRegulations"   parent="FieldDefinition"/>
-                    <bean p:attributeName="applicableProgramRegsDate"   parent="FieldDefinition"/>
+            <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
+            <bean p:attributeName="sowOrSubProposalBudget"   parent="FieldDefinition"/>
+            <bean p:attributeName="subProposalDate"   parent="FieldDefinition"/>
+            <bean p:attributeName="invoiceOrPaymentContact"   parent="FieldDefinition"/>
+            <bean p:attributeName="finalStmtOfCostscontact"   parent="FieldDefinition"/>
+            <bean p:attributeName="changeRequestsContact"   parent="FieldDefinition"/>
+            <bean p:attributeName="terminationContact"   parent="FieldDefinition"/>
+            <bean p:attributeName="noCostExtensionContact"   parent="FieldDefinition"/>
+            <bean p:attributeName="perfSiteDiffFromOrgAddr"   parent="FieldDefinition"/>
+            <bean p:attributeName="subRegisteredInCcr"   parent="FieldDefinition"/>
+            <bean p:attributeName="parentDunsNumber"   parent="FieldDefinition"/>
+            <bean p:attributeName="parentCongressionalDistrict"   parent="FieldDefinition"/>
+            <bean p:attributeName="exemptFromRprtgExecComp"   parent="FieldDefinition"/>
+            <bean p:attributeName="copyRightType"   parent="FieldDefinition"/>
+            <bean p:attributeName="automaticCarryForward"   parent="FieldDefinition"/>
+            <bean p:attributeName="carryForwardRequestsSentTo"   parent="FieldDefinition"/>
+            <bean p:attributeName="treatmentPrgmIncomeAdditive"   parent="FieldDefinition"/>
+            <bean p:attributeName="applicableProgramRegulations"   parent="FieldDefinition"/>
+            <bean p:attributeName="applicableProgramRegsDate"   parent="FieldDefinition"/>
+            <bean p:attributeName="rAndD"   parent="FieldDefinition"/>
+            <bean p:attributeName="includesCostSharing"   parent="FieldDefinition"/>
+            <bean p:attributeName="fcio"   parent="FieldDefinition"/>
+            <bean p:attributeName="invoicesEmailed"   parent="FieldDefinition"/>
+            <bean p:attributeName="invoiceAddressDifferent"   parent="FieldDefinition"/>
+            <bean p:attributeName="invoiceEmailDifferent"   parent="FieldDefinition"/>
+            <bean p:attributeName="fcioSubrecPolicyCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="animalFlag"   parent="FieldDefinition"/>
+            <bean p:attributeName="animalPteSendCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="animalPteNrCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="humanFlag"   parent="FieldDefinition"/>
+            <bean p:attributeName="humanPteSendCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="humanPteNrCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="humanDataExchangeAgreeCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="humanDataExchangeTermsCd"   parent="FieldDefinition"/>
+            <bean p:attributeName="mpiAward"   parent="FieldDefinition"/>
+            <bean p:attributeName="mpiLeadershipPlan"   parent="FieldDefinition"/>
       </list>
     </property>
   </bean> 

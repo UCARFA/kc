@@ -19,6 +19,7 @@
 package org.kuali.kra.institutionalproposal.printing.service;
 
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 
 import java.util.List;
 
@@ -39,4 +40,9 @@ public interface InstitutionalProposalPersonService {
 	public List<ProposalPerson> getInvestigatorsFromDevelopmentProposal(
 			String proposalNumber);
 
+    Boolean isCreditSplitOptInEnabled();
+
+    Boolean generateCreditSplitForPerson(InstitutionalProposalPerson person);
+
+    List<InstitutionalProposalPerson> getPersonsSelectedForCreditSplit(List<InstitutionalProposalPerson> projectPersons);
 }

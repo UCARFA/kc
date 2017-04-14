@@ -34,9 +34,13 @@
 		        <ref bean="SubAwardAmountInfo-subAwardId" />
 		        <ref bean="SubAwardAmountInfo-obligatedAmount" />
 				<ref bean="SubAwardAmountInfo-obligatedChange" />
-		        <ref bean="SubAwardAmountInfo-anticipatedAmount" />
+                <ref bean="SubAwardAmountInfo-obligatedChangeDirect" />
+                <ref bean="SubAwardAmountInfo-obligatedChangeInDirect" />
+                <ref bean="SubAwardAmountInfo-anticipatedAmount" />
 		        <ref bean="SubAwardAmountInfo-anticipatedChange" />
-		        <ref bean="SubAwardAmountInfo-effectiveDate" />
+                <ref bean="SubAwardAmountInfo-anticipatedChangeDirect" />
+                <ref bean="SubAwardAmountInfo-anticipatedChangeIndirect" />
+                <ref bean="SubAwardAmountInfo-effectiveDate" />
 		        <ref bean="SubAwardAmountInfo-comments" />
 		        <ref bean="SubAwardAmountInfo-fileName" />
 				<ref bean="SubAwardAmountInfo-document" />
@@ -46,7 +50,8 @@
 		        <ref bean="SubAwardAmountInfo-modificationID" />
 		        <ref bean="SubAwardAmountInfo-periodofPerformanceStartDate" />
 		        <ref bean="SubAwardAmountInfo-periodofPerformanceEndDate" />
-		      </list>
+                <ref bean="SubAwardAmountInfo-rate" />
+              </list>
 		    </property>
  		 </bean>
     
@@ -145,7 +150,7 @@
         <property name="allowNegative" value="true" />
       </bean>
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
@@ -154,7 +159,43 @@
     </property>
     <property name="summary" value="Obligated Change" />
     <property name="description" value="Obligated Change" />    
-  </bean>    
+  </bean>
+
+    <bean id="SubAwardAmountInfo-obligatedChangeDirect" parent="SubAwardAmountInfo-obligatedChangeDirect-parentBean" />
+    <bean id="SubAwardAmountInfo-obligatedChangeDirect-parentBean" abstract="true" parent="SubAwardAmountInfo-obligatedChange-parentBean">
+        <property name="name" value="obligatedChangeDirect" />
+        <property name="label" value="Obligated Change Direct" />
+        <property name="shortLabel" value="Obligated Change Direct" />
+        <property name="summary" value="Obligated Change Direct" />
+        <property name="description" value="Obligated Change Direct" />
+    </bean>
+
+    <bean id="SubAwardAmountInfo-obligatedChangeInDirect" parent="SubAwardAmountInfo-obligatedChangeInDirect-parentBean" />
+    <bean id="SubAwardAmountInfo-obligatedChangeInDirect-parentBean" abstract="true" parent="SubAwardAmountInfo-obligatedChange-parentBean">
+        <property name="name" value="obligatedChangeIndirect" />
+        <property name="label" value="Obligated Change Indirect" />
+        <property name="shortLabel" value="Obligated Change Indirect" />
+        <property name="summary" value="Obligated Change Indirect" />
+        <property name="description" value="Obligated Change Indirect" />
+    </bean>
+
+    <bean id="SubAwardAmountInfo-anticipatedChangeDirect" parent="SubAwardAmountInfo-anticipatedChangeDirect-parentBean" />
+    <bean id="SubAwardAmountInfo-anticipatedChangeDirect-parentBean" abstract="true" parent="SubAwardAmountInfo-anticipatedChange-parentBean">
+        <property name="name" value="anticipatedChangeDirect" />
+        <property name="label" value="Anticipated Change Direct" />
+        <property name="shortLabel" value="Anticipated Change Direct" />
+        <property name="summary" value="Anticipated Change Direct" />
+        <property name="description" value="Anticipated Change Direct" />
+    </bean>
+
+    <bean id="SubAwardAmountInfo-anticipatedChangeIndirect" parent="SubAwardAmountInfo-anticipatedChangeIndirect-parentBean" />
+    <bean id="SubAwardAmountInfo-anticipatedChangeIndirect-parentBean" abstract="true" parent="SubAwardAmountInfo-anticipatedChange-parentBean">
+        <property name="name" value="anticipatedChangeIndirect" />
+        <property name="label" value="Anticipated Change Indirect" />
+        <property name="shortLabel" value="Anticipated Change Indirect" />
+        <property name="summary" value="Anticipated Change Indirect" />
+        <property name="description" value="Anticipated Change Indirect" />
+    </bean>
            
    <bean id="SubAwardAmountInfo-anticipatedAmount" parent="SubAwardAmountInfo-anticipatedAmount-parentBean" />
   <bean id="SubAwardAmountInfo-anticipatedAmount-parentBean" abstract="true" parent="AttributeDefinition">
@@ -200,7 +241,7 @@
         <property name="scale" value="2"/>
       </bean>
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
@@ -209,7 +250,33 @@
     </property>
     <property name="summary" value="Anticipated Change" />
     <property name="description" value="Anticipated Change" />    
-  </bean> 
+  </bean>
+
+  <bean id="SubAwardAmountInfo-rate" parent="SubAwardAmountInfo-rate-parentBean"/>
+  <bean id="SubAwardAmountInfo-rate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rate" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate" />
+    <property name="shortLabel" value="Rate" />
+    <property name="maxLength" value="5" />
+    <property name="validationPattern" >
+        <bean parent="FixedPointValidationPattern" p:precision="5" p:scale="2"/>
+    </property>
+    <property name="validCharactersConstraint">
+        <bean parent="FixedPointPatternConstraint">
+            <property name="precision" value="5"/>
+            <property name="scale" value="2"/>
+        </bean>
+    </property>
+    <property name="control" >
+        <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+    <property name="controlField">
+        <bean p:size="5" parent="Uif-TextControl"/>
+    </property>
+    <property name="summary" value="Rate" />
+    <property name="description" value="Rate" />
+  </bean>
   
   <bean id="SubAwardAmountInfo-effectiveDate" parent="SubAwardAmountInfo-effectiveDate-parentBean" />
   <bean id="SubAwardAmountInfo-effectiveDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">

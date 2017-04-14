@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.kuali.coeus.irb.api.dto.IrbProtocolActionDto;
 import org.kuali.coeus.irb.api.dto.IrbProtocolDto;
 import org.kuali.coeus.irb.api.dto.IrbProtocolSubmissionDto;
+import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -13,6 +14,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.beans.IntrospectionException;
@@ -137,6 +139,68 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
         Assert.assertTrue(submissionDto.getProtocolReviewTypeCode().equalsIgnoreCase(ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE));
     }
 
+    @Test(expected = UnprocessableEntityException.class)
+    public void testProtocolAuditErrors() throws Exception {
+
+        // POST
+        IrbProtocolDto irbProtocolDto = createBadProtocol();
+
+        // GET
+        IrbProtocolDto protocolRetrieved = getDocumentController().getProtocol(Long.parseLong(irbProtocolDto.getDocNbr()));
+        Assert.assertTrue(protocolRetrieved.getTitle().equalsIgnoreCase("protocol1"));
+        Assert.assertTrue(protocolRetrieved.getReferenceNumber1().equalsIgnoreCase("HR-2775"));
+        Assert.assertTrue(protocolRetrieved.getProtocolTypeCode().equalsIgnoreCase("2"));
+        Assert.assertTrue(protocolRetrieved.getProtocolPersons().size() == 2);
+        Assert.assertTrue(protocolRetrieved.getDocNbr() != null);
+        Assert.assertTrue(protocolRetrieved.getDocNbr() != "1756575F");
+        Assert.assertTrue(protocolRetrieved.getLeadUnitNumber().equalsIgnoreCase("000001"));
+
+        Assert.assertTrue(protocolRetrieved.getProtocolPersons().get(0).getPersonId().equalsIgnoreCase("10000000018"));
+        Assert.assertTrue(protocolRetrieved.getProtocolPersons().get(0).getProtocolPersonRoleId().equalsIgnoreCase(ContactRole.PI_CODE));
+        Assert.assertTrue(protocolRetrieved.getProtocolPersons().get(0).getAffiliationTypeCode().toString().equalsIgnoreCase("4"));
+
+
+        Assert.assertTrue(protocolRetrieved.getProtocolPersons().get(1).getPersonId().equalsIgnoreCase("10000000030"));
+        Assert.assertTrue(protocolRetrieved.getProtocolPersons().get(1).getProtocolPersonRoleId().equalsIgnoreCase("SP"));
+        Assert.assertTrue(protocolRetrieved.getProtocolPersons().get(1).getAffiliationTypeCode().toString().equalsIgnoreCase("4"));
+
+        // Action - SUBMIT EXEMPT
+        String actionString = getExemptActionJson();
+        ObjectMapper mapper = new ObjectMapper();
+        IrbProtocolActionDto actionDto = mapper.readValue(actionString, IrbProtocolActionDto.class);
+        IrbProtocolSubmissionDto submissionDto = getDocumentController().takeAction(actionDto, Long.parseLong(irbProtocolDto.getDocNbr()));
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return KcServiceLocator.getService(ConfigurationService.class);
+    }
+
+    public IrbProtocolDto createBadProtocol() throws IOException, WorkflowException, IllegalAccessException, IntrospectionException {
+        String jsonInString = getJsonWithPersonIssues();
+        ObjectMapper mapper = new ObjectMapper();
+
+        IrbProtocolDto irbDto = mapper.readValue(jsonInString, IrbProtocolDto.class);
+
+        IrbProtocolDto irbProtocolDto = getDocumentController().createProtocol(irbDto);
+        Assert.assertTrue(irbProtocolDto.getTitle().equalsIgnoreCase("protocol1"));
+        Assert.assertTrue(irbProtocolDto.getReferenceNumber1().equalsIgnoreCase("HR-2775"));
+        Assert.assertTrue(irbProtocolDto.getProtocolTypeCode().equalsIgnoreCase("2"));
+        Assert.assertTrue(irbProtocolDto.getProtocolPersons().size() == 2);
+        Assert.assertTrue(irbProtocolDto.getDocNbr() != null);
+        Assert.assertTrue(irbProtocolDto.getDocNbr() != "1756575F");
+        Assert.assertTrue(irbProtocolDto.getLeadUnitNumber().equalsIgnoreCase("000001"));
+        Assert.assertTrue(irbProtocolDto.getSummary().equalsIgnoreCase("HOORAY"));
+
+        Assert.assertTrue(irbProtocolDto.getProtocolPersons().get(0).getPersonId().equalsIgnoreCase("10000000018"));
+        Assert.assertTrue(irbProtocolDto.getProtocolPersons().get(0).getProtocolPersonRoleId().equalsIgnoreCase(ContactRole.PI_CODE));
+        Assert.assertTrue(irbProtocolDto.getProtocolPersons().get(0).getAffiliationTypeCode().toString().equalsIgnoreCase("4"));
+
+        Assert.assertTrue(irbProtocolDto.getProtocolPersons().get(1).getPersonId().equalsIgnoreCase("10000000030"));
+        Assert.assertTrue(irbProtocolDto.getProtocolPersons().get(1).getProtocolPersonRoleId().equalsIgnoreCase("SP"));
+        Assert.assertTrue(irbProtocolDto.getProtocolPersons().get(1).getAffiliationTypeCode().toString().equalsIgnoreCase("4"));
+        return irbProtocolDto;
+    }
+
     public IrbProtocolDto createProtocol() throws IOException, WorkflowException, IllegalAccessException, IntrospectionException {
         String jsonInString = getCorrectJson();
         ObjectMapper mapper = new ObjectMapper();
@@ -164,6 +228,7 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
         Assert.assertTrue(irbProtocolDto.getProtocolPersons().get(2).getPersonId().equalsIgnoreCase("10000000030"));
         Assert.assertTrue(irbProtocolDto.getProtocolPersons().get(2).getProtocolPersonRoleId().equalsIgnoreCase("SP"));
         Assert.assertTrue(irbProtocolDto.getProtocolPersons().get(2).getAffiliationTypeCode().toString().equalsIgnoreCase("4"));
+
         return irbProtocolDto;
     }
 
@@ -229,6 +294,29 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
                 "        \"rolodexId\" : \"186\",\n" +
                 "        \"protocolPersonRoleId\": \"COI\",\n" +
                 "        \"affiliationTypeCode\":\"5\"\n" +
+                "         },\n" +
+                "         {\n" +
+                "        \"personId\" : \"10000000030\",\n" +
+                "        \"protocolPersonRoleId\": \"SP\",\n" +
+                "        \"affiliationTypeCode\":\"4\"\n" +
+                "         }\n" +
+                "    ]\n" +
+                "}";
+        return jsonString;
+    }
+
+    public String getJsonWithPersonIssues() {
+        String jsonString = "{\n" +
+                "    \"title\":\"protocol1\",\n" +
+                "    \"referenceNumber1\":\"HR-2775\",\n" +
+                "    \"summary\":\"HOORAY\",\n" +
+                "    \"protocolTypeCode\":\"2\",\n" +
+                "    \"docNbr\":\"1756575F\",\n" +
+                "    \"protocolPersons\": [\n" +
+                "         {\n" +
+                "        \"personId\" : \"10000000018\",\n" +
+                "        \"protocolPersonRoleId\": \"PI\",\n" +
+                "        \"affiliationTypeCode\":\"4\"\n" +
                 "         },\n" +
                 "         {\n" +
                 "        \"personId\" : \"10000000030\",\n" +

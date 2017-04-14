@@ -20,7 +20,6 @@ package org.kuali.coeus.common.impl.person.signature;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.pdfbox.multipdf.Overlay;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -35,10 +34,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -46,7 +42,7 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
     
     private static final String CORRESPONDENCE_SIGNATURE_TYPE = "CORRESPONDENCE_SIGNATURE_TYPE";
     private static final String CORRESPONDENCE_SIGNATURE_TAG = "CORRESPONDENCE_SIGNATURE_TAG";
-    private static final float ADDITIONAL_SPACE_BETWEEN_TAG_AND_IMAGE = 120f;
+    private static final float ADDITIONAL_SPACE_BETWEEN_TAG_AND_IMAGE = 5f;
     private static final String PERSON_SIGNATURE_ACTIVE = "signatureActive";
     private static final String PERSON_SIGNATURE_PERSON_ID = "personId";
     private static final String DEFAULT_SIGNATURE = "defaultSignature";
@@ -173,7 +169,7 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
         ByteArrayOutputStream outputStream = originalByteArrayOutputStream;
         try {
             if (personSignature.getAttachmentContent() != null) {
-                outputStream = scanAndApplyAutographInEachPage(personSignature.getAttachmentContent(), outputStream);
+                outputStream = scanAndApplyAutographInEachPage(personSignature, outputStream);
             }
         }catch (IOException ex) {
                 LOG.error(ex.getMessage(), ex);
@@ -185,43 +181,34 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
      * This method is to scan for signature tag in each page and apply the signature
      * at desired location.
      */
-    protected ByteArrayOutputStream scanAndApplyAutographInEachPage(byte[] imageData, ByteArrayOutputStream originalByteArrayOutputStream) throws IOException {
+    protected ByteArrayOutputStream scanAndApplyAutographInEachPage(PersonSignature personSignature, ByteArrayOutputStream originalByteArrayOutputStream) throws IOException {
 
-        byte[] pdfFileData = originalByteArrayOutputStream.toByteArray();
-        final PDDocument originalDocument = getPdfDocument(pdfFileData);
-        final List<PrintTextLocator.PDFTextLocation> locations = new PrintTextLocator(originalDocument, new HashSet<>(getSignatureTagParameter())).doSearch();
-        final PDDocument signatureDocument = new PDDocument();
+        try(final PDDocument originalDocument = PDDocument.load(originalByteArrayOutputStream.toByteArray())) {
+            final Collection<PrintTextLocator.PDFTextLocation> locations = new PrintTextLocator(originalDocument, new HashSet<>(getSignatureTagParameter())).doSearch();
+            final BufferedImage image = getBufferedImage(personSignature.getAttachmentContent());
 
-        IntStream.rangeClosed(1, originalDocument.getDocumentCatalog().getPages().getCount()).forEach(pageNumber -> {
-            final PDPage signaturePage = new PDPage();
-            locations.stream().filter(location -> location.isFound() && pageNumber == location.getPage()).forEach(location -> {
-                try {
-                    final PDImageXObject signatureImage = JPEGFactory.createFromImage(signatureDocument, getBufferedImage(imageData));
-                    final PDPageContentStream stream = new PDPageContentStream(signatureDocument, signaturePage, PDPageContentStream.AppendMode.APPEND, true, false);
-                    stream.drawImage(signatureImage, location.getX(), location.getY() - signatureImage.getHeight() - ADDITIONAL_SPACE_BETWEEN_TAG_AND_IMAGE);
-                    stream.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            signatureDocument.addPage(signaturePage);
-        });
+            IntStream.rangeClosed(1, originalDocument.getDocumentCatalog().getPages().getCount())
+                    .forEach(pageNumber -> locations.stream()
+                            .filter(location -> location.isFound() && pageNumber == location.getPage())
+                            .forEach(location -> {
+                                try {
+                                    final PDPage page = originalDocument.getDocumentCatalog().getPages().get(pageNumber - 1);
+                                    final PDImageXObject signatureImage = JPEGFactory.createFromImage(originalDocument, image);
 
-        final Overlay overlay = new Overlay();
-        overlay.setDefaultOverlayPDF(signatureDocument);
-        overlay.setInputPDF(originalDocument);
-        final PDDocument overlayed = overlay.overlay(Collections.emptyMap());
+                                    try (final PDPageContentStream stream = new PDPageContentStream(originalDocument, page, PDPageContentStream.AppendMode.APPEND, true, false)) {
+                                        stream.drawImage(signatureImage, location.getX(), (page.getMediaBox().getHeight() - signatureImage.getHeight() - ADDITIONAL_SPACE_BETWEEN_TAG_AND_IMAGE - location.getY()));
+                                    }
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }));
 
-        overlayed.save(originalByteArrayOutputStream);
-        overlayed.close();
-        originalDocument.close();
-        signatureDocument.close();
-        return originalByteArrayOutputStream;
-    }
-    
-    private PDDocument getPdfDocument(byte[] pdfFileData) throws IOException {
-        InputStream is = new ByteArrayInputStream(pdfFileData);
-        return PDDocument.load(is);
+            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            originalDocument.save(outputStream);
+            return outputStream;
+        }  catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     private ByteArrayOutputStream getOriginalPdfDocumentAsOutputsStream(byte[] pdfFileData) throws IOException {

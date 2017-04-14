@@ -135,7 +135,11 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     @Override
     public void post(AwardBudgetDocument awardBudgetDocument) {
-        processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
+        if (getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_AWARD_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_AWARD_BUDGET_QUEUED_STATUS)) {
+            processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_QUEUED);
+        } else {
+            processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
+        }
         saveDocument(awardBudgetDocument);
     }
 
@@ -158,9 +162,18 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     @Override
     public boolean isFinancialIntegrationOn() {
-        String parameterValue = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD,
-                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
+        String parameterValue = getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
         return StringUtils.containsIgnoreCase(parameterValue, Constants.FIN_SYSTEM_INTEGRATION_ON);
+    }
+
+    public String getParameterValueAsString(String moduleNamespace, String parameterComponent, String parameterName) {
+        return getParameterService().getParameterValueAsString(moduleNamespace,
+                parameterComponent, parameterName);
+    }
+
+    public boolean getParameterValueAsBoolean(String moduleNamespace, String parameterComponent, String parameterName) {
+        return getParameterService().getParameterValueAsBoolean(moduleNamespace,
+                parameterComponent, parameterName);
     }
 
     /**

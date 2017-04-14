@@ -127,6 +127,8 @@ public interface UnitService {
      */
     public List<UnitCorrespondent> retrieveUnitCorrespondentsByUnitNumber(String unitNumber);
 
+    List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumberAndType(String unitNumber, String typeCode);
+
     /**
      * 
      * This method returns the tree depth of the entire unit hierarchy tree;
@@ -143,4 +145,8 @@ public interface UnitService {
      */
     public List<IacucUnitCorrespondent> retrieveIacucUnitCorrespondentsByUnitNumber(String unitNumber);
 
-}
+    boolean appliesToUnit(String agendaQualifierValue, String environmentQualifierValue);
+
+
+
+    }

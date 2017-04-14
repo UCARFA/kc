@@ -282,7 +282,7 @@ public class AwardFundingProposalBean implements Serializable {
                     FUNDING_PROPOSAL_INVALID_STATUS, proposalStatus);
         }if(isInvalidAssociatedDevelopmentProposal()) {
             valid=false;
-            GlobalVariables.getMessageMap().putError(FUNDING_PROPOSAL_ERROR_KEY, 
+            GlobalVariables.getMessageMap().putError(FUNDING_PROPOSAL_ERROR_KEY,
                     FUNDING_PROPOSAL_INVALID_DEVELOPMENTPROPOSAL_STATUS);
         }
         return valid;

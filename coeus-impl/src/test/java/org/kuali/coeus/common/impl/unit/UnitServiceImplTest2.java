@@ -18,18 +18,20 @@
  */
 package org.kuali.coeus.common.impl.unit;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.unit.Unit;
-import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
-import org.kuali.rice.krms.framework.engine.AgendaTree;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class UnitAgendaTest {
+public class UnitServiceImplTest2 {
+
     public static final String ONE = "ONE";
     public static final String TWO = "TWO";
     public static final String THREE = "THREE";
@@ -40,15 +42,10 @@ public class UnitAgendaTest {
     private Unit three;
     private Unit other;
     private Unit another;
-    private UnitAgenda unitAgenda;
+    private UnitServiceImpl unitAgenda;
     @Before
     public void buildServiceToTest() {
-        unitAgenda = new UnitAgenda(new HashMap<String,String>(), new AgendaTree() {
-            @Override
-            public void execute(ExecutionEnvironment environment) {
-
-            }
-        },"",true);
+        unitAgenda = new UnitServiceImpl();
     }
 
     @Before
@@ -73,8 +70,6 @@ public class UnitAgendaTest {
         another = new Unit();
         another.setUnitNumber(ANOTHER);
         another.setParentUnitNumber(OTHER);
-
-
     }
 
     @Test

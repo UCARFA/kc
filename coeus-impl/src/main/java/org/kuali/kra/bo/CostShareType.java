@@ -19,18 +19,21 @@
 package org.kuali.kra.bo;
 
 
-
-
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-
+@Entity
+@Table(name = "COST_SHARE_TYPE")
 public class CostShareType extends KcPersistableBusinessObjectBase {
 
 
     private static final long serialVersionUID = -4625330898428160836L;
 
+    @Id
     @Column(name = "COST_SHARE_TYPE_CODE")
     private Integer costShareTypeCode;
 

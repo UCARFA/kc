@@ -31,7 +31,6 @@ import org.kuali.coeus.common.framework.noo.NoticeOfOpportunity;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.type.ActivityType;
@@ -41,6 +40,9 @@ import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
+import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
@@ -48,7 +50,7 @@ import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
-import org.kuali.kra.bo.*;
+import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
@@ -60,13 +62,12 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitCon
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
+import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
-import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -205,8 +206,10 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     
     private transient boolean allowUpdateTimestampToBeReset = true;
     private transient boolean allowUpdateUserToBeReset = true;
-
+    @SkipVersioning
     private transient KcPersonService kcPersonService;
+    @SkipVersioning
+    private transient InstitutionalProposalPersonService institutionalProposalPersonService;
 
     public InstitutionalProposal() {
         super();
@@ -1682,4 +1685,16 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     public void setProposalLogService(ProposalLogService proposalLogService) {
         this.proposalLogService = proposalLogService;
     }
+
+    protected InstitutionalProposalPersonService getInstitutionalProposalPersonService() {
+        if (institutionalProposalPersonService == null) {
+            institutionalProposalPersonService = KcServiceLocator.getService(InstitutionalProposalPersonService.class);
+        }
+        return institutionalProposalPersonService;
+    }
+
+    public List<InstitutionalProposalPerson> getPersonsSelectedForCreditSplit() {
+        return getInstitutionalProposalPersonService().getPersonsSelectedForCreditSplit(projectPersons);
+    }
+
 }

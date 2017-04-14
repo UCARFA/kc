@@ -23,13 +23,12 @@ import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 
 import javax.xml.transform.Source;
-import java.util.ArrayList;
 import java.util.List;
 
 public class NegotiationActivityprint extends AbstractPrint {
 
     public List<Source> getXSLTemplates() {
-        ArrayList<Source> sourceList = PrintingUtils
+        List<Source> sourceList = PrintingUtils
                 .getXSLTforReport(NegotiationActivityPrintType.NEGOTIATION_ACTIVITY_REPORT
                         .getNegotiationActivityPrintType());
         return sourceList;

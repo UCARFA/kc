@@ -80,9 +80,20 @@
       <start name="Initiated" nextNode="isHierarchyChild" />
       <split name="isHierarchyChild">
       <branch name="False">
-        <requests name="PeopleFlows" nextNode="OSPOfficeRouting" />
-        <role name="OSPOfficeRouting" nextNode="Join" />
+
+          <split name="costShareSplit" nextNode="OSPOfficeRouting">
+              <branch name="costShare">
+              <requests name="CostSharePeopleFlows" nextNode="JoinCostShare"/>
+              </branch>
+              <branch name="regular">
+                  <requests name="PeopleFlows" nextNode="JoinCostShare" />
+              </branch>
+              <join name="JoinCostShare"/>
+          </split>
+
+          <role name="OSPOfficeRouting" nextNode="Join" />
       </branch>
+
       <branch name="True">
         <requests name="WaitForHierarchyDisposition" nextNode="Join" />
       </branch>
@@ -90,15 +101,25 @@
       </split>
     </routePath>
     </routePaths>
+
     <routeNodes>
     <start name="Initiated">
       <activationType>P</activationType>
       <mandatoryRoute>false</mandatoryRoute>
       <finalApproval>false</finalApproval>
     </start>
+    <split name="costShareSplit">
+        <type>org.kuali.rice.kew.engine.node.SimpleSplitNode</type>
+    </split>
     <split name="isHierarchyChild">
       <type>org.kuali.coeus.sys.framework.workflow.SimpleBooleanSplitNode</type>
     </split>
+
+    <requests name="CostSharePeopleFlows">
+        <activationType>R</activationType>
+        <rulesEngine executorClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentCostshareRulesEngineExecutorImpl" />
+    </requests>
+
     <requests name="PeopleFlows">
       <activationType>R</activationType>
       <rulesEngine executorClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentRulesEngineExecutorImpl" />
@@ -109,7 +130,8 @@
       <finalApproval>false</finalApproval>
     </role>
     <join name="Join" />
-    <requests name="WaitForHierarchyDisposition">
+    <join name="JoinCostShare" />
+        <requests name="WaitForHierarchyDisposition">
       <activationType>S</activationType>
       <ruleTemplate>HierarchyParentDispositionApproval</ruleTemplate>
       <mandatoryRoute>true</mandatoryRoute>

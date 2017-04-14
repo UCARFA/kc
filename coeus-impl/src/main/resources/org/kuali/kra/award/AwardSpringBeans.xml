@@ -255,6 +255,11 @@
     
     <bean id="errorHandlingUtilService" parent="grlImporter" p:serviceName="errorHandlingUtilService" />
 
+    <bean id="countryService" parent="grlImporter" p:serviceName="countryService" />
+
+    <bean id="stateService" parent="grlImporter" p:serviceName="stateService" />
+
+
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
@@ -329,6 +334,7 @@
    <!-- Exposing the award account service as a SOAP service and as a java service -->
     <bean id="awardAccountService" class="org.kuali.kra.external.award.impl.AwardAccountServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="parameterService" ref="parameterService" />
         <property name="awardAccountDtoService" ref="awardAccountDtoService" />
     </bean>
    <bean id="awardAccountServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -533,6 +539,8 @@
         <property name="documentService" ref="documentService" />
         <property name="parameterService" ref="parameterService" />
         <property name="costShareService" ref="costShareService" />
+        <property name="countryService" ref="countryService" />
+        <property name="stateService" ref="stateService" />
     </bean>
 
     <bean id="awardDeltaXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardDeltaXmlStream" parent="awardBaseStream" scope="prototype">
@@ -545,6 +553,7 @@
         
     <bean id="awardTemplateXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardTemplateXmlStream" scope="prototype">
         <property name="dateTimeService" ref="dateTimeService" />
+        <property name="parameterService" ref="parameterService" />
     </bean>
 
     <bean id="awardMoneyAndEndDatesHistoryXmlStream" class="org.kuali.kra.award.printing.xmlstream.MoneyAndEndDatesHistoryXmlStream" parent="awardBaseStream" scope="prototype"/>

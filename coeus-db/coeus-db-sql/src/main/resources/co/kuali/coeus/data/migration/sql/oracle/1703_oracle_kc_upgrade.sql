@@ -23,4 +23,13 @@ set sqlblanklines on
 spool 1703_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1703_001__fdp_form_update.sql
 @./kc/bootstrap/V1703_002__ip_fAndARate_table.sql
+@./kc/bootstrap/V1703_006__compliance.sql
+@./kc/bootstrap/V1703_009__cost_share_table_change.sql
+@./kc/bootstrap/V1703_010__subaward_template_fields.sql
+@./kc/bootstrap/V1703_011__fdp_mod_update.sql
+@./kc/bootstrap/V1703_016__fdp_form_update.sql
+@./kc/bootstrap/V1703_017__line_item_number_expand.sql
+@./kc/bootstrap/V1703_019__subaward_idc_fields.sql
+@./kc/bootstrap/V1703_020__line_item_sequence_expand.sql
+@./kc/bootstrap/V1703_021__subaward_mod_type.sql
 commit;

@@ -151,10 +151,15 @@
         <field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
         <field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="rate" column="RATE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="obligatedAmount" column="OBLIGATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="obligatedChange" column="OBLIGATED_CHANGE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+        <field-descriptor name="obligatedChangeDirect" column="OBLIGATED_CHANGE_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+        <field-descriptor name="obligatedChangeIndirect" column="OBLIGATED_CHANGE_INDIRECT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="anticipatedAmount" column="ANTICIPATED_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="anticipatedChange" column="ANTICIPATED_CHANGE" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+        <field-descriptor name="anticipatedChangeDirect" column="ANTICIPATED_CHANGE_DIRECT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
+        <field-descriptor name="anticipatedChangeIndirect" column="ANTICIPATED_CHANGE_INDIRECT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
         <field-descriptor name="effectiveDate" column="EFFECTIVE_DATE" jdbc-type="DATE" />
         <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -428,12 +433,25 @@
         <field-descriptor name="treatmentPrgmIncomeAdditive" column="TREATMENT_PRGM_INCOME_ADDITIVE" jdbc-type="VARCHAR"/>
         <field-descriptor name="applicableProgramRegulations" column="APPLICABLE_PROGRAM_REGULATIONS" jdbc-type="VARCHAR"/>
         <field-descriptor name="applicableProgramRegsDate" column="APPLICABLE_PROGRAM_REGS_DATE" jdbc-type="DATE" />
+
+        <field-descriptor name="mpiAward" column="MPI_AWARD" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="mpiLeadershipPlan" column="MPI_LEADERSHIP_PLAN" jdbc-type="VARCHAR" />
+
         <field-descriptor name="rAndD" column="R_AND_D" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="includesCostSharing" column="INCLUDES_COST_SHARING" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="fcio" column="FCIO" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="invoicesEmailed" column="INVOICES_EMAILED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="invoiceAddressDifferent" column="INVOICE_ADDRESS_DIFF" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="invoiceEmailDifferent" column="INVOICE_EMAIL_DIFF" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="fcioSubrecPolicyCd" column="FCIO_SUBREC_POLICY_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="animalFlag" column="ANIMAL_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="animalPteSendCd" column="ANIMAL_PTE_SEND_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="animalPteNrCd" column="ANIMAL_PTE_NR_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="humanFlag" column="HUMAN_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="humanPteSendCd" column="HUMAN_PTE_SEND_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="humanPteNrCd" column="HUMAN_PTE_NR_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="humanDataExchangeAgreeCd" column="HUMAN_DATA_EXCHANGE_AGREE_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="humanDataExchangeTermsCd" column="HUMAN_DATA_EXCHANGE_TERMS_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
     </class-descriptor>

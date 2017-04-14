@@ -1,6 +1,263 @@
 
 
 ##CURRENT
+* RESKC-2103: making sure the submit page looks at the certifiedBy to determine completeness and the personnel page looks at questionnaire completeness
+  * Travis Schneeberger on Thu, 13 Apr 2017 13:48:28 -0400 [View Commit](../../commit/3c14751beeb3c4ef37c7edad1ae6f3e1b797086a)
+
+##coeus-1704.0017
+* No Changes
+
+
+##coeus-1704.0016
+* RESKC-2160: add mapping for Treatment of Program Income
+  * Travis Schneeberger on Wed, 12 Apr 2017 09:10:17 -0400 [View Commit](../../commit/556c6b2ac23737ea54ebf00832a6864289c3535c)
+
+##coeus-1704.0015
+* No Changes
+
+
+##coeus-1704.0014
+* RESKC-2156: Update copyright header (#2294)
+
+  * Gayathri Athreya on Wed, 12 Apr 2017 08:46:10 -0700 [View Commit](../../commit/7fb6975e0023d615653636d09d6ce93599377927)
+* RESKC-2103: adding support for proposal budget data override
+  * Travis Schneeberger on Fri, 31 Mar 2017 14:42:38 -0400 [View Commit](../../commit/c9ddb3fff07c10499ca7fdf2d53793748707a580)
+
+##coeus-1704.0013
+* RESKC-2158: Changing subaward number to subaward Fsrs number (#2293)
+
+  * Gayathri Athreya on Tue, 11 Apr 2017 08:38:49 -0700 [View Commit](../../commit/4d71c08c480d031d24532f6e47a6c74d9d7e5f31)
+
+##coeus-1704.0012
+* No Changes
+
+
+##coeus-1704.0011
+* RESKC-2152: Workflow fix and test (#2291)
+
+  * Fixing workflow issue where the OSP office approval node is being skipped  * Gayathri Athreya on Mon, 10 Apr 2017 13:54:14 -0700 [View Commit](../../commit/8d2a94ec321bda8de738878f6a9be00cf22b4510)
+
+##coeus-1704.0010
+* RESKC-1983, RESKC-1999: IP and Award fixes. (#2290)
+
+  * ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY is set to Y
+  * If an IP is used as the funding source in the Award, the award does show the credit split information now; however, the Include in Credit Allocation checkboxes seem to come over to an award as checked for everyone, even-though in the IP it was unchecked. When information is being extracted from IP to populate the Award, the information should be copied from the IP as identified in the comment above.
+  * 
+  * I get an STE when I exclude a PI or Co-Investigator (employee and non-employee) from Credit Allocation in PD and then I try to submit the PD to sponsor (to generate the IP). When I click the Submit to Sponsor button, the following STE results. The error states that the Investigator needs a Unit, but in my proposal he/she does have a Unit assigned - see proposal no. 11676 and proposal no. 11678 and 11680 in res-tst1. This may be related to the issue identified in the comment below that when a person is excluded from the credit allocation their Unit Details are not carried over to the IP record (and Unit information is required for investigators in IP)
+  * 
+  * If a person is NOT include in Credit Allocation in PD, when that PD is submitted to Sponsor, the Unit Details for that individual do not show in the IP record created from that PD:  * Gayathri Athreya on Fri, 7 Apr 2017 13:30:44 -0700 [View Commit](../../commit/aafafcbb8004c23745416d6296df0347f814ad1a)
+
+##coeus-1704.0009
+* RESKC-2162: Fix award budget ste (#2289)
+
+  * STE is generated when clicking the post button on award budgets.
+  * Error Details: org.apache.ojb.broker.PersistenceBrokerException: org.apache.ojb.broker.OJBRuntimeException: Incorrect or not found field reference name 'costShareTypeCode' in descriptor org.apache.ojb.broker.metadata.ObjectReferenceDescriptor@504538f2[cascade_retrieve=true,cascade_store=none,cascade_delete=none,is_lazy=false,class_of_Items=class org.kuali.kra.bo.CostShareType] for class-descriptor 'org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare'  * Gayathri Athreya on Fri, 7 Apr 2017 09:49:20 -0700 [View Commit](../../commit/14cc9c3adf82647b099838e6030136133cbd5481)
+
+##coeus-1704.0008
+* RESKC-2157: Switch param (#2288)
+
+  * Gayathri Athreya on Thu, 6 Apr 2017 13:42:12 -0700 [View Commit](../../commit/246b5d5be3aacae3cef9e7242c980d284d0733a9)
+* RESKC-2157: New award budget status. (#2287)
+
+  * Add 2 new params. When param 1 is ON, when a user clicks the post button, the award budget document status will be changed to whatever is in the second param.  * Gayathri Athreya on Thu, 6 Apr 2017 13:24:26 -0700 [View Commit](../../commit/39b1183458a2b01e019b7345cc618772b1277912)
+
+##coeus-1704.0007
+* RESKC-1983: Fix some regressions (#2286)
+
+  * Gayathri Athreya on Thu, 6 Apr 2017 12:34:41 -0700 [View Commit](../../commit/d0e2dd28c145d44b139d68bef223a658749fd7a3)
+
+##coeus-1704.0006
+* RESKC-2148: Remove validation requiring F&A rate from Create Account functionality when AWARD_POST_ENABLED is ON. (#2285)
+
+  * Gayathri Athreya on Thu, 6 Apr 2017 08:16:09 -0700 [View Commit](../../commit/4825dadb76e2ecf49ab8f720f5312fa49283294a)
+
+##coeus-1704.0005
+* RESKC-1983: Tag file fix. (#2284)
+
+  * Gayathri Athreya on Wed, 5 Apr 2017 12:48:29 -0700 [View Commit](../../commit/c61b9d6a36b677e6123b7af00a95c466e5bff4ff)
+
+##coeus-1704.0004
+* RESKC-1983: Fix tests. (#2283)
+
+  * Gayathri Athreya on Wed, 5 Apr 2017 10:26:54 -0700 [View Commit](../../commit/931b8c1ef430388a552f24b37625abb9f06eb1fe)
+* Reskc 2129 subaward number (#2282)
+
+* RESKC-2129: MySQL commit
+  * 
+* RESKC-2129: Oracle commit
+  * Gayathri Athreya on Wed, 5 Apr 2017 08:03:04 -0700 [View Commit](../../commit/d734f785e3f09ae955b529b5a948c1a547960c21)
+* RESKC-1983: Added opt in credit split functionality for Award and IP (#2281)
+
+* RESKC-1983: Added opt in credit split functionality for Award and IP
+  * 
+* RESKC-1983: Fix unit tests
+  * Gayathri Athreya on Wed, 5 Apr 2017 08:02:26 -0700 [View Commit](../../commit/f7cce2cadc1812ddb72b4bc0de51359dd553b003)
+
+##coeus-1704.0003
+* RESKC-2115: Fix IP indirect rates flow through from PD. (#2279)
+
+  * When Enable_Lifecycle_Rates_Flowthru parameter is set to Y; the proposal F&A Rates carry into the Institutional Proposal; however, the F&A Rate Type displayed in the Institutional Proposal is not the correct type.
+  * The system should look at the Rate Class Code in PD and match it to the F&A Rate Type Code on the IP side.  * Gayathri Athreya on Tue, 4 Apr 2017 12:06:30 -0700 [View Commit](../../commit/b6a2c386e22dbebe408fb74799595d74e238e80b)
+* Revert "RESKC-2103: adding support for proposal budget data override"
+  * Terry Durkin on Mon, 3 Apr 2017 16:20:29 -0400 [View Commit](../../commit/940b6293c18550a49c2ac57dfbcad16ce60750a9)
+
+##coeus-1704.0002
+* No Changes
+
+
+##coeus-1704.0001
+* RESKC-2135: subaward template changes (#2278)
+
+  * Gayathri Athreya on Mon, 3 Apr 2017 08:10:39 -0700 [View Commit](../../commit/906c29cb9cbe0fabeb061cd40cbffdc3993ac3f8)
+
+##coeus-1703.0038
+* RESKC-2103: adding support for proposal budget data override
+  * Travis Schneeberger on Fri, 31 Mar 2017 14:42:38 -0400 [View Commit](../../commit/b41ebcf34bb4ad633b45b6e3af2b8c3cd023abd3)
+
+##coeus-1703.0037
+* RESKC-2147: Fixing oracle scripts (#2276)
+
+  * Gayathri Athreya on Thu, 30 Mar 2017 12:40:46 -0700 [View Commit](../../commit/8726c31fad1b4a00ebf2d5aadfead6e3a8bd45a8)
+
+##coeus-1703.0036
+* RESKC-2146: Expanding more columns (#2275)
+
+* RESKC-2146: Expanding more columns
+  * 
+* RESKC-2146: Oracle
+  * Gayathri Athreya on Thu, 30 Mar 2017 11:39:34 -0700 [View Commit](../../commit/e617d2e92d3e3890cae3a78372887167bc452221)
+
+##coeus-1703.0035
+* RESKC-2134: Adding indirect and direct cost fields. (#2273)
+
+* RESKC-2134: Adding indirect and direct cost fields.
+  * 
+* RESKC-2134: Adding tests
+  * Gayathri Athreya on Thu, 30 Mar 2017 09:59:52 -0700 [View Commit](../../commit/bfff9778632bb193058ce363f20baceb68119679)
+
+##coeus-1703.0034
+* No Changes
+
+
+##coeus-1703.0033
+* RESKC-1980, expand the line_item_number
+  * Travis Schneeberger on Wed, 29 Mar 2017 15:45:08 -0400 [View Commit](../../commit/1117b10faf92410980da286a707eb53afc05c3d4)
+
+##coeus-1703.0032
+* RESKC-2138: fixing display of phone and email for fdp form attachment 3a, fixing form attachment 3a for rolodex people.
+  * Travis Schneeberger on Tue, 28 Mar 2017 17:11:51 -0400 [View Commit](../../commit/e87af4c1111575044216d800b6a4cc4bf8e94dcb)
+
+##coeus-1703.0031
+* RESKC-1890, RESKC-1943, RESKC-1893, RESKC-1946: changing several mappings for attachment 2 forms
+  * Travis Schneeberger on Wed, 29 Mar 2017 08:44:51 -0400 [View Commit](../../commit/d6e52af13428d8de5bd7bf7cb8c98a284426a888)
+
+##coeus-1703.0030
+* resequencing sql scripts
+  * Travis Schneeberger on Tue, 28 Mar 2017 16:23:14 -0400 [View Commit](../../commit/9d3bb0a90ea909b6e01e2e4443e8609f72120fa4)
+* RESKC-1890, RESKC-1943, RESKC-1893, RESKC-1946: updating FDP Attachment 2 form for NIH and NSF
+  * Travis Schneeberger on Fri, 24 Mar 2017 20:27:48 -0400 [View Commit](../../commit/6caaa47a1a5a0aee17851e511d59c4ace189c1f2)
+
+##coeus-1703.0029
+* RESKC-2136: Fix integration tests (#2268)
+
+  * Gayathri Athreya on Tue, 28 Mar 2017 10:42:19 -0700 [View Commit](../../commit/bdd119f5d15d8c216f5d34c356f7fed9d9ce4a9e)
+* RESKC-2136: FDP subaward modification template changes (#2267)
+
+* RESKC-2136: FDP subaward modification template changes
+  * 
+* RESKC-2136: Add template file to project
+  * Gayathri Athreya on Tue, 28 Mar 2017 09:13:46 -0700 [View Commit](../../commit/38708b6aaa10a59e8da2f7c868d0edfaed3a0c54)
+
+##coeus-1703.0028
+* No Changes
+
+
+##coeus-1703.0027
+* No Changes
+
+
+##coeus-1703.0026
+* No Changes
+
+
+##coeus-1703.0025
+* No Changes
+
+
+##coeus-1703.0024
+* RESKC-2121: fixing a NPE for existing subawards
+  * Travis Schneeberger on Mon, 27 Mar 2017 09:46:12 -0400 [View Commit](../../commit/a0cc942c58e188b41ef338cc7f03b0ec4e3d76ee)
+* RESKC-2121: Adding new fields to subaward template. (#2263)
+
+* RESKC-2121: Adding new fields to subaward template.
+  * 
+* RESKC-2121: PR review changes
+  * Gayathri Athreya on Fri, 24 Mar 2017 12:25:54 -0700 [View Commit](../../commit/f4f532f84fe7e87f5e9f5ab8300cb65c25968ece)
+
+##coeus-1703.0023
+* No Changes
+
+
+##coeus-1703.0022
+* RESKC-2119: fixing null pointer in protocols (#2261)
+
+  * Gayathri Athreya on Wed, 22 Mar 2017 14:36:22 -0700 [View Commit](../../commit/0ce1caeeeb1ab22947f76458fbad82ea35b48077)
+
+##coeus-1703.0021
+* RESKC-2126: fix label
+  * Travis Schneeberger on Wed, 22 Mar 2017 14:39:45 -0400 [View Commit](../../commit/189c29959a1516dfe993a28722ae5a3d5de327a8)
+* RESKC-1944: Reorganize fields. (#2256)
+
+  * Gayathri Athreya on Wed, 22 Mar 2017 08:49:19 -0700 [View Commit](../../commit/853e0a03e594811410c59e2c89650257dee3f6af)
+* RESKC-1890: preparing for pdf form support
+  * Travis Schneeberger on Wed, 22 Mar 2017 10:08:29 -0400 [View Commit](../../commit/9e42332cdf03d59c2d2591318583bcd18740a477)
+
+##coeus-1703.0020
+* RESKC-2093: Fix cost share type validation message. (#2252)
+
+* RESKC-2093: Fix cost share type validation message.
+  * 
+* RESKC-2093: Fix tests
+  * Gayathri Athreya on Tue, 21 Mar 2017 13:21:00 -0700 [View Commit](../../commit/47fe0487f682bf90565b4e03a446cc2e305643f0)
+
+##coeus-1703.0019
+* RESKC-2123: Fixing issue when cost share type is null in PD (#2255)
+
+  * Gayathri Athreya on Tue, 21 Mar 2017 09:04:38 -0700 [View Commit](../../commit/dfab9149c74e91bbc791bb6830fe73ad342498ad)
+
+##coeus-1703.0018
+* No Changes
+
+
+##coeus-1703.0017
+* RESKC-2057: Remove code from lookup (#2253)
+
+  * Gayathri Athreya on Mon, 20 Mar 2017 07:55:46 -0700 [View Commit](../../commit/0c774e8177c827c89c1c3f529d17b43b2b5fe48a)
+
+##coeus-1703.0016
+* RESKC-2117: IRB controller is swallowing audit errors, fixing it. (#2251)
+
+  * Gayathri Athreya on Fri, 17 Mar 2017 09:48:07 -0700 [View Commit](../../commit/951800378afd5218e3b3fc52ed9726f376d275a3)
+
+##coeus-1703.0015
+* RESKC-2042: Cost share workflow (#2249)
+
+* RESKC-2042: Cost share workflow
+  * 
+* RESKC-2042: Review fixes
+  * 
+* RESKC-2042: Resequences sql files.
+  * Gayathri Athreya on Thu, 16 Mar 2017 18:41:03 -0700 [View Commit](../../commit/0cecd025be5d81c0ce51e8d646f145959bad41a2)
+
+##coeus-1703.0014
+* RESKC-1945: adding template fields for compliance
+  * Travis Schneeberger on Mon, 13 Mar 2017 16:33:56 -0400 [View Commit](../../commit/a74e81975611c45b5ff348266e47ff342540bc87)
+
+##coeus-1703.0013
+* RESKC-2049: changing the way signature images are placed on a pdf.  Mainly changing the way y coordinates are calculated by subtracting the page height.
+  * Travis Schneeberger on Thu, 16 Mar 2017 11:14:39 -0400 [View Commit](../../commit/1695ace56bf40126c65b22c0b6adddb2c92afcc3)
+
+##coeus-1703.0012
 * RESKC-2059: updating demo data for NIH validation service.  Tweaking validation service to assume pdf attachments based on file name.
   * Travis Schneeberger on Tue, 14 Mar 2017 15:13:07 -0400 [View Commit](../../commit/593c52883695f9f6bf368fefb25eeda2578c7920)
 

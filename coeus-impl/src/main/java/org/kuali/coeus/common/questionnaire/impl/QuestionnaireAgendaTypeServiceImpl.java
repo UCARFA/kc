@@ -63,7 +63,7 @@ public class QuestionnaireAgendaTypeServiceImpl extends UnitAgendaTypeServiceImp
         public QuestionnaireAgenda(Map<String, String> qualifiers, AgendaTree agendaTree, String agendaTypeId,boolean isActive) {
             super(qualifiers, agendaTree);
             this.isActive = isActive;
-            this.qualifiers = new HashMap<String, String>(qualifiers);
+            this.qualifiers = new HashMap<>(qualifiers);
             this.qualifiers.put("typeId", agendaTypeId);
         }
 

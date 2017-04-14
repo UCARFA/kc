@@ -68,7 +68,7 @@ public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineEx
 	private KcKrmsFactBuilderServiceHelper getProposalDevelopmentFactBuilderService() {
 		return KcServiceLocator.getService("proposalDevelopmentFactBuilderService");
 	}
-    private List<String> getProposalUnits(String proposalNumber, RouteContext routeContext) {
+    public List<String> getProposalUnits(String proposalNumber, RouteContext routeContext) {
     	DataObjectService dataObjectService = getDataObjectService();
 
         String docContent = routeContext.getDocument().getDocContent();

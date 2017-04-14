@@ -22,4 +22,10 @@ set sqlblanklines on
 
 spool 1703_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1703_003__ip_fAndA_rate_feature.sql
+@./rice/bootstrap/V1703_007__cost_share_agenda_type.sql
+@./rice/bootstrap/V1703_008__cost_share_param_change.sql
+@./rice/bootstrap/V1703_013__force_xsl_param.sql
+@./rice/bootstrap/V1703_014__nih_fdp_parameters.sql
+@./rice/bootstrap/V1703_015__nsf_fdp_parameters.sql
+@./rice/bootstrap/V1703_018__subaward_idc_flag.sql
 commit;

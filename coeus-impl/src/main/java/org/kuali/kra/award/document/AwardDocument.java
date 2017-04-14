@@ -52,6 +52,7 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
+import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
@@ -123,6 +124,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
 
     private transient ProjectRetrievalService projectRetrievalService;
     private transient ProjectPublisher projectPublisher;
+    private transient AwardAccountService awardAccountService;
 
     public AwardDocument(){        
         super();        
@@ -370,11 +372,15 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return getPermissionService().hasPermission(principalId, Constants.KC_SYS, AwardPermissionConstants.POST_AWARD.getAwardPermission());
     }
 
+    protected AwardAccountService getAwardAccountService() {
+        if (this.awardAccountService == null) {
+            this.awardAccountService = KcServiceLocator.getService(AwardAccountService.class);
+        }
+        return awardAccountService;
+    }
+
     protected boolean isPostAwardFeatureEnabled() {
-        return getParameterService().getParameterValueAsBoolean(
-                Constants.PARAMETER_MODULE_AWARD,
-                ParameterConstants.ALL_COMPONENT,
-                Constants.AWARD_POST_ENABLED);
+        return getAwardAccountService().isFinancialRestApiEnabled();
     }
 
     protected VersionHistoryService getVersionHistoryService() {

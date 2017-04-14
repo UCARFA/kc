@@ -513,13 +513,13 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
 
 
     public boolean isCostShareTypeEnabled() {
-        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_GEN,
                 ParameterConstants.ALL_COMPONENT,
                 Constants.ENABLE_COST_SHARE_ACCOUNT_VALIDATION);
     }
 
     public String getValidationMessageType() {
-        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_GEN,
                 ParameterConstants.ALL_COMPONENT,
                 Constants.COST_SHARE_ACCOUNT_VALIDATION_MESSAGE_FLAG);
     }

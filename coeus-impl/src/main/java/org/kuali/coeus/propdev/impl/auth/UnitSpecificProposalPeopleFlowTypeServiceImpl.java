@@ -50,7 +50,7 @@ public class UnitSpecificProposalPeopleFlowTypeServiceImpl extends KcPeopleFlowT
 	@Autowired
 	@Qualifier("dataObjectService")
 	private DataObjectService dataObjectService;
-	
+
     @Override
     public Map<String, String> resolveRoleQualifiers(PeopleFlowDefinition peopleflow, String roleId, Document document,
             DocumentContent documentContent) {

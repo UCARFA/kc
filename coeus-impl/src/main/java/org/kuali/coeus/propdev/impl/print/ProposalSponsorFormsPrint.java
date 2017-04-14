@@ -18,11 +18,13 @@
  */
 package org.kuali.coeus.propdev.impl.print;
 
+import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,7 +35,6 @@ import org.springframework.stereotype.Component;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,9 +45,7 @@ import java.util.Map;
  * XSL style-sheets applicable to this XML, returns XML and XSL for any consumer
  * that would use this XML and XSls for any purpose like report generation, PDF
  * streaming etc.
- * 
  */
-
 @Component("proposalSponsorFormsPrint")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ProposalSponsorFormsPrint extends AbstractPrint {
@@ -63,36 +62,26 @@ public class ProposalSponsorFormsPrint extends AbstractPrint {
     @Autowired
     @Qualifier("proposalDevelopmentXmlStream")
 	private ProposalDevelopmentXmlStream proposalDevelopmentXmlStream;
-	/**
-	 * This method fetches the XSL style-sheets required for transforming the
-	 * generated XML into PDF.
-	 * 
-	 * @return {@link ArrayList}} of {@link Source} XSLs
-	 */
+
+	@Autowired
+	@Qualifier("parameterService")
+    private ParameterService parameterService;
+
 	public Map<String,Source> getXSLTemplateWithBookmarks() {
-		Map<String,Source> sourceMap = new LinkedHashMap<String,Source>(); 
+		Map<String,Source> sourceMap = new LinkedHashMap<>();
 		List<SponsorFormTemplate> printFormTemplates = (List<SponsorFormTemplate>)getReportParameters().get(ProposalDevelopmentPrintingServiceImpl.SELECTED_TEMPLATES);
 		for (SponsorFormTemplate sponsorFormTemplate : printFormTemplates) {
-		    SponsorFormTemplate sponsorTemplate = (SponsorFormTemplate) getBusinessObjectService().findBySinglePrimaryKey(SponsorFormTemplate.class, 
+		    SponsorFormTemplate sponsorTemplate = getBusinessObjectService().findBySinglePrimaryKey(SponsorFormTemplate.class,
 		            sponsorFormTemplate.getSponsorFormTemplateId());
 		    sourceMap.put(sponsorFormTemplate.getPageDescription(),new StreamSource(new ByteArrayInputStream(sponsorTemplate.getAttachmentContent())));
         }
 		return sourceMap;
 	}
 
-    
-    /**
-     * Gets the businessObjectService attribute. 
-     * @return Returns the businessObjectService.
-     */
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -107,7 +96,7 @@ public class ProposalSponsorFormsPrint extends AbstractPrint {
 	}
 	
 	@Override
-	public Map<String, byte[]> renderXML() throws PrintingException {
+	public Map<String, XmlObject> renderXML() throws PrintingException {
 		DevelopmentProposal developmentProposal=(DevelopmentProposal) getPrintableBusinessObject();
 		if (developmentProposal.getSponsorCode().equals(getProposalParameterValue(LOCAL_PRINT_FORM_SPONSOR_CODE))){
 			setXmlStream(proposalDevelopmentXmlStream);
@@ -119,13 +108,16 @@ public class ProposalSponsorFormsPrint extends AbstractPrint {
 	}
 	
 	private String getProposalParameterValue(String param) {
-		String value = null;
-		try {
-			value = PrintingUtils.getParameterValue(param);
-		} catch (Exception e) {
-			//TODO Log Exception
-		}
-		return value;
+		return getParameterService().getParameterValueAsString(
+				ProposalDevelopmentDocument.class, param);
+	}
+
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
 	}
 
 	public NIHResearchAndRelatedXmlStream getNihResearchAndRelatedXmlStream() {

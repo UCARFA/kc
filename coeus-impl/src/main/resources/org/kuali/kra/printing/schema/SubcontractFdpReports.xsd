@@ -70,7 +70,9 @@
                             <xs:element name="CostTypeCode" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="CostType" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="DateOfFullyExcecuted" type="xs:date" nillable="true" minOccurs="0"/>
+                            <xs:element name="PurchaseOrderNumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="RequisitionNumber" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FsrsSubawardNumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="SubcontractorDetails" type ="subcontract:OrganizationType" nillable="true" minOccurs="0"/>
                             <xs:element name="SubcontractorOrgRolodexDetails" type="subcontract:RolodexDetailsType" nillable="true" minOccurs="0"/>
                             <xs:element name="SiteInvestigatorDetails" type="subcontract:RolodexDetailsType" nillable="true" minOccurs="0"/>
@@ -183,8 +185,13 @@
                             <xs:element name="LineNumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="ObligatedAmount" type="xs:decimal" nillable="true" minOccurs="0"/>
                             <xs:element name="ObligatedChange" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="ObligatedChangeDirect" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="ObligatedChangeIndirect" type="xs:decimal" nillable="true" minOccurs="0"/>
                             <xs:element name="AnticipatedAmount" type="xs:decimal" nillable="true" minOccurs="0"/>
                             <xs:element name="AnticipatedChange" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="AnticipatedChangeDirect" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="AnticipatedChangeIndirect" type="xs:decimal" nillable="true" minOccurs="0"/>
+                            <xs:element name="Rate" type="xs:decimal" nillable="true" minOccurs="0"/>
                             <xs:element name="EffectiveDate" type="xs:date" nillable="true" minOccurs="0"/>
                             <xs:element name="Comments" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="PerformanceStartDate" type="xs:date" nillable="true" minOccurs="0"/>
@@ -284,6 +291,39 @@
                             <xs:element name="ApplicableProgramRegsDate" type="xs:date" nillable="true" minOccurs="0"/>
                             <xs:element name="UpdateTimestamp" type="xs:date" nillable="true" minOccurs="0"/>
                             <xs:element name="UpdateUser" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="RAndD" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="IncludesCostSharing" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="Fcio" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="InvoicesEmailed" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="InvoiceAddressDifferent" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="InvoiceEmailDifferent" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FcioSubrecPolicyCd" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="AnimalFlag" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="AnimalPteSendCd" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="AnimalPteNrCd" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="HumanFlag" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="HumanPteSendCd" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="HumanPteNrCd" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="HumanDataExchangeAgreeCd" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="HumanDataExchangeTermsCd" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="MpiAward" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="MpiLeadershipPlan" type="xs:string" nillable="true" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="OtherConfigInfo" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="FdpNihPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNihGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNihInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNihAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNihFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNsfPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNsfGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNsfInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNsfAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNsfFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

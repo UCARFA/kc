@@ -270,13 +270,21 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         }
     }
 
+
+    public boolean isCostSplitEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SUBAWARD, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.ENABLE_SUBAWARD_DC_IDC);
+    }
+
     protected List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrint, List<SubAwardForms> subAwardFormList) {
         List<SubAwardForms> printFormTemplates = new ArrayList<>();
         if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_TEMPLATE)){
             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Template"));
-        }else if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_MODIFICATION))
-        {
-            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Modification"));
+        } else if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_MODIFICATION)) {
+            if (isCostSplitEnabled()) {
+                printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Modification Unilateral"));
+            } else {
+                printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Modification"));
+            }
         }
         if(subAwardPrint.getAttachment3A()){
             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_3A"));
@@ -304,8 +312,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         return printFormTemplates;
     }
     
-    protected void resetSelectedFormList(
-            List<SubAwardAttachments> subAwardFormList) {
+    protected void resetSelectedFormList(List<SubAwardAttachments> subAwardFormList) {
         for (SubAwardAttachments subAwardFormValues : subAwardFormList) {
             subAwardFormValues.setSelectToPrint(false);
         }

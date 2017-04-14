@@ -19,14 +19,12 @@
 
 package org.kuali.kra.award.printing.xmlstream;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
-import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.*;
 import org.kuali.kra.award.paymentreports.Frequency;
@@ -39,6 +37,7 @@ import org.kuali.kra.printing.schema.ContactType;
 import org.kuali.kra.printing.schema.ReportTermDetailsType.MailCopies;
 import org.kuali.kra.printing.schema.TemplateDocument.Template;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.sql.Date;
 import java.util.*;
@@ -51,11 +50,10 @@ import java.util.*;
  * 
  */
 public class AwardTemplateXmlStream implements XmlStream {
-	
-	private static final Log LOG = LogFactory.getLog(AwardTemplateXmlStream.class);
-	
 
 	private DateTimeService dateTimeService = null;
+	private ParameterService parameterService;
+
 	private static final String SCHOOL_NAME = "SCHOOL_NAME";
 	private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
 	private String previousDescription="";
@@ -71,9 +69,10 @@ public class AwardTemplateXmlStream implements XmlStream {
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
+	@Override
 	public Map<String, XmlObject> generateXmlStream(
 			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-		Map<String, XmlObject> awardTemplateXmlStream = new HashMap<String, XmlObject>();
+		Map<String, XmlObject> awardTemplateXmlStream = new HashMap<>();
 		AwardTemplate awardTemplate = (AwardTemplate) printableBusinessObject;
 		TemplateDocument templateDocument = TemplateDocument.Factory.newInstance();
 		if (awardTemplate != null) {
@@ -142,7 +141,7 @@ public class AwardTemplateXmlStream implements XmlStream {
     }
 
     private TermType[] getTerms(AwardTemplate awardTemplate) {
-        List<TermType> termTypes = new ArrayList<TermType>();
+        List<TermType> termTypes = new ArrayList<>();
         for (AwardTemplateTerm awardTemplateTerm : awardTemplate.getAwardSponsorTerms()) {
             TermType termType = TermType.Factory.newInstance();
             setTermDetails(termType,awardTemplateTerm);
@@ -171,8 +170,8 @@ public class AwardTemplateXmlStream implements XmlStream {
 	 * Term.
 	 */
 	private ReportTermType[] getReportTermTypes(AwardTemplate awardTemplate) {
-		List<ReportTermType> reportTermTypes = new ArrayList<ReportTermType>();
-		ReportTermType reportTermType = null;
+		List<ReportTermType> reportTermTypes = new ArrayList<>();
+		ReportTermType reportTermType;
 		for (AwardTemplateReportTerm awardTemplateReportTerm : awardTemplate
 				.getTemplateReportTerms()) {
 			reportTermType = ReportTermType.Factory.newInstance();
@@ -193,8 +192,8 @@ public class AwardTemplateXmlStream implements XmlStream {
 	 * the
 	 */
 	private ReportTermDetailsType[] getReportTermDetails(AwardTemplateReportTerm awardTemplateReportTerm) {
-		List<ReportTermDetailsType> reportTermDetailsTypes = new ArrayList<ReportTermDetailsType>();
-		ReportTermDetailsType reportTermDetailsType = null;
+		List<ReportTermDetailsType> reportTermDetailsTypes = new ArrayList<>();
+		ReportTermDetailsType reportTermDetailsType;
 		reportTermDetailsType = ReportTermDetailsType.Factory.newInstance();
 		Date dueDate = awardTemplateReportTerm.getDueDate();
 		if (dueDate != null) {
@@ -315,8 +314,8 @@ public class AwardTemplateXmlStream implements XmlStream {
 	 */
 	private MailCopies[] getMailCopies(
 			AwardTemplateReportTerm awardTemplateReportTerm) {
-		List<MailCopies> mailCopiesList = new ArrayList<MailCopies>();
-		MailCopies mailCopies = null;
+		List<MailCopies> mailCopiesList = new ArrayList<>();
+		MailCopies mailCopies;
 		for (AwardTemplateReportTermRecipient awardTemplateReportTermRecipient : awardTemplateReportTerm
 				.getAwardTemplateReportTermRecipients()) {
 			mailCopies = MailCopies.Factory.newInstance();
@@ -351,8 +350,8 @@ public class AwardTemplateXmlStream implements XmlStream {
 	 * AwardTemplateContact and iterates over it.
 	 */
 	private ContactType[] getContactType(AwardTemplate awardTemplate) {
-		List<ContactType> contactTypes = new ArrayList<ContactType>();
-		ContactType contactType = null;
+		List<ContactType> contactTypes = new ArrayList<>();
+		ContactType contactType;
 		for (AwardTemplateContact awardTemplateContact : awardTemplate
 				.getTemplateContacts()) {
 			contactType = ContactType.Factory.newInstance();
@@ -424,14 +423,14 @@ public class AwardTemplateXmlStream implements XmlStream {
 	 * AwardTemplateComment and iterates over it.
 	 */
 	private CommentType[] getCommentType(AwardTemplate awardTemplate) {
-		List<CommentType> commentTypes = new ArrayList<CommentType>();
+		List<CommentType> commentTypes = new ArrayList<>();
 		List<AwardTemplateComment> templateComments = awardTemplate
 				.getTemplateComments();
 		CommentType commentType = null;
-		ArrayList templateCommentList=new ArrayList();		
-		HashMap<String,String> templateCommentHm=new HashMap<String,String>();
+		List<String> templateCommentList=new ArrayList<>();
+		HashMap<String,String> templateCommentHm=new HashMap<>();
 		for (AwardTemplateComment awardTemplateComment : templateComments) {		
-            String commentTypeCode = awardTemplateComment.getCommentTypeCode();           
+			awardTemplateComment.getCommentTypeCode();
 		    AwardTemplate template = awardTemplateComment.getTemplate();		  
 		    String description = null;
             if (template != null) {               
@@ -445,18 +444,18 @@ public class AwardTemplateXmlStream implements XmlStream {
             }           
             		    
 		}
-		 Collections.sort(templateCommentList);		
-		 for (int templateComment=0;templateComment<templateCommentList.size();templateComment++){
-             if(templateCommentHm.containsKey(templateCommentList.get(templateComment))==true){
-                 commentType = CommentType.Factory.newInstance();
-                 String comments=(String)templateCommentHm.get(templateCommentList.get(templateComment));
-                 String description =templateCommentList.get(templateComment).toString();
-                 commentType.setDescription(description);
-                 commentType.setComments(comments);    
-                
-             }      
-             commentTypes.add(commentType);           
-        }
+		 Collections.sort(templateCommentList);
+		for (String aTemplateCommentList : templateCommentList) {
+			if (templateCommentHm.containsKey(aTemplateCommentList)) {
+				commentType = CommentType.Factory.newInstance();
+				String comments = templateCommentHm.get(aTemplateCommentList);
+				String description = aTemplateCommentList;
+				commentType.setDescription(description);
+				commentType.setComments(comments);
+
+			}
+			commentTypes.add(commentType);
+		}
 
 	        return commentTypes.toArray(new CommentType[0]);	
 	}
@@ -490,12 +489,15 @@ public class AwardTemplateXmlStream implements XmlStream {
 	}
 
 	private String getAwardParameterValue(String param) {
-		String value = null;
-		try {
-			value = PrintingUtils.getParameterValue(param);
-		} catch (Exception e) {
-			LOG.error(e.getMessage(), e);
-		}
-		return value;
+		return getParameterService().getParameterValueAsString(
+				ProposalDevelopmentDocument.class, param);
+	}
+
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
 	}
 }

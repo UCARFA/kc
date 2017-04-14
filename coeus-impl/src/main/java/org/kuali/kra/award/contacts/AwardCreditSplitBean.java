@@ -20,13 +20,14 @@ package org.kuali.kra.award.contacts;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
-import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -54,6 +55,7 @@ public class AwardCreditSplitBean implements Serializable {
     
     private transient Collection<InvestigatorCreditType> investigatorCreditTypes;
     private transient ParameterService parameterService;
+    private transient AwardService awardService;
 
     public AwardCreditSplitBean(AwardForm awardForm) {
         this.awardForm = awardForm;
@@ -180,18 +182,20 @@ public class AwardCreditSplitBean implements Serializable {
     protected String fetchParameterValue(String parmName) {
         return this.getParameterService().getParameterValueAsString(AwardDocument.class, parmName);
     }
-    
-    /**
-     * Looks up and returns the ParameterService.
-     * @return the parameter service. 
-     */
+
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
-    
+
+    protected AwardService getAwardService() {
+        if (this.awardService == null) {
+            this.awardService = KcServiceLocator.getService(AwardService.class);
+        }
+        return awardService;
+    }
 
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
@@ -257,25 +261,17 @@ public class AwardCreditSplitBean implements Serializable {
             }
         }
     }
-    
-    /**
-     * @param award
-     * @param creditTypes
-     * @param allCreditSplitTotals
-     */
+
     private void calculatePersonTotals(Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals) {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         Map<String, ScaleTwoDecimal> personCreditSplitTotalMap = initializePersonCreditSplitTotalMap(allCreditSplitTotals);
-        for (AwardPerson projectPerson : getProjectPersons()) {
+        for (AwardPerson projectPerson : getPersonsSelectedForCreditSplit()) {
             for (InvestigatorCreditType creditType : creditTypes) {                
                 calculatePersonTotalForCreditSplitType(projectPerson, creditType, personCreditSplitTotalMap);
             }
         }
     }
 
-    /*
-     * @param allCreditSplitTotals
-     */
     private void calculatePersonUnitTotals(Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals) {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         for (AwardPerson projectPerson : getProjectPersons()) {
@@ -283,7 +279,7 @@ public class AwardCreditSplitBean implements Serializable {
             Map<String, ScaleTwoDecimal> personUnitCreditTotals = allCreditSplitTotals.get(personKey);
             
             if (personUnitCreditTotals == null) {
-                personUnitCreditTotals = new HashMap<String, ScaleTwoDecimal>();
+                personUnitCreditTotals = new HashMap<>();
                 allCreditSplitTotals.put(personKey, personUnitCreditTotals);
             }
 
@@ -296,11 +292,7 @@ public class AwardCreditSplitBean implements Serializable {
             calculateUnitCreditSplitTotals(projectPerson, personUnitCreditTotals);
         }
     }
-    
-    /*
-     * @param projectPerson
-     * @param personUnitCreditTotals
-     */
+
     private void calculateUnitCreditSplitTotals(AwardPerson projectPerson, Map<String, ScaleTwoDecimal> personUnitCreditTotals) {
         if(projectPerson.isKeyPerson() && projectPerson.getUnits().size() == 0) {
             handleKeyPersonWithNoUnits(personUnitCreditTotals);
@@ -342,7 +334,9 @@ public class AwardCreditSplitBean implements Serializable {
         for(AwardPerson projectPerson: getAward().getProjectPersons()) {
             AwardPersonUnitCreditSplitRuleEvent event = new AwardPersonUnitCreditSplitRuleEvent(awardDocument, projectPerson, 
                                                                                                 totalsMap.get(getPersonKey(projectPerson)));
-            success &= rule.checkAwardPersonUnitCreditSplitTotals(event);
+            if (getAwardService().generateCreditSplitForPerson(projectPerson)) {
+                success &= rule.checkAwardPersonUnitCreditSplitTotals(event);
+            }
         }
         return success;
     }
@@ -364,10 +358,6 @@ public class AwardCreditSplitBean implements Serializable {
         }
     }
 
-    /*
-     * @param creditTypes
-     * @param projectPerson
-     */
     private void createDefaultCreditSplitMapForProjectPerson(Collection<InvestigatorCreditType> creditTypes, AwardPerson projectPerson) {
         Map<InvestigatorCreditType, AwardPersonCreditSplit> personCreditMap = new HashMap<InvestigatorCreditType, AwardPersonCreditSplit>();
         for(AwardPersonCreditSplit creditSplit: projectPerson.getCreditSplits()) {
@@ -385,17 +375,17 @@ public class AwardCreditSplitBean implements Serializable {
         return projectPerson.getFullName();
     }
 
-    /*
-     * @param allCreditSplitTotals
-     * @return
-     */
     private Map<String, ScaleTwoDecimal> initializePersonCreditSplitTotalMap(Map<String, Map<String, ScaleTwoDecimal>> allCreditSplitTotals) {
         Map<String, ScaleTwoDecimal> personCreditTypeTotals = allCreditSplitTotals.get(PERSON_TOTALS_KEY);
         
         if (personCreditTypeTotals == null) {
-            personCreditTypeTotals = new HashMap<String, ScaleTwoDecimal>();
+            personCreditTypeTotals = new HashMap<>();
             allCreditSplitTotals.put(PERSON_TOTALS_KEY, personCreditTypeTotals);
         }
         return personCreditTypeTotals;
-    }   
+    }
+
+    public List<AwardPerson> getPersonsSelectedForCreditSplit() {
+        return getAwardService().getPersonsSelectedForCreditSplit(getProjectPersons());
+    }
 }

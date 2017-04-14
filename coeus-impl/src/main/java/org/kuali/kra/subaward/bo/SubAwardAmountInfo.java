@@ -53,10 +53,16 @@ public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implemen
     private ScaleTwoDecimal obligatedAmount;
 
     private ScaleTwoDecimal obligatedChange;
+    private ScaleTwoDecimal obligatedChangeDirect;
+    private ScaleTwoDecimal obligatedChangeIndirect;
 
     private ScaleTwoDecimal anticipatedAmount;
 
     private ScaleTwoDecimal anticipatedChange;
+    private ScaleTwoDecimal anticipatedChangeDirect;
+    private ScaleTwoDecimal anticipatedChangeIndirect;
+
+    private ScaleTwoDecimal rate;
 
     private Date effectiveDate;
 
@@ -465,7 +471,48 @@ public class SubAwardAmountInfo extends KcPersistableBusinessObjectBase implemen
 		}
 		return kcAttachmentDataDao;
 	}
-	public void setKcAttachmentDataDao(KcAttachmentDataDao kcAttachmentDao) {
+
+    public ScaleTwoDecimal getObligatedChangeDirect() {
+        return obligatedChangeDirect;
+    }
+
+    public void setObligatedChangeDirect(ScaleTwoDecimal obligatedChangeDirect) {
+        this.obligatedChangeDirect = obligatedChangeDirect;
+    }
+
+    public ScaleTwoDecimal getObligatedChangeIndirect() {
+        return obligatedChangeIndirect;
+    }
+
+    public void setObligatedChangeIndirect(ScaleTwoDecimal obligatedChangeIndirect) {
+        this.obligatedChangeIndirect = obligatedChangeIndirect;
+    }
+
+    public ScaleTwoDecimal getAnticipatedChangeDirect() {
+        return anticipatedChangeDirect;
+    }
+
+    public void setAnticipatedChangeDirect(ScaleTwoDecimal anticipatedChangeDirect) {
+        this.anticipatedChangeDirect = anticipatedChangeDirect;
+    }
+
+    public ScaleTwoDecimal getAnticipatedChangeIndirect() {
+        return anticipatedChangeIndirect;
+    }
+
+    public void setAnticipatedChangeIndirect(ScaleTwoDecimal anticipatedChangeIndirect) {
+        this.anticipatedChangeIndirect = anticipatedChangeIndirect;
+    }
+
+    public ScaleTwoDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(ScaleTwoDecimal rate) {
+        this.rate = rate;
+    }
+
+    public void setKcAttachmentDataDao(KcAttachmentDataDao kcAttachmentDao) {
 		this.kcAttachmentDataDao = kcAttachmentDao;
 	}
 	public String getModificationTypeCode() {

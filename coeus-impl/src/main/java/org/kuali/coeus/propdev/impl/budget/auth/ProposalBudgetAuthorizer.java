@@ -19,17 +19,21 @@
 package org.kuali.coeus.propdev.impl.budget.auth;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.lock.ProposalBudgetLockService;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -52,8 +56,10 @@ import java.util.Set;
  */
 @Component("proposalBudgetAuthorizer")
 public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
-    
-	@Autowired
+
+    private static final Log LOG = LogFactory.getLog(ProposalBudgetAuthorizer.class);
+
+    @Autowired
 	@Qualifier("parameterService")
 	private ParameterService parameterService;
 
@@ -72,6 +78,10 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     @Autowired
     @Qualifier("proposalBudgetLockService")
     private ProposalBudgetLockService proposalBudgetLockService;
+
+    @Autowired
+    @Qualifier("proposalHierarchyService")
+    private ProposalHierarchyService proposalHierarchyService;
 
     @Override
     public Set<String> getEditModes(View view, ViewModel model, Person user, Set<String> editModes) {
@@ -143,6 +153,14 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
         
         if (isAuthorizedToPrintProposal(doc, user)) {
             editModes.add(AuthConstants.PRINT_EDIT_MODE);
+        }
+
+        if (isAuthorizedToAlterProposalData(doc, user)) {
+            editModes.add(ProposalDevelopmentConstants.AuthConstants.ALTER_PROPOSAL_DATA);
+        }
+
+        if (isAuthorizedToShowAlterBudgetData(doc, user)) {
+            editModes.add(ProposalDevelopmentConstants.AuthConstants.SHOW_ALTER_PROPOSAL_DATA);
         }
     }
 
@@ -240,6 +258,36 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
         return getKcAuthorizationService().hasPermission(user.getPrincipalId(), bpDocument, PermissionConstants.PRINT_PROPOSAL);
     }
 
+    protected boolean isAuthorizedToAlterProposalData(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        boolean ret = true;
+
+        //check to see if the parent is enroute, if so deny the edit attempt.
+        if(pdDocument.getDevelopmentProposal().isChild() ) {
+            try {
+                if (getProposalHierarchyService().getParentWorkflowDocument(pdDocument).isEnroute()) {
+                    ret = false;
+                }
+            } catch (ProposalHierarchyException e) {
+                LOG.error(String.format( "Exception looking up parent of DevelopmentProposal %s, authorizer is going to deny edit access to this child.", pdDocument.getDevelopmentProposal().getProposalNumber()), e);
+                ret = false;
+            }
+        }
+
+        if (ret){
+            ret = getKcWorkflowService().isEnRoute(pdDocument) &&
+                    !pdDocument.getDevelopmentProposal().getSubmitFlag() &&
+                    getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.ALTER_PROPOSAL_DATA);
+        }
+
+
+        return ret;
+    }
+
+    protected boolean isAuthorizedToShowAlterBudgetData(Document document, Person user) {
+        return getKcWorkflowService().isInWorkflow(document);
+    }
+
 	public ParameterService getParameterService() {
 		return parameterService;
 	}
@@ -278,5 +326,13 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
 
     public void setProposalBudgetLockService(ProposalBudgetLockService proposalBudgetLockService) {
         this.proposalBudgetLockService = proposalBudgetLockService;
+    }
+
+    protected ProposalHierarchyService getProposalHierarchyService (){
+        return proposalHierarchyService;
+    }
+
+    public void setProposalHierarchyService (ProposalHierarchyService proposalHierarchyService){
+        this.proposalHierarchyService = proposalHierarchyService;
     }
 }

@@ -29,6 +29,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.award.infrastructure.AwardTaskNames;
+import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.infrastructure.TimeAndMoneyPermissionConstants;
@@ -68,6 +69,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     private static final String VIEW_CHART_OF_ACCOUNTS_ELEMENT = "viewChartOfAccountsElement";
 
     private AwardHierarchyService awardHierarchyService;
+    private transient AwardAccountService awardAccountService;
 
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<>();
@@ -197,10 +199,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
 
 
     protected boolean isFinancialRestApiEnabled() {
-        return getParameterService().getParameterValueAsBoolean(
-                Constants.PARAMETER_MODULE_AWARD,
-                ParameterConstants.ALL_COMPONENT,
-                Constants.AWARD_POST_ENABLED);
+        return getAwardAccountService().isFinancialRestApiEnabled();
     }
 
     protected boolean isFinancialsystemIntegrationOn() {
@@ -208,6 +207,13 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
                 Constants.PARAMETER_MODULE_AWARD,
                 ParameterConstants.DOCUMENT_COMPONENT,
                 Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
+    }
+
+    protected AwardAccountService getAwardAccountService() {
+        if (this.awardAccountService == null) {
+            this.awardAccountService = KcServiceLocator.getService(AwardAccountService.class);
+        }
+        return awardAccountService;
     }
 
     public boolean hasCreateAccountPermission(AwardDocument document) {

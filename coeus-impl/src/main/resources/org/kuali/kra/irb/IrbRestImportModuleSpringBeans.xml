@@ -38,6 +38,7 @@
     <bean id="restAuditLoggerFactory" parent="grlImporter" p:serviceName="restAuditLoggerFactory" />
     <bean id="restBeanWrapperFactory" parent="grlImporter" p:serviceName="restBeanWrapperFactory" />
     <bean id="restPropertyEditors" parent="grlImporter" p:serviceName="restPropertyEditors" />
+    <bean id="configurationService" parent="grlImporter" p:serviceName="configurationService" />
 
     <!-- IRB -->
     <bean id="protocolNumberService" parent="grlImporter" p:serviceName="protocolNumberService" />

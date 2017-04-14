@@ -80,8 +80,10 @@
                                             </fo:table>
                                         </fo:table-cell>
                                     </fo:table-row>
+
                                     <fo:table-row>
                                         <fo:table-cell text-align="center" display-align="center">
+
                                             <fo:table font-size="12pt" font-weight="bold" padding="0" table-layout="fixed" width="100%">
                                                 <fo:table-column column-width="50%"/>
                                                 <fo:table-column column-width="50%"/>
@@ -106,430 +108,414 @@
                                             </fo:table>
                                         </fo:table-cell>
                                     </fo:table-row>
-                                    <fo:table-row>
-                                        <fo:table-cell display-align="center">
-                                            <fo:table padding="0" table-layout="fixed" width="100%">
-                                                <fo:table-column column-width="50%"/>
-                                                <fo:table-column column-width="50%"/>
-                                                <fo:table-body>
-                                                    <fo:table-row >
-                                                        <fo:table-cell padding="2" text-align="left" display-align="center" border-top="solid 1pt gray" border-right="solid 1pt gray">
-                                                            <fo:table padding="0" table-layout="fixed" width="100%">
-                                                                    <fo:table-column column-width="100%"/>
-                                                                    <fo:table-body start-indent="0pt">
-                                                                        <fo:table-row>
-                                                                            <fo:table-cell>
-                                                                                <fo:block>
-                                                                                    <fo:inline font-weight="bold">
-                                                                                        <xsl:text>PTE: </xsl:text>
-                                                                                    </fo:inline>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:PrimeRecipientContacts">
-                                                                                            <xsl:for-each select="subcontract:RequisitionerOrgDetails">
-                                                                                                <xsl:for-each select="subcontract:OrganizationName">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                </fo:block>
-                                                                            </fo:table-cell>
-                                                                        </fo:table-row>
-                                                                        <fo:table-row>
-                                                                            <fo:table-cell>
-                                                                                <fo:block>
-                                                                                    <fo:inline font-weight="bold">
-                                                                                        <xsl:text>Address: </xsl:text>
-                                                                                    </fo:inline>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:PrimeRecipientContacts">
-                                                                                            <xsl:for-each select="subcontract:OrgRolodexDetails">
-                                                                                                <xsl:for-each select="subcontract:Address1">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                    <fo:block/>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:PrimeRecipientContacts">
-                                                                                            <xsl:for-each select="subcontract:OrgRolodexDetails">
-                                                                                                <xsl:for-each select="subcontract:Address2">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                    <fo:block/>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:PrimeRecipientContacts">
-                                                                                            <xsl:for-each select="subcontract:OrgRolodexDetails">
-                                                                                                <xsl:for-each select="subcontract:Address3">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                    <fo:block/>
-                                                                                    <fo:inline>
-                                                                                        <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
-                                                                                    </fo:inline>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:PrimeRecipientContacts">
-                                                                                            <xsl:for-each select="subcontract:OrgRolodexDetails">
-                                                                                                <xsl:for-each select="subcontract:City">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                    <fo:block/>
-                                                                                    <fo:inline>
-                                                                                        <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
-                                                                                    </fo:inline>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:PrimeRecipientContacts">
-                                                                                            <xsl:for-each select="subcontract:OrgRolodexDetails">
-                                                                                                <xsl:for-each select="subcontract:StateDescription">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                    <fo:block/>
-                                                                                    <fo:inline>
-                                                                                        <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
-                                                                                    </fo:inline>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:PrimeRecipientContacts">
-                                                                                            <xsl:for-each select="subcontract:OrgRolodexDetails">
-                                                                                                <xsl:for-each select="subcontract:Pincode">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                </fo:block>
-                                                                            </fo:table-cell>
-                                                                        </fo:table-row>
-                                                                    </fo:table-body>
-                                                                </fo:table>
-                                                        </fo:table-cell>
-                                                        <fo:table-cell padding="2" text-align="left" display-align="center" border-top="solid 1pt gray">
-                                                            <fo:table padding="0" table-layout="fixed" width="100%">
-                                                                    <fo:table-column column-width="100%"/>
-                                                                    <fo:table-body start-indent="0pt">
 
-                                                                        <fo:table-row font-weight="normal" >
-                                                                            <fo:table-cell  display-align="center">
-                                                                                <fo:block>
-                                                                                    <fo:inline font-weight="bold">
-                                                                                        <xsl:text>Subrecipient: </xsl:text>
-                                                                                    </fo:inline>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:SubcontractDetail">
-                                                                                            <xsl:for-each select="subcontract:SubcontractorName">
-                                                                                                <xsl:variable name="value-of-template">
-                                                                                                    <xsl:apply-templates/>
-                                                                                                </xsl:variable>
-                                                                                                <xsl:choose>
-                                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                        <fo:block>
-                                                                                                            <xsl:copy-of select="$value-of-template"/>
-                                                                                                        </fo:block>
-                                                                                                    </xsl:when>
-                                                                                                    <xsl:otherwise>
-                                                                                                        <fo:inline>
-                                                                                                            <xsl:copy-of select="$value-of-template"/>
-                                                                                                        </fo:inline>
-                                                                                                    </xsl:otherwise>
-                                                                                                </xsl:choose>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                </fo:block>
-                                                                            </fo:table-cell>
-                                                                        </fo:table-row>
-                                                                        <fo:table-row font-weight="normal" >
-                                                                            <fo:table-cell padding="0pt"  display-align="center">
-                                                                                <fo:block>
-                                                                                    <fo:inline font-weight="bold">
-                                                                                        <xsl:text>Address: </xsl:text>
-                                                                                    </fo:inline>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:SubcontractDetail">
-                                                                                            <xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
-                                                                                                <xsl:for-each select="subcontract:Address1">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                    <fo:block/>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:SubcontractDetail">
-                                                                                            <xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
-                                                                                                <xsl:for-each select="subcontract:Address2">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                    <fo:block/>
-
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:SubcontractDetail">
-                                                                                            <xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
-                                                                                                <xsl:for-each select="subcontract:Address3">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                    <fo:block/>
-                                                                                    <fo:inline>
-                                                                                        <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
-                                                                                    </fo:inline>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:SubcontractDetail">
-                                                                                            <xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
-                                                                                                <xsl:for-each select="subcontract:City">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                    <fo:block/>
-                                                                                    <fo:inline>
-                                                                                        <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
-                                                                                    </fo:inline>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:SubcontractDetail">
-                                                                                            <xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
-                                                                                                <xsl:for-each select="subcontract:StateDescription">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                    <fo:block/>
-                                                                                    <fo:inline>
-                                                                                        <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
-                                                                                    </fo:inline>
-                                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                                        <xsl:for-each select="subcontract:SubcontractDetail">
-                                                                                            <xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
-                                                                                                <xsl:for-each select="subcontract:Pincode">
-                                                                                                    <xsl:variable name="value-of-template">
-                                                                                                        <xsl:apply-templates/>
-                                                                                                    </xsl:variable>
-                                                                                                    <xsl:choose>
-                                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                                            <fo:block>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:block>
-                                                                                                        </xsl:when>
-                                                                                                        <xsl:otherwise>
-                                                                                                            <fo:inline>
-                                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                                            </fo:inline>
-                                                                                                        </xsl:otherwise>
-                                                                                                    </xsl:choose>
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:for-each>
-                                                                                        </xsl:for-each>
-                                                                                    </xsl:for-each>
-                                                                                </fo:block>
-                                                                            </fo:table-cell>
-                                                                        </fo:table-row>
-                                                                    </fo:table-body>
-                                                                </fo:table>
-                                                        </fo:table-cell>
-                                                    </fo:table-row>
-                                                </fo:table-body>
-                                            </fo:table>
-                                        </fo:table-cell>
-                                    </fo:table-row>
                                     <fo:table-row>
-                                        <fo:table-cell display-align="center">
+                                        <fo:table-cell padding="0" height="32" text-align="center" display-align="center">
                                             <fo:table padding="0" table-layout="fixed" width="100%">
-                                                <fo:table-column column-width="50%"/>
-                                                <fo:table-column column-width="50%"/>
+                                                <fo:table-column column-width="40%"/>
+                                                <fo:table-column column-width="20%"/>
+                                                <fo:table-column column-width="40%"/>
                                                 <fo:table-body>
-                                                    <fo:table-row>
-                                                        <fo:table-cell padding="2" text-align="left" display-align="center" border-top="solid 1pt gray" border-right="solid 1pt gray">
+                                                    <fo:table-row font-weight="normal">
+                                                        <fo:table-cell padding="2" text-align="left" display-align="center"  border-top="solid 1pt gray" border-right="solid 1pt gray">
+                                                            <fo:block>
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:PrimeRecipientContacts">
+                                                                        <xsl:for-each select="subcontract:RequisitionerOrgDetails">
+                                                                            <xsl:for-each select="subcontract:OrganizationName">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                            </fo:block>
+                                                        </fo:table-cell>
+
+                                                        <fo:table-cell padding="2" text-align="left" display-align="center"  border-top="solid 1pt gray" border-right="solid 1pt gray">
                                                             <fo:block>
                                                                 <fo:inline font-weight="bold">
-                                                                    <xsl:text>PTE Principal Investigator (PI): </xsl:text>
+                                                                    <xsl:text>Entity Name </xsl:text>
                                                                 </fo:inline>
+                                                            </fo:block>
+                                                        </fo:table-cell>
+
+                                                        <fo:table-cell padding="2" text-align="left" display-align="center"  border-top="solid 1pt gray" border-right="solid 1pt gray">
+                                                            <fo:block>
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:SubcontractDetail">
+                                                                        <xsl:for-each select="subcontract:SubcontractorName">
+                                                                            <xsl:variable name="value-of-template">
+                                                                                <xsl:apply-templates/>
+                                                                            </xsl:variable>
+                                                                            <xsl:choose>
+                                                                                <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                    <fo:block>
+                                                                                        <xsl:copy-of select="$value-of-template"/>
+                                                                                    </fo:block>
+                                                                                </xsl:when>
+                                                                                <xsl:otherwise>
+                                                                                    <fo:inline>
+                                                                                        <xsl:copy-of select="$value-of-template"/>
+                                                                                    </fo:inline>
+                                                                                </xsl:otherwise>
+                                                                            </xsl:choose>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                            </fo:block>
+                                                        </fo:table-cell>
+
+                                                    </fo:table-row>
+
+                                                    <fo:table-row>
+                                                        <fo:table-cell padding="2" text-align="left" display-align="center"  border-top="solid 1pt gray" border-right="solid 1pt gray">
+                                                            <fo:block>
+
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:PrimeRecipientContacts">
+                                                                        <xsl:for-each select="subcontract:OrgRolodexDetails">
+                                                                            <xsl:for-each select="subcontract:Address1">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                                <fo:block/>
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:PrimeRecipientContacts">
+                                                                        <xsl:for-each select="subcontract:OrgRolodexDetails">
+                                                                            <xsl:for-each select="subcontract:Address2">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                                <fo:block/>
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:PrimeRecipientContacts">
+                                                                        <xsl:for-each select="subcontract:OrgRolodexDetails">
+                                                                            <xsl:for-each select="subcontract:Address3">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                                <fo:block/>
+                                                                <fo:inline>
+                                                                    <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
+                                                                </fo:inline>
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:PrimeRecipientContacts">
+                                                                        <xsl:for-each select="subcontract:OrgRolodexDetails">
+                                                                            <xsl:for-each select="subcontract:City">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                                <fo:block/>
+                                                                <fo:inline>
+                                                                    <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
+                                                                </fo:inline>
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:PrimeRecipientContacts">
+                                                                        <xsl:for-each select="subcontract:OrgRolodexDetails">
+                                                                            <xsl:for-each select="subcontract:StateDescription">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                                <fo:block/>
+                                                                <fo:inline>
+                                                                    <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
+                                                                </fo:inline>
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:PrimeRecipientContacts">
+                                                                        <xsl:for-each select="subcontract:OrgRolodexDetails">
+                                                                            <xsl:for-each select="subcontract:Pincode">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                            </fo:block>
+                                                        </fo:table-cell>
+
+                                                        <fo:table-cell padding="2" text-align="left" display-align="center"  border-top="solid 1pt gray" border-right="solid 1pt gray">
+                                                            <fo:block>
+                                                                <fo:inline font-weight="bold">
+                                                                    <xsl:text>Address</xsl:text>
+                                                                    <xsl:text>&#x2029;</xsl:text>
+                                                                    <xsl:text>including City, State, Zip+4</xsl:text>
+                                                                    <xsl:text>&#x2029;</xsl:text>
+                                                                    <xsl:text>(Country, if non-US) </xsl:text>
+                                                                    <xsl:text>&#x2029;</xsl:text>
+                                                                </fo:inline>
+                                                            </fo:block>
+                                                        </fo:table-cell>
+
+                                                        <fo:table-cell padding="2" text-align="left" display-align="center"  border-top="solid 1pt gray" border-right="solid 1pt gray">
+                                                            <fo:block>
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:SubcontractDetail">
+                                                                        <xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
+                                                                            <xsl:for-each select="subcontract:Address1">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                                <fo:block/>
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:SubcontractDetail">
+                                                                        <xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
+                                                                            <xsl:for-each select="subcontract:Address2">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                                <fo:block/>
+
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:SubcontractDetail">
+                                                                        <xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
+                                                                            <xsl:for-each select="subcontract:Address3">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                                <fo:block/>
+                                                                <fo:inline>
+                                                                    <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
+                                                                </fo:inline>
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:SubcontractDetail">
+                                                                        <xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
+                                                                            <xsl:for-each select="subcontract:City">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                                <fo:block/>
+                                                                <fo:inline>
+                                                                    <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
+                                                                </fo:inline>
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:SubcontractDetail">
+                                                                        <xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
+                                                                            <xsl:for-each select="subcontract:StateDescription">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+                                                                <fo:block/>
+                                                                <fo:inline>
+                                                                    <xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
+                                                                </fo:inline>
+                                                                <xsl:for-each select="subcontract:SubContractData">
+                                                                    <xsl:for-each select="subcontract:SubcontractDetail">
+                                                                        <xsl:for-each select="subcontract:SubcontractorOrgRolodexDetails">
+                                                                            <xsl:for-each select="subcontract:Pincode">
+                                                                                <xsl:variable name="value-of-template">
+                                                                                    <xsl:apply-templates/>
+                                                                                </xsl:variable>
+                                                                                <xsl:choose>
+                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                        <fo:block>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:block>
+                                                                                    </xsl:when>
+                                                                                    <xsl:otherwise>
+                                                                                        <fo:inline>
+                                                                                            <xsl:copy-of select="$value-of-template"/>
+                                                                                        </fo:inline>
+                                                                                    </xsl:otherwise>
+                                                                                </xsl:choose>
+                                                                            </xsl:for-each>
+                                                                        </xsl:for-each>
+                                                                    </xsl:for-each>
+                                                                </xsl:for-each>
+
+                                                            </fo:block>
+                                                        </fo:table-cell>
+                                                    </fo:table-row>
+
+                                                    <fo:table-row font-weight="normal">
+                                                        <fo:table-cell padding="2" text-align="left" display-align="center"  border-top="solid 1pt gray" border-right="solid 1pt gray">
+                                                            <fo:block>
                                                                 <xsl:for-each select="subcontract:SubContractData">
                                                                     <xsl:for-each select="subcontract:PrimePrincipalInvestigator">
                                                                         <xsl:for-each select="subcontract:FullName">
@@ -553,11 +539,17 @@
                                                                 </xsl:for-each>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell padding="2" text-align="left" display-align="center" border-top="solid 1pt gray">
+
+                                                        <fo:table-cell padding="2" text-align="left" display-align="center"  border-top="solid 1pt gray" border-right="solid 1pt gray">
                                                             <fo:block>
                                                                 <fo:inline font-weight="bold">
-                                                                    <xsl:text>Subrecipient Principal Investigator (PI): </xsl:text>
+                                                                    <xsl:text>Principal Investigator </xsl:text>
                                                                 </fo:inline>
+                                                            </fo:block>
+                                                        </fo:table-cell>
+
+                                                        <fo:table-cell padding="2" text-align="left" display-align="center"  border-top="solid 1pt gray" border-right="solid 1pt gray">
+                                                            <fo:block>
                                                                 <xsl:for-each select="subcontract:SubContractData">
                                                                     <xsl:for-each select="subcontract:SubcontractDetail">
                                                                         <xsl:for-each select="subcontract:SiteInvestigator">
@@ -582,16 +574,18 @@
                                                             </fo:block>
                                                         </fo:table-cell>
                                                     </fo:table-row>
+
                                                 </fo:table-body>
                                             </fo:table>
                                         </fo:table-cell>
                                     </fo:table-row>
+
+
                                     <fo:table-row>
                                         <fo:table-cell display-align="center">
                                             <fo:table padding="0" table-layout="fixed" width="100%">
-                                                <fo:table-column column-width="40%"/>
-                                                <fo:table-column column-width="20%"/>
-                                                <fo:table-column column-width="40%"/>
+                                                <fo:table-column column-width="50%"/>
+                                                <fo:table-column column-width="50%"/>
                                                 <fo:table-body>
                                                     <fo:table-row>
                                                         <fo:table-cell padding="2" text-align="left" display-align="center"  border-top="solid 1pt gray" border-right="solid 1pt gray">
@@ -604,38 +598,6 @@
                                                                         <xsl:for-each select="award:AwardDetails">
                                                                             <xsl:for-each select="award:AwardHeader">
                                                                                 <xsl:for-each select="award:SponsorAwardNumber">
-                                                                                    <xsl:variable name="value-of-template">
-                                                                                        <xsl:apply-templates/>
-                                                                                    </xsl:variable>
-                                                                                    <xsl:choose>
-                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                            <fo:block>
-                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                            </fo:block>
-                                                                                        </xsl:when>
-                                                                                        <xsl:otherwise>
-                                                                                            <fo:inline>
-                                                                                                <xsl:copy-of select="$value-of-template"/>
-                                                                                            </fo:inline>
-                                                                                        </xsl:otherwise>
-                                                                                    </xsl:choose>
-                                                                                </xsl:for-each>
-                                                                            </xsl:for-each>
-                                                                        </xsl:for-each>
-                                                                    </xsl:for-each>
-                                                                </xsl:for-each>
-                                                            </fo:block>
-                                                        </fo:table-cell>
-                                                        <fo:table-cell padding="2" text-align="left" display-align="center" border-top="solid 1pt gray" border-right="solid 1pt gray">
-                                                            <fo:block>
-                                                                <fo:inline font-weight="bold">
-                                                                    <xsl:text>FAIN: </xsl:text>
-                                                                </fo:inline>
-                                                                <xsl:for-each select="subcontract:SubContractData">
-                                                                    <xsl:for-each select="subcontract:Award">
-                                                                        <xsl:for-each select="award:AwardDetails">
-                                                                            <xsl:for-each select="award:OtherHeaderDetails">
-                                                                                <xsl:for-each select="award:FAIN">
                                                                                     <xsl:variable name="value-of-template">
                                                                                         <xsl:apply-templates/>
                                                                                     </xsl:variable>
@@ -702,7 +664,7 @@
                                                 <fo:table-body>
                                                     <fo:table-row>
                                                         <fo:table-cell padding="2" text-align="left" display-align="center" border-top="solid 1pt gray">
-                                                        <fo:block>
+                                                            <fo:block>
                                                                 <fo:inline font-weight="bold">
                                                                     <xsl:text>Project Title: </xsl:text>
                                                                 </fo:inline>
@@ -814,9 +776,9 @@
                                                                         <fo:table-cell >
                                                                             <fo:block>
                                                                                 <fo:inline font-weight="bold">
-                                                                                    <xsl:text>
-                                                                                        Amount Funded This Action:
-                                                                                    </xsl:text>
+<xsl:text>
+Amount Funded This Action:
+</xsl:text>
                                                                                 </fo:inline>
                                                                             </fo:block>
                                                                         </fo:table-cell>
@@ -850,9 +812,9 @@
                                                                         <fo:table-cell>
                                                                             <fo:block>
                                                                                 <fo:inline font-weight="bold">
-                                                                                    <xsl:text>
-                                                                                        Amendment No.:
-                                                                                    </xsl:text>
+<xsl:text>
+Amendment No.:
+</xsl:text>
                                                                                 </fo:inline>
                                                                             </fo:block>
                                                                         </fo:table-cell>
@@ -895,9 +857,9 @@
                                                                         <fo:table-cell>
                                                                             <fo:block>
                                                                                 <fo:inline font-weight="bold">
-                                                                                    <xsl:text>
-                                                                                        Subaward No.:
-                                                                                    </xsl:text>
+<xsl:text>
+Subaward No.:
+</xsl:text>
                                                                                 </fo:inline>
                                                                             </fo:block>
                                                                         </fo:table-cell>
@@ -1117,7 +1079,7 @@
                                                                                     </xsl:otherwise>
                                                                                 </xsl:choose>
                                                                                 <fo:inline>
-                                                                                <xsl:text> No </xsl:text>
+                                                                                    <xsl:text> No </xsl:text>
                                                                                 </fo:inline>
                                                                             </fo:block>
                                                                         </fo:table-cell>
@@ -1514,27 +1476,27 @@
                                                             <fo:table-row>
                                                                 <fo:table-cell padding="2pt" height="110pt" display-align="before">
                                                                     <fo:block>
-                                                                    <xsl:for-each select="subcontract:SubContractData">
-                                                                        <xsl:for-each select="subcontract:SubcontractDetail">
-                                                                            <xsl:for-each select="subcontract:Comments">
-                                                                                <xsl:variable name="value-of-template">
-                                                                                    <xsl:apply-templates mode="without-preserve"/>
-                                                                                </xsl:variable>
-                                                                                <xsl:choose>
-                                                                                    <xsl:when test="contains(string($value-of-template),'&#x2029;')">
-                                                                                        <fo:block padding-top="1pt" padding-bottom="1pt" white-space-collapse="false" linefeed-treatment="preserve" line-height="200pt">
-                                                                                            <xsl:copy-of select="$value-of-template"/>
-                                                                                        </fo:block>
-                                                                                    </xsl:when>
-                                                                                    <xsl:otherwise>
-                                                                                        <fo:inline>
-                                                                                            <xsl:copy-of select="$value-of-template"/>
-                                                                                        </fo:inline>
-                                                                                    </xsl:otherwise>
-                                                                                </xsl:choose>
+                                                                        <xsl:for-each select="subcontract:SubContractData">
+                                                                            <xsl:for-each select="subcontract:SubcontractDetail">
+                                                                                <xsl:for-each select="subcontract:Comments">
+                                                                                    <xsl:variable name="value-of-template">
+                                                                                        <xsl:apply-templates mode="without-preserve"/>
+                                                                                    </xsl:variable>
+                                                                                    <xsl:choose>
+                                                                                        <xsl:when test="contains(string($value-of-template),'&#x2029;')">
+                                                                                            <fo:block padding-top="1pt" padding-bottom="1pt" white-space-collapse="false" linefeed-treatment="preserve" line-height="200pt">
+                                                                                                <xsl:copy-of select="$value-of-template"/>
+                                                                                            </fo:block>
+                                                                                        </xsl:when>
+                                                                                        <xsl:otherwise>
+                                                                                            <fo:inline>
+                                                                                                <xsl:copy-of select="$value-of-template"/>
+                                                                                            </fo:inline>
+                                                                                        </xsl:otherwise>
+                                                                                    </xsl:choose>
+                                                                                </xsl:for-each>
                                                                             </xsl:for-each>
                                                                         </xsl:for-each>
-                                                                    </xsl:for-each>
                                                                     </fo:block>
                                                                 </fo:table-cell>
                                                             </fo:table-row>
@@ -1547,186 +1509,186 @@
                                                     </fo:block>
                                                 </fo:inline-container>
                                                 <fo:block>
-                                                <xsl:choose>
-                                                    <xsl:when test="subcontract:SubContractData/subcontract:SubcontractDetail/subcontract:PHSFCOI = &quot;Y&quot;">
-                                                        <fo:table padding="0" table-layout="fixed" width="100%">
-                                                            <fo:table-column column-width="proportional-column-width(1)"/>
-                                                            <fo:table-body start-indent="0pt">
-                                                                <fo:table-row>
-                                                                    <fo:table-cell padding="2pt" height="150pt" display-align="after">
-                                                                        <fo:block>
-                                                                            <fo:table padding="0" table-layout="fixed" width="100%">
-                                                                                <fo:table-column column-width="100%"/>
-                                                                                <fo:table-body>
-                                                                                    <fo:table-row font-weight="bold">
-                                                                                        <fo:table-cell padding="2pt">
-                                                                                            <fo:block>
-                                                                                                <fo:inline>
-                                                                                                    <xsl:text>NIH-Specific Requirements Promoting Objectivity in Research Applicable to Subrecipients (42 CFR Part 50 Subpart F) </xsl:text>
-                                                                                                </fo:inline>
-                                                                                            </fo:block>
-                                                                                        </fo:table-cell>
-                                                                                    </fo:table-row>
-                                                                                </fo:table-body>
-                                                                            </fo:table>
-                                                                            <fo:inline-container>
-                                                                                <fo:block>
-                                                                                    <xsl:text>&#x2029;</xsl:text>
-                                                                                </fo:block>
-                                                                            </fo:inline-container>
-                                                                            <fo:table padding="0" table-layout="fixed" width="100%">
-                                                                                <fo:table-column column-width="proportional-column-width(1)"/>
-                                                                                <fo:table-body>
-                                                                                    <fo:table-row>
-                                                                                        <fo:table-cell padding="2pt">
-                                                                                            <fo:block>
+                                                    <xsl:choose>
+                                                        <xsl:when test="subcontract:SubContractData/subcontract:SubcontractDetail/subcontract:PHSFCOI = &quot;Y&quot;">
+                                                            <fo:table padding="0" table-layout="fixed" width="100%">
+                                                                <fo:table-column column-width="proportional-column-width(1)"/>
+                                                                <fo:table-body start-indent="0pt">
+                                                                    <fo:table-row>
+                                                                        <fo:table-cell padding="2pt" height="150pt" display-align="after">
+                                                                            <fo:block>
+                                                                                <fo:table padding="0" table-layout="fixed" width="100%">
+                                                                                    <fo:table-column column-width="100%"/>
+                                                                                    <fo:table-body>
+                                                                                        <fo:table-row font-weight="bold">
+                                                                                            <fo:table-cell padding="2pt">
                                                                                                 <fo:block>
-                                                                                                    <fo:inline-container>
-                                                                                                        <fo:block>
-                                                                                                            <xsl:text>&#x2029;</xsl:text>
-                                                                                                        </fo:block>
-                                                                                                    </fo:inline-container>
-                                                                                                    <fo:list-block provisional-distance-between-starts="7mm" provisional-label-separation="2mm">
-                                                                                                        <fo:list-item>
-                                                                                                            <fo:list-item-label end-indent="label-end()" text-align="right">
-                                                                                                                <fo:block>
-                                                                                                                    <xsl:number format="1" value="1"/>.
-                                                                                                                </fo:block>
-                                                                                                            </fo:list-item-label>
-                                                                                                            <fo:list-item-body start-indent="body-start()">
-                                                                                                                <fo:block>
-                                                                                                                    <fo:inline>
-                                                                                                                        <xsl:text>42 CFR Part 50. 604 requires that institutions conducting PHS-funded research "Maintain an up-to-date, written, enforced policy on</xsl:text>
-                                                                                                                    </fo:inline>
-                                                                                                                    <fo:inline>
-                                                                                                                        <xsl:text>financial conflicts of interest."  Further, "If the Institution carries out the PHS-funded research through a subrecipient (e.g., subcontractors or consortium members), the Institution (awardee Institution) must take reasonable steps to ensure that any subrecipient Investigator complies with this subpart by incorporating as part of a written agreement with the subrecipient terms that establish whether the financial conflicts of interest policy of the awardee Institution or that of the subrecipient will apply to the subrecipient Investigators."</xsl:text>
-                                                                                                                    </fo:inline>
-                                                                                                                    <fo:block white-space-collapse="false" white-space-treatment="preserve" font-size="0pt" line-height="15px"></fo:block>
+                                                                                                    <fo:inline>
+                                                                                                        <xsl:text>NIH-Specific Requirements Promoting Objectivity in Research Applicable to Subrecipients (42 CFR Part 50 Subpart F) </xsl:text>
+                                                                                                    </fo:inline>
+                                                                                                </fo:block>
+                                                                                            </fo:table-cell>
+                                                                                        </fo:table-row>
+                                                                                    </fo:table-body>
+                                                                                </fo:table>
+                                                                                <fo:inline-container>
+                                                                                    <fo:block>
+                                                                                        <xsl:text>&#x2029;</xsl:text>
+                                                                                    </fo:block>
+                                                                                </fo:inline-container>
+                                                                                <fo:table padding="0" table-layout="fixed" width="100%">
+                                                                                    <fo:table-column column-width="proportional-column-width(1)"/>
+                                                                                    <fo:table-body>
+                                                                                        <fo:table-row>
+                                                                                            <fo:table-cell padding="2pt">
+                                                                                                <fo:block>
+                                                                                                    <fo:block>
+                                                                                                        <fo:inline-container>
+                                                                                                            <fo:block>
+                                                                                                                <xsl:text>&#x2029;</xsl:text>
+                                                                                                            </fo:block>
+                                                                                                        </fo:inline-container>
+                                                                                                        <fo:list-block provisional-distance-between-starts="7mm" provisional-label-separation="2mm">
+                                                                                                            <fo:list-item>
+                                                                                                                <fo:list-item-label end-indent="label-end()" text-align="right">
+                                                                                                                    <fo:block>
+                                                                                                                        <xsl:number format="1" value="1"/>.
+                                                                                                                    </fo:block>
+                                                                                                                </fo:list-item-label>
+                                                                                                                <fo:list-item-body start-indent="body-start()">
+                                                                                                                    <fo:block>
+                                                                                                                        <fo:inline>
+                                                                                                                            <xsl:text>42 CFR Part 50. 604 requires that institutions conducting PHS-funded research "Maintain an up-to-date, written, enforced policy on</xsl:text>
+                                                                                                                        </fo:inline>
+                                                                                                                        <fo:inline>
+                                                                                                                            <xsl:text>financial conflicts of interest."  Further, "If the Institution carries out the PHS-funded research through a subrecipient (e.g., subcontractors or consortium members), the Institution (awardee Institution) must take reasonable steps to ensure that any subrecipient Investigator complies with this subpart by incorporating as part of a written agreement with the subrecipient terms that establish whether the financial conflicts of interest policy of the awardee Institution or that of the subrecipient will apply to the subrecipient Investigators."</xsl:text>
+                                                                                                                        </fo:inline>
+                                                                                                                        <fo:block white-space-collapse="false" white-space-treatment="preserve" font-size="0pt" line-height="15px"></fo:block>
+                                                                                                                        <fo:block>
+                                                                                                                            <xsl:text>&#x00A0;</xsl:text>
+                                                                                                                        </fo:block>
+                                                                                                                        <fo:inline>
+                                                                                                                            <xsl:text>Subrecipient must designate herein whether the financial conflicts of interest policy of </xsl:text>
+                                                                                                                        </fo:inline>
+                                                                                                                        <fo:inline>
+                                                                                                                            <fo:external-graphic content-height="8" content-width="7">
+                                                                                                                                <xsl:attribute name="src">
+                                                                                                                                    <xsl:text>url(</xsl:text>
+                                                                                                                                    <xsl:call-template name="double-backslash">
+                                                                                                                                        <xsl:with-param name="text">
+                                                                                                                                            <xsl:value-of select="string(concat(subcontract:SubContractData/subcontract:PrintRequirement/subcontract:ImageUncheckedPath,&apos;checkbox.gif&apos;))"/>
+                                                                                                                                        </xsl:with-param>
+                                                                                                                                        <xsl:with-param name="text-length">
+                                                                                                                                            <xsl:value-of select="string-length(string(concat(subcontract:SubContractData/subcontract:PrintRequirement/subcontract:ImageUncheckedPath,&apos;checkbox.gif&apos;)))"/>
+                                                                                                                                        </xsl:with-param>
+                                                                                                                                    </xsl:call-template>
+                                                                                                                                    <xsl:text>)</xsl:text>
+                                                                                                                                </xsl:attribute>
+                                                                                                                            </fo:external-graphic>
+                                                                                                                        </fo:inline>
+                                                                                                                        <xsl:text>  </xsl:text>
+                                                                                                                        <fo:inline>
+                                                                                                                            <xsl:text>Prime Recipient Institution, or </xsl:text>
+                                                                                                                        </fo:inline>
+                                                                                                                        <fo:inline>
+                                                                                                                            <fo:external-graphic content-height="8" content-width="7">
+                                                                                                                                <xsl:attribute name="src">
+                                                                                                                                    <xsl:text>url(</xsl:text>
+                                                                                                                                    <xsl:call-template name="double-backslash">
+                                                                                                                                        <xsl:with-param name="text">
+                                                                                                                                            <xsl:value-of select="string(concat(subcontract:SubContractData/subcontract:PrintRequirement/subcontract:ImageUncheckedPath,&apos;checkbox.gif&apos;))"/>
+                                                                                                                                        </xsl:with-param>
+                                                                                                                                        <xsl:with-param name="text-length">
+                                                                                                                                            <xsl:value-of select="string-length(string(concat(subcontract:SubContractData/subcontract:PrintRequirement/subcontract:ImageUncheckedPath,&apos;checkbox.gif&apos;)))"/>
+                                                                                                                                        </xsl:with-param>
+                                                                                                                                    </xsl:call-template>
+                                                                                                                                    <xsl:text>)</xsl:text>
+                                                                                                                                </xsl:attribute>
+                                                                                                                            </fo:external-graphic>
+                                                                                                                        </fo:inline>
+                                                                                                                        <fo:inline>
+                                                                                                                            <xsl:text>  </xsl:text>
+                                                                                                                        </fo:inline>
+                                                                                                                        <fo:inline>
+                                                                                                                            <xsl:text>Subrecipient Institution (check one) will apply. If applying its own financial conflicts of interest policy, by execution of this Subaward Agreement, Subrecipient Institution certifies that its policy complies with 42 CFR Part 50.</xsl:text>
+                                                                                                                        </fo:inline>
+                                                                                                                    </fo:block>
                                                                                                                     <fo:block>
                                                                                                                         <xsl:text>&#x00A0;</xsl:text>
                                                                                                                     </fo:block>
-                                                                                                                    <fo:inline>
-                                                                                                                        <xsl:text>Subrecipient must designate herein whether the financial conflicts of interest policy of </xsl:text>
-                                                                                                                    </fo:inline>
-                                                                                                                    <fo:inline>
-                                                                                                                        <fo:external-graphic content-height="8" content-width="7">
-                                                                                                                            <xsl:attribute name="src">
-                                                                                                                                <xsl:text>url(</xsl:text>
-                                                                                                                                <xsl:call-template name="double-backslash">
-                                                                                                                                    <xsl:with-param name="text">
-                                                                                                                                        <xsl:value-of select="string(concat(subcontract:SubContractData/subcontract:PrintRequirement/subcontract:ImageUncheckedPath,&apos;checkbox.gif&apos;))"/>
-                                                                                                                                    </xsl:with-param>
-                                                                                                                                    <xsl:with-param name="text-length">
-                                                                                                                                        <xsl:value-of select="string-length(string(concat(subcontract:SubContractData/subcontract:PrintRequirement/subcontract:ImageUncheckedPath,&apos;checkbox.gif&apos;)))"/>
-                                                                                                                                    </xsl:with-param>
-                                                                                                                                </xsl:call-template>
-                                                                                                                                <xsl:text>)</xsl:text>
-                                                                                                                            </xsl:attribute>
-                                                                                                                        </fo:external-graphic>
-                                                                                                                    </fo:inline>
-                                                                                                                    <xsl:text>  </xsl:text>
-                                                                                                                    <fo:inline>
-                                                                                                                        <xsl:text>Prime Recipient Institution, or </xsl:text>
-                                                                                                                    </fo:inline>
-                                                                                                                    <fo:inline>
-                                                                                                                        <fo:external-graphic content-height="8" content-width="7">
-                                                                                                                            <xsl:attribute name="src">
-                                                                                                                                <xsl:text>url(</xsl:text>
-                                                                                                                                <xsl:call-template name="double-backslash">
-                                                                                                                                    <xsl:with-param name="text">
-                                                                                                                                        <xsl:value-of select="string(concat(subcontract:SubContractData/subcontract:PrintRequirement/subcontract:ImageUncheckedPath,&apos;checkbox.gif&apos;))"/>
-                                                                                                                                    </xsl:with-param>
-                                                                                                                                    <xsl:with-param name="text-length">
-                                                                                                                                        <xsl:value-of select="string-length(string(concat(subcontract:SubContractData/subcontract:PrintRequirement/subcontract:ImageUncheckedPath,&apos;checkbox.gif&apos;)))"/>
-                                                                                                                                    </xsl:with-param>
-                                                                                                                                </xsl:call-template>
-                                                                                                                                <xsl:text>)</xsl:text>
-                                                                                                                            </xsl:attribute>
-                                                                                                                        </fo:external-graphic>
-                                                                                                                    </fo:inline>
-                                                                                                                    <fo:inline>
-                                                                                                                        <xsl:text>  </xsl:text>
-                                                                                                                    </fo:inline>
-                                                                                                                    <fo:inline>
-                                                                                                                        <xsl:text>Subrecipient Institution (check one) will apply. If applying its own financial conflicts of interest policy, by execution of this Subaward Agreement, Subrecipient Institution certifies that its policy complies with 42 CFR Part 50.</xsl:text>
-                                                                                                                    </fo:inline>
-                                                                                                                </fo:block>
-                                                                                                                <fo:block>
-                                                                                                                    <xsl:text>&#x00A0;</xsl:text>
-                                                                                                                </fo:block>
-                                                                                                                <fo:block white-space-collapse="false" white-space-treatment="preserve" font-size="0pt" line-height="15px"></fo:block>
-                                                                                                            </fo:list-item-body>
-                                                                                                        </fo:list-item>
-                                                                                                        <fo:list-item>
-                                                                                                            <fo:list-item-label end-indent="label-end()" text-align="right">
-                                                                                                                <fo:block>
-                                                                                                                    <xsl:number format="2" value="2"/>.
-                                                                                                                </fo:block>
-                                                                                                            </fo:list-item-label>
-                                                                                                            <fo:list-item-body start-indent="body-start()">
-                                                                                                                <fo:block>
-                                                                                                                    <fo:inline>
-                                                                                                                        <xsl:text>Subrecipient shall report any financial conflict of interest to Prime Recipients Administrative Representative, as designated on Attachment 3A.  Any financial conflicts of interest identified shall subsequently be reported to NIH.  </xsl:text>
-                                                                                                                    </fo:inline>
-                                                                                                                    <fo:inline text-decoration="underline">
-                                                                                                                        <xsl:text>Such report shall be made before expenditure of funds authorized in this Subrecipient Agreement and within 45 days of any subsequently identified financial conflict of interest.</xsl:text>
-                                                                                                                    </fo:inline>
-                                                                                                                </fo:block>
-                                                                                                            </fo:list-item-body>
-                                                                                                        </fo:list-item>
-                                                                                                    </fo:list-block>
+                                                                                                                    <fo:block white-space-collapse="false" white-space-treatment="preserve" font-size="0pt" line-height="15px"></fo:block>
+                                                                                                                </fo:list-item-body>
+                                                                                                            </fo:list-item>
+                                                                                                            <fo:list-item>
+                                                                                                                <fo:list-item-label end-indent="label-end()" text-align="right">
+                                                                                                                    <fo:block>
+                                                                                                                        <xsl:number format="2" value="2"/>.
+                                                                                                                    </fo:block>
+                                                                                                                </fo:list-item-label>
+                                                                                                                <fo:list-item-body start-indent="body-start()">
+                                                                                                                    <fo:block>
+                                                                                                                        <fo:inline>
+                                                                                                                            <xsl:text>Subrecipient shall report any financial conflict of interest to Prime Recipients Administrative Representative, as designated on Attachment 3A.  Any financial conflicts of interest identified shall subsequently be reported to NIH.  </xsl:text>
+                                                                                                                        </fo:inline>
+                                                                                                                        <fo:inline text-decoration="underline">
+                                                                                                                            <xsl:text>Such report shall be made before expenditure of funds authorized in this Subrecipient Agreement and within 45 days of any subsequently identified financial conflict of interest.</xsl:text>
+                                                                                                                        </fo:inline>
+                                                                                                                    </fo:block>
+                                                                                                                </fo:list-item-body>
+                                                                                                            </fo:list-item>
+                                                                                                        </fo:list-block>
+                                                                                                    </fo:block>
                                                                                                 </fo:block>
-                                                                                            </fo:block>
-                                                                                        </fo:table-cell>
-                                                                                    </fo:table-row>
-                                                                                </fo:table-body>
-                                                                            </fo:table>
-                                                                        </fo:block>
-                                                                    </fo:table-cell>
-                                                                </fo:table-row>
-                                                            </fo:table-body>
-                                                        </fo:table>
-                                                    </xsl:when>
-                                                    <xsl:otherwise>
-                                                        <fo:inline-container>
-                                                            <fo:block>
-                                                                <xsl:text>&#x2029;</xsl:text>
-                                                            </fo:block>
-                                                        </fo:inline-container>
-                                                        <fo:table padding="0" table-layout="fixed" width="100%">
-                                                            <fo:table-column column-width="proportional-column-width(1)"/>
-                                                            <fo:table-body start-indent="0pt">
-                                                                <fo:table-row>
-                                                                    <fo:table-cell padding="2pt" height="150pt" display-align="center">
-                                                                        <fo:block>
-                                                                        </fo:block>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                        <fo:block/>
-                                                                    </fo:table-cell>
-                                                                </fo:table-row>
-                                                            </fo:table-body>
-                                                        </fo:table>
-                                                    </xsl:otherwise>
-                                                </xsl:choose>
+                                                                                            </fo:table-cell>
+                                                                                        </fo:table-row>
+                                                                                    </fo:table-body>
+                                                                                </fo:table>
+                                                                            </fo:block>
+                                                                        </fo:table-cell>
+                                                                    </fo:table-row>
+                                                                </fo:table-body>
+                                                            </fo:table>
+                                                        </xsl:when>
+                                                        <xsl:otherwise>
+                                                            <fo:inline-container>
+                                                                <fo:block>
+                                                                    <xsl:text>&#x2029;</xsl:text>
+                                                                </fo:block>
+                                                            </fo:inline-container>
+                                                            <fo:table padding="0" table-layout="fixed" width="100%">
+                                                                <fo:table-column column-width="proportional-column-width(1)"/>
+                                                                <fo:table-body start-indent="0pt">
+                                                                    <fo:table-row>
+                                                                        <fo:table-cell padding="2pt" height="150pt" display-align="center">
+                                                                            <fo:block>
+                                                                            </fo:block>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                            <fo:block/>
+                                                                        </fo:table-cell>
+                                                                    </fo:table-row>
+                                                                </fo:table-body>
+                                                            </fo:table>
+                                                        </xsl:otherwise>
+                                                    </xsl:choose>
                                                 </fo:block>
                                                 <fo:block/>
                                                 <fo:block/>
@@ -1889,7 +1851,7 @@
             <xsl:when test="$text-after-bs-length = 0">
                 <xsl:choose>
                     <xsl:when test="substring($text, $text-length) = '\'">
-                        <xsl:value-of select="concat(substring($text,1,$text-length - 1), '\\')"/>
+                        <xsl:value-of select="concat(substring($text,1,$text-length - 1), '\')"/>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:value-of select="$text"/>
@@ -1897,7 +1859,7 @@
                 </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), '\\')"/>
+                <xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), '\')"/>
                 <xsl:call-template name="double-backslash">
                     <xsl:with-param name="text" select="$text-after-bs"/>
                     <xsl:with-param name="text-length" select="$text-after-bs-length"/>

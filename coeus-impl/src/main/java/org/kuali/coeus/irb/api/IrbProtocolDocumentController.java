@@ -54,6 +54,7 @@ import org.kuali.kra.irb.protocol.ProtocolNumberService;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.InvalidActionTakenException;
@@ -75,6 +76,7 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -140,6 +142,9 @@ public class IrbProtocolDocumentController extends RestController implements  In
     @Qualifier("rolodexService")
     private RolodexService rolodexService;
 
+    @Autowired
+    @Qualifier("configurationService")
+    private ConfigurationService configurationService;
 
     private List<String> irbProtocolDtoProperties;
     private List<String> irbPersonDtoProperties;
@@ -274,52 +279,77 @@ public class IrbProtocolDocumentController extends RestController implements  In
             String actionTypeCode = protocolActionDto.getActionCode();
             final Protocol protocol = protocolDocument.getProtocol();
             if (actionTypeCode.equalsIgnoreCase(ProtocolActionType.SUBMIT_TO_IRB)) {
-                if (protocol.getProtocolStatus().getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.IN_PROGRESS)) {
-                    ProtocolSubmitAction submitAction = commonApiService.convertObject(protocolActionDto, ProtocolSubmitAction.class);
-                    submitAction.setNewCommitteeId(submitAction.getCommitteeId());
-                    protocol.setInitialSubmissionDate(protocolActionDto.getInitialSubmissionDate());
-                    Timestamp actionTimestamp = protocolActionDto.getActionDate()!= null? new Timestamp(protocolActionDto.getActionDate().getTime()) : null;
-                    protocolSubmitActionService.submitToIrbForReview(protocolDocument, submitAction, actionTimestamp);
-                    // Submission date is auto generated on ProtocolSubmission but is not if the value != null in Protocol.java
-                    // so make them equal in this case.
-                    protocol.getProtocolSubmission().setSubmissionDate(protocol.getInitialSubmissionDate());
-                    commonApiService.routeDocument(protocolDocument);
-                } else {
-                    throw new UnprocessableEntityException(ACTION_ERROR_MESSAGE);
-                }
+                submitForReview(protocolActionDto, protocolDocument, protocol);
             } else if (actionTypeCode.equalsIgnoreCase(ProtocolActionType.EXPEDITE_APPROVAL)) {
-                if (protocol.getProtocolStatus().getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.SUBMITTED_TO_IRB)) {
-                    ProtocolExpeditedApproveBean approveBean = commonApiService.convertObject(protocolActionDto, ProtocolExpeditedApproveBean.class);
-                    approveBean.setAssignToAgenda(false);
-                    approveBean.setExpirationDate(protocolApproveService.buildExpirationDate(protocol, approveBean.getApprovalDate()));
-                    protocolApproveService.grantExpeditedApproval(protocolDocument, approveBean);
-                } else {
-                    throw new UnprocessableEntityException(ACTION_ERROR_MESSAGE);
-                }
+                performExpeditedApproval(protocolActionDto, protocolDocument, protocol);
             } else if (actionTypeCode.equalsIgnoreCase(ProtocolActionType.GRANT_EXEMPTION)) {
-                if (protocol.getProtocolStatus().getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.SUBMITTED_TO_IRB)) {
-                    ProtocolGrantExemptionBean exemptionBean = commonApiService.convertObject(protocolActionDto, ProtocolGrantExemptionBean.class);
-                    protocolGrantExemptionService.grantExemption(protocol, exemptionBean);
-                } else {
-                    throw new UnprocessableEntityException(ACTION_ERROR_MESSAGE);
-                }
+                performGrantExemption(protocolActionDto, protocol);
             }
             else if (actionTypeCode.equalsIgnoreCase(ProtocolActionType.IRB_REVIEW_NOT_REQUIRED)) {
-                if (protocol.getProtocolStatus().getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.SUBMITTED_TO_IRB)) {
-                    ProtocolReviewNotRequiredBean reviewNotRequiredBean = commonApiService.convertObject(protocolActionDto, ProtocolReviewNotRequiredBean.class);
-                    protocolReviewNotRequiredService.reviewNotRequired(protocolDocument, reviewNotRequiredBean);
-                } else {
-                    throw new UnprocessableEntityException(ACTION_ERROR_MESSAGE);
-                }
+                performIrbReviewNotRequired(protocolActionDto, protocolDocument, protocol);
             }
             else {
                 throw new NotImplementedException();
             }
+        } else {
+            String errorsMessages = String.join(",", createValidationErrors(errors));
+            throw new UnprocessableEntityException(errorsMessages);
         }
         ProtocolSubmission protocolSubmission = protocolDocument.getProtocol().getProtocolSubmission();
         IrbProtocolSubmissionDto submissionDto = commonApiService.convertObject(protocolSubmission, IrbProtocolSubmissionDto.class);
         submissionDto.setApprovalDate(protocolDocument.getProtocol().getApprovalDate());
         return submissionDto;
+    }
+
+    private List<String> createValidationErrors(List<ErrorMessage> errors) {
+        return errors.stream().map(error ->
+                MessageFormat.format(configurationService.getPropertyValueAsString(error.getErrorKey()), error.getMessageParameters())).
+                collect(Collectors.toList());
+    }
+
+    private void performIrbReviewNotRequired(IrbProtocolActionDto protocolActionDto, ProtocolDocument protocolDocument, Protocol protocol) {
+        if (protocol.getProtocolStatus().getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.SUBMITTED_TO_IRB)) {
+            ProtocolReviewNotRequiredBean reviewNotRequiredBean = commonApiService.convertObject(protocolActionDto, ProtocolReviewNotRequiredBean.class);
+            protocolReviewNotRequiredService.reviewNotRequired(protocolDocument, reviewNotRequiredBean);
+        } else {
+            throw new UnprocessableEntityException(ACTION_ERROR_MESSAGE);
+        }
+    }
+
+    private void performGrantExemption(IrbProtocolActionDto protocolActionDto, Protocol protocol) throws Exception {
+        if (protocol.getProtocolStatus().getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.SUBMITTED_TO_IRB)) {
+            ProtocolGrantExemptionBean exemptionBean = commonApiService.convertObject(protocolActionDto, ProtocolGrantExemptionBean.class);
+            protocolGrantExemptionService.grantExemption(protocol, exemptionBean);
+        } else {
+            throw new UnprocessableEntityException(ACTION_ERROR_MESSAGE);
+        }
+    }
+
+    private void performExpeditedApproval(IrbProtocolActionDto protocolActionDto, ProtocolDocument protocolDocument, Protocol protocol) throws Exception {
+        if (protocol.getProtocolStatus().getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.SUBMITTED_TO_IRB)) {
+            ProtocolExpeditedApproveBean approveBean = commonApiService.convertObject(protocolActionDto, ProtocolExpeditedApproveBean.class);
+            approveBean.setAssignToAgenda(false);
+            approveBean.setExpirationDate(protocolApproveService.buildExpirationDate(protocol, approveBean.getApprovalDate()));
+            protocolApproveService.grantExpeditedApproval(protocolDocument, approveBean);
+        } else {
+            throw new UnprocessableEntityException(ACTION_ERROR_MESSAGE);
+        }
+    }
+
+    private void submitForReview(IrbProtocolActionDto protocolActionDto, ProtocolDocument protocolDocument, Protocol protocol) {
+        if (protocol.getProtocolStatus().getProtocolStatusCode().equalsIgnoreCase(ProtocolStatus.IN_PROGRESS)) {
+            ProtocolSubmitAction submitAction = commonApiService.convertObject(protocolActionDto, ProtocolSubmitAction.class);
+            submitAction.setNewCommitteeId(submitAction.getCommitteeId());
+            protocol.setInitialSubmissionDate(protocolActionDto.getInitialSubmissionDate());
+            Timestamp actionTimestamp = protocolActionDto.getActionDate()!= null? new Timestamp(protocolActionDto.getActionDate().getTime()) : null;
+            protocolSubmitActionService.submitToIrbForReview(protocolDocument, submitAction, actionTimestamp);
+            // Submission date is auto generated on ProtocolSubmission but is not if the value != null in Protocol.java
+            // so make them equal in this case.
+            protocol.getProtocolSubmission().setSubmissionDate(protocol.getInitialSubmissionDate());
+            commonApiService.routeDocument(protocolDocument);
+        } else {
+            throw new UnprocessableEntityException(ACTION_ERROR_MESSAGE);
+        }
     }
 
     private ProtocolDocument getProtocolDocument(Long documentNumber) {
