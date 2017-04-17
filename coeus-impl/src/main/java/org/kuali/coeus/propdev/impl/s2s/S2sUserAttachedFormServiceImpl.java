@@ -341,6 +341,9 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
             Node hashValue = hashValueNodes.item(i);
             ((Element)hashValue).setAttribute("xmlns:glob", "http://apply.grants.gov/system/Global-V1.0");
         }
+
+        reorderSf424ShortElements(doc);
+
         S2sUserAttachedForm newUserAttachedForm = cloneUserAttachedForm(userAttachedForm);
         newUserAttachedForm.setNamespace(namespaceUri);
         newUserAttachedForm.setFormName(formname);
@@ -367,6 +370,37 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         newUserAttachedForm.getS2sUserAttachedFormFileList().add(newUserAttachedFormFile);
         return newUserAttachedForm;
         
+    }
+
+    /**
+     * This is a workaround specifically for Sf424Short user attached forms to reorder elements to allow the form to
+     * pass schema validation.
+     */
+    private void reorderSf424ShortElements(Document doc) {
+        final NodeList sameAsProjectDirectors =  doc.getElementsByTagName("SF424_Short_1_1:SameAsProjectDirector");
+        if (sameAsProjectDirectors != null && sameAsProjectDirectors.getLength() > 0) {
+            final Node sameAsProjectDirector = sameAsProjectDirectors.item(0);
+            final NodeList projectDirectorGroups = doc.getElementsByTagName("SF424_Short_1_1:ProjectDirectorGroup");
+            if (projectDirectorGroups != null && projectDirectorGroups.getLength() > 0) {
+                moveNode(sameAsProjectDirector, projectDirectorGroups.item(0).getNextSibling());
+            }
+        }
+
+        final NodeList contactPersonGroups =  doc.getElementsByTagName("SF424_Short_1_1:ContactPersonGroup");
+        if (contactPersonGroups != null && contactPersonGroups.getLength() > 0) {
+            final Node contactPersonGroup = contactPersonGroups.item(0);
+            final NodeList applicationCertifications = doc.getElementsByTagName("SF424_Short_1_1:ApplicationCertification");
+            if (applicationCertifications != null && applicationCertifications.getLength() > 0) {
+                moveNode(contactPersonGroup, applicationCertifications.item(0));
+            }
+        }
+    }
+
+    private void moveNode(Node original, Node insertBefore) {
+        final Node copy = original.cloneNode(true);
+        final Node parent = insertBefore.getParentNode();
+        parent.insertBefore(copy, insertBefore);
+        parent.removeChild(original);
     }
 
     protected synchronized static Document node2Dom(org.w3c.dom.Node n) throws Exception{
