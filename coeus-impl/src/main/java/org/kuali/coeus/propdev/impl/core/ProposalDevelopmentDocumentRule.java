@@ -37,6 +37,8 @@ import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.propdev.impl.krms.ProposalDevelopmentKRMSAuditRule;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.propdev.impl.sponsor.AddProposalSponsorAndProgramInformationRule;
+import org.kuali.coeus.propdev.impl.sponsor.AddProposalSponsorAndProgramInformationRuleImpl;
 import org.kuali.coeus.propdev.impl.sponsor.ProposalDevelopmentSponsorProgramInformationAuditRule;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideRule;
@@ -105,8 +107,14 @@ import java.util.List;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule, ReplaceNarrativeRule, SaveNarrativesRule, AddInstituteAttachmentRule, ReplaceInstituteAttachmentRule, AddPersonnelAttachmentRule, ReplacePersonnelAttachmentRule, AddProposalSiteRule, KcBusinessRule, SaveProposalSitesRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule, ResubmissionPromptRule, BudgetDataOverrideRule, DocumentAuditRule {
-
+public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule, ReplaceNarrativeRule,
+                                                                                                SaveNarrativesRule, AddInstituteAttachmentRule, ReplaceInstituteAttachmentRule,
+                                                                                                AddPersonnelAttachmentRule, ReplacePersonnelAttachmentRule, AddProposalSiteRule, KcBusinessRule,
+                                                                                                SaveProposalSitesRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule,
+                                                                                                DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule,
+                                                                                                SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule,
+                                                                                                ResubmissionPromptRule, BudgetDataOverrideRule, AddProposalSponsorAndProgramInformationRule,
+                                                                                                DocumentAuditRule {
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentRule.class);
     private static final String PROPOSAL_QUESTIONS_KEY="proposalYnq[%d].%s";
@@ -399,23 +407,14 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }
+
     /**
-     * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
+     * Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
     */
     private boolean processSponsorProgramBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         
         boolean valid = true;
-        String regExpr = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
-        MessageMap errorMap = GlobalVariables.getMessageMap();
-        DataDictionaryService dataDictionaryService = getDataDictionaryService();
-        if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber())
-                && !(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber().matches(regExpr))
-                && GlobalVariables.getMessageMap().getMessages("document.developmentProposalList[0].cfdaNumber") == null) {
-            errorMap.putError("developmentProposalList[0].cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT,
-                    dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "cfdaNumber"),
-                    proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber());
-            valid = false;
-         }
+        MessageMap errorMap = GlobalVariables.getMessageMap();DataDictionaryService dataDictionaryService = getDataDictionaryService();
  
         SponsorService sponsorService = getSponsorService();
          String sponsorCode = proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsorCode();
@@ -703,5 +702,9 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
 	public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
 	}
-    
+
+    @Override
+    public boolean processAddProposalSponsorAndProgramInformationRules(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        return new AddProposalSponsorAndProgramInformationRuleImpl().processAddProposalSponsorAndProgramInformationRules(proposalDevelopmentDocument);
+    }
 }

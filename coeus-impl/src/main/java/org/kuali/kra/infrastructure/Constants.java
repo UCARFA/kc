@@ -440,7 +440,7 @@ public interface Constants {
     String CFDA_GOV_LOGIN_USERNAME = "anonymous";
     String DEFAULT_CRON_EXPRESSION = "0 0 5 * * ?";
     String CFDA_BATCH_NOTIFICATION_RECIPIENT_PARAMETER = "CFDA_BATCH_NOTIFICATION_RECIPIENT";
-
+    String CFDA_REGEX = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
 
 
     //Award Hierarchy Sync
@@ -959,5 +959,11 @@ public interface Constants {
     String COST_SHARE_ADMINISTRATOR_TYPE_CODE = "COST_SHARE_ADMINISTRATOR_TYPE_CODE";
     String ENABLE_SUBAWARD_DC_IDC = "Enable_Subaward_DC_IDC";
     String ENABLE_AWARD_BUDGET_QUEUED_STATUS = "Enable_Award_Budget_Queued_Status";
+    String DEVELOPMENT_PROPOSAL_CFDA_NUMBER = "developmentProposalList[0].cfdaNumber";
+    String DOCUMENT_DEVELOPMENT_PROPOSAL_CFDA_NUMBER = "document.developmentProposalList[0].cfdaNumber";
+    String DOCUMENT_AWARD_CFDA_NUMBER = "document.awardList[0].cfdaNumber";
+
+    String DOCUMENT_INSTITUTIONAL_PROPOSAL_CFDA_NUMBER = "document.institutionalProposalList[0].cfdaNumber";
+    String INSTITUTIONAL_PROPOSAL_CFDA_NUMBER = "document.institutionalProposal.cfdaNumber";
 }
 

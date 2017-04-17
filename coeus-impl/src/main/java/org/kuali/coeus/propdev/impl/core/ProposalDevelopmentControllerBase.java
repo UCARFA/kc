@@ -46,6 +46,7 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
+import org.kuali.coeus.propdev.impl.sponsor.AddProposalSponsorAndProgramInformationEvent;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -209,6 +210,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Qualifier("proposalTypeService")
     private ProposalTypeService proposalTypeService;
 
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
+
     private ProjectPublisher projectPublisher;
 
     public ProjectPublisher getProjectPublisher() {
@@ -276,6 +281,11 @@ public abstract class ProposalDevelopmentControllerBase {
 
          if (StringUtils.equalsIgnoreCase(form.getPageId(), ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)) {
              ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateAttachmentReferences(form.getDevelopmentProposal());
+         }
+
+         if (StringUtils.isEmpty(form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID))
+                 && StringUtils.equalsIgnoreCase(form.getPageId(), ProposalDevelopmentDataValidationConstants.SPONSOR_PROGRAM_INFO_PAGE_ID)) {
+             kualiRuleService.applyRules(new AddProposalSponsorAndProgramInformationEvent(StringUtils.EMPTY, form.getProposalDevelopmentDocument()));
          }
 
          if (getGlobalVariableService().getMessageMap().getErrorCount() == 0 && form.getEditableCollectionLines() != null) {

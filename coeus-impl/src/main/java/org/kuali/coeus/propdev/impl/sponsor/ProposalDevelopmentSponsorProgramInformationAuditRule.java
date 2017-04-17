@@ -28,6 +28,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalTypeService;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -137,6 +138,14 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
                 valid = false;
                 getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, SPONSOR_PROGRAM_INFO_PAGE_ID));
             }            
+        }
+
+
+        if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber())
+                && !(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber().matches(Constants.CFDA_REGEX))) {
+            getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_WARNINGS).add(new AuditError("document.developmentProposal.cfdaNumber",
+                    KeyConstants.CFDA_INVALID, SPONSOR_PROGRAM_INFO_PAGE_ID, new String[] { proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber() }));
+            valid = true;
         }
 
         if (!StringUtils.isEmpty(proposal.getPrimeSponsorCode())) {

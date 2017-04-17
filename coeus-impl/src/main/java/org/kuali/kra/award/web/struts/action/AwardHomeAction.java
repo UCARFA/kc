@@ -32,6 +32,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.award.home.rules.AwardAddCfdaEvent;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
@@ -207,6 +208,11 @@ public class AwardHomeAction extends AwardAction {
             Award award = awardDocument.getAward();
 
             persistSpecialReviewProtocolFundingSourceLink(award, isAwardProtocolLinkingEnabled);
+        }
+
+        String navigateTo = awardForm.getNavigateTo();
+        if (navigateTo == null || navigateTo.equalsIgnoreCase(Constants.MAPPING_AWARD_HOME_PAGE)) {
+            getKualiRuleService().applyRules(new AwardAddCfdaEvent(awardDocument));
         }
 
         return forward;

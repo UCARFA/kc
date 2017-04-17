@@ -24,8 +24,14 @@
 <c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 <c:set var="awardCurrentActionCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
 <kul:tab tabTitle="Details & Dates" defaultOpen="true" 
-	tabErrorKey="document.awardList[0].awardTransactionTypeCode,document.award.version, document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].financialChartOfAccountsCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,document.awardList[0].unitNumber, detailsAndDatesFormHelper*,document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].*, document.awardList[0].modificationNumber,document.awardList[0].cfdaNumber,document.awardList[0].primeSponsorCode,document.awardList[0].fainId,document.awardList[0].fedAwardYear,document.awardList[0].fedAwardDate"
-	tabAuditKey="document.awardList[0].awardEffectiveDate,document.awardList[0].sponsorCode,document.awardList[0].primeSponsorCode,document.awardList[0].fainId,document.awardList[0].fedAwardYear,document.awardList[0].fedAwardDate"
+	tabErrorKey="document.awardList[0].awardTransactionTypeCode,document.award.version, document.awardList[0].statusCode,
+	document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].financialChartOfAccountsCode,
+	document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,
+	document.awardList[0].unitNumber, detailsAndDatesFormHelper*,document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].*,
+	document.awardList[0].modificationNumber,document.awardList[0].cfdaNumber,document.awardList[0].primeSponsorCode,document.awardList[0].fainId,
+	document.awardList[0].fedAwardYear,document.awardList[0].fedAwardDate"
+
+	tabAuditKey="document.awardList[0].awardEffectiveDate,document.awardList[0].cfdaNumber, document.awardList[0].sponsorCode,document.awardList[0].primeSponsorCode,document.awardList[0].fainId,document.awardList[0].fedAwardYear,document.awardList[0].fedAwardDate"
 	auditCluster="homePageAuditWarnings,homePageAuditErrors" useRiceAuditMode="true">
 <c:set var="awardObligatedAndAnticipatedAmountsEditable" value="${!readOnly && KualiForm.awardObligatedAndAnticipatedAmountsEditable}" />
 <!-- Institution -->

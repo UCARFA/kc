@@ -33,33 +33,54 @@ import org.kuali.rice.krad.util.AuditError;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InstitutionalProposalSponsorAuditRule implements DocumentAuditRule {
+public class InstitutionalProposalSponsorAndProgramInformationAuditRule implements DocumentAuditRule {
 
     private static final String SPONSOR_WARNINGS = "sponsorWarnings";
+    public static final String PROGRAM_INFO_WARNINGS = "programInfoWarnings";
+    public static final String PROGRAM_INFORMATION = "Program Information";
+    public static final String SPONSORS = "Sponsors";
     private SponsorService sponsorService;
     private GlobalVariableService globalVariableService;
 
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         final List<AuditError> sponsorAuditWarnings = new ArrayList<>();
+        final List<AuditError> programInfoAuditWarnings = new ArrayList<>();
 
         final InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
 
         if (!getSponsorService().isValidSponsor(institutionalProposalDocument.getInstitutionalProposal().getSponsor())) {
-            sponsorAuditWarnings.add(new AuditError("document.institutionalProposalList[0].sponsorCode", KeyConstants.WARNING_INSTITUTIONALPROPOSAL_INACTIVE_SPONSOR, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_HOME_PAGE + "." + Constants.INSTITUTIONAL_PROPOSAL_IP_PANEL_ANCHOR ));
+            sponsorAuditWarnings.add(new AuditError("document.institutionalProposalList[0].sponsorCode", KeyConstants.WARNING_INSTITUTIONALPROPOSAL_INACTIVE_SPONSOR,
+                    Constants.MAPPING_INSTITUTIONAL_PROPOSAL_HOME_PAGE + "." + Constants.INSTITUTIONAL_PROPOSAL_IP_PANEL_ANCHOR));
             valid = false;
         }
 
         if (!StringUtils.isEmpty(institutionalProposalDocument.getInstitutionalProposal().getPrimeSponsorCode()) &&
                 !getSponsorService().isValidSponsor(institutionalProposalDocument.getInstitutionalProposal().getPrimeSponsor())) {
-            sponsorAuditWarnings.add(new AuditError("document.institutionalProposalList[0].primeSponsorCode", KeyConstants.WARNING_INSTITUTIONALPROPOSAL_INACTIVE_PRIMESPONSOR, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_HOME_PAGE + "." + Constants.INSTITUTIONAL_PROPOSAL_IP_PANEL_ANCHOR ));
+            sponsorAuditWarnings.add(new AuditError("document.institutionalProposalList[0].primeSponsorCode", KeyConstants.WARNING_INSTITUTIONALPROPOSAL_INACTIVE_PRIMESPONSOR,
+                    Constants.MAPPING_INSTITUTIONAL_PROPOSAL_HOME_PAGE + "." + Constants.INSTITUTIONAL_PROPOSAL_IP_PANEL_ANCHOR ));
             valid = false;
         }
 
-        if (!sponsorAuditWarnings.isEmpty()) {
-            getGlobalVariableService().getAuditErrorMap().put(SPONSOR_WARNINGS, new AuditCluster("Sponsors", sponsorAuditWarnings, Constants.AUDIT_WARNINGS));
+        if (!isValidCfda(institutionalProposalDocument.getInstitutionalProposal().getCfdaNumber())) {
+            programInfoAuditWarnings.add(new AuditError(Constants.INSTITUTIONAL_PROPOSAL_CFDA_NUMBER, KeyConstants.CFDA_INVALID,
+                    Constants.MAPPING_INSTITUTIONAL_PROPOSAL_HOME_PAGE + "." + Constants.INSTITUTIONAL_PROPOSAL_IP_PANEL_ANCHOR,
+                    new String[]{institutionalProposalDocument.getInstitutionalProposal().getCfdaNumber()} ));
         }
+
+        if (!sponsorAuditWarnings.isEmpty()) {
+            getGlobalVariableService().getAuditErrorMap().put(SPONSOR_WARNINGS, new AuditCluster(SPONSORS, sponsorAuditWarnings, Constants.AUDIT_WARNINGS));
+        }
+
+        if (!programInfoAuditWarnings.isEmpty()) {
+            getGlobalVariableService().getAuditErrorMap().put(PROGRAM_INFO_WARNINGS, new AuditCluster(PROGRAM_INFORMATION, programInfoAuditWarnings, Constants.AUDIT_WARNINGS));
+        }
+
         return valid;
+    }
+
+    public boolean isValidCfda(String cfdaNumber) {
+        return StringUtils.isNotBlank(cfdaNumber) && cfdaNumber.matches(Constants.CFDA_REGEX);
     }
 
     public GlobalVariableService getGlobalVariableService() {
