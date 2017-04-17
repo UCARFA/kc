@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2111: Fix CFDA warning validation (#2300)
+
+  * Gayathri Athreya on Mon, 17 Apr 2017 10:44:02 -0700 [View Commit](../../commit/a4f3ef9c9a686539caf45c1632011faf9a0e0603)
+
+##coeus-1704.0019
 * RESKC-2177: Enabling PD Standard workflow in demo data for tests. (#2299)
 
   * Gayathri Athreya on Mon, 17 Apr 2017 07:24:51 -0700 [View Commit](../../commit/9a550b16a69e6c6bbc3a7382078af58bcf13cb2b)
