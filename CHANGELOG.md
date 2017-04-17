@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+* RESKC-2177: Enabling PD Standard workflow in demo data for tests. (#2299)
+
+  * Gayathri Athreya on Mon, 17 Apr 2017 07:24:51 -0700 [View Commit](../../commit/9a550b16a69e6c6bbc3a7382078af58bcf13cb2b)
+* Reskc 2111 cfda (#2298)
+
+* RESKC-2111: Making CFDA validation a warning in PD
+  * 
+* RESKC-2111: Award validations
+  * 
+* RESKC-2111: Add warning to institutional proposal.
+  * 
+* RESKC-2111: PR review changes
+  * Gayathri Athreya on Mon, 17 Apr 2017 07:22:54 -0700 [View Commit](../../commit/b50c20b77d3145b370ef931bb9a368cc55ab8875)
+
+##coeus-1704.0018
 * RESKC-2103: making sure the submit page looks at the certifiedBy to determine completeness and the personnel page looks at questionnaire completeness
   * Travis Schneeberger on Thu, 13 Apr 2017 13:48:28 -0400 [View Commit](../../commit/3c14751beeb3c4ef37c7edad1ae6f3e1b797086a)
 
