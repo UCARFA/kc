@@ -45,7 +45,7 @@ public class InstitutionalProposalCfdaRuleImpl extends KcTransactionalDocumentRu
     }
 
     public boolean isValidCfda(String cfdaNumber) {
-        return StringUtils.isNotBlank(cfdaNumber) && cfdaNumber.matches(Constants.CFDA_REGEX);
+        return StringUtils.isBlank(cfdaNumber) || cfdaNumber.matches(Constants.CFDA_REGEX);
     }
 
 }

@@ -52,7 +52,7 @@ public class AwardCfdaAuditRule implements DocumentAuditRule {
     }
 
     public boolean isValidCfda(String cfdaNumber) {
-        return StringUtils.isNotBlank(cfdaNumber) && (cfdaNumber.matches(Constants.CFDA_REGEX));
+        return StringUtils.isBlank(cfdaNumber) || cfdaNumber.matches(Constants.CFDA_REGEX);
     }
 
     protected List<AuditError> getAuditWarnings(String key, String severity) {

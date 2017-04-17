@@ -16,7 +16,7 @@ public class AwardCfdaRuleImpl implements AwardCfdaRule {
     @Override
     public boolean processAddCfdaRules(AwardAddCfdaEvent awardAddCfdaEvent) {
         AwardDocument awardDocument = (AwardDocument) awardAddCfdaEvent.getDocument();
-        if (isValidCfda(awardDocument.getAward().getCfdaNumber()) &&
+        if (!isValidCfda(awardDocument.getAward().getCfdaNumber()) &&
                 getGlobalVariableService().getMessageMap().getMessages(Constants.DOCUMENT_DEVELOPMENT_PROPOSAL_CFDA_NUMBER) == null) {
             getGlobalVariableService().getMessageMap().putWarning(Constants.DOCUMENT_AWARD_CFDA_NUMBER, KeyConstants.CFDA_INVALID,
                     awardDocument.getAward().getCfdaNumber());
@@ -25,7 +25,7 @@ public class AwardCfdaRuleImpl implements AwardCfdaRule {
     }
 
     public boolean isValidCfda(String cfdaNumber) {
-        return StringUtils.isNotBlank(cfdaNumber) && !(cfdaNumber.matches(Constants.CFDA_REGEX));
+        return StringUtils.isBlank(cfdaNumber) || cfdaNumber.matches(Constants.CFDA_REGEX);
     }
 
     public GlobalVariableService getGlobalVariableService() {
