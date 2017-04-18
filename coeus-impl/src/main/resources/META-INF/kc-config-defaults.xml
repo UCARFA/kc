@@ -169,7 +169,7 @@
 	<param name="s2s.cert.disable.cn.check">${dev.mode}</param>
 
 	<param name="grants.gov.s2s.host.production">https://ws07.grants.gov:443/grantsws-applicant/services/v2/</param>
-	<param name="grants.gov.s2s.host.development">https://at07ws.grants.gov:443/grantsws-applicant/services/v2/</param>
+	<param name="grants.gov.s2s.host.development">https://trainingws.grants.gov:443/grantsws-applicant/services/v2/</param>
 	<param name="grants.gov.s2s.host">${grants.gov.s2s.host.development}</param>
 	<param name="grants.gov.s2s.port">ApplicantWebServicesSoapPort</param>
 
