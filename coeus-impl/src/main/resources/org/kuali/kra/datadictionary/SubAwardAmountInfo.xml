@@ -173,10 +173,10 @@
     <bean id="SubAwardAmountInfo-obligatedChangeInDirect" parent="SubAwardAmountInfo-obligatedChangeInDirect-parentBean" />
     <bean id="SubAwardAmountInfo-obligatedChangeInDirect-parentBean" abstract="true" parent="SubAwardAmountInfo-obligatedChange-parentBean">
         <property name="name" value="obligatedChangeIndirect" />
-        <property name="label" value="Obligated Change Indirect" />
-        <property name="shortLabel" value="Obligated Change Indirect" />
-        <property name="summary" value="Obligated Change Indirect" />
-        <property name="description" value="Obligated Change Indirect" />
+        <property name="label" value="Obligated Change F&amp;A" />
+        <property name="shortLabel" value="Obligated Change F&amp;A" />
+        <property name="summary" value="Obligated Change F&amp;A" />
+        <property name="description" value="Obligated Change F&amp;A" />
     </bean>
 
     <bean id="SubAwardAmountInfo-anticipatedChangeDirect" parent="SubAwardAmountInfo-anticipatedChangeDirect-parentBean" />
@@ -191,10 +191,10 @@
     <bean id="SubAwardAmountInfo-anticipatedChangeIndirect" parent="SubAwardAmountInfo-anticipatedChangeIndirect-parentBean" />
     <bean id="SubAwardAmountInfo-anticipatedChangeIndirect-parentBean" abstract="true" parent="SubAwardAmountInfo-anticipatedChange-parentBean">
         <property name="name" value="anticipatedChangeIndirect" />
-        <property name="label" value="Anticipated Change Indirect" />
-        <property name="shortLabel" value="Anticipated Change Indirect" />
-        <property name="summary" value="Anticipated Change Indirect" />
-        <property name="description" value="Anticipated Change Indirect" />
+        <property name="label" value="Anticipated Change F&amp;A" />
+        <property name="shortLabel" value="Anticipated Change F&amp;A" />
+        <property name="summary" value="Anticipated Change F&amp;A" />
+        <property name="description" value="Anticipated Change F&amp;A" />
     </bean>
            
    <bean id="SubAwardAmountInfo-anticipatedAmount" parent="SubAwardAmountInfo-anticipatedAmount-parentBean" />

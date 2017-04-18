@@ -27,8 +27,29 @@
 <%@ attribute name="formAction" required="true" %>
 <%@ attribute name="rowIndex" required="true" %>
 <c:set var="costSplitEnabled" value="${KualiForm.costSplitEnabled}" />
+<c:set var="attributeColor" value="#999999" />
+<tr bgcolor="#f5f5f5"><td width="9%" class="infoline" colspan="6"><font color=${attributeColor}><b><c:out value="${rowIndex+1}" /></b></font></td></tr>
 
-<tr bgcolor="#f5f5f5"><td width="9%" class="infoline" colspan="6"><b><c:out value="${rowIndex+1}" /></b></td></tr>
+<tr>
+    <c:choose>
+        <c:when test="${!costSplitEnabled}">
+            <th><div align="left">&nbsp;</div></th>
+            <th><div align="center"><font color=${attributeColor}><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.effectiveDate}" /></font></div></th>
+            <th><div align="center"><font color=${attributeColor}>*<kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.obligatedChange}" /></font></div></th>
+            <th><div align="center"><font color=${attributeColor}>*<kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.anticipatedChange}" /></font></div></th>
+            <th colspan="2"><div align="center">&nbsp;</div></th>
+        </c:when>
+        <c:otherwise>
+            <th><div align="center"><font color=${attributeColor}><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.effectiveDate}" /></font></div></th>
+            <th><div align="center"><font color=${attributeColor}>*<kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.obligatedChangeDirect}" /></font></div></th>
+            <th><div align="center"><font color=${attributeColor}>*<kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.obligatedChangeIndirect}" /></font></div></th>
+            <th><div align="center"><font color=${attributeColor}>*<kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.anticipatedChangeDirect}" /></font></div></th>
+            <th><div align="center"><font color=${attributeColor}>*<kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.anticipatedChangeIndirect}" /></font></div></th>
+            <th><div align="center"><font color=${attributeColor}><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.rate}" /></font></div></th>
+        </c:otherwise>
+    </c:choose>
+</tr>
+
 <tr>
 <c:choose>
     <c:when test="${!costSplitEnabled}">
@@ -87,6 +108,14 @@
 </tr>
 
 <tr>
+    <th><div align="center"><font color=${attributeColor}><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.modificationTypeCode}" /></font></div></th>
+    <th><div align="center"><font color=${attributeColor}><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.modificationEffectiveDate}" /></font></div></th>
+    <th><div align="center"><font color=${attributeColor}><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.modificationID}" /></font></div></th>
+    <th><div align="center"><font color=${attributeColor}><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceStartDate}" /></font></div></th>
+    <th><div align="center"><font color=${attributeColor}><kul:htmlAttributeLabel attributeEntry="${subAwardAmountInfoAttributes.periodofPerformanceEndDate}" /></font></div></th>
+</tr>
+
+<tr>
 	<td width="9%" valign="middle">
 		<div align="center">
 			<kul:htmlControlAttribute
@@ -130,8 +159,10 @@
 <tr>
 	<th>
         <div align="right">
-			<kul:htmlAttributeLabel
-				attributeEntry="${subAwardAmountInfoAttributes.comments}" />
+            <font color=${attributeColor}>
+			    <kul:htmlAttributeLabel
+				    attributeEntry="${subAwardAmountInfoAttributes.comments}" />
+            </font>
 		</div>
     </th>
 	<td><kul:htmlControlAttribute
@@ -186,3 +217,17 @@
         </div>
     </td>
 </tr>
+<c:choose>
+    <c:when test="${costSplitEnabled}">
+        <tr>
+            <th><font color=${attributeColor}><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedAmount}" /></font></th>
+            <td colspan="2">
+                <kul:htmlControlAttribute property="document.subAwardList[0].totalObligatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalObligatedAmount}" />
+            </td>
+            <th><font color=${attributeColor}><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" /></font></th>
+            <td colspan="2">
+                <kul:htmlControlAttribute property="document.subAwardList[0].totalAnticipatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" />
+            </td>
+        </tr>
+    </c:when>
+</c:choose>
