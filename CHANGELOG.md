@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* RESKC-2171: Adding obligated and anticipated totals to display (#2301)
+
+  * Gayathri Athreya on Tue, 18 Apr 2017 08:31:46 -0700 [View Commit](../../commit/71fd546a537ade3e8df9abfbd0b784145721bd30)
+* RESKC-2163: Fix user attached form: SF424_Short_1_1
+  * Travis Schneeberger on Mon, 17 Apr 2017 15:39:49 -0400 [View Commit](../../commit/60d62c35dff15ee447b4168fdd2e5f3a491973b9)
+
+##coeus-1704.0020
 * RESKC-2111: Fix CFDA warning validation (#2300)
 
   * Gayathri Athreya on Mon, 17 Apr 2017 10:44:02 -0700 [View Commit](../../commit/a4f3ef9c9a686539caf45c1632011faf9a0e0603)
