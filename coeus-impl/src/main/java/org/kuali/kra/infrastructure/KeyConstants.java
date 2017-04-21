@@ -1159,6 +1159,8 @@ public final class KeyConstants {
     public static final String ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE_PERIOD = "error.format.org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern.allowUnderscore.allowDash.allowWhitespace.allowPeriod";
     public static final String QUESTION_DELETE_FNA = "document.question.deleteFandA.text";
 
+    public static final String XML_REORDER_WARNING = "info.grantsgov.form.xml.reorder";
+
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.

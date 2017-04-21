@@ -676,6 +676,7 @@
                 <value>classpath:org/kuali/coeus/common/impl/unit/admin/UnitAdministratorType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/crrspndnt/UnitCorrespondent.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/rate/UnitFormulatedCost.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/UserAttachedFormsXMLReorder.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidAwardBasisPayment.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidBasisMethodPayment.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/calculator/ValidCalcType.xml</value>
@@ -949,6 +950,7 @@
                 <value>classpath:org/kuali/coeus/common/impl/unit/crrspndnt/UnitCorrespondentMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/rate/UnitFormulatedCostMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/UnitMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/UserAttachedFormsXMLReorderMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidAwardBasisPaymentMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidBasisMethodPaymentMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/calculator/ValidCalcTypeMaintenanceDocument.xml</value>

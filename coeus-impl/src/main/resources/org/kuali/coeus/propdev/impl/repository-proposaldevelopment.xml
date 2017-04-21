@@ -269,7 +269,17 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" nullable="false"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
-    
+
+    <class-descriptor class="org.kuali.coeus.propdev.impl.s2s.UserAttachedFormsXMLReorder" table="FORMS_XML_REORDER">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_FORMS_XML_REORDER" autoincrement="true"/>
+        <field-descriptor name="nodeToMove" column="NODE_TO_MOVE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="targetNode" column="TARGET_NODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="moveAfter" column="MOVE_AFTER" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" nullable="false"/>
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" nullable="false"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+
     <class-descriptor class="org.kuali.coeus.propdev.impl.person.ProposalPerson" table="EPS_PROP_PERSON">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
