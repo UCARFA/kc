@@ -696,6 +696,7 @@ public interface Constants {
     long QUESTION_RESPONSE_TYPE_DATE = 4L;
     long QUESTION_RESPONSE_TYPE_TEXT = 5L;
     long QUESTION_RESPONSE_TYPE_LOOKUP = 6L;
+    long QUESTION_RESPONSE_TYPE_DECIMAL = 7L;
     long QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE = 100L;
     
     String QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID = "document.newMaintainableObject.businessObject.questionTypeId";

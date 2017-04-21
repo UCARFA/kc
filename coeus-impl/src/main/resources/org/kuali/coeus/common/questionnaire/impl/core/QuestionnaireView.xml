@@ -144,6 +144,7 @@
 		<entry key="4" value="Questionnaire-DateControl" />
 		<entry key="5" value="Uif-TextControl" />
 		<entry key="6" value="Uif-TextControl" />
+		<entry key="7" value="Uif-TextControl" />
 	</util:map>
 	<bean id="Questionnaire-YesNoControl" parent="Questionnaire-YesNoControl-parentBean" />
 	<bean id="Questionnaire-YesNoControl-parentBean" abstract="true"

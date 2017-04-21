@@ -170,6 +170,9 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
                 case (int) Constants.QUESTION_RESPONSE_TYPE_NUMBER:
                     isValid &= validateResponseTypeNumber(question); 
                     break;
+                case (int) Constants.QUESTION_RESPONSE_TYPE_DECIMAL:
+                    isValid &= validateResponseTypeDecimal(question);
+                    break;
                 case (int) Constants.QUESTION_RESPONSE_TYPE_DATE:
                     isValid &= validateResponseTypeDate(question); 
                     break;
@@ -224,7 +227,22 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
         isValid &= validateDisplayedAnswers(question);
         isValid &= validateAnswerMaxLengthWithCeiling(question);
         isValid &= validateMaxAnswers(question);
-        
+
+        return isValid;
+    }
+
+    /**
+     * This method validates the additional properties of a numeric response to a question.
+     * @param question - the question to be validated
+     * @return true if all validation has passed, false otherwise
+     */
+    private boolean validateResponseTypeDecimal(Question question) {
+        boolean isValid = true;
+
+        isValid &= validateDisplayedAnswers(question);
+        isValid &= validateAnswerMaxLengthWithCeiling(question);
+        isValid &= validateMaxAnswers(question);
+
         return isValid;
     }
 

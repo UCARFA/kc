@@ -270,17 +270,13 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      * This method fetches the application list from Grants.gov for a given
      * proposal.
      */
+    @Override
     public GetApplicationListResponse fetchApplicationListResponse(
             ProposalDevelopmentDocument pdDoc) throws S2sCommunicationException {
         S2sOpportunityContract s2sOpportunity =
                 s2sOpportunityService.findS2SOpportunityByProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
 
-        GetApplicationListResponse applicationListResponse = getS2sConnectorService(s2sOpportunity)
-                .getApplicationList(s2sOpportunity.getOpportunityId(),
-                        s2sOpportunity.getCfdaNumber(), s2sOpportunity
-                                .getProposalNumber()
-                );
-        return applicationListResponse;
+        return getS2sConnectorService(s2sOpportunity).getApplicationList(s2sOpportunity.getOpportunityId(), s2sOpportunity.getCfdaNumber(), s2sOpportunity.getProposalNumber());
     }
 
     /**
@@ -317,6 +313,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      *            Proposal Development Document.
      * @return true if submitted false otherwise.
      */
+    @Override
     public FormGenerationResult submitApplication(ProposalDevelopmentDocument pdDoc)
             throws S2sCommunicationException {
 
@@ -455,9 +452,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         if (connectorService == null) {
             throw new S2sCommunicationException("The connector service '" + provider.getConnectorServiceName() + "' required by '" + provider.getDescription() + "' S2S provider is not configured.");
         }
-        List<S2sOpportunity> s2sOpportunityList = convertToArrayList(provider.getCode(),
-                connectorService.getOpportunityList(cfdaNumber, opportunityId, competitionId));
-        return s2sOpportunityList;
+        return convertToArrayList(provider.getCode(), connectorService.getOpportunityList(cfdaNumber, opportunityId, competitionId));
     }
 
     /**
@@ -473,6 +468,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         return opportunitySchemaParserService.getForms(opportunity.getProposalNumber(),opportunity.getSchemaUrl());
     }
 
+    @Override
     public List<String> setMandatoryForms(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity) {
         List<String> missingMandatoryForms = new ArrayList<>();
         s2sOpportunity.setS2sProvider(getDataObjectService().find(S2sProvider.class, s2sOpportunity.getProviderCode()));
@@ -499,34 +495,22 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         return missingMandatoryForms;
     }
 
+    @Override
     public void setOpportunityContent(S2sOpportunity opportunity) {
         String opportunityContent = getOpportunityContent(opportunity.getSchemaUrl());
         opportunity.setOpportunity(opportunityContent);
     }
 
     private String getOpportunityContent(String schemaUrl) throws S2sCommunicationException{
-        final String opportunity;
-        InputStream is  = null;
-        BufferedInputStream br = null;
-        try{
-            URL url = new URL(schemaUrl);
-            is = (InputStream)url.getContent();
-            br = new BufferedInputStream(is);
+        try (InputStream is = new URL(schemaUrl).openStream();
+             BufferedInputStream br = new BufferedInputStream(is)) {
             byte bufContent[] = new byte[is.available()];
             br.read(bufContent);
-            opportunity = new String(bufContent);
-        }catch (Exception e) {
+            return new String(bufContent);
+        }catch (IOException e) {
             LOG.error(ERROR_MESSAGE, e);
-            throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_FORM_SCHEMA_NOT_FOUND,e.getMessage(),schemaUrl);
-        }finally{
-            try {
-                if(is!=null) is.close();
-                if(br!=null) br.close();
-            }catch (IOException e) {
-                LOG.error("Cannot close stream after fetching the content of opportinity schema", e);
-            }
+            throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_FORM_SCHEMA_NOT_FOUND, e.getMessage(), schemaUrl);
         }
-        return opportunity;
     }
 
     /**
@@ -583,6 +567,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         }
     }
 
+    @Override
 	public File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
             throws IOException {
 

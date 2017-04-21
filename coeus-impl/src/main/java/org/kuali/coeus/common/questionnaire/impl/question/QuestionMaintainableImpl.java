@@ -135,6 +135,11 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
                     question.setLookupReturn(null);
                     question.setQuestionMultiChoices(new ArrayList<>());
                     break;
+                case (int) Constants.QUESTION_RESPONSE_TYPE_DECIMAL:
+                    question.setLookupClass(null);
+                    question.setLookupReturn(null);
+                    question.setQuestionMultiChoices(new ArrayList<>());
+                    break;
                 case (int) Constants.QUESTION_RESPONSE_TYPE_DATE:
                     question.setLookupClass(null);
                     question.setLookupReturn(null);

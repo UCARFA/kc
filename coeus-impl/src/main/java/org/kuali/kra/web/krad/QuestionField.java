@@ -29,6 +29,7 @@ import org.kuali.coeus.org.kuali.rice.krad.uif.control.QuestionCheckboxControl;
 import org.kuali.coeus.org.kuali.rice.krad.uif.control.QuestionRadioGroupControl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.datadictionary.validation.constraint.FloatingPointPatternConstraint;
 import org.kuali.rice.krad.datadictionary.validation.constraint.NumericPatternConstraint;
 import org.kuali.rice.krad.uif.control.Control;
 import org.kuali.rice.krad.uif.control.TextControlBase;
@@ -71,7 +72,14 @@ public class QuestionField extends InputFieldBase {
         }
         if (answer.getQuestion().getQuestionTypeId().equals(Constants.QUESTION_RESPONSE_TYPE_NUMBER)) {
             this.setValidCharactersConstraint(new NumericPatternConstraint());
+        } else if (answer.getQuestion().getQuestionTypeId().equals(Constants.QUESTION_RESPONSE_TYPE_DECIMAL)) {
+            final FloatingPointPatternConstraint constraint = new FloatingPointPatternConstraint();
+            constraint.setAllowNegative(true);
+            constraint.setPatternTypeKey("validationPatternRegex.floatingPoint");
+            constraint.setMessageKey("validation.floatingPoint");
+            this.setValidCharactersConstraint(constraint);
         }
+
         if (answer.getQuestion().getQuestionTypeId().equals(Constants.QUESTION_RESPONSE_TYPE_LOOKUP) && answer.getQuestion().getLookupClass().equals(ArgValueLookup.class.getName())) {
         	Control dropdownControl = (Control) ComponentFactory.getNewComponentInstance("Uif-DropdownControl");
         	dropdownControl.getCssClasses().add("answer");
