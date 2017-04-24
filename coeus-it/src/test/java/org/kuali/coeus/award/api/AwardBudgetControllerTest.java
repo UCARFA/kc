@@ -22,6 +22,7 @@ import junit.framework.Assert;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.kuali.coeus.award.dto.AwardBudgetExtDto;
+import org.kuali.coeus.award.dto.AwardBudgetGeneralInfoDto;
 import org.kuali.coeus.award.dto.AwardDto;
 import org.kuali.coeus.award.dto.AwardPersonDto;
 import org.kuali.coeus.award.finance.timeAndMoney.api.TimeAndMoneyController;
@@ -173,9 +174,74 @@ public class AwardBudgetControllerTest extends KcIntegrationTestBase {
         getAwardBudgetController().changeBudgetStatus(createdBudget.getBudgetId(), actionDto);
         AwardBudgetExtDto awardBudget = getAwardBudgetController().getAwardBudget(createdBudget.getBudgetId().toString());
         Assert.assertTrue(awardBudget.getAwardBudgetStatusCode().equalsIgnoreCase(getPostedStatusCode()));
+
+        mapper = new ObjectMapper();
+
+        AwardBudgetGeneralInfoDto generalInfoDto = mapper.readValue(getAwardBudgetGeneralInfoString(), AwardBudgetGeneralInfoDto.class);
+        generalInfoDto.setAwardBudgetTypeCode(createdBudget.getAwardBudgetTypeCode());
+        generalInfoDto.setAwardBudgetStatusCode("-1");
+        generalInfoDto.setAwardId(createdBudget.getAwardId());
+        generalInfoDto.setBudgetId(createdBudget.getBudgetId());
+        generalInfoDto.setBudgetVersionNumber(createdBudget.getBudgetVersionNumber());
+        generalInfoDto.setBudgetInitiator(createdBudget.getBudgetInitiator());
+        generalInfoDto.setObligatedTotal(createdBudget.getObligatedTotal());
+        generalInfoDto.setObligatedAmount(createdBudget.getObligatedAmount());
+        generalInfoDto.setDescription(createdBudget.getDescription());
+        generalInfoDto.setOnOffCampusFlag(createdBudget.getOnOffCampusFlag());
+        generalInfoDto.setEndDate(createdBudget.getEndDate());
+        generalInfoDto.setStartDate(createdBudget.getStartDate());
+        generalInfoDto.setTotalCost(createdBudget.getTotalCost());
+        generalInfoDto.setTotalDirectCost(createdBudget.getTotalDirectCost());
+        generalInfoDto.setTotalIndirectCost(createdBudget.getTotalIndirectCost());
+        generalInfoDto.setCostSharingAmount(createdBudget.getCostSharingAmount());
+        generalInfoDto.setUnderrecoveryAmount(createdBudget.getUnderrecoveryAmount());
+        generalInfoDto.setTotalCostLimit(createdBudget.getTotalCostLimit());
+        generalInfoDto.setResidualFunds(createdBudget.getResidualFunds());
+        generalInfoDto.setOhRateClassCode(createdBudget.getOhRateClassCode());
+        generalInfoDto.setOhRateTypeCode(createdBudget.getOhRateTypeCode());
+        generalInfoDto.setComments(createdBudget.getComments());
+        generalInfoDto.setModularBudgetFlag(createdBudget.getModularBudgetFlag());
+        generalInfoDto.setUrRateClassCode(createdBudget.getUrRateClassCode());
+        generalInfoDto.setTotalDirectCostLimit(createdBudget.getTotalDirectCostLimit());
+        getAwardBudgetController().modifyAwardBudget(generalInfoDto, createdBudget.getBudgetId().toString());
+
+        awardBudget = getAwardBudgetController().getAwardBudget(createdBudget.getBudgetId().toString());
+        Assert.assertTrue(awardBudget.getAwardBudgetStatusCode().equalsIgnoreCase("-1"));
+
+
     }
 
-    private String getPostedStatusCode() {
+    public String getAwardBudgetGeneralInfoString() {
+        return "{\n" +
+                "  \"awardId\": 2661,\n" +
+                "  \"budgetId\": 5,\n" +
+                "  \"budgetVersionNumber\": 5,\n" +
+                "  \"budgetInitiator\": \"10000000001\",\n" +
+                "  \"awardBudgetStatusCode\": \"-1\",\n" +
+                "  \"awardBudgetTypeCode\": \"2\",\n" +
+                "  \"obligatedTotal\": 100,\n" +
+                "  \"obligatedAmount\": 0,\n" +
+                "  \"description\": \"Rebudget\",\n" +
+                "  \"onOffCampusFlag\": \"D\",\n" +
+                "  \"endDate\": \"04/31/2017\",\n" +
+                "  \"startDate\": \"01/04/2017\",\n" +
+                "  \"totalCost\": 0,\n" +
+                "  \"totalDirectCost\": 0,\n" +
+                "  \"totalIndirectCost\": 0,\n" +
+                "  \"costSharingAmount\": 100,\n" +
+                "  \"underrecoveryAmount\": 0,\n" +
+                "  \"totalCostLimit\": 0,\n" +
+                "  \"residualFunds\": null,\n" +
+                "  \"ohRateClassCode\": \"1\",\n" +
+                "  \"ohRateTypeCode\": \"1\",\n" +
+                "  \"comments\": \"noob\",\n" +
+                "  \"modularBudgetFlag\": false,\n" +
+                "  \"urRateClassCode\": \"1\",\n" +
+                "  \"totalDirectCostLimit\": 0\n" +
+                "}";
+    }
+
+        private String getPostedStatusCode() {
         return CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
     }
 
