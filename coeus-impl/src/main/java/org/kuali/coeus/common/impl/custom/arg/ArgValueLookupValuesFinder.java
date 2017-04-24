@@ -55,7 +55,8 @@ public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
 		final String cfg = StringUtils.isNotBlank(argConfig) ? argConfig : defaultConfig;
 
 		return Stream.concat(Stream.of(SELECT), argValueLookups.stream()
-				.map(argValueLookup -> new ConcreteKeyValue(argValueLookup.getValue(), getKeyValueValue(argValueLookup, cfg))))
+				.map(argValueLookup -> new ConcreteKeyValue(argValueLookup.getValue(), getKeyValueValue(argValueLookup, cfg)))
+				.sorted(Comparator.comparing(ConcreteKeyValue::getValue)))
 				.collect(Collectors.toList());
     }
 

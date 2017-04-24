@@ -135,6 +135,11 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
                     question.setLookupReturn(null);
                     question.setQuestionMultiChoices(new ArrayList<>());
                     break;
+                case (int) Constants.QUESTION_RESPONSE_TYPE_DECIMAL:
+                    question.setLookupClass(null);
+                    question.setLookupReturn(null);
+                    question.setQuestionMultiChoices(new ArrayList<>());
+                    break;
                 case (int) Constants.QUESTION_RESPONSE_TYPE_DATE:
                     question.setLookupClass(null);
                     question.setLookupReturn(null);
@@ -165,6 +170,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
      * This method will set the sequence status of the original question from current to
      * archived before the revision for the question is saved.
      */
+    @Override
     public void saveBusinessObject() {
         Question newQuestion = (Question) businessObject;
         QuestionService questionService = KcServiceLocator.getService(QuestionService.class);
