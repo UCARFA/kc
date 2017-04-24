@@ -171,7 +171,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      *            for which status has to be checked
      * @return boolean, <code>true</code> if status has changed, false
      *         otherwise
-     * @throws S2sCommunicationException
      */
     @Override
     public boolean refreshGrantsGov(ProposalDevelopmentDocument pdDoc)
@@ -192,7 +191,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      *            {@link ProposalDevelopmentDocument}
      * @param applicationListResponse
      *            {@link GetApplicationListResponse} response from Grants Gov
-     * @throws S2sCommunicationException
      */
     protected void saveGrantsGovStatus(ProposalDevelopmentDocument pdDoc,
                                        GetApplicationListResponse applicationListResponse)

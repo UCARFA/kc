@@ -66,9 +66,7 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
      * It's an exact replica of MaintenanceDocumentRuleBase with the exception of the
      * error path being "document.newMaintainableObject.businessObject" instead of 
      * "document.newMaintainableObject". 
-     * TODO: Find a better solution as this duplicates code and is prone to failure if
-     *       the rice framework changes, specifically its dataDictionaryValidate method.
-     * @param document
+
      * @return true if it passes DD validation, false otherwise
      */
     @Override
@@ -114,7 +112,6 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
     
     /**
      * This method validates the user entered data of a Question when the document is routed.
-     * @param maintenanceDocument
      * @return true if valid, false otherwise
      */
     @Override
