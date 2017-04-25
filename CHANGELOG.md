@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* Just added a test for a functionality I was asked about. I did not realize it did not have tests, so I added it. (#2305)
+
+  * Gayathri Athreya on Mon, 24 Apr 2017 16:23:58 -0700 [View Commit](../../commit/f8ed341b3a4143748070e08f17ae33e72cde1b62)
+* RESKC-1841, RESKC-2159: support fillable pdf forms, support SupplementaryCoverSheetforNEHGrantPrograms_3_0-V3.0
+  * Travis Schneeberger on Fri, 21 Apr 2017 12:40:44 -0400 [View Commit](../../commit/8c20a1fb3f5b2f58c4c34d791907f6912e654a41)
+
+##coeus-1704.0024
 * Fix mysql and oracle (#2307)
 
   * Gayathri Athreya on Fri, 21 Apr 2017 10:11:57 -0700 [View Commit](../../commit/378815550c971965134b84bf45ef78764deabd0f)

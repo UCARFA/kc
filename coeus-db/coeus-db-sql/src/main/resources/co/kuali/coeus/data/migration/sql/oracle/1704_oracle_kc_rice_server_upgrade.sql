@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1704_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1704_007__award_queued_status.sql
+@./rice/bootstrap/V1704_011__RESKC-1841.sql
 commit;
