@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="S2sFormConfiguration" parent="S2sFormConfiguration-parentBean" />
+  <bean id="S2sFormConfiguration-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sFormConfiguration" />
+		<property name="objectLabel" value="S2s Error" />
+    <property name="inquiryDefinition" >
+      <ref bean="S2sFormConfiguration-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="S2sFormConfiguration-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="S2sFormConfiguration-id" />
+        <ref bean="S2sFormConfiguration-formName" />
+        <ref bean="S2sFormConfiguration-active" />
+        <ref bean="S2sFormConfiguration-inactiveMessage" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+    <bean id="S2sFormConfiguration-id" parent="S2sFormConfiguration-id-parentBean" />
+    <bean id="S2sFormConfiguration-id-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="id" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="S2s Error Id" />
+        <property name="shortLabel" value="S2s Error Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="12" />
+        </property>
+        <property name="summary" value="S2s Error Id" />
+        <property name="description" value="S2s Error Id" />
+    </bean>
+
+    <bean id="S2sFormConfiguration-formName" parent="S2sFormConfiguration-formName-parentBean" />
+    <bean id="S2sFormConfiguration-formName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="formName" />
+        <property name="required" value="true" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Form Name" />
+        <property name="shortLabel" value="Form Name" />
+        <property name="maxLength" value="50" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.s2s.S2sFormValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.propdev.impl.s2s.S2sFormValuesFinder"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="summary" value="Form Name" />
+        <property name="description" value="Form Name" />
+    </bean>
+
+    <bean id="S2sFormConfiguration-active" parent="S2sFormConfiguration-active-parentBean" />
+    <bean id="S2sFormConfiguration-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="active"/>
+        <property name="required" value="true" />
+        <property name="label" value="Active"/>
+        <property name="shortLabel" value="Active"/>
+        <property name="summary" value="Active"/>
+        <property name="description" value="Active"/>
+    </bean>
+
+    <bean id="S2sFormConfiguration-inactiveMessage" parent="S2sFormConfiguration-inactiveMessage-parentBean" />
+    <bean id="S2sFormConfiguration-inactiveMessage-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="inactiveMessage" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Inactive Message" />
+        <property name="shortLabel" value="Inactive Message" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="50" />
+        </property>
+        <property name="summary" value="Inactive Message" />
+        <property name="description" value="Inactive Message" />
+    </bean>
+
+<!-- Business Object Inquiry Definition -->
+  <bean id="S2sFormConfiguration-inquiryDefinition" parent="S2sFormConfiguration-inquiryDefinition-parentBean" />
+  <bean id="S2sFormConfiguration-InquiryView" parent="S2sFormConfiguration-InquiryView-parentBean"/>
+  <bean id="S2sFormConfiguration-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="S2s Form Configuration" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="S2s Form Configuration" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="formName"/>
+              <bean parent="FieldDefinition" p:attributeName="active" />
+              <bean parent="FieldDefinition" p:attributeName="inactiveMessage"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="S2sFormConfiguration-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="S2s Form Configuration"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.S2sFormConfiguration"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="S2s Form Configuration"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="formName" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
+              <bean p:propertyName="inactiveMessage" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
+  <bean id="S2sFormConfiguration-lookupDefinition" parent="S2sFormConfiguration-lookupDefinition-parentBean" />
+  <bean id="S2sFormConfiguration-LookupView" parent="S2sFormConfiguration-LookupView-parentBean"/>
+  <bean id="S2sFormConfiguration-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="S2s Form Configuration" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+          <property name="attributeNames">
+              <list>
+                  <value>formName</value>
+              </list>
+          </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="formName"/>
+          <bean parent="FieldDefinition" p:attributeName="active" />
+          <bean parent="FieldDefinition" p:attributeName="inactiveMessage"/>
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="formName"/>
+          <bean parent="FieldDefinition" p:attributeName="active" />
+          <bean parent="FieldDefinition" p:attributeName="inactiveMessage"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="S2sFormConfiguration-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.S2sFormConfiguration"/>
+    <property name="headerText" value="S2s Form Configuration"/>
+    <property name="defaultSortAttributeNames">
+      <list>
+          <value>formName</value>
+      </list>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="formName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="inactiveMessage" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+          <bean p:propertyName="formName" parent="Uif-LookupCriteriaInputField"/>
+          <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+          <bean p:propertyName="inactiveMessage" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

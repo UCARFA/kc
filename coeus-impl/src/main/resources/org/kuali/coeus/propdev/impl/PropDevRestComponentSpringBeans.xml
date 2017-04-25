@@ -95,6 +95,7 @@
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission" p:camelCasePluralName="S2sApplicationSubmissions" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.s2s.S2sApplication" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.s2s.S2sError" />
+    <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.s2s.S2sFormConfiguration" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.s2s.question.S2sOppFormQuestionnaire" p:camelCasePluralName="S2sOpportunityFormQuestionnaires" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.s2s.S2sOppForms" p:camelCasePluralName="S2sOpportunityForms" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.propdev.impl.s2s.S2sOpportunity" />
