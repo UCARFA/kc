@@ -26,4 +26,5 @@
 \. ./kc/bootstrap/V1704_006__FDP_Attachment_3BPage2_form_update.sql
 \. ./kc/bootstrap/V1704_009__XML_REORDER.sql
 \. ./kc/bootstrap/V1704_010__RESKC-1841.sql
+\. ./kc/bootstrap/V1704_012__S2S_FORM_CONFIG.sql
 commit;

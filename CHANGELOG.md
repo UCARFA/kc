@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1459: adding maintenance table for s2s form configuration.
+  * Travis Schneeberger on Tue, 25 Apr 2017 08:51:42 -0400 [View Commit](../../commit/126f0d5cc7eaf67119569d664677299441590984)
+
+##coeus-1704.0025
 * Just added a test for a functionality I was asked about. I did not realize it did not have tests, so I added it. (#2305)
 
   * Gayathri Athreya on Mon, 24 Apr 2017 16:23:58 -0700 [View Commit](../../commit/f8ed341b3a4143748070e08f17ae33e72cde1b62)
