@@ -73,9 +73,9 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
     /**
      * 
      * This method to test getSearchResults
-     * @throws Exception
      */
     @Test
+    @SuppressWarnings("unchecked")
     public void testGetSearchResults() throws Exception {
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
@@ -90,7 +90,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument, null, null);
         List<Questionnaire> searchResults = (List<Questionnaire>) questionnaireLookupableHelperServiceImpl.getSearchResults(new HashMap());
-        assertEquals(22 , searchResults.size());
+        assertEquals(23 , searchResults.size());
         
         Questionnaire test1 = null;
         Questionnaire test2 = null;
@@ -118,7 +118,6 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
      * 
      * This method to test getCustomActionUrls for someone with "MODIFY_QUESTIONNAIRE" permission
      * should have edit/view/copy action links
-     * @throws Exception
      */
     @Test
     public void testCustomActionUrlWithVIEW_QUESTIONNAIRE() throws Throwable {
@@ -141,7 +140,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
         questionnaire.setDocumentNumber(maintDocument.getDocumentNumber());
         KNSServiceLocator.getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
-        List pkNames = new ArrayList();
+        List<String> pkNames = new ArrayList<>();
         pkNames.add("id");
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
@@ -153,7 +152,6 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
      * 
      * This method to test getCustomActionUrls for someone with "VIEW_QUESTIONNAIRE" permission
      * should only have view action links
-     * @throws Exception
      */
     @Test
     public void testCustomActionUrlWithMODIFY_QUESTIONNAIRE() throws Throwable {
@@ -176,7 +174,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
         questionnaire.setDocumentNumber(maintDocument.getDocumentNumber());
         KNSServiceLocator.getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
-        List pkNames = new ArrayList();
+        List<String> pkNames = new ArrayList<>();
         pkNames.add("id");
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
@@ -189,7 +187,6 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
     /**
      * 
      * This method to test getCustomActionUrls for someone with no permission to modify/view questionnaire.
-     * @throws Exception
      */
     @Test
     public void testCustomActionUrlWithNoPermission() throws Throwable {
@@ -213,7 +210,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
         questionnaire.setDocumentNumber(maintDocument.getDocumentNumber());
         KNSServiceLocator.getBusinessObjectService().save((Questionnaire)maintDocument.getNewMaintainableObject().getDataObject());
-        List pkNames = new ArrayList();
+        List<String> pkNames = new ArrayList<>();
         pkNames.add("id");
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
@@ -224,9 +221,6 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
     /**
      * 
      * This method to create questionnaire for maintenance document manipulation
-     * @param name
-     * @param desc
-     * @return
      */
     private Questionnaire createQuestionnaire(String name, String desc) {
         Questionnaire questionnaire = new Questionnaire();
