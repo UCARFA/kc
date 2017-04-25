@@ -18,16 +18,14 @@
  */
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.s2sgen.impl.generate.*;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
-import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
-import org.kuali.coeus.s2sgen.impl.generate.S2SFormGenerator;
-import org.kuali.coeus.s2sgen.impl.generate.S2SFormGeneratorRetrievalService;
-import org.kuali.coeus.s2sgen.impl.generate.S2SFormGeneratorRetrievalServiceImpl;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -58,16 +56,36 @@ public class GeneratorConfigurationTest extends KcIntegrationTestBase {
 
         Assert.assertFalse("No Mappings found", mappings.isEmpty());
 
-        for (FormMappingInfo info : mappings.values()) {
+        mappings.values().stream().map(FormMappingInfo::getGeneratorName).forEach(name -> {
             final S2SFormGenerator generator;
             try {
-                generator = KcServiceLocator.getService(info.getGeneratorName());
+                generator = KcServiceLocator.getService(name);
             } catch (RuntimeException e) {
-                throw new RuntimeException("failed to find or create generator: " + info.getGeneratorName(), e);
+                throw new RuntimeException("failed to find or create generator: " + name, e);
             }
-            Assert.assertNotNull("generator: " + info.getGeneratorName() + " was null", generator);
-        }
+            Assert.assertNotNull("generator: " + name + " was null", generator);
+        });
+    }
 
+    /**
+     * This tests that all configured generators can be found within the running spring context.  This will also force
+     * spring to wire each generator ensuring that all wired dependencies can be properly injected.
+     */
+    @Test
+    public void test_find_all_generator_form_fillers() {
+        Map<String, FormMappingInfo> mappings =  mappingService.getBindings();
+
+        Assert.assertFalse("No Mappings found", mappings.isEmpty());
+
+        mappings.values().stream().map(FormMappingInfo::getPdfFormFillerName).filter(StringUtils::isNotBlank).forEach(name -> {
+            final S2SFormPdfFormFiller formFiller;
+            try {
+                formFiller = KcServiceLocator.getService(name);
+            } catch (RuntimeException e) {
+                throw new RuntimeException("failed to find or create generator form filler: " + name, e);
+            }
+            Assert.assertNotNull("generator form filler: " + name + " was null", formFiller);
+        });
     }
 
     /**
@@ -109,21 +127,34 @@ public class GeneratorConfigurationTest extends KcIntegrationTestBase {
      * This test will make sure that all generators that are configured, have a valid stylesheet configured.
      */
     @Test
-    public void test_find_all_stylesheets() {
+    public void test_find_all_stylesheets_pdf_forms() {
         Map<String, FormMappingInfo> mappings =  mappingService.getBindings();
 
         Assert.assertFalse("No Mappings found", mappings.isEmpty());
 
-        Collection<String> notFound = new ArrayList<>();
+        Collection<String> notFoundSystemSheets = new ArrayList<>();
+        Collection<String> notFoundPdfForms = new ArrayList<>();
 
         for (FormMappingInfo info : mappings.values()) {
-            DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
-            Resource resource = resourceLoader.getResource(info.getStyleSheet());
-            if (!resource.exists()) {
-                notFound.add(info.getStyleSheet());
+            if (StringUtils.isNotBlank(info.getStyleSheet())) {
+                final Resource resource = getResource(info.getStyleSheet());
+                if (!resource.exists()) {
+                    notFoundSystemSheets.add(info.getStyleSheet());
+                }
+            } else {
+                Resource resource = getResource(info.getPdfForm());
+                if (!resource.exists()) {
+                    notFoundPdfForms.add(info.getPdfForm());
+                }
             }
         }
 
-        Assert.assertTrue("Stylesheets not found: " + notFound, notFound.isEmpty());
+        Assert.assertTrue("Stylesheets not found: " + notFoundSystemSheets, notFoundSystemSheets.isEmpty());
+        Assert.assertTrue("Pdf Forms not found: " + notFoundPdfForms, notFoundPdfForms.isEmpty());
+    }
+
+    private Resource getResource(String res) {
+        DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
+        return resourceLoader.getResource(res);
     }
 }
