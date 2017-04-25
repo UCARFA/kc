@@ -20,7 +20,6 @@ package org.kuali.coeus.propdev.impl.s2s;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -34,7 +33,6 @@ import java.util.List;
 public class S2SErrorRule extends KcMaintenanceDocumentRuleBase {
 
     private DataObjectService dataObjectService;
-    private GlobalVariableService globalVariableService;
 
     private static final String UNIQUE_S2S_ERROR_KEY = "error.unique.s2s.error.key";
 
@@ -73,17 +71,5 @@ public class S2SErrorRule extends KcMaintenanceDocumentRuleBase {
 
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
-    }
-
-    public GlobalVariableService getGlobalVariableService() {
-        if (globalVariableService == null) {
-            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
-        }
-
-        return globalVariableService;
-    }
-
-    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
-        this.globalVariableService = globalVariableService;
     }
 }
