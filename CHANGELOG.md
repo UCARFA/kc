@@ -1,6 +1,19 @@
 
 
 ##CURRENT
+* RESKC-2190: Changing rule and messages around template info (#2313)
+
+  * Gayathri Athreya on Wed, 26 Apr 2017 11:53:17 -0700 [View Commit](../../commit/d52826f90ea4ef7798d75a2d1d26341dd4d80232)
+* RESKC-1778: Adding notifications on create proposal (#2311)
+
+* RESKC-1778: Adding notifications on create proposal
+  * 
+* RESKC-1778: Logging info
+  * 
+* RESKC-1778: resequence
+  * Gayathri Athreya on Wed, 26 Apr 2017 11:22:22 -0700 [View Commit](../../commit/cdd350cfba1dcb0ad1a112b8136c41f22e0fc8fb)
+
+##coeus-1704.0027
 * No Changes
 
 
