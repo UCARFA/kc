@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1704.0028
 * RESKC-2190: Changing rule and messages around template info (#2313)
 
   * Gayathri Athreya on Wed, 26 Apr 2017 11:53:17 -0700 [View Commit](../../commit/d52826f90ea4ef7798d75a2d1d26341dd4d80232)
