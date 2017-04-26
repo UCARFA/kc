@@ -25,6 +25,8 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
@@ -69,6 +71,9 @@ import java.util.Properties;
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
 
+    public static final String PROPOSAL_TYPE = "proposalType";
+    public static final String PROPOSAL_STATE = "proposalState";
+    public static final String KC_SEND_NOTIFICATION_WIZARD = "Kc-SendNotification-Wizard";
     @Autowired
     @Qualifier("dataDictionaryService")
     private DataDictionaryService dataDictionaryService;
@@ -93,8 +98,15 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     @Qualifier("kualiRuleService")
     private KualiRuleService kualiRuleService;
 
+    @Autowired
+    @Qualifier("proposalDevelopmentNotificationRenderer")
+    private ProposalDevelopmentNotificationRenderer renderer;
 
-    @MethodAccessible
+
+    public static final String APROPOSAL_CREATED_ACTION_TYPE_CODE = "910";
+    public static final String PROPOSAL_CREATED_NOTIFICATION = "Proposal created notification";
+
+   @MethodAccessible
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
    public ModelAndView createProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -115,16 +127,42 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        save(form, result, request, response);
        initializeProposalUsers(form.getProposalDevelopmentDocument());
        form.setWorkingUserRoles(getProposalDevelopmentPermissionsService().getPermissions(form.getProposalDevelopmentDocument()));
-       getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("proposalType");
+       getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship(PROPOSAL_TYPE);
        //setting to null so the previous page id(PropDev-InitiatePage) doesn't override the default
        form.setPageId(null);
        form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.IN_PROGRESS);
-       getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("proposalState");
+       getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship(PROPOSAL_STATE);
        getPessimisticLockService().releaseAllLocksForUser(form.getDocument().getPessimisticLocks(),getGlobalVariableService().getUserSession().getPerson());
        form.getDocument().refreshPessimisticLocks();
        generateForms(form.getDevelopmentProposal());
-       return getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
+
+       getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
+       return sendCreateProposalNotification(form);
    }
+
+    protected ModelAndView sendCreateProposalNotification(ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm) {
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentDocumentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(proposalDevelopmentDocument.getDevelopmentProposal(), APROPOSAL_CREATED_ACTION_TYPE_CODE,
+                PROPOSAL_CREATED_NOTIFICATION);
+        ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(proposalDevelopmentDocumentForm.getDevelopmentProposal());
+        if (proposalDevelopmentDocumentForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+            proposalDevelopmentDocumentForm.getNotificationHelper().initializeDefaultValues(context);
+            proposalDevelopmentDocumentForm.getNotificationHelper().setNotificationStep(2);
+            return getModelAndViewService().showDialog(KC_SEND_NOTIFICATION_WIZARD, true, proposalDevelopmentDocumentForm);
+        } else {
+            getKcNotificationService().sendNotification(context);
+        }
+        return getModelAndViewService().getModelAndView(proposalDevelopmentDocumentForm);
+    }
+
+    protected void prepareNotification(DevelopmentProposal developmentProposal) {
+        getRenderer().setDevelopmentProposal(developmentProposal);
+        getRenderer().setProposalPerson(developmentProposal.getPrincipalInvestigator());
+    }
+
+    public ProposalDevelopmentNotificationRenderer getRenderer() {
+        return renderer;
+    }
 
     private void addCreateDetails(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         proposalDevelopmentDocument.getDevelopmentProposal().setCreateTimestamp(new Timestamp(System.currentTimeMillis()));

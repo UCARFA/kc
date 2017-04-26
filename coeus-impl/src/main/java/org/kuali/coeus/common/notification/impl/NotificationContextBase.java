@@ -79,7 +79,7 @@ public abstract class NotificationContextBase implements NotificationContext, Se
         
         if (CollectionUtils.isNotEmpty(moduleRoles)) {
             if (notificationRecipient.getRoleQualifiers() == null) {
-                notificationRecipient.setRoleQualifiers(new HashMap<String,String>());
+                notificationRecipient.setRoleQualifiers(new HashMap<>());
             }
             for (NotificationModuleRole mRole : moduleRoles) {
                 List<NotificationModuleRoleQualifier> moduleQualifiers = mRole.getRoleQualifiers();

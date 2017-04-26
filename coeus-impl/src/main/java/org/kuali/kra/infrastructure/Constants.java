@@ -966,5 +966,6 @@ public interface Constants {
 
     String DOCUMENT_INSTITUTIONAL_PROPOSAL_CFDA_NUMBER = "document.institutionalProposalList[0].cfdaNumber";
     String INSTITUTIONAL_PROPOSAL_CFDA_NUMBER = "document.institutionalProposal.cfdaNumber";
+    String NOTIFICATION_HELPER = "notificationHelper";
 }
 

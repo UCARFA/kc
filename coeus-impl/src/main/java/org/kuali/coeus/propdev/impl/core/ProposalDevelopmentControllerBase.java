@@ -99,6 +99,9 @@ public abstract class ProposalDevelopmentControllerBase {
     public static final String COI_DISCLOSURE_REQUIRED_ACTION_TYPE_CODE = "109";
     public static final String COI_DISCLOSURE_REQUIRED_NOTIFICATION = "COI disclosure required notification";
     @Autowired
+    @Qualifier("proposalDevelopmentNotificationRenderer")
+    protected ProposalDevelopmentNotificationRenderer renderer;
+    @Autowired
     @Qualifier("uifExportControllerService")
     private UifExportControllerService uifExportControllerService;
 
@@ -743,6 +746,25 @@ public abstract class ProposalDevelopmentControllerBase {
 
         // For add line binding
         binder.registerCustomEditor(List.class, "newCollectionLines.specialReviewExemptions", new PropSpecialReviewExemptionTypeEditor());
+    }
+
+    protected NotificationTypeRecipient createRecipientFromPerson(String personId) {
+        NotificationTypeRecipient recipient = new NotificationTypeRecipient();
+        recipient.setPersonId(personId);
+        return recipient;
+    }
+
+    protected void handleNotification(ProposalDevelopmentDocumentForm form, String notificationS2sSubmitActionCode, String notificationS2sSubmitContextName) {
+       renderer.setDevelopmentProposal(form.getDevelopmentProposal());
+        ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
+        ProposalDevelopmentNotificationContext notificationContext = new ProposalDevelopmentNotificationContext(
+                proposalDevelopmentDocument.getDevelopmentProposal(),
+                notificationS2sSubmitActionCode, notificationS2sSubmitContextName, renderer);
+        form.getNotificationHelper().setNotificationContext(notificationContext);
+        form.getNotificationHelper().initializeDefaultValues(notificationContext);
+        final String step = form.getNotificationHelper().getNotificationRecipients().isEmpty() ? ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_STEP_0 :
+                ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_STEP_2;
+        form.getActionParameters().put("Kc-SendNotification-Wizard.step", step);
     }
 
     protected class PropScienceKeywordEditor extends CustomCollectionEditor {

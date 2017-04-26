@@ -23,12 +23,15 @@ import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetChangedData;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.UserSession;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,8 +76,12 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
     @Qualifier("proposalDevelopmentPermissionsService")
     private ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService;
 
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
-	public ProposalDevelopmentNotificationRenderer() {
+
+    public ProposalDevelopmentNotificationRenderer() {
         super();
     }
 
@@ -133,6 +140,11 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         	result.put("{CERT_PAGE}", certificatioPage);
         	String coiLink =   getKualiConfigurationService().getPropertyValueAsString(COI_URL);
             result.put("{LINK_TO_COI}", coiLink);
+        }
+
+        final UserSession userSession = globalVariableService.getUserSession();
+        if (userSession != null && userSession.getPerson() != null) {
+            result.put("{PROPOSAL_INITIATOR_NAME}", userSession.getPerson().getFirstName() + StringUtils.SPACE + userSession.getPerson().getLastName());
         }
         
         return result;

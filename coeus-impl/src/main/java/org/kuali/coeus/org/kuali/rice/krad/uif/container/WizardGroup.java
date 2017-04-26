@@ -18,6 +18,9 @@
  */
 package org.kuali.coeus.org.kuali.rice.krad.uif.container;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.coeus.common.notification.impl.NotificationHelper;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.DialogGroup;
 import org.kuali.rice.krad.uif.container.Group;
@@ -25,10 +28,14 @@ import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class WizardGroup extends DialogGroup {
+
+    private static final Logger LOG = Logger.getLogger(WizardGroup.class.getName());
 
     @Override
     public void performApplyModel(Object model, LifecycleElement parent) {
@@ -39,9 +46,17 @@ public class WizardGroup extends DialogGroup {
 
         if (stepStr != null && stepStr.matches("\\d")) {
             step = Integer.valueOf(stepStr);
+        } else try {
+            // because the actionRequestParams are wiped out sometimes, we need to set this and retrieve it from the helper.
+            final Object notificationHelper = PropertyUtils.getProperty(form, Constants.NOTIFICATION_HELPER);
+            if (notificationHelper != null && ((NotificationHelper) notificationHelper).getNotificationStep() != null) {
+                step = ((NotificationHelper) notificationHelper).getNotificationStep();
+            }
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            LOG.info("Property notification helper was not found on the form." + e.getMessage());
         }
 
-        List<Component> currentItems = new ArrayList<Component>();
+        List<Component> currentItems = new ArrayList<>();
         for (int i = 0, len = getItems().size(); i < len; i++) {
             Component component = getItems().get(i);
 

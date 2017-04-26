@@ -126,11 +126,7 @@ public class ProposalDevelopmentSubmitController extends
     @Autowired
     @Qualifier("groupService")
     private GroupService groupService;
-    
-    @Autowired
-    @Qualifier("proposalDevelopmentNotificationRenderer")
-    private ProposalDevelopmentNotificationRenderer renderer;
-    
+
     @Autowired
     @Qualifier("kcBusinessRulesEngine")
     private KcBusinessRulesEngine kcBusinessRulesEngine;
@@ -355,7 +351,8 @@ public class ProposalDevelopmentSubmitController extends
     	if (!requiresResubmissionPrompt(form)) {
     		if(validToSubmitToSponsor(form) ) {
     			submitApplication(form);
-                handleSubmissionNotification(form);
+                handleNotification(form, ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_S2S_SUBMIT_ACTION_CODE,
+                        ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_S2S_SUBMIT_CONTEXT_NAME);
                 form.setDeferredMessages(getGlobalVariableService().getMessageMap());
                 return sendSubmitToSponsorNotification(form);
     		} else {
@@ -389,21 +386,6 @@ public class ProposalDevelopmentSubmitController extends
         return getModelAndViewService().showDialog("Kc-SendNotification-Wizard", true, form);
     }
 
-    protected void handleSubmissionNotification(ProposalDevelopmentDocumentForm form) {
-        getRenderer().setDevelopmentProposal(form.getDevelopmentProposal());
-        ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
-        ProposalDevelopmentNotificationContext notificationContext = new ProposalDevelopmentNotificationContext(
-                proposalDevelopmentDocument.getDevelopmentProposal(),
-                ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_S2S_SUBMIT_ACTION_CODE,
-                ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_S2S_SUBMIT_CONTEXT_NAME,
-                getRenderer());
-        form.getNotificationHelper().setNotificationContext(notificationContext);
-        form.getNotificationHelper().initializeDefaultValues(notificationContext);
-        final String step = form.getNotificationHelper().getNotificationRecipients().isEmpty() ? ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_STEP_0 :
-                ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_STEP_2;
-        form.getActionParameters().put("Kc-SendNotification-Wizard.step", step);
-    }
-    
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=proceed")
     public  ModelAndView proceed(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
        return form.isGrantsGovSubmitFlag() ? submitToS2s(form) : submitToSponsor(form);
@@ -546,7 +528,7 @@ public class ProposalDevelopmentSubmitController extends
         if(proposalDevelopmentViewHelperService.isResubmissionPromptDialogEnabled()){
             return proposalDevelopmentViewHelperService.requiresResubmissionPrompt(proposalDevelopmentForm.getDevelopmentProposal(),
                     proposalDevelopmentForm.getResubmissionOption());
-        }else {
+        } else {
             proposalDevelopmentForm.setResubmissionOption(getProposalDevelopmentService().getIPGenerateOption(proposalDevelopmentForm.getDevelopmentProposal()));
             return false;
         }
@@ -842,12 +824,6 @@ public class ProposalDevelopmentSubmitController extends
     protected void prepareNotification(DevelopmentProposal developmentProposal) {
         getRenderer().setDevelopmentProposal(developmentProposal);
         getRenderer().setProposalPerson(developmentProposal.getPrincipalInvestigator());
-    }
-
-    protected NotificationTypeRecipient createRecipientFromPerson(String personId) {
-        NotificationTypeRecipient recipient = new NotificationTypeRecipient();
-        recipient.setPersonId(personId);
-        return recipient;
     }
 
     protected HashSet<String> getRelatedApproversFromActionRequest(String documentNumber, String loggedInUser) {
