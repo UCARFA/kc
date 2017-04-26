@@ -73,13 +73,13 @@ import java.util.Properties;
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
 
-    public static final String PROPOSAL_TYPE = "proposalType";
-    public static final String PROPOSAL_STATE = "proposalState";
-    public static final String KC_SEND_NOTIFICATION_WIZARD = "Kc-SendNotification-Wizard";
+    private static final String PROPOSAL_TYPE = "proposalType";
+    private static final String PROPOSAL_STATE = "proposalState";
+    private static final String KC_SEND_NOTIFICATION_WIZARD = "Kc-SendNotification-Wizard";
     private static final String ADD_EMPLOYEE_PI_HELPER_PERSON_ID = "addEmployeePiHelper.personId";
     private static final String ERROR_PROPOSAL_DEVELOPMENT_CREATE_PI = "error.proposalDevelopment.create.pi";
-    public static final String APROPOSAL_CREATED_ACTION_TYPE_CODE = "910";
-    public static final String PROPOSAL_CREATED_NOTIFICATION = "Proposal created notification";
+    private static final String APROPOSAL_CREATED_ACTION_TYPE_CODE = "910";
+    private static final String PROPOSAL_CREATED_NOTIFICATION = "Proposal created notification";
 
     @Autowired
     @Qualifier("dataDictionaryService")
@@ -175,11 +175,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
         return getModelAndViewService().getModelAndView(proposalDevelopmentDocumentForm);
     }
 
-    protected void prepareNotification(DevelopmentProposal developmentProposal) {
-        getRenderer().setDevelopmentProposal(developmentProposal);
-        getRenderer().setProposalPerson(developmentProposal.getPrincipalInvestigator());
-    }
-
     public ProposalDevelopmentNotificationRenderer getRenderer() {
         return renderer;
     }
@@ -259,12 +254,13 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
         }
     }
 
-   @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
-   public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+    @Override
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
+    public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
        return super.save(form);
-   }
+    }
 
-
+    @Override
     @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
     public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -465,7 +461,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
         if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)) {
             form.getEditableCollectionLines().get(selectedCollectionPath).add(selectedLine);
         } else {
-            List<String> newKeyList = new ArrayList<String>();
+            List<String> newKeyList = new ArrayList<>();
             newKeyList.add(selectedLine);
             form.getEditableCollectionLines().put(selectedCollectionPath,newKeyList);
         }
