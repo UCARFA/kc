@@ -1019,6 +1019,8 @@ public final class KeyConstants {
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO = "subaward.error.obligated.amount.equal.to.zero";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_DIRECT_AMOUNT_ZERO = "subaward.error.obligated.direct.amount.equal.to.zero";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_INDIRECT_AMOUNT_ZERO = "subaward.error.obligated.indirect.amount.equal.to.zero";
+    public static final String ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_AGREE_CD = "error.required.subaward.templateinfo.humanDataExchangeAgreeCd";
+    public static final String ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_TERMS_CD = "error.required.subaward.templateinfo.humanDataExchangeTermsCd";
 
     public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_NEGATIVE = "subaward.error.anticipated.amount.less.than.zero";
     public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO = "subaward.error.anticipated.amount.equal.to.zero";

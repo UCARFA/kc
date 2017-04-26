@@ -102,8 +102,6 @@ SubAwardFfataReportingRule {
     public static final String ERROR_REQUIRED_HUMAN_PTE_NR_CD = "error.required.subaward.templateinfo.humanPteNrCd";
     public static final String HUMAN_DATA_EXCHANGE_AGREE_CD = "document.subAwardList[0].subAwardTemplateInfo[0].humanDataExchangeAgreeCd";
     public static final String HUMAN_DATA_EXCHANGE_TERMS_CD = "document.subAwardList[0].subAwardTemplateInfo[0].humanDataExchangeTermsCd";
-    public static final String ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_AGREE_CD = "error.required.subaward.templateinfo.humanDataExchangeAgreeCd";
-    public static final String ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_TERMS_CD = "error.required.subaward.templateinfo.humanDataExchangeTermsCd";
 
     private AwardService awardService;
     private ParameterService parameterService;
@@ -427,7 +425,7 @@ SubAwardFfataReportingRule {
     protected boolean processSaveSubAwardTemplateInfoBusinessRules(SubAward subAward){
         boolean rulePassed = true;
         for (SubAwardTemplateInfo subAwardTemplateInfo : subAward.getSubAwardTemplateInfo()) {
-            if ("Y".equalsIgnoreCase(subAwardTemplateInfo.getAutomaticCarryForward())) {
+            if ("N".equalsIgnoreCase(subAwardTemplateInfo.getAutomaticCarryForward())) {
                 if (subAwardTemplateInfo.getCarryForwardRequestsSentTo()==null) {
                     rulePassed = false;
                     LOG.debug(ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
@@ -463,10 +461,10 @@ SubAwardFfataReportingRule {
 
                 if (StringUtils.isBlank(subAwardTemplateInfo.getHumanDataExchangeAgreeCd())) {
                     rulePassed = false;
-                    reportError(HUMAN_DATA_EXCHANGE_AGREE_CD, ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_AGREE_CD);
+                    reportError(HUMAN_DATA_EXCHANGE_AGREE_CD, KeyConstants.ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_AGREE_CD);
                 } else if (!HumanDataExchangeAgreement.NOT_APPLICABLE.getCode().equals(subAwardTemplateInfo.getHumanDataExchangeAgreeCd()) && StringUtils.isBlank(subAwardTemplateInfo.getHumanDataExchangeTermsCd())) {
                     rulePassed = false;
-                    reportError(HUMAN_DATA_EXCHANGE_TERMS_CD, ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_TERMS_CD);
+                    reportError(HUMAN_DATA_EXCHANGE_TERMS_CD, KeyConstants.ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_TERMS_CD);
                 }
             }
         }
