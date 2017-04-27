@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2165: simple PI add from create proposal screen.  Not rendered by default.
+  * Travis Schneeberger on Wed, 26 Apr 2017 13:51:30 -0400 [View Commit](../../commit/b6b09c88a3b84cb125e80c5ca79d8f42a699eea6)
+
+##coeus-1704.0029
 * No Changes
 
 
