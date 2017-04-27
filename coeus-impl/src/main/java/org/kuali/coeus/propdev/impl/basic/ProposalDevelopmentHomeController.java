@@ -25,6 +25,8 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
+import org.kuali.coeus.propdev.impl.person.AddEmployeePiHelper;
+import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -71,9 +73,14 @@ import java.util.Properties;
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
 
-    public static final String PROPOSAL_TYPE = "proposalType";
-    public static final String PROPOSAL_STATE = "proposalState";
-    public static final String KC_SEND_NOTIFICATION_WIZARD = "Kc-SendNotification-Wizard";
+    private static final String PROPOSAL_TYPE = "proposalType";
+    private static final String PROPOSAL_STATE = "proposalState";
+    private static final String KC_SEND_NOTIFICATION_WIZARD = "Kc-SendNotification-Wizard";
+    private static final String ADD_EMPLOYEE_PI_HELPER_PERSON_ID = "addEmployeePiHelper.personId";
+    private static final String ERROR_PROPOSAL_DEVELOPMENT_CREATE_PI = "error.proposalDevelopment.create.pi";
+    private static final String APROPOSAL_CREATED_ACTION_TYPE_CODE = "910";
+    private static final String PROPOSAL_CREATED_NOTIFICATION = "Proposal created notification";
+
     @Autowired
     @Qualifier("dataDictionaryService")
     private DataDictionaryService dataDictionaryService;
@@ -102,9 +109,10 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     @Qualifier("proposalDevelopmentNotificationRenderer")
     private ProposalDevelopmentNotificationRenderer renderer;
 
+    @Autowired
+    @Qualifier("keyPersonnelService")
+    private KeyPersonnelService keyPersonnelService;
 
-    public static final String APROPOSAL_CREATED_ACTION_TYPE_CODE = "910";
-    public static final String PROPOSAL_CREATED_NOTIFICATION = "Proposal created notification";
 
    @MethodAccessible
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
@@ -114,6 +122,18 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
         // Check for valid info entered before creating a new document
         boolean valid = getKualiRuleService().applyRules(new SaveDocumentEvent(proposalDevelopmentDocument));
+
+        if (StringUtils.isNotBlank(form.getAddEmployeePiHelper().getPersonId())) {
+            if (StringUtils.isBlank(form.getAddEmployeePiHelper().getKcPerson().getUserName())) {
+                valid = false;
+                getGlobalVariableService().getMessageMap().putError(ADD_EMPLOYEE_PI_HELPER_PERSON_ID, ERROR_PROPOSAL_DEVELOPMENT_CREATE_PI);
+            } else {
+                final ProposalPerson pi = createNewPrincipalInvestigator(form.getAddEmployeePiHelper());
+                form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons().clear();
+                getKeyPersonnelService().addProposalPerson(pi, form.getProposalDevelopmentDocument());
+            }
+        }
+
         if (!valid) {
             return getModelAndViewService().getModelAndView(form);
         }
@@ -155,11 +175,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
         return getModelAndViewService().getModelAndView(proposalDevelopmentDocumentForm);
     }
 
-    protected void prepareNotification(DevelopmentProposal developmentProposal) {
-        getRenderer().setDevelopmentProposal(developmentProposal);
-        getRenderer().setProposalPerson(developmentProposal.getPrincipalInvestigator());
-    }
-
     public ProposalDevelopmentNotificationRenderer getRenderer() {
         return renderer;
     }
@@ -167,6 +182,15 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     private void addCreateDetails(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         proposalDevelopmentDocument.getDevelopmentProposal().setCreateTimestamp(new Timestamp(System.currentTimeMillis()));
         proposalDevelopmentDocument.getDevelopmentProposal().setCreateUser(getGlobalVariableService().getUserSession().getLoggedInUserPrincipalName());
+    }
+
+    private ProposalPerson createNewPrincipalInvestigator(AddEmployeePiHelper helper) {
+        ProposalPerson pi = new ProposalPerson();
+        pi.setPersonId(helper.getKcPerson().getPersonId());
+        pi.setFullName(helper.getKcPerson().getFullName());
+        pi.setUserName(helper.getKcPerson().getUserName());
+        pi.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+        return pi;
     }
 
     protected void generateForms(DevelopmentProposal proposal) {
@@ -230,12 +254,13 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
         }
     }
 
-   @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
-   public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+    @Override
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
+    public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
        return super.save(form);
-   }
+    }
 
-
+    @Override
     @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
     public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -436,7 +461,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
         if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)) {
             form.getEditableCollectionLines().get(selectedCollectionPath).add(selectedLine);
         } else {
-            List<String> newKeyList = new ArrayList<String>();
+            List<String> newKeyList = new ArrayList<>();
             newKeyList.add(selectedLine);
             form.getEditableCollectionLines().put(selectedCollectionPath,newKeyList);
         }
@@ -490,5 +515,13 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
         this.kualiRuleService = kualiRuleService;
+    }
+
+    protected KeyPersonnelService getKeyPersonnelService() {
+        return keyPersonnelService;
+    }
+
+    public void setKeyPersonnelService(KeyPersonnelService keyPersonnelService) {
+        this.keyPersonnelService = keyPersonnelService;
     }
 }

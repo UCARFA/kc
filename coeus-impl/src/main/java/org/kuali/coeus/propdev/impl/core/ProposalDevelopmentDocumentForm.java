@@ -42,6 +42,7 @@ import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
+import org.kuali.coeus.propdev.impl.person.AddEmployeePiHelper;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonCoiIntegrationService;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
@@ -87,6 +88,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentQuestionnaireHelper questionnaireHelper;
     private ProposalDevelopmentS2sQuestionnaireHelper s2sQuestionnaireHelper;
     private AddLineHelper addKeyPersonHelper;
+    private AddEmployeePiHelper addEmployeePiHelper;
     private AddLineHelper addRecipientHelper;
     private S2sOpportunity newS2sOpportunity;
     private List<ProposalUserRoles> workingUserRoles;
@@ -168,6 +170,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         s2sQuestionnaireHelper = new ProposalDevelopmentS2sQuestionnaireHelper(this);
 
         addKeyPersonHelper = new AddLineHelper();
+
+        addEmployeePiHelper = new AddEmployeePiHelper();
 
         addRecipientHelper = new AddLineHelper();
 
@@ -287,6 +291,14 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setAddKeyPersonHelper(AddLineHelper addKeyPersonHelper) {
         this.addKeyPersonHelper = addKeyPersonHelper;
+    }
+
+    public AddEmployeePiHelper getAddEmployeePiHelper() {
+        return addEmployeePiHelper;
+    }
+
+    public void setAddEmployeePiHelper(AddEmployeePiHelper addEmployeePiHelper) {
+        this.addEmployeePiHelper = addEmployeePiHelper;
     }
 
     public AddLineHelper getAddRecipientHelper() {
