@@ -34,6 +34,7 @@ import org.kuali.kra.service.impl.adapters.KeyPersonnelServiceAdapter;
 import org.kuali.kra.service.impl.adapters.ParameterServiceAdapter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -80,7 +81,7 @@ public class NihSponsorHandlingUnitTest {
     }
 
     private List<PropAwardPersonRole> defineRoles() {
-        List<PropAwardPersonRole> roles = new ArrayList<PropAwardPersonRole>();
+        List<PropAwardPersonRole> roles = new ArrayList<>();
         PropAwardPersonRole role = new PropAwardPersonRole();
         role.setCode("PI");
         role.setDescription(NONNIH_PI_DESCRIPTION);
@@ -99,21 +100,24 @@ public class NihSponsorHandlingUnitTest {
     }
 
     private BusinessObjectService getBusinessObjectService() {
-        final Map<String, SponsorHierarchy> sponsorHierarchies = new HashMap<String, SponsorHierarchy>();
+        final Map<String, SponsorHierarchy> sponsorHierarchies = new HashMap<>();
 
         return new BusinessObjectServiceAdapter() {
-            public Collection findAll(Class klass) {
+            @Override
+            public <T extends BusinessObject> Collection<T> findAll(Class<T> klass) {
                 if(PropAwardPersonRole.class.equals(klass)) {
-                    return roles;
+                    return (Collection<T>) roles;
                 } else if(SponsorHierarchy.class.equals(klass)) {
-                    return sponsorHierarchies.values();
+                    return (Collection<T>) sponsorHierarchies.values();
                 } else {
                     return null;
                 }
             }
-            public Collection findMatching(Class klass, Map fieldValues) {
-                return SponsorHierarchy.class.equals(klass) ? sponsorHierarchies.values() : null;
+            @Override
+            public <T extends BusinessObject> Collection<T> findMatching(Class<T> klass, Map<String, ?> fieldValues) {
+                return SponsorHierarchy.class.equals(klass) ? (Collection<T>) sponsorHierarchies.values() : null;
             }
+            @Override
             public PersistableBusinessObject save(PersistableBusinessObject bo) {
                 if(bo instanceof SponsorHierarchy) {
                     SponsorHierarchy sh = (SponsorHierarchy) bo;
@@ -121,6 +125,7 @@ public class NihSponsorHandlingUnitTest {
                 }
                 return bo;
             }
+            @Override
             public int countMatching(Class clazz, Map fieldValues) {
                 if(SponsorHierarchy.class.equals(clazz)){
                     String aValue = (String) fieldValues.get("hierarchyName");
@@ -137,7 +142,9 @@ public class NihSponsorHandlingUnitTest {
 
     public ParameterService getParameterService() {
         return new ParameterServiceAdapter() {
-            public String getParameterValue(String namespaceCode, String detailTypeCode, String parameterName) {
+
+            @Override
+            public String getParameterValueAsString(String namespaceCode, String detailTypeCode, String parameterName) {
                 if(Constants.KC_GENERIC_PARAMETER_NAMESPACE.equals(namespaceCode) &&
                    ParameterConstants.ALL_COMPONENT.equals(detailTypeCode)) {
 
@@ -158,30 +165,22 @@ public class NihSponsorHandlingUnitTest {
                     return super.getParameterValueAsString(namespaceCode, detailTypeCode, parameterName);
                 }
             }
+
+            @Override
+            public Boolean getParameterValueAsBoolean(String namespaceCode, String componentCode, String parameterName) {
+                return false;
+            }
         };
     }
 
     private KeyPersonnelService getKeyPersonnelService() {
-        return new KeyPersonnelServiceAdapter() {
-            public Map<String, String> loadKeyPersonnelRoleDescriptions(boolean sponsorIsNih) {
-                Map<String, String> results = new HashMap<String, String>();
-                if(sponsorIsNih) {
-                    results.put("PI", NIH_PI_DESCRIPTION);
-                    results.put("COI", NIH_COI_DESCRIPTION);
-                    results.put("KP", KEY_PERSON_DESCRIPTION);
-                } else {
-                    results.put("PI", NONNIH_PI_DESCRIPTION);
-                    results.put("COI", NONNIH_COI_DESCRIPTION);
-                    results.put("KP", KEY_PERSON_DESCRIPTION);
-                }
-                return results;
-            }
-        };
+        return new KeyPersonnelServiceAdapter();
     }
 
     private SponsorHierarchyService getSponsorHierarchyService(BusinessObjectService bos) {
         SponsorHierarchyServiceImpl impl = new SponsorHierarchyServiceImpl();
         impl.setBusinessObjectService(bos);
+        impl.setParameterService(getParameterService());
         return impl;
     }
 }
