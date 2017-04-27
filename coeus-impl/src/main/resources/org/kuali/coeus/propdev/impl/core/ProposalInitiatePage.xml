@@ -49,13 +49,14 @@
 
 
 	<!-- Simple Add PI field.  Not rendered by default.  Can be turned on with DD customization -->
-	<bean id="PropDev-InitiatePage-PrincipalInvestigatorField" parent="PropDev-InitiatePage-PrincipalInvestigatorField-parentBean" p:render="false" p:required="true" />
+	<bean id="PropDev-InitiatePage-PrincipalInvestigatorField" parent="PropDev-InitiatePage-PrincipalInvestigatorField-parentBean" />
 	<bean id="PropDev-InitiatePage-PrincipalInvestigatorField-parentBean" abstract="true"
-		  parent="Uif-InputField" p:bindingInfo.bindingObjectPath="addEmployeePiHelper" p:propertyName="personId" p:label="Principal Investigator">
+		  parent="Uif-InputField" p:bindingInfo.bindingObjectPath="addEmployeePiHelper" p:propertyName="personId" p:label="Principal Investigator" p:render="false" p:required="true">
 		<property name="quickfinder">
-			<bean parent="Uif-QuickFinderByScript"
+			<bean parent="Uif-QuickFinder"
 				  p:dataObjectClassName="org.kuali.coeus.common.framework.person.KcPerson"
-				  p:fieldConversions="personId:personId">
+				  p:fieldConversions="personId:personId"
+			      p:lookupParameters="personId:personId">
 			</bean>
 		</property>
 		<property name="propertyNamesForAdditionalDisplay">
