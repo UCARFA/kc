@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2209: changing the sort of of negotiation activities to match COEUS.  The activities are sorted by activity start date DESC, activityId (insert order) ASC
+  * Travis Schneeberger on Thu, 27 Apr 2017 17:14:03 -0400 [View Commit](../../commit/6646e7779f8e114387c8ab2fff7a18fa2977d1ba)
+* RESKC-2165: add lookup parameters, make search result refresh entire page in order to display the person name, move spring bean attributes to parent bean - our standard.
+  * Travis Schneeberger on Thu, 27 Apr 2017 16:14:01 -0400 [View Commit](../../commit/914ff5387a19b4c74bf990d8f5af570ac0b33771)
+* RESKC-2197: adding parameter to sponsor hierarchy service to treat all sponsors as NIH when enabled
+  * Travis Schneeberger on Thu, 27 Apr 2017 10:42:06 -0400 [View Commit](../../commit/c7b570e67f9e8e6ba80de4233c082e8ddd85438e)
+
+##coeus-1704.0030
 * RESKC-2165: simple PI add from create proposal screen.  Not rendered by default.
   * Travis Schneeberger on Wed, 26 Apr 2017 13:51:30 -0400 [View Commit](../../commit/b6b09c88a3b84cb125e80c5ca79d8f42a699eea6)
 
