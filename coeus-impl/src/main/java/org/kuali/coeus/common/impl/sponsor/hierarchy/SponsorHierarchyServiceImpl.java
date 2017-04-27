@@ -21,6 +21,8 @@ package org.kuali.coeus.common.impl.sponsor.hierarchy;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,6 +37,10 @@ public class SponsorHierarchyServiceImpl implements SponsorHierarchyService {
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     @Override
     public boolean isSponsorInHierarchy(String sponsorCode, String hierarchyName, int level, String levelName) {
@@ -79,12 +85,16 @@ public class SponsorHierarchyServiceImpl implements SponsorHierarchyService {
 
     @Override
     public boolean isSponsorNihMultiplePi(String sponsorCode) {
-        return isSponsorInHierarchy(sponsorCode, SPONSOR_HIERARCHY_NIH_MULT_PI);
+        return areAllSponsorsMultiPi() || isSponsorInHierarchy(sponsorCode, SPONSOR_HIERARCHY_NIH_MULT_PI);
     }
 
     @Override
     public boolean isSponsorNihOsc(String sponsorCode) {
         return isSponsorInHierarchy(sponsorCode, SPONSOR_HIERARCHY_NIH_OSC);
+    }
+
+    protected Boolean areAllSponsorsMultiPi() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
     }
 
     public BusinessObjectService getBusinessObjectService() {
@@ -93,5 +103,13 @@ public class SponsorHierarchyServiceImpl implements SponsorHierarchyService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }
