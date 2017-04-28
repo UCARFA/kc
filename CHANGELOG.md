@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* caching the associated document
+  * Travis Schneeberger on Fri, 28 Apr 2017 12:28:42 -0400 [View Commit](../../commit/2afb3f4654cb15e308303faa0e461187cf90f3e4)
+
+##coeus-1704.0031
 * RESKC-2209: changing the sort of of negotiation activities to match COEUS.  The activities are sorted by activity start date DESC, activityId (insert order) ASC
   * Travis Schneeberger on Thu, 27 Apr 2017 17:14:03 -0400 [View Commit](../../commit/6646e7779f8e114387c8ab2fff7a18fa2977d1ba)
 * RESKC-2165: add lookup parameters, make search result refresh entire page in order to display the person name, move spring bean attributes to parent bean - our standard.
