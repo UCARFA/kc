@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ *
  * This class handles the negotiation BO.
  */
 public class Negotiation extends KcPersistableBusinessObjectBase implements Permissionable {
@@ -377,7 +377,7 @@ public class Negotiation extends KcPersistableBusinessObjectBase implements Perm
     }
 
     public Negotiable getAssociatedNegotiable() {
-        return getNegotiationService().getAssociatedObject(this);
+        return getAssociatedDocument();
     }
 
     private NegotiationService getNegotiationService() {
