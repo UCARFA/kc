@@ -33,10 +33,6 @@
         The Kuali Coeus Impl module contains the main source code (implementation and framework code) and unit tests for the Kuali Coeus application.
     </description>
 
-    <prerequisites>
-        <maven>${require.maven.version}</maven>
-    </prerequisites>
-
     <properties>
         <!-- WSDL config -->
         <gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>

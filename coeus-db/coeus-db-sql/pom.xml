@@ -35,10 +35,6 @@
         They include both bootstrap, demo, and stage data.
     </description>
 
-    <prerequisites>
-        <maven>${require.maven.version}</maven>
-    </prerequisites>
-
     <properties>
         <copy.javaagent.off>true</copy.javaagent.off>
     </properties>
