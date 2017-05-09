@@ -34,8 +34,12 @@
        <kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardActionsHelpUrl" altText="help"/></div>
   	
 <div id="workarea">
-<kra-sub:subAwardDataValidation /> 
-<kra-sub:subAwardPrint /> 
+<kra-sub:subAwardDataValidation />
+
+<c:if test="${krafn:getParameterValueAsBoolean('KC-SUBAWARD', 'All', 'Enable_Subaward_FDP')}">
+	<kra-sub:subAwardPrint />
+</c:if>
+
 <kul:adHocRecipients />
 <kul:routeLog /> 
 <kul:panelFooter />

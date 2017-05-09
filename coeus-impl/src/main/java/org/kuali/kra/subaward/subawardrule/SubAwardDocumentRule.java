@@ -424,23 +424,24 @@ SubAwardFfataReportingRule {
     }
     protected boolean processSaveSubAwardTemplateInfoBusinessRules(SubAward subAward){
         boolean rulePassed = true;
+
+        final boolean fdpEnabled = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SUBAWARD, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.ENABLE_SUBAWARD_FDP);
         for (SubAwardTemplateInfo subAwardTemplateInfo : subAward.getSubAwardTemplateInfo()) {
-            if ("N".equalsIgnoreCase(subAwardTemplateInfo.getAutomaticCarryForward())) {
+            if (fdpEnabled && "N".equalsIgnoreCase(subAwardTemplateInfo.getAutomaticCarryForward())) {
                 if (subAwardTemplateInfo.getCarryForwardRequestsSentTo()==null) {
                     rulePassed = false;
-                    LOG.debug(ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
                     reportError(CARRY_FORWARD_REQUESTS_SENT_TO, ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
                 }
             }
 
-            if (subAwardTemplateInfo.getMpiAward() != null && subAwardTemplateInfo.getMpiAward()) {
+            if (fdpEnabled && subAwardTemplateInfo.getMpiAward() != null && subAwardTemplateInfo.getMpiAward()) {
                 if (subAwardTemplateInfo.getMpiLeadershipPlan() == null) {
                     rulePassed = false;
                     reportError(MPI_LEADERSHIP_PLAN, ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_MPI_LEADERSHIP_PLAN);
                 }
             }
 
-            if (subAwardTemplateInfo.getAnimalFlag() != null && subAwardTemplateInfo.getAnimalFlag()) {
+            if (fdpEnabled && subAwardTemplateInfo.getAnimalFlag() != null && subAwardTemplateInfo.getAnimalFlag()) {
                 if (StringUtils.isBlank(subAwardTemplateInfo.getAnimalPteSendCd())) {
                     rulePassed = false;
                     reportError(ANIMAL_PTE_SEND_CD, ERROR_REQUIRED_ANIMAL_PTE_SEND_CD);
@@ -450,7 +451,7 @@ SubAwardFfataReportingRule {
                 }
             }
 
-            if (subAwardTemplateInfo.getHumanFlag() != null && subAwardTemplateInfo.getHumanFlag()) {
+            if (fdpEnabled && subAwardTemplateInfo.getHumanFlag() != null && subAwardTemplateInfo.getHumanFlag()) {
                 if (StringUtils.isBlank(subAwardTemplateInfo.getHumanPteSendCd())) {
                     rulePassed = false;
                     reportError(HUMAN_PTE_SEND_CD, ERROR_REQUIRED_HUMAN_PTE_SEND_CD);
