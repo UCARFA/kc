@@ -66,10 +66,7 @@ SubAwardFfataReportingRule {
     private static final String SITEINVESTIGATOR =".siteInvestigatorId";
     private static final String AMOUNT_INFO_OBLIGATED_AMOUNT = "newSubAwardAmountInfo.obligatedChange";
     private static final String AMOUNT_INFO_OBLIGATED_DIRECT_AMOUNT = "newSubAwardAmountInfo.obligatedChangeDirect";
-    private static final String AMOUNT_INFO_OBLIGATED_INDIRECT_AMOUNT = "newSubAwardAmountInfo.obligatedChangeIndirect";
     private static final String AMOUNT_INFO_ANTICIPATED_AMOUNT = "newSubAwardAmountInfo.anticipatedChange";
-    private static final String AMOUNT_INFO_ANTICIPATED_DIRECT_AMOUNT = "newSubAwardAmountInfo.anticipatedChangeDirect";
-    private static final String AMOUNT_INFO_ANTICIPATED_INDIRECT_AMOUNT = "newSubAwardAmountInfo.anticipatedChangeIndirect";
     private static final String ROLODEX_ID="newSubAwardContact.rolodex.fullName";
     private static final String CONTACT_TYPE_CODE="newSubAwardContact.contactTypeCode";
     private static final String CLOSEOUT_TYPE_CODE="newSubAwardCloseout.closeoutTypeCode";
@@ -275,7 +272,7 @@ SubAwardFfataReportingRule {
                     , KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_TYPE_CODE);
         }  
         for(SubAwardContact contact : subAward.getSubAwardContactsList()){
-            if(ObjectUtils.equals(contact.getRolodexId(), subAwardContact.getRolodexId()) 
+            if(ObjectUtils.equals(contact.getRolodexId(), subAwardContact.getRolodexId())
                     && ObjectUtils.equals(contact.getContactTypeCode(), subAwardContact.getContactTypeCode())) {
                 rulePassed = false;              
                 String contactName = contact.getRolodex().getFullName();
