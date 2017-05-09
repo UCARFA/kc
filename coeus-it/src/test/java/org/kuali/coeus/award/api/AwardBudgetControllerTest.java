@@ -242,7 +242,7 @@ public class AwardBudgetControllerTest extends KcIntegrationTestBase {
     }
 
         private String getPostedStatusCode() {
-        return CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
+        return CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_QUEUED);
     }
 
     public BusinessObjectService getBusinessObjectService() {
@@ -255,8 +255,8 @@ public class AwardBudgetControllerTest extends KcIntegrationTestBase {
 
     public String getBudgetActionString() {
         return "{\n" +
-                "   \"actionToTake\" : \"post\"\n" +
-                "  }";
+                "  \"statusCode\" : \"-1\"\n" +
+                "}";
     }
     public java.sql.Date getDate(int year, int month, int day) {
         Calendar cal = Calendar.getInstance();

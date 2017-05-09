@@ -2,13 +2,13 @@ package org.kuali.coeus.award.api;
 
 public class AwardBudgetActionDto {
 
-    private String actionToTake;
+    private String statusCode;
 
-    public String getActionToTake() {
-        return actionToTake;
+    public String getStatusCode() {
+        return statusCode;
     }
 
-    public void setActionToTake(String actionToTake) {
-        this.actionToTake = actionToTake;
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
     }
 }
