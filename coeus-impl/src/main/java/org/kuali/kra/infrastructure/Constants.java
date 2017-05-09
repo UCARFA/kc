@@ -959,6 +959,7 @@ public interface Constants {
     String COST_SHARE_AGENDA_UNITS = "costShareAgendaUnits";
     String COST_SHARE_ADMINISTRATOR_TYPE_CODE = "COST_SHARE_ADMINISTRATOR_TYPE_CODE";
     String ENABLE_SUBAWARD_DC_IDC = "Enable_Subaward_DC_IDC";
+    String ENABLE_SUBAWARD_FDP = "Enable_Subaward_FDP";
     String ENABLE_AWARD_BUDGET_QUEUED_STATUS = "Enable_Award_Budget_Queued_Status";
     String DEVELOPMENT_PROPOSAL_CFDA_NUMBER = "developmentProposalList[0].cfdaNumber";
     String DOCUMENT_DEVELOPMENT_PROPOSAL_CFDA_NUMBER = "document.developmentProposalList[0].cfdaNumber";

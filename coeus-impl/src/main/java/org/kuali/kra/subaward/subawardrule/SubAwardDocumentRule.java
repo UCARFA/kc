@@ -66,10 +66,7 @@ SubAwardFfataReportingRule {
     private static final String SITEINVESTIGATOR =".siteInvestigatorId";
     private static final String AMOUNT_INFO_OBLIGATED_AMOUNT = "newSubAwardAmountInfo.obligatedChange";
     private static final String AMOUNT_INFO_OBLIGATED_DIRECT_AMOUNT = "newSubAwardAmountInfo.obligatedChangeDirect";
-    private static final String AMOUNT_INFO_OBLIGATED_INDIRECT_AMOUNT = "newSubAwardAmountInfo.obligatedChangeIndirect";
     private static final String AMOUNT_INFO_ANTICIPATED_AMOUNT = "newSubAwardAmountInfo.anticipatedChange";
-    private static final String AMOUNT_INFO_ANTICIPATED_DIRECT_AMOUNT = "newSubAwardAmountInfo.anticipatedChangeDirect";
-    private static final String AMOUNT_INFO_ANTICIPATED_INDIRECT_AMOUNT = "newSubAwardAmountInfo.anticipatedChangeIndirect";
     private static final String ROLODEX_ID="newSubAwardContact.rolodex.fullName";
     private static final String CONTACT_TYPE_CODE="newSubAwardContact.contactTypeCode";
     private static final String CLOSEOUT_TYPE_CODE="newSubAwardCloseout.closeoutTypeCode";
@@ -275,7 +272,7 @@ SubAwardFfataReportingRule {
                     , KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_TYPE_CODE);
         }  
         for(SubAwardContact contact : subAward.getSubAwardContactsList()){
-            if(ObjectUtils.equals(contact.getRolodexId(), subAwardContact.getRolodexId()) 
+            if(ObjectUtils.equals(contact.getRolodexId(), subAwardContact.getRolodexId())
                     && ObjectUtils.equals(contact.getContactTypeCode(), subAwardContact.getContactTypeCode())) {
                 rulePassed = false;              
                 String contactName = contact.getRolodex().getFullName();
@@ -424,23 +421,24 @@ SubAwardFfataReportingRule {
     }
     protected boolean processSaveSubAwardTemplateInfoBusinessRules(SubAward subAward){
         boolean rulePassed = true;
+
+        final boolean fdpEnabled = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SUBAWARD, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.ENABLE_SUBAWARD_FDP);
         for (SubAwardTemplateInfo subAwardTemplateInfo : subAward.getSubAwardTemplateInfo()) {
-            if ("N".equalsIgnoreCase(subAwardTemplateInfo.getAutomaticCarryForward())) {
+            if (fdpEnabled && "N".equalsIgnoreCase(subAwardTemplateInfo.getAutomaticCarryForward())) {
                 if (subAwardTemplateInfo.getCarryForwardRequestsSentTo()==null) {
                     rulePassed = false;
-                    LOG.debug(ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
                     reportError(CARRY_FORWARD_REQUESTS_SENT_TO, ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO);
                 }
             }
 
-            if (subAwardTemplateInfo.getMpiAward() != null && subAwardTemplateInfo.getMpiAward()) {
+            if (fdpEnabled && subAwardTemplateInfo.getMpiAward() != null && subAwardTemplateInfo.getMpiAward()) {
                 if (subAwardTemplateInfo.getMpiLeadershipPlan() == null) {
                     rulePassed = false;
                     reportError(MPI_LEADERSHIP_PLAN, ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_MPI_LEADERSHIP_PLAN);
                 }
             }
 
-            if (subAwardTemplateInfo.getAnimalFlag() != null && subAwardTemplateInfo.getAnimalFlag()) {
+            if (fdpEnabled && subAwardTemplateInfo.getAnimalFlag() != null && subAwardTemplateInfo.getAnimalFlag()) {
                 if (StringUtils.isBlank(subAwardTemplateInfo.getAnimalPteSendCd())) {
                     rulePassed = false;
                     reportError(ANIMAL_PTE_SEND_CD, ERROR_REQUIRED_ANIMAL_PTE_SEND_CD);
@@ -450,7 +448,7 @@ SubAwardFfataReportingRule {
                 }
             }
 
-            if (subAwardTemplateInfo.getHumanFlag() != null && subAwardTemplateInfo.getHumanFlag()) {
+            if (fdpEnabled && subAwardTemplateInfo.getHumanFlag() != null && subAwardTemplateInfo.getHumanFlag()) {
                 if (StringUtils.isBlank(subAwardTemplateInfo.getHumanPteSendCd())) {
                     rulePassed = false;
                     reportError(HUMAN_PTE_SEND_CD, ERROR_REQUIRED_HUMAN_PTE_SEND_CD);
