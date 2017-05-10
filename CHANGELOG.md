@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2178: adding the ability to inactivate s2s forms with a custom message.
+  * Travis Schneeberger on Wed, 10 May 2017 16:06:08 -0400 [View Commit](../../commit/f6f60aec6ea75580633477c64e6e6c3ca5863729)
+
+##coeus-1705.0004
 * RESKC-2212: adding a feature flag for fdp in subaward
   * Travis Schneeberger on Tue, 9 May 2017 11:40:38 -0400 [View Commit](../../commit/f47594eb2a515b94a25467d4df4323110b642c29)
 
