@@ -21,11 +21,14 @@ package org.kuali.coeus.propdev.impl.s2s;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.api.s2s.S2sFormConfigurationContract;
+import org.kuali.coeus.propdev.api.s2s.S2sFormConfigurationService;
 import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormFileContract;
 import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
 import org.kuali.coeus.propdev.impl.auth.ProposalDevelopmentDocumentAuthorizer;
 import org.kuali.coeus.propdev.impl.auth.ProposalDevelopmentDocumentViewAuthorizer;
 import org.kuali.coeus.propdev.impl.core.*;
+import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.s2sgen.api.print.FormPrintResult;
@@ -53,6 +56,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -96,6 +100,10 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     @Qualifier("proposalDevelopmentDocumentViewAuthorizer")
     private ProposalDevelopmentDocumentViewAuthorizer proposalDevelopmentDocumentViewAuthorizer;
 
+    @Autowired
+    @Qualifier("s2sFormConfigurationService")
+    private S2sFormConfigurationService s2sFormConfigurationService;
+
     private static final String ERROR_NO_GRANTS_GOV_FORM_SELECTED = "error.proposalDevelopment.no.grants.gov.form.selected";
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refresh", "refreshCaller=S2sOpportunity-LookupView"})
@@ -129,12 +137,35 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
        try {
            if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
-               List<String> missingMandatoryForms = s2sSubmissionService.setMandatoryForms(proposal, s2sOpportunity);
+               final List<String> missingMandatoryForms = s2sSubmissionService.setMandatoryForms(proposal, s2sOpportunity);
+               final List<? extends S2sFormConfigurationContract> cfgs = getS2sFormConfigurationService().findAllS2sFormConfigurations();
 
-               if (!CollectionUtils.isEmpty(missingMandatoryForms)) {
-                   globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId(), StringUtils.join(missingMandatoryForms, ","));
+               final List<? extends S2sFormConfigurationContract> missingMandatoryCfgs = cfgs.stream()
+                       .filter(missingMandatoryCfg -> missingMandatoryForms.contains(missingMandatoryCfg.getFormName()))
+                       .filter(missingMandatoryCfg -> StringUtils.isNotBlank(missingMandatoryCfg.getInactiveMessage()))
+                       .collect(Collectors.toList());
+
+               missingMandatoryCfgs.forEach(missingMandatoryCfg -> globalVariableService.getMessageMap().putError(Constants.NO_FIELD, ProposalDevelopmentDataValidationConstants.GENERIC_ERROR_LABEL_VALUE, missingMandatoryCfg.getFormName(), missingMandatoryCfg.getInactiveMessage()));
+               final List<String> unreportedMissingMandatory = missingMandatoryForms.stream()
+                       .filter(mmf -> missingMandatoryCfgs.stream().map(S2sFormConfigurationContract::getFormName)
+                               .noneMatch(mmf::equals))
+                       .collect(Collectors.toList());
+
+               if (CollectionUtils.isNotEmpty(unreportedMissingMandatory)) {
+                   globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID, s2sOpportunity.getOpportunityId(), StringUtils.join(unreportedMissingMandatory, ","));
+               }
+
+               if (CollectionUtils.isNotEmpty(missingMandatoryForms)) {
                    proposal.setS2sOpportunity(null);
                }
+
+               final List<? extends S2sFormConfigurationContract> missingOptionalCfgs = cfgs.stream()
+                       .filter(missingOptionalCfg -> !missingMandatoryForms.contains(missingOptionalCfg.getFormName()))
+                       .filter(missingOptionalCfg -> s2sOpportunity.getS2sOppForms().stream().anyMatch(s2sOppForm -> s2sOppForm.getFormName().equals(missingOptionalCfg.getFormName())))
+                       .filter(missingOptionalCfg -> StringUtils.isNotBlank(missingOptionalCfg.getInactiveMessage()))
+                       .collect(Collectors.toList());
+
+               missingOptionalCfgs.forEach(missingOptionalCfg -> globalVariableService.getMessageMap().putWarning(Constants.NO_FIELD, ProposalDevelopmentDataValidationConstants.GENERIC_ERROR_LABEL_VALUE, missingOptionalCfg.getFormName(), missingOptionalCfg.getInactiveMessage()));
            }
        }catch(S2sCommunicationException ex){
            if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
@@ -403,6 +434,14 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
     public void setProposalDevelopmentDocumentViewAuthorizer(ProposalDevelopmentDocumentViewAuthorizer proposalDevelopmentDocumentViewAuthorizer) {
         this.proposalDevelopmentDocumentViewAuthorizer = proposalDevelopmentDocumentViewAuthorizer;
+    }
+
+    public S2sFormConfigurationService getS2sFormConfigurationService() {
+        return s2sFormConfigurationService;
+    }
+
+    public void setS2sFormConfigurationService(S2sFormConfigurationService s2sFormConfigurationService) {
+        this.s2sFormConfigurationService = s2sFormConfigurationService;
     }
 }
 

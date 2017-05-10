@@ -31,17 +31,6 @@ import java.util.List;
 public interface S2sSubmissionService {
 
     /**
-     *
-     * This method returns the list of forms for a given opportunity
-     *
-     * @param opportunity
-     * @return {@link List}of {@link S2sOppForms} which are included in the
-     *         given {@link S2sOpportunity}
-     * @throws S2sCommunicationException
-     */
-    public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2sCommunicationException;
-
-    /**
      * This method is used to get the application status details.
      *
      * @param ggTrackingId
