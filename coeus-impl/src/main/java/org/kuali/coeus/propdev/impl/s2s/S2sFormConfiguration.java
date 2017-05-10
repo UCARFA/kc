@@ -1,6 +1,7 @@
 package org.kuali.coeus.propdev.impl.s2s;
 
 
+import org.kuali.coeus.propdev.api.s2s.S2sFormConfigurationContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "S2S_FORM_CONFIG")
-public class S2sFormConfiguration extends KcPersistableBusinessObjectBase {
+public class S2sFormConfiguration extends KcPersistableBusinessObjectBase implements S2sFormConfigurationContract {
 
     @PortableSequenceGenerator(name = "SEQ_S2S_FORM_CONFIG_ID")
     @GeneratedValue(generator = "SEQ_S2S_FORM_CONFIG_ID")
@@ -27,6 +28,7 @@ public class S2sFormConfiguration extends KcPersistableBusinessObjectBase {
     @Column(name = "INACTIVE_MESSAGE")
     private String inactiveMessage;
 
+    @Override
     public String getId() {
         return id;
     }
@@ -35,6 +37,7 @@ public class S2sFormConfiguration extends KcPersistableBusinessObjectBase {
         this.id = id;
     }
 
+    @Override
     public String getFormName() {
         return formName;
     }
@@ -43,6 +46,7 @@ public class S2sFormConfiguration extends KcPersistableBusinessObjectBase {
         this.formName = formName;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -51,6 +55,7 @@ public class S2sFormConfiguration extends KcPersistableBusinessObjectBase {
         this.active = active;
     }
 
+    @Override
     public String getInactiveMessage() {
         return inactiveMessage;
     }

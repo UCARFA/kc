@@ -105,6 +105,10 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     private OpportunitySchemaParserService opportunitySchemaParserService;
 
     @Autowired
+    @Qualifier("s2sFormConfigurationService")
+    private S2sFormConfigurationService s2sFormConfigurationService;
+
+    @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
     
@@ -453,15 +457,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         return convertToArrayList(provider.getCode(), connectorService.getOpportunityList(cfdaNumber, opportunityId, competitionId));
     }
 
-    /**
-     *
-     * This method returns the list of forms for a given opportunity
-     *
-     * @return {@link List} of {@link S2sOppForms} which are included in the
-     *         given {@link S2sOpportunity}
-     */
-    @Override
-    public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2sCommunicationException{
+    protected List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2sCommunicationException{
         setOpportunityContent(opportunity);
         return opportunitySchemaParserService.getForms(opportunity.getProposalNumber(),opportunity.getSchemaUrl());
     }
@@ -473,6 +469,11 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         List<S2sOppForms> s2sOppForms = parseOpportunityForms(s2sOpportunity);
         if (s2sOppForms != null) {
             for (S2sOppForms s2sOppForm : s2sOppForms) {
+                final S2sFormConfigurationContract cfg = getS2sFormConfigurationService().findS2sFormConfigurationByFormName(s2sOppForm.getFormName());
+                if (cfg != null) {
+                    s2sOppForm.setAvailable(s2sOppForm.getAvailable() && cfg.isActive());
+                }
+
                 if (s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()) {
                     missingMandatoryForms.add(s2sOppForm.getFormName());
                 }
@@ -677,5 +678,13 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     public void setNihSubmissionValidationService(NihSubmissionValidationService nihSubmissionValidationService) {
         this.nihSubmissionValidationService = nihSubmissionValidationService;
+    }
+
+    public S2sFormConfigurationService getS2sFormConfigurationService() {
+        return s2sFormConfigurationService;
+    }
+
+    public void setS2sFormConfigurationService(S2sFormConfigurationService s2sFormConfigurationService) {
+        this.s2sFormConfigurationService = s2sFormConfigurationService;
     }
 }
