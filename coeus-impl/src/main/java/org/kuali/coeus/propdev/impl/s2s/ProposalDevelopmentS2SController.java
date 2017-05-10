@@ -35,10 +35,8 @@ import org.kuali.coeus.s2sgen.api.print.FormPrintResult;
 import org.kuali.coeus.s2sgen.api.print.FormPrintService;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.controller.ControllerFileUtils;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.AuditCluster;
@@ -81,20 +79,8 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     private UserAttachedFormService userAttachedFormService;
 
     @Autowired
-    @Qualifier("globalVariableService")
-    private GlobalVariableService globalVariableService;
-
-    @Autowired
     @Qualifier("formPrintService")
     private FormPrintService formPrintService;
-
-    @Autowired
-    @Qualifier("parameterService")
-    private ParameterService parameterService;
-
-    @Autowired
-    @Qualifier("proposalTypeService")
-    private ProposalTypeService proposalTypeService;
 
     @Autowired
     @Qualifier("proposalDevelopmentDocumentViewAuthorizer")
@@ -145,14 +131,14 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
                        .filter(missingMandatoryCfg -> StringUtils.isNotBlank(missingMandatoryCfg.getInactiveMessage()))
                        .collect(Collectors.toList());
 
-               missingMandatoryCfgs.forEach(missingMandatoryCfg -> globalVariableService.getMessageMap().putError(Constants.NO_FIELD, ProposalDevelopmentDataValidationConstants.GENERIC_ERROR_LABEL_VALUE, missingMandatoryCfg.getFormName(), missingMandatoryCfg.getInactiveMessage()));
+               missingMandatoryCfgs.forEach(missingMandatoryCfg -> getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, ProposalDevelopmentDataValidationConstants.GENERIC_ERROR_LABEL_VALUE, missingMandatoryCfg.getFormName(), missingMandatoryCfg.getInactiveMessage()));
                final List<String> unreportedMissingMandatory = missingMandatoryForms.stream()
                        .filter(mmf -> missingMandatoryCfgs.stream().map(S2sFormConfigurationContract::getFormName)
                                .noneMatch(mmf::equals))
                        .collect(Collectors.toList());
 
                if (CollectionUtils.isNotEmpty(unreportedMissingMandatory)) {
-                   globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID, s2sOpportunity.getOpportunityId(), StringUtils.join(unreportedMissingMandatory, ","));
+                   getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID, s2sOpportunity.getOpportunityId(), StringUtils.join(unreportedMissingMandatory, ","));
                }
 
                if (CollectionUtils.isNotEmpty(missingMandatoryForms)) {
@@ -165,13 +151,13 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
                        .filter(missingOptionalCfg -> StringUtils.isNotBlank(missingOptionalCfg.getInactiveMessage()))
                        .collect(Collectors.toList());
 
-               missingOptionalCfgs.forEach(missingOptionalCfg -> globalVariableService.getMessageMap().putWarning(Constants.NO_FIELD, ProposalDevelopmentDataValidationConstants.GENERIC_ERROR_LABEL_VALUE, missingOptionalCfg.getFormName(), missingOptionalCfg.getInactiveMessage()));
+               missingOptionalCfgs.forEach(missingOptionalCfg -> getGlobalVariableService().getMessageMap().putWarning(Constants.NO_FIELD, ProposalDevelopmentDataValidationConstants.GENERIC_ERROR_LABEL_VALUE, missingOptionalCfg.getFormName(), missingOptionalCfg.getInactiveMessage()));
            }
        }catch(S2sCommunicationException ex){
            if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
                ex.setMessage(s2sOpportunity.getOpportunityId());
            }
-           globalVariableService.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+           getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
            proposal.setS2sOpportunity(new S2sOpportunity());
        }
         super.save(form,result,request,response);
@@ -200,8 +186,8 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
         proposalDevelopmentDocumentViewAuthorizer.initializeDocumentAuthorizerIfNecessary(form.getProposalDevelopmentDocument());
 
-        if (!((ProposalDevelopmentDocumentAuthorizer) proposalDevelopmentDocumentViewAuthorizer.getDocumentAuthorizer()).isAuthorizedToPrint(proposalDevelopmentDocument, globalVariableService.getUserSession().getPerson())) {
-            throw new AuthorizationException(globalVariableService.getUserSession().getPrincipalName(), "printForms", "Proposal");
+        if (!((ProposalDevelopmentDocumentAuthorizer) proposalDevelopmentDocumentViewAuthorizer.getDocumentAuthorizer()).isAuthorizedToPrint(proposalDevelopmentDocument, getGlobalVariableService().getUserSession().getPerson())) {
+            throw new AuthorizationException(getGlobalVariableService().getUserSession().getPrincipalName(), "printForms", "Proposal");
         }
 
         if(proposalDevelopmentDocument.getDevelopmentProposal().getSelectedS2sOppForms().isEmpty()){
@@ -214,7 +200,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         KcFile attachmentDataSource = formPrintResult.getFile();
         if(((attachmentDataSource==null || attachmentDataSource.getData()==null || attachmentDataSource.getData().length==0) && !proposalDevelopmentDocument.getDevelopmentProposal().getGrantsGovSelectFlag())
                 || CollectionUtils.isNotEmpty(formPrintResult.getErrors())){
-            boolean grantsGovErrorExists = copyAuditErrorsToPage(Constants.GRANTSGOV_ERRORS, "grantsGovFormValidationErrors");
+            boolean grantsGovErrorExists = copyAuditErrorsToPage(Constants.GRANTSGOV_ERRORS);
             if(grantsGovErrorExists){
                 getGlobalVariableService().getMessageMap().putError("grantsGovFormValidationErrors", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
             }
@@ -259,16 +245,14 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         }
     }
 
-    protected boolean copyAuditErrorsToPage(String auditClusterCategory, String errorkey) {
+    protected boolean copyAuditErrorsToPage(String auditClusterCategory) {
         boolean auditClusterFound = false;
-        Iterator<String> iter = getGlobalVariableService().getAuditErrorMap().keySet().iterator();
-        while (iter.hasNext()) {
-            String errorKey = (String) iter.next();
+        for (String errorKey : getGlobalVariableService().getAuditErrorMap().keySet()) {
             AuditCluster auditCluster = getGlobalVariableService().getAuditErrorMap().get(errorKey);
-            if(auditClusterCategory == null || StringUtils.equalsIgnoreCase(auditCluster.getCategory(), auditClusterCategory)){
+            if (auditClusterCategory == null || StringUtils.equalsIgnoreCase(auditCluster.getCategory(), auditClusterCategory)) {
                 auditClusterFound = true;
                 for (Object error : auditCluster.getAuditErrorList()) {
-                    AuditError auditError = (AuditError)error;
+                    AuditError auditError = (AuditError) error;
                     getGlobalVariableService().getMessageMap().putError(errorKey == null ? auditError.getErrorKey() : errorKey,
                             auditError.getMessageKey(), auditError.getParams());
                 }
@@ -380,28 +364,12 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         this.s2sSubmissionService = s2sSubmissionService;
     }
 
-    public GlobalVariableService getGlobalVariableService() {
-        return globalVariableService;
-    }
-
-    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
-        this.globalVariableService = globalVariableService;
-    }
-
     public FormPrintService getFormPrintService() {
         return formPrintService;
     }
 
     public void setFormPrintService(FormPrintService formPrintService) {
         this.formPrintService = formPrintService;
-    }
-
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
 
     public S2sUserAttachedFormService getS2sUserAttachedFormService() {
@@ -418,14 +386,6 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
     public void setUserAttachedFormService(UserAttachedFormService userAttachedFormService) {
         this.userAttachedFormService = userAttachedFormService;
-    }
-
-    public ProposalTypeService getProposalTypeService() {
-        return proposalTypeService;
-    }
-
-    public void setProposalTypeService(ProposalTypeService proposalTypeService) {
-        this.proposalTypeService = proposalTypeService;
     }
 
     public ProposalDevelopmentDocumentViewAuthorizer getProposalDevelopmentDocumentViewAuthorizer() {
