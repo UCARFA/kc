@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2196: removing carriage return and line feed from error messages returned from the NihValidationService
+  * Travis Schneeberger on Thu, 11 May 2017 10:02:20 -0400 [View Commit](../../commit/2cb45b33e15344c465a45b78c06d78bd8880fc18)
+
+##coeus-1705.0005
 * RESKC-2178: adding the ability to inactivate s2s forms with a custom message.
   * Travis Schneeberger on Wed, 10 May 2017 16:06:08 -0400 [View Commit](../../commit/f6f60aec6ea75580633477c64e6e6c3ca5863729)
 
