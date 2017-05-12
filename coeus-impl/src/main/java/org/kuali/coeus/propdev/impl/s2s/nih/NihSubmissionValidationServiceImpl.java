@@ -72,6 +72,7 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
     private static final String APPLICATION_PDF = "application/pdf";
 
     private static final Log LOG = LogFactory.getLog(NihSubmissionValidationServiceImpl.class);
+    private static final String ERROR_NIH_VALIDATION_SERVICE_UNKNOWN = "error.nih.validation.service.unknown";
 
     @Autowired
     @Qualifier("s2SConfigurationService")
@@ -100,7 +101,7 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
 
                 debugLogJaxbObject(ValidateApplicationResponse.class, response);
             } catch (ValidateApplicationError|SOAPFaultException validateApplicationError) {
-                throw new S2sCommunicationException(validateApplicationError);
+                throw new S2sCommunicationException(ERROR_NIH_VALIDATION_SERVICE_UNKNOWN, validateApplicationError);
             }
         }
 

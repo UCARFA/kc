@@ -40,7 +40,6 @@ import org.kuali.coeus.s2sgen.api.hash.GrantApplicationHashService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -82,10 +81,6 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     private BusinessObjectService businessObjectService;
 
     @Autowired
-    @Qualifier("dataObjectService")
-    private DataObjectService dataObjectService;
-
-    @Autowired
     @Qualifier("formMappingService")
     private FormMappingService formMappingService;
 
@@ -116,7 +111,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
                     s2sException.setTabErrorKey(USER_ATTACHED_FORMS_ERRORS);
                     throw s2sException;
                 }
-                Map attachments = extractAttachments(reader);
+                Map<Object, Object> attachments = extractAttachments(reader);
                 formBeans = extractAndPopulateXml(developmentProposal,reader,s2sUserAttachedForm,attachments);
             }
             setFormsAvailability(developmentProposal,formBeans);
@@ -126,7 +121,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         return formBeans;
     }
 
-    private Map extractAttachments(PdfReader reader)throws IOException{
+    private Map<Object, Object> extractAttachments(PdfReader reader)throws IOException{
         Map<Object, Object> fileMap = new HashMap<>();
         
         PdfDictionary catalog = reader.getCatalog();
@@ -201,34 +196,51 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         fileInfo[1]=attachmentByte;
         return fileInfo;
     }
-    
+
+    private void throwInvalidError() {
+        S2SException s2sException = new S2SException(KeyConstants.S2S_USER_ATTACHED_FORM_WRONG_FILE_TYPE,"Uploaded file is not Grants.Gov fillable form");
+        s2sException.setTabErrorKey(USER_ATTACHED_FORMS_ERRORS);
+        throw s2sException;
+    }
+
     private List<S2sUserAttachedForm> extractAndPopulateXml(ProposalDevelopmentDocument developmentProposal, PdfReader reader, S2sUserAttachedForm userAttachedForm, Map attachments) throws Exception {
         List<S2sUserAttachedForm> formBeans = new ArrayList<>();
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
-        if(domDocument==null){
-            S2SException s2sException = new S2SException(KeyConstants.S2S_USER_ATTACHED_FORM_WRONG_FILE_TYPE,"Uploaded file is not Grants.Gov fillable form");
+        if(domDocument == null){
+            throwInvalidError();
+        }
+
+        final Element documentElement = ((Document) domDocument).getDocumentElement();
+        if(documentElement == null){
+            throwInvalidError();
+        }
+
+        final Element datasetsElement = (Element) documentElement.getElementsByTagNameNS(XFA_NS, "datasets").item(0);
+        if(datasetsElement == null){
+            throwInvalidError();
+        }
+        final Element dataElement = (Element) datasetsElement.getElementsByTagNameNS(XFA_NS, "data").item(0);
+        if(dataElement == null){
+            throwInvalidError();
+        }
+        final Element grantApplicationElement = (Element) dataElement.getChildNodes().item(0);
+
+        if (grantApplicationElement == null) {
+            S2SException s2sException = new S2SException(KeyConstants.S2S_USER_ATTACHED_FORM_NOT_FILLED,"The pdf form does not contain any data.");
             s2sException.setTabErrorKey(USER_ATTACHED_FORMS_ERRORS);
             throw s2sException;
         }
-        Element documentElement = ((Document) domDocument).getDocumentElement();
-
-        Element datasetsElement = (Element) documentElement.getElementsByTagNameNS(XFA_NS, "datasets").item(0);
-        Element dataElement = (Element) datasetsElement.getElementsByTagNameNS(XFA_NS, "data").item(0);
-        Element grantApplicationElement = (Element) dataElement.getChildNodes().item(0);
 
         byte[] serializedXML = XfaForm.serializeDoc(grantApplicationElement);
         DocumentBuilderFactory domParserFactory = DocumentBuilderFactory.newInstance();
         domParserFactory.setNamespaceAware(true);
         javax.xml.parsers.DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
         domParserFactory.setIgnoringElementContentWhitespace(true);
-        ByteArrayInputStream byteArrayInputStream=null;
+
         final org.w3c.dom.Document document;
-        try{
-            byteArrayInputStream = new ByteArrayInputStream(serializedXML);
+        try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(serializedXML)) {
             document = domParser.parse(byteArrayInputStream);
-        }finally{
-            if(byteArrayInputStream!=null) byteArrayInputStream.close();
         }
         if (document != null) {
             Element form;
@@ -357,7 +369,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     protected void reorderXmlElements(Document doc) {
         Collection<UserAttachedFormsXMLReorder> userAttachedFormsXmlReorders = getBusinessObjectService().findAll(UserAttachedFormsXMLReorder.class);
         if (userAttachedFormsXmlReorders != null) {
-            userAttachedFormsXmlReorders.stream().forEach(userAttachedFormsXMLReorder -> {
+            userAttachedFormsXmlReorders.forEach(userAttachedFormsXMLReorder -> {
                 try {
                     reorderXmlElement(doc, userAttachedFormsXMLReorder.getNodeToMove(), userAttachedFormsXMLReorder.getTargetNode(), userAttachedFormsXMLReorder.isMoveAfter());
                 } catch (Exception e) {
@@ -601,14 +613,6 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
 
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
-    }
-
-    public DataObjectService getDataObjectService() {
-        return dataObjectService;
-    }
-
-    public void setDataObjectService(DataObjectService dataObjectService) {
-        this.dataObjectService = dataObjectService;
     }
 
     public FormGeneratorService getFormGeneratorService() {
