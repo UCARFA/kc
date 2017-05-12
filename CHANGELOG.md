@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2223: fixing error handling issues with NIH validation service & user attach forms
+  * Travis Schneeberger on Fri, 12 May 2017 11:21:16 -0400 [View Commit](../../commit/515493ae25f8e6c484fbb022ba699bf280f81a42)
+
+##coeus-1705.0007
 * RESKC-2196: removing carriage return and line feed from error messages returned from the NihValidationService
   * Travis Schneeberger on Thu, 11 May 2017 10:02:20 -0400 [View Commit](../../commit/2cb45b33e15344c465a45b78c06d78bd8880fc18)
 
