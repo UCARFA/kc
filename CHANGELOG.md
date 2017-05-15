@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-2178: preventing NPE when checking if there are any optional forms to display messages for
+  * Travis Schneeberger on Mon, 15 May 2017 09:07:05 -0400 [View Commit](../../commit/a5fa4fe5de412980d6b0dbe2477f60f57f6ec05f)
+* zendesk-1165 remove extra semicolon
+  * noah on Fri, 12 May 2017 10:55:05 -0700 [View Commit](../../commit/d50baebe7b9102b11cfe2667e7b0d4bda676c5af)
+
+##coeus-1705.0008
 * RESKC-2223: fixing error handling issues with NIH validation service & user attach forms
   * Travis Schneeberger on Fri, 12 May 2017 11:21:16 -0400 [View Commit](../../commit/515493ae25f8e6c484fbb022ba699bf280f81a42)
 
