@@ -147,7 +147,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
                final List<? extends S2sFormConfigurationContract> missingOptionalCfgs = cfgs.stream()
                        .filter(missingOptionalCfg -> !missingMandatoryForms.contains(missingOptionalCfg.getFormName()))
-                       .filter(missingOptionalCfg -> s2sOpportunity.getS2sOppForms().stream().anyMatch(s2sOppForm -> s2sOppForm.getFormName().equals(missingOptionalCfg.getFormName())))
+                       .filter(missingOptionalCfg -> s2sOpportunity.getS2sOppForms() != null && s2sOpportunity.getS2sOppForms().stream().anyMatch(s2sOppForm -> s2sOppForm.getFormName().equals(missingOptionalCfg.getFormName())))
                        .filter(missingOptionalCfg -> StringUtils.isNotBlank(missingOptionalCfg.getInactiveMessage()))
                        .collect(Collectors.toList());
 
