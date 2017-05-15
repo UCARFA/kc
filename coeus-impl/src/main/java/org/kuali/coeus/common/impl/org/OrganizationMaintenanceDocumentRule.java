@@ -34,10 +34,8 @@ import java.util.Collections;
 
 public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentRuleBase {
 
-
-    public OrganizationMaintenanceDocumentRule() {
-        super();
-    }
+    private transient ErrorReporter errorReporter;
+    private transient RolodexService rolodexService;
     
     @Override
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -55,7 +53,7 @@ public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentR
         return isDocumentValidForSave(document);
     }
 
-
+    @Override
     public boolean isDocumentValidForSave( MaintenanceDocument document ) {
         boolean result = super.isDocumentValidForSave(document);
         
@@ -64,8 +62,7 @@ public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentR
         result &= checkAudits(document);
         return result;
     }
-    
-    
+
     /**
      * 
      * This method to check Ynq's explanation and review date is required field based on answer.
@@ -113,33 +110,23 @@ public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentR
     }
     
     private boolean checkRolodexEntries( MaintenanceDocument maintenanceDocument) {
-        boolean valid = true;
-        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
-        Organization newOrganization = (Organization) maintenanceDocument.getNewMaintainableObject().getDataObject();
-        RolodexService rolodexService = KcServiceLocator.getService(RolodexService.class);
-        
-        
-        
-        
-        if( ( newOrganization.getOnrResidentRep() != null ) && rolodexService.getRolodex( newOrganization.getOnrResidentRep() ) == null )  { 
-            errorReporter.reportError("document.newMaintainableObject.onrResidentRep",
-                    KeyConstants.ERROR_INVALID_ROLODEX_ENTRY);
-            valid = false;
-        }
-            
-        if( ( newOrganization.getContactAddressId() != null ) && rolodexService.getRolodex( newOrganization.getContactAddressId() ) == null ) { 
-            errorReporter.reportError("document.newMaintainableObject.contactAddressId",
-                    KeyConstants.ERROR_INVALID_ROLODEX_ENTRY);
-            valid = false;
-        }
-        
-        if( ( newOrganization.getCognizantAuditor() != null ) && rolodexService.getRolodex( newOrganization.getCognizantAuditor() ) == null ) {
-            errorReporter.reportError("document.newMaintainableObject.cognizantAuditor",
-                    KeyConstants.ERROR_INVALID_ROLODEX_ENTRY);
-            valid = false;
-        }
+        final Organization newOrganization = (Organization) maintenanceDocument.getNewMaintainableObject().getDataObject();
+
+        boolean valid = isValidRolodex(newOrganization.getOnrResidentRep(), "document.newMaintainableObject.onrResidentRep");
+        valid &= isValidRolodex(newOrganization.getContactAddressId(), "document.newMaintainableObject.contactAddressId");
+        valid &= isValidRolodex(newOrganization.getCognizantAuditor(), "document.newMaintainableObject.cognizantAuditor");
+        valid &= isValidRolodex(newOrganization.getLobbyingRegistrant(), "document.newMaintainableObject.lobbyingRegistrant");
+        valid &= isValidRolodex(newOrganization.getLobbyingIndividual(), "document.newMaintainableObject.lobbyingIndividual");
         
         return valid;
+    }
+
+    private boolean isValidRolodex(Integer key, String field) {
+        if( ( key != null ) && getRolodexService().getRolodex( key ) == null ) {
+            getErrorReporter().reportError(field, KeyConstants.ERROR_INVALID_ROLODEX_ENTRY);
+            return false;
+        }
+        return true;
     }
 
     private boolean checkAudits(MaintenanceDocument maintenanceDocument) {
@@ -153,6 +140,20 @@ public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentR
         }
         return valid;
     }
-    
 
+    public ErrorReporter getErrorReporter() {
+        if (errorReporter == null) {
+            errorReporter = KcServiceLocator.getService(ErrorReporter.class);
+        }
+
+        return errorReporter;
+    }
+
+    public RolodexService getRolodexService() {
+        if (rolodexService == null) {
+            rolodexService = KcServiceLocator.getService(RolodexService.class);
+        }
+
+        return rolodexService;
+    }
 }

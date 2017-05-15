@@ -763,7 +763,7 @@
         <bean p:propertyName="rolodexId" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="sponsor.sponsorName" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="isSponsorAddress" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorAddressFlag" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="organization" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="lastName" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="firstName" parent="Uif-LookupCriteriaInputField"/>

@@ -61,6 +61,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="cableAddress"/>
         <bean parent="MaintainableFieldDefinition" p:name="cageNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="cognizantAuditor"/>
+        <bean parent="MaintainableFieldDefinition" p:name="lobbyingRegistrant"/>
+        <bean parent="MaintainableFieldDefinition" p:name="lobbyingIndividual"/>
         <bean parent="MaintainableFieldDefinition" p:name="comGovEntityCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="congressionalDistrict"/>
         <bean parent="MaintainableFieldDefinition" p:name="contactAddressId" p:required="true"/>
