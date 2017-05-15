@@ -61,6 +61,20 @@ public class Organization extends KcPersistableBusinessObjectBase implements Org
     @JoinColumn(name = "COGNIZANT_AUDITOR", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex cognizantAuditorRolodex;
 
+    @Column(name = "LOBBYING_REGISTRANT")
+    private Integer lobbyingRegistrant;
+
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "LOBBYING_REGISTRANT", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
+    private Rolodex lobbyingRegistrantRolodex;
+
+    @Column(name = "LOBBYING_INDIVIDUAL")
+    private Integer lobbyingIndividual;
+
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "LOBBYING_INDIVIDUAL", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
+    private Rolodex lobbyingIndividualRolodex;
+
     @Column(name = "COM_GOV_ENTITY_CODE")
     private String comGovEntityCode;
 
@@ -220,6 +234,22 @@ public class Organization extends KcPersistableBusinessObjectBase implements Org
 
     public void setCognizantAuditor(Integer cognizantAuditor) {
         this.cognizantAuditor = cognizantAuditor;
+    }
+
+    public Integer getLobbyingRegistrant() {
+        return lobbyingRegistrant;
+    }
+
+    public void setLobbyingRegistrant(Integer lobbyingRegistrant) {
+        this.lobbyingRegistrant = lobbyingRegistrant;
+    }
+
+    public Integer getLobbyingIndividual() {
+        return lobbyingIndividual;
+    }
+
+    public void setLobbyingIndividual(Integer lobbyingIndividual) {
+        this.lobbyingIndividual = lobbyingIndividual;
     }
 
     @Override
@@ -516,6 +546,22 @@ public class Organization extends KcPersistableBusinessObjectBase implements Org
 
     public void setCognizantAuditorRolodex(Rolodex cognizantAuditorRolodex) {
         this.cognizantAuditorRolodex = cognizantAuditorRolodex;
+    }
+
+    public Rolodex getLobbyingRegistrantRolodex() {
+        return lobbyingRegistrantRolodex;
+    }
+
+    public void setLobbyingRegistrantRolodex(Rolodex lobbyingRegistrantRolodex) {
+        this.lobbyingRegistrantRolodex = lobbyingRegistrantRolodex;
+    }
+
+    public Rolodex getLobbyingIndividualRolodex() {
+        return lobbyingIndividualRolodex;
+    }
+
+    public void setLobbyingIndividualRolodex(Rolodex lobbyingIndividualRolodex) {
+        this.lobbyingIndividualRolodex = lobbyingIndividualRolodex;
     }
 
     public Rolodex getOnrResidentRepRolodex() {

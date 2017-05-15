@@ -42,6 +42,10 @@
         <ref bean="Organization-cageNumber"/>
         <ref bean="Organization-cognizantAuditor"/>
         <ref bean="Organization-cognizantAuditorRolodex.fullName"/>
+        <ref bean="Organization-lobbyingRegistrant"/>
+        <ref bean="Organization-lobbyingRegistrantRolodex.fullName"/>
+        <ref bean="Organization-lobbyingIndividual"/>
+        <ref bean="Organization-lobbyingIndividualRolodex.fullName"/>
         <ref bean="Organization-comGovEntityCode"/>
         <ref bean="Organization-congressionalDistrict"/>
         <ref bean="Organization-contactAddressId"/>
@@ -107,6 +111,32 @@
           <property name="supportAttributes">
             <list>
               <bean p:identifier="true" p:sourceName="cognizantAuditorRolodex.fullName" p:targetName="fullName" parent="SupportAttributeDefinition"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="lobbyingRegistrantRolodex"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean p:sourceName="lobbyingRegistrant" p:targetName="rolodexId" parent="PrimitiveAttributeDefinition"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean p:identifier="true" p:sourceName="lobbyingRegistrantRolodex.fullName" p:targetName="fullName" parent="SupportAttributeDefinition"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="lobbyingIndividualRolodex"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean p:sourceName="lobbyingIndividual" p:targetName="rolodexId" parent="PrimitiveAttributeDefinition"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean p:identifier="true" p:sourceName="lobbyingIndividualRolodex.fullName" p:targetName="fullName" parent="SupportAttributeDefinition"/>
             </list>
           </property>
         </bean>
@@ -303,6 +333,66 @@
     <property name="name" value="cognizantAuditorRolodex.fullName"/>
     <property name="label" value="Cognizant Auditor Full Name"/>
     <property name="shortLabel" value="Cognizant Auditor Full Name"/>
+  </bean>
+
+  <bean id="Organization-lobbyingRegistrant" parent="Organization-lobbyingRegistrant-parentBean"/>
+  <bean abstract="true" id="Organization-lobbyingRegistrant-parentBean" parent="AttributeDefinition">
+    <property name="name" value="lobbyingRegistrant"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Lobbying Registrant"/>
+    <property name="shortLabel" value="Lobbying Registrant"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="IntegerValidationPattern" p:allowNegative="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
+    </property>
+    <property name="control">
+      <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
+    </property>
+    <property name="summary" value="Lobbying Registrant"/>
+    <property name="description" value="Lobbying Registrant"/>
+  </bean>
+
+  <bean id="Organization-lobbyingRegistrantRolodex.fullName" parent="Organization-lobbyingRegistrantRolodex.fullName-parentBean"/>
+  <bean abstract="true" id="Organization-lobbyingRegistrantRolodex.fullName-parentBean" parent="Rolodex-fullName">
+    <property name="name" value="lobbyingRegistrantRolodex.fullName"/>
+    <property name="label" value="Lobbying Registrant Full Name"/>
+    <property name="shortLabel" value="Lobbying Registrant Full Name"/>
+  </bean>
+
+  <bean id="Organization-lobbyingIndividual" parent="Organization-lobbyingIndividual-parentBean"/>
+  <bean abstract="true" id="Organization-lobbyingIndividual-parentBean" parent="AttributeDefinition">
+    <property name="name" value="lobbyingIndividual"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Lobbying Individual"/>
+    <property name="shortLabel" value="Lobbying Individual"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <bean parent="IntegerValidationPattern" p:allowNegative="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="IntegerPatternConstraint" p:allowNegative="true"/>
+    </property>
+    <property name="control">
+      <bean p:size="6" parent="TextControlDefinition"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="6" parent="Uif-TextControl"/>
+    </property>
+    <property name="summary" value="Lobbying Individual"/>
+    <property name="description" value="Lobbying Individual"/>
+  </bean>
+
+  <bean id="Organization-lobbyingIndividualRolodex.fullName" parent="Organization-lobbyingIndividualRolodex.fullName-parentBean"/>
+  <bean abstract="true" id="Organization-lobbyingIndividualRolodex.fullName-parentBean" parent="Rolodex-fullName">
+    <property name="name" value="lobbyingIndividualRolodex.fullName"/>
+    <property name="label" value="Lobbying Individual Full Name"/>
+    <property name="shortLabel" value="Lobbying Individual Full Name"/>
   </bean>
   
   <bean id="Organization-comGovEntityCode" parent="Organization-comGovEntityCode-parentBean"/>
@@ -954,6 +1044,8 @@
               <bean p:attributeName="cableAddress" parent="FieldDefinition"/>
               <bean p:attributeName="cageNumber" parent="FieldDefinition"/>
               <bean p:attributeName="cognizantAuditor" parent="FieldDefinition"/>
+              <bean p:attributeName="lobbyingRegistrant" parent="FieldDefinition"/>
+              <bean p:attributeName="lobbyingIndividual" parent="FieldDefinition"/>
               <bean p:attributeName="comGovEntityCode" parent="FieldDefinition"/>
               <bean p:attributeName="congressionalDistrict" parent="FieldDefinition"/>
               <bean p:attributeName="contactAddressId" parent="FieldDefinition"/>
@@ -1088,6 +1180,18 @@
                 <property name="inquiry">
                   <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
                         p:inquiryParameters="cognizantAuditor:rolodexId"/>
+                </property>
+              </bean>
+              <bean p:propertyName="lobbyingRegistrant" parent="Uif-DataField">
+                <property name="inquiry">
+                  <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
+                        p:inquiryParameters="lobbyingRegistrant:rolodexId"/>
+                </property>
+              </bean>
+              <bean p:propertyName="lobbyingIndividual" parent="Uif-DataField">
+                <property name="inquiry">
+                  <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
+                        p:inquiryParameters="lobbyingIndividual:rolodexId"/>
                 </property>
               </bean>
               <bean p:propertyName="comGovEntityCode" parent="Uif-DataField"/>

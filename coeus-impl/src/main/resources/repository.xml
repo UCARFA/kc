@@ -443,7 +443,7 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" nullable="false"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
-        
+
 	<class-descriptor class="org.kuali.coeus.common.framework.org.Organization" table="ORGANIZATION">
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="address" column="ADDRESS" jdbc-type="VARCHAR"/>
@@ -452,6 +452,8 @@
 		<field-descriptor name="cableAddress" column="CABLE_ADDRESS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="cageNumber" column="CAGE_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="cognizantAuditor" column="COGNIZANT_AUDITOR" jdbc-type="INTEGER"/>
+		<field-descriptor name="lobbyingRegistrant" column="LOBBYING_REGISTRANT" jdbc-type="INTEGER"/>
+		<field-descriptor name="lobbyingIndividual" column="LOBBYING_INDIVIDUAL" jdbc-type="INTEGER"/>
 		<field-descriptor name="comGovEntityCode" column="COM_GOV_ENTITY_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="congressionalDistrict" column="CONGRESSIONAL_DISTRICT" jdbc-type="VARCHAR"/>
 		<field-descriptor name="contactAddressId" column="CONTACT_ADDRESS_ID" jdbc-type="INTEGER"/>
@@ -484,6 +486,12 @@
 		</reference-descriptor>
 		<reference-descriptor name="cognizantAuditorRolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="cognizantAuditor"/>
+		</reference-descriptor>
+		<reference-descriptor name="lobbyingRegistrantRolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="lobbyingRegistrant"/>
+		</reference-descriptor>
+		<reference-descriptor name="lobbyingIndividualRolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="lobbyingIndividual"/>
 		</reference-descriptor>
 		<reference-descriptor name="onrResidentRepRolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="onrResidentRep"/>
