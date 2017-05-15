@@ -227,7 +227,21 @@
         </reference-descriptor>
 
     </class-descriptor>
-    
+
+    <class-descriptor class="org.kuali.coeus.propdev.impl.s2s.nih.NihValidationMapping" table="NIH_VALIDATION_MAPPING">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_NIH_VALIDATION" autoincrement="true"/>
+        <field-descriptor name="ruleNumber" column="RULE_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="customMessage" column="CUSTOM_MSG" jdbc-type="VARCHAR"/>
+        <field-descriptor name="pageId" column="PAGE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sectionId" column="SECTION_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTIVE" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="CHAR" />
+        <field-descriptor name="forceError" column="FORCE_ERROR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="CHAR" />
+        <field-descriptor name="appendToOriginal" column="APPEND_TO_ORIGINAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="CHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+
     <class-descriptor class="org.kuali.coeus.propdev.impl.editable.ProposalChangedData" table="EPS_PROP_CHANGED_DATA">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="columnName" column="COLUMN_NAME" jdbc-type="VARCHAR" primarykey="true"/>

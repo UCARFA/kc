@@ -238,7 +238,8 @@ public final class KeyConstants {
     public static final String ERROR_GRANTSGOV_FORM_PARSING_SAXEXCEPTION = "error.grantsgov.form.xmlprocess";
     public static final String ERROR_GRANTSGOV_FORM_SCHEMA_NOT_FOUND = "error.grantsgov.form.schema.server.down";
     public static final String ERROR_GRANTSGOV_NO_FORM_ELEMENT = "error.grantsgov.no.form.element";
-    
+    public static final String UNIQUE_NIH_VALIDATION_KEY = "error.unique.nih.validation.mapping";
+
     public static final String ERROR_PRINTING_UNKNOWN = "error.printing.unknown";
     public static final String ERROR_IF_COMPETITION_ID_IS_INVALID="error.s2sopportunity.competitionIdInvalid";
    // Grants.gov System Parameters

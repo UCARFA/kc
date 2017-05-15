@@ -432,6 +432,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/attachment/NarrativeStatus.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/attachment/NarrativeType.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/attachment/NarrativeUserRights.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/NihValidationMapping.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Negotiation.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NegotiationActivity.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NegotiationActivityAttachment.xml</value>
@@ -920,6 +921,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sProviderMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sRevisionTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sSubmissionTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/NihValidationMappingMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ScheduleActItemTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ScheduleStatusMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SchoolCodeMaintenanceDocument.xml</value>
