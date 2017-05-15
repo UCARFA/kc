@@ -9673,3 +9673,28 @@ PUT Award Budget General Info
     + Headers
 
             Content-Type: application/json;charset=UTF-8
+
+### Update Award Budget Status [PUT /award/api/v2/award-budgets/8/status/]
+
+Set award budget status.
+
++ Parameters
+	+ budgetId: `8` (number, required)
+
++ Request
+    + Headers
+
+            Authorization: Bearer {api-key}
+            Content-Type: application/json
+
+    + Body
+
+            {
+              "statusCode" : "12"
+            }
+
++ Response 200
+    + Headers
+
+            Content-Length:0
+
