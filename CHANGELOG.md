@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1797: adding lobbying registrant and lobbying individual to organization
+  * Travis Schneeberger on Mon, 15 May 2017 16:12:38 -0400 [View Commit](../../commit/a1078ccc319739178fd57933b7e48e258ca12338)
+
+##coeus-1705.0011
 * RESKC-2198: Adding NIH mapping maintenance doc. (#2330)
 
 * RESKC-2198: Adding NIH mapping maintenance doc.

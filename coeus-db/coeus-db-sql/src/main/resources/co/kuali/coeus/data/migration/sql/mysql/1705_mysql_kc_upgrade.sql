@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1705_002__nih_mapping.sql
+\. ./kc/bootstrap/V1705_003__org_lobbying.sql
 commit;
