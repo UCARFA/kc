@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2214: Update documentation. (#2331)
+
+  * Gayathri Athreya on Mon, 15 May 2017 08:02:42 -0700 [View Commit](../../commit/7b23956151ebcea27982d54e00cf54a8a6090a17)
+
+##coeus-1705.0009
 * RESKC-2178: preventing NPE when checking if there are any optional forms to display messages for
   * Travis Schneeberger on Mon, 15 May 2017 09:07:05 -0400 [View Commit](../../commit/a5fa4fe5de412980d6b0dbe2477f60f57f6ec05f)
 * zendesk-1165 remove extra semicolon
