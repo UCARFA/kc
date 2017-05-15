@@ -221,7 +221,9 @@ public final class PdfBoxUtils {
     private static String convertToDisplayValue(PDChoice field, String value) {
         if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(field.getOptionsDisplayValues()) && org.apache.commons.collections4.CollectionUtils.isNotEmpty(field.getOptionsExportValues())) {
             final int index = field.getOptionsExportValues().indexOf(value);
-            return field.getOptionsDisplayValues().get(index);
+            if (index != -1) {
+                return field.getOptionsDisplayValues().get(index);
+            }
         }
 
         return value;
