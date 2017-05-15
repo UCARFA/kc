@@ -164,13 +164,12 @@ public class Organization extends KcPersistableBusinessObjectBase implements Org
     @OneToMany(mappedBy = "organization", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<OrganizationAudit> organizationAudits;
 
-    @SuppressWarnings("unchecked")
     public Organization() {
         super();
-        organizationYnqs = new ArrayList<OrganizationYnq>();
-        organizationTypes = new ArrayList<OrganizationType>();
-        organizationIdcs = new ArrayList<OrganizationIndirectcost>();
-        organizationAudits = new ArrayList<OrganizationAudit>();
+        organizationYnqs = new ArrayList<>();
+        organizationTypes = new ArrayList<>();
+        organizationIdcs = new ArrayList<>();
+        organizationAudits = new ArrayList<>();
     }
 
     @Override
@@ -480,7 +479,7 @@ public class Organization extends KcPersistableBusinessObjectBase implements Org
         while (getOrganizationYnqs().size() <= index) {
             getOrganizationYnqs().add(new OrganizationYnq());
         }
-        return (OrganizationYnq) getOrganizationYnqs().get(index);
+        return getOrganizationYnqs().get(index);
     }
 
     @Override
@@ -496,7 +495,7 @@ public class Organization extends KcPersistableBusinessObjectBase implements Org
         while (getOrganizationTypes().size() <= index) {
             getOrganizationTypes().add(new OrganizationType());
         }
-        return (OrganizationType) getOrganizationTypes().get(index);
+        return getOrganizationTypes().get(index);
     }
 
     @Override
@@ -512,7 +511,7 @@ public class Organization extends KcPersistableBusinessObjectBase implements Org
         while (getOrganizationIdcs().size() <= index) {
             getOrganizationIdcs().add(new OrganizationIndirectcost());
         }
-        return (OrganizationIndirectcost) getOrganizationIdcs().get(index);
+        return getOrganizationIdcs().get(index);
     }
 
     @Override
@@ -528,7 +527,7 @@ public class Organization extends KcPersistableBusinessObjectBase implements Org
         while (getOrganizationAudits().size() <= index) {
             getOrganizationAudits().add(new OrganizationAudit());
         }
-        return (OrganizationAudit) getOrganizationAudits().get(index);
+        return getOrganizationAudits().get(index);
     }
 
 
