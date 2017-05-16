@@ -586,7 +586,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
             unitName = unitName.substring(0, NUMBER_30);
         }
         getDocInfo().add(new HeaderField("DataDictionary.AwardPersonUnit.attributes.leadUnit", unitName));
-        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.awardIdAccount", getAwardIdAccount(awardDocument)));
+        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.awardIdAccount", "<div id = \"awardIdAccount\">" + getAwardIdAccount(awardDocument) + "</div>"));
 
         setupSponsor(awardDocument);
         setupLastUpdate(awardDocument);

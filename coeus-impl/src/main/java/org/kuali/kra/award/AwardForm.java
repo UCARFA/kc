@@ -1263,13 +1263,13 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         if (workflowDocument != null) {
             docIdAndStatus = getAwardDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatus().getLabel();
         }
-        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.docIdStatus", docIdAndStatus));
+        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.docIdStatus", "<div id = \"docIdAndStatus\">" + docIdAndStatus + "</div>"));
         String unitName = awardDocument.getAward().getUnitName();
         if (StringUtils.isNotBlank(unitName) && unitName.length() > NUMBER_30) {
             unitName = unitName.substring(0, NUMBER_30);
         }
         getDocInfo().add(new HeaderField("DataDictionary.AwardPersonUnit.attributes.leadUnit", unitName));
-        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.awardIdAccount", getAwardIdAccount(awardDocument)));
+        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.awardIdAccount", "<div id = \"awardIdAccount\">" + getAwardIdAccount(awardDocument) + "</div>"));
 
         setupSponsor(awardDocument);
         setupLastUpdate(awardDocument);

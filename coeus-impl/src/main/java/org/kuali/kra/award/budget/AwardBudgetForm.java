@@ -171,7 +171,7 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
     @SuppressWarnings("deprecation")
     protected HeaderField getHeaderDocStatus (WorkflowDocument parentWorkflowDocument) {
         AwardBudgetExt abe = this.getAwardBudgetDocument().getAwardBudget();
-        return new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", abe.getAwardBudgetStatus().getDescription());
+        return new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", "<div id = \"awardBudgetStatus\">" + abe.getAwardBudgetStatus().getDescription() + "</div>");
     }
     
     @Override
