@@ -50,6 +50,7 @@ public interface PermissionConstants {
     String ADD_ADDRESS_BOOK = "Add Address Book";
     String NOTIFY_PROPOSAL_PERSONS = "NOTIFY_PROPOSAL_PERSONS";
     String MODIFY_S2S_ENROUTE = "Modify Proposal Development S2s While Enroute";
+    String OVERRIDE_PD_COMPLIANCE_ENTRY = "Override PD Compliance Entry";
         
     /* IRB Permissions */
     
