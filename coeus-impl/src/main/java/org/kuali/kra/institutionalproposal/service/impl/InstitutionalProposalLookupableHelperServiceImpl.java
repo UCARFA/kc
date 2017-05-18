@@ -121,7 +121,6 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
             filterApprovedPendingSubmitProposals(searchResults);
             filterInvalidProposalStatus(searchResults);
         }
-
         return filterForPermissions(searchResults);
     }
 

@@ -19,6 +19,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="institutionalProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
+<c:set var="institutionalProposalCommentAttributes" value="${DataDictionary.InstitutionalProposalComment.attributes}" />
 <c:set var="institutionalProposalFandAAttributes" value="${DataDictionary.InstitutionalProposalFandA.attributes}" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="tabItemCount" value="0" />
@@ -167,4 +168,17 @@
           	
         </table>
    </div>
+    <div class="tab-container" align="center">
+        <h3>
+            <span class="subhead-left">Rates Comments</span>
+        </h3>
+        <table>
+            <th width="100" align="right" scope="row"><div align="center">Add:</div></th>
+            <td class="infoline">
+                <div align="left">
+                    <kul:htmlControlAttribute property="document.institutionalProposalList[0].ratesComment.comments" attributeEntry="${institutionalProposalCommentAttributes.comments}"/>
+                </div>
+            </td>
+        </table>
+    </div>
 </kul:tab>

@@ -1441,6 +1441,10 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         return getInstitutionalProposalCommentByType(Constants.COST_SHARE_COMMENT_TYPE_CODE, true);
     }
 
+    public InstitutionalProposalComment getRatesComment() {
+        return getInstitutionalProposalCommentByType(Constants.FANDA_RATE_COMMENT_TYPE_CODE, true);
+    }
+
     public InstitutionalProposalComment getUnrecoveredFandAComment() {
         return getInstitutionalProposalCommentByType(Constants.FANDA_RATE_COMMENT_TYPE_CODE, true);
     }

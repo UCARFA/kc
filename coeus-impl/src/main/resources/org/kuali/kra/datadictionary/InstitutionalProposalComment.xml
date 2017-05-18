@@ -136,26 +136,8 @@
     </bean>
 
     <bean id="InstitutionalProposalComment-commentTypeCode" parent="InstitutionalProposalComment-commentTypeCode-parentBean" />
-    <bean id="InstitutionalProposalComment-commentTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="commentTypeCode" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Comment Type Code" />
-        <property name="shortLabel" value="Comment Type Code" />
+    <bean id="InstitutionalProposalComment-commentTypeCode-parentBean" abstract="true" parent="CommentType-commentTypeCode" >
         <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-        <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
-        </property>
-        <property name="summary" value="Comment Type Code" />
-        <property name="description" value="Comment Type Code" />
     </bean>
 
     <bean id="InstitutionalProposalComment-comments" parent="InstitutionalProposalComment-comments-parentBean" />
