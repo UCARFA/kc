@@ -482,13 +482,13 @@
 			            <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardExecutionDate}" /></div>
 			        </th>
 			        <td align="left" valign="middle">
-			            <kul:htmlControlAttribute property="document.awardList[0].awardExecutionDate" attributeEntry="${awardAttributes.awardExecutionDate}" readOnly="${!awardObligatedAndAnticipatedAmountsEditable}"/>
+			            <kul:htmlControlAttribute property="document.awardList[0].awardExecutionDate" attributeEntry="${awardAttributes.awardExecutionDate}"/>
 			        </td>
 			        <th>
 			            <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.beginDate}" /></div>
 			        </th>
 			        <td align="left" valign="middle">
-			            <kul:htmlControlAttribute property="document.awardList[0].beginDate" attributeEntry="${awardAttributes.beginDate}" readOnly="${!awardObligatedAndAnticipatedAmountsEditable}"/>
+			            <kul:htmlControlAttribute property="document.awardList[0].beginDate" attributeEntry="${awardAttributes.beginDate}"/>
 			        </td>
 			    </tr>
 			        <c:choose>
