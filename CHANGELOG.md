@@ -1,6 +1,33 @@
 
 
 ##CURRENT
+* RESKC-1752: Re-enabling execution and modification dates. (#2339)
+
+  * The goal of this parameter (MAKE_AWD_CUM_ANTICIPATED_OBL_EDITABLE) was to prevent users from entering the following data on the award document: Obligated and Anticipated Amounts and Obligation Start and End Dates.
+  * However, when the parameter is set to 'N' a user does NOT have a way to enter Execution Date, and Modification Date. (these fields are NOT available in the T&M document)
+  * Please fix so that when the parameter is set to N:
+  * The Execution Date and Modification Date are editable on the Award Document  * Gayathri Athreya on Thu, 18 May 2017 11:07:49 -0700 [View Commit](../../commit/a7a6f6f133bb52ec35f4abc33cd9135aac423ceb)
+* RESKC-2227: Added comment field to IP (#2335)
+
+  * Gayathri Athreya on Thu, 18 May 2017 07:56:44 -0700 [View Commit](../../commit/cdea8209485ff4ac1dbd48c658191c71c72868bd)
+* RESKC-2224:CONTRIBUTION: PD: Compliance: need ability to add or edit
+  * compliance entry in proposal when at OSP
+  * Currently, there is no ability to add a compliance entry, or edit an
+  * existing compliance entry,in a proposal when it is in "Approval Pending"
+status. This causes additional work as the proposal must either be
+  * returned to the Aggregator, edited, and re-routed to OSP, or OSP has to
+  * request the Data Team to add/edit the compliance entry in the resulting
+  * Institute Proposal.
+  * We need to develop a permission that can be added to the OSP Admin role
+so that a person has the ability to either add a compliance line, or
+  * edit an existing compliance line, when a proposal is in "Approval in
+  * Progress" status in OSP.
+  * Recommended Permission name - "Override_PD_Compliance_Entry"  * vineeth on Wed, 17 May 2017 17:51:10 -0400 [View Commit](../../commit/1162636c7e1469f6bf8bd9edab7996f3a5c457f8)
+* AFT changes (#2336)
+
+  * Gayathri Athreya on Tue, 16 May 2017 13:15:45 -0700 [View Commit](../../commit/0aae58b214cd0025a756a895ef35ee51804431e1)
+
+##coeus-1705.0012
 * RESKC-1797: adding lobbying registrant and lobbying individual to organization
   * Travis Schneeberger on Mon, 15 May 2017 16:12:38 -0400 [View Commit](../../commit/a1078ccc319739178fd57933b7e48e258ca12338)
 
