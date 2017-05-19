@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1797: supporting form SFLLLV1.2, adding tests for all versions of SFLLL forms
+  * Travis Schneeberger on Fri, 19 May 2017 11:57:33 -0400 [View Commit](../../commit/581f5569855f89810a9334492c8261b000997e15)
+
+##coeus-1705.0013
 * RESKC-1752: Re-enabling execution and modification dates. (#2339)
 
   * The goal of this parameter (MAKE_AWD_CUM_ANTICIPATED_OBL_EDITABLE) was to prevent users from entering the following data on the award document: Obligated and Anticipated Amounts and Obligation Start and End Dates.
