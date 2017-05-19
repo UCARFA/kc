@@ -88,12 +88,12 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
             String errorPath = "budget.budgetCostShares[" + i + "]";
             errorMap.addToErrorPath(errorPath);
 
-            if (budgetCostShare.getSharePercentage()!=null && (budgetCostShare.getSharePercentage().isLessThan(new ScaleTwoDecimal(0)) ||
+            if(budgetCostShare.getSharePercentage()!=null && (budgetCostShare.getSharePercentage().isLessThan(new ScaleTwoDecimal(0)) ||
                budgetCostShare.getSharePercentage().isGreaterThan(new ScaleTwoDecimal(100)))) {
                 errorMap.putError("sharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE);
                 valid = false;
             }
-            
+
             //validate project period stuff            
             String currentField = "document.budget.budgetCostShares[" + i + "].projectPeriod";
             int numberOfProjectPeriods = budget.getBudgetPeriods().size();

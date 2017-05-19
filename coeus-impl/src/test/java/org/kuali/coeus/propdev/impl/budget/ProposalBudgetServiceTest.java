@@ -91,7 +91,17 @@ public class ProposalBudgetServiceTest {
         costShare2.setProjectPeriod(1);
         budget.getBudgetCostShares().add(costShare2);
         proposalDevelopmentDocument.getDevelopmentProposal().setFinalBudget(budget);
+        Assert.assertFalse(proposalBudgetService.validateCostShare(budget));
 
+        budget.setBudgetCostShares(new ArrayList<>());
+        costShare = new BudgetCostShare();
+        costShare.setSourceAccount("");
+        costShare.setProjectPeriod(1);
+        budget.getBudgetCostShares().add(costShare);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("");
+        costShare2.setProjectPeriod(1);
+        budget.getBudgetCostShares().add(costShare2);
         Assert.assertFalse(proposalBudgetService.validateCostShare(budget));
 
         budget.setBudgetCostShares(new ArrayList<>());
@@ -103,7 +113,6 @@ public class ProposalBudgetServiceTest {
         costShare2.setSourceAccount("456");
         costShare2.setProjectPeriod(1);
         budget.getBudgetCostShares().add(costShare2);
-
         Assert.assertTrue(proposalBudgetService.validateCostShare(budget));
 
         budget.setBudgetCostShares(new ArrayList<>());
