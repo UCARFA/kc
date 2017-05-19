@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+* Fix cost share tests (#2342)
+
+  * Gayathri Athreya on Fri, 19 May 2017 14:23:15 -0700 [View Commit](../../commit/60a37ea1c38053095b74121c2e68b208c3e51f69)
+* RESKC-2238: Fixing cost share issue. (#2341)
+
+  * When a user has a budget with cost share and the cost share distribution has multiple rows with SAME source in SAME FY; then the following error results: Row duplication!! Please enter a different Fiscal Year or Source Account for 1 or 1234567
+  * If the user was somehow able to save this information and then tries to access the budget back again, this error comes up when the budget is opened, however, it prevents the user from navigating to the right section to fix the error.
+  * The expected behavior is that the error is present, BUT the user should be able to navigate between the section and to the right section to fix it. The error should not let user set the budget as Complete.
+  * New Message:
+  * Multiple rows with the same Fiscal Year and Source Account combination are not allowed. Please fix.  * Gayathri Athreya on Fri, 19 May 2017 12:08:43 -0700 [View Commit](../../commit/fff6493928f9ac46bbb9a2b2dfb790a22a72871f)
+
+##coeus-1705.0014
 * RESKC-1797: supporting form SFLLLV1.2, adding tests for all versions of SFLLL forms
   * Travis Schneeberger on Fri, 19 May 2017 11:57:33 -0400 [View Commit](../../commit/581f5569855f89810a9334492c8261b000997e15)
 
