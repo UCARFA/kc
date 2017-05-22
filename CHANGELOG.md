@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1794: supporting Budget Narrative Attachment Form 1.2
+  * Travis Schneeberger on Mon, 22 May 2017 15:42:59 -0400 [View Commit](../../commit/248a3785bdde971eb0e90c6f7d74e0b37bb46849)
+
+##coeus-1705.0020
 * return active indicator on person trainings
   * Joe Williams on Mon, 22 May 2017 10:17:27 -0500 [View Commit](../../commit/dd5c00a8c2a3a9b60976b3a878c3bfe73f6cdd7c)
 
