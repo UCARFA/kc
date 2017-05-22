@@ -44,6 +44,8 @@ public class PersonTrainingDto {
 
         private String comments;
 
+        private boolean active;
+
         private Training training;
 
         public Integer getPersonTrainingId() {
@@ -134,5 +136,11 @@ public class PersonTrainingDto {
             this.training = training;
         }
 
+        public boolean isActive() {
+            return active;
+        }
 
+        public void setActive(boolean active) {
+            this.active = active;
+        }
 }
