@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* return active indicator on person trainings
+  * Joe Williams on Mon, 22 May 2017 10:17:27 -0500 [View Commit](../../commit/dd5c00a8c2a3a9b60976b3a878c3bfe73f6cdd7c)
+
+##coeus-1705.0019
 * No Changes
 
 
