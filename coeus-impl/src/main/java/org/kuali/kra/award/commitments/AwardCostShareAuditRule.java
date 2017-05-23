@@ -36,39 +36,38 @@ public class AwardCostShareAuditRule implements DocumentAuditRule {
     private static final String AUDIT_CLUSTER = "costShareAuditErrors";
     
     private List<AuditError> auditErrors;
-    
+
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
-        boolean retval = true;
         AwardDocument awardDocument = (AwardDocument)document;
         Award award = awardDocument.getAward();
-        retval &= validateCostShareDoesNotViolateUniqueConstraint(award.getAwardCostShares());
+        boolean retval = validateCostShareDoesNotViolateUniqueConstraintNonNull(award.getAwardCostShares());
         if (!retval) {
             reportAndCreateAuditCluster();            
         }
         return retval;
     }
-    
-    /**
-     * This method tests that the Cost Shares do not violate unique constraint on Database table.
-     * @param awardCostShareRuleEvent
-     * @param awardCostShare
-     * @return
-     */
-    public boolean validateCostShareDoesNotViolateUniqueConstraint (List<AwardCostShare> awardCostShares) {
+
+    public boolean validateCostShareDoesNotViolateUniqueConstraintNonNull(List<AwardCostShare> awardCostShares) {
         boolean valid = true;
         for (AwardCostShare costShare1 : awardCostShares) {
-            for (AwardCostShare costShare2 : awardCostShares) {
-                if (costShare1 == costShare2) {
-                    continue;
-                } else if (StringUtils.equals(costShare1.getProjectPeriod(), costShare2.getProjectPeriod()) &&
-                        costShare1.getCostShareTypeCode().equals(costShare2.getCostShareTypeCode()) &&
+            if (costShare1.getCostShareTypeCode() != null) {
+                for (AwardCostShare costShare2 : awardCostShares) {
+                    if (costShare1 != costShare2 && StringUtils.equals(costShare1.getProjectPeriod(), costShare2.getProjectPeriod()) &&
+                            costShare1.getCostShareTypeCode().equals(costShare2.getCostShareTypeCode()) &&
                             StringUtils.equalsIgnoreCase(costShare1.getSource(), costShare2.getSource()) &&
-                                StringUtils.equalsIgnoreCase(costShare1.getDestination(), costShare2.getDestination())) {
-                    valid = false;
-                    addAuditError(new AuditError("document.awardList[0].awardCostShares["+awardCostShares.indexOf(costShare1)+"].fiscalYear", 
-                            KeyConstants.ERROR_DUPLICATE_ENTRY,
-                            Constants.MAPPING_AWARD_COMMITMENTS_PAGE+"."+Constants.COST_SHARE_PANEL_ANCHOR));
+                            StringUtils.equalsIgnoreCase(costShare1.getDestination(), costShare2.getDestination())) {
+                        valid = false;
+                        addAuditError(new AuditError("document.awardList[0].awardCostShares[" + awardCostShares.indexOf(costShare1) + "].fiscalYear",
+                                KeyConstants.ERROR_DUPLICATE_ENTRY,
+                                Constants.MAPPING_AWARD_COMMITMENTS_PAGE + "." + Constants.COST_SHARE_PANEL_ANCHOR));
+                    }
                 }
+            } else {
+                valid = false;
+                addAuditError(new AuditError("document.awardList[0].awardCostShares[" + awardCostShares.indexOf(costShare1) + "].costShareTypeCode",
+                        KeyConstants.ERROR_COST_SHARE_TYPE_REQUIRED,
+                        Constants.MAPPING_AWARD_COMMITMENTS_PAGE + "." + Constants.COST_SHARE_PANEL_ANCHOR));
             }
         }
         return valid;
@@ -76,17 +75,11 @@ public class AwardCostShareAuditRule implements DocumentAuditRule {
 
     private void addAuditError(AuditError auditError) {
         if(auditErrors == null) {
-            auditErrors = new ArrayList<AuditError>();            
+            auditErrors = new ArrayList<>();
         }
         auditErrors.add(auditError);
     }
 
-
-    
-    /**
-     * This method creates and adds the AuditCluster to the Global AuditErrorMap.
-     */
-    @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
             GlobalVariables.getAuditErrorMap().put(AUDIT_CLUSTER, new AuditCluster(Constants.COST_SHARE_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));

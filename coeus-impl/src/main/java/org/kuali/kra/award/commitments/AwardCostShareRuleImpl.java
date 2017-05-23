@@ -102,11 +102,7 @@ public class AwardCostShareRuleImpl extends CostShareRuleResearchDocumentBase im
     private boolean validateCostShareType(Integer costShareTypeCode) {
         boolean isValid = true;
         String costShareTypeCodeField = fieldStarter + ".costShareTypeCode";
-        if (costShareTypeCode == null) {
-            isValid = false;
-            this.reportError(costShareTypeCodeField, KeyConstants.ERROR_COST_SHARE_TYPE_REQUIRED);
-        } else {
-
+        if (costShareTypeCode != null) {
             Map<String,Integer> fieldValues = new HashMap<>();
             fieldValues.put("costShareTypeCode", costShareTypeCode);
             if (getBusinessObjectService().countMatching(CostShareType.class, fieldValues) != 1) {
