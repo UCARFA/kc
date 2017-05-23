@@ -279,10 +279,6 @@
 		<reference-descriptor name="costElementBO" class-ref="org.kuali.coeus.common.budget.framework.core.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="costElement"/> 
 		</reference-descriptor>
-		<reference-descriptor name="budgetPeriodBO" class-ref="org.kuali.coeus.common.budget.framework.period.BudgetPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="budgetPeriodId"/> 
-		</reference-descriptor>
-
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.coeus.common.budget.framework.period.BudgetPeriod" table="BUDGET_PERIODS">

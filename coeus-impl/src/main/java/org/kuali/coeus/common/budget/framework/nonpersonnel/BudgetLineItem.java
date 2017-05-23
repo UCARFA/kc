@@ -385,6 +385,10 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
 
     @Override
     public BudgetPeriod getBudgetPeriodBO() {
+        if (budgetPeriodId != null && ObjectUtils.isNull(budgetPeriodBO) ) {
+            this.refreshReferenceObject("budgetPeriodBO");
+        }
+
         return budgetPeriodBO;
     }
 
@@ -613,9 +617,11 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
 
     @Override
     public Boolean getSubmitCostSharingFlag() {
-        if (ObjectUtils.isNull(budgetPeriodBO)) {
-            this.refreshReferenceObject("budgetPeriodBO");
+        //attempt to use the budget object before falling back to the BudgetPeriod
+        if (getBudget() != null) {
+            return getBudget().getSubmitCostSharingFlag() ? submitCostSharingFlag : false;
         }
+
         return (getBudgetPeriodBO() != null && getBudgetPeriodBO().getBudget().getSubmitCostSharingFlag()) ? submitCostSharingFlag : false;
     }
 
