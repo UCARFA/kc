@@ -79,11 +79,6 @@ public class SalaryCalculatorTest {
         protected boolean isAnniversarySalaryDateEnabled() {
             return isAnniversarySalaryDateEnabled;
         }
-
-        @Override
-        protected void populateAppointmentType(BudgetPerson budgetPerson) {
-            //no-op
-        }
     }
 
     public Date createDateFromString(String date) throws Exception {

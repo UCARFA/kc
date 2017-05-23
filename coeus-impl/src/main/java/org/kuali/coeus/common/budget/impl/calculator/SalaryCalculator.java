@@ -28,7 +28,6 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
-import org.kuali.coeus.common.budget.framework.personnel.AppointmentType;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
@@ -315,7 +314,7 @@ public class SalaryCalculator {
         }
         if (budgetPerson != null) {
             salaryDetails.setActualBaseSalary(getPrevSalaryBase(budgetPerson, boundary));
-            populateAppointmentType(budgetPerson);
+
             BudgetPerson newBudgetPerson = getBudgetPersonApplied(budgetPerson, boundary);
             if (budgetRate != null
                     && ((newBudgetPerson == null && budgetPerson.getEffectiveDate().before(budgetRate.getStartDate()))
@@ -420,11 +419,6 @@ public class SalaryCalculator {
     protected boolean isAnniversarySalaryDateEnabled() {
         return getParameterService().getParameterValueAsString(Budget.class, Constants.ENABLE_SALARY_INFLATION_ANNIV_DATE)
                 .equals(STRING_1);
-    }
-
-    protected void populateAppointmentType(BudgetPerson budgetPerson) {
-        AppointmentType appointmentType =  getBusinessObjectService().findByPrimaryKey(AppointmentType.class, Collections.singletonMap("appointmentTypeCode", budgetPerson.getAppointmentTypeCode()));
-        budgetPerson.setAppointmentType(appointmentType);
     }
 
     private BudgetPerson getSameJobPerson(Boundary boundary, BudgetPerson curBudgetPerson) {
