@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2194: budget improvements
+  * Travis Schneeberger on Tue, 23 May 2017 10:22:04 -0400 [View Commit](../../commit/f6f2bf750722b2d4f93eb718cb03486dbee91516)
+
+##coeus-1705.0021
 * RESKC-1794: supporting Budget Narrative Attachment Form 1.2
   * Travis Schneeberger on Mon, 22 May 2017 15:42:59 -0400 [View Commit](../../commit/248a3785bdde971eb0e90c6f7d74e0b37bb46849)
 
