@@ -32,9 +32,6 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-/**
- * This class tests <code>AwardCostShareRule</code>
- */
 public class AwardCostShareAuditRuleTest extends KcIntegrationTestBase {
     
     private static final String TEST_SOURCE = "54321";
@@ -44,8 +41,10 @@ public class AwardCostShareAuditRuleTest extends KcIntegrationTestBase {
     private static final Integer TEST_COST_SHARE_TYPE = 1;
     private static final Integer PERCENTAGE = 50;
     private static final Integer COMMITMENT_AMOUNT = 10000;
-    AwardCostShareAuditRule awardCostShareAuditRule;
-    List<AwardCostShare> awardCostShares = new ArrayList<AwardCostShare>();
+    private AwardCostShareAuditRule awardCostShareAuditRule;
+    private List<AwardCostShare> awardCostShares = new ArrayList<>();
+    private List<AwardCostShare> awardCostSharesNullType = new ArrayList<>();
+
 
     @Before
     public void setUp() throws Exception {
@@ -67,22 +66,36 @@ public class AwardCostShareAuditRuleTest extends KcIntegrationTestBase {
         awardCostShare.setCommitmentAmount(new ScaleTwoDecimal(COMMITMENT_AMOUNT));
         awardCostShares.add(awardCostShare);
         GlobalVariables.setMessageMap(new MessageMap());
-          
+
+        AwardCostShare awardCostShareNullType = new AwardCostShare();
+        awardCostShareNullType.setCostSharePercentage(new ScaleTwoDecimal(PERCENTAGE));
+        awardCostShareNullType.setCostShareTypeCode(null);
+        awardCostShareNullType.setProjectPeriod(TEST_FISCAL_YEAR);
+        awardCostShareNullType.setDestination(TEST_DESTINATION);
+        awardCostShareNullType.setSource(TEST_SOURCE);
+        awardCostShareNullType.setCommitmentAmount(new ScaleTwoDecimal(COMMITMENT_AMOUNT));
+        awardCostSharesNullType.add(awardCostShareNullType);
     }
 
     @After
     public void tearDown() throws Exception {
         awardCostShareAuditRule = null;
         awardCostShares = null;
+        awardCostSharesNullType = null;
     }
    
     @Test
     public void testCostShareUniqueCheck() throws Exception {
-        assertTrue(awardCostShareAuditRule.validateCostShareDoesNotViolateUniqueConstraint(awardCostShares));
+        assertTrue(awardCostShareAuditRule.validateCostShareDoesNotViolateUniqueConstraintNonNull(awardCostShares));
         awardCostShares.get(1).setProjectPeriod(TEST_FISCAL_YEAR);
-        assertFalse(awardCostShareAuditRule.validateCostShareDoesNotViolateUniqueConstraint(awardCostShares));
+        assertFalse(awardCostShareAuditRule.validateCostShareDoesNotViolateUniqueConstraintNonNull(awardCostShares));
     }
-    
 
 
+    @Test
+    public void testCostShareNull() throws Exception {
+        assertFalse(awardCostShareAuditRule.validateCostShareDoesNotViolateUniqueConstraintNonNull(awardCostSharesNullType));
+        awardCostSharesNullType.get(0).setCostShareTypeCode(1);
+        assertTrue(awardCostShareAuditRule.validateCostShareDoesNotViolateUniqueConstraintNonNull(awardCostSharesNullType));
+    }
 }
