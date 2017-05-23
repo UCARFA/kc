@@ -303,10 +303,9 @@ public class AwardAction extends BudgetParentActionBase {
         }else{
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
         }
-        
+
         String routeHeaderId = awardForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_ACTIONS_PAGE, AWARD_DOCUMENT);
-        
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionRedirect holdingPageForward = new ActionRedirect(mapping.findForward(KcHoldingPageConstants.MAPPING_HOLDING_PAGE));
         holdingPageForward.addParameter(KcHoldingPageConstants.HOLDING_PAGE_DOCUMENT_ID, routeHeaderId);
@@ -333,6 +332,11 @@ public class AwardAction extends BudgetParentActionBase {
             GlobalVariables.getMessageMap().putError(DATA_VALIDATION,KeyConstants.ERROR_WORKFLOW_SUBMISSION);
             return mapping.findForward(Constants.MAPPING_BASIC);
          }
+    }
+
+    protected boolean isAutoPostAward() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD, ParameterConstants.ALL_COMPONENT, Constants.AWARD_AUTO_POST_ENABLED);
     }
 
     protected AuditHelper getAuditHelper() {

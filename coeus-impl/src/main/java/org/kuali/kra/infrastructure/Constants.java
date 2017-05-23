@@ -452,6 +452,8 @@ public interface Constants {
     // Award financial rest api constants
     String AWARD_POST_ENABLED = "AWARD_POST_ENABLED";
     String TM_POST_ENABLED = "TM_POST_ENABLED";
+    String TM_AUTO_POST_ENABLED = "TM_AUTO_POST_ENABLED";
+    String AWARD_AUTO_POST_ENABLED = "AWARD_AUTO_POST_ENABLED";
     String DISPLAY_ACCOUNT_BALANCES = "DISPLAY_ACCOUNT_BALANCES";
 
     //Institutional Proposal

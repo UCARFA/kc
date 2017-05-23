@@ -1446,7 +1446,12 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         resultList.toArray(result);
         return result;
     }
-    
+
+    protected boolean isAutoPostAward() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD, ParameterConstants.ALL_COMPONENT, Constants.AWARD_AUTO_POST_ENABLED);
+    }
+
     public List<ExtraButton> getExtraActionsButtons() {
         extraButtons.clear();
         
@@ -1456,7 +1461,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + BUTTONSMALL_SEND_NOTIFICATION_GIF;
         addExtraButton(METHOD_TO_CALL_SEND_NOTIFICATION, sendNotificationImage, SEND_NOTIFICATION);
 
-        if (getAwardDocument().isAuthorizedToPostAward(GlobalVariables.getUserSession().getPrincipalId())) {
+        if (!isAutoPostAward() && getAwardDocument().isAuthorizedToPostAward(GlobalVariables.getUserSession().getPrincipalId())) {
             String postAwardBudgetImage = buildExtraButtonSourceURI(BUTTONSMALL_POST_GIF);
             addExtraButton(METHOD_TO_CALL_POST_AWARD, postAwardBudgetImage, POST_AWARD_ALT_TEXT);
         }

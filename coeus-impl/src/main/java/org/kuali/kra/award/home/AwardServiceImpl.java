@@ -19,6 +19,9 @@
 package org.kuali.kra.award.home;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.award.finance.AwardAccount;
+import org.kuali.coeus.award.finance.AwardPosts;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
@@ -43,6 +46,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -76,6 +80,10 @@ public class AwardServiceImpl implements AwardService {
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     public List<Award> findAwardsForAwardNumber(String awardNumber) {
         return new ArrayList<>(businessObjectService.findMatchingOrderBy(Award.class,
@@ -397,6 +405,25 @@ public class AwardServiceImpl implements AwardService {
                 .filter(person -> generateCreditSplitForPerson(person))
                 .collect(Collectors.toList());
         return awardPersons;
+    }
+
+    public void addPostEntry(Long awardId, String accountNumber, String awardNumber, String documentNumber, boolean posted) {
+        AwardPosts awardPosts = new AwardPosts();
+        awardPosts.setAwardId(awardId);
+        awardPosts.setAccountNumber(accountNumber);
+        awardPosts.setDocumentNumber(documentNumber);
+        awardPosts.setPosted(posted);
+        String awardFamily = awardNumber.substring(0, StringUtils.indexOf(awardNumber, "-"));
+        awardPosts.setAwardFamily(awardFamily);
+        dataObjectService.save(awardPosts);
+    }
+
+
+    public void addAccountInformation(Long awardId, String accountNumber) {
+        AwardAccount awardAccount = new AwardAccount();
+        awardAccount.setCreatedByAwardId(awardId);
+        awardAccount.setAccountNumber(accountNumber);
+        dataObjectService.save(awardAccount);
     }
 
     @Override

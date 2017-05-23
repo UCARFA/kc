@@ -33,13 +33,16 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
+import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TimeAndMoneyPermissionConstants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
+import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
+import org.kuali.kra.timeandmoney.service.TimeAndMoneyService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyVersionService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
@@ -82,6 +85,8 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
     private List<AwardAmountInfo> awardAmountInfos;
 
     private transient TimeAndMoneyVersionService timeAndMoneyVersionService;
+    private TimeAndMoneyService timeAndMoneyService;
+    private AwardAccountService awardAccountService;
 
     public TimeAndMoneyDocument(){        
         super();        
@@ -171,6 +176,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
             if (LOG.isDebugEnabled()) {
             	LOG.debug("TimeAndMoneyDocument in Processed status and saved with document status of " + this.getDocumentStatus());
             }
+            autoPostTimeAndMoney();
         } else if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus())) {
         	//this should have occurred when the document went to ROUTE_HEADER_PROCESSED_CD, but in some instances this hasn't happened causing unusable awards and T&M docs so double check here. 
         	if (!VersionStatus.ACTIVE.name().equals(this.getDocumentStatus())) {
@@ -182,7 +188,35 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
         	}
         }
     }
-    
+
+    protected void autoPostTimeAndMoney() {
+        if (isAutoPostTimeAndMoney() && getAwardAccountService().isFinancialRestApiEnabled()) {
+            final Award award = getAward();
+            getTimeAndMoneyService().addPostEntry(award.getAwardId(), award.getAwardNumber(), getDocumentNumber());
+        }
+    }
+
+    protected boolean isAutoPostTimeAndMoney() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_TIME_MONEY, ParameterConstants.ALL_COMPONENT, Constants.TM_AUTO_POST_ENABLED);
+    }
+
+
+    protected TimeAndMoneyService getTimeAndMoneyService() {
+        if (timeAndMoneyService == null) {
+            timeAndMoneyService = KcServiceLocator.getService(TimeAndMoneyService.class);
+        }
+        return timeAndMoneyService;
+    }
+
+
+    public AwardAccountService getAwardAccountService() {
+        if(awardAccountService == null) {
+            awardAccountService = KcServiceLocator.getService(AwardAccountService.class);
+        }
+        return awardAccountService;
+    }
+
     /*
      * This method retrieves AwardHierarchyService
      */
