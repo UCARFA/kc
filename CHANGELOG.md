@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2236: switching cost share type requiredness validation to an audit error
+  * Travis Schneeberger on Tue, 23 May 2017 15:38:02 -0400 [View Commit](../../commit/7576c8062585dbf1c4720d82a378fd44362c1033)
+
+##coeus-1705.0023
 * Reskc 2219 auto post (#2345)
 
 * RESKC-2219: Adding T&M auto post feature
