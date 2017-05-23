@@ -23,4 +23,5 @@ set sqlblanklines on
 spool 1705_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1705_001__RESKC-2212.sql
 @./rice/bootstrap/V1705_004__RESKC-2224.sql
+@./rice/bootstrap/V1705_006__auto_post.sql
 commit;

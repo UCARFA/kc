@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+* Reskc 2219 auto post (#2345)
+
+* RESKC-2219: Adding T&M auto post feature
+  * 
+* RESKC-2219: Award auto post feature
+  * 
+* RESKC-2219: PR changes
+  * 
+* RESKC-2219: Cleaned code.
+  * Gayathri Athreya on Tue, 23 May 2017 07:59:14 -1000 [View Commit](../../commit/9d76b35a07134a2c425770cbefec49e800554b26)
+
+##coeus-1705.0022
 * RESKC-2194: budget improvements
   * Travis Schneeberger on Tue, 23 May 2017 10:22:04 -0400 [View Commit](../../commit/f6f2bf750722b2d4f93eb718cb03486dbee91516)
 
