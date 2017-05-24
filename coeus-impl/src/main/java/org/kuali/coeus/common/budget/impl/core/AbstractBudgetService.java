@@ -36,7 +36,6 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -62,8 +61,8 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     private ParameterService parameterService;
 
     @Autowired
-    @Qualifier("dataObjectService")
-    private DataObjectService dataObjectService;
+    @Qualifier("legacyDataAdapter")
+    private LegacyDataAdapter legacyDataAdapter;
 
     @Override
     public Budget addBudgetVersion(BudgetParentDocument<T> budgetParentDocument, String versionName, Map<String,Object> options) {
@@ -173,7 +172,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     }
 
     public void refreshReference(CostShare budgetCostShare) {
-        dataObjectService.wrap(budgetCostShare).fetchRelationship(COST_SHARE_TYPE);
+        legacyDataAdapter.refreshReferenceObject(budgetCostShare, COST_SHARE_TYPE);
     }
 
     public boolean isCostShareTypeSourceAccountValidationEnabled() {
