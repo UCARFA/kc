@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2211: fixing a nullpointer exception when checking cost share type in IP & Award
+  * Travis Schneeberger on Wed, 24 May 2017 15:01:55 -0400 [View Commit](../../commit/2429044716718e3500caed95e490ed5eae49f7d9)
+
+##coeus-1705.0025
 * RESKC-2194: adding indexes that should improve identified slow queries
   * Travis Schneeberger on Wed, 24 May 2017 12:29:37 -0400 [View Commit](../../commit/2cf668a33fc3f58deec727ff89ce3658acca5de2)
 
