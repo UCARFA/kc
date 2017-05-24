@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2194: adding indexes that should improve identified slow queries
+  * Travis Schneeberger on Wed, 24 May 2017 12:29:37 -0400 [View Commit](../../commit/2cf668a33fc3f58deec727ff89ce3658acca5de2)
+
+##coeus-1705.0024
 * RESKC-2236: switching cost share type requiredness validation to an audit error
   * Travis Schneeberger on Tue, 23 May 2017 15:38:02 -0400 [View Commit](../../commit/7576c8062585dbf1c4720d82a378fd44362c1033)
 
