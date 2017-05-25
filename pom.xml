@@ -95,7 +95,7 @@
         <jackson.version>1.9.13</jackson.version>
         <javamelody-core.version>1.67.0</javamelody-core.version>
         <javax.mail.version>1.5.6</javax.mail.version>
-        <javax.persistence.version>2.1.1</javax.persistence.version>
+        <javax.persistence.version>2.1.0</javax.persistence.version>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
         <jmock.version>2.8.2</jmock.version>
         <joda-time.version>2.9.9</joda-time.version>
@@ -119,11 +119,12 @@
         <oracle.version>12.1.0.2</oracle.version>
         <!-- the BIRT manifest file is broken.  Cannot upgrade to 4.6.0-20160607 or 4.5.0.  See https://bugs.eclipse.org/bugs/show_bug.cgi?id=507878 -->
         <org.eclipse.birt.runtime.version>4.4.2</org.eclipse.birt.runtime.version>
-        <org.eclipse.persistence.version>2.6.4</org.eclipse.persistence.version>
+        <!-- do not update due to incompatibility with tomcat 7.0.57.  Newer versions of tomcat are not incompatible -->
+        <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
         <pdfbox.version>2.0.5</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
         <schemaspy.version>1611.0001</schemaspy.version>
-        <rice.version>2.5.3.1705.0003-kualico</rice.version>
+        <rice.version>2.5.3.1705.0004-kualico</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.25</slf4j.version>
         <spring.version>3.2.18.RELEASE</spring.version>
