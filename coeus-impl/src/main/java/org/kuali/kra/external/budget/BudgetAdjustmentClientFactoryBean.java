@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component("budgetAdjustmentClient")
-public class BudgetAdjustmentClientFactoryBean implements FactoryBean {
+public class BudgetAdjustmentClientFactoryBean implements FactoryBean<BudgetAdjustmentClient> {
 
     @Autowired
     @Qualifier("documentService")
@@ -62,13 +62,14 @@ public class BudgetAdjustmentClientFactoryBean implements FactoryBean {
     @Qualifier("kualiConfigurationService")
     private ConfigurationService configurationService;
 
-    public Object getObject() throws Exception {
-        BudgetAdjustmentClient object = null; 
-        if(configurationService.getPropertyValueAsBoolean("shared.rice"))
-            object = (BudgetAdjustmentClient) (BudgetAdjustmentKSBClientImpl.getInstance());
-        else
-            object = (BudgetAdjustmentClient) (BudgetAdjustmentClientImpl.getInstance());
-        
+    @Override
+    public BudgetAdjustmentClient getObject() throws Exception {
+        final BudgetAdjustmentClient object;
+        if(configurationService.getPropertyValueAsBoolean("shared.rice")) {
+            object = (BudgetAdjustmentKSBClientImpl.getInstance());
+        } else {
+            object = (BudgetAdjustmentClientImpl.getInstance());
+        }
         object.setDocumentService(documentService);
         object.setParameterService(parameterService);
         object.setBusinessObjectService(businessObjectService);
@@ -78,15 +79,14 @@ public class BudgetAdjustmentClientFactoryBean implements FactoryBean {
         object.setConfigurationService(configurationService);
         return object;
     }
-    
 
-    public Class getObjectType() {
-
-        return null;
+    @Override
+    public Class<? extends BudgetAdjustmentClient> getObjectType() {
+        return BudgetAdjustmentClient.class;
     }
 
+    @Override
     public boolean isSingleton() {
-
         return false;
     }
 

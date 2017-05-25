@@ -30,13 +30,13 @@ public class CustomerCreationClientFactoryBean implements FactoryBean<CustomerCr
 	private ParameterService parameterService;
 	private KcDtoService<SponsorDTO, Sponsor> sponsorDtoService;
     
-
+	@Override
 	public CustomerCreationClient getObject() throws Exception {
-		CustomerCreationClient object = null; 
+		final CustomerCreationClient object;
 		if(sharedRice)
-		    object = (CustomerCreationClient) (CustomerCreationKSBClientImpl.getInstance());
+		    object = (CustomerCreationKSBClientImpl.getInstance());
 		else
-		    object = (CustomerCreationClient) (CustomerCreationClientImpl.getInstance());
+		    object = (CustomerCreationClientImpl.getInstance());
 
 		object.setParameterService(parameterService);
         object.setSponsorDtoService(sponsorDtoService);
@@ -44,10 +44,12 @@ public class CustomerCreationClientFactoryBean implements FactoryBean<CustomerCr
 		return object;
 	}
 
-	public Class getObjectType() {
+	@Override
+	public Class<? extends CustomerCreationClient> getObjectType() {
 		return CustomerCreationClient.class;
 	}
 
+	@Override
 	public boolean isSingleton() {
 		return true;
 	}

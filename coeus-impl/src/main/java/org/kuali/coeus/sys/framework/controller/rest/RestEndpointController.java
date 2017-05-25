@@ -19,8 +19,8 @@
 package org.kuali.coeus.sys.framework.controller.rest;
 
 import com.google.common.base.CaseFormat;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.text.WordUtils;
-import org.apache.poi.util.IOUtils;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +75,7 @@ public class RestEndpointController extends RestController {
         response.setHeader("Content-Disposition", "attachment;filename=blueprint.zip");
 
         try(final ByteArrayOutputStream stream = new ByteArrayOutputStream(); ZipOutputStream zipFile = new ZipOutputStream(stream)) {
-            getBlueprintEnabledControllers().collect(Collectors.toList()).stream()
+            getBlueprintEnabledControllers().collect(Collectors.toList())
                     .forEach(ctrl -> {
                         Resource file = ctrl.getBlueprintResource();
                         try {

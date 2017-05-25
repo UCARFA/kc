@@ -57,7 +57,7 @@ public class RestOperationsFactoryBean implements FactoryBean<RestOperations> {
 	}
 
 	@Override
-	public Class<?> getObjectType() {
+	public Class<? extends RestOperations> getObjectType() {
 		return RestOperations.class;
 	}
 

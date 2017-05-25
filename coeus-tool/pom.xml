@@ -35,10 +35,6 @@
         tools, launch scripts, implementation tools, config templates, etc.
     </description>
 
-    <prerequisites>
-        <maven>${require.maven.version}</maven>
-    </prerequisites>
-
     <dependencies>
 
         <dependency>

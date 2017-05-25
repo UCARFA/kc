@@ -31,10 +31,6 @@
     <description>
         The Kuali Coeus Data Conversion module is a program to aid in the conversion of data from one version of Kuali Coeus to another.
     </description>
-    
-    <prerequisites>
-        <maven>${require.maven.version}</maven>
-    </prerequisites>
 
     <build>
         <plugins>
