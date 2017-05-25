@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1705.0026
 * RESKC-2211: fixing a nullpointer exception when checking cost share type in IP & Award
   * Travis Schneeberger on Wed, 24 May 2017 15:01:55 -0400 [View Commit](../../commit/2429044716718e3500caed95e490ed5eae49f7d9)
 
