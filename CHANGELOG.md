@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Add Compliance links to the top header (#2351)
+
+  * Add configuration parameters for protocols.standalone.enabled and protocols.standalone.base.url  * Douglas Pace on Tue, 30 May 2017 11:22:22 -0700 [View Commit](../../commit/9cd1faae5654008fcd541e4f5cc5f35d30cff932)
+
+##coeus-1705.0030
 * No Changes
 
 
