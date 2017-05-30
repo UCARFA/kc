@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus-db</artifactId>
-        <version>1704.0019-SNAPSHOT</version>
+        <version>1705.0031-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-db-sql</artifactId>
     <packaging>jar</packaging>
@@ -34,10 +34,6 @@
         the Kuali Coeus application.  These scripts include support for MySQL, and Oracle.
         They include both bootstrap, demo, and stage data.
     </description>
-
-    <prerequisites>
-        <maven>${require.maven.version}</maven>
-    </prerequisites>
 
     <properties>
         <copy.javaagent.off>true</copy.javaagent.off>

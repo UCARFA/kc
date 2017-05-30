@@ -23,7 +23,5 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface InstitutionalProposalSponsorAndProgramRule extends BusinessRule {
 
-    
-
     boolean processInstitutionalProposalSponsorAndProgramRules(InstitutionalProposalSponsorAndProgramRuleEvent institutionalProposalSponsorAndProgramRuleEvent);
 }

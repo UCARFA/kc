@@ -40,6 +40,8 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends KcTransactio
         InstitutionalProposalSponsorAndProgramRule {
 
 
+    public static final String CFDA_NUMBER = "cfdaNumber";
+
     public boolean processInstitutionalProposalSponsorAndProgramRules(
             InstitutionalProposalSponsorAndProgramRuleEvent institutionalProposalSponsorAndProgramRuleEvent) {
         return processCommonValidations(institutionalProposalSponsorAndProgramRuleEvent.getInstitutionalProposalForValidation());
@@ -51,15 +53,13 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends KcTransactio
      * @return
      */
     public boolean processCommonValidations(InstitutionalProposal institutionalProposal) {
-        boolean validCfdaNumber = validateCfdaNumber(institutionalProposal);
-        
         boolean validSponsorCode = validateSponsorCodeExists(institutionalProposal.getSponsorCode());
         
         boolean validPrimeSponsorId = validatePrimeSponsorIdExists(institutionalProposal.getPrimeSponsorCode());
         
         boolean validSponsorDeadlineTime = validateSponsorDeadlineTime(institutionalProposal);
         
-        return validCfdaNumber && validSponsorCode && validSponsorDeadlineTime ;
+        return validSponsorCode && validSponsorDeadlineTime ;
     }
     
     private boolean validateSponsorDeadlineTime(InstitutionalProposal institutionalProposal) {
@@ -114,18 +114,16 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends KcTransactio
     }
     
     private boolean validateCfdaNumber(InstitutionalProposal institutionalProposal) {
-        boolean valid = true;
-        String regExpr = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
         DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
-        if (StringUtils.isNotBlank(institutionalProposal.getCfdaNumber())
-                && !(institutionalProposal.getCfdaNumber().matches(regExpr))
-                && GlobalVariables.getMessageMap().getMessages("document.institutionalProposalList[0].cfdaNumber") == null) {
-            this.reportError("document.institutionalProposal.cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] {
-                    dataDictionaryService.getAttributeErrorLabel(InstitutionalProposal.class, "cfdaNumber"),
-                    institutionalProposal.getCfdaNumber() });
-            valid = false;
+        if (!isValidCfda(institutionalProposal.getCfdaNumber())
+                && GlobalVariables.getMessageMap().getMessages(Constants.INSTITUTIONAL_PROPOSAL_CFDA_NUMBER) == null) {
+            this.reportWarning(Constants.INSTITUTIONAL_PROPOSAL_CFDA_NUMBER, KeyConstants.CFDA_INVALID, new String[]{institutionalProposal.getCfdaNumber()});
          }
-        return valid;
+        return Boolean.TRUE;
+    }
+
+    public boolean isValidCfda(String cfdaNumber) {
+        return StringUtils.isNotBlank(cfdaNumber) && cfdaNumber.matches(Constants.CFDA_REGEX);
     }
 
 }

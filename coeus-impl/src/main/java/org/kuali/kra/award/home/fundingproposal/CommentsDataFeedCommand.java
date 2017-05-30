@@ -40,7 +40,7 @@ public class CommentsDataFeedCommand extends ProposalDataFeedCommandBase {
         if (mergeType != FundingProposalMergeType.NOCHANGE) {
             feedProposalComment();
             feedProposalSummaryComment();
-            feedFandARateComment();
+            feedUnrecoveredFandARateComment();
             feedCostShareComment();
             feedProposalIPReviewComment();
         }
@@ -64,7 +64,7 @@ public class CommentsDataFeedCommand extends ProposalDataFeedCommandBase {
         }
     }
     
-    void feedFandARateComment() {
+    void feedUnrecoveredFandARateComment() {
         InstitutionalProposalComment proposalFandAComment = proposal.getUnrecoveredFandAComment();
         if (proposalFandAComment != null) {
             AwardComment awardFandAComment = award.getAwardFandaRateComment();

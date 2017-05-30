@@ -31,38 +31,21 @@ import java.util.List;
 public interface S2sSubmissionService {
 
     /**
-     *
-     * This method returns the list of forms for a given opportunity
-     *
-     * @param opportunity
-     * @return {@link List}of {@link S2sOppForms} which are included in the
-     *         given {@link S2sOpportunity}
-     * @throws S2sCommunicationException
-     */
-    public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2sCommunicationException;
-
-    /**
      * This method is used to get the application status details.
      *
      * @param ggTrackingId
      *            grants gov tracking id for the application.
      * @param proposalNumber
      *            Proposal number.
-     * @throws S2sCommunicationException
      */
-    public String getStatusDetails(String ggTrackingId, String proposalNumber)
+    String getStatusDetails(String ggTrackingId, String proposalNumber)
             throws S2sCommunicationException;
 
     /**
      * This method checks if status on grants.gov has changed since last check
      * and returns the status.
-     *
-     * @param pdDoc
-     * @param appSubmission
-     * @return status
-     * @throws S2sCommunicationException
      */
-    public boolean checkForSubmissionStatusChange(
+    boolean checkForSubmissionStatusChange(
             ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission)
             throws S2sCommunicationException;
 
@@ -74,9 +57,8 @@ public interface S2sSubmissionService {
      *            for which status has to be checked
      * @return boolean, <code>true</code> if status has changed, false
      *         otherwise
-     * @throws S2sCommunicationException
      */
-    public boolean refreshGrantsGov(ProposalDevelopmentDocument pdDoc)
+    boolean refreshGrantsGov(ProposalDevelopmentDocument pdDoc)
             throws S2sCommunicationException;
 
     /**
@@ -86,9 +68,8 @@ public interface S2sSubmissionService {
      * @param pdDoc
      *            Proposal Development Document.
      * @return true if submitted false otherwise.
-     * @throws S2sCommunicationException
      */
-    public FormGenerationResult submitApplication(ProposalDevelopmentDocument pdDoc)
+    FormGenerationResult submitApplication(ProposalDevelopmentDocument pdDoc)
             throws S2sCommunicationException;
 
     /**
@@ -102,18 +83,14 @@ public interface S2sSubmissionService {
      *            parameter for the opportunity.
      * @return List&lt;S2sOpportunity&gt; a list containing the available
      *         opportunities for the corresponding parameters.
-     * @throws S2sCommunicationException
      */
-    public List<S2sOpportunity> searchOpportunity(String providerCode, String cfdaNumber,
+    List<S2sOpportunity> searchOpportunity(String providerCode, String cfdaNumber,
                                                   String opportunityId, String competitionId) throws S2sCommunicationException;
 
     /**
      * Return the file saved to the local filesystem.
-     * @param pdDoc
-     * @return
-     * @throws S2sCommunicationException
      */
-    public File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
+    File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
             throws IOException;
 
     GetApplicationListResponse fetchApplicationListResponse(
@@ -122,8 +99,8 @@ public interface S2sSubmissionService {
     void populateAppSubmission(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission,
                           GetApplicationListResponse.ApplicationInfo ggApplication);
 
-    public void setOpportunityContent(S2sOpportunity opportunity);
+    void setOpportunityContent(S2sOpportunity opportunity);
 
 
-    public List<String> setMandatoryForms(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity);
+    List<String> setMandatoryForms(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity);
 }

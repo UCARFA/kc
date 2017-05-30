@@ -21,10 +21,7 @@ package org.kuali.coeus.propdev.impl.s2s.nih;
 
 import gov.nih.era.svs.SubmissionValidationServiceStub;
 import gov.nih.era.svs.ValidateApplicationError;
-import gov.nih.era.svs.types.AttachmentMetaData;
-import gov.nih.era.svs.types.ValidateApplicationRequest;
-import gov.nih.era.svs.types.ValidateApplicationResponse;
-import gov.nih.era.svs.types.ValidationMessageList;
+import gov.nih.era.svs.types.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -51,6 +48,7 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.ws.soap.SOAPFaultException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -74,6 +72,7 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
     private static final String APPLICATION_PDF = "application/pdf";
 
     private static final Log LOG = LogFactory.getLog(NihSubmissionValidationServiceImpl.class);
+    private static final String ERROR_NIH_VALIDATION_SERVICE_UNKNOWN = "error.nih.validation.service.unknown";
 
     @Autowired
     @Qualifier("s2SConfigurationService")
@@ -101,8 +100,8 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
                 response = createConfiguredService(dunsNumber).validateApplication(parameters);
 
                 debugLogJaxbObject(ValidateApplicationResponse.class, response);
-            } catch (ValidateApplicationError validateApplicationError) {
-                throw new S2sCommunicationException(validateApplicationError);
+            } catch (ValidateApplicationError|SOAPFaultException validateApplicationError) {
+                throw new S2sCommunicationException(ERROR_NIH_VALIDATION_SERVICE_UNKNOWN, validateApplicationError);
             }
         }
 

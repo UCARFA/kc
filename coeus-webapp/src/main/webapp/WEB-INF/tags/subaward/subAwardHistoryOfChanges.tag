@@ -34,20 +34,18 @@
     	<span class="subhead-right"></span>
     </h3>
 	<table cellpadding=0 cellspacing=0 summary="">
+        <tr>
+            <th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedAmount}" /></th>
+            <td colspan="2">
+                <kul:htmlControlAttribute property="document.subAwardList[0].totalObligatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalObligatedAmount}" />
+            </td>
+            <th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" /></th>
+            <td colspan="2">
+                <kul:htmlControlAttribute property="document.subAwardList[0].totalAnticipatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" />
+            </td>
+        </tr>
         <c:choose>
-            <c:when test="${!costSplitEnabled}">
-   				<tr>
-				    <th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedAmount}" /></th>
-                    <td colspan="2">
-                        <kul:htmlControlAttribute property="document.subAwardList[0].totalObligatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalObligatedAmount}" />
-                    </td>
-				    <th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" /></th>
-                    <td colspan="2">
-                        <kul:htmlControlAttribute property="document.subAwardList[0].totalAnticipatedAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAnticipatedAmount}" />
-                    </td>
-                </tr>
-            </c:when>
-            <c:otherwise>
+            <c:when test="${costSplitEnabled}">
                 <tr>
                     <th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalObligatedDirectAmount}" /></th>
                     <td colspan="2">
@@ -68,7 +66,7 @@
                         <kul:htmlControlAttribute property="document.subAwardList[0].totalAnticipatedIndirectAmount" disabled="true" attributeEntry="${subAwardAttributes.totalAnticipatedIndirectAmount}" />
                     </td>
                 </tr>
-            </c:otherwise>
+            </c:when>
         </c:choose>
             <tr>
 				<th><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.totalAmountReleased}" /></th>

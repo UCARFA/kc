@@ -40,10 +40,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 
- * This class handles the negotiation BO.
- */
 public class Negotiation extends KcPersistableBusinessObjectBase implements Permissionable {
 
     private static final long MILLISECS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -102,9 +98,9 @@ public class Negotiation extends KcPersistableBusinessObjectBase implements Perm
 
     public Negotiation() {
         super();
-        activities = new ArrayList<NegotiationActivity>();
-        negotiationCustomDataList = new ArrayList<NegotiationCustomData>();
-        negotiationNotifications = new ArrayList<NegotiationNotification>();
+        activities = new ArrayList<>();
+        negotiationCustomDataList = new ArrayList<>();
+        negotiationNotifications = new ArrayList<>();
     }
 
     public Integer getNegotiationAge() {
@@ -113,7 +109,7 @@ public class Negotiation extends KcPersistableBusinessObjectBase implements Perm
         }
         else {
             long start = getNegotiationStartDate().getTime();
-            long end = 0L;
+            final long end;
             if (getNegotiationEndDate() == null) {
                 end = Calendar.getInstance().getTimeInMillis();
             }
@@ -236,7 +232,7 @@ public class Negotiation extends KcPersistableBusinessObjectBase implements Perm
     }
 
     public Date getNegotiationStartDate() {
-        if (negotiationStartDate == null || negotiationStartDate.equals(""))
+        if (negotiationStartDate == null)
         {
             Calendar now = Calendar.getInstance();
             setNegotiationStartDate (new java.sql.Date (now.get(Calendar.YEAR)-1900, now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)));
@@ -350,7 +346,7 @@ public class Negotiation extends KcPersistableBusinessObjectBase implements Perm
 
     @Override
     public List<String> getRoleNames() {
-        List<String> roleNames = new ArrayList<String>();
+        List<String> roleNames = new ArrayList<>();
         roleNames.add(RoleConstants.NEGOTIATION_COI);
         roleNames.add(RoleConstants.NEGOTIATION_KP);
         roleNames.add(RoleConstants.NEGOTIATION_NEGOTIATION_ADMINISTRATOR);
@@ -377,7 +373,7 @@ public class Negotiation extends KcPersistableBusinessObjectBase implements Perm
     }
 
     public Negotiable getAssociatedNegotiable() {
-        return getNegotiationService().getAssociatedObject(this);
+        return getAssociatedDocument();
     }
 
     private NegotiationService getNegotiationService() {
@@ -394,20 +390,10 @@ public class Negotiation extends KcPersistableBusinessObjectBase implements Perm
         qualifiedRoleAttributes.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, this.getDocumentKey());
     }
 
-    /**
-     * Gets the negotiationCustomDataList attribute.
-     * 
-     * @return Returns the negotiationCustomDataList.
-     */
     public List<NegotiationCustomData> getNegotiationCustomDataList() {
         return negotiationCustomDataList;
     }
 
-    /**
-     * Sets the negotiationCustomDataList attribute value.
-     * 
-     * @param negotiationCustomDataList The negotiationCustomDataList to set.
-     */
     public void setNegotiationCustomDataList(List<NegotiationCustomData> negotiationCustomDataList) {
         this.negotiationCustomDataList = negotiationCustomDataList;
     }

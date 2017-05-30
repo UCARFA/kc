@@ -55,9 +55,9 @@
 		parent="Uif-Disclosure-StackedCollectionSection" p:title="Compliance" p:propertyName="propSpecialReviews"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview"
 		p:layoutManager.summaryTitle="@{#line.specialReviewType.description} @{#line.approvalType != null?#line.approvalType.description:''} @{#line.protocolNumber}"
-		p:addWithDialog="true">
+		p:addWithDialog="true"  p:readOnly="@{#parent.readOnly and !#editModes[#proposalAuthConsts.OVERRIDE_PD_COMPLIANCE_ENTRY]}" >
 		<property name="addWithDialogAction">
-			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add compliance entry" p:iconClass="icon-plus" p:render="@{!#parent.readOnly}"/>
+			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add compliance entry" p:iconClass="icon-plus" p:render="@{!#parent.readOnly or #editModes[#proposalAuthConsts.OVERRIDE_PD_COMPLIANCE_ENTRY]}"/>
 		</property>
         <property name="addLineDialog">
             <bean p:id="PropDev-CompliancePage_AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Compliance Entry" p:retrieveViaAjax="true"

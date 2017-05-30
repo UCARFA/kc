@@ -475,7 +475,11 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
             if (!Objects.isNull(budgetCostShare.getSourceAccount()) && !Objects.isNull(budgetCostShare.getCostShareTypeCode())) {
                 valid &= isValidSourceAccountCostShareType(Constants.VALIDATION_MESSAGE_ERROR, budgetCostShare, SOURCE_ACCOUNT);
             }
+
+            valid = isUniqueSourceAccountFiscalYear(budget, valid, budgetCostShare);
+
         }
+
 
         if (isCostShareTypeEnabled()) {
             String validationMessageType = getValidationMessageType();
@@ -497,6 +501,19 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
                     }
                 }
             }
+        }
+        return valid;
+    }
+
+    public boolean isUniqueSourceAccountFiscalYear(ProposalDevelopmentBudgetExt budget, boolean valid, BudgetCostShare budgetCostShare) {
+        int thisFiscalYear = budgetCostShare.getProjectPeriod() == null ? Integer.MIN_VALUE : budgetCostShare.getProjectPeriod();
+        long numberOfOccurences = budget.getBudgetCostShares().stream()
+                .filter(costShare -> StringUtils.equalsIgnoreCase(costShare.getSourceAccount(), budgetCostShare.getSourceAccount()) &&
+                        thisFiscalYear == (costShare.getProjectPeriod() == null ? Integer.MIN_VALUE : costShare.getProjectPeriod()))
+                .count();
+        if (numberOfOccurences > 1) {
+            addValidationMessage(Constants.VALIDATION_MESSAGE_ERROR, "fiscalYear", KeyConstants.ERROR_COST_SHARE_DUPLICATE);
+            valid &= Boolean.FALSE;
         }
         return valid;
     }

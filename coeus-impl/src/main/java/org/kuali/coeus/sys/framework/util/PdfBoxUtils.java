@@ -178,12 +178,18 @@ public final class PdfBoxUtils {
         }
 
         try {
-            if (field instanceof PDTextField || field instanceof PDComboBox || field instanceof PDListBox || field instanceof PDRadioButton || field instanceof PDCheckBox) {
+            if (field instanceof PDTextField || field instanceof PDListBox || field instanceof PDRadioButton || field instanceof PDCheckBox) {
                 if (value instanceof Boolean) {
                     field.setValue(booleanToStr((Boolean) value));
                 } else if (value instanceof String) {
                     field.setValue((String) value);
-                } else if (value instanceof List && field instanceof PDChoice) {
+                }
+            } else if (field instanceof PDComboBox) {
+                if (value instanceof Boolean) {
+                    field.setValue(convertToDisplayValue((PDComboBox) field, booleanToStr((Boolean) value)));
+                } else if (value instanceof String) {
+                    field.setValue(convertToDisplayValue((PDComboBox) field, (String) value));
+                } else if (value instanceof List) {
                     final List<String> converted = ((List<Object>) value).stream().map(v -> {
                         if (v instanceof String) {
                             return (String) v;
@@ -192,7 +198,8 @@ public final class PdfBoxUtils {
                         } else {
                             throw new IllegalArgumentException("Invalid value type in List " + (v != null ? v.getClass().getName() : "(null)"));
                         }
-                    }).collect(Collectors.toList());
+                    }).map(v -> convertToDisplayValue((PDComboBox) field, v))
+                            .collect(Collectors.toList());
 
                     ((PDChoice) field).setValue(converted);
                 } else {
@@ -209,6 +216,17 @@ public final class PdfBoxUtils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static String convertToDisplayValue(PDChoice field, String value) {
+        if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(field.getOptionsDisplayValues()) && org.apache.commons.collections4.CollectionUtils.isNotEmpty(field.getOptionsExportValues())) {
+            final int index = field.getOptionsExportValues().indexOf(value);
+            if (index != -1) {
+                return field.getOptionsDisplayValues().get(index);
+            }
+        }
+
+        return value;
     }
 
     /**
@@ -284,6 +302,39 @@ public final class PdfBoxUtils {
                     appearance.setNormalAppearance(new PDAppearanceEntry(new COSDictionary()));
                     w.setAppearance(appearance);
                 });
+    }
+
+    /**
+     * Removes usage rights
+     * @param pdfDocument the Pdf Document.  Cannot be null.
+     * @throws IllegalArgumentException if document is null.
+     */
+    public static void removeUsageRights(PDDocument pdfDocument) {
+
+        if (pdfDocument == null) {
+            throw new IllegalArgumentException("pdfDocument is null");
+        }
+
+        final COSDictionary dictionary = pdfDocument.getDocumentCatalog().getCOSObject();
+        dictionary.removeItem(COSName.PERMS);
+        dictionary.setNeedToBeUpdated(true);
+    }
+
+    /**
+     * Removes Xfa Form
+     * @param pdfDocument the Pdf Document.  Cannot be null.
+     * @throws IllegalArgumentException if document is null.
+     */
+    public static void removeXfaForm(PDDocument pdfDocument) {
+
+        if (pdfDocument == null) {
+            throw new IllegalArgumentException("pdfDocument is null");
+        }
+
+        final COSDictionary dictionary = pdfDocument.getDocumentCatalog().getCOSObject();
+        final COSDictionary formDictionary = (COSDictionary) dictionary.getDictionaryObject(COSName.ACRO_FORM);
+        formDictionary.removeItem(COSName.XFA);
+        formDictionary.setNeedToBeUpdated(true);
     }
 
     /**

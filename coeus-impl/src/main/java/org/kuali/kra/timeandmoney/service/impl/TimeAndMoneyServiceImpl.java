@@ -21,6 +21,7 @@ package org.kuali.kra.timeandmoney.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.award.finance.timeAndMoney.TimeAndMoneyPosts;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
@@ -43,6 +44,7 @@ import org.kuali.kra.timeandmoney.transactions.TransactionRuleImpl;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
@@ -65,6 +67,9 @@ public class TimeAndMoneyServiceImpl implements TimeAndMoneyService {
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
@@ -109,6 +114,15 @@ public class TimeAndMoneyServiceImpl implements TimeAndMoneyService {
             returnValue = true;
         }
         return returnValue;
+    }
+
+    public void addPostEntry(Long awardId, String awardNumber, String documentNumber) {
+        TimeAndMoneyPosts timeAndMoneyPosts = new TimeAndMoneyPosts();
+        timeAndMoneyPosts.setAwardId(awardId);
+        timeAndMoneyPosts.setDocumentNumber(documentNumber);
+        String awardFamily = awardNumber.substring(0, StringUtils.indexOf(awardNumber, "-"));
+        timeAndMoneyPosts.setAwardFamily(awardFamily);
+        dataObjectService.save(timeAndMoneyPosts);
     }
 
     private void addNewAwardAmountInfoForInitialTransaction(Award rootAward, String documentNumber) {

@@ -243,6 +243,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if (canSaveCertification(doc, user)) {
             editModes.add(ProposalDevelopmentConstants.AuthConstants.CAN_SAVE_CERTIFICATION);
         }
+        
+        if (isAuthorizedToOverrideComplianceEntry(doc, user)) {
+            editModes.add(ProposalDevelopmentConstants.AuthConstants.OVERRIDE_PD_COMPLIANCE_ENTRY);
+        }
         setNarrativePermissions(user, doc, editModes);
     } 
     
@@ -1030,6 +1034,16 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
     protected boolean isEditableState(String propsalState) {
         return !ProposalState.CANCELED.equals(propsalState) && !ProposalState.DISAPPROVED.equals(propsalState);
+    }
+    
+    
+    protected boolean isAuthorizedToOverrideComplianceEntry(Document document, Person user) {
+    	final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        return isApprovalPending(pdDocument.getDevelopmentProposal().getProposalStateTypeCode()) && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.OVERRIDE_PD_COMPLIANCE_ENTRY);
+    }
+    
+    protected boolean isApprovalPending(String propsalState) {
+        return StringUtils.equalsIgnoreCase(propsalState, ProposalState.APPROVAL_PENDING);
     }
 
 	public KcAuthorizationService getKcAuthorizationService() {

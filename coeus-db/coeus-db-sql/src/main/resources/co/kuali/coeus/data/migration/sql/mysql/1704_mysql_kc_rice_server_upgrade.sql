@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1704_007__award_queued_status.sql
+\. ./rice/bootstrap/V1704_011__RESKC-1841.sql
 commit;

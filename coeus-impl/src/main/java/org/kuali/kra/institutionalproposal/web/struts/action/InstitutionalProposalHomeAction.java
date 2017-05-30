@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -36,8 +37,10 @@ import org.kuali.kra.institutionalproposal.home.*;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
+import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalCfdaRuleEvent;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteAddEvent;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteEventBase.ErrorType;
+import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalSponsorAndProgramRuleEvent;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalNoteAttachmentService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
@@ -274,6 +277,13 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         } else {
             ip.setScienceCodeIndicator("0");
         }
+
+        String navigateTo = ipForm.getNavigateTo();
+
+        if (navigateTo == null || navigateTo.equalsIgnoreCase(Constants.MAPPING_AWARD_HOME_PAGE)) {
+            getKualiRuleService().applyRules(new InstitutionalProposalCfdaRuleEvent(StringUtils.EMPTY, ipForm.getInstitutionalProposalDocument()));
+        }
+
         ActionForward forward = super.save(mapping, form, request, response);
         ProposalLog proposalLog = retrieveProposalLog(ipForm.getProposalNumber());
         if (proposalLog != null && !proposalLog.getLogStatus().equals(ProposalLogUtils.getProposalLogSubmittedStatusCode())) {

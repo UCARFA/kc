@@ -98,12 +98,6 @@ public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
 
         budget.getBudgetCostShares().get(1).setProjectPeriod(2010);
         assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
-        
-        budget.getBudgetCostShares().get(1).setSourceAccount(null);
-        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
-
-        budget.getBudgetCostShares().get(1).setUnitNumber("abc");
-        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
 
         budget.getBudgetCostShares().clear();
     }

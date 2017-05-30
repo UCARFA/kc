@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus</artifactId>
-        <version>1704.0019-SNAPSHOT</version>
+        <version>1705.0031-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-tool</artifactId>
     <packaging>jar</packaging>
@@ -34,10 +34,6 @@
         module is not directly used by the Kuali Coeus application. For example: this module could contain developer
         tools, launch scripts, implementation tools, config templates, etc.
     </description>
-
-    <prerequisites>
-        <maven>${require.maven.version}</maven>
-    </prerequisites>
 
     <dependencies>
 

@@ -33,8 +33,6 @@ import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
@@ -58,19 +56,19 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
     private static final String NEGOTIATION_TYPE_ATTR = "negotiationAssociationTypeId";
     private static final String ASSOCIATED_DOC_ID_ATTR = "associatedDocumentId";
     private static final String INVALID_COLUMN_NAME = "NaN";
-    
+    private static final String PROPOSAL_NUMBER = "proposalNumber";
+    private static final String NEGOTIATION_AGE = "negotiationAge";
+
     private static Map<String, String> awardTransform;
     private static Map<String, String> proposalTransform;
     private static Map<String, String> proposalLogTransform;
     private static Map<String, String> unassociatedTransform;
     private static Map<String, String> subAwardTransform;
     
-    private static Integer maxSearchResults;
-    
     private NegotiationService negotiationService;
     
     static {
-        awardTransform = new HashMap<String, String>();
+        awardTransform = new HashMap<>();
         awardTransform.put("sponsorName", "sponsor.sponsorName");
         awardTransform.put("piName", "projectPersons.fullName");
         //proposal type code doesn't exist on the award so make sure we don't find awards when
@@ -80,7 +78,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         awardTransform.put("leadUnitName", "leadUnit.unitName");
         awardTransform.put("subAwardRequisitionerId", INVALID_COLUMN_NAME);
                 
-        proposalTransform = new HashMap<String, String>();
+        proposalTransform = new HashMap<>();
         proposalTransform.put("sponsorName", "sponsor.sponsorName");
         proposalTransform.put("piName", "projectPersons.fullName");
         proposalTransform.put("leadUnitNumber", "unitNumber");
@@ -88,14 +86,14 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         proposalTransform.put("negotiableProposalTypeCode", "proposalTypeCode");
         proposalTransform.put("subAwardRequisitionerId", INVALID_COLUMN_NAME);
         
-        proposalLogTransform = new HashMap<String, String>();
+        proposalLogTransform = new HashMap<>();
         proposalLogTransform.put("sponsorName", "sponsor.sponsorName");
         proposalLogTransform.put("leadUnitNumber", "leadUnit");
         proposalLogTransform.put("leadUnitName", "unit.unitName");
         proposalLogTransform.put("negotiableProposalTypeCode", "proposalTypeCode");
         proposalLogTransform.put("subAwardRequisitionerId", INVALID_COLUMN_NAME);
 
-        unassociatedTransform = new HashMap<String, String>();
+        unassociatedTransform = new HashMap<>();
         unassociatedTransform.put("sponsorName", "sponsor.sponsorName");
         unassociatedTransform.put("piName", "piName");
         //proposal type code doesn't exist here either so make sure we don't find then when
@@ -104,7 +102,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         unassociatedTransform.put("leadUnitName", "leadUnit.unitName");
         unassociatedTransform.put("subAwardRequisitionerId", INVALID_COLUMN_NAME);
         
-        subAwardTransform = new HashMap<String, String>();
+        subAwardTransform = new HashMap<>();
         subAwardTransform.put("sponsorName", INVALID_COLUMN_NAME);
         subAwardTransform.put("sponsorCode", INVALID_COLUMN_NAME);
         subAwardTransform.put("piName", INVALID_COLUMN_NAME);
@@ -112,14 +110,11 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         subAwardTransform.put("leadUnitNumber", "unitNumber");
         subAwardTransform.put("leadUnitName", "leadUnit.unitName");
         subAwardTransform.put("subAwardRequisitionerId", "requisitionerId");
-
-        
     }
-    
-    @SuppressWarnings("unchecked")
+
     @Override
     public Collection<Negotiation> getNegotiationResults(Map<String, String> fieldValues) {
-        Map<String, String> associationDetails = new HashMap<String, String>();
+        Map<String, String> associationDetails = new HashMap<>();
         Iterator<Map.Entry<String, String>> iter = fieldValues.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<String, String> entry = iter.next();
@@ -131,7 +126,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
             }
         }
         
-        Collection<Negotiation> result = new ArrayList<Negotiation>();
+        Collection<Negotiation> result = new ArrayList<>();
         if (!associationDetails.isEmpty()) {
             addListToList(result, getNegotiationsLinkedToAward(fieldValues, associationDetails));
             addListToList(result, getNegotiationsLinkedToProposal(fieldValues, associationDetails));
@@ -139,14 +134,15 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
             addListToList(result, getNegotiationsUnassociated(fieldValues, associationDetails));
             addListToList(result, getNegotiationsLinkedToSubAward(fieldValues, associationDetails));
         } else {
-            result = findCollectionBySearchHelper(Negotiation.class, fieldValues, false, false, null);
+            result = findCollectionBySearchHelper(Negotiation.class, fieldValues, false, false);
         }
-        if (result != null && !result.isEmpty() && StringUtils.isNotBlank(fieldValues.get("negotiationAge"))) {
+        final String negotiationAge = fieldValues.get(NEGOTIATION_AGE);
+        if (result != null && !result.isEmpty() && StringUtils.isNotBlank(negotiationAge)) {
             try {
-                result = filterByNegotiationAge(fieldValues.get("negotiationAge"), result);
+                result = filterByNegotiationAge(negotiationAge, result);
             } catch (NumberFormatException e) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, RiceKeyConstants.ERROR_CUSTOM, new String[] { "Invalid Numeric Input: " + fieldValues.get("negotiationAge")});
-                result = new ArrayList<Negotiation>();
+                GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Numeric Input: " + negotiationAge);
+                result = new ArrayList<>();
             }
         }
         return result;
@@ -154,7 +150,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
     
     private void addListToList(Collection<Negotiation> fullResultList, Collection<Negotiation> listToAdd) {
         if (fullResultList != null && listToAdd != null) {
-            Integer max = getNegotiatonSearchResultsLimit();
+            Integer max = org.kuali.rice.kns.lookup.LookupUtils.getSearchResultsLimit(Negotiation.class);
             if (max == null) {
                 max = 500;
             }
@@ -176,7 +172,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         }
     }
     
-    public Collection findCollectionBySearchHelper(Class businessObjectClass, Map formProps, boolean unbounded, boolean usePrimaryKeyValuesOnly, Object additionalCriteria ) {
+    private Collection findCollectionBySearchHelper(Class businessObjectClass, Map formProps, boolean unbounded, boolean usePrimaryKeyValuesOnly, Object additionalCriteria ) {
         BusinessObject businessObject = checkBusinessObjectClass(businessObjectClass);
         if (usePrimaryKeyValuesOnly) {
             return executeSearch(businessObjectClass, getCollectionCriteriaFromMapUsingPrimaryKeysOnly(businessObjectClass, formProps), unbounded);
@@ -194,30 +190,28 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         if (businessObjectClass == null) {
             throw new IllegalArgumentException("BusinessObject class passed to LookupDaoOjb findCollectionBySearchHelper... method was null");
         }
-        BusinessObject businessObject = null;
+        final BusinessObject businessObject;
         try {
             businessObject = (BusinessObject) businessObjectClass.newInstance();
         }
-        catch (IllegalAccessException e) {
+        catch (IllegalAccessException|InstantiationException e) {
             throw new RuntimeException("LookupDaoOjb could not get instance of " + businessObjectClass.getName(), e);
         }
-        catch (InstantiationException e) {
-            throw new RuntimeException("LookupDaoOjb could not get instance of " + businessObjectClass.getName(), e);
-        }
+
         return businessObject;
     }
     
     private Collection executeSearch(Class businessObjectClass, Criteria criteria, boolean unbounded) {
-        Collection searchResults = new ArrayList();
+        Collection searchResults;
         Long matchingResultsCount = null;
         try {
-            Integer searchResultsLimit = getNegotiatonSearchResultsLimit();
+            Integer searchResultsLimit = org.kuali.rice.kns.lookup.LookupUtils.getSearchResultsLimit(businessObjectClass);
             if (!unbounded && (searchResultsLimit != null)) {
-                matchingResultsCount = new Long(getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(businessObjectClass, criteria)));
+                matchingResultsCount = (long) getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(businessObjectClass, criteria));
                 getDbPlatform().applyLimitSql(searchResultsLimit);
             }
-            if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
-                matchingResultsCount = new Long(0);
+            if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit)) {
+                matchingResultsCount = 0L;
             }
             searchResults = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(businessObjectClass, criteria));
             // populate Person objects in business objects
@@ -225,34 +219,20 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
             bos.addAll(searchResults);
             searchResults = bos;
         }
-        catch (OjbOperationException e) {
+        catch (OjbOperationException|DataIntegrityViolationException e) {
             throw new RuntimeException("NegotiationDaoOjb encountered exception during executeSearch", e);
         }
-        catch (DataIntegrityViolationException e) {
-            throw new RuntimeException("NegotiationDaoOjb encountered exception during executeSearch", e);
-        }
+
         return new CollectionIncomplete(searchResults, matchingResultsCount);
-    }
-    
-    private Integer getNegotiatonSearchResultsLimit(){
-        if (maxSearchResults == null) {
-            BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry) KNSServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry("Negotiation");
-            maxSearchResults =  businessObjectEntry.getLookupDefinition().getResultSetLimit();
-        }
-        return maxSearchResults;
     }
     
     /**
      * Search for awards linked to negotiation using both award and negotiation values.
-     * @param negotiationValues
-     * @param associatedValues
-     * @return
      */
-    @SuppressWarnings("unchecked")
     protected Collection<Negotiation> getNegotiationsLinkedToAward(Map<String, String> negotiationValues, Map<String, String> associatedValues) {
         Map<String, String> values = transformMap(associatedValues, awardTransform);
         if (values == null) {
-            return new ArrayList<Negotiation>();
+            return new ArrayList<>();
         }
         Criteria criteria = getCollectionCriteriaFromMap(new Award(), values);
 
@@ -276,21 +256,17 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
     
     /**
      * Search for institutional proposals linked to negotiations using both criteria.
-     * @param negotiationValues
-     * @param associatedValues
-     * @return
      */
-    @SuppressWarnings("unchecked")
     protected Collection<Negotiation> getNegotiationsLinkedToProposal(Map<String, String> negotiationValues, Map<String, String> associatedValues) {
         Map<String, String> values = transformMap(associatedValues, proposalTransform);
         if (values == null) {
-            return new ArrayList<Negotiation>();
+            return new ArrayList<>();
         }
         values.put("proposalSequenceStatus", VersionStatus.ACTIVE.name());
         Criteria criteria = getCollectionCriteriaFromMap(new InstitutionalProposal(), values);
         Criteria negotiationCrit = new Criteria();
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(InstitutionalProposal.class, criteria);
-        subQuery.setAttributes(new String[] {"proposalNumber"});
+        subQuery.setAttributes(new String[] {PROPOSAL_NUMBER});
         negotiationCrit.addIn(ASSOCIATED_DOC_ID_ATTR, subQuery);
         negotiationCrit.addEqualTo(NEGOTIATION_TYPE_ATTR, 
                 getNegotiationService().getNegotiationAssociationType(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION).getId());
@@ -300,20 +276,16 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
     
     /**
      * Search for proposal logs linked to negotiations using both criteria.
-     * @param negotiationValues
-     * @param associatedValues
-     * @return
      */
-    @SuppressWarnings("unchecked")
     protected Collection<Negotiation> getNegotiationsLinkedToProposalLog(Map<String, String> negotiationValues, Map<String, String> associatedValues) {
         Map<String, String> values = transformMap(associatedValues, proposalLogTransform);
         if (values == null) {
-            return new ArrayList<Negotiation>();
+            return new ArrayList<>();
         }
         Criteria criteria = getCollectionCriteriaFromMap(new ProposalLog(), values);
         Criteria negotiationCrit = new Criteria();
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(ProposalLog.class, criteria);
-        subQuery.setAttributes(new String[] {"proposalNumber"});
+        subQuery.setAttributes(new String[] {PROPOSAL_NUMBER});
         negotiationCrit.addIn(ASSOCIATED_DOC_ID_ATTR, subQuery);
         negotiationCrit.addEqualTo(NEGOTIATION_TYPE_ATTR, 
                 getNegotiationService().getNegotiationAssociationType(NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION).getId());
@@ -324,15 +296,12 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
     /**
      * 
      * This method returns Negotiations linked to subawards based on search.
-     * @param negotiationValues
-     * @param associatedValues
-     * @return
      */
     protected Collection<Negotiation> getNegotiationsLinkedToSubAward(Map<String, String> negotiationValues, Map<String, String> associatedValues) {
 
         Map<String, String> values = transformMap(associatedValues, subAwardTransform);
         if (values == null) {
-            return new ArrayList<Negotiation>();
+            return new ArrayList<>();
         }
         Criteria criteria = getCollectionCriteriaFromMap(new SubAward(), values);
         Criteria negotiationCrit = new Criteria();
@@ -348,15 +317,11 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
     
     /**
      * Search for unassociated negotiations using criteria from the unassociated detail.
-     * @param negotiationValues
-     * @param associatedValues
-     * @return
      */
-    @SuppressWarnings("unchecked")
     protected Collection<Negotiation> getNegotiationsUnassociated(Map<String, String> negotiationValues, Map<String, String> associatedValues) {
         Map<String, String> values = transformMap(associatedValues, unassociatedTransform);
         if (values == null) {
-            return new ArrayList<Negotiation>();
+            return new ArrayList<>();
         }
         Criteria criteria = getCollectionCriteriaFromMap(new NegotiationUnassociatedDetail(), values);
         Criteria negotiationCrit = new Criteria();
@@ -372,12 +337,9 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
     /**
      * Take the associated field values and convert them to document specific values using the provided
      * transform key.
-     * @param values
-     * @param transformKey
-     * @return
      */
     protected Map<String, String> transformMap(Map<String, String> values, Map<String, String> transformKey) {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         for (Map.Entry<String, String> entry : values.entrySet()) {
             if (transformKey.get(entry.getKey()) != null) {
                 result.put(transformKey.get(entry.getKey()), entry.getValue());
@@ -394,9 +356,6 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
     
     /**
      * Since the negotiation age is not persisted filter negotiations based on age.
-     * @param value
-     * @param negotiations
-     * @return
      */
     protected Collection<Negotiation> filterByNegotiationAge(String value, Collection<Negotiation> negotiations) {
         int lowValue = 0;

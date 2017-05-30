@@ -127,4 +127,7 @@ public interface AwardService {
 
     public void updateCurrentAwardAmountInfo(Award award);
 
+    public void addPostEntry(Long awardId, String accountNumber, String awardNumber, String documentNumber, boolean posted);
+    public void addAccountInformation(Long awardId, String accountNumber);
+
     }

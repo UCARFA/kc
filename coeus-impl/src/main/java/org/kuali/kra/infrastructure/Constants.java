@@ -440,7 +440,7 @@ public interface Constants {
     String CFDA_GOV_LOGIN_USERNAME = "anonymous";
     String DEFAULT_CRON_EXPRESSION = "0 0 5 * * ?";
     String CFDA_BATCH_NOTIFICATION_RECIPIENT_PARAMETER = "CFDA_BATCH_NOTIFICATION_RECIPIENT";
-
+    String CFDA_REGEX = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
 
 
     //Award Hierarchy Sync
@@ -452,6 +452,8 @@ public interface Constants {
     // Award financial rest api constants
     String AWARD_POST_ENABLED = "AWARD_POST_ENABLED";
     String TM_POST_ENABLED = "TM_POST_ENABLED";
+    String TM_AUTO_POST_ENABLED = "TM_AUTO_POST_ENABLED";
+    String AWARD_AUTO_POST_ENABLED = "AWARD_AUTO_POST_ENABLED";
     String DISPLAY_ACCOUNT_BALANCES = "DISPLAY_ACCOUNT_BALANCES";
 
     //Institutional Proposal
@@ -696,6 +698,7 @@ public interface Constants {
     long QUESTION_RESPONSE_TYPE_DATE = 4L;
     long QUESTION_RESPONSE_TYPE_TEXT = 5L;
     long QUESTION_RESPONSE_TYPE_LOOKUP = 6L;
+    long QUESTION_RESPONSE_TYPE_DECIMAL = 7L;
     long QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE = 100L;
     
     String QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID = "document.newMaintainableObject.businessObject.questionTypeId";
@@ -958,6 +961,14 @@ public interface Constants {
     String COST_SHARE_AGENDA_UNITS = "costShareAgendaUnits";
     String COST_SHARE_ADMINISTRATOR_TYPE_CODE = "COST_SHARE_ADMINISTRATOR_TYPE_CODE";
     String ENABLE_SUBAWARD_DC_IDC = "Enable_Subaward_DC_IDC";
+    String ENABLE_SUBAWARD_FDP = "Enable_Subaward_FDP";
     String ENABLE_AWARD_BUDGET_QUEUED_STATUS = "Enable_Award_Budget_Queued_Status";
+    String DEVELOPMENT_PROPOSAL_CFDA_NUMBER = "developmentProposalList[0].cfdaNumber";
+    String DOCUMENT_DEVELOPMENT_PROPOSAL_CFDA_NUMBER = "document.developmentProposalList[0].cfdaNumber";
+    String DOCUMENT_AWARD_CFDA_NUMBER = "document.awardList[0].cfdaNumber";
+
+    String DOCUMENT_INSTITUTIONAL_PROPOSAL_CFDA_NUMBER = "document.institutionalProposalList[0].cfdaNumber";
+    String INSTITUTIONAL_PROPOSAL_CFDA_NUMBER = "document.institutionalProposal.cfdaNumber";
+    String NOTIFICATION_HELPER = "notificationHelper";
 }
 

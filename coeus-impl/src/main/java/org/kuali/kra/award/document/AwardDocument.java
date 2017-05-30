@@ -231,6 +231,9 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus) || KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
                 getAwardService().updateAwardSequenceStatus(getAward(), VersionStatus.ACTIVE);
                 getVersionHistoryService().updateVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+                if (KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equalsIgnoreCase(newStatus)) {
+                    autoPostAward(getAward().getAwardId(), getAward().getAccountNumber(), getAward().getAwardNumber(), getDocumentNumber(), Boolean.TRUE);
+                }
             }
             if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
                 revertFundedProposals();
@@ -251,6 +254,17 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
 
             return null;
         });
+    }
+
+    protected boolean isAutoPostAward() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD, ParameterConstants.ALL_COMPONENT, Constants.AWARD_AUTO_POST_ENABLED);
+    }
+
+    protected void autoPostAward(Long awardId, String accountNumber, String awardNumber, String documentNumber, boolean postAward) {
+        if (accountNumber != null && isAutoPostAward() && getAwardAccountService().isFinancialRestApiEnabled()) {
+            getAwardService().addPostEntry(awardId, accountNumber, awardNumber, documentNumber, postAward);
+        }
     }
 
     @Override
@@ -362,10 +376,13 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     }
 
     public boolean isAuthorizedToPostAward(String principalId) {
+        return isInStateToBePosted() && hasPostAwardPermission(principalId);
+    }
+
+    public boolean isInStateToBePosted() {
         return isPostAwardFeatureEnabled() && getDocumentHeader().getWorkflowDocument().isFinal()
                 && getAward().getAccountNumber() != null
-                && !getAward().isPosted()
-                && hasPostAwardPermission(principalId);
+                && !getAward().isPosted();
     }
 
     public boolean hasPostAwardPermission(String principalId) {

@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus</artifactId>
-        <version>1704.0019-SNAPSHOT</version>
+        <version>1705.0031-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-db</artifactId>
     <packaging>pom</packaging>
@@ -32,10 +32,6 @@
     <description>
         The Kuali Coeus Database module is the parent module for all database related artifacts for the Kuali Coeus application.
     </description>
-
-    <prerequisites>
-        <maven>${require.maven.version}</maven>
-    </prerequisites>
 
     <modules>
         <module>coeus-db-data-conv</module>

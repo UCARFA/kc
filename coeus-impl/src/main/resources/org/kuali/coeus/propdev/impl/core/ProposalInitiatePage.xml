@@ -39,6 +39,31 @@
 	</bean>
 
 	<bean id="PropDev-InitiatePage-Section" parent="PropDev-InitiatePage-Section-parentBean" />
-	<bean id="PropDev-InitiatePage-Section-parentBean" abstract="true"
-		parent="PropDev-DefaultDetails-Section" />
+	<bean id="PropDev-InitiatePage-Section-parentBean" abstract="true" parent="PropDev-DefaultDetails-Section">
+		<property name="items">
+			<list merge="true">
+				<bean parent="PropDev-InitiatePage-PrincipalInvestigatorField" p:order="70" />
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- Simple Add PI field.  Not rendered by default.  Can be turned on with DD customization -->
+	<bean id="PropDev-InitiatePage-PrincipalInvestigatorField" parent="PropDev-InitiatePage-PrincipalInvestigatorField-parentBean" />
+	<bean id="PropDev-InitiatePage-PrincipalInvestigatorField-parentBean" abstract="true"
+		  parent="Uif-InputField" p:bindingInfo.bindingObjectPath="addEmployeePiHelper" p:propertyName="personId" p:label="Principal Investigator" p:render="false" p:required="true">
+		<property name="quickfinder">
+			<bean parent="Uif-QuickFinder"
+				  p:dataObjectClassName="org.kuali.coeus.common.framework.person.KcPerson"
+				  p:fieldConversions="personId:personId"
+			      p:lookupParameters="personId:personId">
+			</bean>
+		</property>
+		<property name="propertyNamesForAdditionalDisplay">
+			<list>
+				<value>kcPerson.fullName</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>

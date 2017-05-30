@@ -31,15 +31,16 @@ import java.util.Map;
 
 public interface TimeAndMoneyService {
 
-    public TimeAndMoneyDocument setupTimeAndMoneyDocument(String rootAwardNumber, Award currentAward) throws WorkflowException;
-    public Award populateAwardHierarchyItems(TimeAndMoneyDocument timeAndMoneyDocument, String rootAwardNumber, List<String> order);
-    public void captureDateChangeTransactions(TimeAndMoneyDocument timeAndMoneyDocument, List<AwardHierarchyNode> awardHierarchyNodeItems) throws WorkflowException;
-    public AwardAmountInfo getNewAwardAmountInfoForDateChangeTransaction(AwardAmountInfo awardAmountInfo,  Award award, String documentNumber);
-    public TransactionDetail createTransDetailForDateChanges(String sourceAwardNumber, String destinationAwardNumber, Integer sequenceNumber,
+    TimeAndMoneyDocument setupTimeAndMoneyDocument(String rootAwardNumber, Award currentAward) throws WorkflowException;
+    Award populateAwardHierarchyItems(TimeAndMoneyDocument timeAndMoneyDocument, String rootAwardNumber, List<String> order);
+    void captureDateChangeTransactions(TimeAndMoneyDocument timeAndMoneyDocument, List<AwardHierarchyNode> awardHierarchyNodeItems) throws WorkflowException;
+    AwardAmountInfo getNewAwardAmountInfoForDateChangeTransaction(AwardAmountInfo awardAmountInfo,  Award award, String documentNumber);
+    TransactionDetail createTransDetailForDateChanges(String sourceAwardNumber, String destinationAwardNumber, Integer sequenceNumber,
                                                              String currentAwardNumber, String documentNumber, String commentsString);
-    public boolean captureMoneyChanges(List<AwardHierarchyNode> awardHierarchyNodeItems, TimeAndMoneyDocument timeAndMoneyDocument, List<TransactionDetail> moneyTransactionDetailItems,
+    boolean captureMoneyChanges(List<AwardHierarchyNode> awardHierarchyNodeItems, TimeAndMoneyDocument timeAndMoneyDocument, List<TransactionDetail> moneyTransactionDetailItems,
                                        Map.Entry<String, AwardHierarchyNode> awardHierarchyNode);
 
-    public void updateAwardAmountTransactions(TimeAndMoneyDocument timeAndMoneyDocument);
-
-}
+    void updateAwardAmountTransactions(TimeAndMoneyDocument timeAndMoneyDocument);
+    void addPostEntry(Long awardId, String awardNumber, String documentNumber);
+    
+    }

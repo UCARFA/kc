@@ -43,6 +43,10 @@ import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleEvent;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleImpl;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.award.home.rules.AwardAddCfdaEvent;
+import org.kuali.kra.award.home.rules.AwardCfdaAuditRule;
+import org.kuali.kra.award.home.rules.AwardCfdaRule;
+import org.kuali.kra.award.home.rules.impl.AwardCfdaRuleImpl;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.paymentreports.awardreports.*;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
@@ -102,7 +106,8 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
                                                                             AwardCloseoutRule,
                                                                             AwardTemplateSyncRule,
                                                                             AwardCommentsRule,
-        KcBusinessRule,
+                                                                            KcBusinessRule,
+                                                                            AwardCfdaRule,
                                                                             AddAwardAttachmentRule,
                                                                             DocumentAuditRule{
     
@@ -215,7 +220,6 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         retval &= processDateBusinessRule(errorMap, awardDocument);
         retval &=processKeywordBusinessRule(awardDocument);
         retval &=processAwardAttachmentBusinessRule(awardDocument);
-        
         return retval;
     }
 
@@ -409,9 +413,9 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         retval &= new AwardSponsorContactAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardBudgetLimitsAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardDetailsAndDatesAuditRule().processRunAuditBusinessRules(document);
+        retval &= new AwardCfdaAuditRule().processRunAuditBusinessRules(document);
+
         return retval;
-        
-        
     }
 
     @Override
@@ -663,5 +667,10 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
+    }
+
+    @Override
+    public boolean processAddCfdaRules(AwardAddCfdaEvent awardAddCfdaEvent) {
+        return new AwardCfdaRuleImpl().processAddCfdaRules(awardAddCfdaEvent);
     }
 }

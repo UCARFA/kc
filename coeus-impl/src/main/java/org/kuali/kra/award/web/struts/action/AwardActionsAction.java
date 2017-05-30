@@ -22,15 +22,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.award.finance.AwardAccount;
-import org.kuali.coeus.award.finance.AwardPosts;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -74,7 +72,6 @@ import org.kuali.rice.krad.util.KRADConstants;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.datatype.DatatypeConfigurationException;
-
 import java.io.ByteArrayOutputStream;
 import java.util.*;
 
@@ -734,8 +731,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                         return mapping.findForward(Constants.MAPPING_ICR_RATE_CODE_PROMPT);
                     }
                 } else if (getAwardAccountService().isFinancialRestApiEnabled()) {
-                    addPostEntry(award.getAwardId(), award.getAccountNumber(), award.getAwardNumber(), awardDocument.getDocumentNumber(), Boolean.FALSE);
-                    addAccountInformation(award.getAwardId(), award.getAccountNumber());
+                    getAwardService().addPostEntry(award.getAwardId(), award.getAccountNumber(), award.getAwardNumber(), awardDocument.getDocumentNumber(), Boolean.FALSE);
+                    getAwardService().addAccountInformation(award.getAwardId(), award.getAccountNumber());
                     getDocumentService().saveDocument(awardDocument);
                 }
             }
@@ -746,17 +743,6 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
        
         return forward; 
-    }
-
-    protected void addPostEntry(Long awardId, String accountNumber, String awardNumber, String documentNumber, boolean posted) {
-        AwardPosts awardPosts = new AwardPosts();
-        awardPosts.setAwardId(awardId);
-        awardPosts.setAccountNumber(accountNumber);
-        awardPosts.setDocumentNumber(documentNumber);
-        awardPosts.setPosted(posted);
-        String awardFamily = awardNumber.substring(0, StringUtils.indexOf(awardNumber, "-"));
-        awardPosts.setAwardFamily(awardFamily);
-        getDataObjectService().save(awardPosts);
     }
 
     protected boolean createAccount(AwardForm awardForm, Award award) throws DatatypeConfigurationException, WorkflowException {
@@ -779,13 +765,6 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 Constants.PARAMETER_MODULE_AWARD,
                 ParameterConstants.DOCUMENT_COMPONENT,
                 Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
-    }
-
-    protected void addAccountInformation(Long awardId, String accountNumber) {
-        AwardAccount awardAccount = new AwardAccount();
-        awardAccount.setCreatedByAwardId(awardId);
-        awardAccount.setAccountNumber(accountNumber);
-        getDataObjectService().save(awardAccount);
     }
 
     public DataObjectService getDataObjectService() {
@@ -978,10 +957,11 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
+
     public ActionForward postAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         final Award award = awardForm.getAwardDocument().getAward();
-        addPostEntry(award.getAwardId(), award.getAccountNumber(), award.getAwardNumber(), awardForm.getAwardDocument().getDocumentNumber(), Boolean.TRUE);
+        getAwardService().addPostEntry(award.getAwardId(), award.getAccountNumber(), award.getAwardNumber(), awardForm.getAwardDocument().getDocumentNumber(), Boolean.TRUE);
         getGlobalVariableService().getMessageMap().putInfo(KeyConstants.AWARD_INFORMATION_POSTED, KeyConstants.AWARD_INFORMATION_POSTED);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }

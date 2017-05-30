@@ -222,6 +222,7 @@ public final class KeyConstants {
     public static final String ERROR_IF_REVISIONTYPE_IS_OTHER = "error.s2sopportunity.revisionTypeOther";
     public static final String ERROR_REQUIRED_REVISIONTYPE = "error.required.s2sopportunity.revisionType";
     public static final String ERROR_IF_CFDANUMBER_IS_INVALID = "error.s2sopportunity.cfdaNumberInvalid";
+    public static final String CFDA_INVALID = "error.format.cfda";
     public static final String ERROR_IF_OPPORTUNITY_ID_IS_INVALID = "error.s2sopportunity.opportunityIdInvalid";
     public static final String ERROR_OPPORTUNITY_ID_DIFFER = "error.opportunityId.differ";
     public static final String ERROR_OPPORTUNITY_TITLE_DELETED = "error.opportunityTitle.deleted";
@@ -237,7 +238,8 @@ public final class KeyConstants {
     public static final String ERROR_GRANTSGOV_FORM_PARSING_SAXEXCEPTION = "error.grantsgov.form.xmlprocess";
     public static final String ERROR_GRANTSGOV_FORM_SCHEMA_NOT_FOUND = "error.grantsgov.form.schema.server.down";
     public static final String ERROR_GRANTSGOV_NO_FORM_ELEMENT = "error.grantsgov.no.form.element";
-    
+    public static final String UNIQUE_NIH_VALIDATION_KEY = "error.unique.nih.validation.mapping";
+
     public static final String ERROR_PRINTING_UNKNOWN = "error.printing.unknown";
     public static final String ERROR_IF_COMPETITION_ID_IS_INVALID="error.s2sopportunity.competitionIdInvalid";
    // Grants.gov System Parameters
@@ -1018,6 +1020,8 @@ public final class KeyConstants {
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_AMOUNT_ZERO = "subaward.error.obligated.amount.equal.to.zero";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_DIRECT_AMOUNT_ZERO = "subaward.error.obligated.direct.amount.equal.to.zero";
     public static final String ERROR_AMOUNT_INFO_OBLIGATED_INDIRECT_AMOUNT_ZERO = "subaward.error.obligated.indirect.amount.equal.to.zero";
+    public static final String ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_AGREE_CD = "error.required.subaward.templateinfo.humanDataExchangeAgreeCd";
+    public static final String ERROR_REQUIRED_HUMAN_DATA_EXCHANGE_TERMS_CD = "error.required.subaward.templateinfo.humanDataExchangeTermsCd";
 
     public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_NEGATIVE = "subaward.error.anticipated.amount.less.than.zero";
     public static final String ERROR_AMOUNT_INFO_ANTICIPATED_AMOUNT_ZERO = "subaward.error.anticipated.amount.equal.to.zero";
@@ -1140,6 +1144,7 @@ public final class KeyConstants {
     public static final String S2S_USER_ATTACHED_FORM_WRONG_FILE_TYPE = "error.s2s.userattachedform.wrong.filetype";
     public static final String S2S_USER_ATTACHED_FORM_NOT_VALID = "error.s2s.userattachedform.invalid";
     public static final String S2S_USER_ATTACHED_FORM_NOT_PDF = "error.s2s.userattachedform.not.pdf";
+    public static final String S2S_USER_ATTACHED_FORM_NOT_FILLED = "error.s2s.userattachedform.not.filled";
     public static final String ERROR_DELETION_BLOCKED = "error.deletion.blocked";
 
     public static final String AUDIT_WARNING_PROPOSAL_WITHNO_BUDGET = "warning.proposal.withno.budget";
@@ -1157,6 +1162,8 @@ public final class KeyConstants {
     public static final String ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE = "error.format.org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern.allowUnderscore.allowDash.allowWhitespace";
     public static final String ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE_PERIOD = "error.format.org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern.allowUnderscore.allowDash.allowWhitespace.allowPeriod";
     public static final String QUESTION_DELETE_FNA = "document.question.deleteFandA.text";
+
+    public static final String XML_REORDER_WARNING = "info.grantsgov.form.xml.reorder";
 
     /**
      * private utility class ctor.

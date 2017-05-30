@@ -135,7 +135,7 @@
  				<bean parent="PropDev-DetailsPage-OwnedByUnitNumberField" 
 					p:enableAutoQuickfinder="false"
  					p:order="20"/>
-				<bean parent="Uif-InputField" p:propertyName="activityTypeCode" 
+				<bean parent="Uif-InputField" p:propertyName="activityTypeCode"
 					p:enableAutoQuickfinder="false"
 					p:order="30" />
 				<bean parent="PropDev-DetailsPage-ProjectDatesField" 

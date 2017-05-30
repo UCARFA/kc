@@ -43,7 +43,6 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
     private CustomerCreationClient customerCreationClient;
     private DataDictionaryService dataDictionaryService;
     private DunningCampaignClient dunningCampaignClient;
-    private GlobalVariableService globalVariableService;
     private ParameterService parameterService;
 
     public SponsorMaintenanceDocumentRule() {
@@ -137,17 +136,6 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
 
     public void setDunningCampaignClient(DunningCampaignClient dunningCampaignClient) {
         this.dunningCampaignClient = dunningCampaignClient;
-    }
-
-    public GlobalVariableService getGlobalVariableService() {
-        if (this.globalVariableService == null) {
-            this.globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
-        }
-        return this.globalVariableService;
-    }
-
-    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
-        this.globalVariableService = globalVariableService;
     }
 
     public ParameterService getParameterService() {

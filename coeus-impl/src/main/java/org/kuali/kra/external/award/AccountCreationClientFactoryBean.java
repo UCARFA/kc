@@ -26,7 +26,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.beans.factory.FactoryBean;
 
-public class AccountCreationClientFactoryBean implements FactoryBean {
+public class AccountCreationClientFactoryBean implements FactoryBean<AccountCreationClient> {
 
 	private boolean sharedRice;
 	private DocumentService documentService;
@@ -34,13 +34,14 @@ public class AccountCreationClientFactoryBean implements FactoryBean {
     private ParameterService parameterService;
     private ConfigurationService configurationService;
 
-	public Object getObject() throws Exception {
-	    AccountCreationClient object = null; 
-		if(sharedRice)
-		    object = (AccountCreationClient) (AccountCreationKSBClientImpl.getInstance());
-		else
-		    object = (AccountCreationClient) (AccountCreationClientImpl.getInstance());
-		
+    @Override
+	public AccountCreationClient getObject() throws Exception {
+	    final AccountCreationClient object;
+		if(sharedRice) {
+            object = (AccountCreationKSBClientImpl.getInstance());
+        } else {
+            object = (AccountCreationClientImpl.getInstance());
+        }
 		object.setDocumentService(documentService);
 		object.setBusinessObjectService(businessObjectService);
         object.setParameterService(parameterService);
@@ -49,10 +50,12 @@ public class AccountCreationClientFactoryBean implements FactoryBean {
 		return object;
 	}
 
-	public Class getObjectType() {
+    @Override
+	public Class<? extends AccountCreationClient> getObjectType() {
 		return AccountCreationClient.class;
 	}
 
+	@Override
 	public boolean isSingleton() {
 		return true;
 	}

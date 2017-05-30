@@ -729,8 +729,8 @@
     <bean id="SubAward-totalObligatedIndirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="totalObligatedIndirectAmount" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Obligated Indirect Amount" />
-        <property name="shortLabel" value="Obligated Indirect Amount" />
+        <property name="label" value="Obligated F&amp;A Amount" />
+        <property name="shortLabel" value="Obligated F&amp;A Amount" />
         <property name="maxLength" value="22" />
         <property name="required" value="false" />
         <property name="control" >
@@ -739,8 +739,8 @@
         <property name="controlField">
             <bean p:size="10" parent="Uif-TextControl"/>
         </property>
-        <property name="summary" value="Obligated Indirect Amount" />
-        <property name="description" value="Obligated Indirect Amount" />
+        <property name="summary" value="Obligated F&amp;A Amount" />
+        <property name="description" value="Obligated F&amp;A Amount" />
     </bean>
 
     <bean id="SubAward-totalAnticipatedDirectAmount" parent="SubAward-totalAnticipatedDirectAmount-parentBean" />
@@ -765,8 +765,8 @@
     <bean id="SubAward-totalAnticipatedIndirectAmount-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="totalAnticipatedIndirectAmount" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Anticipated Indirect Amount" />
-        <property name="shortLabel" value="Anticipated Indirect Amount" />
+        <property name="label" value="Anticipated F&amp;A Amount" />
+        <property name="shortLabel" value="Anticipated F&amp;A Amount" />
         <property name="maxLength" value="22" />
         <property name="required" value="false" />
         <property name="control" >
@@ -775,8 +775,8 @@
         <property name="controlField">
             <bean p:size="10" parent="Uif-TextControl"/>
         </property>
-        <property name="summary" value="Anticipated Indirect Amount" />
-        <property name="description" value="Anticipated Indirect Amount" />
+        <property name="summary" value="Anticipated F&amp;A Amount" />
+        <property name="description" value="Anticipated F&amp;A Amount" />
     </bean>
 
   <bean id="SubAward-totalAnticipatedAmount" parent="SubAward-totalAnticipatedAmount-parentBean" />

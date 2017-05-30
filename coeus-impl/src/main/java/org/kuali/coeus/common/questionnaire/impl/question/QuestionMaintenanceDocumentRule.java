@@ -66,9 +66,7 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
      * It's an exact replica of MaintenanceDocumentRuleBase with the exception of the
      * error path being "document.newMaintainableObject.businessObject" instead of 
      * "document.newMaintainableObject". 
-     * TODO: Find a better solution as this duplicates code and is prone to failure if
-     *       the rice framework changes, specifically its dataDictionaryValidate method.
-     * @param document
+
      * @return true if it passes DD validation, false otherwise
      */
     @Override
@@ -114,7 +112,6 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
     
     /**
      * This method validates the user entered data of a Question when the document is routed.
-     * @param maintenanceDocument
      * @return true if valid, false otherwise
      */
     @Override
@@ -170,6 +167,9 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
                 case (int) Constants.QUESTION_RESPONSE_TYPE_NUMBER:
                     isValid &= validateResponseTypeNumber(question); 
                     break;
+                case (int) Constants.QUESTION_RESPONSE_TYPE_DECIMAL:
+                    isValid &= validateResponseTypeDecimal(question);
+                    break;
                 case (int) Constants.QUESTION_RESPONSE_TYPE_DATE:
                     isValid &= validateResponseTypeDate(question); 
                     break;
@@ -224,7 +224,22 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
         isValid &= validateDisplayedAnswers(question);
         isValid &= validateAnswerMaxLengthWithCeiling(question);
         isValid &= validateMaxAnswers(question);
-        
+
+        return isValid;
+    }
+
+    /**
+     * This method validates the additional properties of a numeric response to a question.
+     * @param question - the question to be validated
+     * @return true if all validation has passed, false otherwise
+     */
+    private boolean validateResponseTypeDecimal(Question question) {
+        boolean isValid = true;
+
+        isValid &= validateDisplayedAnswers(question);
+        isValid &= validateAnswerMaxLengthWithCeiling(question);
+        isValid &= validateMaxAnswers(question);
+
         return isValid;
     }
 

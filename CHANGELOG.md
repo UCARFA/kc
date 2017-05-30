@@ -1,6 +1,258 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1705.0029
+* No Changes
+
+
+##coeus-1705.0028
+* No Changes
+
+
+##coeus-1705.0027
+* No Changes
+
+
+##coeus-1705.0026
+* RESKC-2211: fixing a nullpointer exception when checking cost share type in IP & Award
+  * Travis Schneeberger on Wed, 24 May 2017 15:01:55 -0400 [View Commit](../../commit/2429044716718e3500caed95e490ed5eae49f7d9)
+
+##coeus-1705.0025
+* RESKC-2194: adding indexes that should improve identified slow queries
+  * Travis Schneeberger on Wed, 24 May 2017 12:29:37 -0400 [View Commit](../../commit/2cf668a33fc3f58deec727ff89ce3658acca5de2)
+
+##coeus-1705.0024
+* RESKC-2236: switching cost share type requiredness validation to an audit error
+  * Travis Schneeberger on Tue, 23 May 2017 15:38:02 -0400 [View Commit](../../commit/7576c8062585dbf1c4720d82a378fd44362c1033)
+
+##coeus-1705.0023
+* Reskc 2219 auto post (#2345)
+
+* RESKC-2219: Adding T&M auto post feature
+  * 
+* RESKC-2219: Award auto post feature
+  * 
+* RESKC-2219: PR changes
+  * 
+* RESKC-2219: Cleaned code.
+  * Gayathri Athreya on Tue, 23 May 2017 07:59:14 -1000 [View Commit](../../commit/9d76b35a07134a2c425770cbefec49e800554b26)
+
+##coeus-1705.0022
+* RESKC-2194: budget improvements
+  * Travis Schneeberger on Tue, 23 May 2017 10:22:04 -0400 [View Commit](../../commit/f6f2bf750722b2d4f93eb718cb03486dbee91516)
+
+##coeus-1705.0021
+* RESKC-1794: supporting Budget Narrative Attachment Form 1.2
+  * Travis Schneeberger on Mon, 22 May 2017 15:42:59 -0400 [View Commit](../../commit/248a3785bdde971eb0e90c6f7d74e0b37bb46849)
+
+##coeus-1705.0020
+* return active indicator on person trainings
+  * Joe Williams on Mon, 22 May 2017 10:17:27 -0500 [View Commit](../../commit/dd5c00a8c2a3a9b60976b3a878c3bfe73f6cdd7c)
+
+##coeus-1705.0019
+* No Changes
+
+
+##coeus-1705.0018
+* No Changes
+
+
+##coeus-1705.0016
+* No Changes
+
+
+##coeus-1705.0015
+* Fix cost share tests (#2342)
+
+  * Gayathri Athreya on Fri, 19 May 2017 14:23:15 -0700 [View Commit](../../commit/60a37ea1c38053095b74121c2e68b208c3e51f69)
+* RESKC-2238: Fixing cost share issue. (#2341)
+
+  * When a user has a budget with cost share and the cost share distribution has multiple rows with SAME source in SAME FY; then the following error results: Row duplication!! Please enter a different Fiscal Year or Source Account for 1 or 1234567
+  * If the user was somehow able to save this information and then tries to access the budget back again, this error comes up when the budget is opened, however, it prevents the user from navigating to the right section to fix the error.
+  * The expected behavior is that the error is present, BUT the user should be able to navigate between the section and to the right section to fix it. The error should not let user set the budget as Complete.
+  * New Message:
+  * Multiple rows with the same Fiscal Year and Source Account combination are not allowed. Please fix.  * Gayathri Athreya on Fri, 19 May 2017 12:08:43 -0700 [View Commit](../../commit/fff6493928f9ac46bbb9a2b2dfb790a22a72871f)
+
+##coeus-1705.0014
+* RESKC-1797: supporting form SFLLLV1.2, adding tests for all versions of SFLLL forms
+  * Travis Schneeberger on Fri, 19 May 2017 11:57:33 -0400 [View Commit](../../commit/581f5569855f89810a9334492c8261b000997e15)
+
+##coeus-1705.0013
+* RESKC-1752: Re-enabling execution and modification dates. (#2339)
+
+  * The goal of this parameter (MAKE_AWD_CUM_ANTICIPATED_OBL_EDITABLE) was to prevent users from entering the following data on the award document: Obligated and Anticipated Amounts and Obligation Start and End Dates.
+  * However, when the parameter is set to 'N' a user does NOT have a way to enter Execution Date, and Modification Date. (these fields are NOT available in the T&M document)
+  * Please fix so that when the parameter is set to N:
+  * The Execution Date and Modification Date are editable on the Award Document  * Gayathri Athreya on Thu, 18 May 2017 11:07:49 -0700 [View Commit](../../commit/a7a6f6f133bb52ec35f4abc33cd9135aac423ceb)
+* RESKC-2227: Added comment field to IP (#2335)
+
+  * Gayathri Athreya on Thu, 18 May 2017 07:56:44 -0700 [View Commit](../../commit/cdea8209485ff4ac1dbd48c658191c71c72868bd)
+* RESKC-2224:CONTRIBUTION: PD: Compliance: need ability to add or edit
+  * compliance entry in proposal when at OSP
+  * Currently, there is no ability to add a compliance entry, or edit an
+  * existing compliance entry,in a proposal when it is in "Approval Pending"
+status. This causes additional work as the proposal must either be
+  * returned to the Aggregator, edited, and re-routed to OSP, or OSP has to
+  * request the Data Team to add/edit the compliance entry in the resulting
+  * Institute Proposal.
+  * We need to develop a permission that can be added to the OSP Admin role
+so that a person has the ability to either add a compliance line, or
+  * edit an existing compliance line, when a proposal is in "Approval in
+  * Progress" status in OSP.
+  * Recommended Permission name - "Override_PD_Compliance_Entry"  * vineeth on Wed, 17 May 2017 17:51:10 -0400 [View Commit](../../commit/1162636c7e1469f6bf8bd9edab7996f3a5c457f8)
+* AFT changes (#2336)
+
+  * Gayathri Athreya on Tue, 16 May 2017 13:15:45 -0700 [View Commit](../../commit/0aae58b214cd0025a756a895ef35ee51804431e1)
+
+##coeus-1705.0012
+* RESKC-1797: adding lobbying registrant and lobbying individual to organization
+  * Travis Schneeberger on Mon, 15 May 2017 16:12:38 -0400 [View Commit](../../commit/a1078ccc319739178fd57933b7e48e258ca12338)
+
+##coeus-1705.0011
+* RESKC-2198: Adding NIH mapping maintenance doc. (#2330)
+
+* RESKC-2198: Adding NIH mapping maintenance doc.
+  * 
+* RESKC-2198: Making review changes.
+  * Gayathri Athreya on Mon, 15 May 2017 10:39:30 -0700 [View Commit](../../commit/9a86c6968d87b08c2936085b9b548b80063d31aa)
+
+##coeus-1705.0010
+* RESKC-2214: Update documentation. (#2331)
+
+  * Gayathri Athreya on Mon, 15 May 2017 08:02:42 -0700 [View Commit](../../commit/7b23956151ebcea27982d54e00cf54a8a6090a17)
+
+##coeus-1705.0009
+* RESKC-2178: preventing NPE when checking if there are any optional forms to display messages for
+  * Travis Schneeberger on Mon, 15 May 2017 09:07:05 -0400 [View Commit](../../commit/a5fa4fe5de412980d6b0dbe2477f60f57f6ec05f)
+* zendesk-1165 remove extra semicolon
+  * noah on Fri, 12 May 2017 10:55:05 -0700 [View Commit](../../commit/d50baebe7b9102b11cfe2667e7b0d4bda676c5af)
+
+##coeus-1705.0008
+* RESKC-2223: fixing error handling issues with NIH validation service & user attach forms
+  * Travis Schneeberger on Fri, 12 May 2017 11:21:16 -0400 [View Commit](../../commit/515493ae25f8e6c484fbb022ba699bf280f81a42)
+
+##coeus-1705.0007
+* RESKC-2196: removing carriage return and line feed from error messages returned from the NihValidationService
+  * Travis Schneeberger on Thu, 11 May 2017 10:02:20 -0400 [View Commit](../../commit/2cb45b33e15344c465a45b78c06d78bd8880fc18)
+
+##coeus-1705.0005
+* RESKC-2178: adding the ability to inactivate s2s forms with a custom message.
+  * Travis Schneeberger on Wed, 10 May 2017 16:06:08 -0400 [View Commit](../../commit/f6f60aec6ea75580633477c64e6e6c3ca5863729)
+
+##coeus-1705.0004
+* RESKC-2212: adding a feature flag for fdp in subaward
+  * Travis Schneeberger on Tue, 9 May 2017 11:40:38 -0400 [View Commit](../../commit/f47594eb2a515b94a25467d4df4323110b642c29)
+
+##coeus-1705.0003
+* RESKC-2214: Change budget status code logic so status can be changed to anything. (#2322)
+
+  * Gayathri Athreya on Tue, 9 May 2017 06:04:18 -0700 [View Commit](../../commit/e30f88b37346e8b05cb150590dd167c19e3497f4)
+
+##coeus-1705.0002
+* No Changes
+
+
+##coeus-1705.0001
+* No Changes
+
+
+##coeus-1704.0032
+* caching the associated document
+  * Travis Schneeberger on Fri, 28 Apr 2017 12:28:42 -0400 [View Commit](../../commit/2afb3f4654cb15e308303faa0e461187cf90f3e4)
+
+##coeus-1704.0031
+* RESKC-2209: changing the sort of of negotiation activities to match COEUS.  The activities are sorted by activity start date DESC, activityId (insert order) ASC
+  * Travis Schneeberger on Thu, 27 Apr 2017 17:14:03 -0400 [View Commit](../../commit/6646e7779f8e114387c8ab2fff7a18fa2977d1ba)
+* RESKC-2165: add lookup parameters, make search result refresh entire page in order to display the person name, move spring bean attributes to parent bean - our standard.
+  * Travis Schneeberger on Thu, 27 Apr 2017 16:14:01 -0400 [View Commit](../../commit/914ff5387a19b4c74bf990d8f5af570ac0b33771)
+* RESKC-2197: adding parameter to sponsor hierarchy service to treat all sponsors as NIH when enabled
+  * Travis Schneeberger on Thu, 27 Apr 2017 10:42:06 -0400 [View Commit](../../commit/c7b570e67f9e8e6ba80de4233c082e8ddd85438e)
+
+##coeus-1704.0030
+* RESKC-2165: simple PI add from create proposal screen.  Not rendered by default.
+  * Travis Schneeberger on Wed, 26 Apr 2017 13:51:30 -0400 [View Commit](../../commit/b6b09c88a3b84cb125e80c5ca79d8f42a699eea6)
+
+##coeus-1704.0029
+* No Changes
+
+
+##coeus-1704.0028
+* RESKC-2190: Changing rule and messages around template info (#2313)
+
+  * Gayathri Athreya on Wed, 26 Apr 2017 11:53:17 -0700 [View Commit](../../commit/d52826f90ea4ef7798d75a2d1d26341dd4d80232)
+* RESKC-1778: Adding notifications on create proposal (#2311)
+
+* RESKC-1778: Adding notifications on create proposal
+  * 
+* RESKC-1778: Logging info
+  * 
+* RESKC-1778: resequence
+  * Gayathri Athreya on Wed, 26 Apr 2017 11:22:22 -0700 [View Commit](../../commit/cdd350cfba1dcb0ad1a112b8136c41f22e0fc8fb)
+
+##coeus-1704.0027
+* No Changes
+
+
+##coeus-1704.0026
+* RESKC-1459: adding maintenance table for s2s form configuration.
+  * Travis Schneeberger on Tue, 25 Apr 2017 08:51:42 -0400 [View Commit](../../commit/126f0d5cc7eaf67119569d664677299441590984)
+
+##coeus-1704.0025
+* Just added a test for a functionality I was asked about. I did not realize it did not have tests, so I added it. (#2305)
+
+  * Gayathri Athreya on Mon, 24 Apr 2017 16:23:58 -0700 [View Commit](../../commit/f8ed341b3a4143748070e08f17ae33e72cde1b62)
+* RESKC-1841, RESKC-2159: support fillable pdf forms, support SupplementaryCoverSheetforNEHGrantPrograms_3_0-V3.0
+  * Travis Schneeberger on Fri, 21 Apr 2017 12:40:44 -0400 [View Commit](../../commit/8c20a1fb3f5b2f58c4c34d791907f6912e654a41)
+
+##coeus-1704.0024
+* Fix mysql and oracle (#2307)
+
+  * Gayathri Athreya on Fri, 21 Apr 2017 10:11:57 -0700 [View Commit](../../commit/378815550c971965134b84bf45ef78764deabd0f)
+* Reskc 2164 uaf (#2304)
+
+* RESKC-2164: Fix UAF SFLLL
+  * In the SF-LLL V1.2 Form Schema, the FederalProgramName element should come after the FederalAgencyDepartment element.
+  * 
+* RESKC-2164: Refactoring
+  * 
+* RESKC-2164: Adding maintenance document.
+  * Gayathri Athreya on Fri, 21 Apr 2017 09:07:56 -0700 [View Commit](../../commit/f663bce5f035176d9cc9f1c8f78c2b0e44ab1c67)
+
+##coeus-1704.0023
+* No Changes
+
+
+##coeus-1704.0022
+* RESKC-2171: Adding obligated and anticipated totals to display (#2301)
+
+  * Gayathri Athreya on Tue, 18 Apr 2017 08:31:46 -0700 [View Commit](../../commit/71fd546a537ade3e8df9abfbd0b784145721bd30)
+* RESKC-2163: Fix user attached form: SF424_Short_1_1
+  * Travis Schneeberger on Mon, 17 Apr 2017 15:39:49 -0400 [View Commit](../../commit/60d62c35dff15ee447b4168fdd2e5f3a491973b9)
+
+##coeus-1704.0020
+* RESKC-2111: Fix CFDA warning validation (#2300)
+
+  * Gayathri Athreya on Mon, 17 Apr 2017 10:44:02 -0700 [View Commit](../../commit/a4f3ef9c9a686539caf45c1632011faf9a0e0603)
+
+##coeus-1704.0019
+* RESKC-2177: Enabling PD Standard workflow in demo data for tests. (#2299)
+
+  * Gayathri Athreya on Mon, 17 Apr 2017 07:24:51 -0700 [View Commit](../../commit/9a550b16a69e6c6bbc3a7382078af58bcf13cb2b)
+* Reskc 2111 cfda (#2298)
+
+* RESKC-2111: Making CFDA validation a warning in PD
+  * 
+* RESKC-2111: Award validations
+  * 
+* RESKC-2111: Add warning to institutional proposal.
+  * 
+* RESKC-2111: PR review changes
+  * Gayathri Athreya on Mon, 17 Apr 2017 07:22:54 -0700 [View Commit](../../commit/b50c20b77d3145b370ef931bb9a368cc55ab8875)
+
+##coeus-1704.0018
 * RESKC-2103: making sure the submit page looks at the certifiedBy to determine completeness and the personnel page looks at questionnaire completeness
   * Travis Schneeberger on Thu, 13 Apr 2017 13:48:28 -0400 [View Commit](../../commit/3c14751beeb3c4ef37c7edad1ae6f3e1b797086a)
 

@@ -432,6 +432,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/attachment/NarrativeStatus.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/attachment/NarrativeType.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/attachment/NarrativeUserRights.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/NihValidationMapping.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Negotiation.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NegotiationActivity.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NegotiationActivityAttachment.xml</value>
@@ -614,6 +615,8 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sAppAttachments.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sError.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sErrorMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sFormConfiguration.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sFormConfigurationMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sApplication.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sAppSubmission.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/question/S2sOppFormQuestionnaire.xml</value>
@@ -676,6 +679,7 @@
                 <value>classpath:org/kuali/coeus/common/impl/unit/admin/UnitAdministratorType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/crrspndnt/UnitCorrespondent.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/rate/UnitFormulatedCost.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/UserAttachedFormsXMLReorder.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidAwardBasisPayment.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidBasisMethodPayment.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/calculator/ValidCalcType.xml</value>
@@ -917,6 +921,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sProviderMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sRevisionTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sSubmissionTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/NihValidationMappingMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ScheduleActItemTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ScheduleStatusMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SchoolCodeMaintenanceDocument.xml</value>
@@ -949,6 +954,7 @@
                 <value>classpath:org/kuali/coeus/common/impl/unit/crrspndnt/UnitCorrespondentMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/rate/UnitFormulatedCostMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/UnitMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/UserAttachedFormsXMLReorderMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidAwardBasisPaymentMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidBasisMethodPaymentMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/calculator/ValidCalcTypeMaintenanceDocument.xml</value>
@@ -982,6 +988,7 @@
                 <value>classpath:org/kuali/coeus/sys/impl/mq/ActiveMqMessageMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/sys/impl/dd/DataDictionaryOverride.xml</value>
                 <value>classpath:org/kuali/coeus/sys/impl/dd/DataDictionaryOverrideMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/sys/impl/dd/DataDictionaryFile.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/LineItemTableCommon.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AwardCgb.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/DummyLoginOverrides.xml</value>

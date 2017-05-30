@@ -50,6 +50,7 @@ public class NotificationHelper<T extends NotificationContext> implements Serial
     private NotificationTypeRecipient newNotificationRecipient;
     private List<NotificationTypeRecipient> notificationRecipients;
     private KcNotification notification;
+    private Integer notificationStep;
     
     private T notificationContext;
     
@@ -67,6 +68,14 @@ public class NotificationHelper<T extends NotificationContext> implements Serial
         this.setNewNotificationRecipient(new NotificationTypeRecipient());
         this.setNotificationRecipients(new ArrayList<NotificationTypeRecipient>());
         this.setNotification(new KcNotification());
+    }
+
+    public Integer getNotificationStep() {
+        return notificationStep;
+    }
+
+    public void setNotificationStep(Integer notificationStep) {
+        this.notificationStep = notificationStep;
     }
 
     public NotificationTypeRecipient getNewNotificationRecipient() {

@@ -46,6 +46,7 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
+import org.kuali.coeus.propdev.impl.sponsor.AddProposalSponsorAndProgramInformationEvent;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -97,6 +98,9 @@ public abstract class ProposalDevelopmentControllerBase {
     public static final String DEVELOPMENT_PROPOSAL_NUMBER = "developmentProposal.proposalNumber";
     public static final String COI_DISCLOSURE_REQUIRED_ACTION_TYPE_CODE = "109";
     public static final String COI_DISCLOSURE_REQUIRED_NOTIFICATION = "COI disclosure required notification";
+    @Autowired
+    @Qualifier("proposalDevelopmentNotificationRenderer")
+    protected ProposalDevelopmentNotificationRenderer renderer;
     @Autowired
     @Qualifier("uifExportControllerService")
     private UifExportControllerService uifExportControllerService;
@@ -209,6 +213,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Qualifier("proposalTypeService")
     private ProposalTypeService proposalTypeService;
 
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
+
     private ProjectPublisher projectPublisher;
 
     public ProjectPublisher getProjectPublisher() {
@@ -276,6 +284,11 @@ public abstract class ProposalDevelopmentControllerBase {
 
          if (StringUtils.equalsIgnoreCase(form.getPageId(), ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)) {
              ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateAttachmentReferences(form.getDevelopmentProposal());
+         }
+
+         if (StringUtils.isEmpty(form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID))
+                 && StringUtils.equalsIgnoreCase(form.getPageId(), ProposalDevelopmentDataValidationConstants.SPONSOR_PROGRAM_INFO_PAGE_ID)) {
+             kualiRuleService.applyRules(new AddProposalSponsorAndProgramInformationEvent(StringUtils.EMPTY, form.getProposalDevelopmentDocument()));
          }
 
          if (getGlobalVariableService().getMessageMap().getErrorCount() == 0 && form.getEditableCollectionLines() != null) {
@@ -733,6 +746,25 @@ public abstract class ProposalDevelopmentControllerBase {
 
         // For add line binding
         binder.registerCustomEditor(List.class, "newCollectionLines.specialReviewExemptions", new PropSpecialReviewExemptionTypeEditor());
+    }
+
+    protected NotificationTypeRecipient createRecipientFromPerson(String personId) {
+        NotificationTypeRecipient recipient = new NotificationTypeRecipient();
+        recipient.setPersonId(personId);
+        return recipient;
+    }
+
+    protected void handleNotification(ProposalDevelopmentDocumentForm form, String notificationS2sSubmitActionCode, String notificationS2sSubmitContextName) {
+       renderer.setDevelopmentProposal(form.getDevelopmentProposal());
+        ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
+        ProposalDevelopmentNotificationContext notificationContext = new ProposalDevelopmentNotificationContext(
+                proposalDevelopmentDocument.getDevelopmentProposal(),
+                notificationS2sSubmitActionCode, notificationS2sSubmitContextName, renderer);
+        form.getNotificationHelper().setNotificationContext(notificationContext);
+        form.getNotificationHelper().initializeDefaultValues(notificationContext);
+        final String step = form.getNotificationHelper().getNotificationRecipients().isEmpty() ? ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_STEP_0 :
+                ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_STEP_2;
+        form.getActionParameters().put("Kc-SendNotification-Wizard.step", step);
     }
 
     protected class PropScienceKeywordEditor extends CustomCollectionEditor {

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   -
+   - Copyright 2005-2016 Kuali, Inc.
+   -
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   -
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   -
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="NihValidationMapping" parent="NihValidationMapping-parentBean" />
+    <bean id="NihValidationMapping-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.nih.NihValidationMapping" />
+        <property name="objectLabel" value="NIH Validation Mapping" />
+        <property name="inquiryDefinition" >
+            <ref bean="NihValidationMapping-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="NihValidationMapping-lookupDefinition" />
+        </property>
+        <property name="attributes" >
+            <list>
+                <ref bean="NihValidationMapping-ruleNumber" />
+                <ref bean="NihValidationMapping-customMessage" />
+                <ref bean="NihValidationMapping-pageId" />
+                <ref bean="NihValidationMapping-sectionId" />
+                <ref bean="NihValidationMapping-active" />
+                <ref bean="NihValidationMapping-appendToOriginal" />
+                <ref bean="NihValidationMapping-forceError" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="NihValidationMapping-ruleNumber" parent="NihValidationMapping-ruleNumber-parentBean" />
+    <bean id="NihValidationMapping-ruleNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="ruleNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Rule Number" />
+        <property name="shortLabel" value="Rule Number" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="summary" value="Rule Number" />
+        <property name="description" value="Rule Number" />
+    </bean>
+
+    <bean id="NihValidationMapping-customMessage" parent="NihValidationMapping-customMessage-parentBean"/>
+    <bean id="NihValidationMapping-customMessage-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="customMessage" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Custom Message" />
+        <property name="shortLabel" value="Custom Message" />
+        <property name="maxLength" value="400" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="400"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="300" parent="Uif-TextControl"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="summary" value="Custom Message" />
+        <property name="description" value="Custom Message" />
+    </bean>
+
+    <bean id="NihValidationMapping-pageId" parent="NihValidationMapping-pageId-parentBean"/>
+    <bean id="NihValidationMapping-pageId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="pageId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Page Id" />
+        <property name="shortLabel" value="Page Id" />
+        <property name="maxLength" value="50" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="50"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="300" parent="Uif-TextControl"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="summary" value="Page Id" />
+        <property name="description" value="Page Id" />
+    </bean>
+
+    <bean id="NihValidationMapping-sectionId" parent="NihValidationMapping-sectionId-parentBean"/>
+    <bean id="NihValidationMapping-sectionId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sectionId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Section Id" />
+        <property name="shortLabel" value="Section Id" />
+        <property name="maxLength" value="50" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="50"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="300" parent="Uif-TextControl"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="summary" value="Section Id" />
+        <property name="description" value="Section Id" />
+    </bean>
+
+    <bean id="NihValidationMapping-active" parent="NihValidationMapping-active-parentBean" />
+    <bean id="NihValidationMapping-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Active" />
+        <property name="shortLabel" value="Active" />
+        <property name="maxLength" value="1" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="summary" value="Active" />
+        <property name="description" value="Active" />
+    </bean>
+
+    <bean id="NihValidationMapping-forceError" parent="NihValidationMapping-forceError-parentBean" />
+    <bean id="NihValidationMapping-forceError-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="forceError" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Force Error" />
+        <property name="shortLabel" value="Force Error" />
+        <property name="maxLength" value="1" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="summary" value="Force Error" />
+        <property name="description" value="Force Error" />
+    </bean>
+
+    <bean id="NihValidationMapping-appendToOriginal" parent="NihValidationMapping-appendToOriginal-parentBean" />
+    <bean id="NihValidationMapping-appendToOriginal-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="appendToOriginal" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Append to Original" />
+        <property name="shortLabel" value="Append to Original" />
+        <property name="maxLength" value="1" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="summary" value="Append to Original" />
+        <property name="description" value="Append to Original" />
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="NihValidationMapping-inquiryDefinition" parent="NihValidationMapping-inquiryDefinition-parentBean" />
+    <bean id="NihValidationMapping-InquiryView" parent="NihValidationMapping-InquiryView-parentBean"/>
+    <bean id="NihValidationMapping-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="NIH Validation Mapping" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="NIH Validation Mapping" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="ruleNumber" p:forceInquiry="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="customMessage"/>
+                            <bean parent="FieldDefinition" p:attributeName="pageId"/>
+                            <bean parent="FieldDefinition" p:attributeName="sectionId"/>
+                            <bean parent="FieldDefinition" p:attributeName="active"/>
+                            <bean parent="FieldDefinition" p:attributeName="appendToOriginal"/>
+                            <bean parent="FieldDefinition" p:attributeName="forceError"/>
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="NihValidationMapping-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+        <property name="headerText" value="NIH Validation Mapping"/>
+        <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.NihValidationMapping"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-GridSection">
+                    <property name="headerText" value="NIH Validation Mapping"/>
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="items">
+                        <list>
+                            <bean p:propertyName="ruleNumber" parent="Uif-DataField"/>
+                            <bean p:propertyName="customMessage" parent="Uif-DataField"/>
+                            <bean p:propertyName="pageId" parent="Uif-DataField"/>
+                            <bean p:propertyName="sectionId" parent="Uif-DataField"/>
+                            <bean p:propertyName="active" parent="Uif-DataField"/>
+                            <bean p:propertyName="appendToOriginal" parent="Uif-DataField"/>
+                            <bean p:propertyName="forceError" parent="Uif-DataField"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="NihValidationMapping-lookupDefinition" parent="NihValidationMapping-lookupDefinition-parentBean" />
+    <bean id="NihValidationMapping-LookupView" parent="NihValidationMapping-LookupView-parentBean"/>
+    <bean id="NihValidationMapping-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="NIH Validation Mapping" /><property name="defaultSort" >
+        <bean parent="SortDefinition"/>
+    </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="ruleNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="customMessage"/>
+                <bean parent="FieldDefinition" p:attributeName="pageId"/>
+                <bean parent="FieldDefinition" p:attributeName="sectionId"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+                <bean parent="FieldDefinition" p:attributeName="appendToOriginal"/>
+                <bean parent="FieldDefinition" p:attributeName="forceError"/>
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="ruleNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="customMessage"/>
+                <bean parent="FieldDefinition" p:attributeName="pageId"/>
+                <bean parent="FieldDefinition" p:attributeName="sectionId"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+                <bean parent="FieldDefinition" p:attributeName="appendToOriginal"/>
+                <bean parent="FieldDefinition" p:attributeName="forceError"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="NihValidationMapping-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+        <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.NihValidationMapping"/>
+        <property name="headerText" value="NIH Validation Mapping"/>
+        <property name="criteriaFields">
+            <list>
+                <bean p:propertyName="ruleNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="customMessage" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="pageId" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="sectionId" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="appendToOriginal" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="forceError" parent="Uif-LookupCriteriaInputField"/>
+
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean p:propertyName="ruleNumber" parent="Uif-DataField"/>
+                <bean p:propertyName="customMessage" parent="Uif-DataField"/>
+                <bean p:propertyName="pageId" parent="Uif-DataField"/>
+                <bean p:propertyName="sectionId" parent="Uif-DataField"/>
+                <bean p:propertyName="active" parent="Uif-DataField"/>
+                <bean p:propertyName="appendToOriginal" parent="Uif-DataField"/>
+                <bean p:propertyName="forceError" parent="Uif-DataField"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

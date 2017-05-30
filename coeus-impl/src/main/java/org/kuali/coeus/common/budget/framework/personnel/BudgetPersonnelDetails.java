@@ -43,6 +43,8 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriodType;
 import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -215,6 +217,9 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Transient
     private List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails;
 
+    @Transient
+    private DataObjectService dataObjectService;
+
     public BudgetPersonnelDetails() {
     	initializeBudgetPersonnelDetails();
     }
@@ -232,10 +237,10 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     }
 
     private void initializeBudgetPersonnelDetails() {
-        budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
-        budgetPersonnelRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
-        budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
-        budgetFormulatedCosts = new ArrayList<BudgetFormulatedCostDetail>();
+        budgetPersonnelCalculatedAmounts = new ArrayList<>();
+        budgetPersonnelRateAndBaseList = new ArrayList<>();
+        budgetPersonSalaryDetails = new ArrayList<>();
+        budgetFormulatedCosts = new ArrayList<>();
     }
     
     @Override
@@ -243,6 +248,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
         return budgetId;
     }
 
+    @Override
     public void setBudgetId(Long budgetId) {
         this.budgetId = budgetId;
     }
@@ -566,9 +572,11 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 
     @Override
     public Boolean getSubmitCostSharingFlag() {
-        if (ObjectUtils.isNull(budgetPeriodBO)) {
-            this.refreshReferenceObject("budgetPeriodBO");
+        //attempt to use the budget object before falling back to the BudgetPeriod
+        if (getBudget() != null) {
+            return getBudget().getSubmitCostSharingFlag() ? submitCostSharingFlag : false;
         }
+
         return (getBudgetPeriodBO() != null && getBudgetPeriodBO().getBudget().getSubmitCostSharingFlag()) ? submitCostSharingFlag : false;
     }
 
@@ -679,6 +687,10 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 
     @Override
     public BudgetPeriod getBudgetPeriodBO() {
+        if (budgetPeriodId != null && ObjectUtils.isNull(budgetPeriodBO)) {
+            budgetPeriodBO = getDataObjectService().find(BudgetPeriod.class, budgetPeriodId);
+        }
+
         return budgetPeriodBO;
     }
 
@@ -778,4 +790,15 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 		this.budgetLineItemId = budgetLineItemId;
 	}
 
+    public DataObjectService getDataObjectService() {
+        if (dataObjectService == null) {
+            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        }
+
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
 }

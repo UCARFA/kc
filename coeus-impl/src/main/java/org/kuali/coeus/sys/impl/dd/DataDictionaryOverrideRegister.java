@@ -12,6 +12,8 @@ import java.util.List;
 
 public class DataDictionaryOverrideRegister implements InitializingBean {
 
+    private static final String ACTIVE = "active";
+    private static final String ID = "id";
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
 
@@ -23,9 +25,9 @@ public class DataDictionaryOverrideRegister implements InitializingBean {
             previousLoadOrder.add(DataDictionaryOverrideConstants.OVERRIDE);
         }
 
-        getBusinessObjectService().findMatchingOrderBy(DataDictionaryOverride.class, Collections.singletonMap("active", true), "id", true).forEach(override ->
+        getBusinessObjectService().findMatchingOrderBy(DataDictionaryOverride.class, Collections.singletonMap(ACTIVE, true), ID, true).forEach(override ->
                 getDataDictionaryService().getDataDictionary().addModuleDictionaryFile(DataDictionaryOverrideConstants.OVERRIDE,
-                        new InMemoryResource(override.getAttachmentContent()))
+                        new InMemoryResource(override.getAttachmentContent(), override.getId()))
         );
     }
 

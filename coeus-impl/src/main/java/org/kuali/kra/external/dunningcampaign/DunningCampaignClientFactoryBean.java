@@ -26,22 +26,25 @@ public class DunningCampaignClientFactoryBean implements FactoryBean<DunningCamp
 	private boolean sharedRice;
     private ParameterService parameterService;
 
+    @Override
 	public DunningCampaignClient getObject() throws Exception {
-	    DunningCampaignClient object = null; 
+	    final DunningCampaignClient object;
 		if(sharedRice)
-		    object = (DunningCampaignClient) (DunningCampaignKSBClientImpl.getInstance());
+		    object = (DunningCampaignKSBClientImpl.getInstance());
 		else
-		    object = (DunningCampaignClient) (DunningCampaignClientImpl.getInstance());
+		    object = (DunningCampaignClientImpl.getInstance());
 
         object.setParameterService(parameterService);
 
 		return object;
 	}
 
-	public Class getObjectType() {
+	@Override
+	public Class<? extends DunningCampaignClient> getObjectType() {
 		return DunningCampaignClient.class;
 	}
 
+	@Override
 	public boolean isSingleton() {
 		return true;
 	}

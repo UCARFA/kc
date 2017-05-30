@@ -24,7 +24,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.coeus.award.finance.timeAndMoney.TimeAndMoneyPosts;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
@@ -40,6 +39,7 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
+import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
@@ -91,6 +91,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     private DataObjectService dataObjectService;
     private TimeAndMoneyExistenceService timeAndMoneyExistenceService;
     private TimeAndMoneyService timeAndMoneyService;
+    private AwardAccountService awardAccountService;
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -136,20 +137,11 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
         return dataObjectService;
     }
 
-    protected void addPostEntry(Long awardId, String awardNumber, String documentNumber) {
-        TimeAndMoneyPosts timeAndMoneyPosts = new TimeAndMoneyPosts();
-        timeAndMoneyPosts.setAwardId(awardId);
-        timeAndMoneyPosts.setDocumentNumber(documentNumber);
-        String awardFamily = awardNumber.substring(0, StringUtils.indexOf(awardNumber, "-"));
-        timeAndMoneyPosts.setAwardFamily(awardFamily);
-        getDataObjectService().save(timeAndMoneyPosts);
-    }
-
     public ActionForward postTimeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         final TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         final Award award = timeAndMoneyDocument.getAward();
-        addPostEntry(award.getAwardId(), award.getAwardNumber(), timeAndMoneyDocument.getDocumentNumber());
+        getTimeAndMoneyService().addPostEntry(award.getAwardId(), award.getAwardNumber(), timeAndMoneyDocument.getDocumentNumber());
         getGlobalVariableService().getMessageMap().putInfo(KeyConstants.TM_INFORMATION_POSTED, KeyConstants.TM_INFORMATION_POSTED);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -633,6 +625,13 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
             awardVersionService = KcServiceLocator.getService(AwardVersionService.class);
         }
         return awardVersionService;
+    }
+
+    public AwardAccountService getAwardAccountService() {
+        if(awardAccountService == null) {
+            awardAccountService = KcServiceLocator.getService(AwardAccountService.class);
+        }
+        return awardAccountService;
     }
 
     protected ActivePendingTransactionsService getActivePendingTransactionsService(){

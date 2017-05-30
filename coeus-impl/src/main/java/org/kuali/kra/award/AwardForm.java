@@ -1263,13 +1263,13 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         if (workflowDocument != null) {
             docIdAndStatus = getAwardDocument().getDocumentNumber() + COLUMN + workflowDocument.getStatus().getLabel();
         }
-        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.docIdStatus", docIdAndStatus));
+        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.docIdStatus", "<div id = \"docIdAndStatus\">" + docIdAndStatus + "</div>"));
         String unitName = awardDocument.getAward().getUnitName();
         if (StringUtils.isNotBlank(unitName) && unitName.length() > NUMBER_30) {
             unitName = unitName.substring(0, NUMBER_30);
         }
         getDocInfo().add(new HeaderField("DataDictionary.AwardPersonUnit.attributes.leadUnit", unitName));
-        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.awardIdAccount", getAwardIdAccount(awardDocument)));
+        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.awardIdAccount", "<div id = \"awardIdAccount\">" + getAwardIdAccount(awardDocument) + "</div>"));
 
         setupSponsor(awardDocument);
         setupLastUpdate(awardDocument);
@@ -1446,7 +1446,12 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         resultList.toArray(result);
         return result;
     }
-    
+
+    protected boolean isAutoPostAward() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD, ParameterConstants.ALL_COMPONENT, Constants.AWARD_AUTO_POST_ENABLED);
+    }
+
     public List<ExtraButton> getExtraActionsButtons() {
         extraButtons.clear();
         
@@ -1456,7 +1461,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + BUTTONSMALL_SEND_NOTIFICATION_GIF;
         addExtraButton(METHOD_TO_CALL_SEND_NOTIFICATION, sendNotificationImage, SEND_NOTIFICATION);
 
-        if (getAwardDocument().isAuthorizedToPostAward(GlobalVariables.getUserSession().getPrincipalId())) {
+        if (!isAutoPostAward() && getAwardDocument().isAuthorizedToPostAward(GlobalVariables.getUserSession().getPrincipalId())) {
             String postAwardBudgetImage = buildExtraButtonSourceURI(BUTTONSMALL_POST_GIF);
             addExtraButton(METHOD_TO_CALL_POST_AWARD, postAwardBudgetImage, POST_AWARD_ALT_TEXT);
         }

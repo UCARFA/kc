@@ -586,7 +586,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
             unitName = unitName.substring(0, NUMBER_30);
         }
         getDocInfo().add(new HeaderField("DataDictionary.AwardPersonUnit.attributes.leadUnit", unitName));
-        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.awardIdAccount", getAwardIdAccount(awardDocument)));
+        getDocInfo().add(new HeaderField("DataDictionary.Award.attributes.awardIdAccount", "<div id = \"awardIdAccount\">" + getAwardIdAccount(awardDocument) + "</div>"));
 
         setupSponsor(awardDocument);
         setupLastUpdate(awardDocument);
@@ -685,14 +685,18 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
         extraButtons.clear();
         String reloadImage = buildExtraButtonSourceURI("buttonsmall_reload.gif");
         addExtraButton("methodToCall.reload", reloadImage, null);
-
-        if (getTimeAndMoneyDocument().isAuthorizedToPostTimeAndMoney(GlobalVariables.getUserSession().getPrincipalId())) {
+        if (getTimeAndMoneyDocument().isAuthorizedToPostTimeAndMoney(GlobalVariables.getUserSession().getPrincipalId()) &&
+                !isAutoPostTimeAndMoney()) {
             String postAwardBudgetImage = buildExtraButtonSourceURI(BUTTONSMALL_POST_GIF);
             addExtraButton(METHOD_TO_CALL_POST_TM, postAwardBudgetImage, POST_TM_ALT_TEXT);
         }
         return extraButtons;
     }
-    
+
+    protected boolean isAutoPostTimeAndMoney() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_TIME_MONEY, ParameterConstants.ALL_COMPONENT, Constants.TM_AUTO_POST_ENABLED);
+    }
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.

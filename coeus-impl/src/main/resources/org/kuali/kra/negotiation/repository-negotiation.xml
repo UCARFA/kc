@@ -63,6 +63,8 @@
           
         <collection-descriptor name="activities" proxy="true" element-class-ref="org.kuali.kra.negotiations.bo.NegotiationActivity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="negotiationId"/>
+            <orderby name="startDate" sort="DESC"/>
+            <orderby name="activityId" sort="ASC"/>
         </collection-descriptor>
         <collection-descriptor name="negotiationCustomDataList" proxy="true" element-class-ref="org.kuali.kra.negotiations.customdata.NegotiationCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="negotiationId"/>

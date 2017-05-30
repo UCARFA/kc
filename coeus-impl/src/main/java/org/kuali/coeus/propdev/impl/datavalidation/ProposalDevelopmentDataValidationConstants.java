@@ -86,6 +86,7 @@ public final class ProposalDevelopmentDataValidationConstants {
     public static final String SUPPLEMENTAL_PAGE_NAME = "Supplemental Information";
 
     public static final String GENERIC_ERROR="error.generic";
+    public static final String GENERIC_ERROR_LABEL_VALUE="error.label.value.generic";
     public static final String ABSTRACTS_ATTACHMENTS = "abstractsAttachments";
     public static final String QUESTIONS = "questions";
     public static final String KEY_PERSONNEL = "keyPersonnel";

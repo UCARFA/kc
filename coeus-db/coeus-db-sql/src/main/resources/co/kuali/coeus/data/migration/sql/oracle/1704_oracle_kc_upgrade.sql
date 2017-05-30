@@ -27,4 +27,8 @@ spool 1704_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1704_004__subaward_modification_unilateral_template_update.sql
 @./kc/bootstrap/V1704_005__FDP_Attachment_3A_form_update.sql
 @./kc/bootstrap/V1704_006__FDP_Attachment_3B_Page2_form_update.sql
+@./kc/bootstrap/V1704_009__XML_REORDER.sql
+@./kc/bootstrap/V1704_010__RESKC-1841.sql
+@./kc/bootstrap/V1704_012__S2S_FORM_CONFIG.sql
+@./kc/bootstrap/V1704_013__RESKC-1778_notification.sql
 commit;

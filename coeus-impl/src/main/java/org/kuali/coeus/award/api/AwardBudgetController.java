@@ -66,10 +66,7 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequestMapping(value="/api/v2")
@@ -77,6 +74,7 @@ import java.util.stream.Collectors;
 public class AwardBudgetController extends RestController {
 
     public static final String POST_ACTION = "post";
+    public static final String AWARD_BUDGET_STATUS_CODE = "awardBudgetStatusCode";
     @Autowired
     @Qualifier("awardDao")
     private AwardDao awardDao;
@@ -224,30 +222,19 @@ public class AwardBudgetController extends RestController {
     @ResponseBody
     public void changeBudgetStatus(@PathVariable Long budgetId, @RequestBody AwardBudgetActionDto actionDto) throws Exception {
         commonApiService.clearErrors();
-        Budget budget = businessObjectService.findBySinglePrimaryKey(Budget.class, budgetId);
-        if (budget != null) {
-            AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) commonApiService.getDocumentFromDocId(Long.parseLong(budget.getDocumentNumber()));
-            String actionToTake = actionDto.getActionToTake();
-            if(actionToTake.equalsIgnoreCase(POST_ACTION)) {
-                takePostAction(budgetId, awardBudgetDocument);
-            } else {
-                throw new NotImplementedException("The action of " + actionToTake + "has not yet been implemented.");
-            }
+        Map<String, String> criteria = new HashMap<>();
+        criteria.put(AWARD_BUDGET_STATUS_CODE, actionDto.getStatusCode());
+        boolean validAwardBudgetStatus = businessObjectService.findMatching(AwardBudgetStatus.class, criteria).isEmpty();
+        if (validAwardBudgetStatus) {
+            throw new UnprocessableEntityException("Invalid status code " + actionDto.getStatusCode());
+        }
 
+        AwardBudgetExt budget = businessObjectService.findBySinglePrimaryKey(AwardBudgetExt.class, budgetId);
+        if (budget != null) {
+            budget.setAwardBudgetStatusCode(actionDto.getStatusCode());
+            businessObjectService.save(budget);
         } else {
             throw new ResourceNotFoundException("Budget with budget id " + budgetId + " not found.");
-        }
-    }
-
-    public void takePostAction(Long budgetId, AwardBudgetDocument awardBudgetDocument) throws Exception {
-        if(!(awardBudgetDocument.getDocumentHeader().getWorkflowDocument().isFinal() ||
-                awardBudgetDocument.getDocumentHeader().getWorkflowDocument().isProcessed())) {
-            throw new UnprocessableEntityException("The budget " +  budgetId + " is not in final status and cannot be posted.");
-        }
-        if (awardBudgetService.isFinancialIntegrationOn()) {
-            awardBudgetService.postWithFinancialIntegration(awardBudgetDocument);
-        } else {
-            awardBudgetService.post(awardBudgetDocument);
         }
     }
 

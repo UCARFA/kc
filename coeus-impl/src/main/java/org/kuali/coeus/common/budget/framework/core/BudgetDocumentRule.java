@@ -93,22 +93,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
                 errorMap.putError("sharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE);
                 valid = false;
             }
-            //check for duplicate fiscal year and source accounts on all unchecked cost shares
-            if (i < budget.getBudgetCostShareCount()) {
-                for (int j = i+1; j < budget.getBudgetCostShareCount(); j++) {
-                    BudgetCostShare tmpCostShare = budget.getBudgetCostShare(j);
-                    int thisFiscalYear = budgetCostShare.getProjectPeriod() == null ? Integer.MIN_VALUE : budgetCostShare.getProjectPeriod();
-                    int otherFiscalYear = tmpCostShare.getProjectPeriod() == null ? Integer.MIN_VALUE : tmpCostShare.getProjectPeriod();
-                    if (thisFiscalYear == otherFiscalYear
-                            && StringUtils.equalsIgnoreCase(budgetCostShare.getSourceAccount(), tmpCostShare.getSourceAccount())) {
-                        errorMap.putError("fiscalYear", KeyConstants.ERROR_COST_SHARE_DUPLICATE, 
-                                thisFiscalYear == Integer.MIN_VALUE ? "" : thisFiscalYear+"", 
-                                budgetCostShare.getSourceAccount()==null?"\"\"":budgetCostShare.getSourceAccount());
-                        valid = false;
-                    }
-                }
-            }        
-            
+
             //validate project period stuff            
             String currentField = "document.budget.budgetCostShares[" + i + "].projectPeriod";
             int numberOfProjectPeriods = budget.getBudgetPeriods().size();

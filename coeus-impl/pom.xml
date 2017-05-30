@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus</artifactId>
-        <version>1704.0019-SNAPSHOT</version>
+        <version>1705.0031-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-impl</artifactId>
     <packaging>jar</packaging>
@@ -32,10 +32,6 @@
     <description>
         The Kuali Coeus Impl module contains the main source code (implementation and framework code) and unit tests for the Kuali Coeus application.
     </description>
-
-    <prerequisites>
-        <maven>${require.maven.version}</maven>
-    </prerequisites>
 
     <properties>
         <!-- WSDL config -->

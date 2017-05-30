@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule, DocumentAuditRule {
+public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule, DocumentAuditRule, InstitutionalProposalCfdaRule {
 
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String INSTITUTIONAL_PROPOSAL = "institutionalProposal";
@@ -107,7 +107,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         retval &= new InstitutionalProposalPersonAuditRule().processRunAuditBusinessRules(document);
         retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
         retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
-        retval &= new InstitutionalProposalSponsorAuditRule().processRunAuditBusinessRules(document);
+        retval &= new InstitutionalProposalSponsorAndProgramInformationAuditRule().processRunAuditBusinessRules(document);
         return retval;
 
 
@@ -177,10 +177,6 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         return retVal;
     }
 
-    /**
-     * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
-
-    */
     private boolean processSponsorProgramBusinessRule(Document document) {
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         String errorPath = "institutionalSponsorAndProgram";
@@ -189,9 +185,6 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         return new InstitutionalProposalSponsorAndProgramRuleImpl().processInstitutionalProposalSponsorAndProgramRules(event);
     }
 
-    /**
-     * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
-    */
     private boolean processInstitutionalProposalFinancialRules(Document document) {
 
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
@@ -244,5 +237,11 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         index++;
         }
         return valid;
+    }
+
+
+    @Override
+    public boolean processCfdaRules(InstitutionalProposalCfdaRuleEvent institutionalProposalCfdaRuleEvent) {
+        return new InstitutionalProposalCfdaRuleImpl().processCfdaRules(institutionalProposalCfdaRuleEvent);
     }
 }
