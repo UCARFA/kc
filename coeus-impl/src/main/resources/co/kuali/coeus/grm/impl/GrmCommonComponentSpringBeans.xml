@@ -38,6 +38,7 @@
 
     <bean id="attachmentDataAmazonClient" class="co.kuali.coeus.s3.api.EncryptedS3FileServiceFactoryBean">
         <property name="bucketName" value="${s3.bucket.name}" />
+        <property name="region" value="${s3.region}" />
         <property name="accessKey" value="${s3.access.key}" />
         <property name="secretKey" value="${s3.secret.key}" />
         <property name="encryptionKey" value="${s3.encryption.key.file}" />
