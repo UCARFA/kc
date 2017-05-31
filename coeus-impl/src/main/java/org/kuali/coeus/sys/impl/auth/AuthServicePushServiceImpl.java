@@ -45,7 +45,6 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -59,7 +58,6 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service("authServicePushService")
-@Lazy
 public class AuthServicePushServiceImpl implements AuthServicePushService {
 	
 	private static final Integer NUMBER_OF_USERS_LIMIT = 100000;

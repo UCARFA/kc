@@ -354,6 +354,12 @@
 		</property>
 	</bean>
 
+    <bean id="restOperations" class="org.kuali.coeus.sys.impl.rest.RestOperationsFactoryBean">
+        <property name="configurationService" ref="kualiConfigurationService" />
+        <property name="restOperations" ref="standardRestOperations"/>
+        <property name="devRestOperations" ref="developmentRestOperations"/>
+    </bean>
+
     <bean id="activeMqMessageLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="activeMqMessageLookupableHelperService" />
     </bean>

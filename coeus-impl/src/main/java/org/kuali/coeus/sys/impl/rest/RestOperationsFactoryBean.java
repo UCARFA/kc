@@ -20,26 +20,14 @@ package org.kuali.coeus.sys.impl.rest;
 
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
-@Component("restOperations")
 public class RestOperationsFactoryBean implements FactoryBean<RestOperations> {
 	
 	private static final String TRUST_SELFSIGNED_CONFIG = "kc.rest.ssl.trust.selfsigned";
 
-	@Autowired
-	@Qualifier("kualiConfigurationService")
 	private ConfigurationService configurationService;
-	
-	@Autowired
-	@Qualifier("standardRestOperations")
 	private RestOperations restOperations;
-	
-	@Autowired
-	@Qualifier("developmentRestOperations")
 	private RestOperations devRestOperations;
 
 	@Override
