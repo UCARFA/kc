@@ -69,10 +69,12 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase implements S2sO
         this.s2sOppFormsId = s2sOppFormsId;
     }
 
+    @Override
     public String getOppNameSpace() {
         return this.s2sOppFormsId.oppNameSpace;
     }
 
+    @Override
     public String getProposalNumber() {
         return this.s2sOppFormsId.proposalNumber;
     }
@@ -81,10 +83,12 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase implements S2sO
         this.available = available;
     }
 
+    @Override
     public Boolean getAvailable() {
         return available;
     }
 
+    @Override
     public String getFormName() {
         return formName;
     }
@@ -97,6 +101,7 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase implements S2sO
         this.include = include;
     }
 
+    @Override
     public Boolean getInclude() {
         return include;
     }
@@ -105,10 +110,12 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase implements S2sO
         this.mandatory = mandatory;
     }
 
+    @Override
     public Boolean getMandatory() {
         return mandatory;
     }
 
+    @Override
     public String getSchemaUrl() {
         return schemaUrl;
     }
@@ -117,6 +124,7 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase implements S2sO
         this.schemaUrl = schemaUrl;
     }
 
+    @Override
     public Boolean getSelectToPrint() {
         return selectToPrint;
     }
@@ -125,6 +133,7 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase implements S2sO
         this.selectToPrint = selectToPrint;
     }
 
+    @Override
     public Boolean getUserAttachedForm() {
         return userAttachedForm;
     }
