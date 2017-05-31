@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1705.0032
 * fix eclipse after drools upgrade
   * blackcathacker on Tue, 30 May 2017 14:50:27 -0700 [View Commit](../../commit/850d214db186e432aba3caf14fe1cb3729a8ccbb)
 
