@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* fix eclipse after drools upgrade
+  * blackcathacker on Tue, 30 May 2017 14:50:27 -0700 [View Commit](../../commit/850d214db186e432aba3caf14fe1cb3729a8ccbb)
+
+##coeus-1705.0031
 * Add Compliance links to the top header (#2351)
 
   * Add configuration parameters for protocols.standalone.enabled and protocols.standalone.base.url  * Douglas Pace on Tue, 30 May 2017 11:22:22 -0700 [View Commit](../../commit/9cd1faae5654008fcd541e4f5cc5f35d30cff932)
