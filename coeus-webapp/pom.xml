@@ -42,7 +42,7 @@
         <!-- tomcat properties -->
         <kc.context.path>/kc-${build.environment}</kc.context.path>
     <!--     <kc.port>8080</kc.port> -->
-        <kc.port>1443</kc.port>
+        <kc.port>443</kc.port>
 		<jsfrontend.sources>src/main/jsfrontend</jsfrontend.sources>
         <generated.web.sources>${project.build.directory}/generated-web-sources</generated.web.sources>
         <help.web.sources>${project.build.directory}/generated-web-sources/help-web-sources</help.web.sources>
@@ -235,7 +235,7 @@
                     <addWarDependenciesInClassloader>false</addWarDependenciesInClassloader>
                     
                     <update>true</update>
-					<url>https://kcnonprod1.fanda.ucar.edu:1443/manager/text</url>
+					<url>https://kcnonprod1.fanda.ucar.edu/manager/text</url>
 					<username>teamcity</username>
 					<password>HotnCold!</password>
                                         
