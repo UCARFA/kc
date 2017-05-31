@@ -274,6 +274,9 @@
 	<param name="auth.base.url">${application.rest.services.base.url}</param>
 	<param name="auth.users.url">${auth.base.url}/api/v1/users</param>
 	<param name="rice.portal.logout.redirectUrl">${application.url}/kc-krad/landingPage</param>
+	
+	<param name="protocols.standalone.enabled">false</param>
+	<param name="protocols.standalone.base.url">${application.rest.services.base.url}</param>
 
 	<param name="auth.rest.urls.regex">.*/api/v1/.*,.*/api/v2/.*,.*/hr-import/hrimport/.*</param>
 	<param name="auth.core.enabled">false</param>
@@ -358,7 +361,10 @@
 	<param name="web.analytics.key"></param>
 
 	<param name="s3.bucket.name">bucket_name</param>
+	<param name="s3.region">us-east-1</param>
 	<param name="s3.access.key">access_key</param>
 	<param name="s3.secret.key">secret_key</param>
 	<param name="s3.encryption.key.file">classpath:dummy.s3.key</param>
+	
+	<param name="drools.dialect.java.compiler.lnglevel" system="true">1.7</param>
 </config>

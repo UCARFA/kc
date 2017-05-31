@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.coeus</groupId>
     <artifactId>coeus</artifactId>
-    <version>1705.0031-SNAPSHOT</version>
+    <version>1705.0034-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Kuali Coeus</name>
     <description>
@@ -64,7 +64,7 @@
         <cas-client-core.version>3.4.1</cas-client-core.version>
         <cglib.version>3.2.5</cglib.version>
         <coeus-api-all.version>1705.0002</coeus-api-all.version>
-        <coeus-s2sgen.version>1705.0007</coeus-s2sgen.version>
+        <coeus-s2sgen.version>1705.0008</coeus-s2sgen.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -1899,7 +1899,7 @@
 
                 <rsmart.cx.token.auth.version>1507.1</rsmart.cx.token.auth.version>
                 <rsmart.hr.rest.version>1705.0005</rsmart.hr.rest.version>
-                <kc-s3.version>1611.0001</kc-s3.version>
+                <kc-s3.version>1705.0001</kc-s3.version>
                 <kc-sql.version>1705.0001</kc-sql.version>
 
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>

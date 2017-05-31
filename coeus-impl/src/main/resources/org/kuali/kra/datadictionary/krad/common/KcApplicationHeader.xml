@@ -119,8 +119,19 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
                         </list>
                     </property>
                 </bean>
+				<bean parent="Uif-Link" 
+					p:href="@{#ConfigProperties['coi.standalone.base.url']}/coi" 
+					p:linkText="COI"
+					p:render="@{#ConfigProperties['coi.projects.enabled']}" 
+					p:order="40"/>
+				<bean parent="Uif-Link" 
+					p:href="@{#ConfigProperties['protocols.standalone.base.url']}/protocols" 
+					p:linkText="PROTOCOLS"
+					p:render="@{#ConfigProperties['protocols.standalone.enabled']}" 
+					p:order="50"/>
+
 				<bean parent="Kc-Header-ReportsMenu" p:toggleText="REPORTS"
-                      p:order="40" p:render="@{(#getParamAsBoolean('KC-GEN','All','JASPER_REPORTS_ENABLED') == null ? false : #getParamAsBoolean('KC-GEN','All','JASPER_REPORTS_ENABLED'))
+                      p:order="60" p:render="@{(#getParamAsBoolean('KC-GEN','All','JASPER_REPORTS_ENABLED') == null ? false : #getParamAsBoolean('KC-GEN','All','JASPER_REPORTS_ENABLED'))
                        	and #userSession != null 
                       	and #getService('unitAuthorizationService').hasPermission(#userSession.getPrincipalId(), 
                       		T(org.kuali.kra.infrastructure.RoleConstants).DEPARTMENT_ROLE_TYPE, 
@@ -133,7 +144,7 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="REPORTS" p:order="50"
+                      p:actionLabel="REPORTS" p:order="70"
                       p:render="@{(#getParamAsBoolean('KC-GEN','All','KUALI_REPORTS_ENABLED') == null ? false : #getParamAsBoolean('KC-GEN','All','KUALI_REPORTS_ENABLED'))
                        	and #userSession != null
                       	and #getService('unitAuthorizationService').hasPermission(#userSession.getPrincipalId(),
@@ -147,7 +158,7 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
                 </bean>
                 <bean parent="Uif-Link" p:href="@{#ConfigProperties['application.url']}/portal.do"
                     p:wrapperCssClasses="pull-right" 
-                    p:linkText="SYSTEM ADMIN PORTAL" p:order="60"/>
+                    p:linkText="SYSTEM ADMIN PORTAL" p:order="80"/>
             </list>        
         </property>
     </bean>
