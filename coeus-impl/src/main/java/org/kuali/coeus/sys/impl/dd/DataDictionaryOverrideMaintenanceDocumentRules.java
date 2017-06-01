@@ -24,6 +24,7 @@ import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.datadictionary.DataDictionaryException;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.beans.BeansException;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -53,7 +54,7 @@ public class DataDictionaryOverrideMaintenanceDocumentRules extends KcMaintenanc
             } else if (KRADConstants.MAINTENANCE_DELETE_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
                 DataDictionaryOverrideUtils.createNewRemovingOverride(getDataDictionaryService().getDataDictionary(), override.getId() != null ? override.getId(): UUID.randomUUID().toString());
             }
-        } catch (DataDictionaryException|IOException e) {
+        } catch (DataDictionaryException|BeansException|IOException e) {
             final String msg = e.getMessage();
             getGlobalVariableService().getMessageMap().putError(ERROR_PROPERTY, ERROR_KEY_SPRING_OVERIDE, StringUtils.isNotBlank(msg) ? msg : UNKNOWN_ERROR);
             valid = false;
