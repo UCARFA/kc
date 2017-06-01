@@ -97,6 +97,7 @@ public class CustomAttributeDocument extends KcPersistableBusinessObjectBase imp
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

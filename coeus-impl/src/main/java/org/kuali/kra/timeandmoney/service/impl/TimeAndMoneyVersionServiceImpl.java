@@ -110,6 +110,7 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
         return timeAndMoneyDocument;
     }
 
+    @Override
     public void updateDocumentStatus(TimeAndMoneyDocument document, VersionStatus status) {
         if (status.equals(VersionStatus.ACTIVE)) {
             archiveActiveTimeAndMoneyDocs(document.getAwardNumber());
@@ -129,6 +130,7 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
         }
     }
     
+    @Override
     public String getCurrentTimeAndMoneyDocumentNumber(String awardNumber) {
     	try (Connection connection = dataSource.getConnection()) {
     		try (PreparedStatement stmt = connection.prepareStatement("select * from " +

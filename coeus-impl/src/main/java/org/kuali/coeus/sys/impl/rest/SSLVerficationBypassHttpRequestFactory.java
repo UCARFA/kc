@@ -40,7 +40,8 @@ public class SSLVerficationBypassHttpRequestFactory extends SimpleClientHttpRequ
 	protected void prepareConnection(HttpURLConnection connection, String httpMethod) throws IOException {
 		if (connection instanceof HttpsURLConnection) {
 			((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
-				public boolean verify(String hostname, SSLSession session) {
+				@Override
+                public boolean verify(String hostname, SSLSession session) {
 					return true;
 				}
 			});
@@ -53,8 +54,11 @@ public class SSLVerficationBypassHttpRequestFactory extends SimpleClientHttpRequ
 		try {
 			SSLContext ctx = SSLContext.getInstance("TLS");
             X509TrustManager tm = new X509TrustManager() {
+                @Override
                 public void checkClientTrusted(X509Certificate[] xcs, String string) throws CertificateException { }
+                @Override
                 public void checkServerTrusted(X509Certificate[] xcs, String string) throws CertificateException { }
+                @Override
                 public X509Certificate[] getAcceptedIssuers() {
                     return null;
                 }

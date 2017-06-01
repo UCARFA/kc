@@ -36,6 +36,7 @@ public class MeetingForm extends MeetingFormBase {
         return new MeetingHelper(meetingForm);
     }
 
+    @Override
     protected MeetingControllerService getMeetingControllerService() {
         return KcServiceLocator.getService("meetingControllerService");
     }

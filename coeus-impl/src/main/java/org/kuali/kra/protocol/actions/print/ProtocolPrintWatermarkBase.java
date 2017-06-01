@@ -61,6 +61,7 @@ public abstract class ProtocolPrintWatermarkBase implements Watermarkable {
      * 
      * @return waterMarkBean
      */
+    @Override
     public WatermarkBean getWatermark() {
         ProtocolBase protocol = (ProtocolBase) getPersistableBusinessObject();
         String protocolStatusCode = protocol.getProtocolStatusCode();
@@ -82,6 +83,7 @@ public abstract class ProtocolPrintWatermarkBase implements Watermarkable {
      * 
      * @return waterMarkBean
      */
+    @Override
     public WatermarkBean getInvalidWatermark(){
         String watermarkStatusCode = INVALID_WATERMARK_CODE;
         {

@@ -48,6 +48,7 @@ public class Equals extends RelationalOperator {
      * @param baseBean Object
      * @return true if the field of the Object object is equal to the Comparable object/boolean data, else returns false.
      */ 
+    @Override
     public boolean getResult(Object baseBean) {
         try{
             return compare(baseBean) == 0;
@@ -60,6 +61,7 @@ public class Equals extends RelationalOperator {
      * returns the equality condition being checked using fieldName and fixedData
      * @return String - Equality condition
      */
+    @Override
     public String toString() {
         if (! isBoolean) {
             return "( " + fieldName + " == " + fixedData + " )";

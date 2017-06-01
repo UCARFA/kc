@@ -178,6 +178,7 @@ public class AwardControllerTest extends AwardControllerTestBase {
 
     }
 
+    @Override
     public void setupCreditSplits(AwardPerson person) {
         List<AwardPersonCreditSplit> creditSplits = new ArrayList<>();
 
@@ -405,6 +406,7 @@ public class AwardControllerTest extends AwardControllerTestBase {
 
     }
 
+    @Override
     public java.sql.Date getDate(int year, int month, int day) {
         Calendar cal = Calendar.getInstance();
         cal.set( cal.YEAR, year );
@@ -419,10 +421,12 @@ public class AwardControllerTest extends AwardControllerTestBase {
         return new java.sql.Date( cal.getTime().getTime() );
     }
 
+    @Override
     public AwardController getAwardController() throws IntrospectionException {
         return KcServiceLocator.getService(AwardController.class);
     }
 
+    @Override
     public TimeAndMoneyController getTimeAndMoneyController() throws IntrospectionException {
         return KcServiceLocator.getService(TimeAndMoneyController.class);
     }

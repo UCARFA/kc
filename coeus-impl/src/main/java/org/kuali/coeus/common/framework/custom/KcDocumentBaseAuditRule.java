@@ -28,6 +28,7 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
  */
 public class KcDocumentBaseAuditRule implements DocumentAuditRule {
 
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
 

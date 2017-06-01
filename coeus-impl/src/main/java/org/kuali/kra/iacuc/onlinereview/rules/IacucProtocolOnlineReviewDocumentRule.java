@@ -48,6 +48,7 @@ implements AddOnlineReviewCommentRule,
     }
 
 
+    @Override
     public boolean processAddProtocolOnlineReviewComment(AddProtocolOnlineReviewCommentEvent event) {
 
         boolean valid = true;
@@ -63,6 +64,7 @@ implements AddOnlineReviewCommentRule,
         return valid;
     }
 
+    @Override
     public boolean processSaveProtocolOnlineReview(SaveProtocolOnlineReviewEvent event) {
         boolean valid = true;
         GlobalVariables.getMessageMap().clearErrorPath();
@@ -123,6 +125,7 @@ implements AddOnlineReviewCommentRule,
 
     }
 
+    @Override
     public boolean processRouteProtocolOnlineReview(RouteProtocolOnlineReviewEvent event) {
 
         boolean valid = true;
@@ -137,6 +140,7 @@ implements AddOnlineReviewCommentRule,
     }
 
 
+    @Override
     public boolean processDisapproveOnlineReviewComment(DisapproveProtocolOnlineReviewCommentEvent event) {
         boolean valid = true;
         if (StringUtils.isBlank(event.getReason()) || event.getNoteText().length() > event.getMaxLength()) {
@@ -145,6 +149,7 @@ implements AddOnlineReviewCommentRule,
         return valid;
     }
 
+    @Override
     public boolean processRejectOnlineReviewComment(RejectProtocolOnlineReviewCommentEvent event) {
         boolean valid = true;
         if (StringUtils.isBlank(event.getReason()) || event.getReason().length() > event.getMaxLength()) {
@@ -153,6 +158,7 @@ implements AddOnlineReviewCommentRule,
         return valid;
     }
 
+    @Override
     public boolean processDeleteOnlineReview(DeleteProtocolOnlineReviewEvent event) {
         boolean valid = true;
         if (StringUtils.isBlank(event.getReason()) || event.getNoteText().length() > event.getMaxLength()) {
@@ -161,6 +167,7 @@ implements AddOnlineReviewCommentRule,
         return valid;
     }
 
+    @Override
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);

@@ -98,6 +98,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * Get the questionnaire that is 'final' for the specified module.
      */
+    @Override
     public List<QuestionnaireUsage> getPublishedQuestionnaire(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
@@ -183,6 +184,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * @see org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService#getNewVersionAnswerHeader(org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean,
      *      org.kuali.coeus.common.questionnaire.framework.core.Questionnaire)
      */
+    @Override
     public AnswerHeader getNewVersionAnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaire) {
         AnswerHeader answerHeader = new AnswerHeader();
         List<QuestionnaireUsage> usages = getPublishedQuestionnaire(moduleQuestionnaireBean);
@@ -250,6 +252,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * 
      * @see org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService#getQuestionnaireAnswer(org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean)
      */
+    @Override
     public List<AnswerHeader> getQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         Map<String, AnswerHeader> answerHeaderMap = new HashMap<String, AnswerHeader>();
         List<AnswerHeader> answers = retrieveAnswerHeaders(moduleQuestionnaireBean);
@@ -341,6 +344,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * @see org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService#copyAnswerToNewVersion(org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader,
      *      org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader)
      */
+    @Override
     public void copyAnswerToNewVersion(AnswerHeader oldAnswerHeader, AnswerHeader newAnswerHeader) {
         List<List<Answer>> oldParentAnswers = setupParentAnswers(oldAnswerHeader.getAnswers());
         List<List<Answer>> newParentAnswers = setupParentAnswers(newAnswerHeader.getAnswers());
@@ -379,8 +383,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * @see org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService#copyAnswerHeaders(org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean,
      *      org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean)
      */
+    @Override
     public List<AnswerHeader> copyAnswerHeaders(ModuleQuestionnaireBean srcModuleQuestionnaireBean,
-            ModuleQuestionnaireBean destModuleQuestionnaireBean) {
+                                                ModuleQuestionnaireBean destModuleQuestionnaireBean) {
         List<AnswerHeader> answerHeaders = copyAnswerHeadersToNewModuleQB(srcModuleQuestionnaireBean, destModuleQuestionnaireBean);
         for (AnswerHeader header : answerHeaders) {
             businessObjectService.save(header);
@@ -655,6 +660,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * check if all the required answers are entered.
      */
+    @Override
     public boolean isQuestionnaireAnswerComplete(List<Answer> answers) {
         final Map<Long, Boolean> questionIdsAnswered = new HashMap<>();
         boolean isComplete = true;
@@ -807,6 +813,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     }
     
+    @Override
     public List<AnswerHeader> getPrintAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber, QuestionnaireHelperBase questionnaireHelper) {
 
         boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
@@ -843,10 +850,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         return ruleResults;
     }
     
+    @Override
     public ModuleQuestionnaireBean getModuleSpecificBean(AnswerHeader answerHeader) {
         return getModuleSpecificBean(answerHeader.getModuleItemCode(), answerHeader.getModuleItemKey(), answerHeader.getModuleSubItemCode(), answerHeader.getModuleSubItemKey(), true);
     }
     
+    @Override
     public ModuleQuestionnaireBean getModuleSpecificBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
         if (CoeusModule.COI_DISCLOSURE_MODULE_CODE.equals(moduleItemCode)) {
             return new DisclosureModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
@@ -885,6 +894,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         this.questionnaireService = questionnaireService;
     }
 
+    @Override
     public List<AnswerHeader> getNewVersionOfQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         List<AnswerHeader> newAnswerHeaders = getQuestionnaireAnswer(moduleQuestionnaireBean);
         for (AnswerHeader answerHeader : newAnswerHeaders) {

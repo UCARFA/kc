@@ -66,6 +66,7 @@ public abstract class ProtocolFundingSourceRuleBase extends KcTransactionalDocum
      * 
      * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
+    @Override
     public boolean processRules(AddProtocolFundingSourceEventBase addProtocolFundingSourceEvent) {
         return processAddProtocolFundingSourceBusinessRules(addProtocolFundingSourceEvent);
     }

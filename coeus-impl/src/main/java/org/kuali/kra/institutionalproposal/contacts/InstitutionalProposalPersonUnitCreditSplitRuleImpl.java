@@ -33,6 +33,7 @@ public class InstitutionalProposalPersonUnitCreditSplitRuleImpl extends KcTransa
 
 private static final ScaleTwoDecimal MAX_TOTAL_VALUE = new ScaleTwoDecimal(100.00);
     
+    @Override
     public boolean checkInstitutionalProposalPersonUnitCreditSplitTotals(InstitutionalProposalPersonUnitCreditSplitRuleEvent event) {
         int errorCount = 0;
         for(InvestigatorCreditType creditType: loadInvestigatorCreditTypes()) {

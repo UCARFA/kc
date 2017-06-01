@@ -79,11 +79,13 @@ public class ProposalBudgetRatesController extends ProposalBudgetControllerBase 
         return getModelAndViewService().getModelAndView(form);
 	}	
 
-	public BudgetRatesService getBudgetRatesService() {
+	@Override
+    public BudgetRatesService getBudgetRatesService() {
 		return budgetRatesService;
 	}
 
-	public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
+	@Override
+    public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
 		this.budgetRatesService = budgetRatesService;
 	}
 }

@@ -703,6 +703,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
      * Gets the permissionsHelper attribute. 
      * @return Returns the awardPermissionsHelper.
      */
+    @Override
     public PermissionsHelper getPermissionsHelper() {
         return permissionsHelper;
     }
@@ -1100,6 +1101,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
      * @param source
      * @param altText
      */ 
+    @Override
     protected void addExtraButton(String property, String source, String altText){
         
         ExtraButton newButton = new ExtraButton();

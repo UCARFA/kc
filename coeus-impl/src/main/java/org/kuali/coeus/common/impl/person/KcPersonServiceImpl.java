@@ -65,6 +65,7 @@ public class KcPersonServiceImpl implements KcPersonService {
      * Modifies field values so that different field keys can be used for a lookup.
      * @param fieldValues the field values to modify
      */
+    @Override
     public void modifyFieldValues(final Map<String, String> fieldValues) {
         boolean multiCampusEnabled = parameterService.getParameterValueAsBoolean(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, MultiCampusConstants.PARAMETER_MULTI_CAMPUS_ENABLED);
@@ -132,6 +133,7 @@ public class KcPersonServiceImpl implements KcPersonService {
         return KcPerson.fromEntityAndPersonId(this.identityService.getEntityByPrincipalId(personId), personId);
     }
     
+    @Override
     public List<KcPerson> createKcPersonsFromPeople(List<Person> people) {
         List<KcPerson> persons = new ArrayList<>();
         if (people instanceof CollectionIncomplete) {

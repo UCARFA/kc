@@ -56,6 +56,7 @@ public class IacucProtocolModifySubmissionRuleImpl extends KcTransactionalDocume
     private static final String SECONDARY_REVIEWER_TYPE = "2";
     
 
+    @Override
     public boolean processModifySubmissionRule(ProtocolDocumentBase document, IacucProtocolModifySubmissionBean actionBean) {
         boolean valid = true;
         String errorParameters = null;

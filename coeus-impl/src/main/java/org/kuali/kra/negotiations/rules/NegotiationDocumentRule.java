@@ -250,6 +250,7 @@ public class NegotiationDocumentRule extends KcTransactionalDocumentRuleBase {
         this.negotiationService = negotiationService;
     }
 
+    @Override
     public DataDictionaryService getDataDictionaryService() {
         if (dataDictionaryService == null) {
             dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);

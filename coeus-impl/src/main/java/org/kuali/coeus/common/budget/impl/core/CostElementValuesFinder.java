@@ -103,6 +103,7 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
     }
     
     class KeyValueComparator implements Comparator<KeyValue> {
+        @Override
         public int compare(KeyValue o1, KeyValue o2) {
             return o1.getValue().compareToIgnoreCase(o2.getValue());
         }        

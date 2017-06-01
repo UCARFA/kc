@@ -30,6 +30,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class ProtocolAdminCorrectionRule extends KcTransactionalDocumentRuleBase implements ExecuteProtocolAdminCorrectionRule {
    
+    @Override
     public boolean processAdminCorrectionRule(ProtocolDocument document, AdminCorrectionBean actionBean) {
         boolean valid = true;
         if (StringUtils.isBlank(actionBean.getComments())) {

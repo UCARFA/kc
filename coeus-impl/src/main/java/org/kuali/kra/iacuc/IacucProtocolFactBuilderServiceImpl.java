@@ -33,6 +33,7 @@ public class IacucProtocolFactBuilderServiceImpl extends KcKrmsFactBuilderServic
 
     private DocumentService documentService;
     
+    @Override
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
         String documentNumber = getElementValue(docContent, "//documentNumber");
         try {
@@ -43,6 +44,7 @@ public class IacucProtocolFactBuilderServiceImpl extends KcKrmsFactBuilderServic
         }
     }
 
+    @Override
     public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext document) {
         IacucProtocolDocument  protocolDocument = (IacucProtocolDocument)document;
         IacucProtocol protocol = protocolDocument.getIacucProtocol();

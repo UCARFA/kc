@@ -25,6 +25,7 @@ public class ViewIacucProtocolAuthorizer  extends IacucProtocolAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.VIEW_IACUC_PROTOCOL)
             || kraWorkflowService.hasWorkflowPermission(userId, task.getProtocol().getProtocolDocument());

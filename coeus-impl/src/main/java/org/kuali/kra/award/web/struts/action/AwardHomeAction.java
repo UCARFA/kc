@@ -262,6 +262,7 @@ public class AwardHomeAction extends AwardAction {
      * Looks up and returns the ParameterService.
      * @return the parameter service. 
      */
+    @Override
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
@@ -393,6 +394,7 @@ public class AwardHomeAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    @Override
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }

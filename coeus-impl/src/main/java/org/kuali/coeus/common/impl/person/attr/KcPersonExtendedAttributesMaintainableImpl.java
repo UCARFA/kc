@@ -208,6 +208,7 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
             }
         }
 
+        @Override
         public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
             return customAttributeDocuments;
         }

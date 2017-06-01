@@ -78,6 +78,7 @@ class ProtocolAttachmentComparatorFactory {
     private class ProtocolAttachmentDescriptionComparator implements Comparator<ProtocolAttachmentProtocolBase>
     {
     
+        @Override
         public int compare(ProtocolAttachmentProtocolBase arg0, ProtocolAttachmentProtocolBase arg1) {
             return arg0.getDescription().compareTo(arg1.getDescription());
         }
@@ -87,6 +88,7 @@ class ProtocolAttachmentComparatorFactory {
     private class ProtocolAttachmentAttachmentTypeComparator implements Comparator<ProtocolAttachmentProtocolBase>
     {
     
+        @Override
         public int compare(ProtocolAttachmentProtocolBase o1, ProtocolAttachmentProtocolBase o2) {
             return o1.getType().getDescription().compareTo(o2.getType().getDescription());
         }
@@ -96,6 +98,7 @@ class ProtocolAttachmentComparatorFactory {
     private class ProtocolAttachmentLastUpdatedComparator implements Comparator<ProtocolAttachmentProtocolBase>
     {
     
+        @Override
         public int compare(ProtocolAttachmentProtocolBase o1, ProtocolAttachmentProtocolBase o2) {
             return o1.getUpdateTimestamp().compareTo(o2.getUpdateTimestamp());
         }
@@ -105,6 +108,7 @@ class ProtocolAttachmentComparatorFactory {
     private class ProtocolAttachmentLastUpdatedByComparator implements Comparator<ProtocolAttachmentProtocolBase>
     {
     
+        @Override
         public int compare(ProtocolAttachmentProtocolBase o1, ProtocolAttachmentProtocolBase o2) {
             return o1.getUpdateUserFullName().compareTo(o2.getUpdateUserFullName());
         }

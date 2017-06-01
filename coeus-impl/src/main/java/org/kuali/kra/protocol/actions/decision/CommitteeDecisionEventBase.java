@@ -58,10 +58,12 @@ public abstract class CommitteeDecisionEventBase<CD extends CommitteeDecision<?>
     protected abstract Log getLOGHook();
 
     
+    @Override
     public Class<ExecuteCommitteeDecisionRule> getRuleInterfaceClass() {
         return ExecuteCommitteeDecisionRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ExecuteCommitteeDecisionRule<CD>) rule).proccessCommitteeDecisionRule((ProtocolDocumentBase) this.getDocument(), this.actionBean);
     }

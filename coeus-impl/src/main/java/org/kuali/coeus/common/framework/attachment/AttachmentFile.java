@@ -131,6 +131,7 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
      * Gets the Protocol Attachment File name.
      * @return the Protocol Attachment File name
      */
+    @Override
     public String getName() {
         return this.name;
     }
@@ -147,6 +148,7 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
      * Gets the Protocol Attachment File type.
      * @return the Protocol Attachment File type
      */
+    @Override
     public String getType() {
         return this.type;
     }
@@ -159,6 +161,7 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
         this.type = type;
     }
     
+    @Override
     public byte[] getData() {
     	if (fileDataId != null) {
 	        if (fileDataData != null) {
@@ -244,10 +247,12 @@ public class AttachmentFile extends SeparateAssociate implements KcFile {
         }
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

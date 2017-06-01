@@ -55,6 +55,7 @@ public class BirtReportServiceImpl implements BirtReportService{
     /**
      * Fetch input parameters from  template.
      */ 
+    @Override
     public List<BirtParameterBean> getInputParametersFromTemplateFile(String reportId) throws Exception {
         
         birtHelper = new BirtHelper();
@@ -65,6 +66,7 @@ public class BirtReportServiceImpl implements BirtReportService{
     /**
      * Generate ReportDesignFileStream.
      */
+    @Override
     public InputStream getReportDesignFileStream(String reportId){
         
         CustReportDetails custReportDetails;
@@ -77,6 +79,7 @@ public class BirtReportServiceImpl implements BirtReportService{
     /**
      * Fetch reports for which the user has permission.
      */
+    @Override
     public List<CustReportDetails> getReports() {
 
         String principalId = globalVariableService.getUserSession().getPrincipalId();

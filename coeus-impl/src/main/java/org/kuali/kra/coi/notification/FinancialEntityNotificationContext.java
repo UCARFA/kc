@@ -86,6 +86,7 @@ public class FinancialEntityNotificationContext extends NotificationContextBase 
         return null;
     }
  
+    @Override
     public KcNotificationRoleQualifierService getNotificationRoleQualifierService() {
         if (super.getNotificationRoleQualifierService() == null) {
             setNotificationRoleQualifierService(KcServiceLocator.getService(CoiNotificationRoleQualifierService.class));

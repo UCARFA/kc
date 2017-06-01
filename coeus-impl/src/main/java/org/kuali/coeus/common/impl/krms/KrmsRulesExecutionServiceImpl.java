@@ -54,6 +54,7 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
     @Qualifier("rice.krms.engine")
     private Engine engine;
 
+    @Override
     public List<String> processUnitValidations(String unitNumber, KrmsRulesContext rulesContext) {
         kcKrmsCacheManager.clearCache();
         Map<String, String> contextQualifiers = new HashMap<String, String>();
@@ -83,6 +84,7 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
         return Collections.emptyList();
     }
 
+    @Override
     public List<Map<String,String>> processUnitKcValidations(String unitNumber, KrmsRulesContext rulesContext) {
         kcKrmsCacheManager.clearCache();
         Map<String, String> contextQualifiers = new HashMap<String, String>();
@@ -112,6 +114,7 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
         return Collections.emptyList();
     }
     
+    @Override
     public Map<String, Boolean> runApplicableRules(List<String> ruleIds, KrmsRulesContext rulesContext, String agendaTypeId) {
         Map <String, Boolean> ruleResults = new HashMap<String, Boolean>();
         if (rulesContext != null) {

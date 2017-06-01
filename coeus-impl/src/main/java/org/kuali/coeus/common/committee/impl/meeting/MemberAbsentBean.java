@@ -38,6 +38,7 @@ public class MemberAbsentBean implements Serializable, Comparable<MemberAbsentBe
         this.attendance = attendance;
     }
 
+    @Override
     public int compareTo(MemberAbsentBean arg) {
         return this.getAttendance().getPersonName().compareTo(arg.getAttendance().getPersonName());
 

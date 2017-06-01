@@ -526,6 +526,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
     
     // this method was added during IACUC refactoring solely to allow this method to be visible to a service to deal with
     // a very special case where the service seems to call back into the action.
+    @Override
     public String buildForwardUrl(String routeHeaderId) {
         return super.buildForwardUrl(routeHeaderId);
     }

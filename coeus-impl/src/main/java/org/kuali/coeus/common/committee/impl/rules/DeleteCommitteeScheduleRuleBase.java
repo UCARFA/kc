@@ -43,6 +43,7 @@ public abstract class DeleteCommitteeScheduleRuleBase  extends KcTransactionalDo
      * If committee schedule has protocol submitted or has meeting data, then it can not be deleted.
      * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
+    @Override
     public boolean processRules(DeleteCommitteeScheduleEventBase deleteCommitteeScheduleEvent) {
 
         boolean rulePassed = true;

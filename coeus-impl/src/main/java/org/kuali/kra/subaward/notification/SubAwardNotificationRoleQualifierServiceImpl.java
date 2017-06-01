@@ -47,10 +47,12 @@ public class SubAwardNotificationRoleQualifierServiceImpl implements SubAwardNot
         return roleQualifierValue;
     }
 
+    @Override
     public SubAward getSubAward() {
         return subAward;
     }
     
+    @Override
     public void setSubAward(SubAward subAward) {
         this.subAward = subAward;
     }

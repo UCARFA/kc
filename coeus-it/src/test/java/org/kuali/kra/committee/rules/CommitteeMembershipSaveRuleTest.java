@@ -41,12 +41,14 @@ public class CommitteeMembershipSaveRuleTest extends CommitteeRuleTestBase {
     private static final String SEPERATOR = ".";
     private static final String INACTIVE_AREAS_OF_EXPERTISE_PREFIX = "document.committeeList[0].committeeMemberships[%1$s].areasOfExpertise.inactive";
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
         rule = new CommitteeDocumentRule();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

@@ -126,10 +126,13 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
                         .max(Comparator.comparingInt(committee -> committee.getSequenceNumber())).get().getCommitteeDocument().getDocumentNumber()));
     }
 
+    @Override
     protected abstract String getHtmlAction();
+    @Override
     protected abstract String getDocumentTypeName();
     protected abstract String getCustomResumeEditUrl(final String editCommitteeDocId);
     
+    @Override
     protected String getKeyFieldName() {
         return COMMITTEE_ID;
     }

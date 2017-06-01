@@ -58,6 +58,7 @@ public class ProtocolModifySubmissionEvent extends KcDocumentEventBase {
 
     }
 
+    @Override
     public Class getRuleInterfaceClass() {
         return ExecuteProtocolModifySubmissionRule.class;
     }

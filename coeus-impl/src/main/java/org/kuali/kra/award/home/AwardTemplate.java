@@ -133,7 +133,8 @@ public class AwardTemplate extends KcPersistableBusinessObjectBase {
     public List<AwardTemplateTerm> getTemplateTerms() {
         if (templateTerms != null) {
             Collections.sort(this.templateTerms, new Comparator() {
-                public int compare(Object o1, Object o2) {                   
+                @Override
+                public int compare(Object o1, Object o2) {
                     AwardTemplateTerm templateTermFirst = (AwardTemplateTerm) o1;
                     AwardTemplateTerm templateTermSecond = (AwardTemplateTerm) o2;
                     String sponsorTermTypeCodeFirst = null;

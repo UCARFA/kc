@@ -54,11 +54,13 @@ public class ProtocolActionAjaxServiceTest extends KcIntegrationTestBase {
         protocolActionAjaxService = new ProtocolActionAjaxServiceImpl();
         ProtocolForm protocolForm = new ProtocolForm() {
             ActionHelper actionHelper1 = new ActionHelper(this) {
+                @Override
                 public boolean getCanSubmitProtocol() {
                     return true;
                 }
                
             };
+            @Override
             public ActionHelper getActionHelper() {
                 return actionHelper1;
             }

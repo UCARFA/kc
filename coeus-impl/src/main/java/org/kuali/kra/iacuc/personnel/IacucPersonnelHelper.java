@@ -46,12 +46,14 @@ public class IacucPersonnelHelper extends PersonnelHelperBase implements Seriali
     }    
       
 
+    @Override
     protected void initializeModifyProtocolPermission(ProtocolBase protocol) {
         ProtocolTaskBase task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_PERSONNEL, (IacucProtocol) protocol);
         modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
     }
 
 
+    @Override
     protected void initializeTrainingSection() {
         setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_IACUC_PROTOCOL_PERSON_TRAINING_SECTION)));
     }

@@ -35,10 +35,12 @@ public class ContactTypeMaintenanceDocumentRule extends KcMaintenanceDocumentRul
         super();
     }
     
+    @Override
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return canRecordBeDeleted(document);
     }
 
+    @Override
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return canRecordBeDeleted(document);
     }

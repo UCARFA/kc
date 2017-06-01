@@ -81,8 +81,9 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward updateAnswerToNewVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+                                                  HttpServletResponse response) throws Exception {
         ((ProtocolForm) form).getQuestionnaireHelper().updateQuestionnaireAnswer(getLineToDelete(request));
         getBusinessObjectService().save(((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(getLineToDelete(request)));
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -137,6 +138,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         return forward;
     }
 
+    @Override
     public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
         Map<String, Object> reportParameters = new HashMap<String, Object>();

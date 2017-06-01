@@ -34,10 +34,12 @@ public abstract class ProtocolMeetingVoterBase extends ProtocolReviewerBase {
 
     private ProtocolSubmissionBase protocolSubmission;
 
+    @Override
     public ProtocolSubmissionBase getProtocolSubmission() {
         return protocolSubmission;
     }
 
+    @Override
     public void setProtocolSubmission(ProtocolSubmissionBase protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
     }
@@ -50,10 +52,12 @@ public abstract class ProtocolMeetingVoterBase extends ProtocolReviewerBase {
         this.comments = comments;
     }
 
+    @Override
     public ProtocolBase getProtocol() {
         return protocol;
     }
 
+    @Override
     public void setProtocol(ProtocolBase protocol) {
         this.protocol = protocol;
     }

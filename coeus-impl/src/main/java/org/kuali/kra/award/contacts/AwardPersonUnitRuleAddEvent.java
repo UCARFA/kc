@@ -52,6 +52,7 @@ public class AwardPersonUnitRuleAddEvent extends KcDocumentEventBase {
         return projectPerson;
     }
     
+    @Override
     public Class<AwardPersonUnitAddRule> getRuleInterfaceClass() {
         return AwardPersonUnitAddRule.class;
     }
@@ -64,6 +65,7 @@ public class AwardPersonUnitRuleAddEvent extends KcDocumentEventBase {
         return addUnitPersonIndex;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardPersonUnitAddRule) rule).processAddAwardPersonUnitBusinessRules(this);
     }

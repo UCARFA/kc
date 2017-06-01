@@ -34,6 +34,7 @@ public class UnitLookupDaoOjb extends PlatformAwareDaoBaseOjb implements UnitLoo
         return (Unit) getPersistenceBrokerTemplate().getObjectByQuery(q);
     }
     
+    @Override
     public Unit getTopUnit() {
         Criteria crit = new Criteria();
         crit.addIsNull("parentUnitNumber");

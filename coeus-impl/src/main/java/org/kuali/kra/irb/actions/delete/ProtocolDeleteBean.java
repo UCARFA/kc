@@ -39,10 +39,12 @@ public class ProtocolDeleteBean extends ProtocolActionBean implements org.kuali.
         super(actionHelper);
     }
 
+    @Override
     public void setReason(String reason) {
         this.reason = reason;
     }
 
+    @Override
     public String getReason() {
         return reason;
     }

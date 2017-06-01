@@ -46,14 +46,17 @@ public class ProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgendaSer
         this.protocolAssignCmtSchedService = protocolAssignCmtSchedService;        
     }
     
+    @Override
     protected String getProtocolSubmissionStatusSubmittedToCommitteeCodeHook() {
         return ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE;
     }
 
+    @Override
     protected String getProtocolSubmissionStatusPendingCodeHook() {
         return ProtocolSubmissionStatus.PENDING;
     }
 
+    @Override
     protected ProtocolActionBase getNewProtocolAssignToAgendaActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase submission) {
         return new ProtocolAction((Protocol) protocol, (ProtocolSubmission) submission, ProtocolActionType.ASSIGN_TO_AGENDA);
     }
@@ -71,10 +74,12 @@ public class ProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgendaSer
         getDocumentService().saveDocument(protocol.getProtocolDocument());    
     }
     
+    @Override
     protected String getProtocolSubmissionStatusInAgendaCodeHook() {
         return ProtocolSubmissionStatus.IN_AGENDA;
     }
     
+    @Override
     protected String getProtocolActionTypeAssignToAgendaCodeHook() {
         return ProtocolActionType.ASSIGN_TO_AGENDA;
     }

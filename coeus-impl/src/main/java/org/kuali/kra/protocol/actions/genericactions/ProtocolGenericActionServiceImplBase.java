@@ -173,6 +173,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     
     protected abstract String getRecallProtocolActionTypeCodeHook();
     
+    @Override
     public void recall(ProtocolBase protocol) {
         ProtocolActionBase protocolAction = getNewProtocolActionInstanceHook(protocol, null, getRecallProtocolActionTypeCodeHook());
         protocolAction.setComments("Recalled in Routing");

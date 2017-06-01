@@ -50,6 +50,7 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService, I
      * 
      * @see org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService#isAuthorized(java.lang.String, org.kuali.coeus.common.framework.auth.task.Task)
      */
+    @Override
     @Transactional
     public boolean isAuthorized(String userId, Task task) {
         boolean isAuthorized = true;

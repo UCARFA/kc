@@ -37,6 +37,7 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
     private BusinessObjectService businessObjectService;
     private QuestionnaireAnswerService questionnaireAnswerService;
     
+    @Override
     public void setupQnPrintOption(List<AnswerHeader> answerHeaders, ProtocolBase protocol, List<QuestionnairePrintOption> questionnairesToPrints) {
         setProtocol(protocol);
         int maxSubmissionNumber = getMaxSubmissionNumber();

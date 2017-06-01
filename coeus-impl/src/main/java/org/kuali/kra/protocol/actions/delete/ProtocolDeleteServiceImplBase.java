@@ -50,6 +50,7 @@ public abstract class ProtocolDeleteServiceImplBase implements ProtocolDeleteSer
      * @throws WorkflowException
      * @param protocolDocument
      */
+    @Override
     public void delete(ProtocolDocumentBase protocolDocument) throws WorkflowException {
         protocolDocument.getProtocol().setProtocolStatusCode(getDeletedProtocolStatusCodeHook());
         protocolDocument.getProtocol().setActive(false);

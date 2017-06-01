@@ -104,6 +104,7 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
         return htmlDataList;
     }
 
+    @Override
     protected List<HtmlData> getEditCopyViewLinks(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if (kraAuthorizationService.hasPermission(getUserIdentifier(), (ProtocolBase) businessObject, PermissionConstants.MODIFY_IACUC_PROTOCOL)) {

@@ -51,14 +51,17 @@ public class AwardSpecialReview extends SpecialReview<AwardSpecialReviewExemptio
         this.awardId = awardId;
     }
 
+    @Override
     public Award getSequenceOwner() {
         return sequenceOwner;
     }
 
+    @Override
     public void setSequenceOwner(Award sequenceOwner) {
         this.sequenceOwner = sequenceOwner;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceOwner != null ? sequenceOwner.getSequenceNumber() : null;
     }

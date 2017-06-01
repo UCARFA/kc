@@ -194,6 +194,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
      * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#addOtherAction(org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase,
      *      org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase)
      */
+    @Override
     public void addOtherAction(CommScheduleActItemBase newOtherAction, CS committeeSchedule) {
         newOtherAction.refreshReferenceObject("scheduleActItemType");
         newOtherAction.setCommScheduleActItemsId(getNextCommScheduleActItemId(newOtherAction.getClass()));
@@ -225,6 +226,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
      * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#deleteOtherAction(org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase, int,
      *      java.util.List)
      */
+    @Override
     public void deleteOtherAction(CS committeeSchedule, int itemNumber, List<CommScheduleActItemBase> deletedOtherActions) {
         CommScheduleActItemBase commScheduleActItem = committeeSchedule.getCommScheduleActItems().get(itemNumber);
         if (commScheduleActItem.getCommScheduleActItemsId() != null) {
@@ -637,6 +639,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
      * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#deleteCommitteeScheduleMinute(org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase,
      *      java.util.List, int)
      */
+    @Override
     public void deleteCommitteeScheduleMinute(CS committeeSchedule, List<CSM> deletedCommitteeScheduleMinutes, int itemNumber) {
         CSM committeeScheduleMinute = committeeSchedule.getCommitteeScheduleMinutes().get(itemNumber);
         if (committeeScheduleMinute.getCommScheduleMinutesId() != null) {
@@ -650,6 +653,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
      *
      * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#moveupCommitteeScheduleMinute(org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase, int)
      */
+    @Override
     public void moveupCommitteeScheduleMinute(CS committeeSchedule, int itemNumber) {
         CSM minuteBeingMoved = committeeSchedule.getCommitteeScheduleMinutes().get(itemNumber);
         CSM minuteAbove = committeeSchedule.getCommitteeScheduleMinutes().get(itemNumber-1);
@@ -666,6 +670,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
      *
      * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#movedownCommitteeScheduleMinute(org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase, int)
      */
+    @Override
     public void movedownCommitteeScheduleMinute(CS committeeSchedule, int itemNumber) {
         CSM minuteBeingMoved = committeeSchedule.getCommitteeScheduleMinutes().get(itemNumber);
         CSM minuteBelow = committeeSchedule.getCommitteeScheduleMinutes().get(itemNumber+1);
@@ -683,6 +688,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
      * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#populateFormHelper(org.kuali.coeus.common.committee.impl.meeting.MeetingHelperBase,
      *      org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase, int)
      */
+    @Override
     public void populateFormHelper(MeetingHelperBase meetingHelper, CS commSchedule, int lineNumber) {
         for (ProtocolSubmissionLiteBase protocolSubmission : commSchedule.getLatestProtocolSubmissions()) {
             ProtocolSubmittedBean protocolSubmittedBean = new ProtocolSubmittedBean();

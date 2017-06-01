@@ -34,12 +34,14 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
     
     private CommitteeDocumentRule rule;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
         rule = new CommitteeDocumentRule();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

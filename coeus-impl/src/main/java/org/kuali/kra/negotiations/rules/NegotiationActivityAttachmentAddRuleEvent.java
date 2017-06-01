@@ -52,6 +52,7 @@ public class NegotiationActivityAttachmentAddRuleEvent extends KcDocumentEventBa
         this.newAttachment = newAttachment;
     }
     
+    @Override
     public Class<NegotiationActivityAddRule> getRuleInterfaceClass() {
         return NegotiationActivityAddRule.class;
     }

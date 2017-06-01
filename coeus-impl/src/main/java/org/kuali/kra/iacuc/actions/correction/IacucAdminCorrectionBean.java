@@ -38,22 +38,27 @@ public class IacucAdminCorrectionBean extends IacucProtocolEditableBean implemen
         super(actionHelper);
     }
     
+    @Override
     public String getComments() {
         return comments;
     }
     
+    @Override
     public void setComments(String comments) {
         this.comments = comments;
     }
     
+    @Override
     public boolean isApplyCorrection() {
         return applyCorrection;
     }
     
+    @Override
     public void setApplyCorrection(boolean applyCorrection) {
         this.applyCorrection = applyCorrection;
     }
     
+    @Override
     public boolean isAmendmentRenewalOutstanding() {
         return !(getGeneralInfoEnabled() &&  
             getFundingSourceEnabled() && 

@@ -99,6 +99,7 @@ public class CoiNoteType extends KcPersistableBusinessObjectBase implements Muta
      * Gets the active attribute. 
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -108,6 +109,7 @@ public class CoiNoteType extends KcPersistableBusinessObjectBase implements Muta
      * Sets the active attribute value.
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

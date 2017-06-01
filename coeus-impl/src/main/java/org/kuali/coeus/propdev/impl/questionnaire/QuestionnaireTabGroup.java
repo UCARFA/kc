@@ -50,6 +50,7 @@ public class QuestionnaireTabGroup extends TabGroup {
         tabs.addAll(createTabs(((ProposalDevelopmentDocumentForm)model).getS2sQuestionnaireHelper().getAnswerHeaders(),"s2sQuestionnaireHelper",formKey));
 
         Collections.sort(tabs, new Comparator<Component>(){
+            @Override
             public int compare(Component c1, Component c2) {
                 return ((GroupBase)c1).getHeader().getHeaderText().compareTo(((GroupBase) c2).getHeader().getHeaderText());
             }

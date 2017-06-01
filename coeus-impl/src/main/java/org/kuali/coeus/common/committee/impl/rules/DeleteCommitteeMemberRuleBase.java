@@ -41,6 +41,7 @@ public abstract class DeleteCommitteeMemberRuleBase extends KcTransactionalDocum
      * If member is assigned as a reviewer or as attendance of a meeting, then member can not be deleted.
      * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
+    @Override
     public boolean processRules(DeleteCommitteeMemberEventBase event) {
 
         boolean rulePassed = true;

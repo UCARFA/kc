@@ -78,7 +78,8 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
     }    
     
     
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardSubcontractingGoalsExpendituresForm awardGoalsExpendituresForm = (AwardSubcontractingGoalsExpendituresForm) form; 
         String awardNumber = awardGoalsExpendituresForm.getAwardNumber();
         // invoke the rule to validate the award number that was either lookup returned or user entered

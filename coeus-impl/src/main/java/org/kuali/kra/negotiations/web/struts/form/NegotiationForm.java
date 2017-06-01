@@ -80,6 +80,7 @@ public class NegotiationForm extends KcTransactionalDocumentFormBase implements 
         getCustomDataHelper().prepareCustomData();
     }
 
+    @Override
     public CustomDataHelper getCustomDataHelper() {
         return customDataHelper;
     }

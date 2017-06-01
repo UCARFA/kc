@@ -342,6 +342,7 @@ public abstract class CommitteeMembershipBase extends CommitteeAssociateBase {
         return isEquals;
     }
 
+    @Override
     public void resetPersistenceState() {
         setCommitteeMembershipId(null);
     }

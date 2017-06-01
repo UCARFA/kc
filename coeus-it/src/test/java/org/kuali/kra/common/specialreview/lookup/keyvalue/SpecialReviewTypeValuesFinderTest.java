@@ -64,6 +64,7 @@ public class SpecialReviewTypeValuesFinderTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
 
         valuesFinder = new SpecialReviewTypeValuesFinder() {
+            @Override
             public String getModuleCode() {
                 return Constants.EMPTY_STRING;
             }

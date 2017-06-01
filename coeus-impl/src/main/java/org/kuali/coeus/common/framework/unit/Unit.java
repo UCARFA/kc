@@ -132,6 +132,7 @@ public class Unit extends KcPersistableBusinessObjectBase implements MutableInac
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

@@ -305,20 +305,24 @@ public class AwardPersonUnit extends KcPersistableBusinessObjectBase implements 
         }
     }
 
+    @Override
     public Award getSequenceOwner() {
         return awardPerson != null ? awardPerson.getAward() : null;
     }
 
+    @Override
     public void setSequenceOwner(Award newlyVersionedOwner) {
         if (awardPerson != null) {
             awardPerson.setAward(newlyVersionedOwner);
         }
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return awardPerson != null ? awardPerson.getSequenceNumber() : 0;
     }
 
+    @Override
     public void resetPersistenceState() {
         awardPersonUnitId = null;
     }

@@ -332,6 +332,7 @@ public class LineItemTable extends GroupBase implements DataBinding {
      * @return the propertyName for binding
      * @see org.kuali.coeus.common.framework.impl.Period
      */
+    @Override
     @BeanTagAttribute
     public String getPropertyName() {
         return propertyName;
@@ -349,6 +350,7 @@ public class LineItemTable extends GroupBase implements DataBinding {
      *
      * @return the BindingInfo for this component
      */
+    @Override
     @BeanTagAttribute
     public BindingInfo getBindingInfo() {
         return bindingInfo;
@@ -357,6 +359,7 @@ public class LineItemTable extends GroupBase implements DataBinding {
     /**
      * @see #getBindingInfo()
      */
+    @Override
     public void setBindingInfo(BindingInfo bindingInfo) {
         this.bindingInfo = bindingInfo;
     }

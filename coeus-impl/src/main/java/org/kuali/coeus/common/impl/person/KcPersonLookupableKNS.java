@@ -32,7 +32,8 @@ import org.springframework.stereotype.Component;
 @Lazy
 public class KcPersonLookupableKNS extends KualiLookupableImpl {
 	
-	@Autowired
+	@Override
+    @Autowired
     @Qualifier("kcPersonLookupableHelperServiceKNS")
 	public void setLookupableHelperService(LookupableHelperService lookupableHelperService){
 		super.setLookupableHelperService(lookupableHelperService);

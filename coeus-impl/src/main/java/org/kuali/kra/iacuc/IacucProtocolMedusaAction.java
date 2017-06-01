@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class IacucProtocolMedusaAction extends IacucProtocolAction {
+    @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.docHandler(mapping, form, request, response);
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;

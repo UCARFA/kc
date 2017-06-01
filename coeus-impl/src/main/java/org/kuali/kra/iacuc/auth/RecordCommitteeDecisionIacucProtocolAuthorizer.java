@@ -32,6 +32,7 @@ public class RecordCommitteeDecisionIacucProtocolAuthorizer extends IacucProtoco
 
     private KcWorkflowService kraWorkflowService;
 
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
                canExecuteAction(task.getProtocol(), IacucProtocolActionType.RECORD_COMMITTEE_DECISION) && 

@@ -49,6 +49,7 @@ public class ProtocolSubmissionLookupHelperServiceTest extends ProtocolLookupHel
 
     private ProtocolSubmissionLookupableHelperServiceImpl protocolSubmissionLookupableHelperServiceImpl;
     
+    @Override
     @Before
     public void setUp() throws Exception {
         protocolSubmissionLookupableHelperServiceImpl = new ProtocolSubmissionLookupableHelperServiceImpl();
@@ -56,6 +57,7 @@ public class ProtocolSubmissionLookupHelperServiceTest extends ProtocolLookupHel
         super.setUp();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         protocolSubmissionLookupableHelperServiceImpl = null;

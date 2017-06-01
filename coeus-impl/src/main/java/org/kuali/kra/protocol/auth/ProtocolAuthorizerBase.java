@@ -49,6 +49,7 @@ public abstract class ProtocolAuthorizerBase extends TaskAuthorizerBase {
         this.protocolActionService = protocolActionService;
     }
 
+    @Override
     public final boolean isAuthorized(String userId, Task task) {
         return isAuthorized(userId, (ProtocolTaskBase) task);
     }

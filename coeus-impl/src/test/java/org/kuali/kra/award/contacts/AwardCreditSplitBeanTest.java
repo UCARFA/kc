@@ -49,9 +49,11 @@ public class AwardCreditSplitBeanTest {
     public void setUp() {
         prepareAward();
         bean = new AwardCreditSplitBean((AwardDocument)null) {
+            @Override
             Award getAward() {
                 return award;
             }
+            @Override
             Collection<InvestigatorCreditType> loadInvestigatorCreditTypes() {
                 return getMockCreditTypes();
             }

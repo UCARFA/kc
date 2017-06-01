@@ -50,10 +50,12 @@ public class DisapproveProtocolOnlineReviewCommentEvent extends KcDocumentEventB
         }
     }
 
+    @Override
     public Class<DisapproveOnlineReviewCommentRule> getRuleInterfaceClass() {
         return DisapproveOnlineReviewCommentRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return this.getRuleInterfaceClass().cast(rule).processDisapproveOnlineReviewComment(this);
 

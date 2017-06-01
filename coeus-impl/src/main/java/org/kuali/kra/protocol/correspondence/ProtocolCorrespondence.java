@@ -82,18 +82,22 @@ public class ProtocolCorrespondence extends ProtocolAssociateBase {
         this.id = id;
     }
 
+    @Override
     public String getProtocolNumber() {
         return protocolNumber;
     }
 
+    @Override
     public void setProtocolNumber(String protocolNumber) {
         this.protocolNumber = protocolNumber;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
+    @Override
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
@@ -106,10 +110,12 @@ public class ProtocolCorrespondence extends ProtocolAssociateBase {
         this.actionId = actionId;
     }
 
+    @Override
     public Long getProtocolId() {
         return protocolId;
     }
 
+    @Override
     public void setProtocolId(Long protocolId) {
         this.protocolId = protocolId;
     }
@@ -146,10 +152,12 @@ public class ProtocolCorrespondence extends ProtocolAssociateBase {
         return finalFlag;
     }
 
+    @Override
     public ProtocolBase getProtocol() {
         return protocol;
     }
 
+    @Override
     public void setProtocol(ProtocolBase protocol) {
         this.protocol = protocol;
     }

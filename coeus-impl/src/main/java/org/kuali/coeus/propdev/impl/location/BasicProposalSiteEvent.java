@@ -112,11 +112,13 @@ public class BasicProposalSiteEvent extends KcDocumentEventBase {
         LOG.debug(logMessage);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return ProposalSiteRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ProposalSiteRule)rule).processBasicProposalSiteRules(this);
     }

@@ -155,6 +155,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         this.specialReviewHelper = specialReviewHelper;
     }
 
+    @Override
     public InstitutionalProposalCustomDataFormHelper getCustomDataHelper() {
         return institutionalProposalCustomDataFormHelper;
     }
@@ -275,6 +276,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         this.auditActivated = auditActivated;
     }
 
+    @Override
     public String getLookupResultsSequenceNumber() {
         return lookupResultsSequenceNumber;
     }
@@ -283,6 +285,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
     }
 
+    @Override
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
     }
@@ -322,6 +325,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     }
 
 
+    @Override
     public ReportHelperBean getReportHelperBean() {
         return reportHelperBean;
     }

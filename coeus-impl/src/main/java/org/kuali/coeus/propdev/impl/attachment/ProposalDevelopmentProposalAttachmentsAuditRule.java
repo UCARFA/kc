@@ -61,6 +61,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
     private ParameterService parameterService;
     private ProposalBudgetService proposalBudgetService;
 
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;

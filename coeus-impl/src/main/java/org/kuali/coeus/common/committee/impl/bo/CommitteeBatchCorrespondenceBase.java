@@ -174,6 +174,7 @@ public abstract class CommitteeBatchCorrespondenceBase extends KcPersistableBusi
         this.committee = committee;
     }
 
+    @Override
     public int compareTo(CommitteeBatchCorrespondenceBase arg) {
         int timeWindowStartDiff = this.getTimeWindowStart().compareTo(arg.getTimeWindowStart());
         if (timeWindowStartDiff != 0) {

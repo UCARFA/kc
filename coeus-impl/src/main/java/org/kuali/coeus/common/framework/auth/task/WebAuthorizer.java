@@ -81,6 +81,7 @@ public class WebAuthorizer implements InitializingBean {
      * 
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
+    @Override
     public void afterPropertiesSet() throws Exception {
         
         Class clazz = Class.forName(classname);

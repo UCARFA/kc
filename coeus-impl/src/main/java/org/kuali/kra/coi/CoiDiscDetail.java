@@ -225,6 +225,7 @@ public class CoiDiscDetail extends KcPersistableBusinessObjectBase implements Co
         this.personFinIntDisclosure = personFinIntDisclosure;
     }
 
+    @Override
     public int compareTo(CoiDiscDetail other) {
         int result = 0;
         if (other != null) {

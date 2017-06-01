@@ -55,10 +55,12 @@ public class InstitutionalProposalJavaFunctionKrmsTermServiceImplTest {
             this.year = year;
         }
 
+        @Override
         public Integer getCurrentFiscalMonth() {
             return month;
         }
 
+        @Override
         public Integer getCurrentFiscalYear() {
             return year;
         }

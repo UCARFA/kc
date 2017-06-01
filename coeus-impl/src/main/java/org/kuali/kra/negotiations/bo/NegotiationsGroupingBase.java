@@ -55,10 +55,12 @@ public abstract class NegotiationsGroupingBase extends KcPersistableBusinessObje
         this.description = description;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -89,6 +91,7 @@ public abstract class NegotiationsGroupingBase extends KcPersistableBusinessObje
      * @param o
      * @return
      */
+    @Override
     public int compareTo(NegotiationsGroupingBase o) {
         return this.getCode().compareTo(o.getCode());
     }

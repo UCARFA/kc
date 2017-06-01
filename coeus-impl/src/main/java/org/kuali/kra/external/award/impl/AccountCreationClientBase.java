@@ -110,6 +110,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
      * This method calls the web service on KFS to create a C&amp;G account.
      * @see org.kuali.kra.external.award.AccountCreationClient#createAwardAccount(org.kuali.kra.award.home.Award)
      */
+    @Override
     public void createAwardAccount(Award award) throws DatatypeConfigurationException, WorkflowException {
 
         AccountParametersDTO accountParameters = getAccountParameters(award);
@@ -373,10 +374,12 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
      * 
      * @param documentService The documentService to set.
      */
+    @Override
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
     
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -385,6 +388,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         return parameterService;
     }
     
+    @Override
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -393,6 +397,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         return configurationService;
     }
 
+    @Override
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }

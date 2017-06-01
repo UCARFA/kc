@@ -93,10 +93,12 @@ public class FinEntitiesDataMatrix extends KcPersistableBusinessObjectBase imple
         this.dataGroupId = dataGroupId;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

@@ -25,5 +25,6 @@ import org.springframework.stereotype.Component;
 
 @Component("institutionalProposalCustomDataResolverTypeService")
 public class InstitutionalProposalCustomDataResolverTypeServiceImpl extends CustomDataResolverTypeServiceImpl {
+    @Override
     protected String getModuleNamePrereq() {return KcKrmsConstants.InstitutionalProposal.INSTITUTIONAL_PROPOSAL;}
 }

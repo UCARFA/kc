@@ -62,7 +62,8 @@ public class InstitutionalProposalPersonServiceImpl implements
 	 *            number.
 	 * @return list of proposal persons
 	 */
-	public List<ProposalPerson> getInvestigatorsFromDevelopmentProposal(
+	@Override
+    public List<ProposalPerson> getInvestigatorsFromDevelopmentProposal(
 			String proposalNumber) {
 		List<ProposalPerson> proposalPersonsList = new ArrayList<ProposalPerson>();
 		List<DevelopmentProposal> developmentProposals = (List<DevelopmentProposal>) dataObjectService

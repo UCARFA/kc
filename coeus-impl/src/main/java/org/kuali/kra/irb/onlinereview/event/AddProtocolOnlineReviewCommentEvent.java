@@ -62,10 +62,12 @@ public class AddProtocolOnlineReviewCommentEvent extends KcDocumentEventBase {
         LOG.debug("adding new: " + this.committeeScheduleMinute + " on doc # " + this.getDocument().getDocumentNumber());
     }
 
+    @Override
     public Class<AddOnlineReviewCommentRule> getRuleInterfaceClass() {
         return AddOnlineReviewCommentRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return this.getRuleInterfaceClass().cast(rule).processAddProtocolOnlineReviewComment(this);
     }

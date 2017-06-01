@@ -63,14 +63,17 @@ public abstract class BudgetPrintTestBase {
         ScaleTwoDecimal calculatedCostSharing;
         ScaleTwoDecimal salary;
 
+        @Override
         protected String getRateTypeDesc(String rateClassCode, String rateTypeCode) {
             return "";
         }
 
+        @Override
         protected String getLiVacOnLaRateTypeCode() {
             return "3";
         }
 
+        @Override
         protected void addReportType(List<ReportType> reportTypeList, ReportTypeVO reportTypeVO, Date startDate, Date endDate,
                                      ScaleTwoDecimal fringe, ScaleTwoDecimal calculatedCost, ScaleTwoDecimal calculatedCostSharing,
                                      ScaleTwoDecimal salary) {

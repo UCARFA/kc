@@ -81,6 +81,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         this.setQuestionMultiChoices(new ArrayList<QuestionMultiChoice>());
     }
 
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -159,6 +160,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         this.questionTypeId = questionTypeId;
     }
 
+    @Override
     public String getLookupClass() {
         return lookupClass;
     }
@@ -182,6 +184,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         }
     }
 
+    @Override
     public String getLookupReturn() {
         return lookupReturn;
     }
@@ -373,6 +376,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
      *         than the argument Question;  and a value greater than 0 if this Question has a questionId
      *         &amp; sequenceNumber pair that is greater than the argument Question.
      */
+    @Override
     public int compareTo(Question argQuestion) {
         if (ObjectUtils.equals(this.getQuestionSeqId(), argQuestion.getQuestionSeqId())) {
             return this.getSequenceNumber().compareTo(argQuestion.getSequenceNumber());
@@ -381,10 +385,12 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         }
     }
 
+    @Override
     public Integer getOwnerSequenceNumber() {
         return null;
     }
 
+    @Override
     public String getVersionNameField() {
         return QuestionnaireConstants.QUESTION_SEQEQUENCE_ID;
     }
@@ -394,17 +400,21 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         return questionSeqId.toString();
     }
 
+    @Override
     public void incrementSequenceNumber() {
         sequenceNumber++;
     }
 
+    @Override
     public Question getSequenceOwner() {
         return this;
     }
 
+    @Override
     public void setSequenceOwner(Question newlyVersionedOwner) {
     }
 
+    @Override
     public void resetPersistenceState() {
         this.id = null;
     }

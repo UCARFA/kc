@@ -253,6 +253,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
 
      * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#isRequestActionAuthorized(org.kuali.kra.irb.ProtocolForm, java.lang.String)
      */
+    @Override
     public boolean isRequestActionAuthorized(ProtocolForm protocolForm, String taskName) {
         boolean requestAuthorized = false;
         ProtocolDocument document = (ProtocolDocument) protocolForm.getProtocolDocument();

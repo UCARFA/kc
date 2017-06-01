@@ -55,6 +55,7 @@ public class ProposalDocumentSummaryView extends ProposalDocumentView{
         setAdditionalScriptFiles(new ArrayList<String>());
     }
 
+    @Override
     protected DocumentEntry getDocumentEntryForView() {
         DocumentEntry documentEntry = KRADServiceLocatorWeb.getDocumentDictionaryService().getDocumentEntryByClass(
                 ProposalDevelopmentDocument.class);

@@ -149,6 +149,7 @@ public class ProjectPushAwardTest extends ProjectPushTestBase {
         return awardDocument.getAward().getAwardNumber();
     }
 
+    @Override
     public ProjectRetrievalService getProjectRetrievalService() {
         if (awardProjectRetrievalService == null) {
             awardProjectRetrievalService = KcServiceLocator.getService(AWARD_PROJECT_RETRIEVAL_SERVICE);

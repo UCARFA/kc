@@ -61,7 +61,8 @@ public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
-	public Map<String, XmlObject> generateXmlStream(
+	@Override
+    public Map<String, XmlObject> generateXmlStream(
 			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		CurrentAndPendingSupportDocument currentAndPendingSupportDocument=CurrentAndPendingSupportDocument.Factory.newInstance();

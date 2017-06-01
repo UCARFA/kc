@@ -44,6 +44,7 @@ public class ProtocolReferenceTypeValuesFinder extends ProtocolReferenceTypeValu
      * @return the list of &lt;key, value&gt; pairs of abstract types. The first entry is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     @SuppressWarnings("rawtypes")
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");

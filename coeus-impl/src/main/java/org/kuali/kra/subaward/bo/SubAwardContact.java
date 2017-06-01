@@ -104,7 +104,8 @@ public class SubAwardContact extends SubAwardAssociate {
 	 * This is the Getter Method for subAwardId
 	 * @return Returns the subAwardId.
 	 */
-	public Long getSubAwardId() {
+	@Override
+    public Long getSubAwardId() {
 		return subAwardId;
 	}
 
@@ -112,7 +113,8 @@ public class SubAwardContact extends SubAwardAssociate {
 	 * This is the Setter Method for subAwardId
 	 * @param subAwardId The subAwardId to set.
 	 */
-	public void setSubAwardId(Long subAwardId) {
+	@Override
+    public void setSubAwardId(Long subAwardId) {
 		this.subAwardId = subAwardId;
 	}
 
@@ -120,7 +122,8 @@ public class SubAwardContact extends SubAwardAssociate {
 	 * This is the Getter Method for subAwardCode
 	 * @return Returns the subAwardCode.
 	 */
-	public String getSubAwardCode() {
+	@Override
+    public String getSubAwardCode() {
 		return subAwardCode;
 	}
 
@@ -128,7 +131,8 @@ public class SubAwardContact extends SubAwardAssociate {
 	 * This is the Setter Method for subAwardCode
 	 * @param subAwardCode The subAwardCode to set.
 	 */
-	public void setSubAwardCode(String subAwardCode) {
+	@Override
+    public void setSubAwardCode(String subAwardCode) {
 		this.subAwardCode = subAwardCode;
 	}
 

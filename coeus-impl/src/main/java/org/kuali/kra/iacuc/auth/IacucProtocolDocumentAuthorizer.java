@@ -49,6 +49,7 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
 
     private static final long serialVersionUID = -5078229085592345997L;
 
+    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<>();
         

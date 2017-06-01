@@ -68,10 +68,12 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
         this.awardNotepadId = awardNotepadId;
     }
 
+    @Override
     public String getAwardNumber() {
         return awardNumber;
     }
 
+    @Override
     public void setAwardNumber(String awardNumber) {
         this.awardNumber = awardNumber;
     }
@@ -84,6 +86,7 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
         this.entryNumber = entryNumber;
     }
 
+    @Override
     public String getComments() {
         return comments;
     }
@@ -92,6 +95,7 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
         this.comments = comments;
     }
 
+    @Override
     public boolean getRestrictedView() {
         return restrictedView;
     }
@@ -104,6 +108,7 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
      * Gets the noteTopic attribute. 
      * @return Returns the noteTopic.
      */
+    @Override
     public String getNoteTopic() {
         return noteTopic;
     }
@@ -117,6 +122,7 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
     }
 
 
+    @Override
     public Timestamp getCreateTimestamp() {
         return createTimestamp;
     }
@@ -133,6 +139,7 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
         this.createUser = createUser;
     }
 
+    @Override
     public void resetPersistenceState() {
         this.awardNotepadId = null;
     }

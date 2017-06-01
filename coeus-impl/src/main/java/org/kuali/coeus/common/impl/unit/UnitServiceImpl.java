@@ -149,6 +149,7 @@ public class UnitServiceImpl implements UnitService {
         return getParentUnitsInclusive(getUnits(),unitNumber);
     }
 
+    @Override
     public boolean appliesToUnit(String unit, String unitNumbers) {
         if(unitNumbers == null) {
             return Boolean.FALSE;

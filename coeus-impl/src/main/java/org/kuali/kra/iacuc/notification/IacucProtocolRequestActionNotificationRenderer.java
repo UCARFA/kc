@@ -41,6 +41,7 @@ public class IacucProtocolRequestActionNotificationRenderer extends IacucProtoco
         this.reason = reason;
     }
 
+    @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
         params.put(ProtocolReplacementParameters.REASON, StringUtils.isNotBlank(reason) ? reason : CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(NO_REASON_GIVEN));

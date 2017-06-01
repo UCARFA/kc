@@ -54,7 +54,8 @@ public class InstitutionalProposalPrintingServiceImpl implements
 	 *             if any errors occur during report generation
 	 * 
 	 */
-	public AttachmentDataSource printInstitutionalProposalReport(
+	@Override
+    public AttachmentDataSource printInstitutionalProposalReport(
 			KcPersistableBusinessObjectBase institutionalProposal, String reportName,
 			Map<String, Object> reportParameters) throws PrintingException {
 		AttachmentDataSource source = null;

@@ -38,6 +38,7 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
     
     public static final String DEFAULT_REVIEW_TYPE_PARAMETER_NAME = "IACUC_ALL_COMM_REVIEWERS_DEFAULT_ASSIGNED";
 
+    @Override
     public Class<? extends ProtocolBase> getProtocolClassHook() {
         return IacucProtocol.class;
     }
@@ -60,6 +61,7 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
         this.parameterService = parameterService;
     }
     
+    @Override
     public String getReviewers(String protocolId, String committeeId, String scheduleId) {
 
         /*
@@ -94,6 +96,7 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
         return clipLastChar(ajaxList);
     }
 
+    @Override
     public String getModifySubmissionProtocolReviewers(String protocolId, String committeeId, String scheduleId, String protocolReviewTypeCode) {
         return getRevs(protocolId, committeeId, scheduleId);
     }

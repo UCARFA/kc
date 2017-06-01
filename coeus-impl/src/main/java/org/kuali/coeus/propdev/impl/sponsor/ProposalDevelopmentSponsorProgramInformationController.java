@@ -47,6 +47,7 @@ public class ProposalDevelopmentSponsorProgramInformationController extends Prop
     @Qualifier("kualiRuleService")
     private KualiRuleService kualiRuleService;
 
+    @Override
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = {"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-SponsorProgramInfoPage"})
     public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (StringUtils.isNotEmpty(form.getDevelopmentProposal().getContinuedFrom()) &&

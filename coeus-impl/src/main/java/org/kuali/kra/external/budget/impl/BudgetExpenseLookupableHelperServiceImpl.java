@@ -96,6 +96,7 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KcKualiLookupableH
         return columns;
     }
 
+    @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));

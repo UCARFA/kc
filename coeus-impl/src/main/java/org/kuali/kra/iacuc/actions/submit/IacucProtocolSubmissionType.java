@@ -58,6 +58,7 @@ public class IacucProtocolSubmissionType extends ProtocolSubmissionTypeBase {
         return CONTINUATION.equals(getSubmissionTypeCode()) || CONTINUATION_WITH_AMENDMENT.equals(getSubmissionTypeCode());
     }
     
+    @Override
     public String getSubmissionTypeCode() {
         return super.getSubmissionTypeCode();
     }

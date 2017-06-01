@@ -190,6 +190,7 @@ public class CurrentReportBean extends ReportBean {
         return awardNumber.hashCode();
     }
 
+    @Override
     @SuppressWarnings("deprecation")
     protected List<Column> createColumns() {
         List<Column> columns = new ArrayList<>();

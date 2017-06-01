@@ -50,10 +50,12 @@ public class IacucProtocolAssignCmtEvent extends KcDocumentEventBase {
         LOG.debug(logMessage);
     }
 
+    @Override
     public Class<IacucProtocolAssignCmtRule> getRuleInterfaceClass() {
         return IacucProtocolAssignCmtRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((IacucProtocolAssignCmtRule) rule).processAssignToCommittee((ProtocolDocumentBase) getDocument(), actionBean);
     }

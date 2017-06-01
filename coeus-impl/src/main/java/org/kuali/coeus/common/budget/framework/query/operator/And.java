@@ -40,6 +40,7 @@ public class And extends LogicalOperator {
      * @return returs true if both the operators return true as result,
      * else returns false.
      */    
+    @Override
     public boolean getResult(Object baseBean) {
         return (lhsOperator.getResult(baseBean) && rhsOperator.getResult(baseBean));
     }
@@ -49,6 +50,7 @@ public class And extends LogicalOperator {
      * and right-hand operator(rhsOperator)
      * @return String - AND condition
      */ 
+    @Override
     public String toString() {
         return "( " + lhsOperator.toString() + " && " + rhsOperator + " )";
     }

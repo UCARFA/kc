@@ -59,6 +59,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
     
     private int columnNumber = 0;
 
+    @Override
     public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
         
         if( StringUtils.equals( collectionName, "templateTerms") ) {

@@ -148,10 +148,12 @@ public class AwardBudgetLimit extends AwardAssociate {
         }
     }
 
+    @Override
     public void resetPersistenceState() {
         this.setBudgetLimitId(null);
     }
 
+    @Override
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
@@ -163,6 +165,7 @@ public class AwardBudgetLimit extends AwardAssociate {
         return result;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

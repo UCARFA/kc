@@ -59,7 +59,8 @@ public abstract class ProtocolOnlineReviewFormBase extends KcTransactionalDocume
     }
 
     
-    protected abstract String getDefaultDocumentTypeName(); 
+    @Override
+    protected abstract String getDefaultDocumentTypeName();
     
     /*
      * Override of the set document so we can populate this form
@@ -97,6 +98,7 @@ public abstract class ProtocolOnlineReviewFormBase extends KcTransactionalDocume
     }
     
     
+    @Override
     protected abstract String getLockRegion();
     
     @Override
@@ -108,6 +110,7 @@ public abstract class ProtocolOnlineReviewFormBase extends KcTransactionalDocume
         return (KcTransactionalDocumentBase) this.getDocument();
     }
 
+    @Override
     public PermissionsHelperBase getPermissionsHelper() {
 
         return null;
@@ -118,11 +121,13 @@ public abstract class ProtocolOnlineReviewFormBase extends KcTransactionalDocume
         return null;
     }
 
+    @Override
     public boolean isAuditActivated() {
 
         return false;
     }
 
+    @Override
     public void setAuditActivated(boolean auditActivated) {
 
         
@@ -139,6 +144,7 @@ public abstract class ProtocolOnlineReviewFormBase extends KcTransactionalDocume
      * @param source
      * @param altText
      */ 
+    @Override
     @SuppressWarnings("deprecation")
     protected void addExtraButton(String property, String source, String altText){
         

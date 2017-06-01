@@ -235,6 +235,7 @@ public class Organization extends KcPersistableBusinessObjectBase implements Org
         this.cognizantAuditor = cognizantAuditor;
     }
 
+    @Override
     public Integer getLobbyingRegistrant() {
         return lobbyingRegistrant;
     }
@@ -243,6 +244,7 @@ public class Organization extends KcPersistableBusinessObjectBase implements Org
         this.lobbyingRegistrant = lobbyingRegistrant;
     }
 
+    @Override
     public Integer getLobbyingIndividual() {
         return lobbyingIndividual;
     }

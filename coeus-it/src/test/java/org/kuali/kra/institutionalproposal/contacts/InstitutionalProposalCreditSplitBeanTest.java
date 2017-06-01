@@ -51,9 +51,11 @@ public class InstitutionalProposalCreditSplitBeanTest  extends KcIntegrationTest
     public void setUp() {
         prepareInstitutionalProposal();
         bean = new InstitutionalProposalCreditSplitBean((InstitutionalProposalDocument)null) {
+            @Override
             InstitutionalProposal getInstitutionalProposal() {
                 return institutionalProposal;
             }
+            @Override
             Collection<InvestigatorCreditType> loadInvestigatorCreditTypes() {
                 return getMockCreditTypes();
             }            

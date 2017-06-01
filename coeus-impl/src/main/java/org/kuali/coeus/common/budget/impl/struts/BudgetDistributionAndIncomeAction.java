@@ -237,6 +237,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * Convenience method to allow stubbing
      * @return
      */
+    @Override
     protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }

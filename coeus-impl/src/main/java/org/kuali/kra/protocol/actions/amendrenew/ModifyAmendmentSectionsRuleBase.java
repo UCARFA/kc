@@ -30,6 +30,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 @SuppressWarnings("unchecked")
 public abstract class ModifyAmendmentSectionsRuleBase extends KcTransactionalDocumentRuleBase implements KcBusinessRule<ModifyAmendmentSectionsEventBase> {
 
+    @Override
     public boolean processRules(ModifyAmendmentSectionsEventBase event) {
         
         boolean valid = true;

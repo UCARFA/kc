@@ -45,6 +45,7 @@ public class ReportTrackingPrintingServiceImpl implements ReportTrackingPrinting
      private BusinessObjectService businessObjectService;
      private ReportTrackingPrint reportTrackingPrint;
 
+ @Override
  public AttachmentDataSource printAwardReportTracking(
              List<Printable> printableArtifactList) throws PrintingException {
              AttachmentDataSource attachmentDataSource =  getPrintingService().print(printableArtifactList);
@@ -59,7 +60,8 @@ public class ReportTrackingPrintingServiceImpl implements ReportTrackingPrinting
          return attachmentDataSource;
      }
 
-     public AwardReportTracking getReportPrintable(ReportTrackingType reportType,ReportTracking detailResult,AwardReportTracking printable) {
+     @Override
+     public AwardReportTracking getReportPrintable(ReportTrackingType reportType, ReportTracking detailResult, AwardReportTracking printable) {
             switch(reportType) {
                 case AWARD_REPORT_TRACKING :
                     printable = getReportTrackingPrint();

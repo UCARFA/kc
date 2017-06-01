@@ -101,6 +101,7 @@ public class InvestigatorCreditType extends KcPersistableBusinessObjectBase impl
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

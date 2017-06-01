@@ -47,26 +47,32 @@ public class IacucProtocolNotifyCommitteeBean extends IacucProtocolActionBean im
         super(actionHelper);
     }
 
+    @Override
     public String getComment() {
         return comment;
     }
 
+    @Override
     public void setComment(String comment) {
         this.comment = comment;
     }    
 
+    @Override
     public Date getActionDate() {
         return actionDate;
     }
 
+    @Override
     public void setActionDate(Date actionDate) {
         this.actionDate = actionDate;
     }
     
+    @Override
     public String getCommitteeId() {
         return committeeId;
     }
     
+    @Override
     public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;        
     }

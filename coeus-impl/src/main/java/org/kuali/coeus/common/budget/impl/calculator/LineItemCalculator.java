@@ -68,6 +68,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         return applyRateFlags;
     }
 
+    @Override
     public void populateCalculatedAmountLineItems() {
         if (bli.getBudgetLineItemCalculatedAmounts().size() <= 0) {
             setCalculatedAmounts(bli);

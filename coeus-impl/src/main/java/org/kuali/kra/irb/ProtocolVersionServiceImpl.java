@@ -75,6 +75,7 @@ public class ProtocolVersionServiceImpl extends ProtocolVersionServiceImplBase i
     	return newProtocol;
     }
     
+    @Override
     public void setExpeditedAndExemptCheckListReferences(List<ProtocolSubmissionBase> protocolSubmissions, ProtocolBase newProtocol) {
     	protocolSubmissions.forEach(protocolSubmissionBase -> {
     		ProtocolSubmission protocolSubmission = (ProtocolSubmission)protocolSubmissionBase;

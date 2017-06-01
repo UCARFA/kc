@@ -1045,6 +1045,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     protected void sortKeyPersonWithName(List<ProposalPerson> proposalPersonList) {
         Collections.sort(proposalPersonList, new Comparator<ProposalPerson>() {
+            @Override
             public int compare(ProposalPerson pp1, ProposalPerson pp2) {
                 return pp1.getFullName().compareTo(pp2.getFullName());
             }
@@ -1339,6 +1340,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * 
      * @return Returns the businessObjectService.
      */
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -1348,6 +1350,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * 
      * @param businessObjectService The businessObjectService to set.
      */
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

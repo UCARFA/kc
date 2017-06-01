@@ -174,6 +174,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcIntegrationTestBa
                 return pPerson;
             }
             
+            @Override
             public void refreshNonUpdateableReferences() {
             }
         };
@@ -206,6 +207,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcIntegrationTestBa
                 return pPerson;
             }
             
+            @Override
             public void refreshNonUpdateableReferences() {
             }
         };

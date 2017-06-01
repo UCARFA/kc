@@ -35,6 +35,7 @@ public class ProtocolNumberServiceImpl extends ProtocolNumberServiceImplBase imp
         return SEQUENCE_NAME;
     }
     
+    @Override
     protected Class getSequenceOwnerClass() {
         return Protocol.class;
     }

@@ -1119,6 +1119,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
         }
     }    
 
+    @Override
     public ActionForward sendAdHocRequests(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KcTransactionalDocumentFormBase dform = (KcTransactionalDocumentFormBase) form;
         Document document = dform.getDocument();

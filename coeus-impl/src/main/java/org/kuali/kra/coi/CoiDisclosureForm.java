@@ -135,10 +135,12 @@ public class CoiDisclosureForm extends KcTransactionalDocumentFormBase implement
         
     }
 
+    @Override
     public boolean isAuditActivated() {
         return this.auditActivated;
     }
 
+    @Override
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
         
@@ -343,6 +345,7 @@ public class CoiDisclosureForm extends KcTransactionalDocumentFormBase implement
         return DEFAULT_END;
     }
     
+    @Override
     public String getQuestionnaireExpression() {
         return ".*[Qq]uestionnaireHelper\\.answerHeaders\\[\\d+\\]\\.answers\\[\\d+\\]\\.answer";
     }

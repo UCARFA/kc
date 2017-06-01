@@ -629,6 +629,7 @@ public class KcLightTable extends GroupBase implements DataBinding {
      *
      * @return the propertyName of this collection
      */
+    @Override
     @BeanTagAttribute
     public String getPropertyName() {
         return propertyName;
@@ -648,6 +649,7 @@ public class KcLightTable extends GroupBase implements DataBinding {
      *
      * @return the bindingInfo
      */
+    @Override
     @BeanTagAttribute
     public BindingInfo getBindingInfo() {
         return bindingInfo;
@@ -658,6 +660,7 @@ public class KcLightTable extends GroupBase implements DataBinding {
      *
      * @param bindingInfo
      */
+    @Override
     public void setBindingInfo(BindingInfo bindingInfo) {
         this.bindingInfo = bindingInfo;
     }

@@ -31,7 +31,8 @@ public class DropdownButton extends GroupBase {
 	private Action buttonPrototype;
 	private Group listPrototype;
 	
-	public void performInitialization(Object model) {
+	@Override
+    public void performInitialization(Object model) {
 		List<Component> newItems = new ArrayList<Component>();
 		newItems.add(buttonPrototype);
 		newItems.add(listPrototype);

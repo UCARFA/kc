@@ -39,7 +39,8 @@ public class LesserThan extends RelationalOperator {
      * @param baseBean Object
      * @return true if the field of the CoeusBean object is lesser than the Comparable object, else returns false.
      */    
-    public boolean getResult(Object baseBean) {  
+    @Override
+    public boolean getResult(Object baseBean) {
         if(fixedData == null) return false; //cannot query property < null. will always return false
         try{
             return compare(baseBean) < 0;
@@ -52,6 +53,7 @@ public class LesserThan extends RelationalOperator {
      * returns the lesser than condition being checked using fieldName and fixedData
      * @return String - Lesser than condition
      */
+    @Override
     public String toString() {
         return "( " + fieldName + " < " + fixedData + " )";
     }

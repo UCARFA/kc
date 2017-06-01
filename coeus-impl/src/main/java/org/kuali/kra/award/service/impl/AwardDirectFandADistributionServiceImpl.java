@@ -39,6 +39,7 @@ public class AwardDirectFandADistributionServiceImpl implements AwardDirectFandA
      * This method assigns all of the Default periods to Award Direct F and A Distribution panel based on project start and end dates.
      * @return
      */
+   @Override
    public List<AwardDirectFandADistribution> generateDefaultAwardDirectFandADistributionPeriods(Award award){
        return buildListBasedOnProjectStartAndEndDates(award);
    }

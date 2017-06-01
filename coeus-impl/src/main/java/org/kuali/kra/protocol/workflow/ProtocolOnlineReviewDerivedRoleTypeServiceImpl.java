@@ -111,6 +111,7 @@ public class ProtocolOnlineReviewDerivedRoleTypeServiceImpl extends DerivedRoleT
         return protocolOnlineReviewService;
     }
     
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }

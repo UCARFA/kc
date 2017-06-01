@@ -35,6 +35,7 @@ import java.util.Map;
 public class CommitteeTestHelper {
 
     public static class MockBusinessObjectService extends BusinessObjectServiceAdapter {
+        @Override
         @SuppressWarnings("unchecked")
         public PersistableBusinessObject findByPrimaryKey(Class clazz, Map identifiers) {
             if (clazz.equals(BatchCorrespondence.class)) {
@@ -105,6 +106,7 @@ public class CommitteeTestHelper {
             return protocolCorrespondenceType;
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Collection findMatching(Class clazz, Map indentifiers) {
             if (clazz.equals(ProtocolCorrespondence.class)) {
@@ -114,6 +116,7 @@ public class CommitteeTestHelper {
             return null;
         }
         
+        @Override
         public PersistableBusinessObject save(PersistableBusinessObject bo) {
             return bo;
         }

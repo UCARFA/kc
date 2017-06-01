@@ -44,10 +44,12 @@ public class AwardTemplateSyncEvent  extends KcDocumentEventBase {
         
     }
 
+    @Override
     public Class getRuleInterfaceClass() {
         return AwardTemplateSyncRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         
         return ((AwardTemplateSyncRule)rule).processAwardTemplateSyncRules(this);

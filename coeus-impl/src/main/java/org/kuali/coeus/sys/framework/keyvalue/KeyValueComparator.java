@@ -40,6 +40,7 @@ public final class KeyValueComparator implements Comparator<KeyValue>, Serializa
      * 
      * {@inheritDoc}
      */
+    @Override
     public int compare(KeyValue o1, KeyValue o2) {
         return o1.getValue().compareTo(o2.getValue());
     }

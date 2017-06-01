@@ -57,6 +57,7 @@ public class SubAwardAuditRule extends
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(
      * org.kuali.core.document.Document)
      */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         auditErrors = new ArrayList<AuditError>();

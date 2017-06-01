@@ -61,11 +61,13 @@ public class AddProposalCongressionalDistrictEvent extends BasicProposalSiteEven
 		return collectionLabel;
 	}
 
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return AddCongressionalDistrictRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddCongressionalDistrictRule)rule).processAddCongressionalDistrictRules(this);
     }

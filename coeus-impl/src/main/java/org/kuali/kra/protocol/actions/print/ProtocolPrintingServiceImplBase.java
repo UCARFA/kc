@@ -134,6 +134,7 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
         this.reportName = reportName;
     }
 
+    @Override
     public AttachmentDataSource print(String reportName, List<Printable> printableArtifactList) throws PrintingException {
         setReportName(reportName);
         return super.print(printableArtifactList);
@@ -234,6 +235,7 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
         return printableArtifactList;
     }
     
+    @Override
     public AttachmentDataSource printProtocolDocument(ProtocolFormBase protocolForm) throws PrintingException {
         ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
         StringBuffer fileName = new StringBuffer().append(REPORT_PREFIX);
@@ -244,6 +246,7 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
         return  print(reportName,getPrintReportArtifacts(protocolForm, fileName));
     }
 
+    @Override
     public AttachmentDataSource printProtocolSelectedItems(ProtocolFormBase protocolForm) throws PrintingException {
         ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
         ProtocolPrintHelper printHelper = getProtocolPrintHelper(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT);

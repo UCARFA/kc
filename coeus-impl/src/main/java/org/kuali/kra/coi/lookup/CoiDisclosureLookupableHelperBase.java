@@ -49,6 +49,7 @@ public abstract class CoiDisclosureLookupableHelperBase extends KraLookupableHel
     
     private TaskAuthorizationService taskAuthorizationService;
 
+    @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<? extends BusinessObject> retVal = new ArrayList<CoiDisclosure>();
         if(isAuthorizedForCoiLookups()) {
@@ -145,6 +146,7 @@ public abstract class CoiDisclosureLookupableHelperBase extends KraLookupableHel
     /*
      * Not sure if we need this at the moment.
      */
+    @Override
     protected AnchorHtmlData getEditLink(BusinessObject businessObject) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText("edit");

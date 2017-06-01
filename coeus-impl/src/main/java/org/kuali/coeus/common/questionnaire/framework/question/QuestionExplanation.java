@@ -101,18 +101,22 @@ public class QuestionExplanation extends KcPersistableBusinessObjectBase impleme
         return result;
     }
 
+    @Override
     public Question getSequenceOwner() {
         return this.sequenceOwner;
     }
 
+    @Override
     public void setSequenceOwner(Question newlyVersionedOwner) {
         this.sequenceOwner = newlyVersionedOwner;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return this.sequenceOwner.getSequenceNumber();
     }
 
+    @Override
     public void resetPersistenceState() {
         this.id = null;
     }

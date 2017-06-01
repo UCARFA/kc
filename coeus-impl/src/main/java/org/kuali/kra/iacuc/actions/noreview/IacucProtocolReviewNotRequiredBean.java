@@ -49,26 +49,32 @@ public class IacucProtocolReviewNotRequiredBean extends IacucProtocolActionBean 
     }
     
 
+    @Override
     public String getComments() {
         return comments;
     }
 
+    @Override
     public void setComments(String comments) {
         this.comments = comments;
     }
 
+    @Override
     public Date getActionDate() {
         return actionDate;
     }
 
+    @Override
     public void setActionDate(Date actionDate) {
         this.actionDate = actionDate;
     }
 
+    @Override
     public Date getDecisionDate() {
         return decisionDate;
     }
 
+    @Override
     public void setDecisionDate(Date decisionDate) {
         this.decisionDate = decisionDate;
     }    

@@ -102,6 +102,7 @@ public class NarrativeType extends KcPersistableBusinessObjectBase implements Na
      * Determine if two NarrativeTypes have the same values.
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj == this)
             return true;

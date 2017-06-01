@@ -45,6 +45,7 @@ public class IrbJavaFunctionKrmsTermServiceImpl extends ProtocolJavaFunctionKrms
         return result;
     }
 
+    @Override
     public Integer getProtocolParticipantTypeCount(Protocol protocol, String participantType) {
         return protocol.getProtocolParticipants().stream().filter(participant -> isMatchOnParticipantType(participantType, participant)).
                 map(ProtocolParticipant::getParticipantCount).reduce(0, Integer::sum);

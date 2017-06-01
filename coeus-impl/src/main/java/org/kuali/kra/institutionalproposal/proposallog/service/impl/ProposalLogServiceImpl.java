@@ -39,6 +39,7 @@ public class ProposalLogServiceImpl implements ProposalLogService {
      * 
      * @param proposalNumber String
      */
+    @Override
     public void mergeProposalLog(ProposalLog permanentProposalLog, String temporaryProposalNumber) {
         ProposalLog tempProposalLog = getBusinessObjectService().findBySinglePrimaryKey(ProposalLog.class, temporaryProposalNumber);
         if (tempProposalLog == null) {
@@ -50,6 +51,7 @@ public class ProposalLogServiceImpl implements ProposalLogService {
         }
     }
     
+    @Override
     public void mergeProposalLog(String proposalNumber) {
         updateProposalLogStatus(proposalNumber, ProposalLogUtils.getProposalLogMergedStatusCode());
     }
@@ -60,6 +62,7 @@ public class ProposalLogServiceImpl implements ProposalLogService {
      * 
      * @param proposalNumber String
      */
+    @Override
     public void promoteProposalLog(String proposalNumber) {
         updateProposalLogStatus(proposalNumber, ProposalLogUtils.getProposalLogSubmittedStatusCode());
     }
@@ -76,6 +79,7 @@ public class ProposalLogServiceImpl implements ProposalLogService {
         this.getBusinessObjectService().save(proposalLog);
     }
    
+    @Override
     public void updateMergedInstProposal(Long proposalId, String proposalNumber)
     {
         Map<String, String> criteria = new HashMap<String, String>();
@@ -88,6 +92,7 @@ public class ProposalLogServiceImpl implements ProposalLogService {
         }        
     }
     
+    @Override
     public List<ProposalLog> getMatchingTemporaryProposalLogs(String proposalLogTypeCode, String piId, String rolodexId) {
         List<ProposalLog> matchedLogs = new ArrayList<ProposalLog>();
         if ((StringUtils.isNotBlank(piId) || StringUtils.isNotBlank(rolodexId)) && StringUtils.equals(proposalLogTypeCode, ProposalLogUtils.getProposalLogPermanentTypeCode())) {
@@ -104,6 +109,7 @@ public class ProposalLogServiceImpl implements ProposalLogService {
         return matchedLogs;
     }
     
+    @Override
     public ProposalLogType getProposalLogTypeFromDescription(String description) {
     	return getBusinessObjectService().findMatching(ProposalLogType.class, Collections.singletonMap("description", description))
     			.stream().findFirst().orElse(null);

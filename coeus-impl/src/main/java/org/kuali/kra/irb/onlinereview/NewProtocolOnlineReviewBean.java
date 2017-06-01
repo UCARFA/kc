@@ -94,6 +94,7 @@ public class NewProtocolOnlineReviewBean extends BusinessObjectBase {
         this.newReviewOrganizationDocumentNumber = newReviewOrganizationDocumentNumber;
     }
 
+    @Override
     public void refresh() {
     }
 }

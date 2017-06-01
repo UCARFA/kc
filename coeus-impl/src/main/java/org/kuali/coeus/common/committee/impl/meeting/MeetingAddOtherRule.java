@@ -40,6 +40,7 @@ public class MeetingAddOtherRule extends KcTransactionalDocumentRuleBase impleme
      * @param event
      * @return
      */
+    @Override
     public boolean processRules(MeetingAddOtherEvent event) {
         boolean rulePassed = true;
         errorReporter = KcServiceLocator.getService(ErrorReporter.class);

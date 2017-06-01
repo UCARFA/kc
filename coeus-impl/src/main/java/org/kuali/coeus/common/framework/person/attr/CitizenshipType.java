@@ -64,6 +64,7 @@ public class CitizenshipType extends KcPersistableBusinessObjectBase implements 
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

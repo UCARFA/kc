@@ -35,6 +35,7 @@ public class ModifyTimeAndMoneyAuthorizer extends TimeAndMoneyAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
+    @Override
     public boolean isAuthorized(String userId, TimeAndMoneyTask task) {
         
         TimeAndMoneyDocument timeAndMoneyDocument = task.getTimeAndMoneyDocument();

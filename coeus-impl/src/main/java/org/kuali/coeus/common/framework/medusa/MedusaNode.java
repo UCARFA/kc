@@ -62,6 +62,7 @@ public class MedusaNode extends Node<Object, String> implements Serializable {
     public void addChildNode(MedusaNode node) {
     	getChildren().add(node);
     }
+    @Override
     public String getNodeLabel() {
     	if (getData() instanceof DevelopmentProposal) {
     		return "Development Proposal " + ((DevelopmentProposal) getData()).getProposalNumber();

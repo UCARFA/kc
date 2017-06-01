@@ -72,6 +72,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         return hierarchyProposalNumber;
     }
 
+    @Override
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
@@ -81,6 +82,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         return hiddenInHierarchy;
     }
 
+    @Override
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
@@ -165,7 +167,8 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
 		return specialReviewExemptions;
 	}
 
-	public void setSpecialReviewExemptions(List<ProposalSpecialReviewExemption> specialReviewExemptions) {
+	@Override
+    public void setSpecialReviewExemptions(List<ProposalSpecialReviewExemption> specialReviewExemptions) {
     	if (specialReviewExemptions != null) {
     		this.specialReviewExemptions = specialReviewExemptions;
     	} else {

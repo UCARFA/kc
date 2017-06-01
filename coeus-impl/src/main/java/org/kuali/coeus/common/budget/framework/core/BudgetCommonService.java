@@ -36,6 +36,7 @@ public interface BudgetCommonService<T extends BudgetParent> extends BudgetServi
      */
     public Budget copyBudgetVersion(Budget budget);
     
+    @Override
     public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod);
     
     /**

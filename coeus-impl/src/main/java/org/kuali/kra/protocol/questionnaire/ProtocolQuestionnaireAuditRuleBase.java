@@ -47,6 +47,7 @@ public abstract class ProtocolQuestionnaireAuditRuleBase extends BaseQuestionnai
     
     private boolean requestSubmission;
     
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         ProtocolBase protocol = ((ProtocolDocumentBase)document).getProtocol();
         
@@ -101,6 +102,7 @@ public abstract class ProtocolQuestionnaireAuditRuleBase extends BaseQuestionnai
         return isValid;            
     }
     
+    @Override
     protected List<Integer> getIncompleteMandatoryQuestionnaire(ProtocolDocumentBase protocolDocument) {
         ProtocolBase protocol = protocolDocument.getProtocol();
         ModuleQuestionnaireBean moduleQuestionnaireBean = getProtocolModuleQuestionnaireBean(protocol);
@@ -173,6 +175,7 @@ public abstract class ProtocolQuestionnaireAuditRuleBase extends BaseQuestionnai
      * Creates and adds the AuditCluster to the Global AuditErrorMap.
      */
 
+    @Override
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }

@@ -47,11 +47,13 @@ public class ProtocolQuestionnaireAuditRuleTest extends ProtocolRuleTestBase {
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     private ProtocolQuestionnaireAuditRule rule;
     
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         super.tearDown();
@@ -96,6 +98,7 @@ public class ProtocolQuestionnaireAuditRuleTest extends ProtocolRuleTestBase {
         });       
         
         rule = new ProtocolQuestionnaireAuditRule() {
+            @Override
             protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
                 return qnnrService1;
             }
@@ -191,6 +194,7 @@ public class ProtocolQuestionnaireAuditRuleTest extends ProtocolRuleTestBase {
         });       
         
         rule = new ProtocolQuestionnaireAuditRule() {
+            @Override
             protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
                 return qnnrService2;
             }
@@ -293,6 +297,7 @@ public class ProtocolQuestionnaireAuditRuleTest extends ProtocolRuleTestBase {
         });       
         
         rule = new ProtocolQuestionnaireAuditRule() {
+            @Override
             protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
                 return qnnrService3;
             }
@@ -373,6 +378,7 @@ public class ProtocolQuestionnaireAuditRuleTest extends ProtocolRuleTestBase {
         });     
         
         rule = new ProtocolQuestionnaireAuditRule() {
+            @Override
             protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
                 return qnnrService2;
             }

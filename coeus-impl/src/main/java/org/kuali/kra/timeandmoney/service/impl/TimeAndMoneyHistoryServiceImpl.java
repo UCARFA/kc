@@ -107,7 +107,8 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		return awardVersionHistoryCollection;
 	}
 
-	public List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs, List<AwardAmountInfo> awardAmountInfos, Award award)
+	@Override
+    public List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs, List<AwardAmountInfo> awardAmountInfos, Award award)
 			throws WorkflowException {
 		List<TimeAndMoneyDocumentHistory> timeAndMoneyDocumentHistoryList = new ArrayList<>();
 		List<AwardAmountInfo> validInfos = getValidAwardAmountInfosAssociatedWithAwardVersion(awardAmountInfos, award);
@@ -305,6 +306,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         return doc.getDocumentHeader().hasWorkflowDocument() && doc.getDocumentHeader().getWorkflowDocument().isCanceled();
     }
 
+    @Override
     public List<TimeAndMoneyDocument> buildTimeAndMoneyListForAwardDisplay(Award award, boolean bounded) throws WorkflowException {
 		Map<String, Object> fieldValues1 = new HashMap<>();
 		// get the award number.

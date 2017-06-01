@@ -37,11 +37,13 @@ public class AwardCommentsRuleEvent extends KcDocumentEventBase {
         LOG.info("Logging AwardCommentsRuleEvent");
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return AwardCommentsRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardCommentsRule) rule).processAwardCommentsBusinessRules(this);
     }

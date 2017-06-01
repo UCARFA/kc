@@ -47,7 +47,8 @@ public class AwardApprovedSubawardRuleImpl extends KcTransactionalDocumentRuleBa
      * @see org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRule#processApprovedSubawardBusinessRules
      * (org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleEvent)
      */
-    public boolean processApprovedSubawardBusinessRules(AwardApprovedSubawardRuleEvent 
+    @Override
+    public boolean processApprovedSubawardBusinessRules(AwardApprovedSubawardRuleEvent
                                                             awardApprovedSubawardRuleEvent) {
         this.awardApprovedSubawards = awardApprovedSubawardRuleEvent.getAwardApprovedSubawards();
         this.awardApprovedSubaward = awardApprovedSubawardRuleEvent.getApprovedSubaward();

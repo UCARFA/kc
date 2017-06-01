@@ -356,6 +356,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         return isReviewer;
     }
         
+    @Override
     public void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocumentBase reviewDocument, String reason, String principalId) {
         kraDocumentRejectionService.reject(reviewDocument.getDocumentHeader().getWorkflowDocument(), reason, principalId, (String)null, reviewerApproveNodeName);
     }
@@ -639,6 +640,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         this.reviewCommentsService = reviewCommentsService;
     }
 
+    @Override
     public String getProtocolOnlineReviewDocumentDescription(String protocolNumber, String piName) {
         final int fieldLimit = 40;
         int pilen = piName!=null?piName.length():0;

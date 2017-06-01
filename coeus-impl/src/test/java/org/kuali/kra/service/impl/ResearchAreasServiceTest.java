@@ -835,14 +835,17 @@ public class ResearchAreasServiceTest {
         // case: no references
         ResearchAreasServiceImpl researchAreasService = new ResearchAreasServiceImpl() {
             
+            @Override
             public Protocol getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
                 return null;
             }
             
+            @Override
             public Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
                 return null;
             }
 
+            @Override
             public CommitteeMembership getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode) {
                 return null;
             }
@@ -865,6 +868,7 @@ public class ResearchAreasServiceTest {
         p1.setProtocolNumber("abcdef");
         
         researchAreasService = new ResearchAreasServiceImpl() {           
+            @Override
             public Protocol getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
                 if(researchAreaCode.equals(researchArea_0_1_1.getResearchAreaCode())) {
                     return p1;
@@ -874,10 +878,12 @@ public class ResearchAreasServiceTest {
                 }
             }
             
+            @Override
             public Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
                 return null;
             }
 
+            @Override
             public CommitteeMembership getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode) {
                 return null;
             }
@@ -899,6 +905,7 @@ public class ResearchAreasServiceTest {
         final Committee c1 = new Committee();
         c1.setCommitteeId("444");
         researchAreasService = new ResearchAreasServiceImpl() {           
+            @Override
             public Protocol getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
                 if(researchAreaCode.equals(researchArea_0_1_1.getResearchAreaCode())) {
                     return p1;
@@ -908,6 +915,7 @@ public class ResearchAreasServiceTest {
                 }
             }
             
+            @Override
             public Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
                 if(researchAreaCode.equals(researchArea_0_0_0.getResearchAreaCode())) {
                     return c1;
@@ -917,6 +925,7 @@ public class ResearchAreasServiceTest {
                 }
             }
 
+            @Override
             public CommitteeMembership getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode) {
                 return null;
             }

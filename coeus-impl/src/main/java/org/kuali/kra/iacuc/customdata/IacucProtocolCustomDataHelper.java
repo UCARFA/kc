@@ -47,11 +47,13 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelperBase<
         super(form);
     }
 
+    @Override
     public boolean canModifyCustomData() {
         ProtocolTaskBase task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_OTHERS, (IacucProtocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
+    @Override
     protected String getDocumentTypeCode() {
         return IacucProtocolDocument.DOCUMENT_TYPE_CODE;
     }

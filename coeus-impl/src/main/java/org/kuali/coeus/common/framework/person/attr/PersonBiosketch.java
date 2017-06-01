@@ -59,26 +59,32 @@ public class PersonBiosketch extends KcPersistableBusinessObjectBase implements 
         this.description = description;
     }
     
+    @Override
     public String getFileName() {
         return fileName;
     }
     
+    @Override
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
     
+    @Override
     public String getContentType() {
         return contentType;
     }
     
+    @Override
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
     
+    @Override
     public byte[] getAttachmentContent() {
         return attachmentContent;
     }
     
+    @Override
     public void setAttachmentContent(byte[] attachmentContent) {
         this.attachmentContent = attachmentContent;
     }

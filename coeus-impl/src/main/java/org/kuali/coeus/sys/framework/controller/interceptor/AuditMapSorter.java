@@ -161,6 +161,7 @@ final class AuditMapSorter {
          * {@inheritDoc}
          * @throws NullPointerException if o1 or o2 is null
          */
+        @Override
         public int compare(AuditError o1, AuditError o2) {
             
             if (o1 == null) {

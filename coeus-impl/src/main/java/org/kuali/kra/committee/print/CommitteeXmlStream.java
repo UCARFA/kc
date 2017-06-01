@@ -60,6 +60,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         org.kuali.kra.committee.bo.Committee committee = (org.kuali.kra.committee.bo.Committee)printableBusinessObject;
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();

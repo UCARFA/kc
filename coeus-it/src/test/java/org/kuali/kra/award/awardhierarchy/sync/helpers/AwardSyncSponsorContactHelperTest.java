@@ -34,6 +34,7 @@ public class AwardSyncSponsorContactHelperTest extends AwardSyncHelperTestBase {
     public AwardSyncSponsorContactHelperTest() {
         super("AwardSponsorContact");
     }
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -42,6 +43,7 @@ public class AwardSyncSponsorContactHelperTest extends AwardSyncHelperTestBase {
         contact.setRoleCode("1");
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         super.tearDown();

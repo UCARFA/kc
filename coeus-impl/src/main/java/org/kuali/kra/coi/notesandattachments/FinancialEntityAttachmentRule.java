@@ -52,6 +52,7 @@ public class FinancialEntityAttachmentRule extends KcTransactionalDocumentRuleBa
         return valid;
     }
 
+    @Override
     public boolean processRules(AddFinancialEntityAttachmentEvent event) {
         GlobalVariables.getMessageMap().addToErrorPath(event.getErrorPathPrefix());
         boolean result = validPrimitiveFields(event.getAttachment());

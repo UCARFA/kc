@@ -32,6 +32,7 @@ import java.util.List;
  */
 public class ProtocolOnlineReviewDeterminationRecommendationValuesFinder extends IrbActionsKeyValuesBase {
     
+    @Override
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
         Collection<ProtocolOnlineReviewDeterminationRecommendation> recommendations = this.getKeyValuesService().findAll(ProtocolOnlineReviewDeterminationRecommendation.class);

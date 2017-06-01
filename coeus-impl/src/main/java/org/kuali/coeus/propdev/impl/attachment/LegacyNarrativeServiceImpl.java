@@ -77,6 +77,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
 
+    @Override
     public Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
         List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
@@ -85,12 +86,14 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         mergedNarrativeList.addAll(instituteAttachmentsList);
         if(mergedNarrativeList.isEmpty()) return 1;
         Collections.sort(mergedNarrativeList, new Comparator<Narrative>(){
-            public int compare(Narrative n1, Narrative n2) { 
+            @Override
+            public int compare(Narrative n1, Narrative n2) {
                 return (n1.getModuleNumber()).compareTo(n2.getModuleNumber()); 
               } 
         });
         return mergedNarrativeList.get(mergedNarrativeList.size()-1).getModuleNumber().intValue()+1;
     }
+    @Override
     public Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
         List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
@@ -99,7 +102,8 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         mergedNarrativeList.addAll(instituteAttachmentsList);
         if(mergedNarrativeList.isEmpty()) return 1;
         Collections.sort(mergedNarrativeList, new Comparator<Narrative>(){
-            public int compare(Narrative n1, Narrative n2) { 
+            @Override
+            public int compare(Narrative n1, Narrative n2) {
                 return (n1.getModuleSequenceNumber()).compareTo(n2.getModuleSequenceNumber()); 
               } 
         });
@@ -179,6 +183,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         return false;
     }
     
+    @Override
     public void prepareNarrative(ProposalDevelopmentDocument document, Narrative narrative) {
     	narrative.setDevelopmentProposal(document.getDevelopmentProposal());
         narrative.setModuleNumber(getNextModuleNumber(document));
@@ -201,7 +206,8 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         return false;
     }
 
-    public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
+    @Override
+    public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument, Narrative narrative) {
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
         for (NarrativeUserRights narrativeUserRight : narrativeUserRights) {
             String personName = getProposalPersonService().getPersonName(proposaldevelopmentDocument, narrativeUserRight.getUserId());
@@ -209,6 +215,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         }
     }
 
+    @Override
     public void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narrativeList) {
@@ -240,6 +247,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         }
     }
 
+    @Override
     public void readjustRights(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames) {
         List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
@@ -276,6 +284,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     }
 
     
+    @Override
     public void addPerson(String userName, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames) {
         KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
         List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();

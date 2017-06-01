@@ -26,6 +26,7 @@ public class IacucProtocolReviewerTypeLookupableHelperServiceImpl extends KualiL
     
     private static final long serialVersionUID = -7379856633866034252L;
 
+    @Override
     protected boolean allowsMaintenanceDeleteAction(BusinessObject businessObject) {
 
         boolean allowsDelete = true;

@@ -23,6 +23,7 @@ import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 
 public class PendingTransactionComparator implements Comparator<PendingTransaction> {
 
+    @Override
     public int compare(PendingTransaction arg0, PendingTransaction arg1) {
         // transactions ids are not generated until a save happens so there are going
         // to be null values in them.

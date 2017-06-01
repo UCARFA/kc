@@ -54,6 +54,7 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     transient AwardAmountInfoService awardAmountInfoService;
     private transient AwardFnaDistributionService awardFnaDistributionService;
 
+    @Override
     public boolean processAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         this.awardDirectFandADistributions = awardDirectFandADistributionRuleEvent.getAwardDirectFandADistributionsForValidation();
         boolean validExistingDateRanges = existingDirectFandADistributionsDatesDontOverlap(awardDirectFandADistributions);
@@ -72,6 +73,7 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
         return validExistingDateRanges && validStartDate && validEndDate;
     }
 
+    @Override
     public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         this.awardDirectFandADistribution = awardDirectFandADistributionRuleEvent.getAwardDirectFandADistributionForValidation();
         List<AwardDirectFandADistribution> thisAwardDirectFandADistributions = 

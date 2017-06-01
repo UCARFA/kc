@@ -43,6 +43,7 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
      * Gets the customAttributeId attribute. 
      * @return Returns the customAttributeId.
      */
+    @Override
     public Long getCustomAttributeId() {
         return customAttributeId;
     }
@@ -51,6 +52,7 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
      * Sets the customAttributeId attribute value.
      * @param customAttributeId The customAttributeId to set.
      */
+    @Override
     public void setCustomAttributeId(Long customAttributeId) {
         this.customAttributeId = customAttributeId;
     }
@@ -75,6 +77,7 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
      * Gets the value attribute. 
      * @return Returns the value.
      */
+    @Override
     public String getValue() {
         return value;
     }
@@ -88,6 +91,7 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
      * Sets the value attribute value.
      * @param value The value to set.
      */
+    @Override
     public void setValue(String value) {
         this.value = value;
     }
@@ -128,6 +132,7 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
      * Gets the customAttribute attribute. 
      * @return Returns the customAttribute.
      */
+    @Override
     public CustomAttribute getCustomAttribute() {
         return customAttribute;
     }
@@ -136,6 +141,7 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
      * Sets the customAttribute attribute value.
      * @param customAttribute The customAttribute to set.
      */
+    @Override
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }

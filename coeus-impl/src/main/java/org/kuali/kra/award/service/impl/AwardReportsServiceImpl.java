@@ -57,6 +57,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
      * @see org.kuali.kra.award.service.AwardReportsService#initializeObjectsForReportsAndPayments(
      * org.kuali.kra.award.home.Award)
      */
+    @Override
     public Map<String, Object> initializeObjectsForReportsAndPayments(Award award){
         
         Map<String, Object> initializedObjects = new HashMap<String, Object>();

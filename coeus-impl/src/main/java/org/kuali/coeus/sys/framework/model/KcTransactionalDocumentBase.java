@@ -107,6 +107,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
     public void initialize() {
     }
 
+    @Override
     @LegacyDataFramework
     public final void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         setObjectId(null);
@@ -122,6 +123,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
         getKcDataObjectService().initObjectIdForPersist(this);
     }
 
+    @Override
     @LegacyDataFramework
     public final void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
     	postPersist();
@@ -135,6 +137,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
         super.postProcessSave(event);
     }
     
+    @Override
     @LegacyDataFramework
     public final void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
     	preUpdate();

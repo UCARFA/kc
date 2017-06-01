@@ -48,6 +48,7 @@ public class IacucProtocolSubmissionLookupHelperServiceTest extends ProtocolLook
 
     private IacucProtocolSubmissionLookupableHelperServiceImpl protocolSubmissionLookupableHelperServiceImpl;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         protocolSubmissionLookupableHelperServiceImpl = new IacucProtocolSubmissionLookupableHelperServiceImpl();
@@ -55,6 +56,7 @@ public class IacucProtocolSubmissionLookupHelperServiceTest extends ProtocolLook
         super.setUp();
    }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         protocolSubmissionLookupableHelperServiceImpl = null;

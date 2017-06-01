@@ -55,6 +55,7 @@ public class ProposalLogXmlStream implements XmlStream {
      * @throws PrintingException
      *             in case of any errors occur during XML generation.
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(
             KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();

@@ -36,6 +36,7 @@ public class OnOffCampusLookupableHelperServiceImpl extends KcKualiLookupableHel
      * 
      * This is for onoffcampusflag.  It's boolean, but saved as 'N/F'.  So, it caused trouble for lookup 
      */
+    @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         if (fieldValues.get(Constants.ON_OFF_CAMPUS_FLAG).equalsIgnoreCase("Y")) {
              fieldValues.put(Constants.ON_OFF_CAMPUS_FLAG, "N");

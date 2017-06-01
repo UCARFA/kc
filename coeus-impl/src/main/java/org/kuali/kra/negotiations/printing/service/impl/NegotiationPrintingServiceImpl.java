@@ -73,8 +73,9 @@ public class NegotiationPrintingServiceImpl implements NegotiationPrintingServic
      * @throws PrintingException
      *             if any errors occur during report generation
      */
+    @Override
     public AttachmentDataSource printNegotiationActivityReport(KcPersistableBusinessObjectBase negotiationDocument,
-            NegotiationActivityPrintType negotiationReportType, Map<String, Object> reportParameters) throws PrintingException {                   
+                                                               NegotiationActivityPrintType negotiationReportType, Map<String, Object> reportParameters) throws PrintingException {
                 
         AttachmentDataSource source = null;
         AbstractPrint printable = null;        

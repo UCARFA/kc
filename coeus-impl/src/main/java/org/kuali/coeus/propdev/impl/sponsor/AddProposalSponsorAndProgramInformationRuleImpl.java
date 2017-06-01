@@ -32,6 +32,7 @@ public class AddProposalSponsorAndProgramInformationRuleImpl implements AddPropo
     private GlobalVariableService globalVariableService;
     private ErrorReporter errorReporter;
 
+    @Override
     public boolean processAddProposalSponsorAndProgramInformationRules(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = Boolean.TRUE;
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber())

@@ -35,6 +35,7 @@ public class MockProtocolPersonTrainingService implements ProtocolPersonTraining
         }
     }
 
+    @Override
     public void setTrainedFlag(ProtocolPersonBase protocolPerson) {
         protocolPerson.setTrained(true);
     }

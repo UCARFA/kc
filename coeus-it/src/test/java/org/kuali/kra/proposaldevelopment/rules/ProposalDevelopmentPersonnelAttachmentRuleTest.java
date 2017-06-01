@@ -47,6 +47,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
 
     private ProposalDevelopmentPersonnelAttachmentRule rule = null;
     
+    @Override
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
@@ -58,6 +59,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
         newProposalPersonBiography = createNewProposalPersonBiography();        
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         newProposalPersonBiography = null;

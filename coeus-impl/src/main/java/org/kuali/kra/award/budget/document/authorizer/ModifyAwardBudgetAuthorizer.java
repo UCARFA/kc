@@ -35,6 +35,7 @@ public class ModifyAwardBudgetAuthorizer extends BudgetAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
+    @Override
     public boolean isAuthorized(String userId, Task task) {
             AwardBudgetTask budgetTask = (AwardBudgetTask) task;
             AwardBudgetDocument budgetDocument = budgetTask.getAwardBudgetDocument();

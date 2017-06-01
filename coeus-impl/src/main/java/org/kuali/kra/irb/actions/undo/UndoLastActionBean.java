@@ -47,6 +47,7 @@ public class UndoLastActionBean extends ProtocolActionBean implements org.kuali.
         super(actionHelper);
     }
     
+    @Override
     public String getComments() {
         return comments;
     }
@@ -63,6 +64,7 @@ public class UndoLastActionBean extends ProtocolActionBean implements org.kuali.
         this.actionsPerformed = actionsPerformed;
     }
 
+    @Override
     public Protocol getProtocol() {
         return protocol;
     }
@@ -83,6 +85,7 @@ public class UndoLastActionBean extends ProtocolActionBean implements org.kuali.
     
     public ProtocolAction getPrevToLastPerformedAction() {
         Collections.sort(actionsPerformed, new Comparator<ProtocolAction>() {
+            @Override
             public int compare(ProtocolAction action1, ProtocolAction action2) {
                 return action2.getActualActionDate().compareTo(action1.getActualActionDate());
             }
@@ -93,6 +96,7 @@ public class UndoLastActionBean extends ProtocolActionBean implements org.kuali.
     
     public ProtocolAction getLastPerformedAction() {
         Collections.sort(actionsPerformed, new Comparator<ProtocolAction>() {
+            @Override
             public int compare(ProtocolAction action1, ProtocolAction action2) {
                 return action2.getActualActionDate().compareTo(action1.getActualActionDate());
             }
@@ -111,6 +115,7 @@ public class UndoLastActionBean extends ProtocolActionBean implements org.kuali.
         return ProtocolStatus.DELETED.equals(protocol.getProtocolStatusCode());
     }
     
+    @Override
     public boolean canUndoLastAction() {
         ProtocolAction action = getLastPerformedAction();
         if(action != null){

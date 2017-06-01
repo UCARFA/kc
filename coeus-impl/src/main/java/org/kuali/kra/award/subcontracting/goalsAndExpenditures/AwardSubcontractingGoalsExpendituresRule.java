@@ -79,6 +79,7 @@ public class AwardSubcontractingGoalsExpendituresRule extends KcTransactionalDoc
     }
     
     
+    @Override
     public DictionaryValidationService getDictionaryValidationService() {
         if (this.dictionaryValidationService == null) {
             this.dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();

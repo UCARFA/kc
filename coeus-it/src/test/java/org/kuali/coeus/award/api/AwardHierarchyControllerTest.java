@@ -149,10 +149,12 @@ public class AwardHierarchyControllerTest extends AwardControllerTestBase {
 
     }
 
+    @Override
     public void setupCreditSplits(AwardPerson person) {
         super.setupCreditSplits(person);
     }
 
+    @Override
     public java.sql.Date getDate(int year, int month, int day) {
         Calendar cal = Calendar.getInstance();
         cal.set( cal.YEAR, year );
@@ -167,6 +169,7 @@ public class AwardHierarchyControllerTest extends AwardControllerTestBase {
         return new java.sql.Date( cal.getTime().getTime() );
     }
 
+    @Override
     public String getCorrectJson() {
         return "{\n" +
                 "      \"primeSponsorCode\":null,\n" +
@@ -575,6 +578,7 @@ public class AwardHierarchyControllerTest extends AwardControllerTestBase {
 
     }
 
+    @Override
     public AwardController getAwardController() throws IntrospectionException {
         return KcServiceLocator.getService(AwardController.class);
     }
@@ -587,6 +591,7 @@ public class AwardHierarchyControllerTest extends AwardControllerTestBase {
         return KcServiceLocator.getService(AwardHierarchyService.class);
     }
 
+    @Override
     public TimeAndMoneyController getTimeAndMoneyController() throws IntrospectionException {
         return KcServiceLocator.getService(TimeAndMoneyController.class);
     }

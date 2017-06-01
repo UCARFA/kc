@@ -88,20 +88,24 @@ public class SelfReferenceAssociate implements SequenceAssociate<SelfReferenceOw
         this.owner = owner;
     }
 
+    @Override
     public SelfReferenceOwner getSequenceOwner() {
 
         return owner;
     }
 
+    @Override
     public void setSequenceOwner(SelfReferenceOwner newlyVersionedOwner) {
         owner = newlyVersionedOwner;
         
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return seqNumber;
     }
 
+    @Override
     public void resetPersistenceState() {
         id = null;
     }

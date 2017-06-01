@@ -89,24 +89,29 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     }
 
 
+    @Override
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
     }
 
+    @Override
     public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
         this.lookupResultsBOClassName = lookupResultsBOClassName;
     }
 
+    @Override
     public String getLookedUpCollectionName() {
         return lookedUpCollectionName;
     }
 
+    @Override
     public void setLookedUpCollectionName(String lookedUpCollectionName) {
         this.lookedUpCollectionName = lookedUpCollectionName;
     }
 
 
 
+    @Override
     @SuppressWarnings("unchecked")
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         this.setMethodToCall("");

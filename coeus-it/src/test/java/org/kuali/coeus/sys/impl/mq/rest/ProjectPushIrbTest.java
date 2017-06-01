@@ -132,6 +132,7 @@ public class ProjectPushIrbTest extends ProjectPushTestBase {
         return protocolDocument.getProtocol().getProtocolNumber();
     }
 
+    @Override
     public ProjectRetrievalService getProjectRetrievalService() {
         if (irbProjectRetrievalService == null) {
             irbProjectRetrievalService = KcServiceLocator.getService(IRB_PROJECT_RETRIEVAL_SERVICE);

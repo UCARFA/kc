@@ -49,6 +49,7 @@ public abstract class CreateAmendmentEventBase extends KcDocumentEventBaseExtens
         return amendmentBean;
     }
 
+    @Override
     public abstract KcBusinessRule getRule();
     
 }

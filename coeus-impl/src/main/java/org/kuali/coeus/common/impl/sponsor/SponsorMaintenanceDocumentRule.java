@@ -116,6 +116,7 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
         this.customerCreationClient = customerCreationClient;
     }
 
+    @Override
     public DataDictionaryService getDataDictionaryService() {
         if (this.dataDictionaryService == null) {
             this.dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);

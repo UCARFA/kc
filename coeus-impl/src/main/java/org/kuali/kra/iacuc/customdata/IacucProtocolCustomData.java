@@ -50,26 +50,32 @@ public class IacucProtocolCustomData extends KcPersistableBusinessObjectBase imp
         this.protocolId = protocolId;
     }
 
+    @Override
     public Long getCustomAttributeId() {
         return customAttributeId;
     }
 
+    @Override
     public void setCustomAttributeId(Long customAttributeId) {
         this.customAttributeId = customAttributeId;
     }
 
+    @Override
     public String getValue() {
         return value;
     }
 
+    @Override
     public void setValue(String value) {
         this.value = value;
     }
 
+    @Override
     public CustomAttribute getCustomAttribute() {
         return customAttribute;
     }
 
+    @Override
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }

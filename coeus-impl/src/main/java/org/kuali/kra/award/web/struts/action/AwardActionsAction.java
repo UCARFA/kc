@@ -527,6 +527,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
        return reportParameters;
     }
 
+    @Override
     protected KcNotificationService getNotificationService() {
         if (notificationService == null) {
             notificationService = KcServiceLocator.getService(KcNotificationService.class);
@@ -611,6 +612,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return awardPrintingService;
     }
 
+    @Override
     public AwardNumberService getAwardNumberService(){
         return KcServiceLocator.getService(AwardNumberService.class);
     }
@@ -864,6 +866,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return KcServiceLocator.getService(InstitutionalProposalService.class);
     }
     
+    @Override
     protected VersionHistoryService getVersionHistoryService() {
         return KcServiceLocator.getService(VersionHistoryService.class);
     }

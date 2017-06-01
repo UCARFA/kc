@@ -132,6 +132,7 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
      * @param submission
      * @return true if withdrawable; otherwise false
      */
+    @Override
     protected boolean isAllowedStatus(ProtocolSubmissionBase submission) {
         return StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.PENDING) ||
                StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
@@ -142,6 +143,7 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
      * @param submission
      * @return true if withdrawable; otherwise false
      */
+    @Override
     protected boolean isNormalSubmission(ProtocolSubmissionBase submission) {
         return StringUtils.equals(submission.getSubmissionTypeCode(), IacucProtocolSubmissionType.AMENDMENT) ||
                StringUtils.equals(submission.getSubmissionTypeCode(), IacucProtocolSubmissionType.INITIAL_SUBMISSION) ||

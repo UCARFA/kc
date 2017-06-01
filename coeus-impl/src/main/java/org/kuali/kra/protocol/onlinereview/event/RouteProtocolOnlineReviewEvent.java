@@ -66,10 +66,12 @@ public class RouteProtocolOnlineReviewEvent extends KcDocumentEventBase {
         }
     }
 
+    @Override
     public Class<RouteProtocolOnlineReviewRule> getRuleInterfaceClass() {
         return RouteProtocolOnlineReviewRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return this.getRuleInterfaceClass().cast(rule).processRouteProtocolOnlineReview(this);
     }

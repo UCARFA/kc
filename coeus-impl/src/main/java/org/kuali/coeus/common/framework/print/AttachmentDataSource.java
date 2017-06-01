@@ -59,7 +59,8 @@ public abstract class AttachmentDataSource implements KcFile, Serializable {
 		this.fileDataId = fileDataId;
 	}
 
-	public byte[] getData() {
+	@Override
+    public byte[] getData() {
 		return data;
 	}
 

@@ -37,6 +37,7 @@ public class AwardCloseoutRuleImpl extends KcTransactionalDocumentRuleBase imple
      * @see org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRule#processAwardCloseoutBusinessRules(
      *          org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRuleEvent)
      */
+    @Override
     public boolean processAwardCloseoutBusinessRules(AwardCloseoutRuleEvent event) {
         return processCommonValidations(event);        
     }
@@ -47,6 +48,7 @@ public class AwardCloseoutRuleImpl extends KcTransactionalDocumentRuleBase imple
      * @param event
      * @return
      */
+    @Override
     public boolean processAddAwardCloseoutBusinessRules(AddAwardCloseoutRuleEvent event) {
         return areRequiredFieldsComplete(event.getCloseoutItemForValidation()) && processCommonValidations(event);        
     }

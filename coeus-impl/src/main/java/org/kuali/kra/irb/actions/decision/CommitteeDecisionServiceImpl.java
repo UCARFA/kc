@@ -41,30 +41,37 @@ import java.util.Map;
  */
 public class CommitteeDecisionServiceImpl extends CommitteeDecisionServiceImplBase<CommitteeDecision> implements CommitteeDecisionService {
 
+    @Override
     protected String getProtocolActionTypeCodeForRecordCommitteeDecisionHook() {
         return ProtocolActionType.RECORD_COMMITTEE_DECISION;
     }
 
+    @Override
     protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase submission, String recordCommitteeDecisionActionCode) {
         return new ProtocolAction((Protocol) protocol, (ProtocolSubmission) submission, recordCommitteeDecisionActionCode);
     }
     
+    @Override
     protected Class<? extends ProtocolVoteAbstaineeBase> getProtocolVoteAbstaineeBOClassHook() {
         return ProtocolVoteAbstainee.class;
     }
 
+    @Override
     protected ProtocolVoteAbstaineeBase getNewProtocolVoteAbstaineeInstanceHook() {
         return new ProtocolVoteAbstainee();
     }
         
+    @Override
     protected ProtocolVoteRecusedBase getNewProtocolVoteRecusedInstanceHook() {
         return new ProtocolVoteRecused();
     }
   
+    @Override
     protected Class<? extends ProtocolVoteRecusedBase> getProtocolVoteRecusedBOClassHook() {
         return ProtocolVoteRecused.class;
     }
     
+    @Override
     protected Map<String, Object> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("PROTOCOL_ID_FK", protocolId.toString());
@@ -75,6 +82,7 @@ public class CommitteeDecisionServiceImpl extends CommitteeDecisionServiceImplBa
         return fieldValues;
     }
 
+    @Override
     protected ProtocolSubmission getSubmission(ProtocolBase protocol) {
         // There are 'findCommission' in other classes.  Consider to create a utility static method for this
         // need to loop thru to find the last submission.

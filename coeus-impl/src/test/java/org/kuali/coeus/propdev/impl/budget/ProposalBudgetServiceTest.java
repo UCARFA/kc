@@ -180,9 +180,11 @@ public class ProposalBudgetServiceTest {
     public void testIsValidSourceAccountCostShareType() {
         ProposalBudgetServiceImpl proposalBudgetServiceImpl = new ProposalBudgetServiceImpl() {
 
+            @Override
             public void refreshReference(CostShare budgetCostShare) {
             }
 
+            @Override
             public Collection<ValidSourceAccountsCostShareType> getMatchingValidSourceAccountsCostShareTypes() {
                 List<ValidSourceAccountsCostShareType> validSourceAccountsCostShareTypeList = new ArrayList<>();
                 final ValidSourceAccountsCostShareType validSourceAccountsCostShareType1 = new ValidSourceAccountsCostShareType();
@@ -203,6 +205,7 @@ public class ProposalBudgetServiceTest {
                 return validSourceAccountsCostShareTypeList;
             }
 
+            @Override
             public boolean isCostShareTypeSourceAccountValidationEnabled() {
                 return true;
             }
@@ -258,11 +261,13 @@ public class ProposalBudgetServiceTest {
     public void testIsValidSourceAccountCostShareTypeNoValidEntries() {
 
         ProposalBudgetServiceImpl proposalBudgetServiceImpl = new ProposalBudgetServiceImpl() {
+            @Override
             public Collection<ValidSourceAccountsCostShareType> getMatchingValidSourceAccountsCostShareTypes() {
                 List<ValidSourceAccountsCostShareType> validSourceAccountsCostShareTypeList = new ArrayList<>();
                 return validSourceAccountsCostShareTypeList;
             }
 
+            @Override
             public boolean isCostShareTypeSourceAccountValidationEnabled() {
                 return true;
             }

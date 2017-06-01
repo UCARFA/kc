@@ -114,6 +114,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     
     
     
+    @Override
     public List<CommitteeScheduleMinuteBase> getReviewerComments(String protocolNumber, int submissionNumber) {
         ArrayList<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
 
@@ -210,8 +211,9 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         }
     }
 
+    @Override
     public void addReviewComment(CommitteeScheduleMinuteBase newReviewComment, List<CommitteeScheduleMinuteBase> reviewComments,
-            ProtocolBase protocol) {
+                                 ProtocolBase protocol) {
         ProtocolSubmissionBase protocolSubmission = getSubmission(protocol);
         if (protocolSubmission.getScheduleIdFk() != null) {
             newReviewComment.setScheduleIdFk(protocolSubmission.getScheduleIdFk());
@@ -234,8 +236,9 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     }
     
   
+    @Override
     public void addReviewComment(CommitteeScheduleMinuteBase newReviewComment, List<CommitteeScheduleMinuteBase> reviewComments,
-            ProtocolOnlineReviewBase protocolOnlineReview) {
+                                 ProtocolOnlineReviewBase protocolOnlineReview) {
         newReviewComment.setProtocolOnlineReview(protocolOnlineReview);
         newReviewComment.setProtocolOnlineReviewIdFk(protocolOnlineReview.getProtocolOnlineReviewId());
         newReviewComment.setProtocolReviewer(protocolOnlineReview.getProtocolReviewer());
@@ -244,6 +247,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     }
 
   
+    @Override
     public void moveUpReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, ProtocolBase protocol, int fromIndex) {
         if (fromIndex > 0) {
             int toIndex = indexOfPreviousProtocolReviewComment(reviewComments, protocol, fromIndex);
@@ -288,6 +292,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
 
     
     
+    @Override
     public void moveDownReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, ProtocolBase protocol, int fromIndex) {
         if (fromIndex < reviewComments.size() - 1) {
             int toIndex = indexOfNextProtocolReviewComment(reviewComments, protocol, fromIndex);
@@ -317,6 +322,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
      * @param CommitteeScheduleMinuteBase minute
      * @return whether the current user can view this comment
      */
+    @Override
     public boolean getReviewerCommentsView(ProtocolReviewableBase minute) {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String principalName = GlobalVariables.getUserSession().getPrincipalName();
@@ -395,8 +401,9 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         return nextIndex;
     }
 
+    @Override
     public void deleteReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, int index,
-            List<CommitteeScheduleMinuteBase> deletedReviewComments) {
+                                    List<CommitteeScheduleMinuteBase> deletedReviewComments) {
         if (index >= 0 && index < reviewComments.size()) {
             CommitteeScheduleMinuteBase reviewComment = reviewComments.get(index);
             if (reviewComment.getCommScheduleMinutesId() != null) {
@@ -410,6 +417,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         }
     }
 
+    @Override
     public void deleteAllReviewComments(List<CommitteeScheduleMinuteBase> reviewComments, List<CommitteeScheduleMinuteBase> deletedReviewComments) {
         if (reviewComments != null) {
             for (CommitteeScheduleMinuteBase reviewerComment : reviewComments) {
@@ -433,6 +441,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         }
     }
     
+    @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void saveReviewComments(List<CommitteeScheduleMinuteBase> reviewComments, List<CommitteeScheduleMinuteBase> deletedReviewComments) {
         for (CommitteeScheduleMinuteBase reviewComment : reviewComments) {
@@ -523,6 +532,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         return setHideReviewerName(getReviewerComments(protocol.getProtocolNumber(), submissionNumber));
     }
 
+    @Override
     public boolean setHideReviewerName(List<? extends ProtocolReviewableBase> reviewComments) {
         boolean isHide = true;
         setReviewerIds(reviewerIds);
@@ -537,6 +547,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         return isHide;
     }
 
+    @Override
     public boolean isHidePrivateFinalFlagsForPI(List<? extends ProtocolReviewableBase> reviewComments) {
         boolean isHide = false;        
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
@@ -549,6 +560,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         return isHide;
     }
     
+    @Override
     public boolean setHideViewButton(List<PRA> reviewAttachments) {
         boolean isHide = true;
         getReviewerNameParams();
@@ -929,8 +941,9 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     protected abstract Class<? extends ProtocolOnlineReviewBase> getProtocolOnlineReviewClassHook();
     
 
+    @Override
     public void deleteReviewAttachment(List<PRA> reviewAttachments, int index,
-            List<PRA> deletedReviewAttachments) {
+                                       List<PRA> deletedReviewAttachments) {
         if (index >= 0 && index < reviewAttachments.size()) {
             PRA reviewAttachment = reviewAttachments.get(index);
             if (reviewAttachment.getReviewerAttachmentId() != null) {
@@ -940,13 +953,15 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         }
     }
 
+    @Override
     public abstract void saveReviewAttachments(List<PRA> reviewAttachments, List<PRA> deletedReviewAttachments);
     
     
 
     
+    @Override
     public void addReviewAttachment(PRA newReviewAttachment, List<PRA> reviewAttachments,
-            ProtocolBase protocol) {
+                                    ProtocolBase protocol) {
         ProtocolSubmissionBase protocolSubmission = getSubmission(protocol);
         newReviewAttachment.setAttachmentId(getNextAttachmentId(protocol));
         newReviewAttachment.setProtocolIdFk(protocol.getProtocolId());

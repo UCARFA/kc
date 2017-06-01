@@ -66,18 +66,22 @@ public class ProtocolSubmissionStatus extends ProtocolSubmissionStatusBase {
     public ProtocolSubmissionStatus() {
     }
 
+    @Override
     public String getProtocolSubmissionStatusCode() {
         return protocolSubmissionStatusCode;
     }
 
+    @Override
     public void setProtocolSubmissionStatusCode(String protocolSubmissionStatusCode) {
         this.protocolSubmissionStatusCode = protocolSubmissionStatusCode;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }

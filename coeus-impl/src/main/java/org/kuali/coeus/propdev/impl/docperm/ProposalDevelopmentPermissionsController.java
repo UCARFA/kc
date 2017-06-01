@@ -151,10 +151,12 @@ public class ProposalDevelopmentPermissionsController extends ProposalDevelopmen
         return getModelAndViewService().showDialog("PropDev-PermissionsPage-Wizard",true,form);
     }
 
+    @Override
     protected ProposalDevelopmentPermissionsService getProposalDevelopmentPermissionsService() {
         return proposalDevelopmentPermissionsService;
     }
 
+    @Override
     public void setProposalDevelopmentPermissionsService(ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService) {
         this.proposalDevelopmentPermissionsService = proposalDevelopmentPermissionsService;
     }

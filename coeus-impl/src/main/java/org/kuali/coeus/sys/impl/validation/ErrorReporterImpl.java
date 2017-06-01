@@ -37,6 +37,7 @@ public class ErrorReporterImpl implements ErrorReporter {
 
     private static final Log LOG = LogFactory.getLog(ErrorReporterImpl.class);
 
+    @Override
     public void reportError(String propertyName, String errorKey, String... errorParams) {
         GlobalVariables.getMessageMap().putError(propertyName, errorKey, errorParams);
         if (LOG.isDebugEnabled()) {
@@ -44,6 +45,7 @@ public class ErrorReporterImpl implements ErrorReporter {
         }
     }
 
+    @Override
     public void reportAuditError(AuditError error, String errorKey, String clusterLabel, String clusterCategory) {
         if (error == null || StringUtils.isBlank(errorKey)
                 || StringUtils.isBlank(clusterLabel) || StringUtils.isBlank(clusterCategory)) {
@@ -76,6 +78,7 @@ public class ErrorReporterImpl implements ErrorReporter {
         errors.add(error);
     }
 
+    @Override
     public void reportSoftError(String propertyName, String errorKey, String... errorParams) {
         addSoftError(propertyName, errorKey, errorParams);
         if (LOG.isDebugEnabled()) {
@@ -83,6 +86,7 @@ public class ErrorReporterImpl implements ErrorReporter {
         }
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Map<String, Collection<SoftError>> getSoftErrors() {
         UserSession session = GlobalVariables.getUserSession();
@@ -118,6 +122,7 @@ public class ErrorReporterImpl implements ErrorReporter {
         return softMessageMap;
     }
 
+    @Override
     public void reportWarning(String propertyName, String errorKey, String... errorParams) {
         GlobalVariables.getMessageMap().putWarning(propertyName, errorKey, errorParams);
         if (LOG.isDebugEnabled()) {
@@ -125,6 +130,7 @@ public class ErrorReporterImpl implements ErrorReporter {
         }
     }
 
+    @Override
     public boolean propertyHasErrorReported(String propertyName) {
         boolean result = false;
         if( GlobalVariables.getMessageMap().getErrorMessagesForProperty(propertyName) != null) {
@@ -133,6 +139,7 @@ public class ErrorReporterImpl implements ErrorReporter {
         return result;
     }
 
+    @Override
     public void removeErrors(String propertyName) {
         if(GlobalVariables.getMessageMap().getErrorMessagesForProperty(propertyName)!=null) {
             GlobalVariables.getMessageMap().getErrorMessagesForProperty(propertyName).clear();

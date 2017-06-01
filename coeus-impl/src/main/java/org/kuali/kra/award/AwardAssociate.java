@@ -44,6 +44,7 @@ public abstract class AwardAssociate extends KcPersistableBusinessObjectBase imp
     }
 
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }

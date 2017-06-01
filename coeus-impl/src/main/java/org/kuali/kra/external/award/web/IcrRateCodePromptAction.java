@@ -53,6 +53,7 @@ public class IcrRateCodePromptAction extends AwardActionsAction {
     /**
      * Return to Award Actions and cancel the account creation.
      */
+    @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
     }

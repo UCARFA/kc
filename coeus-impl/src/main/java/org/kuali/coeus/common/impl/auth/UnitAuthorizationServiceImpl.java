@@ -92,6 +92,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         return userHasPermission;
     }
 
+    @Override
     public boolean hasPermission(String userId, String namespaceCode, String permissionName) {
         boolean userHasPermission = false;
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();

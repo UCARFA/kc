@@ -38,6 +38,7 @@ public class LastActionServiceImpl implements LastActionService {
     @Qualifier("kewWorkflowDocumentService")
     private WorkflowDocumentService workflowDocumentService;
 
+    @Override
     public ActionTaken findLastUserActionTaken(String routeHeaderId) {
         if (StringUtils.isBlank(routeHeaderId)) {
             return null;
@@ -55,6 +56,7 @@ public class LastActionServiceImpl implements LastActionService {
         return null;
     }
 
+    @Override
     public String findLastUserActionTakenPrincipalId(String routeHeaderId) {
         final ActionTaken at = findLastUserActionTaken(routeHeaderId);
 

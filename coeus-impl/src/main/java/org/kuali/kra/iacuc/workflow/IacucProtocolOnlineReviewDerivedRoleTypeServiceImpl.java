@@ -103,6 +103,7 @@ public class IacucProtocolOnlineReviewDerivedRoleTypeServiceImpl  extends Derive
         return protocolOnlineReviewService;
     }
     
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }

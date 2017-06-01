@@ -346,6 +346,7 @@ public class AwardHierarchyServiceImplTest extends KcIntegrationTestBase {
     }
     
     private class AwardServiceMock extends AwardServiceImpl {
+        @Override
         public void updateAwardSequenceStatus(Award award, VersionStatus status) {
             //do nothing.
         }

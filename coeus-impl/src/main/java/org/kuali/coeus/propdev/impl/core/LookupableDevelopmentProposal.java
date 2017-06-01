@@ -182,6 +182,7 @@ public class LookupableDevelopmentProposal extends KcPersistableBusinessObjectBa
         return this.proposalPersons;
     }
 
+@Override
 public String toString() {
     return "Proposal: sponsorCode = " + sponsorCode
     + ", proposalNumber = " + proposalNumber

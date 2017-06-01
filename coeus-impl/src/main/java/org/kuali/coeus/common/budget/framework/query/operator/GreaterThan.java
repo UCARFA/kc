@@ -38,6 +38,7 @@ public class GreaterThan extends RelationalOperator {
      * @param baseBean Object
      * @return true if the field of the Object object is greater than the Comparable object, else returns false.
      */    
+    @Override
     public boolean getResult(Object baseBean) {
         if(fixedData == null) return false; //cannot query property > null. will always return false
         try{
@@ -51,6 +52,7 @@ public class GreaterThan extends RelationalOperator {
      * returns the greater than condition being checked using fieldName and fixedData
      * @return String - Greater than condition
      */ 
+    @Override
     public String toString() {
         return "( " + fieldName + " > " + fixedData + " )";
     }

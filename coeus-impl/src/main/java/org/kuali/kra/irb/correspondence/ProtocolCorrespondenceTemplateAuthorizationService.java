@@ -27,6 +27,7 @@ public interface ProtocolCorrespondenceTemplateAuthorizationService extends org.
      * @param permissionName the name of the permission
      * @return true if the user has permission; otherwise false
      */
+    @Override
     boolean hasPermission(String permissionName);
     
 }

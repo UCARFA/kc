@@ -37,12 +37,14 @@ public class ProtocolAssignCmtSchedRuleTest extends ProtocolRuleTestBase {
 
     private ProtocolAssignCmtSchedRule rule = null;
     
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
         rule = new ProtocolAssignCmtSchedRule();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

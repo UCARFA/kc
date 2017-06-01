@@ -36,6 +36,7 @@ public class MeetingDeleteOtherRule extends KcTransactionalDocumentRuleBase impl
      * 
      * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
+    @Override
     public boolean processRules(MeetingDeleteOtherEvent event) {
         boolean rulePassed = true;
         ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);

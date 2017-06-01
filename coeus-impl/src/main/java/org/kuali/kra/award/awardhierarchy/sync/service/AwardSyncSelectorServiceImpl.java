@@ -39,6 +39,7 @@ public class AwardSyncSelectorServiceImpl implements AwardSyncSelectorService {
     /** 
      * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncSelectorService#isAwardInvolvedInSync(org.kuali.kra.award.home.Award, java.util.List)
      */
+    @Override
     public boolean isAwardInvolvedInSync(Award award, List<AwardSyncChange> changes) {
         for (AwardSyncChange change : changes) {
             if (isChangeApplicableToAward(award, change)) {
@@ -93,6 +94,7 @@ public class AwardSyncSelectorServiceImpl implements AwardSyncSelectorService {
     /** 
      * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncSelectorService#isFabricatedAccount(org.kuali.kra.award.home.Award)
      */
+    @Override
     public boolean isFabricatedAccount(Award award) {
         String typeCode = getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.AWARD_FABRICATED_EQUPIMENT_PARM);
         return ObjectUtils.equals(award.getAccountTypeCode(), Integer.valueOf(typeCode));

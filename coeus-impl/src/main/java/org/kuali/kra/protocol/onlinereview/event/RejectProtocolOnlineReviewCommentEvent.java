@@ -46,10 +46,12 @@ public class RejectProtocolOnlineReviewCommentEvent extends KcDocumentEventBase 
         }
     }
 
+    @Override
     public Class<RejectOnlineReviewCommentRule> getRuleInterfaceClass() {
         return RejectOnlineReviewCommentRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return this.getRuleInterfaceClass().cast(rule).processRejectOnlineReviewComment(this); 
 

@@ -264,7 +264,8 @@ public class AuthServiceFilter implements Filter {
 			this.username = username;
 		}
 		
-		public String getRemoteUser() {
+		@Override
+        public String getRemoteUser() {
 			return username;
 		}
 	}

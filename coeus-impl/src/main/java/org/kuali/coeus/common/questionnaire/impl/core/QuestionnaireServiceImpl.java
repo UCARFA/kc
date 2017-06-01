@@ -100,6 +100,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
      * @see org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService#copyQuestionnaire(org.kuali.coeus.common.questionnaire.framework.core.Questionnaire,
      *      org.kuali.coeus.common.questionnaire.framework.core.Questionnaire)
      */
+    @Override
     public void copyQuestionnaire(Questionnaire src, Questionnaire dest) {
         copyQuestionnaireLists(src, dest);
 
@@ -171,6 +172,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         return true;
     }
     
+    @Override
     public boolean isCurrentQuestionnaire(Questionnaire questionnaire) {
         return questionnaire.getSequenceNumber().equals(getQuestionnaireDao().getCurrentQuestionnaireSequenceNumber(questionnaire.getQuestionnaireSeqId()));
     }

@@ -47,6 +47,7 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImplBas
                                                                           IacucProtocolSubmissionStatus.TABLED,
                                                                           IacucProtocolSubmissionStatus.RETURNED_TO_PI};
 
+    @Override
     public void saveReviewAttachments(List<IacucProtocolReviewAttachment> reviewAttachments, List<IacucProtocolReviewAttachment> deletedReviewAttachments) {
         for (ProtocolReviewAttachmentBase reviewAttachment : reviewAttachments) {
             boolean doUpdate = true;

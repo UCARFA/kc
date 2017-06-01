@@ -129,6 +129,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     private ParameterService parameterService;
     private KcBusinessRulesEngine kcBusinessRulesEngine;
 
+    @Override
     protected DataDictionaryService getDataDictionaryService (){
         if (dataDictionaryService == null)
             dataDictionaryService = KNSServiceLocator.getDataDictionaryService();

@@ -35,6 +35,7 @@ public class ProtocolAssignCmtSchedRule extends KcTransactionalDocumentRuleBase 
      * Verify that a committee has been selected.
      * @see org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule#processAssignToCommitteeSchedule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean)
      */
+    @Override
     @SuppressWarnings("deprecation")
     public boolean processAssignToCommitteeSchedule(ProtocolDocument document, ProtocolAssignCmtSchedBean actionBean) {
         boolean valid = true;

@@ -42,6 +42,7 @@ public class KewDocHeaderDaoImpl implements KewDocHeaderDao {
 
     private ConnectionDaoService connectionDaoService;
     
+    @Override
     public List<KewDocHeaderStatus> getTimeAndMoneyDocumentHeaderStatus() {
     	Connection connection = connectionDaoService.getRiceConnection();
     	List<KewDocHeaderStatus> documentStatuses = new ArrayList<KewDocHeaderStatus>();

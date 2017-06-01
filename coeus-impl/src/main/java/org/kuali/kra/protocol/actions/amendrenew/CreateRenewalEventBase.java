@@ -49,6 +49,7 @@ public abstract class CreateRenewalEventBase extends KcDocumentEventBaseExtensio
         return renewalSummary;
     }
 
+    @Override
     public abstract KcBusinessRule getRule();
 
 }

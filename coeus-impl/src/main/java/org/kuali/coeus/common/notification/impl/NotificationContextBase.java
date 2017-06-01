@@ -61,6 +61,7 @@ public abstract class NotificationContextBase implements NotificationContext, Se
      * This method replaces the context variables using the default parameters.
      * @see org.kuali.coeus.common.notification.impl.NotificationContext#replaceContextVariables(java.lang.String)
      */
+    @Override
     public String replaceContextVariables(String text) {
         return renderer.render(text);
     }
@@ -72,7 +73,8 @@ public abstract class NotificationContextBase implements NotificationContext, Se
      * @param notificationRecipient The recipient of the notification, it represents a KIM role
      * @throws UnknownRoleException
      */
-    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException { 
+    @Override
+    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
         List<NotificationModuleRole> moduleRoles = 
             getNotificationModuleRoleService().getNotificationModuleRolesForKimRole(getModuleCode(), notificationRecipient.getRoleName());
         

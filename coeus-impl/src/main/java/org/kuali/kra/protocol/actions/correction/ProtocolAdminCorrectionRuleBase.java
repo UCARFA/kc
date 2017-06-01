@@ -28,6 +28,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
  */
 public abstract class ProtocolAdminCorrectionRuleBase extends KcTransactionalDocumentRuleBase implements KcBusinessRule<ProtocolAdminCorrectionEventBase> {
    
+    @Override
     public boolean processRules(ProtocolAdminCorrectionEventBase event) {
         boolean valid = true;
         if (StringUtils.isBlank(event.getAdminCorrectionBean().getComments())) {

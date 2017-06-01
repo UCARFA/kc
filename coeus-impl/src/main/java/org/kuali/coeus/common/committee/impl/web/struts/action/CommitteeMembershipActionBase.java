@@ -224,8 +224,9 @@ public abstract class CommitteeMembershipActionBase extends CommitteeActionBase 
      * @return
      * @throws Exception
      */
+    @Override
     protected void processMultipleLookupResults(CommitteeFormBase committeeForm,
-            Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
+                                                Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         int membershipIndex = committeeForm.getCommitteeHelper().getMemberIndex();
         CommitteeMembershipBase committeeMembership = ((CommitteeBase<?, ?, ?>)(committeeForm.getCommitteeDocument().getCommittee())).getCommitteeMemberships().get(membershipIndex);
         if (lookupResultsBOClass.isAssignableFrom(getResearchAreaBOClassHook())) {
@@ -305,22 +306,25 @@ public abstract class CommitteeMembershipActionBase extends CommitteeActionBase 
         return mapping.findForward(MAPPING_BASIC);
     }
 
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                              HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.save(mapping, form, request, response);
         ((CommitteeFormBase) form).getCommitteeHelper().flagInactiveMembers();
         return actionForward;
     }
 
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                               HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.route(mapping, form, request, response);
         ((CommitteeFormBase) form).getCommitteeHelper().flagInactiveMembers();
         return actionForward;
     }
 
-    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.reload(mapping, form, request, response);
         ((CommitteeFormBase) form).getCommitteeHelper().flagInactiveMembers();
         return actionForward;

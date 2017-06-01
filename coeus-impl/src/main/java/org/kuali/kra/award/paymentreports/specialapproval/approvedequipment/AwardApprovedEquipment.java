@@ -88,6 +88,7 @@ public class AwardApprovedEquipment extends AwardAssociate implements ValuableIt
      * Gets the amount attribute. 
      * @return Returns the amount.
      */
+    @Override
     public ScaleTwoDecimal getAmount() {
         return amount;
     }

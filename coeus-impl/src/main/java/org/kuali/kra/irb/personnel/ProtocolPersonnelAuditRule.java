@@ -32,6 +32,7 @@ public class ProtocolPersonnelAuditRule extends ProtocolPersonnelAuditRuleBase {
      * This method is to get personnel sevice
      * @return ProtocolPersonnelService
      */
+    @Override
     protected ProtocolPersonnelService getProtocolPersonnelService() {
         return getService(ProtocolPersonnelService.class);
     }

@@ -42,18 +42,22 @@ public class IacucProtocolApproveBean extends IacucProtocolGenericActionBean imp
         super(actionHelper, errorPropertyKey);
     }
     
+    @Override
     public Date getApprovalDate() {
         return approvalDate;
     }
     
+    @Override
     public void setApprovalDate(Date approvalDate) {
         this.approvalDate = approvalDate;
     }
     
+    @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
     
+    @Override
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
@@ -62,6 +66,7 @@ public class IacucProtocolApproveBean extends IacucProtocolGenericActionBean imp
         return defaultExpirationDateDifference;
     }
 
+    @Override
     public void setDefaultExpirationDateDifference(int defaultExpirationDateDifference) {
         this.defaultExpirationDateDifference = defaultExpirationDateDifference;
     }

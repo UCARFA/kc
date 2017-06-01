@@ -39,6 +39,7 @@ public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestB
     private List<ProposalYnq> proposalYnqs;
     private BusinessObjectService bos;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -47,6 +48,7 @@ public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestB
         proposalYnqs = (List)bos.findAll(Ynq.class);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

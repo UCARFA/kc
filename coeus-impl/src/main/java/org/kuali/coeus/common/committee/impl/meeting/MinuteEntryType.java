@@ -69,6 +69,7 @@ public class MinuteEntryType extends KcPersistableBusinessObjectBase implements 
         this.description = description;
     }
 
+    @Override
     public int compareTo(MinuteEntryType arg) {
         return this.getSortId().compareTo(arg.getSortId());
     }

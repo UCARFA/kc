@@ -51,6 +51,7 @@ public class PermissionsRoleState extends BusinessObjectBase {
         return role;
     }
     
+    @Override
     public void refresh() {
         // do nothing
     }

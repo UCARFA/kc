@@ -54,11 +54,13 @@ public class ProtocolAssignReviewersEvent extends KcDocumentEventBase {
         LOG.debug(logMessage);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return ExecuteProtocolAssignReviewersRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ExecuteProtocolAssignReviewersRule) rule).processAssignReviewers((ProtocolDocument) getDocument(), actionBean);
     }

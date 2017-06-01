@@ -36,6 +36,7 @@ public class CustomAttributeDocumentMaintenanceDocumentRule  extends KcMaintenan
         super();
     }
 
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return validate(document);
     }

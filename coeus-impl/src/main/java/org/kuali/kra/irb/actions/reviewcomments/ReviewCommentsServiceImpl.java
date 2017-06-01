@@ -175,6 +175,7 @@ public class ReviewCommentsServiceImpl extends ReviewCommentsServiceImplBase<Pro
         return reviewComments;
     }
     
+    @Override
     @SuppressWarnings("rawtypes")
     protected boolean isActiveCommitteeMember(ProtocolReviewableBase minute, String principalId) {
         boolean retVal = false;

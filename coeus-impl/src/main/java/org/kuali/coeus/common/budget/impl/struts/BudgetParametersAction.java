@@ -392,6 +392,7 @@ public class BudgetParametersAction extends BudgetAction {
                 QUESTION_RECALCULATE_BUDGET_CONFIRMATION);
     }
 
+    @Override
     protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
@@ -558,8 +559,9 @@ public class BudgetParametersAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+                                 HttpServletResponse response) throws Exception {
         
         BudgetForm budgetForm = (BudgetForm)form;
         if (budgetForm.getLookupResultsBOClassName() != null && budgetForm.getLookupResultsSequenceNumber() != null) {

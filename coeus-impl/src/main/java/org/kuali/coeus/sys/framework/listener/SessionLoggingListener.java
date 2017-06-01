@@ -39,6 +39,7 @@ public class SessionLoggingListener implements HttpSessionListener {
      *
      * @param se the {@link HttpSessionEvent}
      */
+    @Override
     public void sessionCreated(HttpSessionEvent se) {
         if (isLoggingAllowed()) {
             logSessionStart(se);
@@ -52,6 +53,7 @@ public class SessionLoggingListener implements HttpSessionListener {
      *
      * @param se the {@link HttpSessionEvent}
      */
+    @Override
     public void sessionDestroyed(HttpSessionEvent se) {
         if (isLoggingAllowed()) {
             logSessionEnd(se);

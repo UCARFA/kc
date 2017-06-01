@@ -121,6 +121,7 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
          * 
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
          */
+        @Override
         public int compare(Object kv1, Object kv2) {
             try {
                 String desc1 = ((KeyValue) kv1).getValue();

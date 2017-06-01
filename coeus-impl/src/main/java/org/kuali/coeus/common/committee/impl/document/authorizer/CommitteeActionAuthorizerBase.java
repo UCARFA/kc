@@ -31,6 +31,7 @@ public abstract class CommitteeActionAuthorizerBase extends CommitteeAuthorizerB
     
     private CommitteeServiceBase committeeService;
 
+    @Override
     public boolean isAuthorized(String userId, CommitteeTaskBase task) {
         CommitteeBase committee = task.getCommittee();
         return StringUtils.equals(committee.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getStatus().getLabel(), "FINAL")

@@ -43,18 +43,22 @@ public class CommitteeNotificationRoleQualifierServiceImpl implements CommitteeN
         return qVal;
     }
 
+    @Override
     public Committee getCommittee() {
         return committee;
     }
 
+    @Override
     public void setCommittee(Committee committee) {
         this.committee = committee;
     }
 
+    @Override
     public CommitteeSchedule getCommitteeSchedule() {
         return committeeSchedule;
     }
 
+    @Override
     public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }

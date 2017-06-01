@@ -38,6 +38,7 @@ public abstract class ProtocolExceptionEventBase extends KcDocumentEventBase imp
     protected void logEvent() {
     }
     
+    @Override
     public IacucProtocolException getProtocolException() {
         return this.protocolException;
     }

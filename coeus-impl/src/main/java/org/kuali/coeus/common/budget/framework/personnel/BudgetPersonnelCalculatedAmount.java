@@ -81,7 +81,8 @@ public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmo
 		this.budgetPersonnelLineItem = budgetPersonnelLineItem;
 	}
 
-	public Long getBudgetLineItemId() {
+	@Override
+    public Long getBudgetLineItemId() {
         return getBudgetPersonnelLineItem().getBudgetLineItemId();
     }
 

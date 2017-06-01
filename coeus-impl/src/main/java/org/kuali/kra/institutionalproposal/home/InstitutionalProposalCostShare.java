@@ -77,6 +77,7 @@ public class InstitutionalProposalCostShare extends InstitutionalProposalAssocia
         this.costSharePercentage = costSharePercentage;
     }
 
+    @Override
     public Integer getCostShareTypeCode() {
         return costShareTypeCode;
     }
@@ -85,6 +86,7 @@ public class InstitutionalProposalCostShare extends InstitutionalProposalAssocia
         this.costShareTypeCode = costShareTypeCode;
     }
 
+    @Override
     public String getSourceAccount() {
         return sourceAccount;
     }
@@ -102,6 +104,7 @@ public class InstitutionalProposalCostShare extends InstitutionalProposalAssocia
         this.amount = amount;
     }
 
+    @Override
     public CostShareType getCostShareType() {
         return costShareType;
     }

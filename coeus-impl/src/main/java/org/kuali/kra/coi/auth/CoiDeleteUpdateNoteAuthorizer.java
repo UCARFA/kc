@@ -50,10 +50,12 @@ public class CoiDeleteUpdateNoteAuthorizer extends CoiDeleteUpdateNotesAttachmen
         this.identityService = identityService;
     }
     
+    @Override
     public IdentityService getIdentityService() {
         return identityService;
     }
 
+    @Override
     public RoleService getRoleService() {
         return roleService;
     }

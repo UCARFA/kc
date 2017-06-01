@@ -40,6 +40,7 @@ public abstract class ProtocolAuthorizer extends ProtocolAuthorizerBase {
     
     private static final String NAMESPACE = "KC-UNT";
   
+    @Override
     public final boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return isAuthorized(userId, (ProtocolTask) task);
     }

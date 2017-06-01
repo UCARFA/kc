@@ -62,6 +62,7 @@ public class SponsorLookupableHelperServiceImpl  extends KcKualiLookupableHelper
      * 
      * This is primarily for multiple value lookup.  also need to take care of single value lookup
      */
+    @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
     
         if (!fieldValues.containsKey(ACTIVE_FIELD_NAME)) {

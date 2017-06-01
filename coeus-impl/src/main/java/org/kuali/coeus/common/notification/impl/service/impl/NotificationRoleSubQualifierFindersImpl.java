@@ -40,6 +40,7 @@ public class NotificationRoleSubQualifierFindersImpl implements NotificationRole
         this.finders = finders;
     }
     
+    @Override
     public List<KeyValue> getKeyValuesForRole(String roleName) {
         KeyValuesFinder finder = getFinders().get(roleName);
         if (finder != null) {
@@ -49,6 +50,7 @@ public class NotificationRoleSubQualifierFindersImpl implements NotificationRole
         }
     }
     
+    @Override
     public List<KeyValue> getKeyValuesForAllRoles() {
         Map<String, String> result = new HashMap<String, String>();
         for (Map.Entry<String, KeyValuesFinder> entry : getFinders().entrySet()) {

@@ -29,6 +29,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 
 public class ResearchAreaReferencesDaoOjb extends PlatformAwareDaoBaseOjb implements ResearchAreaReferencesDao {
 
+    @Override
     public boolean isResearchAreaReferencedByAnyCommittee(String researchAreaCode) {
         boolean retVal = false;
         Criteria crit = new Criteria();
@@ -41,6 +42,7 @@ public class ResearchAreaReferencesDaoOjb extends PlatformAwareDaoBaseOjb implem
         return retVal;
     }
 
+    @Override
     public boolean isResearchAreaReferencedByAnyCommitteeMember(String researchAreaCode) {
         boolean retVal = false;
         Criteria crit = new Criteria();
@@ -53,6 +55,7 @@ public class ResearchAreaReferencesDaoOjb extends PlatformAwareDaoBaseOjb implem
         return retVal;
     }
 
+    @Override
     public boolean isResearchAreaReferencedByAnyProtocol(String researchAreaCode) {
         boolean retVal = false;
         Criteria crit = new Criteria();

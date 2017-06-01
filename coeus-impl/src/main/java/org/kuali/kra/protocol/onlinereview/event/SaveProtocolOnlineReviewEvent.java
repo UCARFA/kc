@@ -69,10 +69,12 @@ public class SaveProtocolOnlineReviewEvent extends KcDocumentEventBase {
         }
     }
 
+    @Override
     public Class<SaveProtocolOnlineReviewRule> getRuleInterfaceClass() {
         return SaveProtocolOnlineReviewRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return this.getRuleInterfaceClass().cast(rule).processSaveProtocolOnlineReview(this);
     }

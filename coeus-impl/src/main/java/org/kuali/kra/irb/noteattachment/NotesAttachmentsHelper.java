@@ -58,6 +58,7 @@ public class NotesAttachmentsHelper extends NotesAttachmentsHelperBase {
      * Checks if Protocol Attachments can be modified.
      * @return true if can be modified false if cannot
      */
+    @Override
     public boolean canEditProtocolAttachments() {
         final ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_ATTACHMENTS, (Protocol) this.getProtocol());
         return this.authService.isAuthorized(this.getUserIdentifier(), task);
@@ -67,6 +68,7 @@ public class NotesAttachmentsHelper extends NotesAttachmentsHelperBase {
      * Checks if Protocol Notepads can be modified.
      * @return true if can be modified false if cannot
      */
+    @Override
     public boolean canAddProtocolNotepads() {
         final ProtocolTask task = new ProtocolTask(TaskName.ADD_PROTOCOL_NOTES, (Protocol) this.getProtocol());
         return this.authService.isAuthorized(this.getUserIdentifier(), task);
@@ -76,11 +78,13 @@ public class NotesAttachmentsHelper extends NotesAttachmentsHelperBase {
      * Checks if restricted Protocol Notepads can be viewed.
      * @return true if can be modified false if cannot
      */
+    @Override
     public boolean canViewRestrictedProtocolNotepads() {
         final ProtocolTask task = new ProtocolTask(TaskName.VIEW_RESTRICTED_NOTES, (Protocol) this.getProtocol());
         return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
 
+    @Override
     public boolean isProtocolAdmin() {
         return this.systemAuthorizationService.hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
     }

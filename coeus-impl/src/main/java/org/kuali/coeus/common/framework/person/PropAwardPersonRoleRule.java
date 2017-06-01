@@ -65,6 +65,7 @@ public class PropAwardPersonRoleRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+    @Override
     public DataObjectService getDataObjectService() {
         if (dataObjectService == null) {
             dataObjectService = KcServiceLocator.getService(DataObjectService.class);

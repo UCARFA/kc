@@ -78,10 +78,12 @@ public class QuestionnaireAgendaTypeServiceImpl extends UnitAgendaTypeServiceImp
     }
     }
 
+    @Override
     public RepositoryToEngineTranslator getRepositoryToEngineTranslator() {
         return repositoryToEngineTranslator;
     }
 
+    @Override
     public void setRepositoryToEngineTranslator(RepositoryToEngineTranslator repositoryToEngineTranslator) {
         this.repositoryToEngineTranslator = repositoryToEngineTranslator;
     }

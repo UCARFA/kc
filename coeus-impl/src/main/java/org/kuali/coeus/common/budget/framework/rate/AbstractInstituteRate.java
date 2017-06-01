@@ -198,6 +198,7 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
         this.unit = unit;
     }
 
+    @Override
     public String getRateKeyAsString() {
         return new StringBuilder(getRateClassCode()).append(getRateTypeCode()).append(getLocationFlagAsString(getOnOffCampusFlag().booleanValue())).append(getStartDate()).toString();
     }

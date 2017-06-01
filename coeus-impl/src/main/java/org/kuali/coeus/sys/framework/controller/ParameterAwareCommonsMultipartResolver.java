@@ -33,6 +33,7 @@ public class ParameterAwareCommonsMultipartResolver extends CommonsMultipartReso
         this.kcFileService = kcFileService;
     }
 
+    @Override
     public void afterPropertiesSet() throws Exception {
        this.setMaxUploadSize(getKcFileService().getMaxUploadSizeParameter());
    }

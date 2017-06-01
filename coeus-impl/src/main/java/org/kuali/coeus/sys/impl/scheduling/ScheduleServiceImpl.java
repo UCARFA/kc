@@ -50,6 +50,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      * @see org.kuali.coeus.sys.framework.scheduling.ScheduleService#getScheduledDates(java.util.Date, java.util.Date,
      *      org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt, org.kuali.coeus.sys.framework.scheduling.seq.ScheduleSequence)
      */
+    @Override
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, ScheduleSequence scheduleSequence)
             throws ParseException {
 
@@ -61,8 +62,9 @@ public class ScheduleServiceImpl implements ScheduleService {
      * This overloaded implementation uses DayCronExpression targeting daily types of schedule generation.
      * 
      */
+    @Override
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer frequencyInDay,
-            ScheduleSequence scheduleSequence) throws ParseException {
+                                        ScheduleSequence scheduleSequence) throws ParseException {
 
         CronExpression expr = new DayCronExpression(startDate, time, frequencyInDay);
         return getScheduledDates(expr, startDate, endDate, time, scheduleSequence);
@@ -72,8 +74,9 @@ public class ScheduleServiceImpl implements ScheduleService {
      * This overloaded implementation uses WeekCronExpression targeting weekly types of schedule generation.
      * 
      */
+    @Override
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars[] weekdays,
-            ScheduleSequence scheduleSequence) throws ParseException {
+                                        ScheduleSequence scheduleSequence) throws ParseException {
 
         CronExpression expr = new WeekCronExpression(startDate, time, weekdays);
         return getScheduledDates(expr, startDate, endDate, time, scheduleSequence);
@@ -83,8 +86,9 @@ public class ScheduleServiceImpl implements ScheduleService {
      * This overloaded implementation uses MonthDayCronExpression targeting monthly types of schedule generation.
      * 
      */
+    @Override
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer day, Integer frequencyInMonth,
-            ScheduleSequence scheduleSequence) throws ParseException {
+                                        ScheduleSequence scheduleSequence) throws ParseException {
 
         CronExpression expr = new MonthDayCronExpression(startDate, time, day, frequencyInMonth);
         return getScheduledDates(expr, startDate, endDate, time, scheduleSequence);
@@ -94,8 +98,9 @@ public class ScheduleServiceImpl implements ScheduleService {
      * This overloaded implementation uses MonthDayMultipleYearsCronExpression targeting monthly types of schedule generation.
      * 
      */
+    @Override
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, ScheduleSequence scheduleSequence,
-            Integer dayOfMonth) throws ParseException {
+                                        Integer dayOfMonth) throws ParseException {
         CronExpression expr = new MonthDayOrLastDayMultipleYearsCronExpression(startDate, time, dayOfMonth);
         return getScheduledDates(expr, startDate, endDate, time, scheduleSequence);
     }
@@ -104,8 +109,9 @@ public class ScheduleServiceImpl implements ScheduleService {
      * This overloaded implementation uses MonthDayCronExpression targeting monthly types of schedule generation.
      * 
      */
+    @Override
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars dayOfWeek,
-            CronSpecialChars weekOfMonth, Integer frequencyInMonth, ScheduleSequence scheduleSequence) throws ParseException {
+                                        CronSpecialChars weekOfMonth, Integer frequencyInMonth, ScheduleSequence scheduleSequence) throws ParseException {
 
         CronExpression expr = new MonthlyWeekDayCronExpression(startDate, time, dayOfWeek, weekOfMonth, frequencyInMonth);
         return getScheduledDates(expr, startDate, endDate, time, scheduleSequence);
@@ -115,8 +121,9 @@ public class ScheduleServiceImpl implements ScheduleService {
      * This overloaded implementation uses YearMonthDayCronExpression targeting yearly types of schedule generation.
      * 
      */
+    @Override
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars month, Integer day,
-            Integer frequencyInYear, ScheduleSequence scheduleSequence) throws ParseException {
+                                        Integer frequencyInYear, ScheduleSequence scheduleSequence) throws ParseException {
 
         CronExpression expr = new YearMonthDayCronExpression(startDate, time, month, day, frequencyInYear);
         return getScheduledDates(expr, startDate, endDate, time, scheduleSequence);
@@ -126,8 +133,9 @@ public class ScheduleServiceImpl implements ScheduleService {
      * This overloaded implementation uses YearMonthDayCronExpression targeting yearly types of schedule generation.
      * 
      */
+    @Override
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars weekOfMonth,
-            CronSpecialChars dayOfWeek, CronSpecialChars month, Integer frequencyInYear, ScheduleSequence scheduleSequence)
+                                        CronSpecialChars dayOfWeek, CronSpecialChars month, Integer frequencyInYear, ScheduleSequence scheduleSequence)
             throws ParseException {
 
         CronExpression expr = new YearMonthDayOfWeekCronExpression(startDate, time, weekOfMonth, dayOfWeek, month, frequencyInYear);

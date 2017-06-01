@@ -309,6 +309,7 @@ public abstract class ProtocolJavaFunctionKrmsTermServiceBase extends KcKrmsJava
         return result;
     }
 
+    @Override
     public Boolean hasProtocolContainsAmendRenewModule(ProtocolBase protocol, String moduleName) {
         if (protocol.isAmendment() || protocol.isRenewalWithAmendment()) {
             return  protocol.getProtocolAmendRenewal().getModules().stream().anyMatch(module ->
@@ -324,6 +325,7 @@ public abstract class ProtocolJavaFunctionKrmsTermServiceBase extends KcKrmsJava
         return module.getProtocolModule() != null && StringUtils.equals(module.getProtocolModule().getDescription(), moduleName);
     }
 
+    @Override
     public Boolean hasProtocolContainsSponsorType(ProtocolBase protocol, String sponsorTypeCode) {
         return protocol.getProtocolFundingSources().stream().anyMatch(fundingSource ->
                                                                             isFundingSourceSponsor(fundingSource) &&
@@ -345,6 +347,7 @@ public abstract class ProtocolJavaFunctionKrmsTermServiceBase extends KcKrmsJava
         return getBusinessObjectService().findBySinglePrimaryKey(Sponsor.class, fundingSource.getFundingSourceNumber());
     }
 
+    @Override
     public Boolean hasBaseProtocolHasLastApprovalDate(ProtocolBase protocol) {
         ProtocolBase parentProtocol = protocol;
         if (!protocol.isNew()) {

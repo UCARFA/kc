@@ -98,20 +98,24 @@ public abstract class ProtocolAmendRenewModuleBase extends KcPersistableBusiness
         this.protocolModule = protocolModule;
     }
 
+    @Override
     public ProtocolBase getSequenceOwner() {
         return protocolAmendRenewal != null ? protocolAmendRenewal.getProtocol() : null;
     }
 
+    @Override
     public void setSequenceOwner(ProtocolBase newlyVersionedOwner) {
         if (protocolAmendRenewal != null) {
             protocolAmendRenewal.setProtocol(newlyVersionedOwner);
         }
     }
 
+    @Override
     public void resetPersistenceState() {
         protocolAmendRenewModuleId = null;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return protocolAmendRenewal != null ? protocolAmendRenewal.getSequenceNumber() : 0;
     }

@@ -206,6 +206,7 @@ public class PendingReportBean extends ReportBean {
         return proposalNumber.hashCode();
     }
 
+    @Override
     protected List<Column> createColumns() {
         List<Column> columns = new ArrayList<Column>();
         columns.add(createColumn("Proposal Number", "proposalNumber", proposalNumber, String.class));

@@ -33,10 +33,12 @@ public class ProtocolOnlineReview extends ProtocolOnlineReviewBase {
 
     private static final long serialVersionUID = 531397319695764847L;
 
+    @Override
     public String getNamespace() {
         return "KC-PROTOCOL";
     }
 
+    @Override
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
         roleNames.add(RoleConstants.IRB_REVIEWER);

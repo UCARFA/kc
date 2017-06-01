@@ -29,6 +29,7 @@ import java.util.Map;
  */
 public abstract class ProtocolSummaryXmlStreamBase extends PrintBaseXmlStream {
 
+    @Override
     public abstract Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters);
     
     

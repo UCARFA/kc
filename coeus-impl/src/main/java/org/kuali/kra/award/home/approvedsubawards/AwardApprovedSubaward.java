@@ -93,6 +93,7 @@ public class AwardApprovedSubaward extends AwardAssociate implements ValuableIte
         this.organization = organization;
     }
 
+    @Override
     public ScaleTwoDecimal getAmount() {
         return amount;
     }

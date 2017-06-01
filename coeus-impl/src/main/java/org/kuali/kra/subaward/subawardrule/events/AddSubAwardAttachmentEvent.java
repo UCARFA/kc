@@ -36,6 +36,7 @@ public class AddSubAwardAttachmentEvent extends SubAwardAttachmentEventBase {
    /**
     * @see org.kuali.rice.krad.rules.rule.event.DocumentEvent#getRuleInterfaceClass()
     */
+   @Override
    public Class getRuleInterfaceClass() {
        return AddSubAwardAttachmentRule.class;
    }
@@ -43,6 +44,7 @@ public class AddSubAwardAttachmentEvent extends SubAwardAttachmentEventBase {
    /**
     * @see org.kuali.rice.krad.rules.rule.event.DocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
     */
+   @Override
    public boolean invokeRuleMethod(BusinessRule rule) {
        return ((AddSubAwardAttachmentRule) rule).processsAddSubawardAttachmentRule(this);
    }

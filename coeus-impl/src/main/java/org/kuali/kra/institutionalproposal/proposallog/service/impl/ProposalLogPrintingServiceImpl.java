@@ -37,11 +37,13 @@ public class ProposalLogPrintingServiceImpl implements ProposalLogPrintingServic
     private ProposalLogPrint proposalLogPrint;
 
 
-    public AttachmentDataSource printProposalLog(String proposalLogNumber) throws PrintingException {        
+    @Override
+    public AttachmentDataSource printProposalLog(String proposalLogNumber) throws PrintingException {
         ProposalLog proposalLog = (ProposalLog)getBusinessObjectService().findByPrimaryKey(ProposalLog.class, getFieldValues("proposalNumber", proposalLogNumber));
         return printProposalLog(proposalLog);
     }
     
+    @Override
     public AttachmentDataSource printProposalLog(ProposalLog log) throws PrintingException {
         Map<String, Object> reportParams = new HashMap<String, Object>();
         reportParams.put(PROPOSAL_LOG_KEY, log);

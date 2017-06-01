@@ -173,6 +173,7 @@ public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implem
         this.reviewDateRequiredDescription = reviewDateRequiredDescription;
     }
 
+    @Override
     public int compareTo(ProposalYnq proposalYnq) {
         int comparator;
         if (getSortId() != null && proposalYnq.getSortId() != null) {

@@ -58,10 +58,12 @@ public abstract class CommitteeDecisionAbstainerEventBase<CD extends CommitteeDe
     
     protected abstract Log getLOGHook();
 
+    @Override
     public Class<ExecuteCommitteeDecisionAbstainerRule> getRuleInterfaceClass() {
         return ExecuteCommitteeDecisionAbstainerRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ExecuteCommitteeDecisionAbstainerRule<CD>) rule).proccessCommitteeDecisionAbstainerRule((ProtocolDocumentBase) this.getDocument(), this.actionBean);
     }

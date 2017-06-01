@@ -72,6 +72,7 @@ public class YnqGroupName extends TransientBusinessObjectBase implements Compara
     /**
      * Compares by group name.
      */
+    @Override
     public int compareTo(YnqGroupName ynqGroupName) {
         return this.getGroupName().compareTo(ynqGroupName.getGroupName());
     }

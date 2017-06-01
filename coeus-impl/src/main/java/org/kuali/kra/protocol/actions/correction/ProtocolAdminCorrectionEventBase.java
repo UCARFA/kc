@@ -67,6 +67,7 @@ public abstract class ProtocolAdminCorrectionEventBase extends KcDocumentEventBa
         return actionBean;
     }
 
+    @Override
     public abstract KcBusinessRule getRule();
 
 }

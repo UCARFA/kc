@@ -49,10 +49,12 @@ public class DeleteProtocolOnlineReviewEvent extends KcDocumentEventBase {
         }
     }
 
+    @Override
     public Class<DeleteOnlineReviewRule> getRuleInterfaceClass() {
         return DeleteOnlineReviewRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return this.getRuleInterfaceClass().cast(rule).processDeleteOnlineReview(this);
 

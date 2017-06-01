@@ -170,6 +170,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
      * </ul>
      * @see org.kuali.coeus.propdev.impl.person.AddKeyPersonRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument,ProposalPerson)
      */
+    @Override
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         if (Constants.KEY_PERSON_ROLE.equals(person.getProposalPersonRoleId()) && StringUtils.isEmpty(person.getProjectRole())) {
             reportError(ADD_KEY_PERSON_HELPER_PARAMETER_MAP_KEY_PERSON_PROJECT_ROLE,RiceKeyConstants.ERROR_REQUIRED, KEY_PERSON_S_ROLE);
@@ -203,7 +204,8 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
     /**
      * Either adding a degree or unit can trigger this rule to be validated
      */
-    public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source,int index) {
+    @Override
+    public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source, int index) {
         boolean retval = true;
         
         if (source instanceof ProposalPersonDegree) {
@@ -347,6 +349,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         return retval;
     }
     
+    @Override
     public boolean processCalculateCreditSplitBusinessRules(ProposalDevelopmentDocument document) {
 
         List<ProposalPerson> person = document.getDevelopmentProposal().getInvestigators(); 

@@ -41,6 +41,7 @@ import java.util.Map;
 public class ProposalDevelopmentAbstractsRule extends KcTransactionalDocumentRuleBase implements AbstractsRule {
 
     private DataObjectService dataObjectService ;
+    @Override
     protected DataObjectService getDataObjectService (){
         if (dataObjectService == null)
             dataObjectService = KcServiceLocator.getService(DataObjectService.class);
@@ -53,6 +54,7 @@ public class ProposalDevelopmentAbstractsRule extends KcTransactionalDocumentRul
      * 
      * @see org.kuali.coeus.propdev.impl.abstrct.AbstractsRule#processAddAbstractBusinessRules(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument, org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract)
      */
+    @Override
     public boolean processAddAbstractBusinessRules(ProposalDevelopmentDocument document, ProposalAbstract proposalAbstract) {
         boolean isValid = true;
         String abstractTypeCode = proposalAbstract.getAbstractTypeCode();

@@ -39,6 +39,7 @@ public class AwardSyncTermHelperTest extends AwardSyncHelperTestBase {
         super("AwardSponsorTerm");
     }
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -54,6 +55,7 @@ public class AwardSyncTermHelperTest extends AwardSyncHelperTestBase {
         term.setSponsorTermId(sponsorTermId);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
     }

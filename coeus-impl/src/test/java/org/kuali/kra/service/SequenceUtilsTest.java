@@ -156,18 +156,22 @@ public class SequenceUtilsTest implements Serializable {
         @SkipVersioning
         private T nonVersionedField;
         
+        @Override
         public MockSequenceOwner getSequenceOwner() {
             return mockOwner;
         }
 
+        @Override
         public void setSequenceOwner(MockSequenceOwner newlyVersionedOwner) {
             this.mockOwner = newlyVersionedOwner;
         }
 
+        @Override
         public Integer getSequenceNumber() {
             return mockOwner.getSequenceNumber();
         }
 
+        @Override
         public void resetPersistenceState() {
             stateReset = true;
         }

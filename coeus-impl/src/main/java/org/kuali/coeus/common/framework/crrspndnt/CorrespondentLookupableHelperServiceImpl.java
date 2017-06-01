@@ -48,6 +48,7 @@ public class CorrespondentLookupableHelperServiceImpl extends KcKualiLookupableH
 
     private static final long serialVersionUID = 749587517623905557L;
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();

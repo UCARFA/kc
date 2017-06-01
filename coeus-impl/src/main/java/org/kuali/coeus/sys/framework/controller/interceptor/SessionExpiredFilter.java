@@ -29,9 +29,11 @@ import java.io.IOException;
 public class SessionExpiredFilter implements Filter {
     private static final Log LOG = LogFactory.getLog(SessionExpiredFilter.class);
     
+    @Override
     public void destroy() {
     }
 
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest hrequest = (HttpServletRequest) request;
         if (hrequest.getRequestedSessionId() != null
@@ -46,6 +48,7 @@ public class SessionExpiredFilter implements Filter {
         chain.doFilter(request, response);
     }
 
+    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         LOG.info("Initialized");
     }

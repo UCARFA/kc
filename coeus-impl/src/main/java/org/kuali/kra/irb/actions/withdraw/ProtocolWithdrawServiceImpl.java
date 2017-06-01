@@ -120,6 +120,7 @@ public class ProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImplBase
      * @param submission
      * @return true if withdrawable; otherwise false
      */
+    @Override
     protected boolean isAllowedStatus(ProtocolSubmissionBase submission) {
         return StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
@@ -130,6 +131,7 @@ public class ProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImplBase
      * @param submission
      * @return true if withdrawable; otherwise false
      */
+    @Override
     protected boolean isNormalSubmission(ProtocolSubmissionBase submission) {
         return StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.AMENDMENT) ||
                StringUtils.equals(submission.getSubmissionTypeCode(), ProtocolSubmissionType.INITIAL_SUBMISSION) ||

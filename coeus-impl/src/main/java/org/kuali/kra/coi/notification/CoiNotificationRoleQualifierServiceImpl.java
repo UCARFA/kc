@@ -58,10 +58,12 @@ public class CoiNotificationRoleQualifierServiceImpl implements CoiNotificationR
         return null;
     }
 
+    @Override
     public CoiDisclosure getCoiDisclosure() {
         return coiDisclosure;
     }
 
+    @Override
     public void setCoiDisclosure(CoiDisclosure coiDisclosure) {
         this.coiDisclosure = coiDisclosure;
     }

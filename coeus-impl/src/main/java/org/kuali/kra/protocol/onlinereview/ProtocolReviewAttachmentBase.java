@@ -92,6 +92,7 @@ public abstract class ProtocolReviewAttachmentBase extends ProtocolReviewableBas
         this.attachmentId = attachmentId;
     }
 
+    @Override
     public Long getProtocolOnlineReviewIdFk() {
         return protocolOnlineReviewIdFk;
     }
@@ -111,6 +112,7 @@ public abstract class ProtocolReviewAttachmentBase extends ProtocolReviewableBas
         this.description = description;
     }
 
+    @Override
     public String getCreateUser() {
         return createUser;
     }
@@ -178,6 +180,7 @@ public abstract class ProtocolReviewAttachmentBase extends ProtocolReviewableBas
         return displayReviewerName;
     }
 
+    @Override
     public void setDisplayReviewerName(boolean displayReviewerName) {
         this.displayReviewerName = displayReviewerName;
     }
@@ -245,6 +248,7 @@ public abstract class ProtocolReviewAttachmentBase extends ProtocolReviewableBas
         this.protocolIdFk = protocolIdFk;
     }
 
+    @Override
     public ProtocolBase getProtocol() {
         return protocol;
     }
@@ -253,6 +257,7 @@ public abstract class ProtocolReviewAttachmentBase extends ProtocolReviewableBas
         this.protocol = protocol;
     }
 
+    @Override
     public Long getProtocolId() {
         Long protocolId = null;
         if (this.protocol != null) {
@@ -277,6 +282,7 @@ public abstract class ProtocolReviewAttachmentBase extends ProtocolReviewableBas
         this.protocolPersonCanView = protocolPersonCanView;
     }
 
+    @Override
     public CommitteeScheduleBase getCommitteeSchedule() {
         if (getProtocolSubmission()!= null) {
             if (getProtocolSubmission().getScheduleIdFk() != null && getProtocolSubmission().getCommitteeSchedule() == null) {
@@ -340,10 +346,12 @@ public abstract class ProtocolReviewAttachmentBase extends ProtocolReviewableBas
         return this.kcPersonService;
     }
 
+    @Override
     public String getProtocolNumber() {
         return this.getProtocol() != null ? this.getProtocol().getProtocolNumber() : null;
     }
 
+    @Override
     public Integer getSubmissionNumber() {
         return this.getProtocolSubmission() != null ? this.getProtocolSubmission().getSubmissionNumber() : null;
     }

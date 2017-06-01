@@ -39,10 +39,12 @@ public class AwardFandaRateSaveEvent extends AwardFandaRateEvent {
         this.fandaRateIndex = fandaRateIndex;
     }
 
+    @Override
     public Class<? extends BusinessRule> getRuleInterfaceClass() {
         return AwardFandaRateSaveRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardDocumentRule) rule).processSaveFandaRateBusinessRules(this);
     }

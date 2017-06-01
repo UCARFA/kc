@@ -110,6 +110,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
 
     protected abstract Class<CMT> getCommitteeBOClassHook();
 
+    @Override
     public void addResearchAreas(CMT committee, Collection<ResearchAreaBase> researchAreas) {
         for (ResearchAreaBase researchArea : researchAreas) {
             if (!hasResearchArea(committee, researchArea)) {

@@ -40,21 +40,25 @@ public class ProtocolOrganizationType extends ProtocolOrganizationTypeBase {
     }
 
 
+    @Override
     public String getProtocolOrganizationTypeCode() {
         return protocolOrganizationTypeCode;
     }
 
 
+    @Override
     public void setProtocolOrganizationTypeCode(String protocolOrganizationTypeCode) {
         this.protocolOrganizationTypeCode = protocolOrganizationTypeCode;
     }
 
 
+    @Override
     public String getDescription() {
         return description;
     }
 
 
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }

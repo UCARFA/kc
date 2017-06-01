@@ -551,11 +551,13 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 		return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.PROP_BUDGET_FORMULATED_COST_EDIT_DETAILS, true, form);
 	}
 
-	public BudgetRatesService getBudgetRatesService() {
+	@Override
+    public BudgetRatesService getBudgetRatesService() {
 		return budgetRatesService;
 	}
 
-	public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
+	@Override
+    public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
 		this.budgetRatesService = budgetRatesService;
 	}
 }

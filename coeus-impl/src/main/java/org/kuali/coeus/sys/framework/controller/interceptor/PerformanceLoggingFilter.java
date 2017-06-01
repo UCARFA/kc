@@ -72,8 +72,9 @@ public class PerformanceLoggingFilter implements Filter {
      * @see Runtime#totalMemory()
      * @see Runtime#freeMemory()
      */
-    public void doFilter(ServletRequest request, 
-                         ServletResponse response, 
+    @Override
+    public void doFilter(ServletRequest request,
+                         ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
     	if (isRequestExcluded((HttpServletRequest) request)) {
 			chain.doFilter(request, response);

@@ -55,34 +55,42 @@ public class ProtocolGenericActionBean extends ProtocolActionBean implements org
         reviewAttachmentsBean = new ReviewAttachmentsBean(errorPropertyKey);
     }
 
+    @Override
     public String getComments() {
         return comments;
     }
     
+    @Override
     public void setComments(String comments) {
         this.comments = comments;
     }
     
+    @Override
     public Date getActionDate() {
         return actionDate;
     }
     
+    @Override
     public void setActionDate(Date actionDate) {
         this.actionDate = actionDate;
     }
     
+    @Override
     public String getErrorPropertyKey() {
         return errorPropertyKey;
     }
 
+    @Override
     public ReviewCommentsBean getReviewCommentsBean() {
         return reviewCommentsBean;
     }
 
+    @Override
     public ReviewAttachmentsBean getReviewAttachmentsBean() {
         return reviewAttachmentsBean;
     }
 
+    @Override
     public void setReviewAttachmentsBean(ReviewAttachmentsBeanBase reviewAttachmentsBean) {
         this.reviewAttachmentsBean = (ReviewAttachmentsBean) reviewAttachmentsBean;
     }

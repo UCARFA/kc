@@ -101,6 +101,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
                 PROTOCOL_ACTION_ID_FIELD_KEY, true)).get(0).getProtocol().getSequenceNumber().toString();
     }
 
+    @Override
     protected String getCoeusModule() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
     }

@@ -61,6 +61,7 @@ public abstract class AwardFandaRateEvent extends KcDocumentEventBase {
     /**
     * @see org.kuali.core.rule.event.DocumentEvent#validate()
     */
+    @Override
     public void validate() {
         super.validate();
         if (getAwardFandaRate() == null) {
@@ -71,6 +72,7 @@ public abstract class AwardFandaRateEvent extends KcDocumentEventBase {
     /**
     * Logs the event type and some information about the associated special review
     */
+    @Override
     protected void logEvent() {
         if(LOG.isDebugEnabled()){
             StringBuilder logMessage = new StringBuilder(StringUtils.substringAfterLast(

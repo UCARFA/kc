@@ -808,6 +808,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
         protocolType.setStudyGroupArray(studyGroupTypeList.toArray(new StudyGroupType[0]));
     }    
 
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
             businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
@@ -815,6 +816,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
         return businessObjectService;
     }
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

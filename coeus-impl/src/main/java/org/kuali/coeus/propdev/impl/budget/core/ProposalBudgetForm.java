@@ -88,6 +88,7 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
         addRecipientHelper = new AddLineHelper();
     }
 
+    @Override
     public ProposalDevelopmentBudgetExt getBudget() {
 		return budget;
 	}
@@ -228,10 +229,12 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
 
     public BudgetModularSummary getBudgetModularSummary() {return budgetModularSummary;}
 
+    @Override
     public ProposalDevelopmentBudgetExt getSelectedBudget() {
         return selectedBudget;
     }
 
+    @Override
     public void setSelectedBudget(ProposalDevelopmentBudgetExt selectedBudget) {
         this.selectedBudget = selectedBudget;
     }

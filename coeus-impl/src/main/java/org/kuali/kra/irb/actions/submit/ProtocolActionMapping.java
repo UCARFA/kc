@@ -59,6 +59,7 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
         super(actionTypeCode, submissionStatusCode, submissionTypeCode, protocolReviewTypeCode, protocolStatusCode, scheduleId, submissionNumber);
     }    
        
+    @Override
     protected Class<? extends CommitteeScheduleMinuteBase> getCommitteeScheduleMinuteBOClassHook() {
         return CommitteeScheduleMinute.class;
     }
@@ -68,6 +69,7 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
      * Check if there are any pending submissions for this protocol
      *  whose submission type is not the matching submission type in ACTION_TYPE_SUBMISSION_TYPE_MAP.
      */
+    @Override
     public boolean getSubmissionCount() {
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
@@ -86,6 +88,7 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
      * This method Checks if there are any pending submissions for this protocol
      * @return
      */
+    @Override
     public boolean getSubmissionCountCond2() {
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
@@ -106,6 +109,7 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
      * 114 --Request for re-open enrollment
      * @return
      */
+    @Override
     public boolean getSubmissionCountCond4() {
         
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
@@ -138,6 +142,7 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
      * Basically, check the matching protocol submission with the highest submission# does not have
      * status of (100,101,102)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public boolean getSubmissionCountCond5() {                
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
@@ -153,6 +158,7 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
      * This method Check if protocol has a submission which is in statuscode (100,101,102, 201, 202)  
      * @return
      */
+    @Override
     @SuppressWarnings("unchecked")
     public boolean getSubmissionCountForWithdraw() {              
         List <String> statusCodes = Arrays.asList(new String[] {"100","101","102", "201", "202"});

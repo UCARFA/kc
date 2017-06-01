@@ -33,10 +33,12 @@ import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplBase implements IacucProtocolVersionService{
     private IacucProtocolProcedureService iacucProtocolProcedureService;
     
+    @Override
     protected String getProtocolDocumentTypeHook() {
         return "IacucProtocolDocument";
     }
     
+    @Override
     protected ProtocolBase createProtocolNewVersionHook(ProtocolBase protocol) throws Exception {
         IacucProtocol iacucProtocol = (IacucProtocol)protocol;
         iacucProtocol = versioningService.createNewVersion(iacucProtocol);
@@ -46,6 +48,7 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplB
         return iacucProtocol;
     }
 
+    @Override
     protected ProtocolModuleQuestionnaireBeanBase getNewInstanceProtocolModuleQuestionnaireBeanHook(ProtocolBase protocol) {
         return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }

@@ -88,7 +88,8 @@ public class ActivePendingTransactionServiceImplTest {
         buildDefaultAwardHierarchy();
         
         emptyAwardAnswer = new Answer<Award>() {
-    		public Award answer(InvocationOnMock invocation) {
+    		@Override
+            public Award answer(InvocationOnMock invocation) {
     			return getEmptyAward(invocation.getArgument(0));
     		}
     	};

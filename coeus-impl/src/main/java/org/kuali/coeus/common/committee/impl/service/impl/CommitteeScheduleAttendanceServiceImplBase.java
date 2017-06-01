@@ -59,6 +59,7 @@ public abstract class CommitteeScheduleAttendanceServiceImplBase<CSRV extends Co
         return attendedMembers;
     }
 
+    @Override
     public int getActualVotingMembersCount(String committeeId, String scheduleId) {
         return getActualVotingMembersPresent(committeeId, scheduleId).size();
     }

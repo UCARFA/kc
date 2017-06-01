@@ -81,6 +81,7 @@ public class IacucProtocolUndoLastActionServiceImpl extends UndoLastActionServic
         }
     }
     
+    @Override
     protected ProtocolBase getOldProtocol(ProtocolBase protocol) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("protocolNumber", protocol.getProtocolNumber());

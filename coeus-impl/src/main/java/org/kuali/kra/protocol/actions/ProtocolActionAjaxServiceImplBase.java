@@ -31,8 +31,10 @@ public abstract class ProtocolActionAjaxServiceImplBase implements ProtocolActio
     private CommitteeServiceBase committeeService;
     
 
+    @Override
     public abstract String getReviewers(String protocolId, String committeeId, String scheduleId);
 
+    @Override
     public String getReviewerTypes() {
         StringBuffer ajaxList = new StringBuffer();
         Collection<ProtocolReviewerType> reviewerTypes = getReviewerTypesFromDatabase();

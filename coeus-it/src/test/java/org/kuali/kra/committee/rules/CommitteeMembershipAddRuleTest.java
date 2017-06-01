@@ -43,6 +43,7 @@ public class CommitteeMembershipAddRuleTest extends CommitteeRuleTestBase {
         rule = new org.kuali.coeus.common.committee.impl.rules.CommitteeMembershipRule();
     }
     
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

@@ -49,10 +49,12 @@ private static final Log LOG = LogFactory.getLog(AwardPersonUnitRuleAddEvent.cla
         return projectPerson;
     }
     
+    @Override
     public Class<InstitutionalProposalPersonUnitAddRule> getRuleInterfaceClass() {
         return InstitutionalProposalPersonUnitAddRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((InstitutionalProposalPersonUnitAddRule) rule).processAddInstitutionalProposalPersonUnitBusinessRules(this);
     }

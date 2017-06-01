@@ -67,6 +67,7 @@ public class IacucProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgen
         return null;
     }
     
+    @Override
     public void removeFromAgenda(IacucProtocol protocol, IacucProtocolGenericActionBean actionBean) throws Exception {
 
         IacucProtocolSubmission submission = (IacucProtocolSubmission) findLastSubmission(protocol);

@@ -148,6 +148,7 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
     }
    
     
+   @Override
    public boolean isProtocolPersonnel(ProtocolBase protocol) {
         Person person = GlobalVariables.getUserSession().getPerson();
         return getPersonnelIds(protocol).contains(person.getPrincipalId());        
@@ -192,6 +193,7 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
      * @see org.kuali.kra.protocol.actions.submit.ProtocolActionService#updateProtocolStatus(org.kuali.kra.protocol.actions.ProtocolActionBase,
      *      org.kuali.kra.protocol.ProtocolBase)
      */
+    @Override
     public void updateProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol) {
         String protocolNumberUpper = protocol.getProtocolNumber().toUpperCase();
         String specialCondition = protocolNumberUpper.contains(ProtocolSpecialVersion.AMENDMENT.getCode()) ? ProtocolSpecialVersion.AMENDMENT.getCode() : (protocolNumberUpper.contains(ProtocolSpecialVersion.RENEWAL.getCode()) ? ProtocolSpecialVersion.RENEWAL.getCode() : (protocolNumberUpper.contains(ProtocolSpecialVersion.FYI.getCode()) ? ProtocolSpecialVersion.FYI.getCode() : NONE));
@@ -227,7 +229,8 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
     protected abstract int getUpdateRuleIndexHook();
     
     
-    public abstract  void resetProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol);    
+    @Override
+    public abstract  void resetProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol);
 
     @Override
     public boolean isActionOpenForFollowup(String protocolActionTypeCode, ProtocolBase protocol) {

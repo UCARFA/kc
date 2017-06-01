@@ -115,6 +115,7 @@ public class InstitutionalProposalPersonServiceImplTest {
     }
 
     class MockInstitutionalProposalPerson extends InstitutionalProposalPerson {
+        @Override
         public Boolean defaultIncludeInCreditAllocation(String proposalPersonRoleId) {
             final Collection<String> roles = new ArrayList<>();
             roles.add("PI");

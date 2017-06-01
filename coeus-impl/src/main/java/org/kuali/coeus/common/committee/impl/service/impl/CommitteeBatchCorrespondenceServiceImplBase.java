@@ -77,6 +77,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
     protected int finalActionCounter;
 
     
+    @Override
     public abstract CommitteeBatchCorrespondenceBase generateBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, Date endDate) throws Exception;
 
     /**

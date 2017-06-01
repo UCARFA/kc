@@ -29,6 +29,7 @@ public class IacucCommitteeSchedule extends CommitteeScheduleBase<IacucCommittee
     
     private IacucCommittee committee;
     
+    @Override
     public IacucCommittee getParentCommittee() {
         return this.getCommittee();
     }
@@ -40,6 +41,7 @@ public class IacucCommitteeSchedule extends CommitteeScheduleBase<IacucCommittee
         return committee;
     }
     
+    @Override
     public void setCommittee(IacucCommittee committee) {
         this.committee = committee;
     }

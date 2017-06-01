@@ -69,6 +69,7 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
      * @throws WorkflowException 
      * @see org.kuali.kra.irb.actions.request.ProtocolRequestService#submitRequest(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.request.ProtocolRequestBean)
      */
+    @Override
     public void submitRequest(IacucProtocol protocol, IacucProtocolRequestBean requestBean) throws WorkflowException {
         LOG.info("submitRequest "+ requestBean.getProtocolActionTypeCode() + " " +protocol.getProtocolDocument().getDocumentNumber());
         /*

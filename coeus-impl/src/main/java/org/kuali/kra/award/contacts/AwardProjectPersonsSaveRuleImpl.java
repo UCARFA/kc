@@ -41,6 +41,7 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
      * @param event
      * @return
      */
+    @Override
     public boolean processSaveAwardProjectPersonsBusinessRules(SaveAwardProjectPersonsRuleEvent event) {
         return processSaveAwardProjectPersonsBusinessRules(event.getProjectPersons());
     }

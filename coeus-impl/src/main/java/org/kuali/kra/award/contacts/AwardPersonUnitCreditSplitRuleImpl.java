@@ -32,6 +32,7 @@ import java.util.Map;
 public class AwardPersonUnitCreditSplitRuleImpl extends KcTransactionalDocumentRuleBase implements AwardPersonUnitCreditSplitRule {
     private static final ScaleTwoDecimal MAX_TOTAL_VALUE = new ScaleTwoDecimal(100.00);
     
+    @Override
     public boolean checkAwardPersonUnitCreditSplitTotals(AwardPersonUnitCreditSplitRuleEvent event) {
         int errorCount = 0;
         AwardPerson person = event.getProjectPerson();

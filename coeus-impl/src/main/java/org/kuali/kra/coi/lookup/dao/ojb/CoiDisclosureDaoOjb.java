@@ -33,6 +33,7 @@ import java.util.List;
 
 public class CoiDisclosureDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, CoiDisclosureDao {
 
+    @Override
     public List<CoiDisclosureHistory> getApprovedAndDisapprovedDisclosureHistory(String coiDisclosureNumber) {
         
         Criteria crit1 = new Criteria();
@@ -54,6 +55,7 @@ public class CoiDisclosureDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
         return (List<CoiDisclosureHistory>) history;     
     }
         
+    @Override
     public List<CoiDisclosure> getReviewsForReviewStatuses(Collection<String> reviewStatusCodes) {
         if (reviewStatusCodes == null || reviewStatusCodes.isEmpty()) {
             return new ArrayList<CoiDisclosure>();

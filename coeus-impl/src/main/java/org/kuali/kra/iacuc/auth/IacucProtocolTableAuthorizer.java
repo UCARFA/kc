@@ -27,6 +27,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 public class IacucProtocolTableAuthorizer extends IacucProtocolTableAuthorizerBase {
 
   
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return canExecuteAction(task.getProtocol(), IacucProtocolActionType.TABLED) &&
                checkIfSubmissionCanBeBumped(task.getProtocol()) &&

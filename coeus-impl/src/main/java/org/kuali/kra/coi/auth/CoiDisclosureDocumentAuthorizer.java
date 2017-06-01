@@ -161,6 +161,7 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
     /*
      * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean canReload(Document document, Person user) {
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) document;
         return ((coiDisclosureDocument.getCoiDisclosure().getCoiDisclosureId() != null) ||
@@ -188,6 +189,7 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
         return false;
     }
     
+    @Override
     protected Set<String> getDocumentActions(Document document, Person user) {
         Set<String> documentActions = super.getDocumentActions(document, user);
         

@@ -112,6 +112,7 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
      * Gets the comments attribute. 
      * @return Returns the comments.
      */
+    @Override
     public String getComments() {
         return this.comments;
     }
@@ -128,6 +129,7 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
      * Gets the restrictedView attribute. 
      * @return Returns the restrictedView.
      */
+    @Override
     public boolean getRestrictedView() {
         return this.restrictedView;
     }
@@ -144,6 +146,7 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
      * Gets the noteTopic attribute. 
      * @return Returns the noteTopic.
      */
+    @Override
     public String getNoteTopic() {
         return this.noteTopic;
     }
@@ -160,6 +163,7 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
      * Gets the updateUserFullName attribute. 
      * @return Returns the updateUserFullName.
      */
+    @Override
     public String getUpdateUserFullName() {
         return updateUserFullName;
     }
@@ -172,6 +176,7 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
         this.updateUserFullName = updateUserFullName;
     }
 
+    @Override
     public String getCreateUserFullName() {
         return createUserFullName;
     }
@@ -275,6 +280,7 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
         }
     }
 
+    @Override
     public boolean isEditable() {
         return editable;
     }
@@ -287,6 +293,7 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
      * Sort by updateTimestamp
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
+    @Override
     public int compareTo(ProtocolNotepadBase protocolNotepad) {
         if (this.getCreateTimestamp() == null || protocolNotepad.getCreateTimestamp() == null) {
             return this.getUpdateTimestamp().compareTo(protocolNotepad.getUpdateTimestamp());
@@ -303,6 +310,7 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
         this.createUser = createUser;
     }
 
+    @Override
     public Timestamp getCreateTimestamp() {
         return createTimestamp;
     }

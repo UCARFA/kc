@@ -58,10 +58,12 @@ public abstract class CommitteeDecisionRecuserEventBase<CD extends CommitteeDeci
     
     protected abstract Log getLOGHook();
 
+    @Override
     public Class<ExecuteCommitteeDecisionRecuserRule> getRuleInterfaceClass() {
         return ExecuteCommitteeDecisionRecuserRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ExecuteCommitteeDecisionRecuserRule<CD>) rule).proccessCommitteeDecisionRecuserRule((ProtocolDocumentBase) this.getDocument(), this.actionBean);
     }

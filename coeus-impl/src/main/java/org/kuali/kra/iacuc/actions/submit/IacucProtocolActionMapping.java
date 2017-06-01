@@ -52,6 +52,7 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
      * Check if there are any pending submissions for this protocol
      *  whose submission type is not the matching submission type in ACTION_TYPE_SUBMISSION_TYPE_MAP.
      */
+    @Override
     public boolean getSubmissionCount() {
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
@@ -70,6 +71,7 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
      * This method Checks if there are any pending submissions for this protocol
      * @return
      */
+    @Override
     public boolean getSubmissionCountCond2() {
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
@@ -91,6 +93,7 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
      * 108 --Request for Termination  (ditto)
      * @return
      */
+    @Override
     public boolean getSubmissionCountCond4() {
         
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
@@ -122,7 +125,8 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
      * Basically, check the matching protocol submission with the highest submission# does not have
      * status of (100,101,102)
      */
-    public boolean getSubmissionCountCond5() {                
+    @Override
+    public boolean getSubmissionCountCond5() {
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
@@ -153,7 +157,8 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
      * This method Check if protocol has a submission which is in statuscode (100,101,102, 201, 202)  
      * @return
      */
-    public boolean getSubmissionCountForWithdraw() {              
+    @Override
+    public boolean getSubmissionCountForWithdraw() {
         List <String> statusCodes = Arrays.asList(new String[] {"101","102","103"});
         Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
         positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
@@ -163,6 +168,7 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
         
     }
 
+    @Override
     public String toString() {
         return "IacucProtocolActionMapping = (submissionStatusCode = " + submissionStatusCode +
                                               ", submissionTypeCode = " + submissionTypeCode +

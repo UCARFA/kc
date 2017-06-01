@@ -46,11 +46,17 @@ public class SepSequenceComplexArtifacts {
     
         public AttachmentOwner() { /* for beanness */ }
         public AttachmentOwner(AttachmentMetaData... attachments) { addAttachments(attachments); }
+        @Override
         public Integer getOwnerSequenceNumber() { return null; }
+        @Override
         public void incrementSequenceNumber() { sequenceNumber++; }
+        @Override
         public AttachmentOwner getSequenceOwner() { return this; }
+        @Override
         public void setSequenceOwner(AttachmentOwner newlyVersionedOwner) { /*does nothing*/ }
+        @Override
         public Integer getSequenceNumber() { return sequenceNumber; }
+        @Override
         public void resetPersistenceState() { id = null; }
         
         public Collection<AttachmentMetaData> getAttachments() { return attachments; }
@@ -63,6 +69,7 @@ public class SepSequenceComplexArtifacts {
         public String toString() {
             return new ToStringBuilder(this).append("id", id).append("sequenceNumber", sequenceNumber).append("attachments", attachments).toString();
         }
+        @Override
         public String getVersionNameField() { return "foobar"; }
 
         @Override
@@ -85,9 +92,13 @@ public class SepSequenceComplexArtifacts {
             this.data = data;
         }
         
+        @Override
         public AttachmentOwner getSequenceOwner() { return sequenceOwner; }
+        @Override
         public void setSequenceOwner(AttachmentOwner newlyVersionedOwner) { this.sequenceOwner = newlyVersionedOwner; }
+        @Override
         public Integer getSequenceNumber() { return this.sequenceOwner.getSequenceNumber(); }
+        @Override
         public void resetPersistenceState() { id = null; }
         
         public String getId() { return id; }
@@ -111,9 +122,13 @@ public class SepSequenceComplexArtifacts {
         public AttachmentMetaDataAssoc() { /* for beanness */ }
         public AttachmentMetaDataAssoc(AttachmentOwner owner) { this.sequenceOwner = owner; }
         
+        @Override
         public AttachmentOwner getSequenceOwner() { return sequenceOwner; }
+        @Override
         public void setSequenceOwner(AttachmentOwner newlyVersionedOwner) { this.sequenceOwner = newlyVersionedOwner; }
+        @Override
         public Integer getSequenceNumber() { return sequenceOwner.getSequenceNumber(); }
+        @Override
         public void resetPersistenceState() { id = null; }
         
         public String getId() { return id; }
@@ -132,9 +147,12 @@ public class SepSequenceComplexArtifacts {
         
         public AttachmentLargeData() { /* for beanness */ }
         
+        @Override
         public Integer getSequenceNumber() { return sequenceNumber; }
+        @Override
         public void resetPersistenceState() { id = null; }
 
+        @Override
         public void incrementSequenceNumber() { sequenceNumber++; }
         
         public String getId() { return id; }

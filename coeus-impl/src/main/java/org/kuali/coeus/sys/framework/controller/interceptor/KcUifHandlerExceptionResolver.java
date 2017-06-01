@@ -48,6 +48,7 @@ public class KcUifHandlerExceptionResolver implements org.springframework.web.se
 	private static final Logger LOG = Logger.getLogger(KcUifHandlerExceptionResolver.class);
 	HandlerExceptionResolver innerHandler;
 
+    @Override
     public int getOrder() {
         return Integer.MIN_VALUE;
     }

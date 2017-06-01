@@ -40,6 +40,7 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
      * Gets the customAttributeId attribute.
      * @return Returns the customAttributeId.
      */
+    @Override
     public Long getCustomAttributeId() {
         return customAttributeId;
     }
@@ -48,6 +49,7 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
      * Sets the customAttributeId attribute value.
      * @param customAttributeId The customAttributeId to set.
      */
+    @Override
     public void setCustomAttributeId(Long customAttributeId) {
         this.customAttributeId = customAttributeId;
     }
@@ -88,6 +90,7 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
      * Gets the value attribute.
      * @return Returns the value.
      */
+    @Override
     public String getValue() {
         return value;
     }
@@ -101,6 +104,7 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
      * Sets the value attribute value.
      * @param value The value to set.
      */
+    @Override
     public void setValue(String value) {
         this.value = value;
     }
@@ -167,6 +171,7 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
      * Gets the customAttribute attribute.
      * @return Returns the customAttribute.
      */
+    @Override
     public CustomAttribute getCustomAttribute() {
         return customAttribute;
     }
@@ -175,6 +180,7 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
      * Sets the customAttribute attribute value.
      * @param customAttribute The customAttribute to set.
      */
+    @Override
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }
@@ -183,7 +189,8 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
 	 * This is the Getter Method for subAwardCode
 	 * @return Returns the subAwardCode.
 	 */
-	public String getSubAwardCode() {
+	@Override
+    public String getSubAwardCode() {
 		return subAwardCode;
 	}
 
@@ -191,7 +198,8 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
 	 * This is the Setter Method for subAwardCode
 	 * @param subAwardCode The subAwardCode to set.
 	 */
-	public void setSubAwardCode(String subAwardCode) {
+	@Override
+    public void setSubAwardCode(String subAwardCode) {
 		this.subAwardCode = subAwardCode;
 	}
 

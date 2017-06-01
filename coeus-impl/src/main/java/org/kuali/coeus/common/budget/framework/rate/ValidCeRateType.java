@@ -112,6 +112,7 @@ public class ValidCeRateType extends KcPersistableBusinessObjectBase implements 
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

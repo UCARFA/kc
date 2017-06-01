@@ -58,6 +58,7 @@ public class ProposalDevelopmentDataOverrideRule extends KcTransactionalDocument
         validationClasses.put("NUMBER", NumericValidationPattern.class.getName());
     }
 
+    @Override
     public boolean processProposalDataOverrideRules(ProposalDataOverrideEvent proposalDataOverrideEvent) {
         ProposalChangedData proposalOverriddenData = proposalDataOverrideEvent.getProposalChangedData();
         DevelopmentProposal developmentProposal = proposalDataOverrideEvent.getDevelopmentProposal();

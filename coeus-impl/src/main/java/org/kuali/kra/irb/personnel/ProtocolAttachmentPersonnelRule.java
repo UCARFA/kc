@@ -29,6 +29,7 @@ public class ProtocolAttachmentPersonnelRule extends ProtocolAttachmentPersonnel
      * This method is to get protocol attachment service
      * @return ProtocolAttachmentService
      */
+    @Override
     protected ProtocolAttachmentService getProtocolAttachmentService() {
         return KcServiceLocator.getService(ProtocolAttachmentService.class);
     }

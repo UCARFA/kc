@@ -75,6 +75,7 @@ public class PropAwardPersonRole extends KcPersistableBusinessObjectBase impleme
     @Convert(converter = BooleanYNConverter.class)
     private Boolean unitDetailsRequired = Boolean.TRUE;
 
+    @Override
     public final String getCode() {
         return this.code;
     }
@@ -125,7 +126,8 @@ public class PropAwardPersonRole extends KcPersistableBusinessObjectBase impleme
         return getDescription();
     }
 
-	public Long getId() {
+	@Override
+    public Long getId() {
 		return id;
 	}
 

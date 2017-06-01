@@ -42,6 +42,7 @@ public class CommitteeActionViewBatchCorrespondenceRule extends KcTransactionalD
      * @param event to be validated against the rules.
      * @return true if validation passed the rules, false otherwise.
      */
+    @Override
     public boolean processRules(CommitteeActionViewBatchCorrespondenceEvent event) {
         for (CommitteeBatchCorrespondenceBase committeeBatchCorrespondence : event.getCommitteeBatchCorrespondences()) {
             for (CommitteeBatchCorrespondenceDetailBase committeeBatchCorrespondenceDetail : 

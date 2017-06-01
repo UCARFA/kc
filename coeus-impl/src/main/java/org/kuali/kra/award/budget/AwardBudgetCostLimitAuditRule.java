@@ -51,6 +51,7 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
     private AwardBudgetCalculationService awardBudgetCalculationService;
     private AwardBudgetService awardBudgetService;
 
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) document;
         AwardBudgetExt budget = (AwardBudgetExt)((AwardBudgetDocument)document).getBudget();

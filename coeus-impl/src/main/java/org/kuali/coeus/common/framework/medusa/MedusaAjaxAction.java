@@ -40,6 +40,7 @@ public class MedusaAjaxAction extends KualiDocumentActionBase {
             medusaService = KcServiceLocator.getService(MedusaService.class);
         return medusaService;
     }
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MedusaForm medusaForm = (MedusaForm)form;
         medusaForm.getMedusaBean().setCurrentNode(getMedusaService().getMedusaNode(medusaForm.getMedusaBean().getModuleName(), medusaForm.getMedusaBean().getModuleIdentifier()));
@@ -47,6 +48,7 @@ public class MedusaAjaxAction extends KualiDocumentActionBase {
         return super.execute(mapping, medusaForm, request, response);
     }
     
+    @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MedusaForm medusaForm = (MedusaForm)form;
         medusaForm.setCommand("displayDocSearchView");

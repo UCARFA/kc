@@ -85,6 +85,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
                 }
             });
 
+    @Override
     public void refreshCacheForProtocol(String protocolNumber) {
         amendmentAndRenewalsCache.refresh(protocolNumber);
     }
@@ -254,6 +255,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         return createAmendment(protocolDocument, renewProtocolDocument, amendmentBean);
     }
 
+    @Override
     public void updateAmendmentRenewal(ProtocolDocumentBase protocolDocument, ProtocolAmendmentBean amendmentBean) throws WorkflowException {
         protocolDocument.getProtocol().getProtocolAmendRenewal().setSummary(amendmentBean.getSummary());
         protocolDocument.getProtocol().getProtocolAmendRenewal().setModules(new ArrayList<ProtocolAmendRenewModuleBase>());
@@ -398,11 +400,13 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         }
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Collection<ProtocolBase> getAmendments(String protocolNumber) throws Exception {
         return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + ProtocolSpecialVersion.AMENDMENT.getCode() + "%", true));
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Collection<ProtocolBase> getRenewals(String protocolNumber) throws Exception {
         return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + ProtocolSpecialVersion.RENEWAL.getCode() + "%", true));
@@ -412,6 +416,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      * @throws Exception 
      * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#getAvailableModules(java.lang.String)
      */
+    @Override
     public List<String> getAvailableModules(String protocolNumber) throws Exception {
         List<String> moduleTypeCodes = getAllModuleTypeCodes();
         
@@ -435,6 +440,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         return moduleTypeCodes;
     }
 
+    @Override
     public String getAmendedOrRenewalProtocolNumber(String protocolNumber) {
         if (protocolNumber.contains(ProtocolSpecialVersion.AMENDMENT.getCode())) {
             return StringUtils.substringBefore(protocolNumber, ProtocolSpecialVersion.AMENDMENT.getCode());

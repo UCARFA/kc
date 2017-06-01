@@ -37,6 +37,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
  */
 public class ToggleAwardBudgetStatusAuthorizer extends BudgetAuthorizer {
 
+    @Override
     public boolean isAuthorized(String userId, Task task) {
         AwardBudgetTask budgetTask = (AwardBudgetTask) task;
         

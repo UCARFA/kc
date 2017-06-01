@@ -80,6 +80,7 @@ public class FinancialEntityNotificationRenderer extends NotificationRendererBas
         this.businessObjectService = businessObjectService;
     }
 
+    @Override
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
             kcPersonService = KcServiceLocator.getService(KcPersonService.class);
@@ -87,6 +88,7 @@ public class FinancialEntityNotificationRenderer extends NotificationRendererBas
         return kcPersonService;
     }
 
+    @Override
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }

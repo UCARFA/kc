@@ -71,6 +71,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     private AwardHierarchyService awardHierarchyService;
     private transient AwardAccountService awardAccountService;
 
+    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<>();
 

@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 @Component("awardCustomDataResolverTypeService")
 public class AwardCustomDataResolverTypeServiceImpl extends CustomDataResolverTypeServiceImpl {
+    @Override
     protected String getModuleNamePrereq() {
         return KcKrmsConstants.Award.AWARD;
     }

@@ -158,10 +158,12 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
          this.fileName = fileName;
      }
      
+    @Override
     public Long getSubAwardId() {
         return subAwardId;
     }
 
+    @Override
     public void setSubAwardId(Long subAwardId) {
         this.subAwardId = subAwardId;
     }
@@ -203,18 +205,22 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
         this.newFile = newFile;
     }
     
+    @Override
     public String getSubAwardCode() {
         return subAwardCode;
     }
     
+    @Override
     public void setSubAwardCode(String subAwardCode) {
         this.subAwardCode = subAwardCode;
     }
     
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
     
+    @Override
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }

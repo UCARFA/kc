@@ -47,6 +47,7 @@ public class AddProjectPersonnelHelper extends AddProjectBudgetLineItemHelper {
        initPersonDetails();
     }
     
+    @Override
     public void reset() {
         super.reset();
         initPersonDetails();

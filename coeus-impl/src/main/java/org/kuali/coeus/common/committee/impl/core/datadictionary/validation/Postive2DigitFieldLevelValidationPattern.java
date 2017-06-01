@@ -29,6 +29,7 @@ public class Postive2DigitFieldLevelValidationPattern extends FieldLevelValidati
         return "postivenonzero";
     }
     
+    @Override
     protected String getRegexString() {
         return "^[1-9][0-9]?";
     }

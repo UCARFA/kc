@@ -39,6 +39,7 @@ public class InstitutionalProposalNoteAddRule extends KcTransactionalDocumentRul
      * @param event
      * @return
      */
+    @Override
     public boolean processRules(InstitutionalProposalNoteAddEvent event) {
         boolean rulePassed = true;
         errorReporter = KcServiceLocator.getService(ErrorReporter.class);

@@ -268,6 +268,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
      * @param sourceRoleId
      * @return Collection&lt;PersonTraining&gt;
      */
+    @Override
     public List<ProtocolPersonRoleMappingBase> getPersonRoleMapping(String sourceRoleId) {
         List<ProtocolPersonRoleMappingBase> personRoleMappings = new ArrayList<ProtocolPersonRoleMappingBase>();
         Map<String, Object> matchingKeys = new HashMap<String, Object>();
@@ -387,6 +388,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     }
     
     
+    @Override
     public boolean isPISameAsCoI(ProtocolPersonBase pi, ProtocolPersonBase newProtocolPerson) {
         boolean duplicatePerson = false;
         // if existing PI changed to new role and the new person assigned as pi, then pi is null
@@ -434,6 +436,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
      * @param protocolPerson
      * @return true / false
      */
+    @Override
     public boolean isPrincipalInvestigator(ProtocolPersonBase protocolPerson) {
         boolean isInvestigator = false;
         if(protocolPerson.getProtocolPersonRoleId().equalsIgnoreCase(getPrincipalInvestigatorRole())) {
@@ -559,6 +562,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         }
     }
     
+    @Override
     public List<Integer>getAffiliationStudentMap(List<ProtocolPersonBase> protocolPersons) {
         List<Integer> results = new ArrayList<Integer>();
         for(int i=0; i<protocolPersons.size(); i++) {

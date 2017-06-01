@@ -58,6 +58,7 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
         return listDates;
     }
     
+    @Override
     public List<ValidRates> getValidRates(AwardFandaRate awardFandaRate) {
         if (ObjectUtils.isNull(awardFandaRate)) {
             return new ArrayList<ValidRates>();

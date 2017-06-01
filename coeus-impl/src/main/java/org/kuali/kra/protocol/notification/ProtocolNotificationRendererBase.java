@@ -157,6 +157,7 @@ public abstract class ProtocolNotificationRendererBase extends NotificationRende
         this.businessObjectService = businessObjectService;
     }
 
+    @Override
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
             kcPersonService = KcServiceLocator.getService(KcPersonService.class);
@@ -164,6 +165,7 @@ public abstract class ProtocolNotificationRendererBase extends NotificationRende
         return kcPersonService;
     }
 
+    @Override
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }

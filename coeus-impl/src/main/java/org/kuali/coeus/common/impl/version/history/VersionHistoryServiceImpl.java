@@ -55,6 +55,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         return versionHistory;
     }
 
+    @Override
     public VersionHistory findPendingVersion(Award award) {
         List<VersionHistory> histories = loadVersionHistory(Award.class, award.getAwardNumber());
         VersionHistory foundPending = null;
@@ -67,6 +68,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         return foundPending;
     }
     
+    @Override
     public VersionHistory updateVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId) {
         VersionHistory currentVersion = getVersionHistory(sequenceOwner.getClass(), getVersionName(sequenceOwner), sequenceOwner.getSequenceNumber());
         if (currentVersion == null) {
@@ -144,6 +146,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         return bos;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public VersionHistory findPendingVersion(Class<? extends SequenceOwner> klass, String versionName, String sequenceNumber) {
         VersionHistory pendingVersionHistory = null;
@@ -162,6 +165,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         return pendingVersionHistory;
     }
     
+    @Override
     @SuppressWarnings("unchecked")
     public VersionHistory findPendingVersion(Class<? extends SequenceOwner> klass, String versionName) {
         VersionHistory pendingVersionHistory = null;
@@ -240,6 +244,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         }
     }
     
+    @Override
     public VersionHistory getActiveOrNewestVersion(Class<? extends SequenceOwner> klass, String versionName) {
         List<VersionHistory> versions = findVersionHistory(klass, versionName);
         VersionHistory history = null;

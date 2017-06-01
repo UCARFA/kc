@@ -99,14 +99,17 @@ public abstract class ProtocolPersonRoleBase extends KcPersistableBusinessObject
         this.commentsDetailsRequired = commentsDetailsRequired;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    @Override
     public int compareTo(ProtocolPersonRoleBase other) {
         int result = 0;
         if (other != null) {

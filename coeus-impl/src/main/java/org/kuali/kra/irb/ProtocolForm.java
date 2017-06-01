@@ -233,14 +233,17 @@ public class ProtocolForm extends ProtocolFormBase {
         getDocInfo().add(expirationDate);
     }
 
+    @Override
     public ProtocolHelper getProtocolHelper() {
         return (ProtocolHelper) super.getProtocolHelper();
     }
     
+    @Override
     public PersonnelHelper getPersonnelHelper() {
         return (PersonnelHelper) super.getPersonnelHelper();
     }
     
+    @Override
     public ProtocolReferenceBean getNewProtocolReferenceBean() {
         return (ProtocolReferenceBean) super.getNewProtocolReferenceBean();
     }
@@ -259,14 +262,17 @@ public class ProtocolForm extends ProtocolFormBase {
      * Gets the Notes &amp; Attachments Helper.
      * @return Notes &amp; Attachments Helper
      */
+    @Override
     public NotesAttachmentsHelper getNotesAttachmentsHelper() {
         return (NotesAttachmentsHelper) super.getNotesAttachmentsHelper();
     }
 
+    @Override
     public ActionHelper getActionHelper() {
         return (ActionHelper) super.getActionHelper();
     }
 
+    @Override
     public ProtocolDocument getProtocolDocument() {
         return (ProtocolDocument) super.getProtocolDocument();
     }
@@ -295,6 +301,7 @@ public class ProtocolForm extends ProtocolFormBase {
         
     }
     
+    @Override
     public String getModuleCode() {
         return CoeusModule.IRB_MODULE_CODE;
     }
@@ -414,6 +421,7 @@ public class ProtocolForm extends ProtocolFormBase {
         return getBaseShortUrl() + "/kc-common/irb-protocols/" + getProtocolDocument().getProtocol().getProtocolNumber();
     }
 
+    @Override
     protected ConfigurationService getConfigurationService() {
         return KcServiceLocator.getService(ConfigurationService.class);
     }

@@ -152,6 +152,7 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
         this.congressionalDistricts = congressionalDistricts;
     }
 
+    @Override
     public List<CongressionalDistrict> getCongressionalDistricts() {
         return congressionalDistricts;
     }
@@ -202,6 +203,7 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
      * or an empty string if there is none.
      * @return
      */
+    @Override
     public String getFirstCongressionalDistrictName() {
         CongressionalDistrict firstDistrict = getDefaultCongressionalDistrict();
         if (firstDistrict == null) {
@@ -303,7 +305,8 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
 		this.developmentProposal = developmentProposal;
 	}
 
-	public Integer getSiteNumber() {
+	@Override
+    public Integer getSiteNumber() {
 		return siteNumber;
 	}
     
@@ -311,6 +314,7 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
 		this.siteNumber = siteNumber;
 	}
 
+    @Override
     public String getProposalNumber(){
         if (getDevelopmentProposal() != null){
             return getDevelopmentProposal().getProposalNumber();
