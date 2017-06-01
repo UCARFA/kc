@@ -22,7 +22,6 @@ import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class AwardCgb extends AwardAssociate {

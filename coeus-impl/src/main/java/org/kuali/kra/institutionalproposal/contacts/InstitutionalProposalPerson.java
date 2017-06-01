@@ -19,8 +19,6 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
-import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;

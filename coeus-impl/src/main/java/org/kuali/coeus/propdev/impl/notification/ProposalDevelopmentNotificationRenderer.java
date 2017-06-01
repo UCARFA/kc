@@ -30,7 +30,6 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.UserSession;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;

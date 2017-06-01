@@ -18,8 +18,6 @@
  */
 package org.kuali.kra.institutionalproposal.printing.service.impl;
 
-
-import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;

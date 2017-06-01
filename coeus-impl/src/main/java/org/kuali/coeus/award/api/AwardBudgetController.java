@@ -39,7 +39,6 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.coeus.sys.framework.rest.NotImplementedException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;

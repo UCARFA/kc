@@ -28,7 +28,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

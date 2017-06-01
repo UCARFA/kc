@@ -22,7 +22,6 @@ package org.kuali.kra.award.service.impl;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
@@ -30,8 +29,6 @@ import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalJavaFunctionKrmsTermServiceImpl;
-import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 
 import java.util.ArrayList;
 

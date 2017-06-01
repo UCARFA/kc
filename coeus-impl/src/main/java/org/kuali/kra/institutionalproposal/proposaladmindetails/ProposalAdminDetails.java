@@ -23,7 +23,6 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsContract;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class ProposalAdminDetails extends KcPersistableBusinessObjectBase implements ProposalAdminDetailsContract {

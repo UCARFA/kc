@@ -24,8 +24,6 @@ import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.irb.notification.IRBReplacementParameters;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

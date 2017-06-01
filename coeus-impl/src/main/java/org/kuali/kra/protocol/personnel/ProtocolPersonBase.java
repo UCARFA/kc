@@ -20,7 +20,6 @@ package org.kuali.kra.protocol.personnel;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
 import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.person.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;

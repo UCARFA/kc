@@ -23,8 +23,6 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

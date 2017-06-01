@@ -32,7 +32,6 @@ import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
 

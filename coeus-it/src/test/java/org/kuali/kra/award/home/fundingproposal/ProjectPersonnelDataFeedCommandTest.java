@@ -34,7 +34,6 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonU
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.stream.Stream;
-import java.util.ArrayList;
 import java.util.Collection;
 import static org.junit.Assert.*;
 public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest {

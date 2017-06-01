@@ -19,7 +19,6 @@
 package org.kuali.coeus.common.impl.custom;
 
 import junit.framework.Assert;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;

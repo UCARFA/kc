@@ -22,7 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.rules.impl.AwardCfdaRuleImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.document.Document;

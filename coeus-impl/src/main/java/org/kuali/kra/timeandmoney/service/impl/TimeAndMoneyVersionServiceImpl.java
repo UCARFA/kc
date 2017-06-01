@@ -21,7 +21,6 @@ package org.kuali.kra.timeandmoney.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;

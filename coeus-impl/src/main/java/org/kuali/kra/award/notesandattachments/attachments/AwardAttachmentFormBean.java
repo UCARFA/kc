@@ -18,7 +18,6 @@
  */
 package org.kuali.kra.award.notesandattachments.attachments;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.attachment.AttachmentDocumentStatus;

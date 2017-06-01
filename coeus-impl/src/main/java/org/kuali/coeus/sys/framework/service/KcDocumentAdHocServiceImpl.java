@@ -28,11 +28,6 @@ import org.kuali.rice.krad.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.impl.DocumentAdHocServiceImpl;
 
-import java.util.List;
-
-/**
- *
- */
 public class KcDocumentAdHocServiceImpl extends DocumentAdHocServiceImpl {
 
     @Override

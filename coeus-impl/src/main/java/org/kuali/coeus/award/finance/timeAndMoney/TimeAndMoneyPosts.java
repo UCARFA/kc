@@ -24,8 +24,6 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-
 
 @Entity
 @Table(name="TIME_AND_MONEY_POSTS")

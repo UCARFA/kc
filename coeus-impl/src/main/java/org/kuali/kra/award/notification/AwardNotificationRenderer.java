@@ -25,7 +25,6 @@ import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.text.SimpleDateFormat;
 import java.util.Map;

@@ -28,8 +28,6 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
-
 public class ProposalDevelopmentControllerBaseTest {
 
     ProposalDevelopmentController pdController;

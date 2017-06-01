@@ -2,11 +2,8 @@ package org.kuali.kra.institutionalproposal.printing.service.impl;
 
 
 import junit.framework.Assert;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 

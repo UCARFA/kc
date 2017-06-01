@@ -21,9 +21,6 @@ package org.kuali.coeus.propdev.impl.person.attachment;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
-
-import java.util.List;
 
 public interface ProposalPersonBiographyService {
     /**

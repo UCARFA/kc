@@ -20,8 +20,6 @@
 package org.kuali.coeus.common.questionnaire.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 

@@ -41,7 +41,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Finds the available set of supported Narrative Types.  See

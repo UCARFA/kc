@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.common.impl.unit;
 
-import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
@@ -26,7 +25,6 @@ import org.kuali.rice.krms.framework.engine.AgendaTree;
 import org.kuali.rice.krms.framework.engine.BasicAgenda;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

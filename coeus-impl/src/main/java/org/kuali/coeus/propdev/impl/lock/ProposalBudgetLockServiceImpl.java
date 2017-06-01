@@ -20,13 +20,11 @@ package org.kuali.coeus.propdev.impl.lock;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.impl.lock.KcPessimisticLockService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.DataDictionaryService;
@@ -35,8 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
 
 @Component("proposalBudgetLockService")
 @Transactional

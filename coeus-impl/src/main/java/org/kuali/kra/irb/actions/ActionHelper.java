@@ -40,7 +40,6 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
-import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;

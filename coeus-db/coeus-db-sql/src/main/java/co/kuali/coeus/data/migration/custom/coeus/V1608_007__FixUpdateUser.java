@@ -3,7 +3,6 @@ package co.kuali.coeus.data.migration.custom.coeus;
 
 import co.kuali.coeus.data.migration.custom.CoeusConnectionDao;
 import co.kuali.coeus.data.migration.custom.RiceAwareSqlExecutor;
-import org.kuali.coeus.dc.award.amntinfo.AwardAmountInfoDuplicatesDaoImpl;
 import org.kuali.coeus.dc.updateuser.LastActionUserDaoImpl;
 import org.kuali.coeus.dc.updateuser.award.AwardUpdateUserDaoImpl;
 import org.kuali.coeus.dc.updateuser.ip.InstitutionalProposalUpdateUserDaoImpl;

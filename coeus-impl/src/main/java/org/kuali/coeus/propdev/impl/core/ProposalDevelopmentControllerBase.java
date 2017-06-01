@@ -72,7 +72,6 @@ import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krad.web.service.*;

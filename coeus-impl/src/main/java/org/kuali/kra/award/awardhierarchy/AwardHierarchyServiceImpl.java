@@ -46,7 +46,6 @@ import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
-import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;

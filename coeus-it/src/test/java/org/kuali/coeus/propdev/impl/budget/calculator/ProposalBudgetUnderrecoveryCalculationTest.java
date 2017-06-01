@@ -39,7 +39,6 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class ProposalBudgetUnderrecoveryCalculationTest extends KcIntegrationTestBase {
 

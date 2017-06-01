@@ -22,7 +22,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.framework.postprocessor.*;
 import org.kuali.rice.krad.service.PostProcessorService;
-import org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor;
 
 import java.util.List;
 

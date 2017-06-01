@@ -21,7 +21,6 @@ package org.kuali.coeus.common.budget.framework.core;
 import java.util.Map;
 
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * This interface has services which required different implementations in AwardBudget and ProposalBudget modules 

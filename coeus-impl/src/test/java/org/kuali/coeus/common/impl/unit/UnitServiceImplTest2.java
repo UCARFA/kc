@@ -18,17 +18,13 @@
  */
 package org.kuali.coeus.common.impl.unit;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.unit.Unit;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class UnitServiceImplTest2 {
 

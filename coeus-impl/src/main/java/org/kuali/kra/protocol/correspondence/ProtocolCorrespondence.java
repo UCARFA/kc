@@ -19,7 +19,6 @@
 package org.kuali.kra.protocol.correspondence;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;

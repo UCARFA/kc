@@ -20,8 +20,6 @@
 package org.kuali.coeus.propdev.impl.s2s.connect;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms.S2sOppFormsId;

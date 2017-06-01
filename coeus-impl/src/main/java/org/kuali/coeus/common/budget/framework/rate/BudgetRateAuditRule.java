@@ -33,7 +33,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

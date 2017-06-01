@@ -61,7 +61,6 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
 	ProposalCopyService proposalCopyService;

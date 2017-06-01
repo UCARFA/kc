@@ -21,7 +21,6 @@ package co.kuali.coeus.web.jstl;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliationContract;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.krad.util.GlobalVariables;

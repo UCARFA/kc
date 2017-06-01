@@ -22,7 +22,6 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

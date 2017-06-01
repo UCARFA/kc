@@ -18,9 +18,6 @@
  */
 package org.kuali.coeus.award.dto;
 
-
-import com.codiform.moo.annotation.Property;
-
 public class RolodexDto {
 
     private Integer rolodexId;

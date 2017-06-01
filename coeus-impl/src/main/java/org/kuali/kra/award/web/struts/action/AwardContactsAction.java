@@ -30,7 +30,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.contacts.*;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;

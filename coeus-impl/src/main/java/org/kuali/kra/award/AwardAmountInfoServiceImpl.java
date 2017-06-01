@@ -18,8 +18,6 @@
  */
 package org.kuali.kra.award;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -29,14 +27,11 @@ import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
-
-    private static final Log LOG = LogFactory.getLog(AwardAmountInfoService.class);
 
     transient BusinessObjectService businessObjectService;
     transient DocumentService documentService;
