@@ -281,7 +281,7 @@
           p:propertyName="document.developmentProposal.proposalPersons"
           p:id="PropDev-PersonnelPage-Collection"
           p:layoutManager.summaryTitle="@{#lp.fullName}
-		                                (@{#lp.role.description}
+		                                (@{#lp.role != null ? #lp.role.description : #lp.proposalPersonRoleId}
                                             @{#lp.keyPerson eq true ? ': ' + #lp.projectRole : '' })
                                                 @{#lp.certifiedBy != null and #lp.isQuestionnairesCompleted() ? '(Certification Completed and Answered By '+ #lp.certifiedPersonName+' - ' + #lp.certifiedTimeStamp+')' : '(Certification Incomplete)'}"
           p:renderAddLine="false"
