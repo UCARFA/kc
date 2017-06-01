@@ -46,5 +46,5 @@
         <param name="mail.transport.protocol">smtp</param>
 
         <!-- SchemaSpy -->
-        <param name="kc.schemaspy.enabled">true</param>
+        <param name="kc.schemaspy.enabled">false</param>
 </config>
