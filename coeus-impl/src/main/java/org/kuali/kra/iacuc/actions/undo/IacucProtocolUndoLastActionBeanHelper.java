@@ -28,10 +28,12 @@ public class IacucProtocolUndoLastActionBeanHelper extends UndoLastActionBeanHel
 
     private static final long serialVersionUID = 792168534895993037L;
 
+    @Override
     protected String getApprovedActionTypeCodeHook() {
         return IacucProtocolActionType.IACUC_APPROVED;
     }
 
+    @Override
     protected String getDeletedProtocolStatusHook() {
         return IacucProtocolStatus.DELETED;
     }
@@ -43,6 +45,7 @@ public class IacucProtocolUndoLastActionBeanHelper extends UndoLastActionBeanHel
         IacucProtocolActionType.IACUC_WITHDRAWN, IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, 
         IacucProtocolActionType.ADMINISTRATIVE_CORRECTION, IacucProtocolActionType.NOTIFY_IACUC};
 
+    @Override
     protected String[] getNotUndoableActions() {
         return notUndoableActions;
     }

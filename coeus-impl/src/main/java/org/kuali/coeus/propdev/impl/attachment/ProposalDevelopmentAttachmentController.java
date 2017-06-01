@@ -558,18 +558,22 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         this.legacyNarrativeService = legacyNarrativeService;
     }
 
+    @Override
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
+    @Override
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
+    @Override
     public GlobalVariableService getGlobalVariableService() {
         return globalVariableService;
     }
 
+    @Override
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }

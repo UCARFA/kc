@@ -33,6 +33,7 @@ public class IrbProtocolFactBuilderServiceImpl extends KcKrmsFactBuilderServiceH
 
     private DocumentService documentService;
     
+    @Override
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
         String documentNumber = getElementValue(docContent, "//documentNumber");
         try {
@@ -43,6 +44,7 @@ public class IrbProtocolFactBuilderServiceImpl extends KcKrmsFactBuilderServiceH
         }
     }
 
+    @Override
     public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext document) {
         ProtocolDocument  protocolDocument = (ProtocolDocument)document;
         Protocol protocol = protocolDocument.getProtocol();

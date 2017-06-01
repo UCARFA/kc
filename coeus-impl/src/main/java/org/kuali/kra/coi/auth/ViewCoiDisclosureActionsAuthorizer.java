@@ -21,6 +21,7 @@ package org.kuali.kra.coi.auth;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class ViewCoiDisclosureActionsAuthorizer extends CoiDisclosureAuthorizer {
+    @Override
     public boolean isAuthorized(String userId, CoiDisclosureTask task) {
         return hasPermission(userId, task.getCoiDisclosure(), PermissionConstants.PERFORM_COI_DISCLOSURE_ACTIONS);
     }

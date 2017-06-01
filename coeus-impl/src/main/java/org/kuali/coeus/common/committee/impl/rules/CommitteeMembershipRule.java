@@ -53,6 +53,7 @@ public class CommitteeMembershipRule extends KcTransactionalDocumentRuleBase
      * @param addCommitteeMembershipEvent
      * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise
      */
+    @Override
     public boolean processAddCommitteeMembershipBusinessRules(AddCommitteeMembershipEvent addCommitteeMembershipEvent) {
         boolean isValid = true;
         
@@ -76,6 +77,7 @@ public class CommitteeMembershipRule extends KcTransactionalDocumentRuleBase
      * @param addCommitteeMembershipRoleEvent
      * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise
      */
+    @Override
     public boolean processAddCommitteeMembershipRoleBusinessRules(AddCommitteeMembershipRoleEvent addCommitteeMembershipRoleEvent) {
         boolean isValid = true;
         

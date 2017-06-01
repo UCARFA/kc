@@ -87,6 +87,7 @@ public class BudgetJustificationWrapper implements Serializable {
         this.justificationText = justificationText;
     }
     
+    @Override
     public String toString() {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 

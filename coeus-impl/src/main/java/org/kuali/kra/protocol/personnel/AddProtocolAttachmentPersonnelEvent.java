@@ -30,10 +30,12 @@ public class AddProtocolAttachmentPersonnelEvent extends ProtocolAttachmentPerso
                 protocolAttachmentPersonnel, personIndex);
     }
 
+    @Override
     public Class getRuleInterfaceClass() {
         return AddProtocolAttachmentPersonnelRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddProtocolAttachmentPersonnelRule) rule).processAddProtocolAttachmentPersonnelRules(this);
     }

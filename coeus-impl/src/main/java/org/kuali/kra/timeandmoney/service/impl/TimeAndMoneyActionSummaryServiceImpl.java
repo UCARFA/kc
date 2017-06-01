@@ -31,6 +31,7 @@ public class TimeAndMoneyActionSummaryServiceImpl extends PlatformAwareDaoBaseOj
     private BusinessObjectService businessObjectService;
     private TimeAndMoneyDao timeAndMoneyDao;
 
+    @Override
     public List<TimeAndMoneyActionSummary> populateActionSummary(String awardNumber) {
         return timeAndMoneyDao.buildTimeAndMoneyActionSummaryForAward(awardNumber);
         

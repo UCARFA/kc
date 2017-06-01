@@ -88,6 +88,7 @@ public class InstitutionalProposalPersonCreditSplit extends KcPersistableBusines
      *
      * @return the value of credit
      */
+    @Override
     public ScaleTwoDecimal getCredit() {
         return this.credit != null ? this.credit : new ScaleTwoDecimal(0);
     }
@@ -97,6 +98,7 @@ public class InstitutionalProposalPersonCreditSplit extends KcPersistableBusines
      *
      * @return the value of invCreditTypeCode
      */
+    @Override
     public String getInvCreditTypeCode() {
         refreshInvestigatorCreditTypeIfNeeded();
         return invCreditTypeCode;
@@ -141,6 +143,7 @@ public class InstitutionalProposalPersonCreditSplit extends KcPersistableBusines
      *
      * @param argCredit Value to assign to this.credit
      */
+    @Override
     public void setCredit(ScaleTwoDecimal argCredit) {
         this.credit = argCredit;
     }
@@ -150,6 +153,7 @@ public class InstitutionalProposalPersonCreditSplit extends KcPersistableBusines
      *
      * @param argInvCreditTypeCode Value to assign to this.invCreditTypeCode
      */
+    @Override
     public void setInvCreditTypeCode(String argInvCreditTypeCode) {
         this.invCreditTypeCode = argInvCreditTypeCode;
     }
@@ -179,20 +183,24 @@ public class InstitutionalProposalPersonCreditSplit extends KcPersistableBusines
         }
     }
 
+    @Override
     public InstitutionalProposal getSequenceOwner() {
         return getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getInstitutionalProposal() : null;
     }
 
+    @Override
     public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
         if (getInstitutionalProposalPerson() != null) {
             getInstitutionalProposalPerson().setInstitutionalProposal(newlyVersionedOwner);
         }
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getSequenceNumber() : 0;
     }
 
+    @Override
     public void resetPersistenceState() {
         this.institutionalProposalPersonCreditSplitId = null;
     }

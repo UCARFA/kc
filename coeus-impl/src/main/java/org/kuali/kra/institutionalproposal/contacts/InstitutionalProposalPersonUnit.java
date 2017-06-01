@@ -303,20 +303,24 @@ public class InstitutionalProposalPersonUnit extends KcPersistableBusinessObject
         }
     }
 
+    @Override
     public InstitutionalProposal getSequenceOwner() {
         return getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getInstitutionalProposal() : null;
     }
 
+    @Override
     public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
         if (getInstitutionalProposalPerson() != null) {
             getInstitutionalProposalPerson().setInstitutionalProposal(newlyVersionedOwner);
         }
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return getInstitutionalProposalPerson() != null ? getInstitutionalProposalPerson().getSequenceNumber() : 0;
     }
 
+    @Override
     public void resetPersistenceState() {
         this.institutionalProposalPersonUnitId = null;
     }

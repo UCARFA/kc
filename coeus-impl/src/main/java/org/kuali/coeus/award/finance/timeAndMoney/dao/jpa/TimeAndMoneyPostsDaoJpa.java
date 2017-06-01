@@ -47,6 +47,7 @@ public class TimeAndMoneyPostsDaoJpa implements TimeAndMoneyPostsDao {
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
 
+    @Override
     public TimeAndMoneyPosts getTimeAndMoneyPostsByDocumentNumber(String documentNumber) {
         Map<String, String> keys = new HashMap<>();
         keys.put(DOCUMENT_NUMBER, documentNumber);

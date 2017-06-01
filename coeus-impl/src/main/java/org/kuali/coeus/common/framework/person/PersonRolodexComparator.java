@@ -39,6 +39,7 @@ public class PersonRolodexComparator implements Comparator<PersonRolodex> {
      * @param person2
      * @return int
      */
+    @Override
     public int compare(PersonRolodex person1, PersonRolodex person2) {
         int retval = 0;
                

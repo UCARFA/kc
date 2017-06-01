@@ -29,10 +29,12 @@ public class IacucProtocolSpecialReview extends ProtocolSpecialReviewBase {
 
     private static final long serialVersionUID = 8844844156781463843L;
 
+    @Override
     public IacucProtocol getSequenceOwner() {
         return (IacucProtocol) super.getSequenceOwner();
     }
 
+    @Override
     public void resetPersistenceState() {
         super.resetPersistenceState();
         for (ProtocolSpecialReviewExemption exemption : getSpecialReviewExemptions()) {
@@ -41,6 +43,7 @@ public class IacucProtocolSpecialReview extends ProtocolSpecialReviewBase {
         }
     }
 
+    @Override
     public ProtocolSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
         IacucProtocolSpecialReviewExemption protocolSpecialReviewExemption = new IacucProtocolSpecialReviewExemption();
         protocolSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);

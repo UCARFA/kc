@@ -234,6 +234,7 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
      * {@inheritDoc}
      * also nulling the person id because when saving after versioning, the person id is reverting to the wrong BO.
      */
+    @Override
     public void resetPersistenceState() {
         this.setAwardAttachmentId(null);
     }
@@ -349,6 +350,7 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
      * Implements comparable based on the awardAttachmentId.
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
+    @Override
     public int compareTo(AwardAttachment o) {
         return this.getAwardAttachmentId().compareTo(o.getAwardAttachmentId());
     }

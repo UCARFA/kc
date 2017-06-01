@@ -50,6 +50,7 @@ public class AwardReportTermRuleImpl extends KcTransactionalDocumentRuleBase
      * @see org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRule#processAwardReportTermBusinessRules(
      *          org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleEvent)
      */
+    @Override
     public boolean processAwardReportTermBusinessRules(AwardReportTermRuleEvent event) {
         boolean validFields = true;
         String fieldStarter = "document.awardList[0].awardReportTermItems[";
@@ -70,6 +71,7 @@ public class AwardReportTermRuleImpl extends KcTransactionalDocumentRuleBase
      * @param event
      * @return
      */
+    @Override
     public boolean processAddAwardReportTermBusinessRules(AddAwardReportTermRuleEvent event) {
         GenericAwardReportTerm awardReportTermItem = event.getAwardReportTermItemForValidation();        
         List<? extends GenericAwardReportTerm> items = 

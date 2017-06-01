@@ -40,7 +40,8 @@ public class JavaFunctionResolver extends FunctionTermResolver {
         setFunctionTerm(functionTerm);
     }
 
-    protected Object executeFunction(String serviceName,String methodName,Map<String, Object> resolvedPrereqs,Map<String,String> resolvedParameters) {
+    @Override
+    protected Object executeFunction(String serviceName, String methodName, Map<String, Object> resolvedPrereqs, Map<String,String> resolvedParameters) {
         List<Object> orderedParamValues = extractParamValues(resolvedPrereqs,resolvedParameters);
         if(serviceName==null)
             throw new RuntimeException("Service name is not defined for the term:"+getOutput());

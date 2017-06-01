@@ -65,6 +65,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    @Override
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();        
@@ -151,6 +152,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
      * Convenience method to allow stubbing
      * @return
      */
+    @Override
     protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }

@@ -38,6 +38,7 @@ public abstract class ProtocolAttachmentPersonnelEventBase  extends KcDocumentEv
         setPersonIndex(personIndex);
     }
 
+    @Override
     public ProtocolAttachmentPersonnelBase getProtocolAttachmentPersonnel() {
         return protocolAttachmentPersonnel;
     }
@@ -46,6 +47,7 @@ public abstract class ProtocolAttachmentPersonnelEventBase  extends KcDocumentEv
         this.protocolAttachmentPersonnel = protocolAttachmentPersonnel;
     }
 
+    @Override
     public int getPersonIndex() {
         return personIndex;
     }
@@ -57,6 +59,7 @@ public abstract class ProtocolAttachmentPersonnelEventBase  extends KcDocumentEv
     /**
      * Logs the event type and some information about the associated unit
      */
+    @Override
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");

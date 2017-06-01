@@ -142,10 +142,12 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
         this.questionnaire = questionnaire;
     }
 
+    @Override
     public Questionnaire getSequenceOwner() {
         return this.getQuestionnaire();
     }
 
+    @Override
     public void setSequenceOwner(Questionnaire newlyVersionedOwner) {
         setQuestionnaire(newlyVersionedOwner);
     }
@@ -155,10 +157,12 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
         this.setId(null);
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return this.sequenceOwner.getSequenceNumber();
     }
 
+    @Override
     public Integer getQuestionnaireSequenceNumber() {
         return questionnaireSequenceNumber;
     }
@@ -167,6 +171,7 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
         this.questionnaireSequenceNumber = questionnaireSequenceNumber;
     }
 
+    @Override
     public int compareTo(QuestionnaireUsage argQuestionnaireUsage) {
         if (ObjectUtils.equals(this.getQuestionnaire().getQuestionnaireSeqId(), argQuestionnaireUsage.getQuestionnaire().getQuestionnaireSeqId())) {
             if (ObjectUtils.equals(this.getQuestionnaireId(), argQuestionnaireUsage.getQuestionnaireId())) {

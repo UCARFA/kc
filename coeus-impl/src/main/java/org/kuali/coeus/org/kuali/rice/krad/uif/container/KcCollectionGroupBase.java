@@ -1026,6 +1026,7 @@ public class KcCollectionGroupBase extends GroupBase implements CollectionGroup 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setDuplicateLinePropertyNames(List<String> duplicateLinePropertyNames) {
         this.duplicateLinePropertyNames = duplicateLinePropertyNames;
     }
@@ -1592,6 +1593,7 @@ public class KcCollectionGroupBase extends GroupBase implements CollectionGroup 
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<DialogGroup> getLineDialogs() {
         return lineDialogs;
     }
@@ -1599,6 +1601,7 @@ public class KcCollectionGroupBase extends GroupBase implements CollectionGroup 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setLineDialogs(List<DialogGroup> dialogGroups) {
         this.lineDialogs = dialogGroups;
     }

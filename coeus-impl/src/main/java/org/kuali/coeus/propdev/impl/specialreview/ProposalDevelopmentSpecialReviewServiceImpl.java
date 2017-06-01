@@ -135,10 +135,12 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
         }
     }
 
+    @Override
     public boolean isCreateIrbProtocolEnabled() {
     	return isIrbLinkingEnabled() &&	isCreateProtocolFromProposalEnabled(Constants.PROPOSAL_DEVELOPMENT_CREATE_IRB_PROTOCOL_ENABLED_PARAMETER);
     }
 
+    @Override
     public boolean isCreateIacucProtocolEnabled() {
     	return isIacucLinkingEnabled() && isCreateProtocolFromProposalEnabled(Constants.PROPOSAL_DEVELOPMENT_CREATE_IACUC_PROTOCOL_ENABLED_PARAMETER);
     }
@@ -168,6 +170,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
      * @param protocolLinkParam
      * @return
      */
+    @Override
     public boolean isCreateProtocolFromProposalEnabled(String protocolLinkParam) {
     	return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, protocolLinkParam);
     }
@@ -177,6 +180,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
         return getProposalDevelopmentProtocolDocumentService().isAuthorizedCreateProtocol(document); 
     }
     
+    @Override
     public boolean canCreateIacucProtocol(ProposalDevelopmentDocument document) {
         return getIacucProtocolProposalDevelopmentProtocolDocumentService().isAuthorizedCreateProtocol(document);
     }

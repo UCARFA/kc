@@ -47,6 +47,7 @@ public abstract class ProtocolAssignToAgendaEventBase extends KcDocumentEventBas
     }
 
     
+    @Override
     public abstract KcBusinessRule getRule();
 
 }

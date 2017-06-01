@@ -134,10 +134,12 @@ public class VersionHistoryServiceTest {
     private class MockBusinessObjectService implements BusinessObjectService {
         private Map<Long, VersionHistory> mockHistory = new TreeMap<Long, VersionHistory>();
         
+        @Override
         public Collection findAll(Class clazz) {
             return mockHistory.values();
         }
         
+        @Override
         public PersistableBusinessObject save(PersistableBusinessObject bo) {
             VersionHistory versionHistory = (VersionHistory) bo;
             if(versionHistory.getVersionHistoryId() == null) {
@@ -147,8 +149,10 @@ public class VersionHistoryServiceTest {
             return bo;
         }
 
+        @Override
         public PersistableBusinessObject findByPrimaryKey(Class clazz, Map primaryKeys) { return null; }
         
+        @Override
         public Collection findMatching(Class clazz, Map fieldValues) {
             Collection collection;
             if(clazz.equals(VersionHistory.class)) {
@@ -190,15 +194,22 @@ public class VersionHistoryServiceTest {
             return collection;
         }
         
+        @Override
         @SuppressWarnings("unchecked")
         public Collection findMatchingOrderBy(Class clazz, Map fieldValues, String sortField, boolean sortAscending) { return null; }
+        @Override
         public BusinessObject getReferenceIfExists(BusinessObject bo, String referenceName) { return null; }
+        @Override
         public PersistableBusinessObject linkAndSave(PersistableBusinessObject bo) { return bo;}
+        @Override
         public List<? extends PersistableBusinessObject> linkAndSave(List<? extends PersistableBusinessObject> businessObjects) { return businessObjects; }
+        @Override
         public void linkUserFields(Object bo) { }
         public void linkUserFields(List<PersistableBusinessObject> bos) { }
+        @Override
         public PersistableBusinessObject retrieve(Object object) { return null; }
         
+        @Override
         public List<? extends PersistableBusinessObject> save(List<? extends PersistableBusinessObject> businessObjects) {
             for(Object bo: businessObjects) {
                 save((PersistableBusinessObject) bo);
@@ -208,21 +219,29 @@ public class VersionHistoryServiceTest {
         }
         
         
+        @Override
         public int countMatching(Class clazz, Map fieldValues) { return 0; }
+        @Override
         public int countMatching(Class clazz, Map positiveFieldValues, Map negativeFieldValues) { return 0;}
+        @Override
         public void delete(Object bo) {}
+        @Override
         public void delete(List<? extends PersistableBusinessObject> boList) { }
 
+        @Override
         public void deleteMatching(Class clazz, Map fieldValues) {}
 
+        @Override
         public <T extends BusinessObject> Collection<T> findAllOrderBy(Class<T> clazz, String sortField, boolean sortAscending) {
             return null;
         }
 
+        @Override
         public <T extends BusinessObject> T findBySinglePrimaryKey(Class<T> clazz, Object primaryKey) {
             return null;
         }
 
+        @Override
         public PersistableBusinessObject manageReadOnly(PersistableBusinessObject bo) {
             return null;
         }  

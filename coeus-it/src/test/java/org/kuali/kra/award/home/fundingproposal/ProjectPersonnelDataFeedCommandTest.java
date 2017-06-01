@@ -42,6 +42,7 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
     private Unit unit1;
     private Unit unit2;
     
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();

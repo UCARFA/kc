@@ -36,6 +36,7 @@ public class AwardPersonDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCol
     private LookupDao lookupDao;
     private DataDictionaryService dataDictionaryService;
     
+    @Override
     @SuppressWarnings("unchecked")
     public List<AwardPerson> getAwardPersons(Map<String, String> fieldValues) {
         Query query = new QueryByCriteria(AwardPerson.class, getCollectionCriteriaFromMap(fieldValues));

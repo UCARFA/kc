@@ -39,7 +39,8 @@ public class ConfigContextConfigObjectFactoryBean implements FactoryBean<Object>
 		this.mustExist = true;
 	}
 
-	public Object getObject() throws Exception {
+	@Override
+    public Object getObject() throws Exception {
 		Object o =  ConfigContext.getCurrentContextConfig().getObject(this.getObjectName());
 
 		if (mustExist && o == null) {
@@ -49,6 +50,7 @@ public class ConfigContextConfigObjectFactoryBean implements FactoryBean<Object>
 		return o;
 	}
 
+    @Override
     public Class<?> getObjectType() {
         if (getObjectName() == null) {
             return null;
@@ -62,7 +64,8 @@ public class ConfigContextConfigObjectFactoryBean implements FactoryBean<Object>
         }
     }
 
-	public boolean isSingleton() {
+	@Override
+    public boolean isSingleton() {
 		return singleton;
 	}
 
@@ -86,7 +89,8 @@ public class ConfigContextConfigObjectFactoryBean implements FactoryBean<Object>
 		this.mustExist = mustExist;
 	}
 
-	public void afterPropertiesSet() throws Exception {
+	@Override
+    public void afterPropertiesSet() throws Exception {
 		if (StringUtils.isBlank(this.getObjectName())) {
 			throw new ConfigurationException("No objectName given.");
 		}

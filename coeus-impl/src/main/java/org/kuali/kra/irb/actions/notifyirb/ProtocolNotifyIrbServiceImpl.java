@@ -64,6 +64,7 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
      * @throws WorkflowException 
      * @see org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService#submitIrbNotification(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean)
      */
+    @Override
     public void submitIrbNotification(Protocol protocol, ProtocolNotifyIrbBean notifyIrbBean) throws WorkflowException {
         /*
          * The submission is created first so that its new primary key can be added

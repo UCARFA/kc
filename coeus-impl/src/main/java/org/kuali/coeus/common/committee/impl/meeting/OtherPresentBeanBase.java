@@ -54,6 +54,7 @@ public abstract class OtherPresentBeanBase implements Serializable, Comparable<O
         this.member = member;
     }
 
+    @Override
     public int compareTo(OtherPresentBeanBase arg) {
         return this.getAttendance().getPersonName().compareTo(arg.getAttendance().getPersonName());
 

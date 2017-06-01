@@ -76,6 +76,7 @@ public class AwardBudgetServiceImplTest {
     @Test
     public void testFindBudgetPeriodsFromLinkedProposal() {
         awardBudgetService = new AwardBudgetServiceImpl(){
+            @Override
             protected <T extends BusinessObject> List<T>  findMatching(Class<T> clazz, String key, Object value){
                 return mockedFindObjectsWithSingleKey(clazz, key, value);
             }

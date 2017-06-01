@@ -111,6 +111,7 @@ public class PersonFinIntDisclosure extends KcPersistableBusinessObjectBase impl
         this.entityNumber = entityNumber;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -293,31 +294,37 @@ public class PersonFinIntDisclosure extends KcPersistableBusinessObjectBase impl
         this.perFinIntDisclDetails = perFinIntDisclDetails;
     }
 
+    @Override
     public void setSequenceOwner(PersonFinIntDisclosure newlyVersionedOwner) {
 
         
     }
 
+    @Override
     public PersonFinIntDisclosure getSequenceOwner() {
 
         return this;
     }
 
+    @Override
     public void resetPersistenceState() {
         this.personFinIntDisclosureId = null;
         
     }
 
+    @Override
     public void incrementSequenceNumber() {
         this.sequenceNumber++; 
                 
     }
 
+    @Override
     public Integer getOwnerSequenceNumber() {
 
         return null;
     }
 
+    @Override
     public String getVersionNameField() {
         return "entityNumber";
     }

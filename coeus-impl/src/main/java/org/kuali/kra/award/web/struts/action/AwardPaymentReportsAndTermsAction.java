@@ -191,6 +191,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
      * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
         super.refresh(mapping, form, request, response);

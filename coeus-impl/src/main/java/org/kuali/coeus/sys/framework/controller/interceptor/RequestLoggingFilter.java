@@ -84,8 +84,9 @@ public class RequestLoggingFilter implements Filter {
      *
      * @see javax.servlet.Filter#doFilter(ServletRequest,ServletResponse,FilterChain)
      */
-    public void doFilter(ServletRequest request, 
-                         ServletResponse response, 
+    @Override
+    public void doFilter(ServletRequest request,
+                         ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
         doFilter((HttpServletRequest) request, (HttpServletResponse) response);
           

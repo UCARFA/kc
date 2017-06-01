@@ -34,10 +34,12 @@ public class IacucProtocolExceptionServiceImpl implements IacucProtocolException
     private static final String REFERENCE_EXCEPTION_CATEGORY = "iacucExceptionCategory";
     private static final String REFERENCE_PROTOCOL_SPECIES = "iacucSpecies";
 
+    @Override
     public void addProtocolException(IacucProtocol protocol, IacucProtocolException protocolException) {
         protocol.getIacucProtocolExceptions().add(getNewProtocolException(protocol, protocolException));
     }
     
+    @Override
     public IacucProtocolException getNewProtocolException(IacucProtocol protocol, IacucProtocolException protocolException) {
         protocolException.setIacucProtocolExceptionId(getNextProtocolExceptionSequence());
         protocolException.setExceptionId(getNextProtocolExceptionId(protocol));
@@ -94,6 +96,7 @@ public class IacucProtocolExceptionServiceImpl implements IacucProtocolException
             protocolExceptionsList.add((IacucProtocolException) ObjectUtils.deepCopy(exception));
         }
         Collections.sort(protocolExceptionsList, new Comparator<IacucProtocolException>() {
+            @Override
             public int compare(IacucProtocolException exception1, IacucProtocolException exception2) {
                 return exception1.getExceptionId().compareTo(exception2.getExceptionId());
             }

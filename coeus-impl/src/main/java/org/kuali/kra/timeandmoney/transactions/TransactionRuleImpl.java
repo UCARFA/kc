@@ -64,6 +64,7 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
      * @see org.kuali.kra.timeandmoney.transactions.TransactionRule#processPendingTransactionBusinessRules(
      *  org.kuali.kra.timeandmoney.transactions.TransactionRuleEvent)
      */
+    @Override
     public boolean processPendingTransactionBusinessRules(TransactionRuleEvent event) {
         return processCommonValidations(event);        
     }
@@ -74,6 +75,7 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
      * @param event
      * @return
      */
+    @Override
     public boolean processAddPendingTransactionBusinessRules(AddTransactionRuleEvent event) {
         boolean valid = areRequiredFieldsComplete(event.getPendingTransactionItemForValidation()) && sourceAndDestinationAwardsAreDifferent(event.getPendingTransactionItemForValidation());
         if (valid) {

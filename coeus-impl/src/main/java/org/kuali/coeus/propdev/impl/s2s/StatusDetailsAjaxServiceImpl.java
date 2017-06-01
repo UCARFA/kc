@@ -45,6 +45,7 @@ public class StatusDetailsAjaxServiceImpl implements StatusDetailsAjaxService {
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
+    @Override
     public String getStatusDetails(String ggTrackingId, String proposalNumber) {
         if(isAuthorizedToAccess(proposalNumber)){
             return s2sSubmissionService.getStatusDetails(ggTrackingId, proposalNumber);

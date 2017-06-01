@@ -226,6 +226,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         return procedureLocation;
     }
     
+    @Override
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
         return (IacucProtocolProcedureService) KcServiceLocator.getService("iacucProtocolProcedureService");
     }
@@ -260,6 +261,7 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         return selectedBeanIndex;
     }
     
+    @Override
     protected IacucProtocol getIacucProtocol(ActionForm form) {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         return protocolForm.getIacucProtocolDocument().getIacucProtocol();

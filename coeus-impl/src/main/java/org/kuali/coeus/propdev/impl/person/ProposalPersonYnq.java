@@ -66,6 +66,7 @@ public class ProposalPersonYnq extends KcPersistableBusinessObjectBase implement
 		this.proposalPerson = proposalPerson;
 	}
 
+    @Override
     public String getQuestionId() {
         return questionId;
     }
@@ -74,6 +75,7 @@ public class ProposalPersonYnq extends KcPersistableBusinessObjectBase implement
         this.questionId = questionId;
     }
 
+    @Override
     public String getAnswer() {
         return answer;
     }

@@ -26,6 +26,7 @@ public class AwardSyncHelpersServiceImpl implements AwardSyncHelpersService {
 
     private Map<String, AwardSyncHelper> syncHelpers;
     
+    @Override
     public AwardSyncHelper getSyncHelper(String className) {
         if (className.contains(".")) {
             return getSyncHelpers().get(className.substring(className.lastIndexOf(".")+1));

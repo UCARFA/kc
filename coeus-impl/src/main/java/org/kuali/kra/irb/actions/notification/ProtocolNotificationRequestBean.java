@@ -36,10 +36,12 @@ public class ProtocolNotificationRequestBean extends ProtocolNotificationRequest
         super(protocol, protocolOnlineReview, actionType, description, docNumber, olrEvent);
     }
  
+    @Override
     public Protocol getProtocol() {
         return (Protocol)super.getProtocol();
     }
     
+    @Override
     public ProtocolOnlineReview getProtocolOnlineReview() {
         return (ProtocolOnlineReview)super.getProtocolOnlineReview();
     }

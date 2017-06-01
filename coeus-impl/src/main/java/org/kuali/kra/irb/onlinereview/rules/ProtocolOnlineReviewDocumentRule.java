@@ -60,6 +60,7 @@ public class ProtocolOnlineReviewDocumentRule extends KcTransactionalDocumentRul
     }
 
 
+    @Override
     public boolean processAddProtocolOnlineReviewComment(AddProtocolOnlineReviewCommentEvent event) {
         
         boolean valid = true;
@@ -74,6 +75,7 @@ public class ProtocolOnlineReviewDocumentRule extends KcTransactionalDocumentRul
         return valid;
     }
 
+    @Override
     public boolean processSaveProtocolOnlineReview(SaveProtocolOnlineReviewEvent event) {
         boolean valid = true;
         GlobalVariables.getMessageMap().clearErrorPath();
@@ -131,6 +133,7 @@ public class ProtocolOnlineReviewDocumentRule extends KcTransactionalDocumentRul
         
     }
 
+    @Override
     public boolean processRouteProtocolOnlineReview(RouteProtocolOnlineReviewEvent event) {
         
         boolean valid = true;
@@ -142,6 +145,7 @@ public class ProtocolOnlineReviewDocumentRule extends KcTransactionalDocumentRul
     }
     
     
+    @Override
     public boolean processDisapproveOnlineReviewComment(DisapproveProtocolOnlineReviewCommentEvent event) {
         boolean valid = true;
         if (StringUtils.isBlank(event.getReason()) ||
@@ -151,6 +155,7 @@ public class ProtocolOnlineReviewDocumentRule extends KcTransactionalDocumentRul
         return valid;
     }   
 
+    @Override
     public boolean processRejectOnlineReviewComment(RejectProtocolOnlineReviewCommentEvent event) {
         boolean valid = true;
         if (StringUtils.isBlank(event.getReason()) ||
@@ -160,6 +165,7 @@ public class ProtocolOnlineReviewDocumentRule extends KcTransactionalDocumentRul
         return valid;
     }    
 
+    @Override
     public boolean processDeleteOnlineReview(DeleteProtocolOnlineReviewEvent event) {
         boolean valid = true;
         if (StringUtils.isBlank(event.getReason()) ||
@@ -169,6 +175,7 @@ public class ProtocolOnlineReviewDocumentRule extends KcTransactionalDocumentRul
         return valid;        
     }
 
+    @Override
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);

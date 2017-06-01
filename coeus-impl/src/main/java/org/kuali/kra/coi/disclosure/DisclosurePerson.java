@@ -56,6 +56,7 @@ public class DisclosurePerson extends DisclosureReporter implements SequenceAsso
         this.coiDisclosureId = coiDisclosureId;
     }
 
+    @Override
     public String getPersonId() {
         return personId;
     }

@@ -105,6 +105,7 @@ public class ProtocolApproveServiceImpl extends ProtocolApproveServiceImplBase i
      * @param approvalDate
      * @return a non-null expiration date
      */
+    @Override
     public Date buildExpirationDate(ProtocolBase protocol, Date approvalDate) {
         Date expirationDate = protocol.getExpirationDate();
 
@@ -122,6 +123,7 @@ public class ProtocolApproveServiceImpl extends ProtocolApproveServiceImplBase i
      * This method returns the number of years to add for the default expiration date.
      * @return
      */
+    @Override
     public int getDefaultExpirationDateDifference() {
         return 1;
     }

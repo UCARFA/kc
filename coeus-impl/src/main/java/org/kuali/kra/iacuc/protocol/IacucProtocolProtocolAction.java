@@ -581,6 +581,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         }
     }
     
+    @Override
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         IacucProtocolForm protocolForm = (IacucProtocolForm)form;
         protocolForm.getCustomDataHelper().prepareCustomData();
@@ -591,12 +592,14 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         return super.specialReview(mapping, form, request, response);
     }
 
-    public ActionForward speciesAndGroups(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    @Override
+    public ActionForward speciesAndGroups(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((IacucProtocolForm) form).getIacucProtocolSpeciesHelper().prepareView();
         return mapping.findForward("iacucSpeciesAndGroups");
     }
     
-    public ActionForward procedures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {        
+    @Override
+    public ActionForward procedures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((IacucProtocolForm) form).getIacucProtocolProceduresHelper().prepareView();
         return mapping.findForward("iacucProtocolProcedures");
     }

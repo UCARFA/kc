@@ -80,8 +80,9 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward updateAnswerToNewVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+                                                  HttpServletResponse response) throws Exception {
         ((IacucProtocolForm) form).getQuestionnaireHelper().updateQuestionnaireAnswer(getLineToDelete(request));
         getBusinessObjectService().save(((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(getLineToDelete(request)));
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -141,8 +142,9 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
         return forward;
     }
 
+    @Override
     public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+                                                  HttpServletResponse response) throws Exception {
         // TODO : this is only available after questionnaire is saved ?
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         Map<String, Object> reportParameters = new HashMap<String, Object>();

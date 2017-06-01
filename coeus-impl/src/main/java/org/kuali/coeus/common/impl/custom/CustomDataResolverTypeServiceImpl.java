@@ -26,6 +26,7 @@ import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import java.util.Set;
 
 public abstract class CustomDataResolverTypeServiceImpl  implements TermResolverTypeService {
+    @Override
     public TermResolver<?> loadTermResolver(TermResolverDefinition termResolverDefinition) {
         Set<String> paramsSet = termResolverDefinition.getParameterNames();
         return new CustomDataResolver(termResolverDefinition.getOutput().getName(), paramsSet, getModuleNamePrereq());

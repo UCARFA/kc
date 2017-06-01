@@ -335,10 +335,12 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
      * Gets the budgetService attribute. 
      * @return Returns the budgetService.
      */
+    @Override
     public BudgetService getBudgetService() {
         return KcServiceLocator.getService(BudgetService.class);
     }
 
+    @Override
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward actionForward = KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (AwardForm) form, true);
@@ -349,6 +351,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         return actionForward;
     }
 
+    @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 

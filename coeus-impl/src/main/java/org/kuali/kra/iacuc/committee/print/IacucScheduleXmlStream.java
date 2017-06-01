@@ -68,6 +68,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
     private CommitteeMembershipServiceBase committeeMembershipService;
     private IacucPrintXmlUtilService printXmlUtilService;
 
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         IacucCommitteeSchedule committeeSchedule = (IacucCommitteeSchedule)printableBusinessObject;
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();

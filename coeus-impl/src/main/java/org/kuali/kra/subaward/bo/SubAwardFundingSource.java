@@ -83,19 +83,23 @@ public class SubAwardFundingSource extends SubAwardAssociate {
 		this.subAwardFundingSourceId = subAwardFundingSourceId;
 	}
 
-	public Long getSubAwardId() {
+	@Override
+    public Long getSubAwardId() {
 		return subAwardId;
 	}
 
-	public void setSubAwardId(Long subAwardId) {
+	@Override
+    public void setSubAwardId(Long subAwardId) {
 		this.subAwardId = subAwardId;
 	}
 
-	public String getSubAwardCode() {
+	@Override
+    public String getSubAwardCode() {
 		return subAwardCode;
 	}
 
-	public void setSubAwardCode(String subAwardCode) {
+	@Override
+    public void setSubAwardCode(String subAwardCode) {
 		this.subAwardCode = subAwardCode;
 	}
 

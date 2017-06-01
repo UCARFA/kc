@@ -240,20 +240,24 @@ public class AwardReportTermRecipient extends KcPersistableBusinessObjectBase im
         return true;
     }
 
+    @Override
     public Award getSequenceOwner() {
         return getAwardReportTerm() != null ? getAwardReportTerm().getAward() : null;
     }
 
+    @Override
     public void setSequenceOwner(Award newlyVersionedOwner) {
         if (getAwardReportTerm() != null) {
             getAwardReportTerm().setAward(newlyVersionedOwner);
         }
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return getAwardReportTerm() != null ? getAwardReportTerm().getSequenceNumber() : 0;
     }
 
+    @Override
     public void resetPersistenceState() {
         this.awardReportTermRecipientId = null;
     }

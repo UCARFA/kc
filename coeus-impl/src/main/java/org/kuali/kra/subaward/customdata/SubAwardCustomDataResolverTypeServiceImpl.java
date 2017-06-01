@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 @Component("subawardCustomDataResolverTypeService")
 public class SubAwardCustomDataResolverTypeServiceImpl extends CustomDataResolverTypeServiceImpl {
+    @Override
     protected String getModuleNamePrereq() {
         return KcKrmsConstants.SubAward.SUBAWARD;
     }

@@ -68,6 +68,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
         return questionnaireAnswerService;
     }
     
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) document;

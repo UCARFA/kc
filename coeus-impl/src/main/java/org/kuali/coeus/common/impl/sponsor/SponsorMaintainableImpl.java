@@ -218,6 +218,7 @@ public class SponsorMaintainableImpl extends KraMaintainableImpl {
 		this.sequenceAccessorService = sequenceAccessorService;
 	}
 
+    @Override
     public GlobalVariableService getGlobalVariableService() {
         if (globalVariableService == null) {
             globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
@@ -225,6 +226,7 @@ public class SponsorMaintainableImpl extends KraMaintainableImpl {
         return globalVariableService;
     }
 
+    @Override
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }

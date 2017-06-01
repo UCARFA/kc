@@ -36,6 +36,7 @@ public class ProposalDevelopmentProposalLocationRule extends KcTransactionalDocu
      * @param addProposalSiteEvent
      * @return
      */
+    @Override
     public boolean processAddProposalSiteBusinessRules(AddProposalSiteEvent addProposalSiteEvent) {
         ProposalSite proposalSite = addProposalSiteEvent.getProposalSite();
 
@@ -56,6 +57,7 @@ public class ProposalDevelopmentProposalLocationRule extends KcTransactionalDocu
      * @param saveProposalSiteEvent
      * @return
      */
+    @Override
     public boolean processSaveProposalSiteBusinessRules(SaveProposalSitesEvent saveProposalSiteEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)saveProposalSiteEvent.getDocument();
         DevelopmentProposal developmentProposal = document.getDevelopmentProposal();

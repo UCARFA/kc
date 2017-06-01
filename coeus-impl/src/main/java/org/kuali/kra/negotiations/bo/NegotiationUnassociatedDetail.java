@@ -74,11 +74,13 @@ public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBa
     }
     
     
+    @Override
     protected void prePersist() {
         super.prePersist();
         setPiName();
     }
     
+    @Override
     protected void preUpdate() {
         super.preUpdate();
         setPiName();
@@ -118,6 +120,7 @@ public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBa
 
 
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -154,6 +157,7 @@ public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBa
 
 
 
+    @Override
     public String getLeadUnitNumber() {
         return leadUnitNumber;
     }
@@ -166,6 +170,7 @@ public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBa
 
 
 
+    @Override
     public String getSponsorCode() {
         return sponsorCode;
     }
@@ -178,6 +183,7 @@ public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBa
 
 
 
+    @Override
     public String getPrimeSponsorCode() {
         return primeSponsorCode;
     }
@@ -190,6 +196,7 @@ public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBa
 
 
 
+    @Override
     public String getSponsorAwardNumber() {
         return sponsorAwardNumber;
     }
@@ -383,6 +390,7 @@ public class NegotiationUnassociatedDetail extends KcPersistableBusinessObjectBa
 
 
 
+    @Override
     public String getNegotiableProposalTypeCode() {
         return negotiableProposalTypeCode;
     }

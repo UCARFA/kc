@@ -58,6 +58,7 @@ public class CfdaServiceImpl implements CfdaService {
 
     static {
         cfdaComparator = new Comparator() {
+            @Override
             public int compare(Object o1, Object o2) {
                 String lhs = (String) o1;
                 String rhs = (String) o2;
@@ -72,6 +73,7 @@ public class CfdaServiceImpl implements CfdaService {
      * @return
      * @throws IOException
      */
+    @Override
     public SortedMap<String, CFDA> retrieveGovCodes() throws IOException {
              
         SortedMap<String, CFDA> govMap = new TreeMap<String, CFDA>();
@@ -198,6 +200,7 @@ public class CfdaServiceImpl implements CfdaService {
      * gov site.
      * @see org.kuali.kra.external.Cfda.CfdaService#updateCfda()
      */
+    @Override
     public CfdaUpdateResults updateCfda() {
         CfdaUpdateResults updateResults = new CfdaUpdateResults();
         StringBuilder message = new StringBuilder();

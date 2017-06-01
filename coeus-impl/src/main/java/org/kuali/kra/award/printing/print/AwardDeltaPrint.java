@@ -43,7 +43,8 @@ public class AwardDeltaPrint extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public List<Source> getXSLTemplates() {
+	@Override
+    public List<Source> getXSLTemplates() {
 		List<Source> sourceList = PrintingUtils
 				.getXSLTforReport(AwardPrintType.AWARD_DELTA_REPORT
 						.getAwardPrintType());

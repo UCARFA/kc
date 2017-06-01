@@ -746,6 +746,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     private List<IacucProtocolStudyGroupLocation> getSortedStudyGroupLocations(IacucProtocol iacucProtocol) {
         List<IacucProtocolStudyGroupLocation> protocolStudyGroupLocations = iacucProtocol.getIacucProtocolStudyGroupLocations();
         Collections.sort(protocolStudyGroupLocations, new Comparator<IacucProtocolStudyGroupLocation>() {
+            @Override
             public int compare(IacucProtocolStudyGroupLocation location1, IacucProtocolStudyGroupLocation location2) {
                 return location1.getStudyGroupLocationId().compareTo(location2.getStudyGroupLocationId());
             }
@@ -1300,6 +1301,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         return protocolSpeciesList;
     }
 
+    @Override
     public boolean isProcedureViewedBySpecies() {
         String procedureViewModeParam = getProcedureViewModeParameter();
         if(ObjectUtils.isNull(procedureViewModeParam)) {

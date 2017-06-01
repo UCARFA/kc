@@ -33,8 +33,9 @@ public class BatchCorrespondenceDetailServiceImpl implements BatchCorrespondence
      * @see org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailService#addBatchCorrespondenceDetail(
      * org.kuali.kra.irb.correspondence.BatchCorrespondence, org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail)
      */
+    @Override
     public void addBatchCorrespondenceDetail(BatchCorrespondence batchCorrespondence,
-            BatchCorrespondenceDetail newBatchCorrespondenceDetail) {
+                                             BatchCorrespondenceDetail newBatchCorrespondenceDetail) {
 
         newBatchCorrespondenceDetail.setBatchCorrespondenceTypeCode(batchCorrespondence.getBatchCorrespondenceTypeCode());
         newBatchCorrespondenceDetail.refreshReferenceObject(REFERENCE_PROTOCOL_CORRESPONDENCE_TYPE);
@@ -47,6 +48,7 @@ public class BatchCorrespondenceDetailServiceImpl implements BatchCorrespondence
      * @see org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailService#saveBatchCorrespondenceDetails(
      * org.kuali.kra.irb.correspondence.BatchCorrespondence, java.util.List)
      */
+    @Override
     public void saveBatchCorrespondenceDetails(BatchCorrespondence batchCorrespondence, List<BatchCorrespondenceDetail> deletedBos) {
         if (!deletedBos.isEmpty()) {
             businessObjectService.delete(deletedBos);

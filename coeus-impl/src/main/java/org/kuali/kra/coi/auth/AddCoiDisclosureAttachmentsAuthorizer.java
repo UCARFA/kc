@@ -86,6 +86,7 @@ public class AddCoiDisclosureAttachmentsAuthorizer extends CoiDisclosureAuthoriz
         return StringUtils.equals(userId, coiDisclosure.getPersonId());
     }
 
+    @Override
     protected boolean isEditableByAdminReviewer(CoiDisclosure coiDisclosure) {
         return (coiDisclosure != null)
         && !coiDisclosure.getCoiDisclosureDocument().isViewOnly()

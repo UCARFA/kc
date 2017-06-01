@@ -79,6 +79,7 @@ public class CommonApiServiceImpl implements CommonApiService {
     @Qualifier("auditHelper")
     private AuditHelper auditHelper;
 
+    @Override
     public void validatePerson(String personId, Integer rolodexId) {
         Entity personEntity = null;
         RolodexContract rolodex = null;
@@ -94,10 +95,12 @@ public class CommonApiServiceImpl implements CommonApiService {
         }
     }
 
+    @Override
     public void clearErrors() {
         getGlobalVariableService().getMessageMap().clearErrorMessages();
     }
 
+    @Override
     public <T> T convertObject(Object input, Class<T> clazz) {
         Configuration mooConfig = new Configuration();
         mooConfig.setSourcePropertiesRequired(false);
@@ -116,6 +119,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         }
     }
 
+    @Override
     public Document getDocumentFromDocId(Long documentNumber) {
         try {
             return getDocumentService().getByDocumentHeaderId(documentNumber.toString());
@@ -124,6 +128,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         }
     }
 
+    @Override
     public void routeDocument(Document document) {
         List<ErrorMessage> auditErrors = getAuditErrors(document);
         String errorMessage = StringUtils.EMPTY;
@@ -140,6 +145,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         }
     }
 
+    @Override
     public List<ErrorMessage> getAuditErrors(Document document) {
         boolean auditPassed = getAuditHelper().auditUnconditionally(document);
         List<ErrorMessage> errors = new ArrayList<>();
@@ -161,6 +167,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         return errors;
     }
 
+    @Override
     public String getValidationErrors() {
         String errors = "";
         for (Map.Entry<String, List<ErrorMessage>> entry : getGlobalVariableService().getMessageMap().getErrorMessages().entrySet()) {
@@ -171,6 +178,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         return errors;
     }
 
+    @Override
     public Document saveDocument(Document document) throws WorkflowException {
             try {
                 document.validateBusinessRules(new SaveDocumentEvent("", document));
@@ -183,6 +191,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         return document;
     }
 
+    @Override
     public AwardDto convertAwardToDto(Award award) {
         AwardDto awardDto = convertObject(award, AwardDto.class);
         awardDto.getAwardSponsorContacts().stream().forEach(contact -> {
@@ -194,6 +203,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         return awardDto;
     }
 
+    @Override
     public void updateDataObjectFromDto(Object existingDataObject, Object input) {
         Configuration mooConfig = new Configuration();
         mooConfig.setSourcePropertiesRequired(false);
@@ -201,6 +211,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         moo.update(input, existingDataObject);
     }
 
+    @Override
     public boolean isDocInModifiableState(WorkflowDocument workflowDocument) {
         return !workflowDocument.isCanceled();
     }

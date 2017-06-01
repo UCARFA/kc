@@ -33,6 +33,7 @@ import java.util.List;
  */
 public class ProtocolOnlineReviewStatusValuesFinder extends IrbActionsKeyValuesBase {
     
+    @Override
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
         Collection<ProtocolOnlineReviewStatus> reviewStatusCodes = this.getKeyValuesService().findAll(ProtocolOnlineReviewStatus.class);

@@ -49,6 +49,7 @@ public class IacucUnitCorrespondent extends Correspondent {
         this.unit = unit;
     }
     
+    @Override
     public IacucCorrespondentType getCorrespondentType() {
         return (IacucCorrespondentType) correspondentType;
     }

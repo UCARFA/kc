@@ -41,6 +41,7 @@ public class LookupProtocolFundingSourceEvent extends ProtocolEventBase<LookupPr
         this(errorPathPrefix, (ProtocolDocument) document, fundingSourceTypeCode, type);
     }
     
+    @Override
     public LookupProtocolFundingSourceRule getRule() {
         return new LookupProtocolFundingSourceRule();
     }

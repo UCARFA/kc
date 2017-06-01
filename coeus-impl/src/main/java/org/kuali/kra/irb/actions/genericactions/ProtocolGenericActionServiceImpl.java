@@ -142,14 +142,17 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
         getDocumentService().saveDocument(protocol.getProtocolDocument());
     }
         
+    @Override
     protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase submission, String protocolActionType) {
         return new ProtocolAction( (Protocol) protocol, (ProtocolSubmission) submission, protocolActionType);
     }
     
+    @Override
     protected ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondenceHook(String protocolActionType) {
         return new ProtocolGenericCorrespondence(protocolActionType);
     }
     
+    @Override
     protected void performDisapprove(ProtocolBase protocol) throws Exception {
         if (protocol.getProtocolDocument() != null) {
             WorkflowDocument currentWorkflowDocument = protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
@@ -160,6 +163,7 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
         getProtocolOnlineReviewService().cancelOnlineReviews(protocol.getProtocolSubmission(), "Protocol Review cancelled - protocol has been disapproved.");
     }
     
+    @Override
     public ProtocolDocument getDeferredVersionedDocument(Protocol protocol) throws Exception {
         getDocumentService().cancelDocument(protocol.getProtocolDocument(), "Protocol document cancelled - protocol has been deferred.");
         getProtocolOnlineReviewService().cancelOnlineReviews(protocol.getProtocolSubmission(), "Protocol Review cancelled - protocol has been deferred.");
@@ -189,6 +193,7 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
         });
     }
     
+    @Override
     protected ProtocolDocument getReturnedVersionedDocument(ProtocolBase protocol) throws Exception {
         getDocumentService().cancelDocument(protocol.getProtocolDocument(), "Protocol document cancelled - protocol has been returned for revisions.");
         getProtocolOnlineReviewService().finalizeOnlineReviews(protocol.getProtocolSubmission(), 

@@ -42,6 +42,7 @@ public final class ProtocolTask extends ProtocolTaskBase {
         super(TaskGroupName.PROTOCOL, taskName, protocol, genericTaskName);
     }
 
+    @Override
     public Protocol getProtocol() {
         return (Protocol)super.getProtocol();
     }

@@ -103,6 +103,7 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
         return retrieveAwardsByCriteria(fieldValues, updatedSince, page, numberPerPage);
     }
 
+    @Override
     public SearchResults<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer page, Integer numberPerPage) {
         final SearchResults<Award> result = new SearchResults<>();
         final Criteria origCrit = getCollectionCriteriaFromMap(new Award(), fieldValues);

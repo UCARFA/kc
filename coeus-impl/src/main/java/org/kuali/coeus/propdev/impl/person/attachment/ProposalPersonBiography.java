@@ -200,10 +200,12 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         return StringUtils.EMPTY;
     }
 
+    @Override
     public MultipartFile getMultipartFile() {
         return multipartFile;
     }
 
+    @Override
     public void setMultipartFile(MultipartFile multipartFile) {
         this.multipartFile = multipartFile;
     }
@@ -299,6 +301,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -328,6 +331,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         return getPersonnelAttachment().getUploadTimestamp();
     }
 
+    @Override
     public String getUploadUserDisplay() {
         if (getPersonnelAttachment() == null || StringUtils.isBlank(getPersonnelAttachment().getUploadUser())) {
             return this.getUpdateUser();
@@ -353,6 +357,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.type = type;
     }
 
+    @Override
     public byte[] getData() {
         if (getPersonnelAttachment() == null) {
             return null;

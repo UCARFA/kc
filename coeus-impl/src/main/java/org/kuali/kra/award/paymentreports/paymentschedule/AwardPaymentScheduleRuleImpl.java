@@ -37,6 +37,7 @@ public class AwardPaymentScheduleRuleImpl extends KcTransactionalDocumentRuleBas
      * @see org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAwardPaymentScheduleBusinessRules(
      * org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleEvent)
      */
+    @Override
     public boolean processAwardPaymentScheduleBusinessRules(AwardPaymentScheduleRuleEvent event) {
         return processCommonValidations(event);        
     }
@@ -47,6 +48,7 @@ public class AwardPaymentScheduleRuleImpl extends KcTransactionalDocumentRuleBas
      * @param event
      * @return
      */
+    @Override
     public boolean processAddAwardPaymentScheduleBusinessRules(AddAwardPaymentScheduleRuleEvent event) {
         return processCommonValidations(event);        
     }

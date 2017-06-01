@@ -162,10 +162,12 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
         return person != null && StringUtils.equals(user.getPrincipalId(), person.getPersonId());
     }
 
+    @Override
     public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, Person user, ProposalPerson proposalPerson) {
         return canCertify(user.getPrincipalId(), proposalPerson, canProxyCertify(document, user));
     }
 
+    @Override
     public boolean doesPersonRequireCertification(ProposalPerson person) {
         if (person.getPerson() == null) {
         	return canCertifyAddressBookPerson(person);
@@ -220,14 +222,17 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     	return false;
     }
     
+    @Override
     public boolean isRolodexCertificationEnabled() {
     	return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ENABLE_ADDRESSBOOK_CERTIFICATION);
     }
     
+    @Override
     public boolean isKeyPersonRoleExempt(ProposalPerson proposalPerson) {
         return getExemptKeyPersonRoles().stream().anyMatch(projectRole -> projectRole.equalsIgnoreCase(proposalPerson.getProjectRole()));
     }
 
+    @Override
     public boolean doesSponsorRequireKeyPersonCertification(ProposalPerson proposalPerson) {
         String sponsorHierarchy = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, CoiConstants.COI_SPONSOR_HIERARCHY);
         String sponsorHierarchyLevelName = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, CoiConstants.COI_SPONSOR_HEIRARCHY_LEVEL1);
@@ -252,6 +257,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
    }
 
    // Aggregators can use custom data to choose if PCK should disclose.
+   @Override
    public boolean isPiCoiKeyPersonsForcedToDiscloseWithCustomData(DevelopmentProposal developmentProposal) {
 		try {
 			List<CustomAttributeDocValue> customDataList = developmentProposal.getProposalDocument().getCustomDataList();

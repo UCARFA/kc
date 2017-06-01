@@ -139,6 +139,7 @@ public class FrequencyCodeValuesFinder extends UifKeyValuesFinderBase {
     
     class FrequenceComparator implements Comparator
     {    
+        @Override
         public int compare(Object kv1, Object kv2 )
         {    
             try

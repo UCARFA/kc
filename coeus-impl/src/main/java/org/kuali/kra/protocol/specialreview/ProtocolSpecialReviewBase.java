@@ -51,14 +51,17 @@ public abstract class ProtocolSpecialReviewBase extends SpecialReview<ProtocolSp
         this.protocolId = protocolId;
     }
 
+    @Override
     public ProtocolBase getSequenceOwner() {
         return sequenceOwner;
     }
 
+    @Override
     public void setSequenceOwner(ProtocolBase sequenceOwner) {
         this.sequenceOwner = sequenceOwner;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceOwner != null ? sequenceOwner.getSequenceNumber() : null;
     }
@@ -68,6 +71,7 @@ public abstract class ProtocolSpecialReviewBase extends SpecialReview<ProtocolSp
         protocolSpecialReviewId = null;
     }
 
+    @Override
     public abstract ProtocolSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode);
     
     @Override

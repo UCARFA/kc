@@ -27,7 +27,8 @@ public class PHS398CareerDevelopmentAwardSupV3_0GeneratorTest extends PHS398Care
 		return PHS398CareerDevelopmentAwardSupV3_0Generator.class.getSimpleName();
 	}
 
-	protected CitizenshipType getCitizenshipType() {
+	@Override
+    protected CitizenshipType getCitizenshipType() {
 		CitizenshipType citizenshipType = new CitizenshipType();
 		citizenshipType.setCode(16);
 		return citizenshipType;

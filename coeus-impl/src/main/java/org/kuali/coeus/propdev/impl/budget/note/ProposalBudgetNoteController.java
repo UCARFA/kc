@@ -41,10 +41,12 @@ public class ProposalBudgetNoteController extends ProposalBudgetControllerBase {
     @Qualifier("budgetJustificationService")
     private BudgetJustificationService budgetJustificationService;
 
+    @Override
     public BudgetJustificationService getBudgetJustificationService() {
         return budgetJustificationService;
     }
 
+    @Override
     public void setBudgetJustificationService(BudgetJustificationService budgetJustificationService) {
         this.budgetJustificationService = budgetJustificationService;
     }

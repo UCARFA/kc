@@ -27,10 +27,12 @@ import java.util.List;
 public class AwardBudgetServiceImplTest extends KcIntegrationTestBase{
 
     class AwardBudgetServiceImplMock extends AwardBudgetServiceImpl {
+        @Override
         protected String getAwardPostedStatusCode() {
             return "9";
         }
 
+        @Override
         protected boolean isValidBudgetVersion(String documentDescription, Award award) throws WorkflowException {
             return true;
         }
@@ -50,6 +52,7 @@ public class AwardBudgetServiceImplTest extends KcIntegrationTestBase{
             return KcServiceLocator.getService(BusinessObjectService.class);
         }
 
+        @Override
         protected AwardBudgetCalculationService getAwardBudgetCalculationService() {
             return KcServiceLocator.getService(AwardBudgetCalculationService.class);
         }

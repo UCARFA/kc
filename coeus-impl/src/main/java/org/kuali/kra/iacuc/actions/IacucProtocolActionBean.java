@@ -40,14 +40,17 @@ public abstract class IacucProtocolActionBean implements ProtocolActionBean {
     public IacucProtocolActionBean() {
     }
 
+    @Override
     public void setActionHelper(ActionHelperBase actionHelper) {
         this.actionHelper = actionHelper;
     }
 
+    @Override
     public ActionHelperBase getActionHelper() {
         return actionHelper;
     }
     
+    @Override
     public ProtocolBase getProtocol() {
         return actionHelper.getProtocol();
     }

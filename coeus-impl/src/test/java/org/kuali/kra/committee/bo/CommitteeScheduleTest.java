@@ -149,6 +149,7 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
         // one active only for November date, one active for only December date, 
         // one active for both dates, and the last inactive for both dates.
         CommitteeMembership novemberMember = new CommitteeMembership() {            
+            @Override
             public boolean isActive(Date date) {
                 if(date.equals(Date.valueOf("2011-11-25"))) {
                     return true;
@@ -161,6 +162,7 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
         novemberMember.setPersonId("novemberPerson");
         
         CommitteeMembership decemberMember = new CommitteeMembership() {            
+            @Override
             public boolean isActive(Date date) {
                 if(date.equals(Date.valueOf("2011-12-25"))) {
                     return true;
@@ -173,6 +175,7 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
         decemberMember.setPersonId("decemberPerson");
         
         CommitteeMembership novemberDecemberMember = new CommitteeMembership() {            
+            @Override
             public boolean isActive(Date date) {
                 if( (date.equals(Date.valueOf("2011-12-25"))) || (date.equals(Date.valueOf("2011-11-25"))) ) {
                     return true;
@@ -185,6 +188,7 @@ public class CommitteeScheduleTest extends BoAttributeTestBase<CommitteeSchedule
         novemberDecemberMember.setPersonId("novemberDecemberPerson");
         
         CommitteeMembership neitherNovemberNorDecemberMember = new CommitteeMembership() {            
+            @Override
             public boolean isActive(Date date) {
                 if ( !(date.equals(Date.valueOf("2011-12-25"))) && !(date.equals(Date.valueOf("2011-11-25"))) ) {
                     return true;

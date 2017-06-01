@@ -125,6 +125,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
      * @see org.kuali.kra.irb.service.ResearchAreasService#checkResearchAreaAndDescendantsNotReferenced(java.lang.String)
      * TODO: optimize by checking only active descendants? Could use the getSubResearchAreas method above
      */  
+    @Override
     public boolean checkResearchAreaAndDescendantsNotReferenced(String researchAreaCode) {
         boolean retValue = true;
         ResearchAreaBase researchArea = getBusinessObjectService().findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
@@ -279,6 +280,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
      * 
      * @see org.kuali.kra.irb.service.ResearchAreasService#saveResearchAreas(java.lang.String)
      */
+    @Override
     public void saveResearchAreas(String raChangeXML) throws ParserConfigurationException, IOException, SAXException {
         InputSource is = new InputSource();
         is.setCharacterStream(new StringReader(raChangeXML));

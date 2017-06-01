@@ -44,6 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ProtocolNotificationTemplateAction extends KualiDocumentActionBase {
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
 
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
@@ -132,6 +133,7 @@ public class ProtocolNotificationTemplateAction extends KualiDocumentActionBase 
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 

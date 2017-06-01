@@ -32,7 +32,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class BreakupIntervalServiceNewCalcTest extends BreakupIntervalServiceTest {
 
-	@Before
+	@Override
+    @Before
 	public void setup() {
 		super.setup();
 		ParameterService parameterService = mock(ParameterService.class);

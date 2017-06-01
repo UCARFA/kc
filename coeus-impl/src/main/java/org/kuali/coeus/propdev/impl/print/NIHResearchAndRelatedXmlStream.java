@@ -195,6 +195,7 @@ public class NIHResearchAndRelatedXmlStream extends
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(
             KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;

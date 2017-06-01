@@ -35,6 +35,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public abstract class IacucProtocolAuthorizer extends ProtocolAuthorizerBase {
     
     
+    @Override
     public final boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return isAuthorized(userId, (IacucProtocolTask) task);
     }

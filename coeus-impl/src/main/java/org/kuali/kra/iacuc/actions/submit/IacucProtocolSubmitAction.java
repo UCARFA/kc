@@ -76,6 +76,7 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
     /**
      * Prepare the Submit for Review for rendering with JSP.
      */
+    @Override
     public void prepareView() {
         /*
          * The Submit for Review has to work with and without JavaScript. When JavaScript is enabled, the newly selected committee
@@ -112,43 +113,53 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
         }
     }
 
+    @Override
     public void setNumberOfReviewers(int numberOfReviewers) {
         this.numberOfReviewers = numberOfReviewers;
     }
 
 
+    @Override
     public CommitteeServiceBase getCommitteeService() {
         return KcServiceLocator.getService(IacucCommitteeService.class);
     }
 
+    @Override
     public String getSubmissionTypeCode() {
         return submissionTypeCode;
     }
 
+    @Override
     public void setSubmissionTypeCode(String submissionTypeCode) {
         this.submissionTypeCode = submissionTypeCode;
     }
 
+    @Override
     public String getProtocolReviewTypeCode() {
         return protocolReviewTypeCode;
     }
 
+    @Override
     public void setProtocolReviewTypeCode(String protocolReviewTypeCode) {
         this.protocolReviewTypeCode = protocolReviewTypeCode;
     }
 
+    @Override
     public String getSubmissionQualifierTypeCode() {
         return submissionQualifierTypeCode;
     }
 
+    @Override
     public void setSubmissionQualifierTypeCode(String submissionQualifierTypeCode) {
         this.submissionQualifierTypeCode = submissionQualifierTypeCode;
     }
 
+    @Override
     public String getCommitteeId() {
         return committeeId;
     }
 
+    @Override
     public void setCommitteeId(String committeeId) {
         this.committeeIdChanged = true;
         if (StringUtils.equals(this.committeeId, committeeId)) {
@@ -161,19 +172,23 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
     }
 
     // TODO: to be removed eventually deleted
+    @Override
     public void setNewCommitteeId(String id) {
         this.newCommitteeId = id;
     }
 
     // TODO: to be removed eventually with references renamed to getCommitteeId()
+    @Override
     public String getNewCommitteeId() {
         return newCommitteeId;
     }
 
+    @Override
     public String getScheduleId() {
         return scheduleId;
     }
 
+    @Override
     public void setScheduleId(String scheduleId) {
         this.scheduleIdChanged = true;
         if (StringUtils.equals(this.scheduleId, scheduleId)) {
@@ -186,18 +201,22 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
     }
 
     // TODO: to be removed eventually with references renamed to getScheduleId()
+    @Override
     public String getNewScheduleId() {
         return newScheduleId;
     }
 
+    @Override
     public boolean isReviewerListAvailable() {
         return reviewerListAvailable;
     }
 
+    @Override
     public List<ProtocolReviewerBeanBase> getReviewers() {
         return reviewers;
     }
 
+    @Override
     public ProtocolReviewerBeanBase getReviewer(int i) {
         return reviewers.get(i);
     }
@@ -207,6 +226,7 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
      * 
      * @return
      */
+    @Override
     public List<ProtocolReviewerBeanBase> getLeftReviewers() {
         List<ProtocolReviewerBeanBase> leftReviewers = new ArrayList<ProtocolReviewerBeanBase>();
         for (int i = 0; i < (reviewers.size() + 1) / 2; i++) {
@@ -220,6 +240,7 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
      * 
      * @return
      */
+    @Override
     public List<ProtocolReviewerBeanBase> getRightReviewers() {
         List<ProtocolReviewerBeanBase> rightReviewers = new ArrayList<ProtocolReviewerBeanBase>();
         for (int i = (reviewers.size() + 1) / 2; i < reviewers.size(); i++) {
@@ -228,14 +249,17 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
         return rightReviewers;
     }
 
+    @Override
     public void setReviewers(List<ProtocolReviewerBeanBase> reviewerBeans) {
         this.reviewers = reviewerBeans;
     }
 
+    @Override
     public boolean getJavascriptEnabled() {
         return javascriptEnabled;
     }
 
+    @Override
     public void setJavascriptEnabled(boolean javascriptEnabled) {
         this.javascriptEnabled = javascriptEnabled;
     }

@@ -25,6 +25,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 public class ProtocolActionPrintRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<ProtocolActionPrintEvent> {
     private static final String PROTOCOL_PRINT_TYPE_FIELD = "actionHelper.reportType";
 
+    @Override
     public boolean processRules(ProtocolActionPrintEvent event) {
         
         boolean valid = true;

@@ -73,6 +73,7 @@ public class NegotiationAction extends KcTransactionalDocumentActionBase {
      * Upon creating negotiation document default the negotiation status to in progress.
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
+    @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
         NegotiationDocument negotiationDocument = (NegotiationDocument) kualiDocumentFormBase.getDocument();
@@ -151,6 +152,7 @@ public class NegotiationAction extends KcTransactionalDocumentActionBase {
         this.notificationService = notificationService;
     }
     
+    @Override
     protected KualiRuleService getKualiRuleService() {
         if (kualiRuleService == null) {
             kualiRuleService = KcServiceLocator.getService(KualiRuleService.class);

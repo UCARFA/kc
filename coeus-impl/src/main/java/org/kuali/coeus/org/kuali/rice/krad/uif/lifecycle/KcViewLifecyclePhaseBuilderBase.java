@@ -56,6 +56,7 @@ public class KcViewLifecyclePhaseBuilderBase extends ViewLifecyclePhaseBuilderBa
      *
      * @return view lifecycle phase instance
      */
+    @Override
     protected ViewLifecyclePhase buildInitializePhase() {
         InitializeComponentPhase phase = new InitializeComponentPhase();
 

@@ -100,7 +100,8 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
     /**
      * {@inheritDoc}
      */
-	public void setTabCollectionPropertyName(String tabCollectionPropertyName) {
+	@Override
+    public void setTabCollectionPropertyName(String tabCollectionPropertyName) {
 		this.tabCollectionPropertyName = tabCollectionPropertyName;
 	}
 
@@ -111,7 +112,8 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
     /**
      * {@inheritDoc}
      */
-	public void setGroupPrototype(Group groupPrototype) {
+	@Override
+    public void setGroupPrototype(Group groupPrototype) {
 		this.groupPrototype = groupPrototype;
 	}
 
@@ -122,7 +124,8 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
     /**
      * {@inheritDoc}
      */
-	public void setExpressionProperties(Map<String, String> expressionProperties) {
+	@Override
+    public void setExpressionProperties(Map<String, String> expressionProperties) {
 		this.expressionProperties = expressionProperties;
 	}
 
@@ -133,7 +136,8 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
     /**
      * {@inheritDoc}
      */
-	public void setIdSuffixPropertyName(String idSuffixPropertyName) {
+	@Override
+    public void setIdSuffixPropertyName(String idSuffixPropertyName) {
 		this.idSuffixPropertyName = idSuffixPropertyName;
 	}
 
@@ -141,7 +145,8 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
 		return setFieldBindingObjectPath;
 	}
 
-	public void setSetFieldBindingObjectPath(Boolean setFieldBindingObjectPath) {
+	@Override
+    public void setSetFieldBindingObjectPath(Boolean setFieldBindingObjectPath) {
 		this.setFieldBindingObjectPath = setFieldBindingObjectPath;
 	}
 }

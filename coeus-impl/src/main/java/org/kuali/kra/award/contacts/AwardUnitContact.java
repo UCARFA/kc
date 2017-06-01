@@ -126,6 +126,7 @@ public class AwardUnitContact extends AwardContact {
         }
     }
 
+    @Override
     protected BusinessObjectService getBusinessObjectService() {
         return (BusinessObjectService) KcServiceLocator.getService("businessObjectService");
     }

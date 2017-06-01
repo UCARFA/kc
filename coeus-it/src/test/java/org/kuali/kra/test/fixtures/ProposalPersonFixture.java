@@ -47,6 +47,7 @@ public enum ProposalPersonFixture {
          * 
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
+        @Override
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
             super.populatePerson(document, person);
             
@@ -64,7 +65,8 @@ public enum ProposalPersonFixture {
          * 
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
-        public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {       
+        @Override
+        public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
             super.populatePerson(document, person);
         }        
     },
@@ -78,6 +80,7 @@ public enum ProposalPersonFixture {
          * 
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
+        @Override
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
             super.populatePerson(document, person);
 
@@ -98,6 +101,7 @@ public enum ProposalPersonFixture {
          * 
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
+        @Override
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
             super.populatePerson(document, person);
             
@@ -116,6 +120,7 @@ public enum ProposalPersonFixture {
          * 
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
+        @Override
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
             super.populatePerson(document, person);
             
@@ -132,6 +137,7 @@ public enum ProposalPersonFixture {
          * 
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
+        @Override
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
             super.populatePerson(document, person);
             
@@ -148,6 +154,7 @@ public enum ProposalPersonFixture {
          * 
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
+        @Override
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
             super.populatePerson(document, person);
             

@@ -107,6 +107,7 @@ public class SpecialReviewSummary implements Serializable {
     public void setExemptionNumbers(List<ProtocolSpecialReviewExemption> exemptions) {
         this.exemptionNumbers = "";
         Collections.sort(exemptions, new Comparator<ProtocolSpecialReviewExemption>() {
+            @Override
             public int compare(ProtocolSpecialReviewExemption e1, ProtocolSpecialReviewExemption e2) {
                 if (e1.getExemptionType() == null) {
                     e1.refreshReferenceObject("exemptionType");

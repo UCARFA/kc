@@ -95,6 +95,7 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    @Override
     protected abstract CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee);
     
     
@@ -192,8 +193,9 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
         return actionForward;
     }
 
-    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.reload(mapping, form, request, response);
         ((CommitteeFormBase)form).getCommitteeHelper().prepareView();
         return actionForward;

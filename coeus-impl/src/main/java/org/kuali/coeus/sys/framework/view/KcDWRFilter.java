@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 public class KcDWRFilter implements org.directwebremoting.AjaxFilter {
+    @Override
     public Object doFilter(Object obj, Method method, Object[] params, AjaxFilterChain chain) throws Exception {
         WebContext ctx = WebContextFactory.get();
         HttpServletRequest req = ctx.getHttpServletRequest();

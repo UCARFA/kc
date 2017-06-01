@@ -56,6 +56,7 @@ public class ReportTrackingXmlStream implements XmlStream {
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         ReportTracking reporTracking=(ReportTracking)printableBusinessObject;
         AwardReportingRequirementDocument awardReportRequirementDoc=AwardReportingRequirementDocument.Factory.newInstance();

@@ -47,6 +47,7 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
      * @param documentActions - existing document actions (are ignored and wiped out)
      * @return documentActions
      */
+    @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
         return getDocumentActions(document);
     }

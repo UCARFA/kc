@@ -31,6 +31,7 @@ public class InstitutionalProposalJavaFunctionKrmsTermServiceImpl extends KcKrms
 
     private FiscalYearMonthService fiscalYearMonthService;
 
+    @Override
     public Boolean isCurrentFiscalMonth(InstitutionalProposal ip) {
         String currentFiscalYear = getFiscalYearMonthService().getCurrentFiscalYear().toString();
         String currentFiscalMonth = StringUtils.leftPad(getFiscalYearMonthService().getCurrentFiscalMonth().toString(), 2, '0');
@@ -45,6 +46,7 @@ public class InstitutionalProposalJavaFunctionKrmsTermServiceImpl extends KcKrms
         this.fiscalYearMonthService = fiscalYearMonthService;
     }
 
+    @Override
     public Boolean hasSpecialReviewOfType(InstitutionalProposal ip, String specialReviewType) {
         return ip.getSpecialReviews().stream().anyMatch(ipReview -> doesSpecialReviewMatch(ipReview, specialReviewType));
     }

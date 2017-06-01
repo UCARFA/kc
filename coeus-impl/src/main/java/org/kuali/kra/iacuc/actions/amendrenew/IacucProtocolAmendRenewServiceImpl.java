@@ -215,6 +215,7 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
         return IacucProtocolStatus.FYI_IN_PROGRESS;
     }
 
+    @Override
     protected List<String> getAllModuleTypeCodes() {
         List<String> moduleTypeCodes = new ArrayList<String>();
         moduleTypeCodes.add(IacucProtocolModule.GENERAL_INFO);
@@ -251,6 +252,7 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
         return new IacucProtocolAmendRenewModule();
     }
 
+    @Override
     public String createContinuation (IacucProtocolDocument protocolDocument, String continuationSummary) throws Exception {
         IacucProtocolDocument continuationProtocolDocument = null;
         try {
@@ -283,6 +285,7 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
         return continuationProtocolDocument.getDocumentNumber();
     }
 
+    @Override
     public String createContinuationWithAmendment(IacucProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
         IacucProtocolDocument continuationProtocolDocument = null;
         try {
@@ -332,6 +335,7 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
         return protocolAction;
     }
     
+    @Override
     @SuppressWarnings("unchecked")
     public Collection<IacucProtocol> getContinuations(String protocolNumber) throws Exception {
         List<IacucProtocol> continuations = new ArrayList<IacucProtocol>();

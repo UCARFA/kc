@@ -39,6 +39,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRuleTest extends Proposa
     Narrative narrativeComplete;
     Narrative narrativeIncomplete;
     
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -51,6 +52,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRuleTest extends Proposa
         narrativeIncomplete.setModuleStatusCode("I");
     }
     
+    @Override
     @After
     public void tearDown() throws Exception {
         super.tearDown();

@@ -161,6 +161,7 @@ public class RateAndCost{
         this.appliedRate = appliedRate;
     }
     
+    @Override
     public boolean equals(Object obj) {
         RateAndCost amountBean = (RateAndCost)obj;
         if(amountBean.getRateClassType().equals(getRateClassType()) &&

@@ -32,6 +32,7 @@ import org.kuali.rice.krms.api.engine.Facts.Builder;
 public class SubAwardFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper {
     private DocumentService documentService;
     
+    @Override
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
         String documentNumber = getElementValue(docContent, "//documentNumber");
         try {
@@ -42,6 +43,7 @@ public class SubAwardFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelp
         }
     }
     
+    @Override
     public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext document) {
         SubAwardDocument subAwardDocument = (SubAwardDocument)document;
         SubAward subAward = subAwardDocument.getSubAward();

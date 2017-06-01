@@ -69,17 +69,20 @@ public class AccountDaoJpa implements AccountDao {
         return ListUtils.emptyIfNull(accounts);
     }
 
+    @Override
     public AwardAccount getAccount(String accountNumber) {
         AwardAccount account = getDataObjectService().findUnique(AwardAccount.class,
                 QueryByCriteria.Builder.forAttribute(ACCOUNT_NUMBER, accountNumber).build());
         return account;
     }
 
+    @Override
     public AwardAccount saveAccount(AwardAccount account) {
         account = getDataObjectService().save(account);
         return account;
     }
 
+    @Override
     public List<AwardPosts> getActiveAwardPosts(String accountNumber) {
         Map<String, Object> keys = new HashMap<>();
         if (accountNumber != null) {
@@ -89,6 +92,7 @@ public class AccountDaoJpa implements AccountDao {
         return getDataObjectService().findMatching(AwardPosts.class, QueryByCriteria.Builder.andAttributes(keys).build()).getResults();
     }
 
+    @Override
     public List<AwardPosts> getAllAwardPostsInHierarchy(String accountNumber, String awardNumber) {
         String awardFamily = awardNumber.substring(0, StringUtils.indexOf(awardNumber, "-"));
         Map<String, Object> keys = new HashMap<>();
@@ -102,10 +106,12 @@ public class AccountDaoJpa implements AccountDao {
                 setOrderByFields(orderByFields).build()).getResults();
     }
 
+    @Override
     public AwardPosts getAwardPostsById(Long postId) {
             return getDataObjectService().find(AwardPosts.class, postId);
     }
 
+    @Override
     public Award getAward(Long awardId) {
         return  getBusinessObjectService().findByPrimaryKey(Award.class, Collections.singletonMap(AWARD_ID, awardId));
     }

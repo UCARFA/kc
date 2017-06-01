@@ -785,6 +785,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward applyToLaterPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();

@@ -173,6 +173,7 @@ public class AwardContactsAction extends AwardAction {
         }
     }
     
+    @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         ActionForward forward = super.reload(mapping, form, request, response);
@@ -483,6 +484,7 @@ public class AwardContactsAction extends AwardAction {
     }
 
 
+    @Override
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }

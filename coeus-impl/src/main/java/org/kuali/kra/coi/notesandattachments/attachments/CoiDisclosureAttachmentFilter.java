@@ -59,18 +59,21 @@ public class CoiDisclosureAttachmentFilter implements Serializable {
     }
 
     private class CoiDisclosureAttachmentDescriptionComparator implements Comparator<CoiDisclosureAttachment> {
+        @Override
         public int compare(CoiDisclosureAttachment arg0, CoiDisclosureAttachment arg1) {
             return arg0.getDescription().compareTo(arg1.getDescription());
         }
     }
     
     private class CoiDisclosureAttachmentLastUpdatedComparator implements Comparator<CoiDisclosureAttachment> {
+        @Override
         public int compare(CoiDisclosureAttachment o1, CoiDisclosureAttachment o2) {
             return o2.getUpdateTimestamp().compareTo(o1.getUpdateTimestamp());
         }
     }
     
     private class CoiDisclosureAttachmentLastUpdatedByComparator implements Comparator<CoiDisclosureAttachment> {
+        @Override
         public int compare(CoiDisclosureAttachment o1, CoiDisclosureAttachment o2) {
             return o1.getUpdateUser().compareTo(o2.getUpdateUser());
         }

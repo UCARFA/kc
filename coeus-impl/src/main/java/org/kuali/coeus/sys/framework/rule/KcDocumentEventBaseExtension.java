@@ -29,11 +29,13 @@ public abstract class KcDocumentEventBaseExtension extends KcDocumentEventBase {
     public abstract KcBusinessRule getRule();
     
 
+    @Override
     @SuppressWarnings("unchecked")
     public boolean invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule rule) {
         return ((KcBusinessRule)rule).processRules(this);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return KcBusinessRule.class;

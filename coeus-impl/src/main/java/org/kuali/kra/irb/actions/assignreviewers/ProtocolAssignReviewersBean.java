@@ -58,6 +58,7 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements o
      * Create the list of reviewers based upon the current committee
      * and schedule, and assigns their reviewer types if any have been saved in the past
      */
+    @Override
     public void prepareView() {
         ProtocolSubmission submission = (ProtocolSubmission) getProtocol().getProtocolSubmission();
         if (submission != null) {
@@ -111,10 +112,12 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements o
         return KcServiceLocator.getService(CommitteeService.class);
     }
     
+    @Override
     public List<ProtocolReviewerBeanBase> getReviewers() {
         return (List) reviewers;
     }
     
+    @Override
     public ProtocolReviewerBean getReviewer(int i) {
         return reviewers.get(i);
     }
@@ -124,6 +127,7 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements o
      * reviewers in the left column.
      * @return
      */
+    @Override
     public List<ProtocolReviewerBeanBase> getLeftReviewers() {
         List<ProtocolReviewerBeanBase> leftReviewers = new ArrayList<ProtocolReviewerBeanBase>();
         for (int i = 0; i < (reviewers.size() + 1) / 2; i++) {
@@ -137,6 +141,7 @@ public class ProtocolAssignReviewersBean extends ProtocolActionBean implements o
      * reviewers in the right column.
      * @return
      */
+    @Override
     public List<ProtocolReviewerBeanBase> getRightReviewers() {
         List<ProtocolReviewerBeanBase> rightReviewers = new ArrayList<ProtocolReviewerBeanBase>();
         for (int i = (reviewers.size() + 1) / 2; i < reviewers.size(); i++) {

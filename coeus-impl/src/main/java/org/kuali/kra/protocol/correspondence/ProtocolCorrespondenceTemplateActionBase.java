@@ -362,8 +362,9 @@ public abstract class ProtocolCorrespondenceTemplateActionBase extends KualiDocu
      * @return action forward
      * @throws Exception
      */
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-            HttpServletResponse response) throws Exception {
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                              HttpServletResponse response) throws Exception {
 
         // Check modify permission
         if (!getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(getModifyCorrespondenceTemplatePermissionNameHook())) { 

@@ -33,6 +33,7 @@ public abstract class ReportBean implements BusinessObject {
 
     protected abstract List<Column> createColumns();
 
+    @Override
     public void refresh() {
         throw new UnsupportedOperationException("This bean can't be refreshed");
     }

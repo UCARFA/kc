@@ -64,30 +64,37 @@ public class IacucProtocolRequestBean extends IacucProtocolSubmissionBeanBase im
         questionnaireHelper = new IacucSubmissionQuestionnaireHelper(actionHelper.getProtocol(), protocolActionTypeCode, null, false);
     }
 
+    @Override
     public void setReason(String reason) {
         this.reason = reason;
     }
 
+    @Override
     public String getReason() {
         return reason;
     }
 
+    @Override
     public String getProtocolActionTypeCode() {
         return protocolActionTypeCode;
     }
 
+    @Override
     public String getSubmissionTypeCode() {
         return submissionTypeCode;
     }
     
+    @Override
     public String getBeanName() {
         return beanName;
     }
 
+    @Override
     public void setBeanName(String beanName) {
         this.beanName = beanName;
     }
 
+    @Override
     public ProtocolSubmissionQuestionnaireHelper getQuestionnaireHelper() {
         return questionnaireHelper;
     }

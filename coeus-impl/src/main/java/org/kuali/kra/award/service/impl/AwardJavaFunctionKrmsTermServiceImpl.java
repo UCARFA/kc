@@ -39,6 +39,7 @@ public class AwardJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTerm
         return false;
     }
 
+    @Override
     public Boolean hasSpecialReviewOfType(Award award, String specialReviewType) {
         return award.getSpecialReviews().stream().anyMatch(awardReview -> doesSpecialReviewMatch(awardReview, specialReviewType));
     }

@@ -37,6 +37,7 @@ public class ModifyAwardAuthorizer extends AwardAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
+    @Override
     public boolean isAuthorized(String userId, AwardTask task) {
         
         AwardDocument doc = task.getAward().getAwardDocument();

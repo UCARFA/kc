@@ -53,8 +53,9 @@ public class NegotiationActivityXmlStream implements XmlStream {
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject,
-            Map<String, Object> reportParameters) {
+                                                    Map<String, Object> reportParameters) {
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
         NegotiationsDocument negotiationsDocument = NegotiationsDocument.Factory.newInstance();
         initialize((Negotiation) printableBusinessObject);

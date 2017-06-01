@@ -55,34 +55,42 @@ public class IacucProtocolGenericActionBean extends IacucProtocolActionBean impl
         reviewAttachmentsBean = new IacucReviewAttachmentsBean(errorPropertyKey);
     }
 
+    @Override
     public String getComments() {
         return comments;
     }
     
+    @Override
     public void setComments(String comments) {
         this.comments = comments;
     }
     
+    @Override
     public Date getActionDate() {
         return actionDate;
     }
     
+    @Override
     public void setActionDate(Date actionDate) {
         this.actionDate = actionDate;
     }
     
+    @Override
     public String getErrorPropertyKey() {
         return errorPropertyKey;
     }
 
+    @Override
     public ReviewCommentsBeanBase getReviewCommentsBean() {
         return reviewCommentsBean;
     }
 
+    @Override
     public ReviewAttachmentsBeanBase getReviewAttachmentsBean() {
         return reviewAttachmentsBean;
     }
 
+    @Override
     public void setReviewAttachmentsBean(ReviewAttachmentsBeanBase reviewAttachmentsBean) {
         this.reviewAttachmentsBean = reviewAttachmentsBean;
     }

@@ -180,6 +180,7 @@ public class ProjectPushProposalTest extends ProjectPushTestBase {
         }
     }
 
+    @Override
     @Test
     public void testSchema() throws Exception {
         final Project developmentProposalProject = getProjectRetrievalService().retrieveProject(proposalDocument.getDevelopmentProposal().getProposalNumber());
@@ -217,6 +218,7 @@ public class ProjectPushProposalTest extends ProjectPushTestBase {
         return proposalDocument.getDevelopmentProposal().getProposalNumber();
     }
 
+    @Override
     public ProjectRetrievalService getProjectRetrievalService() {
         if (propDevProjectRetrievalService == null) {
             propDevProjectRetrievalService = KcServiceLocator.getService(PROP_DEV_PROJECT_RETRIEVAL_SERVICE);

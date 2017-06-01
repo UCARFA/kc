@@ -47,10 +47,12 @@ public class JobCodeServiceImpl implements JobCodeService {
      * for a particular jobCode string.
      * 
      */
+    @Override
     public JobCode findJobCodeRef(String jobCode) {
         return getDataObjectService().find(JobCode.class, jobCode);
     }
 
+    @Override
     public String findJobCodeTitle(String jobCode) {
         String jobTitle = null;
         JobCode jcRef= findJobCodeRef(jobCode);

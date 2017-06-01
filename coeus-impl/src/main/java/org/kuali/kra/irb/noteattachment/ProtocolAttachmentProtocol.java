@@ -63,26 +63,32 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentProtocolBase {
         return "Protocol Attachment";
     }
 
+    @Override
     public boolean isDraft() {
         return ProtocolAttachmentStatus.DRAFT.equals(documentStatusCode);
     }
     
+    @Override
     public void setDraft() {
         documentStatusCode = ProtocolAttachmentStatus.DRAFT;
     }
     
+    @Override
     public boolean isFinal() {
         return ProtocolAttachmentStatus.FINALIZED.equals(documentStatusCode);
     }
     
+    @Override
     public void setFinal() {
         documentStatusCode = ProtocolAttachmentStatus.FINALIZED;
     }
     
+    @Override
     public boolean isDeleted() {
         return ProtocolAttachmentStatus.DELETED.equals(documentStatusCode);
     }
     
+    @Override
     public void setDeleted() {
         documentStatusCode = ProtocolAttachmentStatus.DELETED;
     }

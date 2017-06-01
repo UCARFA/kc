@@ -30,10 +30,12 @@ public class SaveProposalSitesEvent extends KcDocumentEventBase {
         super("Saving Proposal Sites of document " + getDocumentId(document), errorPathPrefix, document);
     }
     
+    @Override
     public Class<? extends BusinessRule> getRuleInterfaceClass() {
         return SaveProposalSitesRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((SaveProposalSitesRule) rule).processSaveProposalSiteBusinessRules(this);
     }

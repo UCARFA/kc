@@ -62,6 +62,7 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRuleTest extends Maint
         assertEquals(0, eMap.getErrorCount());
     }
     
+    @Override
     protected MaintainableImpl getNewMaintainableImpl(PersistableBusinessObject bo) {
         if (bo == null) {
             return new KcPersonExtendedAttributesMaintainableImpl();

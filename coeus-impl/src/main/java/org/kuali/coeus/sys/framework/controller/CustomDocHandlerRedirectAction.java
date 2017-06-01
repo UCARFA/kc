@@ -42,6 +42,7 @@ public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectA
     public static final String IACUC_PROTOCOL_DOCUMENT = "IacucProtocolDocument";
     public static final String AWARD_DOCUMENT = "AwardDocument";
 
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return start(mapping, form, request, response);
     }

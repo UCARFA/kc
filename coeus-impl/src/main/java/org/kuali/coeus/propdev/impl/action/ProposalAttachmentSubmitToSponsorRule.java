@@ -52,6 +52,7 @@ public class ProposalAttachmentSubmitToSponsorRule extends KcTransactionalDocume
 
     private ParameterService parameterService;
 
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocument) document).getDevelopmentProposal();

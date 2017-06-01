@@ -40,6 +40,7 @@ public class AwardSponsorTermServiceImpl implements AwardSponsorTermService {
      * 
      * @param
      */
+    @Override
     public List<KeyValue> retrieveSponsorTermTypesToAwardFormForPanelHeaderDisplay(){
         PersistableBusinessObjectValuesFinder persistableBusinessObjectValuesFinder = new PersistableBusinessObjectValuesFinder();
         persistableBusinessObjectValuesFinder.setBusinessObjectClass(SponsorTermType.class);
@@ -55,6 +56,7 @@ public class AwardSponsorTermServiceImpl implements AwardSponsorTermService {
      * @param awardForm
      * @param reportClasses
      */
+    @Override
     public List<SponsorTerm> getEmptyNewSponsorTerms(List<KeyValue> sponsorTermTypes){
         List<SponsorTerm> sponsorTerms = new ArrayList<SponsorTerm>();
         for(int i=0;i<sponsorTermTypes.size();i++){

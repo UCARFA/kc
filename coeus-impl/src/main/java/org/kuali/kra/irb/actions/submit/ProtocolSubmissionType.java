@@ -52,6 +52,7 @@ public class ProtocolSubmissionType extends ProtocolSubmissionTypeBase {
     public static final String RESUBMISSION = "116";
 
 
+    @Override
     public String getSubmissionTypeCode() {
         return super.getSubmissionTypeCode();
     }

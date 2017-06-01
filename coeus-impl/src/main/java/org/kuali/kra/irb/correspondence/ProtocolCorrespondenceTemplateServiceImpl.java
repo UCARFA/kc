@@ -26,6 +26,7 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
  */
 public class ProtocolCorrespondenceTemplateServiceImpl extends org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorrespondenceTemplateService {
 
+    @Override
     protected Class<? extends ProtocolCorrespondenceTemplateBase> getProtocolCorrespondenceTemplateBOClassHook() {
         return ProtocolCorrespondenceTemplate.class;
     }

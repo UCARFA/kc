@@ -41,6 +41,7 @@ public class BudgetNonPersonnelCostElementValuesFinder extends CostElementValues
     @Qualifier("parameterService")
     private ParameterService parameterService;
 
+    @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         String budgetCategoryCode = ((ProposalBudgetForm)model).getAddProjectBudgetLineItemHelper().getBudgetLineItem().getBudgetCategoryCode();

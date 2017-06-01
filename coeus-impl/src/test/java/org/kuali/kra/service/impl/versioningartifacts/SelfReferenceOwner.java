@@ -70,30 +70,37 @@ public class SelfReferenceOwner implements SequenceOwner<SelfReferenceOwner>{
         this.seq = seq;
     }
 
+    @Override
     public Integer getOwnerSequenceNumber() {
         return seq;
     }
 
+    @Override
     public void incrementSequenceNumber() {
         seq++;
     }
 
+    @Override
     public SelfReferenceOwner getSequenceOwner() {
         return this;
     }
 
+    @Override
     public void setSequenceOwner(SelfReferenceOwner newlyVersionedOwner) {
         //do nothing
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return seq;
     }
 
+    @Override
     public void resetPersistenceState() {
         id = null;
     }
     
+    @Override
     public String getVersionNameField() {
         return "id";
     }

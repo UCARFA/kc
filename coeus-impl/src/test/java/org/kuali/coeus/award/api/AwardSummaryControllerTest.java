@@ -81,16 +81,19 @@ public class AwardSummaryControllerTest {
 		
 		piPerson = new KcPerson() {
 			String personId;
-			public String getPersonId() {
+			@Override
+            public String getPersonId() {
 				return personId;
 			}
-			public void setPersonId(String personId) {
+			@Override
+            public void setPersonId(String personId) {
 				this.personId = personId;
 			}
 		};
 		piPerson.setPersonId(PERSON_ID123);
 		pi = new AwardPerson() {
-			public String getProjectRole() {
+			@Override
+            public String getProjectRole() {
 				return "Principal Investigator";
 			}
 		};
@@ -142,7 +145,8 @@ public class AwardSummaryControllerTest {
 			final String title) {
 		Award award1;
 		award1 = new Award() {
-			public void refreshReferenceObject(String prop) {
+			@Override
+            public void refreshReferenceObject(String prop) {
 				
 			}
 		};

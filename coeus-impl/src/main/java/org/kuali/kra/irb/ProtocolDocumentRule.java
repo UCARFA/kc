@@ -134,14 +134,17 @@ public class ProtocolDocumentRule extends ProtocolDocumentRuleBase<CommitteeDeci
         return new ProtocolAssignReviewersRule().processAssignReviewers(document, actionBean);
     }
     
+    @Override
     public boolean processAdminCorrectionRule(ProtocolDocument document, AdminCorrectionBean actionBean) {
         return new ProtocolAdminCorrectionRule().processAdminCorrectionRule(document, actionBean);
     }
     
+    @Override
     public boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionBean actionBean) {
         return new ProtocolModifySubmissionRule().processModifySubmissionRule(document, actionBean);
     }
     
+    @Override
     public boolean processReviewNotRequiredRule(ProtocolDocument document, ProtocolReviewNotRequiredBean actionBean) {
         return new ProtocolReviewNotRequiredRule().processReviewNotRequiredRule(document, actionBean);
     }

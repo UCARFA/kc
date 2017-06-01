@@ -68,6 +68,7 @@ public abstract class UndoLastActionBeanHelperBase implements Serializable {
     
     protected void sortActions(List<ProtocolActionBase> actionsPerformed) {
         Collections.sort(actionsPerformed, new Comparator<ProtocolActionBase>() {
+            @Override
             public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {
                 return action2.getActualActionDate().compareTo(action1.getActualActionDate());
             }

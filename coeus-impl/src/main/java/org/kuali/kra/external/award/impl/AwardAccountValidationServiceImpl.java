@@ -44,6 +44,7 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
     private static final String AWARD_F_AND_A_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.rate";
     private AwardAccountService awardAccountService;
     
+    @Override
     public boolean validateAwardAccountDetails(Award award) {
         boolean rulePassed = true;
         

@@ -95,13 +95,15 @@ public class ProtocolActionServiceImpl extends ProtocolActionServiceImplBase imp
         ProtocolActionType.SUSPENDED_BY_DSMB };
     
     
-    public String getPerformActionFileNameHook() {     
+    @Override
+    public String getPerformActionFileNameHook() {
         return PERFORMACTION_FILE;
     }
 
     /*
      * This method is to check if user has permission in lead unit
      */
+    @Override
     protected boolean hasPermissionLeadUnit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
@@ -112,6 +114,7 @@ public class ProtocolActionServiceImpl extends ProtocolActionServiceImplBase imp
     /**
      * This method is to check if user has permission to submit
      */
+    @Override
     protected boolean hasPermissionToSubmit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);

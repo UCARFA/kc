@@ -96,6 +96,7 @@ public abstract class ProtocolReviewerBeanBase extends BusinessObjectBase {
         this.nonEmployeeFlag = nonEmployeeFlag;
     }
 
+    @Override
     public void refresh() {
        
     }

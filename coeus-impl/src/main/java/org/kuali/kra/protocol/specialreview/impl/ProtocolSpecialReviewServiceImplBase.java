@@ -97,6 +97,7 @@ public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSp
         return dataObjectService;
     }
 
+    @Override
     public DevelopmentProposal getPropososalDevelopment(String proposalNumber) {
         DevelopmentProposal dp = null;
         if (proposalNumber != null) {
@@ -105,6 +106,7 @@ public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSp
         return dp;
     }
 
+    @Override
     public ProtocolFinderDao getProtocolFinderDao() {
         if (protocolFinderDao == null) {
             protocolFinderDao = KcServiceLocator.getService(ProtocolFinderDao.class);
@@ -112,6 +114,7 @@ public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSp
         return protocolFinderDao;
     }
 
+    @Override
     public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
         this.protocolFinderDao = protocolFinderDao;
     }

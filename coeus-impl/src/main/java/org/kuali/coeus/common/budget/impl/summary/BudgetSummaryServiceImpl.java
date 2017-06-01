@@ -391,6 +391,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }
     }
 
+    @Override
     public void adjustStartEndDatesForLineItems(BudgetPeriod budgetPeriod) {
         if ( (budgetPeriod.getOldStartDate() != null && budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0) || 
                 (budgetPeriod.getOldEndDate() != null && budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0) ) {
@@ -687,6 +688,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         
     }
     
+    @Override
     public void syncBudgetPersonSalaryDetails(Budget budget) {
         for(BudgetPerson budgetPerson: budget.getBudgetPersons()) {
     		HashSet<Integer> existingBudgetPeriods = new HashSet<Integer>();

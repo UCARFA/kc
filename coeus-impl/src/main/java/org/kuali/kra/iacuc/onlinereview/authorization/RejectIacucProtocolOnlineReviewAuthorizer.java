@@ -26,6 +26,7 @@ public class RejectIacucProtocolOnlineReviewAuthorizer extends IacucProtocolOnli
 
     private KcWorkflowService kraWorkflowService;
 
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolOnlineReviewTask task) {
         boolean hasPermission = false;
         ProtocolOnlineReviewBase protocolOnlineReview = task.getProtocolOnlineReview();

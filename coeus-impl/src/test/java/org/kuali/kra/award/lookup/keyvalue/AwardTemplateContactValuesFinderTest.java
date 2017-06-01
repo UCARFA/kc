@@ -68,6 +68,7 @@ public class AwardTemplateContactValuesFinderTest  {
     private AwardTemplateContactValuesFinder getAwardTemplateContactValuesFinder() {
 
         return new AwardTemplateContactValuesFinder() { 
+            @Override
             public List<KeyValue> getKeyValues() {
                 List<AwardTemplateContact> contacts = template.getTemplateContacts();
                 List<KeyValue> keyValues = new ArrayList<KeyValue>();

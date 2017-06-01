@@ -36,7 +36,8 @@ public class CustomCommitteeDaoOjb extends PlatformAwareDaoBaseOjb implements Cu
 	private static final String SCHEDULE_ID_QUERY = "UPDATE protocol_submission SET schedule_id_fk = ? where schedule_id = ?";
 	private static final String COMMITTEE_QUERY = "UPDATE protocol_submission SET committee_id_fk = ? where committee_id = ?";
 
-	public void updateSubmissionsToNewCommitteeVersion(CommitteeBase<?, ?, ? extends CommitteeScheduleBase> committee, List<? extends CommitteeScheduleBase> schedules) {
+	@Override
+    public void updateSubmissionsToNewCommitteeVersion(CommitteeBase<?, ?, ? extends CommitteeScheduleBase> committee, List<? extends CommitteeScheduleBase> schedules) {
 		if (committee == null) {
 			throw new IllegalArgumentException("committee cannot be null");
 		}

@@ -53,6 +53,7 @@ public class ProtocolSubmitActionRule extends KcTransactionalDocumentRuleBase im
      * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument,
      *      org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
      */
+    @Override
     public boolean processSubmitAction(ProtocolDocumentBase document, org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction submitAction) {
 
         boolean isValid = validateSubmissionType((ProtocolDocument)document, (ProtocolSubmitAction) submitAction);

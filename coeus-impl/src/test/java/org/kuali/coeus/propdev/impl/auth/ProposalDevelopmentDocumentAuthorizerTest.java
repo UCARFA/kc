@@ -42,6 +42,7 @@ public class ProposalDevelopmentDocumentAuthorizerTest {
     @Test
     public void test_oneProposalPersonApprovedBothInRouteLog() {
         class ProposalDevelopmentDocumentAuthorizerMock extends ProposalDevelopmentDocumentAuthorizer {
+            @Override
             protected List<ActionTaken> getActionsTaken(ProposalDevelopmentDocument document) {
                 List<ActionTaken> actionsTaken = new ArrayList<>();
                 ActionType actionType = ActionType.fromCodeOrLabel(KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
@@ -51,6 +52,7 @@ public class ProposalDevelopmentDocumentAuthorizerTest {
 
             }
 
+            @Override
             protected List<String> getPrincipalIdsInRouteLog(ProposalDevelopmentDocument document) {
                 final ArrayList<String> personsInRouteLog = new ArrayList<>();
                 personsInRouteLog.add(PI);
@@ -79,6 +81,7 @@ public class ProposalDevelopmentDocumentAuthorizerTest {
     @Test
     public void test_oneProposalPersonNotInRouteLogPiApproved() {
         class ProposalDevelopmentDocumentAuthorizerMock extends ProposalDevelopmentDocumentAuthorizer {
+            @Override
             protected List<ActionTaken> getActionsTaken(ProposalDevelopmentDocument document) {
                 List<ActionTaken> actionsTaken = new ArrayList<>();
                 ActionType actionType = ActionType.fromCodeOrLabel(KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
@@ -87,6 +90,7 @@ public class ProposalDevelopmentDocumentAuthorizerTest {
                 return actionsTaken;
 
             }
+            @Override
             protected List<String> getPrincipalIdsInRouteLog(ProposalDevelopmentDocument document) {
                 final ArrayList<String> personsInRouteLog = new ArrayList<>();
                 personsInRouteLog.add(PI);
@@ -113,6 +117,7 @@ public class ProposalDevelopmentDocumentAuthorizerTest {
     @Test
     public void test_twoProposalPersonInRouteLogApproved() {
         class ProposalDevelopmentDocumentAuthorizerMock extends ProposalDevelopmentDocumentAuthorizer {
+            @Override
             protected List<ActionTaken> getActionsTaken(ProposalDevelopmentDocument document) {
                 List<ActionTaken> actionsTaken = new ArrayList<>();
                 ActionType actionType = ActionType.fromCodeOrLabel(KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
@@ -124,6 +129,7 @@ public class ProposalDevelopmentDocumentAuthorizerTest {
                 return actionsTaken;
 
             }
+            @Override
             protected List<String> getPrincipalIdsInRouteLog(ProposalDevelopmentDocument document) {
                 final ArrayList<String> personsInRouteLog = new ArrayList<>();
                 personsInRouteLog.add(PI);
@@ -152,6 +158,7 @@ public class ProposalDevelopmentDocumentAuthorizerTest {
     @Test
     public void test_twoProposalRolodexPersonInRouteLogPiApproved() {
         class ProposalDevelopmentDocumentAuthorizerMock extends ProposalDevelopmentDocumentAuthorizer {
+            @Override
             protected List<ActionTaken> getActionsTaken(ProposalDevelopmentDocument document) {
                 List<ActionTaken> actionsTaken = new ArrayList<>();
                 ActionType actionType = ActionType.fromCodeOrLabel(KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
@@ -160,6 +167,7 @@ public class ProposalDevelopmentDocumentAuthorizerTest {
                 return actionsTaken;
 
             }
+            @Override
             protected List<String> getPrincipalIdsInRouteLog(ProposalDevelopmentDocument document) {
                 final ArrayList<String> personsInRouteLog = new ArrayList<>();
                 personsInRouteLog.add(PI);
@@ -189,11 +197,13 @@ public class ProposalDevelopmentDocumentAuthorizerTest {
     @Test
     public void test_twoProposalRolodexPi() {
         class ProposalDevelopmentDocumentAuthorizerMock extends ProposalDevelopmentDocumentAuthorizer {
+            @Override
             protected List<ActionTaken> getActionsTaken(ProposalDevelopmentDocument document) {
                 List<ActionTaken> actionsTaken = new ArrayList<>();
                 return actionsTaken;
 
             }
+            @Override
             protected List<String> getPrincipalIdsInRouteLog(ProposalDevelopmentDocument document) {
                 final ArrayList<String> personsInRouteLog = new ArrayList<>();
                 return personsInRouteLog;
@@ -220,6 +230,7 @@ public class ProposalDevelopmentDocumentAuthorizerTest {
     @Test
     public void test_twoProposalPersonInRouteLogPiApproved() {
         class ProposalDevelopmentDocumentAuthorizerMock extends ProposalDevelopmentDocumentAuthorizer {
+            @Override
             protected List<ActionTaken> getActionsTaken(ProposalDevelopmentDocument document) {
                 List<ActionTaken> actionsTaken = new ArrayList<>();
                 ActionType actionType = ActionType.fromCodeOrLabel(KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
@@ -228,6 +239,7 @@ public class ProposalDevelopmentDocumentAuthorizerTest {
                 return actionsTaken;
 
             }
+            @Override
             protected List<String> getPrincipalIdsInRouteLog(ProposalDevelopmentDocument document) {
                 final ArrayList<String> personsInRouteLog = new ArrayList<>();
                 personsInRouteLog.add(PI);

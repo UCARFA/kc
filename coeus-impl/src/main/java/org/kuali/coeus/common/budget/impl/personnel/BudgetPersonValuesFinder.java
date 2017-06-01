@@ -66,6 +66,7 @@ public class BudgetPersonValuesFinder extends UifKeyValuesFinderBase {
         return buildKeyValues(budget.getBudgetPersons());
     }
     
+    @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
     	setAddBlankOption(false);
     	return buildKeyValues(((BudgetContainer) model).getBudget().getBudgetPersons());

@@ -57,6 +57,7 @@ public class ProtocolAttachmentType extends ProtocolAttachmentTypeBase {
      * Gets the protocol attachment type code.
      * @return the protocol attachment type code
      */
+    @Override
     public String getCode() {
         return this.code;
     }
@@ -65,6 +66,7 @@ public class ProtocolAttachmentType extends ProtocolAttachmentTypeBase {
      * Sets the protocol attachment type code.
      * @param code the protocol attachment type code
      */
+    @Override
     public void setCode(String code) {
         this.code = code;
     }
@@ -73,6 +75,7 @@ public class ProtocolAttachmentType extends ProtocolAttachmentTypeBase {
      * Gets the protocol attachment type description.
      * @return the protocol attachment type description
      */
+    @Override
     public String getDescription() {
         return this.description;
     }
@@ -81,6 +84,7 @@ public class ProtocolAttachmentType extends ProtocolAttachmentTypeBase {
      * Sets the protocol attachment type description.
      * @param description the protocol attachment type description
      */
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }

@@ -47,6 +47,7 @@ public class AwardBudgetPersonnelDetailsExt extends BudgetPersonnelDetails {
      * This method creates new instance of BudgetPersonnelCalculatedAmount
      * @return
      */
+    @Override
     public AbstractBudgetCalculatedAmount getNewBudgetPersonnelCalculatedAmount() {
         return new AwardBudgetPersonnelCalculatedAmountExt();
     }

@@ -58,7 +58,8 @@ public class CurrentProposalPrint extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public List<Source> getXSLTemplates() {
+	@Override
+    public List<Source> getXSLTemplates() {
 		List<Source> sourceList = PrintingUtils
 				.getXSLTforReport(PrintConstants.CURRENT_REPORT_TYPE);
 		return sourceList;
@@ -69,6 +70,7 @@ public class CurrentProposalPrint extends AbstractPrint {
      * This method for checking watermark is enable or disable
      * for this document.
      */
+     @Override
      public boolean isWatermarkEnabled(){
          return false;
      }
@@ -77,6 +79,7 @@ public class CurrentProposalPrint extends AbstractPrint {
       * @see org.kuali.coeus.common.framework.print.Printable#getWatermarkable()
       * return watermarkable
       */
+     @Override
      public Watermarkable getWatermarkable(){
          if(isWatermarkEnabled()){
              throw new RuntimeException("Watermarkable not implemented");

@@ -77,6 +77,7 @@ public abstract class BatchCorrespondenceDetailBase extends KcPersistableBusines
         this.protocolCorrespondenceType = protocolCorrespondenceType;
     }
 
+    @Override
     public int compareTo(BatchCorrespondenceDetailBase arg) {
         if(!this.getClass().isAssignableFrom(arg.getClass())) {
            throw new ClassCastException("Type mismatch while comparing two objects of type BatchCprrespondenceDetail"); 

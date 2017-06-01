@@ -37,6 +37,7 @@ public abstract class AdminCorrectionServiceImplBase implements AdminCorrectionS
     private List<String> notificationTemplates;
     private static final String DOC_LINK = "<a title=\"\" target=\"_self\" href=\"../kew/DocHandler.do?command=displayDocSearchView&amp;docId=";
     
+    @Override
     public void sendCorrectionNotification(ProtocolBase protocol, AdminCorrectionBean adminCorrectionBean) throws Exception {
         String adminCorrectionNotificationTemplate = notificationTemplates.get(0);
         InputStream is = this.getClass().getResourceAsStream(adminCorrectionNotificationTemplate);

@@ -42,12 +42,14 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
 
     private ProposalDevelopmentPermissionsRule rule = null;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
         rule = new ProposalDevelopmentPermissionsRule();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

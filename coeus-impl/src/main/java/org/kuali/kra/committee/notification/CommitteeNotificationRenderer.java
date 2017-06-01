@@ -89,6 +89,7 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
         this.businessObjectService = businessObjectService;
     }
 
+    @Override
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
             kcPersonService = KcServiceLocator.getService(KcPersonService.class);
@@ -96,6 +97,7 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
         return kcPersonService;
     }
 
+    @Override
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }

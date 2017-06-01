@@ -301,6 +301,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.addEmployeePiHelper = addEmployeePiHelper;
     }
 
+    @Override
     public AddLineHelper getAddRecipientHelper() {
         return addRecipientHelper;
     }

@@ -91,6 +91,7 @@ public class KeywordsServiceImpl implements KeywordsService {
      * Method to add keywords into keywords list associated with particular BO/Document
      * @see org.kuali.coeus.common.framework.keyword.KeywordsService#addKeywords(org.kuali.coeus.common.framework.keyword.KeywordsManager, org.kuali.coeus.sys.framework.model.MultiLookupForm)
      */
+    @Override
     @Deprecated
     public void addKeywords(KeywordsManager document, MultiLookupForm multiLookUpForm) {
         try{

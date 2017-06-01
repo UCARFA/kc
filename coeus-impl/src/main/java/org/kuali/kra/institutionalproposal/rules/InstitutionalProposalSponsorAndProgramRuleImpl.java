@@ -42,6 +42,7 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends KcTransactio
 
     public static final String CFDA_NUMBER = "cfdaNumber";
 
+    @Override
     public boolean processInstitutionalProposalSponsorAndProgramRules(
             InstitutionalProposalSponsorAndProgramRuleEvent institutionalProposalSponsorAndProgramRuleEvent) {
         return processCommonValidations(institutionalProposalSponsorAndProgramRuleEvent.getInstitutionalProposalForValidation());

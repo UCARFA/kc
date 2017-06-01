@@ -71,6 +71,7 @@ public class ProposalCostshareUnitAdministratorDerivedRoleTypeServiceImpl extend
         this.dataObjectService = dataObjectService;
     }
 
+    @Override
     public List<? extends AbstractUnitAdministrator> getUnitAdministrators(Map<String, String> qualifiers) {
         String proposalNumber = qualifiers.get(KcKimAttributes.PROPOSAL);
         List<UnitAdministrator> result = new ArrayList<>();

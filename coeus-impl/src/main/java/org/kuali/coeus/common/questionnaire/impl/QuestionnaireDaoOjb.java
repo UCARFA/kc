@@ -51,6 +51,7 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements Ques
         return sequenceNumber;
     }
 
+    @Override
     public List<AnswerHeader> getQuestionnaireAnswers(String moduleCode, String moduleItemKey, String moduleSubItemKey) {
         String certificationModuleItemKey = moduleItemKey + "|%";
         Criteria certificationCriteria = new Criteria();

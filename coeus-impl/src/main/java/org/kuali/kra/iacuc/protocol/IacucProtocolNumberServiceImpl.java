@@ -28,6 +28,7 @@ public class IacucProtocolNumberServiceImpl extends ProtocolNumberServiceImplBas
         return "SEQ_IACUC_PROTOCOL_ID";
     }
     
+    @Override
     protected Class getSequenceOwnerClass() {
         return IacucProtocol.class;
     }

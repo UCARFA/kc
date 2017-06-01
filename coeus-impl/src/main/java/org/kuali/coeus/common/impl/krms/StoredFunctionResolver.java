@@ -34,7 +34,8 @@ public class StoredFunctionResolver extends FunctionTermResolver {
         super(orderedInputParams, parameterNames, output);
     }
 
-    protected String executeFunction(String packageName,String functionName,Map<String, Object> resolvedPrereqs,Map<String,String> resolvedParameters) {
+    @Override
+    protected String executeFunction(String packageName, String functionName, Map<String, Object> resolvedPrereqs, Map<String,String> resolvedParameters) {
         if(packageName!=null) {
             functionName = packageName+"."+functionName;
         }

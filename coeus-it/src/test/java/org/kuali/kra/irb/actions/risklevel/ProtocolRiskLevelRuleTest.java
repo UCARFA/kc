@@ -35,12 +35,14 @@ public class ProtocolRiskLevelRuleTest extends ProtocolRuleTestBase {
     
     private static final String RISK_LEVEL_PROPERTY_NAME = Constants.PROTOCOL_FULL_APPROVAL_ACTION_PROPERTY_KEY + ".protocolRiskLevelBean";
     
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
     
+    @Override
     @After
     public void tearDown() throws Exception {
         super.tearDown();

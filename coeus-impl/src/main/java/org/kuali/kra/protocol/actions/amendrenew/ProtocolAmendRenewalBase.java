@@ -101,6 +101,7 @@ public abstract class ProtocolAmendRenewalBase extends KcPersistableBusinessObje
         this.protocolNumber = protocolNumber;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -161,6 +162,7 @@ public abstract class ProtocolAmendRenewalBase extends KcPersistableBusinessObje
         this.setProtocol(newlyVersionedOwner);
     }
 
+    @Override
     public void resetPersistenceState() {
         this.setId(null);
     }

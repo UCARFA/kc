@@ -37,10 +37,12 @@ public class PropDevBudgetFactBuilderServiceImpl extends KcKrmsFactBuilderServic
     @Qualifier("documentService")
     private DocumentService documentService;
     
+    @Override
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
     	throw new UnsupportedOperationException();
     }
     
+    @Override
     public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext context) {
         Budget budget = (Budget) context;
         addBudgetFacts(factsBuilder,budget);

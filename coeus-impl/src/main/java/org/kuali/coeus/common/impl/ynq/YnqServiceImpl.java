@@ -78,6 +78,7 @@ public class YnqServiceImpl implements YnqService {
      */
     protected class GroupNameComparator implements Comparator<Ynq> {
 
+        @Override
         public int compare(Ynq o1, Ynq o2) {
             int comparator;
             
@@ -96,6 +97,7 @@ public class YnqServiceImpl implements YnqService {
      * @param proposalPerson
      * @return ProposalPerson
      */
+    @Override
     public ProposalPerson getPersonYNQ(ProposalPerson proposalPerson, ProposalDevelopmentDocument document) {
         /* get YNQ for person */
         boolean certificationRequired = false;

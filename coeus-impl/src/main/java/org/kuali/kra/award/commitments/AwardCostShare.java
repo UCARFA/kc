@@ -64,6 +64,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem, Cost
         super();
     }
 
+    @Override
     public CostShareType getCostShareType() {
         return costShareType;
     }
@@ -83,6 +84,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem, Cost
         return source;
     }
 
+    @Override
     public Integer getCostShareTypeCode() {
         if (costShareType == null) {
             return null;

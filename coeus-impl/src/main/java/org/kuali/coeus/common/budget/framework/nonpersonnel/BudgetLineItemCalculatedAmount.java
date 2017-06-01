@@ -62,6 +62,7 @@ public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmou
         this.budgetLineItemCalculatedAmountId = budgetLineItemCalculatedAmountId;
     }
 
+    @Override
     public Long getBudgetLineItemId() {
         return budgetLineItemId;
     }

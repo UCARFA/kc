@@ -85,7 +85,8 @@ public abstract class ProtocolWithdrawServiceImplBase implements ProtocolWithdra
     }
 
     
-    public abstract ProtocolDocumentBase withdraw(ProtocolBase protocol, ProtocolWithdrawBean withdrawBean) throws Exception;        
+    @Override
+    public abstract ProtocolDocumentBase withdraw(ProtocolBase protocol, ProtocolWithdrawBean withdrawBean) throws Exception;
     
     /**
      * 
@@ -148,9 +149,11 @@ public abstract class ProtocolWithdrawServiceImplBase implements ProtocolWithdra
     }
 
     // new addition developed for IACUC, has to be backfitted to IRB
+    @Override
     public abstract ProtocolDocumentBase administrativelyWithdraw(ProtocolBase protocol, ProtocolAdministrativelyWithdrawBean administrativelyWithdrawBean) throws Exception;
     
     // new addition developed for IACUC, has to be backfitted to IRB
+    @Override
     public abstract ProtocolDocumentBase administrativelyMarkIncomplete(ProtocolBase protocol, ProtocolAdministrativelyIncompleteBean markIncompleteBean) throws Exception;
  
  

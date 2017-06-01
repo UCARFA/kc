@@ -35,6 +35,7 @@ public class CurrentOrPendingReportForm extends KualiForm implements ReportHelpe
         this.reportHelperBean = reportHelperBean;
     }
 
+    @Override
     public ReportHelperBean getReportHelperBean() {
          return reportHelperBean;
     }

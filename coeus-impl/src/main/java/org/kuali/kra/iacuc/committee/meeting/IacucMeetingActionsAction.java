@@ -105,6 +105,7 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
         return KcServiceLocator.getService(IacucCommitteePrintingService.class);
     }
 
+    @Override
     public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();

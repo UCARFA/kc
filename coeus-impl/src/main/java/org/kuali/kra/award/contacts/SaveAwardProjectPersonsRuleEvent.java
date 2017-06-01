@@ -48,10 +48,12 @@ public class SaveAwardProjectPersonsRuleEvent extends KcDocumentEventBase {
         return projectPersons;
     }
 
+    @Override
     public Class<AwardProjectPersonAddRule> getRuleInterfaceClass() {
         return AwardProjectPersonAddRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AwardProjectPersonsSaveRule) rule).processSaveAwardProjectPersonsBusinessRules(this);
     }

@@ -62,6 +62,7 @@ public class SponsorHierarchyMaintenanceServiceImplTest extends KcIntegrationTes
     }
     private SponsorHierarchyMaintenanceService getEmptySponsorService() {
         return new SponsorHierarchyMaintenanceServiceImpl() {
+            @Override
             public Collection getTopSponsorHierarchyList(){
                 return new ArrayList();
             }

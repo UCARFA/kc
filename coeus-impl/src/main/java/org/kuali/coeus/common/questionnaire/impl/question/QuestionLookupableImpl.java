@@ -79,6 +79,7 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
      * GlovalVaribles.getKualiForm() is not helping because the 'fields' on lookupForm is not set until all fields are set. So, the
      * lookupreturnvaluesfinder can't take advantage of that.
      */
+    @Override
     public boolean checkForAdditionalFields(Map fieldValues) {
         String lookupReturnFieldName = (String) fieldValues.get(LOOKUP_RETURN);
         String lookupClassName = (String) fieldValues.get(LOOKUP_CLASS);

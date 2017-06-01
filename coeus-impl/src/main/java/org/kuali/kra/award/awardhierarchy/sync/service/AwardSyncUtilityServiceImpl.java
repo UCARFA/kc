@@ -58,6 +58,7 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
     private ErrorHandlingUtilService errorHandlingUtilService;
 
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<AwardSyncLog> getLogsFromSaveErrors(AwardSyncStatus awardStatus) {
         List<AwardSyncLog> result = new ArrayList<AwardSyncLog>();
@@ -132,6 +133,7 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
         return actionIds;
     } 
     
+    @Override
     @SuppressWarnings("unchecked")
     public boolean doKeyValuesMatch(PersistableBusinessObject object, Map<String, Object> keyValues) 
         throws NoSuchFieldException, IllegalAccessException, 
@@ -164,7 +166,8 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
      * @throws InvocationTargetException
      * @throws ClassNotFoundException
      */
-    public PersistableBusinessObject findMatchingBo(Collection<? extends PersistableBusinessObject> items, Map<String, Object> keyValues) 
+    @Override
+    public PersistableBusinessObject findMatchingBo(Collection<? extends PersistableBusinessObject> items, Map<String, Object> keyValues)
         throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
         PersistableBusinessObject matchedBo = null;
         for (PersistableBusinessObject curObject : items) {

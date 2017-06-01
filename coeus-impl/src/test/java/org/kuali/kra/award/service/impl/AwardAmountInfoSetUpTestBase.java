@@ -35,6 +35,7 @@ public class AwardAmountInfoSetUpTestBase {
             super(principalName);
         }
 
+        @Override
         public String getPrincipalName() {
             return "quickstart";
         }

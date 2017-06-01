@@ -307,6 +307,7 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
     }
 
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

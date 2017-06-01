@@ -39,6 +39,7 @@ public final class IacucProtocolTask  extends ProtocolTaskBase {
         super(TaskGroupName.IACUC_PROTOCOL, taskName, protocol, genericTaskName);
     }
 
+    @Override
     public IacucProtocol getProtocol() {
         return (IacucProtocol)super.getProtocol();
     }

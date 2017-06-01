@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 @Component("iacucProtocolCustomDataResolverTypeService")
 public class IacucProtocolCustomDataResolverTypeServiceImpl extends CustomDataResolverTypeServiceImpl {
+    @Override
     protected String getModuleNamePrereq() {
         return KcKrmsConstants.IacucProtocol.IACUC_PROTOCOL;
     }

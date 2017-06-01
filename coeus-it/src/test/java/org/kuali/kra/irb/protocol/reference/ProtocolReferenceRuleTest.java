@@ -40,6 +40,7 @@ public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
     private List<ProtocolReferenceType> protocolReferenceList;
     private BusinessObjectService bos;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -48,6 +49,7 @@ public class ProtocolReferenceRuleTest extends ProtocolRuleTestBase {
         protocolReferenceList = (List)bos.findAll(ProtocolReferenceType.class);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

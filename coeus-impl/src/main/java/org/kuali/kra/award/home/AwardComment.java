@@ -186,11 +186,13 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
         return dateFormat.format(getUpdateTimestamp());
     }
 
+    @Override
     public void resetPersistenceState() {
         awardCommentId = null;
         versionNumber = null;
     }
 
+    @Override
     public int compareTo(AwardComment awardCommentArg) {
         return awardCommentArg.getUpdateTimestamp().compareTo(this.getUpdateTimestamp());
     }

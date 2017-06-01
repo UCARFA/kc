@@ -58,18 +58,22 @@ public class IacucProtocolException extends ProtocolAssociateBase {
         this.speciesCode = speciesCode;
     }
 
+    @Override
     public String getProtocolNumber() {
         return protocolNumber;
     }
 
+    @Override
     public void setProtocolNumber(String protocolNumber) {
         this.protocolNumber = protocolNumber;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
+    @Override
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }

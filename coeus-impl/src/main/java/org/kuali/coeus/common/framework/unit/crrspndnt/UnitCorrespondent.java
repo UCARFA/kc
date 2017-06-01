@@ -48,6 +48,7 @@ public class UnitCorrespondent extends Correspondent {
     	this.unitNumber = unitNumber;
     }
     
+    @Override
     public org.kuali.kra.irb.correspondence.CorrespondentType getCorrespondentType() {
         return (org.kuali.kra.irb.correspondence.CorrespondentType) correspondentType;
     }

@@ -701,6 +701,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
         this.unitService = unitService;
     }
 
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
             businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
@@ -708,6 +709,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
         return businessObjectService;
     }
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

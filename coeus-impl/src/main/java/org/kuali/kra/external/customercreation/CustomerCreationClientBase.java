@@ -71,6 +71,7 @@ public abstract class CustomerCreationClientBase implements CustomerCreationClie
 		}
 	}
 	
+    @Override
     public List<KeyValue> getCustomerTypes() {
     	List<KeyValue> result = new ArrayList<KeyValue>();
     	LOG.info("Connecting to financial system...");
@@ -81,6 +82,7 @@ public abstract class CustomerCreationClientBase implements CustomerCreationClie
     	return result;
     }
 
+    @Override
     public boolean isValidCustomer(String customerNumber) {
     	LOG.info("Connecting to financial system...");
     	return getServiceHandle().isValidCustomer(customerNumber);
@@ -115,7 +117,8 @@ public abstract class CustomerCreationClientBase implements CustomerCreationClie
 		return parameterService;
 	}
 
-	public void setParameterService(ParameterService parameterService) {
+	@Override
+    public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
 	}
 }

@@ -31,10 +31,12 @@ public class IacucProtocolSpeciesServiceImpl implements IacucProtocolSpeciesServ
     private static final String REFERENCE_SPECIES_COUNT_TYPE = "iacucSpeciesCountType";
     private static final String REFERENCE_SPECIES_PAIN_CATEGORY = "iacucPainCategory";
 
+    @Override
     public void addProtocolSpecies(IacucProtocol protocol, IacucProtocolSpecies protocolSpecies) {
         protocol.getIacucProtocolSpeciesList().add(getNewProtocolSpecies(protocol, protocolSpecies));
     }
     
+    @Override
     public IacucProtocolSpecies getNewProtocolSpecies(IacucProtocol protocol, IacucProtocolSpecies protocolSpecies) {
         protocolSpecies.setIacucProtocolSpeciesId(getNextProtocolSpeciesSequence());
         protocolSpecies.setSpeciesId(getNextProtocolSpeciesId(protocol));
@@ -46,6 +48,7 @@ public class IacucProtocolSpeciesServiceImpl implements IacucProtocolSpeciesServ
         return protocolSpecies;
     }
     
+    @Override
     public HashMap<Integer, Integer> getNewProtocolSpeciesMap(IacucProtocol protocol) {
         List<IacucProtocolSpecies> protocolSpeciesList = protocol.getIacucProtocolSpeciesList();
         HashMap<Integer, Integer> speciesIdMapping = new HashMap<Integer,Integer>();
@@ -106,6 +109,7 @@ public class IacucProtocolSpeciesServiceImpl implements IacucProtocolSpeciesServ
             protocolSpeciesList.add((IacucProtocolSpecies) ObjectUtils.deepCopy(species));
         }
         Collections.sort(protocolSpeciesList, new Comparator<IacucProtocolSpecies>() {
+            @Override
             public int compare(IacucProtocolSpecies species1, IacucProtocolSpecies species2) {
                 return species1.getSpeciesId().compareTo(species2.getSpeciesId());
             }

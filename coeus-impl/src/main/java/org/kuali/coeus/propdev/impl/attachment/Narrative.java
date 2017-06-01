@@ -213,10 +213,12 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         return StringUtils.EMPTY;
     }
 
+    @Override
     public MultipartFile getMultipartFile() {
         return multipartFile;
     }
 
+    @Override
     public void setMultipartFile(MultipartFile multipartFile) {
         this.multipartFile = multipartFile;
     }
@@ -318,6 +320,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         if (narrativeUserRights != null) {
             Collections.sort(this.narrativeUserRights, new Comparator() {
 
+                @Override
                 public int compare(Object o1, Object o2) {
                     NarrativeUserRights r1 = (NarrativeUserRights) o1;
                     NarrativeUserRights r2 = (NarrativeUserRights) o2;
@@ -364,6 +367,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -525,6 +529,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         return getNarrativeAttachment().getUploadTimestamp();
 }
 
+    @Override
     public String getUploadUserDisplay() {
         if (getNarrativeAttachment() == null || StringUtils.isBlank(getNarrativeAttachment().getUploadUser())) {
             return this.getUpdateUser();
@@ -546,6 +551,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         return hierarchyProposalNumber;
     }
 
+    @Override
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
@@ -555,6 +561,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         return hiddenInHierarchy;
     }
 
+    @Override
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
@@ -568,6 +575,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.type = contentType;
     }
 
+    @Override
     public byte[] getData() {
         return getNarrativeAttachment() != null ? getNarrativeAttachment().getData() : null;
     }

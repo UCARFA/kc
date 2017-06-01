@@ -28,6 +28,7 @@ public class ProposalLogLookupableImpl extends KualiLookupableImpl {
 
     public static final String LANDING_PAGE_URL = "../kc-krad/landingPage?viewId=Kc-LandingPage-RedirectView";
 
+    @Override
     public String getCreateNewUrl() {
         String url = "";
 

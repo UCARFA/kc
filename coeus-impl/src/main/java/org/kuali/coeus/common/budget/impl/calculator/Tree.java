@@ -69,6 +69,7 @@ public class Tree<T> {
      * from a pre-order traversal of the Tree.
      * @return the String representation of the Tree.
      */
+    @Override
     public String toString() {
         return toList().toString();
     }
@@ -192,6 +193,7 @@ class Node<T> {
         this.data = data;
     }
      
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("{").append(getData().toString()).append(",[");

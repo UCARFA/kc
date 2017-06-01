@@ -189,10 +189,12 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     }
 
 
+    @Override
     public boolean isPrincipalInvestigator() {
         return StringUtils.equals(getContactRoleCode(), ContactRole.PI_CODE);
     }
     
+    @Override
     public boolean isMultiplePi() {
     	return StringUtils.equals(getContactRoleCode(), PropAwardPersonRole.MULTI_PI);
     }
@@ -266,6 +268,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         this.units = units;
     }
 
+    @Override
     public String toString() {
         final StringBuilder id = new StringBuilder();
         if (getContact() != null && getContact().getIdentifier() != null) {
@@ -297,10 +300,12 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         creditSplits = new ArrayList<InstitutionalProposalPersonCreditSplit>();
     }
 
+    @Override
     public String getProjectRole() {
         return getContactRole().getRoleDescription();
     }
 
+    @Override
     public boolean isOtherSignificantContributorFlag() {
         return false;
     }
@@ -318,14 +323,17 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         this.setInstitutionalProposalContactId(null);
     }
 
+    @Override
     public Sponsorable getParent() {
         return this.getInstitutionalProposal();
     }
 
-	public String getInvestigatorRoleDescription() {
+	@Override
+    public String getInvestigatorRoleDescription() {
 		return getContactRole().getRoleDescription();
 	}
 	
+    @Override
     public ContactRole refreshContactRole() {
     	if (StringUtils.isNotBlank(getRoleCode()) && getParent() != null && StringUtils.isNotBlank(getParent().getSponsorCode())) {
     		contactRole = getPropAwardPersonRoleService().getRole(getRoleCode(), getParent().getSponsorCode());
@@ -335,14 +343,16 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     	return contactRole;
     }
 
-	protected PropAwardPersonRoleService getPropAwardPersonRoleService() {
+	@Override
+    protected PropAwardPersonRoleService getPropAwardPersonRoleService() {
 		if (propAwardPersonRoleService == null) {
 			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
 		}
 		return propAwardPersonRoleService;
 	}
 
-	public void setPropAwardPersonRoleService(
+	@Override
+    public void setPropAwardPersonRoleService(
 			PropAwardPersonRoleService propAwardPersonRoleService) {
 		this.propAwardPersonRoleService = propAwardPersonRoleService;
 	}
@@ -357,6 +367,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
 		return isPrincipalInvestigator() || isMultiplePi() || isCoInvestigator();
 	}
 
+    @Override
     public String getLastName() {
         String lastName = null;
         if (getPerson() != null) {

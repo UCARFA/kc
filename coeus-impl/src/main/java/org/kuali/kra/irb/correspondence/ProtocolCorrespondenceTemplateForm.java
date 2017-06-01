@@ -32,10 +32,12 @@ public class ProtocolCorrespondenceTemplateForm extends ProtocolCorrespondenceTe
 
     private static final long serialVersionUID = 998818088363924442L;
 
+    @Override
     protected ProtocolCorrespondenceTemplateBase getNewProtocolCorrespondenceTemplateInstanceHook() {
         return new ProtocolCorrespondenceTemplate();
     }
     
+    @Override
     protected Class<? extends ProtocolCorrespondenceTypeBase> getProtocolCorrespondenceTypeBOClassHook() {
         return ProtocolCorrespondenceType.class;
     }

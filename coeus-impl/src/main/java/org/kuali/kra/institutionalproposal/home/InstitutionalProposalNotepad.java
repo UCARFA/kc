@@ -71,10 +71,12 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
         this.proposalNotepadId = proposalNotepadId;
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
 
+    @Override
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }

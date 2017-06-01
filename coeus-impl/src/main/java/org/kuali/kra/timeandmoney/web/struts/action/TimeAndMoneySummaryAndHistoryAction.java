@@ -26,7 +26,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 public class TimeAndMoneySummaryAndHistoryAction extends TimeAndMoneyAction {
-	public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = super.reload(mapping, form, request, response);
 		timeAndMoneySummaryAndHistory(mapping, form, request, response);
 		return forward;

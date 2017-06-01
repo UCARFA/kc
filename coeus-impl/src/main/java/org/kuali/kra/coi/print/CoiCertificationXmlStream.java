@@ -60,6 +60,7 @@ public class CoiCertificationXmlStream implements XmlStream {
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
     	CoiDisclosure disclosure=(CoiDisclosure)printableBusinessObject;
         ApprovedDisclosureDocument approvedDisclosureDoc = ApprovedDisclosureDocument.Factory.newInstance(); 

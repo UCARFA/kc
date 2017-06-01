@@ -51,6 +51,7 @@ public class CommitteeNotificationServiceImpl implements CommonCommitteeNotifica
      * This method generates Agenda Generated notifications for a committee.
      * @throws Exception 
      */
+    @Override
     public void generateNotification(String notificationType, ScheduleAgendaBase agenda) {
         
         if (StringUtils.equals(notificationType, Constants.COMMITTEE_AGENDA_NOTIFICATION)) {
@@ -69,6 +70,7 @@ public class CommitteeNotificationServiceImpl implements CommonCommitteeNotifica
      * This method generates Minutes Generated notifications for a committee.
      * @throws Exception 
      */
+    @Override
     public void generateNotification(String notificationType, CommScheduleMinuteDocBase minuteDoc) {
         
         if (StringUtils.equals(notificationType, Constants.COMMITTEE_MINUTES_NOTIFICATION)) {

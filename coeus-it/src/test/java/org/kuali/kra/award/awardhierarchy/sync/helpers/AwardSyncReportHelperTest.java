@@ -47,6 +47,7 @@ public class AwardSyncReportHelperTest extends AwardSyncHelperTestBase {
         super(className);
     }
     
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -86,6 +87,7 @@ public class AwardSyncReportHelperTest extends AwardSyncHelperTestBase {
         report.getAwardReportTermRecipients().add(recipient);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         super.tearDown();

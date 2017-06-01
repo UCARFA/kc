@@ -40,6 +40,7 @@ public class UnitCorrespondentRoleAttribute extends GenericRoleAttribute {
     private static final String ROLE_NAME = "UnitCorrespondent";
     private static final String UNIT_NODE_NAME = "leadUnitNumber";
 
+    @Override
     public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
         List<String> qualifiedRoleNames = new ArrayList<String>();
         qualifiedRoleNames.add(ROLE_NAME);
@@ -47,6 +48,7 @@ public class UnitCorrespondentRoleAttribute extends GenericRoleAttribute {
         return qualifiedRoleNames;
     }
 
+    @Override
     public List<RoleName> getRoleNames() {
         RoleName role = RoleName.Builder.create(UnitCorrespondentRoleAttribute.class.getName(), ROLE_NAME, ROLE_NAME).build();
         return Collections.singletonList(role);

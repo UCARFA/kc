@@ -239,6 +239,7 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     {    
         public LabelComparator(){}
         
+        @Override
         public int compare(Object cad1, Object cad2 )
         {    
             try

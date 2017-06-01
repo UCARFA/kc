@@ -45,6 +45,7 @@ public class IRBProtocolNotification extends ProtocolNotification {
         this.protocolAction = protocolAction;
     }
 
+    @Override
     public void persistOwningObject(KcPersistableBusinessObjectBase object) {
         Protocol protocol = (Protocol)object;
         this.setOwningDocumentIdFk(protocol.getLastProtocolAction().getProtocolActionId());

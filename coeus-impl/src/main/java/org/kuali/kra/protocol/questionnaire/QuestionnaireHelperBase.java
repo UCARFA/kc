@@ -82,9 +82,11 @@ public abstract class QuestionnaireHelperBase extends org.kuali.coeus.common.que
     protected abstract ProtocolTaskBase getModifyQnnrTaskHook(ProtocolBase protocol);
     
     
+    @Override
     public abstract String getModuleCode();
 
 
+    @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
         ProtocolModuleQuestionnaireBeanBase moduleQuestionnaireBean = getProtocolModuleQuestionnaireBeanHook(getProtocol());
         return moduleQuestionnaireBean;
@@ -94,6 +96,7 @@ public abstract class QuestionnaireHelperBase extends org.kuali.coeus.common.que
     protected abstract ProtocolModuleQuestionnaireBeanBase getProtocolModuleQuestionnaireBeanHook(ProtocolBase protocol);
 
     
+    @Override
     public void populateAnswers() {
         if (isAmendQuestionnaire()) {
             super.populateAnswers();
@@ -131,6 +134,7 @@ public abstract class QuestionnaireHelperBase extends org.kuali.coeus.common.que
      * need to override to take care of "0' modulesubitemcode for amend questionnaire
      * @see org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase#updateQuestionnaireAnswer(int)
      */
+    @Override
     public void updateQuestionnaireAnswer(int answerHeaderIndex) {
         AnswerHeader answerHeader = getAnswerHeaders().get(answerHeaderIndex);
         if (isAmendQuestionnaire() && CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode())) {

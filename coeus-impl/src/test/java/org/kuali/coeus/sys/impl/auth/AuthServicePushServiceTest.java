@@ -285,7 +285,8 @@ public class AuthServicePushServiceTest {
 			return true;
 		}
 
-		public String getPrincipalId() {
+		@Override
+        public String getPrincipalId() {
 			return principalId;
 		}
 

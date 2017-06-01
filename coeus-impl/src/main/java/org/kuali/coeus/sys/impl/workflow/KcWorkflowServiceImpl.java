@@ -191,6 +191,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         }
     }
 
+    @Override
     public boolean isUserAdHocRequestRecipient(Document document, String principalId, String nodeName) {
         try {
             List<ActionRequest> actionRequestsForCurrentUser = workflowDocumentService.getActionRequestsForPrincipalAtNode(document.getDocumentNumber(), nodeName, principalId);
@@ -206,6 +207,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         return false;
     }
     
+    @Override
     public boolean isUserRouteRespRequestRecipient(Document document, String principalId, String nodeName) {
         try {
             List<ActionRequest> actionRequestsForCurrentUser = workflowDocumentService.getActionRequestsForPrincipalAtNode(document.getDocumentNumber(), nodeName, principalId);
@@ -298,6 +300,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         return !doNotReceiveFutureRequests;
     }
 
+    @Override
     public boolean hasPendingApprovalRequests(WorkflowDocument workflowDoc) {
         return !actionListService.getActionItems(workflowDoc.getDocumentId(), approvalCodes).isEmpty();
     }

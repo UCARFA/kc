@@ -74,6 +74,7 @@ public class CommitteeDecision extends ProtocolActionBean implements org.kuali.k
     /**
      * This method initializes the class.
      */
+    @Override
     public void init() {
         // getSubmission(protocol) is not necessary the most recent one.
         // this may cause problem later if the most recent submission does not have schedule, then
@@ -97,10 +98,12 @@ public class CommitteeDecision extends ProtocolActionBean implements org.kuali.k
         }
     }
     
+    @Override
     public Integer getRecusedCount() {
         return this.getRecused().size();
     }
 
+    @Override
     public void setRecusedCount(Integer recusedCount) {
         this.recusedCount = recusedCount;
     }
@@ -159,94 +162,117 @@ public class CommitteeDecision extends ProtocolActionBean implements org.kuali.k
         }
     }
 
+    @Override
     public String getMotionTypeCode() {
         return motionTypeCode;
     }
 
+    @Override
     public void setMotionTypeCode(String commDecisionMotionTypeCode) {
         this.motionTypeCode = commDecisionMotionTypeCode;
     }
 
+    @Override
     public Integer getNoCount() {
         return noCount;
     }
 
+    @Override
     public void setNoCount(Integer noCount) {
         this.noCount = noCount;
     }
 
+    @Override
     public Integer getYesCount() {
         return yesCount;
     }
 
+    @Override
     public void setYesCount(Integer yesCount) {
         this.yesCount = yesCount;
     }
 
+    @Override
     public Integer getAbstainCount() {
         return this.getAbstainers().size();
     }
 
+    @Override
     public void setAbstainCount(Integer abstainCount) {
         this.abstainCount = abstainCount;
     }
 
+    @Override
     public String getVotingComments() {
         return votingComments;
     }
 
+    @Override
     public void setVotingComments(String votingComments) {
         this.votingComments = votingComments;
     }
     
+    @Override
     public CommitteeDecisionMotionType getMotionType() {
         return motionType;
     }
 
+    @Override
     public void setMotionType(CommitteeDecisionMotionType motionType) {
         this.motionType = motionType;
     }
 
+    @Override
     public List<CommitteePerson> getAbstainers() {
         return abstainers;
     }
 
+    @Override
     public void setAbstainers(List<CommitteePerson> abstainers) {
         this.abstainers = abstainers;
     }
     
+    @Override
     public List<CommitteePerson> getAbstainersToDelete() {
         return abstainersToDelete;
     }
 
+    @Override
     public List<CommitteePerson> getRecused() {
         return recused;
     }
 
+    @Override
     public void setRecused(List<CommitteePerson> recused) {
         this.recused = recused;
     }
     
+    @Override
     public List<CommitteePerson> getRecusedToDelete() {
         return recusedToDelete;
     }
 
+    @Override
     public CommitteePerson getNewAbstainer() {
         return newAbstainer;
     }
 
+    @Override
     public void setNewAbstainer(CommitteePerson newAbstainer) {
         this.newAbstainer = newAbstainer;
     }
 
+    @Override
     public CommitteePerson getNewRecused() {
         return newRecused;
     }
 
+    @Override
     public void setNewRecused(CommitteePerson newRecused) {
         this.newRecused = newRecused;
     }
     
+    @Override
     public int getTotalVoteCount() {
         return (this.getYesCount() != null ? this.getYesCount() : 0) + 
                 (this.getNoCount() != null ? this.getNoCount() : 0) + 
@@ -254,23 +280,28 @@ public class CommitteeDecision extends ProtocolActionBean implements org.kuali.k
                 (this.getRecusedCount() != null ? this.getRecusedCount() : 0);
     }
 
+    @Override
     public ReviewCommentsBean getReviewCommentsBean() {
         return reviewCommentsBean;
     }
 
+    @Override
     public void setReviewCommentsBean(ReviewCommentsBeanBase reviewCommentsBean) {
         this.reviewCommentsBean = (ReviewCommentsBean) reviewCommentsBean;
     }
 
+    @Override
     public ReviewAttachmentsBean getReviewAttachmentsBean() {
 
         return null;
     }
     
+    @Override
     public int getYesCountValue() {
         return (this.getYesCount() != null) ? this.getYesCount() : 0;
     }
     
+    @Override
     public int getNoCountValue() {
         return (this.getNoCount() != null) ? this.getNoCount() : 0;
     }

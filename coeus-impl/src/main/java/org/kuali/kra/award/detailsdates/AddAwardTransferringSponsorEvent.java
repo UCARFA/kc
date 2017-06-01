@@ -65,6 +65,7 @@ public class AddAwardTransferringSponsorEvent extends KcDocumentEventBase {
     /**
      * Logs the event type and some information about the associated sponsor
      */
+    @Override
     protected void logEvent() {
         if(LOG.isDebugEnabled()) {
             StringBuilder logMessage = new StringBuilder(StringUtils.substringAfterLast(

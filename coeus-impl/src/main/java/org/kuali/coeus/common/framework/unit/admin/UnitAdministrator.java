@@ -72,6 +72,7 @@ public class UnitAdministrator extends KcPersistableBusinessObjectBase implement
         this.personId = personId;
     }
 
+    @Override
     public String getUnitAdministratorTypeCode() {
         return unitAdministratorTypeCode;
     }
@@ -89,6 +90,7 @@ public class UnitAdministrator extends KcPersistableBusinessObjectBase implement
         this.unitNumber = unitNumber;
     }
 
+    @Override
     public KcPerson getPerson() {
         KcPerson kcPerson = null;
         try {
@@ -122,6 +124,7 @@ public class UnitAdministrator extends KcPersistableBusinessObjectBase implement
         this.unitAdministratorType = unitAdministratorType;
     }
 
+    @Override
     public Unit getUnit() {
         return unit;
     }

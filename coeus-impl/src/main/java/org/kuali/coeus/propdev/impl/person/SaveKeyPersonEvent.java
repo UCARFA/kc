@@ -52,6 +52,7 @@ public class SaveKeyPersonEvent extends KcDocumentEventBase {
     /**
      * Logs the event type and some information about the associated accountingLine
      */
+    @Override
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");

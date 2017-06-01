@@ -27,6 +27,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class IacucProtocolAssignCmtRuleImpl extends KcTransactionalDocumentRuleBase implements IacucProtocolAssignCmtRule {
 
+    @Override
     public boolean processAssignToCommittee(ProtocolDocumentBase document, IacucProtocolAssignCmtBean actionBean) {
         boolean valid = true;
         if (StringUtils.isBlank(actionBean.getCommitteeId())) {

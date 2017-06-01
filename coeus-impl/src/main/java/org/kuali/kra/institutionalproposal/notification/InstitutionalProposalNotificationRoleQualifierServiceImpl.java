@@ -48,10 +48,12 @@ public class InstitutionalProposalNotificationRoleQualifierServiceImpl implement
         return roleQualifierValue;
     }
 
+    @Override
     public InstitutionalProposal getInstitutionalProposal() {
         return institutionalProposal;
     }
     
+    @Override
     public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
         this.institutionalProposal = institutionalProposal;
     }

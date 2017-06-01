@@ -96,6 +96,7 @@ public abstract class ProtocolCorrespondenceTemplateBase extends KcPersistableBu
         return templateFile;
     }
 
+    @Override
     public int compareTo(ProtocolCorrespondenceTemplateBase arg) {
         return this.getCommittee().getCommitteeName().compareTo(arg.getCommittee().getCommitteeName());
     }

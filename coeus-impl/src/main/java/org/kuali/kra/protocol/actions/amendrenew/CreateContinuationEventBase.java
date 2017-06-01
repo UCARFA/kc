@@ -45,6 +45,7 @@ public abstract class CreateContinuationEventBase extends KcDocumentEventBaseExt
         return continuationSummary;
     }
 
+    @Override
     public abstract KcBusinessRule getRule();
 
 }

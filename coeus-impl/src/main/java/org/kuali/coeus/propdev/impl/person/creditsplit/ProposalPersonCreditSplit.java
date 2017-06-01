@@ -80,10 +80,12 @@ public final class ProposalPersonCreditSplit extends KcPersistableBusinessObject
         return getProposalPerson().getProposalPersonNumber();
     }
 
+    @Override
     public String getInvCreditTypeCode() {
         return this.invCreditTypeCode;
     }
 
+    @Override
     public void setInvCreditTypeCode(String argInvCreditTypeCode) {
         this.invCreditTypeCode = argInvCreditTypeCode;
     }
@@ -93,6 +95,7 @@ public final class ProposalPersonCreditSplit extends KcPersistableBusinessObject
         return this.credit == null ? new ScaleTwoDecimal(0) : this.credit;
     }
 
+    @Override
     public void setCredit(ScaleTwoDecimal argCredit) {
         this.credit = argCredit;
     }

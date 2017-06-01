@@ -333,6 +333,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase implements Bud
 
         private static final int FIRST_LESS_THAN_SECOND = -1;
 
+        @Override
         public int compare(BudgetPeriod bp1, BudgetPeriod bp2) {
             int result = compareDates(bp1.getStartDate(), bp2.getStartDate());
             if (result == FIRST_EQUALS_SECOND) {

@@ -70,6 +70,7 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
 
     }
 
+    @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
 
         // businessObject is empty, so we have to dig into global variables

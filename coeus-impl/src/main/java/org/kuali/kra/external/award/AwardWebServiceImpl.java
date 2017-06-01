@@ -46,7 +46,8 @@ public class AwardWebServiceImpl implements AwardWebService {
 	private KcDtoService<AwardDTO, Award> awardDtoService;
 	private ParameterService parameterService;
 	
-	public AwardDTO getAward(Long awardId) {
+	@Override
+    public AwardDTO getAward(Long awardId) {
 		String awardNumber = getAwardService().getAwardNumber(awardId);
 		if (StringUtils.isNotBlank(awardNumber)) {
 			Award newestAward = getAwardService().getActiveOrNewestAward(awardNumber);
@@ -57,7 +58,8 @@ public class AwardWebServiceImpl implements AwardWebService {
 		}
 	}
 	
-	public List<AwardDTO> searchAwards(AwardSearchCriteriaDto searchDto) {
+	@Override
+    public List<AwardDTO> searchAwards(AwardSearchCriteriaDto searchDto) {
 		List<AwardDTO> results = new ArrayList<AwardDTO>();
 		Map<String, String> values = new HashMap<String, String>();
 		values.put("awardId", searchDto.getAwardId());
@@ -86,7 +88,8 @@ public class AwardWebServiceImpl implements AwardWebService {
 		
 	}
 
-	public List<AwardDTO> getMatchingAwards(AwardFieldValuesDto fieldValuesDto) {
+	@Override
+    public List<AwardDTO> getMatchingAwards(AwardFieldValuesDto fieldValuesDto) {
 		List<AwardDTO> results = new ArrayList<AwardDTO>();
 		Map<String, Object> fieldValues = new HashMap<String, Object>();
 		if (fieldValuesDto.getAwardId() != null) {

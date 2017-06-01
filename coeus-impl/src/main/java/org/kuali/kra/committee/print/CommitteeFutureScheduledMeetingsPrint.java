@@ -44,6 +44,7 @@ public class CommitteeFutureScheduledMeetingsPrint extends AbstractPrint {
      * 
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
+    @Override
     public List<Source> getXSLTemplates() {
         return PrintingUtils.getXSLTforReport(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS.getCommitteeReportType());
     }

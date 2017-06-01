@@ -84,6 +84,7 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
                     Map<Award, List<ReportTracking>> matchedReports = new HashMap<Award, List<ReportTracking>>();
                     Map<NotificationRecipient.Builder, List<ReportTracking>> recipients = 
                         new TreeMap<NotificationRecipient.Builder, List<ReportTracking>>(new Comparator<NotificationRecipient.Builder>() {
+                            @Override
                             public int compare(NotificationRecipient.Builder o1, NotificationRecipient.Builder o2) {
                                 return o1.getRecipientId().compareTo(o2.getRecipientId());
                             }

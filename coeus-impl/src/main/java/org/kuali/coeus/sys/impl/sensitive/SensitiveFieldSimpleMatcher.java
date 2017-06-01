@@ -40,6 +40,7 @@ public class SensitiveFieldSimpleMatcher implements SensitiveFieldMatcher {
     
     //Provides log(n) time for search and add operation
     private Set<String> fields = new TreeSet<String>(new Comparator<String>(){
+        @Override
         public int compare(String o1, String o2) {
             return o1.compareTo(o2);
         }

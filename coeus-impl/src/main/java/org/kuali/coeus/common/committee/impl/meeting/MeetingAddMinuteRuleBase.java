@@ -46,6 +46,7 @@ public abstract class MeetingAddMinuteRuleBase extends KcTransactionalDocumentRu
      * @param event
      * @return
      */
+    @Override
     public boolean processRules(MeetingAddMinuteEventBase event) {
         boolean isValid = true;
         

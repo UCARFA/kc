@@ -100,6 +100,7 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
         getBusinessObjectService().save(protocol);
     }
     
+    @Override
     public void attachProtocolCorrespondence(ProtocolBase protocol, byte[] data, String correspTypeCode) {
         buildAndAttachProtocolCorrespondence(protocol, data, correspTypeCode);
     }
@@ -120,7 +121,8 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
             }
         }
         
-    public AttachmentDataSource reGenerateCorrespondenceDocument(ProtocolActionsCorrespondenceBase printableCorrespondence) 
+    @Override
+    public AttachmentDataSource reGenerateCorrespondenceDocument(ProtocolActionsCorrespondenceBase printableCorrespondence)
             throws PrintingException {
             if (printableCorrespondence.getXSLTemplates().size() > 0) {
                 //there are templates in play, lets do some printing and attaching            

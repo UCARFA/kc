@@ -54,6 +54,7 @@ public abstract class AbstractPrint implements Printable {
 		this.xmlStream = xmlStream;
 	}
 
+    @Override
     public KcPersistableBusinessObjectBase getPrintableBusinessObject() {
         return printableBusinessObject;
     }

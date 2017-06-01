@@ -317,37 +317,45 @@ public abstract class ProtocolOnlineReviewBase extends KcPersistableBusinessObje
         this.protocolReviewer = protocolReviewer;
     }
 
+    @Override
     public String getDocumentKey() {
         return PermissionableKeys.PROTOCOL_ONLINE_REVIEW_KEY;
     }
 
+    @Override
     public String getDocumentNumberForPermission() {
         return getProtocolOnlineReviewId().toString();
     }
 
+    @Override
     public String getDocumentRoleTypeCode() {
 
         return null;
     }
 
+    @Override
     public String getLeadUnitNumber() {
         return getProtocol().getLeadUnitNumber();
     }
 
+    @Override
     public String getNamespace() {
         return "KC-PROTOCOL";
     }
 
+    @Override
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
         roleNames.add(RoleConstants.IRB_REVIEWER);
         return roleNames;
     }
 
+    @Override
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         qualifiedRoleAttributes.put(protocol.getDocumentKey(), protocol.getDocumentNumberForPermission());
     }
 
+    @Override
     public String getDocumentUnitNumber() {
 
         return null;
@@ -385,6 +393,7 @@ public abstract class ProtocolOnlineReviewBase extends KcPersistableBusinessObje
         this.protocolOnlineReviewDocument = protocolOnlineReviewDocument;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List buildListOfDeletionAwareLists() {
         return super.buildListOfDeletionAwareLists();

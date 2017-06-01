@@ -50,7 +50,8 @@ public class ParticipantTypeValuesFinderTest extends ValuesFinderTestBase {
     @Override
     protected ParticipantTypeValuesFinder getKeyValuesFinder() {
     	return new ParticipantTypeValuesFinder() {
-    	    protected Document getDocument() {
+    	    @Override
+            protected Document getDocument() {
     	    	ProtocolDocument doc = new ProtocolDocument();
     	    	doc.setProtocol(new Protocol());
     	    	return doc;

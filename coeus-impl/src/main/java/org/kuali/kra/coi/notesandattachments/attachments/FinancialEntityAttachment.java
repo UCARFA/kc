@@ -97,9 +97,11 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
         this.financialEntity = financialEntity;
     }
 
+    @Override
     public Timestamp getUpdateTimestamp() {
         return updateTimestamp;
     }
+    @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
     }
@@ -161,9 +163,11 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
     public void setUpdateUserFullName(String updateUserFullName) {
         this.updateUserFullName = updateUserFullName;
     }
+    @Override
     public Long getPersonFinIntDisclosureId() {
         return personFinIntDisclosureId;
     }
+    @Override
     public void setPersonFinIntDisclosureId(Long personFinIntDisclosureId) {
         this.personFinIntDisclosureId = personFinIntDisclosureId;
     }
@@ -180,6 +184,7 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
         return statusCode;
     }
 
+    @Override
     public void setUpdateUser(String updateUser) {
         if (updateUser == null || getUpdateUser() == null  ) {
         super.setUpdateUser(updateUser);

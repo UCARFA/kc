@@ -33,7 +33,8 @@ public class SponsorWebServiceImpl implements SponsorWebService {
     private LegacyDataAdapter legacyDataAdapter;
 	private KcDtoService<SponsorDTO, Sponsor> sponsorDtoService;
 	
-	public SponsorDTO getSponsor(String sponsorCode) {
+	@Override
+    public SponsorDTO getSponsor(String sponsorCode) {
 		if (StringUtils.isNotBlank(sponsorCode)) {
 			Sponsor sponsor = getBusinessObjectService().findBySinglePrimaryKey(Sponsor.class, sponsorCode);
 			if (sponsor != null) {
@@ -44,7 +45,8 @@ public class SponsorWebServiceImpl implements SponsorWebService {
 		return null;
 	}
 
-	public List<SponsorDTO> getMatchingSponsors(SponsorCriteriaDto searchCriteria) {
+	@Override
+    public List<SponsorDTO> getMatchingSponsors(SponsorCriteriaDto searchCriteria) {
 		List<SponsorDTO> results = new ArrayList<SponsorDTO>();
 		Collection<Sponsor> sponsors;
 		if (ObjectUtils.isNull(searchCriteria) ||

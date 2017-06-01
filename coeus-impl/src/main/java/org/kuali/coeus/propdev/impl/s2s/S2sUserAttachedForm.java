@@ -124,6 +124,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
         this.formFileName = formFileName;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -168,6 +169,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
      * Gets the s2sUserAttachedFormAtts attribute. 
      * @return Returns the s2sUserAttachedFormAtts.
      */
+    @Override
     public List<S2sUserAttachedFormAtt> getS2sUserAttachedFormAtts() {
         return s2sUserAttachedFormAtts;
     }
@@ -184,6 +186,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
      * Gets the s2sUserAttachedFormFileList attribute. 
      * @return Returns the s2sUserAttachedFormFileList.
      */
+    @Override
     public List<S2sUserAttachedFormFile> getS2sUserAttachedFormFileList() {
         return s2sUserAttachedFormFileList;
     }

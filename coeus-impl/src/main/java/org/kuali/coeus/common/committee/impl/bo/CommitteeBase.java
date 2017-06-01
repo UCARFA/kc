@@ -108,6 +108,7 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
         this.committeeId = committeeId;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -321,24 +322,29 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
         this.unitName = unitName;
     }
 
+    @Override
     public Integer getOwnerSequenceNumber() {
         return null;
     }
 
+    @Override
     public void incrementSequenceNumber() {
         sequenceNumber++;
     }
 
+    @Override
     public CMT getSequenceOwner() {
         return getThisHook();
     }
     
     protected abstract CMT getThisHook();
     
+    @Override
     public void setSequenceOwner(CMT newOwner) {
         // do nothing - this is root sequence association
     }
 
+    @Override
     public void resetPersistenceState() {
         setId(null);
     }
@@ -351,6 +357,7 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
      *         than the argument CommitteeBase; and a value greater than 0 if this CommitteeBase has a committeeId
      *         &amp; sequenceNumber pair that is greater than the argument CommitteeBase.
      */
+    @Override
     public int compareTo(CMT committee) {
         // java.lang.NullPointerException
         // at org.kuali.kra.common.committee.bo.CommitteeBase.compareTo(CommitteeBase.java:356)
@@ -366,10 +373,12 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
         }
     }
 
+    @Override
     public String getVersionNameField() {
         return "committeeName";
     }
 
+    @Override
     public String getVersionNameFieldValue() {
         return committeeName;
     }
@@ -403,6 +412,7 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
     
     
     
+    @Override
     public String getNamespace() {
         return getModuleNamespaceCodeHook();
     }
@@ -411,10 +421,12 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
     
     
 
+    @Override
     public String getLeadUnitNumber() {
         return getHomeUnitNumber();
     }
 
+    @Override
     public String getDocumentRoleTypeCode() {
       //FIXME: verify role type
         return null;

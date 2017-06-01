@@ -63,6 +63,7 @@ public class ProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroupBase
      * Gets the protocol attachment type group id.
      * @return the protocol attachment type group id
      */
+    @Override
     public Long getId() {
         return this.id;
     }
@@ -71,6 +72,7 @@ public class ProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroupBase
      * Sets the protocol attachment type group id.
      * @param id the protocol attachment type group id
      */
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -79,6 +81,7 @@ public class ProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroupBase
      * Gets the Protocol Attachment Type.
      * @return Protocol Attachment Type
      */
+    @Override
     public ProtocolAttachmentType getType() {
         return this.type;
     }
@@ -95,6 +98,7 @@ public class ProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroupBase
      * Gets the Protocol Attachment Group.
      * @return Protocol Attachment Group
      */
+    @Override
     public ProtocolAttachmentGroup getGroup() {
         return this.group;
     }
@@ -111,6 +115,7 @@ public class ProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroupBase
      * Gets the typeCode attribute. 
      * @return Returns the typeCode.
      */
+    @Override
     public String getTypeCode() {
         return this.typeCode;
     }
@@ -119,6 +124,7 @@ public class ProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroupBase
      * Sets the typeCode attribute value.
      * @param typeCode The typeCode to set.
      */
+    @Override
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
     }
@@ -127,6 +133,7 @@ public class ProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroupBase
      * Gets the group Code. 
      * @return the group Code.
      */
+    @Override
     public String getGroupCode() {
         return this.groupCode;
     }
@@ -135,6 +142,7 @@ public class ProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroupBase
      * Sets the group Code.
      * @param groupCode the group Code.
      */
+    @Override
     public void setGroupCode(String groupCode) {
         this.groupCode = groupCode;
     }

@@ -2272,6 +2272,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
     
+    @Override
     protected KcNotificationService getNotificationService() {
         return KcServiceLocator.getService(KcNotificationService.class);
     }

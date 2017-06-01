@@ -27,14 +27,17 @@ import org.kuali.kra.protocol.questionnaire.ProtocolQuestionnaireAuditRuleBase;
 
 public class IacucProtocolQuestionnaireAuditRule extends ProtocolQuestionnaireAuditRuleBase {
     
+    @Override
     protected String getModuleCodeHook() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
     }
 
+    @Override
     protected ProtocolModuleQuestionnaireBeanBase getProtocolModuleQuestionnaireBean(ProtocolBase protocol) {
         return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }
 
+    @Override
     protected ProtocolModuleQuestionnaireBeanBase getProtocolModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
         return new IacucProtocolModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
     }

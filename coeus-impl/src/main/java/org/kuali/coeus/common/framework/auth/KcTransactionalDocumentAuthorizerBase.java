@@ -275,6 +275,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can edit the document; otherwise false
      */
+    @Override
     public boolean canEdit(Document document, Person user) {
         return canEdit(document);
     }
@@ -285,6 +286,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can annotate the document; otherwise false
      */
+    @Override
     public boolean canAnnotate(Document document, Person user) {
         return canAnnotate(document);
     }
@@ -295,6 +297,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can close the document; otherwise false
      */
+    @Override
     public boolean canClose(Document document, Person user) {
         return canClose(document);
     }
@@ -305,6 +308,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can save the document; otherwise false
      */
+    @Override
     public boolean canSave(Document document, Person user) {
         return canEdit(document);
     }
@@ -315,6 +319,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can cancel the document; otherwise false
      */
+    @Override
     public boolean canCancel(Document document, Person user) {
         return canCancel(document);
     }
@@ -325,6 +330,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can reload the document; otherwise false
      */
+    @Override
     public boolean canReload(Document document, Person user) {
         return canReload(document);
     }
@@ -335,6 +341,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can copy the document; otherwise false
      */
+    @Override
     public boolean canCopy(Document document, Person user) {
         return canCopy(document);
     }
@@ -345,6 +352,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can perform route reports; otherwise false
      */
+    @Override
     public boolean canPerformRouteReport(Document document, Person user) {
         return canPerformRouteReport(document);
     }
@@ -355,6 +363,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can approve the document; otherwise false
      */
+    @Override
     public boolean canApprove(Document document, Person user) {
         WorkflowDocument workDoc = getWorkflowDocument( document, user );
         return workDoc.isApprovalRequested() 
@@ -368,6 +377,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can disapprove the document; otherwise false
      */
+    @Override
     public boolean canDisapprove(Document document, Person user) {
         //KRACOEUS-3548:  This used to just return true.  Altered so that it returns true only if there
         //is an approval requested and workflow believes that a disapprove is allowed. 
@@ -404,6 +414,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can blanket approve the document; otherwise false
      */
+    @Override
     public boolean canBlanketApprove(Document document, Person user) {
         return canBlanketApprove(document) &&
                isAuthorizedByTemplate(
@@ -419,6 +430,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can route the document; otherwise false
      */
+    @Override
     public boolean canRoute(Document document, Person user) {
        return canRoute(document) && 
               isAuthorizedByTemplate(document,
@@ -433,7 +445,8 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can acknowledge the document; otherwise false
      */
-    public boolean canAcknowledge(Document document, Person user) { 
+    @Override
+    public boolean canAcknowledge(Document document, Person user) {
         return canTakeRequestedAction(document, KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, user);
     }
     
@@ -443,6 +456,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can FYI the document; otherwise false
      */
+    @Override
     public boolean canFyi(Document document, Person user) {
         return canTakeRequestedAction(document, KewApiConstants.ACTION_REQUEST_FYI_REQ, user);
     }
@@ -463,6 +477,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can receive an adhoc route; otherwise false
      */
+    @Override
     public final boolean canReceiveAdHoc(Document document, Person user, String actionRequestCode) {
         Map<String,String> additionalPermissionDetails = new HashMap<String, String>();
         additionalPermissionDetails.put(KimConstants.AttributeConstants.ACTION_REQUEST_CD, actionRequestCode);
@@ -480,8 +495,9 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can add a note attachment; otherwise false
      */
+    @Override
     public boolean canAddNoteAttachment(Document document,
-                                              String attachmentTypeCode, Person user) {
+                                        String attachmentTypeCode, Person user) {
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
         if (attachmentTypeCode != null) {
             additionalPermissionDetails.put(KimConstants.AttributeConstants.ATTACHMENT_TYPE_CODE,
@@ -500,8 +516,9 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can delete a note attachment; otherwise false
      */
+    @Override
     public boolean canDeleteNoteAttachment(Document document,
-                            String attachmentTypeCode, String createdBySelfOnly, Person user) {
+                                           String attachmentTypeCode, String createdBySelfOnly, Person user) {
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
         if (attachmentTypeCode != null) {
             additionalPermissionDetails.put(KimConstants.AttributeConstants.ATTACHMENT_TYPE_CODE,
@@ -522,13 +539,15 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can view a note attachment; otherwise false
      */
+    @Override
     public boolean canViewNoteAttachment(Document document,
-                                               String attachmentTypeCode, Person user) {
+                                         String attachmentTypeCode, Person user) {
         return canViewNoteAttachment(document, attachmentTypeCode, user.getPrincipalId(), user);
     }
     
-    public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, 
-                   String authorUniversalIdentifier, Person user) {
+    @Override
+    public boolean canViewNoteAttachment(Document document, String attachmentTypeCode,
+                                         String authorUniversalIdentifier, Person user) {
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
         if (attachmentTypeCode != null) {
         additionalPermissionDetails.put(KimConstants.AttributeConstants.ATTACHMENT_TYPE_CODE,
@@ -545,8 +564,9 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * @param user the user
      * @return true if the user can take the requested action; otherwise false
      */
+    @Override
     public boolean canTakeRequestedAction(Document document,
-                                           String actionRequestCode, Person user) {
+                                          String actionRequestCode, Person user) {
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
         additionalPermissionDetails.put(KimConstants.AttributeConstants.ACTION_REQUEST_CD,
                 actionRequestCode);

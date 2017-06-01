@@ -34,18 +34,22 @@ public class ProtocolType extends ProtocolTypeBase {
     public ProtocolType() {
     }
 
+    @Override
     public String getProtocolTypeCode() {
         return protocolTypeCode;
     }
 
+    @Override
     public void setProtocolTypeCode(String protocolTypeCode) {
         this.protocolTypeCode = protocolTypeCode;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }

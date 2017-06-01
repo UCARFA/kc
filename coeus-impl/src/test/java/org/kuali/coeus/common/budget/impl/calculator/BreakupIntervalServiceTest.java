@@ -79,7 +79,8 @@ public class BreakupIntervalServiceTest {
 		BusinessObjectService boService = mock(BusinessObjectService.class);
 		when(boService.findAll(RateClassBaseInclusion.class)).thenReturn(defaultRateClassBaseInclusions);
 		when(boService.findBySinglePrimaryKey(eq(RateClassBaseInclusion.class), anyLong())).thenAnswer(new Answer<RateClassBaseInclusion>() {
-			 public RateClassBaseInclusion answer(InvocationOnMock invocation) {
+			 @Override
+             public RateClassBaseInclusion answer(InvocationOnMock invocation) {
 		         Long id = (Long) invocation.getArguments()[1];
 		         return defaultRateClassBaseInclusions.stream()
 		        		 .filter(rateInclusion -> id.equals(rateInclusion.getRateClassBaseInclusionId()))

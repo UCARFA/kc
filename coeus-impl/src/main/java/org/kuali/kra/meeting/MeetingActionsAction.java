@@ -88,10 +88,12 @@ public class MeetingActionsAction extends MeetingActionsActionBase {
         CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.TERMINATION_NOTICE,ProtocolActionType.TERMINATED);
     }
     
+    @Override
     protected CommitteePrintingService getCommitteePrintingService() {
         return KcServiceLocator.getService(CommitteePrintingService.class);
     }
   
+    @Override
     public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         MeetingHelper meetingHelper = (MeetingHelper) ((MeetingForm) form).getMeetingHelper();

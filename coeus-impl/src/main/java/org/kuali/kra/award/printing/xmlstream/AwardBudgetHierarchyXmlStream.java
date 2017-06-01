@@ -53,7 +53,8 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
-	public Map<String, XmlObject> generateXmlStream(
+	@Override
+    public Map<String, XmlObject> generateXmlStream(
 			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> budgetHierarchyMap = new HashMap<String, XmlObject>();
 		Award award = (Award) printableBusinessObject;

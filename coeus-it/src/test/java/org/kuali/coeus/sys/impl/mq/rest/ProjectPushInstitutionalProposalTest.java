@@ -137,6 +137,7 @@ public class ProjectPushInstitutionalProposalTest extends ProjectPushTestBase {
         return institutionalProposal.getProposalNumber();
     }
 
+    @Override
     public ProjectRetrievalService getProjectRetrievalService() {
         if (instPropProjectRetrievalService == null) {
             instPropProjectRetrievalService = KcServiceLocator.getService(INST_PROP_PROJECT_RETRIEVAL_SERVICE);

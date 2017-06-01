@@ -34,6 +34,7 @@ public class IacucProtocolNotification extends ProtocolNotification {
         super();
     }
 
+    @Override
     public void persistOwningObject(KcPersistableBusinessObjectBase object) {
         IacucProtocol protocol = (IacucProtocol)object;
         this.setOwningDocumentIdFk(protocol.getLastProtocolAction().getProtocolActionId());

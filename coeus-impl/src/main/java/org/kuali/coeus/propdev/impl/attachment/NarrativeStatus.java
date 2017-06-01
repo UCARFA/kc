@@ -60,6 +60,7 @@ public class NarrativeStatus extends KcPersistableBusinessObjectBase implements 
 	 * Determine if two NarrativeStatuses have the same values.
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+    @Override
     public boolean equals(Object obj) {
         if (obj == this)
             return true;

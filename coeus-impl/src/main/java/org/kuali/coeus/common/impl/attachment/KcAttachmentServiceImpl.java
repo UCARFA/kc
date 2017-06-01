@@ -118,6 +118,7 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
         return cleanText;
     }
 
+    @Override
     public String formatFileSizeString(Long size) {
         DecimalFormat format = new DecimalFormat("0.#");
 

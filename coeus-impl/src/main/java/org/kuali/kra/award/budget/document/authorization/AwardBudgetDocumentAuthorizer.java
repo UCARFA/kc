@@ -69,6 +69,7 @@ public class AwardBudgetDocumentAuthorizer  extends KcTransactionalDocumentAutho
     }
     
     
+    @Override
     public boolean canOpen(Document document, Person user) {
         return canExecuteAwardBudgetTask(user, (AwardBudgetDocument) document, TaskName.VIEW_BUDGET);
     }

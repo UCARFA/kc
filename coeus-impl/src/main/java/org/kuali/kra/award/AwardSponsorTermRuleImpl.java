@@ -48,6 +48,7 @@ public class AwardSponsorTermRuleImpl extends KcTransactionalDocumentRuleBase im
      * @param awardSponsorTermRuleEvent
      * @return
      */
+    @Override
     public boolean processAddSponsorTermBusinessRules(AwardSponsorTermRuleEvent awardSponsorTermRuleEvent) {
         this.awardSponsorTerm = awardSponsorTermRuleEvent.getAwardSponsorTermForValidation();
         int typeCode = awardSponsorTermRuleEvent.getSponsorTermTypeCode();

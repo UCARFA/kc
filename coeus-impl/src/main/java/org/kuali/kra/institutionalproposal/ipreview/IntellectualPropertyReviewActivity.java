@@ -80,6 +80,7 @@ public class IntellectualPropertyReviewActivity extends KcPersistableBusinessObj
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }

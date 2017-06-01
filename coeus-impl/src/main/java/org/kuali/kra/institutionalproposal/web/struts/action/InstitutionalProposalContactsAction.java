@@ -66,6 +66,7 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
         return forward;
     }
     
+    @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         ActionForward forward = super.reload(mapping, form, request, response);

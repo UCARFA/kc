@@ -60,7 +60,8 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
-	public Map<String, XmlObject> generateXmlStream(
+	@Override
+    public Map<String, XmlObject> generateXmlStream(
 			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		this.budget = (Budget) printableBusinessObject;
@@ -103,7 +104,8 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	 * This method gets ReportHeaderType for cumulative Report from budget.It
 	 * set all the data for RportHeader from budget and DevelopmentProposal
 	 */
-	protected ReportHeaderType getReportHeaderTypeForCumulativeReport(
+	@Override
+    protected ReportHeaderType getReportHeaderTypeForCumulativeReport(
 			BudgetParent budgetParent) {
 		ReportHeaderType reportHeaderType = ReportHeaderType.Factory
 				.newInstance();
@@ -354,7 +356,8 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		}
 		setReportTypeForBudgetCumulativeNonPersonnel(reportTypeList);
 		Collections.sort(reportTypeList, new Comparator<ReportType>() {
-			public int compare(ReportType reportType1, ReportType reportType2) {
+			@Override
+            public int compare(ReportType reportType1, ReportType reportType2) {
 				return reportType1.getBudgetCategoryDescription().compareTo(reportType2.getBudgetCategoryDescription());
 			}
 		});
@@ -510,7 +513,8 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		subReportType.setGroupArray(getGroupsType(reportTypeList));
 		return subReportType;
 	}
-	   protected void setReportTypeOHExclusionForSortId(
+	   @Override
+       protected void setReportTypeOHExclusionForSortId(
 	            List<ReportType> reportTypeList, int sortId) {
 	        List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
 	        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {

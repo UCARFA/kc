@@ -57,6 +57,7 @@ public abstract class AbstractSponsorFormTemplate extends KcPersistableBusinessO
         this.sponsorForms = sponsorForms;
     }
 
+    @Override
     public int compareTo(AbstractSponsorFormTemplate abstractSponsorFormTemplate) {
         int result = getSponsorForms().getPackageNumber().compareTo(abstractSponsorFormTemplate.getSponsorForms().getPackageNumber());
         result = result != 0 ? result : getPageNumber().compareTo(abstractSponsorFormTemplate.getPageNumber());

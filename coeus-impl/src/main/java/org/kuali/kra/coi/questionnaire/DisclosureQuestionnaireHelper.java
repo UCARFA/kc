@@ -82,6 +82,7 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
         }
     }
     
+    @Override
     public void populateAnswers() {
         super.populateAnswers();
         questionnairesLoaded = true;

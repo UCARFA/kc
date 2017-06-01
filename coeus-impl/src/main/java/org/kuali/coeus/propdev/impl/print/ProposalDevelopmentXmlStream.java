@@ -104,8 +104,9 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
      * @param reportParameters parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject,
-            Map<String, Object> reportParameters) {
+                                                    Map<String, Object> reportParameters) {
         this.developmentProposal = (DevelopmentProposal) printableBusinessObject;
         PROPOSALDocument proposalDocument = PROPOSALDocument.Factory.newInstance();
 

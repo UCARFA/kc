@@ -41,6 +41,7 @@ public abstract class ProtocolSubmitActionRuleBase extends KcTransactionalDocume
     private static final String MANDATORY = "M";
     private ParameterService parameterService;
 
+    @Override
     public boolean processSubmitAction(ProtocolDocumentBase document, ProtocolSubmitAction submitAction) {
 
         boolean isValid = validateSubmissionType(document, submitAction);

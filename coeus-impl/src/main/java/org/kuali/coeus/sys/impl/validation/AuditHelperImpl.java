@@ -46,6 +46,7 @@ public class AuditHelperImpl implements AuditHelper {
     @Qualifier("kualiRuleService")
     private KualiRuleService ruleService;
 
+    @Override
     public <T extends KualiDocumentFormBase & Auditable> ActionForward setAuditMode(
             final ActionMapping mapping, final T form, final boolean audit) {
 
@@ -61,14 +62,17 @@ public class AuditHelperImpl implements AuditHelper {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    @Override
     public <T extends Auditable> boolean auditConditionally(final T form) {
         return this.auditDocumentFromForm(form, false);
     }
 
+    @Override
     public <T extends Auditable> boolean auditUnconditionally(final T form) {
         return this.auditDocumentFromForm(form, true);
     }
 
+    @Override
     public boolean auditUnconditionally(final Document document) {
         if (document == null) {
             throw new NullPointerException("the document is null");
@@ -89,6 +93,7 @@ public class AuditHelperImpl implements AuditHelper {
         return true;
     }
 
+    @Override
     public <T extends Auditable> AuditHelper.ValidationState isValidSubmission(final T form, boolean unconditionally) {
         AuditHelper.ValidationState result = AuditHelper.ValidationState.OK;
         boolean auditPassed;

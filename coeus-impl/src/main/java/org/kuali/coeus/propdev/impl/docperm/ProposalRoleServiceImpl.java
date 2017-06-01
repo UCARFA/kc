@@ -44,6 +44,7 @@ public class ProposalRoleServiceImpl implements ProposalRoleService {
         return systemAuthorizationService;
     }
 
+    @Override
     public List<Role> getRolesForDisplay() {
         return systemAuthorizationService.getRolesByType(RoleConstants.PROPOSAL_ROLE_TYPE, DocumentAccessConstants.DOC_LEVEL_KIM_TYPE_NAME, DocumentAccessConstants.DOC_LEVEL_KIM_TYPE_NAMESPACE);
     }

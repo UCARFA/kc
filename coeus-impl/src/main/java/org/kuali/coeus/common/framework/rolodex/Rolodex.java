@@ -372,6 +372,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
      *
      * @return unit 
      */
+    @Override
     public Unit getUnit() {
         return unit;
     }
@@ -399,6 +400,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -413,6 +415,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
      * Will return <code>null</code> if no full name exists.
      * @return full name.
      */
+    @Override
     public String getFullName() {
         final StringBuilder name = new StringBuilder();
         if (this.getLastName() != null) {

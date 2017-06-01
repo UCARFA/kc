@@ -65,7 +65,8 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 	 *             if any errors occur during report generation
 	 * 
 	 */
-	public AttachmentDataSource printAwardReport(
+	@Override
+    public AttachmentDataSource printAwardReport(
 			KcPersistableBusinessObjectBase printableBO, AwardPrintType awardReportType,
 			Map<String, Object> reportParameters) throws PrintingException {
 		AttachmentDataSource source = null;

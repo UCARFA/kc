@@ -82,6 +82,7 @@ public class AwardUnitContactsBean extends AwardContactsBean {
         return (UnitService) KcServiceLocator.getService(UnitService.class);
     }
 
+    @Override
     public KcPersonService getKcPersonService() {
         return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
     }

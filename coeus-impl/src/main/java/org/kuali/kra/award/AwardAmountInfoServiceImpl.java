@@ -48,6 +48,7 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
      * 2)The Award Amount Infos timeAndMoneyDocumentNumber must be null or from a T&amp;M document that has been finalized
      * Users don't want this data to apply to Award until the T&amp;M document has been approved.
      */
+    @Override
     @SuppressWarnings("unchecked")
     public AwardAmountInfo fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(Award award) {
         
@@ -83,6 +84,7 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
         }).findFirst().get();
 }
     
+    @Override
     public AwardAmountInfo fetchLastAwardAmountInfoForDocNum(Award award, String docNum){
             List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
         int docNumIntValue = Integer.parseInt(docNum.trim());

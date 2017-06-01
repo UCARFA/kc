@@ -36,6 +36,7 @@ import java.util.List;
 public class AnswerComparator implements Comparator<Answer>  {
     private static final Log LOG = LogFactory.getLog(AnswerComparator.class);
     
+    @Override
     public int compare(Answer ans1, Answer argAnswer) {
 
         int retVal = 0;

@@ -40,6 +40,7 @@ public class NotificationRendererBaseTest extends KcIntegrationTestBase {
         NotificationRendererBase renderer = new NotificationRendererBase() {
             
             // mocking this method; we are testing it below
+            @Override
             public Map<String, String> getDefaultReplacementParameters() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("{J}", "jumps");
@@ -57,6 +58,7 @@ public class NotificationRendererBaseTest extends KcIntegrationTestBase {
         renderer = new NotificationRendererBase() {
             
             // return a couple of null values in the map
+            @Override
             public Map<String, String> getDefaultReplacementParameters() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("{J}", null);

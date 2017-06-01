@@ -57,18 +57,22 @@ public class IacucProtocolNotificationRoleQualifierServiceImpl extends ProtocolN
         return roleQualifierValue;
     }
 
+    @Override
     public ProtocolBase getProtocol() {
         return protocol;
     }
 
+    @Override
     public void setProtocol(ProtocolBase protocol) {
         this.protocol = protocol;
     }
 
+    @Override
     public ProtocolOnlineReviewBase getProtocolOnlineReview() {
         return protocolOnlineReview;
     }
 
+    @Override
     public void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview) {
         this.protocolOnlineReview = protocolOnlineReview;
     }

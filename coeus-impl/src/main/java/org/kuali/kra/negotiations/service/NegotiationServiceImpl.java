@@ -61,6 +61,7 @@ public class NegotiationServiceImpl implements NegotiationService {
      * Return the negotiationInProgressStatusCodes as a list of strings.
      * @see org.kuali.kra.negotiations.service.NegotiationService#getInProgressStatusCodes()
      */
+    @Override
     public List<String> getInProgressStatusCodes() {
         String value = getParameterService().getParameterValueAsString(NegotiationDocument.class, "negotiationInProgressStatusCodes");
         return Arrays.asList(value.split(PARAMETER_DELIMITER));
@@ -70,6 +71,7 @@ public class NegotiationServiceImpl implements NegotiationService {
      * Return the negotiationCompletedStatusCodes as a list of strings.
      * @see org.kuali.kra.negotiations.service.NegotiationService#getCompletedStatusCodes()
      */
+    @Override
     public List<String> getCompletedStatusCodes() {
         String value = getParameterService().getParameterValueAsString(NegotiationDocument.class, "negotiationCompletedStatusCodes");
         return Arrays.asList(value.split(PARAMETER_DELIMITER));        
@@ -79,12 +81,14 @@ public class NegotiationServiceImpl implements NegotiationService {
      * Return the CLOSED_NEGOTIATION_STATUS param.
      * @see org.kuali.kra.negotiations.service.NegotiationService#getCompleteStatusCode()
      */
+    @Override
     public String getCompleteStatusCode() {
         String value = getParameterService().getParameterValueAsString(NegotiationDocument.class, "CLOSED_NEGOTIATION_STATUS");
         return value;
     }
     
     
+    @Override
     public Negotiable getAssociatedObject(Negotiation negotiation) {
         if (negotiation != null && negotiation.getNegotiationAssociationType() != null) {
             Negotiable bo = null;
@@ -158,6 +162,7 @@ public class NegotiationServiceImpl implements NegotiationService {
         return ip;
     }
     
+    @Override
     @SuppressWarnings("unchecked")
     public List<Negotiation> getAssociatedNegotiations(BusinessObject bo) {
         List<Negotiation> result = new ArrayList<Negotiation>();
@@ -185,6 +190,7 @@ public class NegotiationServiceImpl implements NegotiationService {
         return (Collection<Negotiation>) getBusinessObjectService().findMatching(Negotiation.class, values);
     }
     
+    @Override
     @SuppressWarnings("unchecked")
     public NegotiationAssociationType getNegotiationAssociationType(String associationTypeCode) {
         Map params = new HashMap();
@@ -192,6 +198,7 @@ public class NegotiationServiceImpl implements NegotiationService {
         return (NegotiationAssociationType) this.getBusinessObjectService().findMatching(NegotiationAssociationType.class, params).iterator().next();
     }
     
+    @Override
     @SuppressWarnings("unchecked")
     public NegotiationStatus getNegotiationStatus(String statusCode) {
         Map params = new HashMap();
@@ -321,6 +328,7 @@ public class NegotiationServiceImpl implements NegotiationService {
         return beansToReturn;
     }
     
+    @Override
     public List<NegotiationNotification> getNegotiationNotifications(Negotiation negotiation) {
         List<NegotiationNotification> notifications = new ArrayList<NegotiationNotification>();
         if (negotiation.getNegotiationDocument() != null) {

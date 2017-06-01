@@ -54,6 +54,7 @@ public class AwardFandARateAuditRule implements DocumentAuditRule {
         return this.parameterService;
     }
     
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         AwardDocument awardDocument = (AwardDocument) document;

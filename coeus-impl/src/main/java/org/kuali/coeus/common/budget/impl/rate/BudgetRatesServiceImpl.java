@@ -401,6 +401,7 @@ public abstract class BudgetRatesServiceImpl implements BudgetRatesService {
         return effectiveDate;
     }
    
+    @Override
     public Date getBudgetPersonSalaryEffectiveDate(Budget budget) {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("budgetId", budget.getBudgetId());
@@ -898,6 +899,7 @@ public abstract class BudgetRatesServiceImpl implements BudgetRatesService {
 
     }
 
+    @Override
     public boolean isOverhead(String rateClassTypeCode) {
         return StringUtils.equals(rateClassTypeCode, org.kuali.coeus.common.budget.api.rate.RateClassType.OVERHEAD.getRateClassType());
     }

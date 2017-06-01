@@ -43,6 +43,7 @@ public class AwardReportTermRecipientRuleImpl extends KcTransactionalDocumentRul
      * @see org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAwardPaymentScheduleBusinessRules(
      * org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleEvent)
      */
+    @Override
     public boolean processAwardReportTermRecipientBusinessRules(AwardReportTermRecipientRuleEvent event) {
         return processCommonValidations(event);        
     }
@@ -53,6 +54,7 @@ public class AwardReportTermRecipientRuleImpl extends KcTransactionalDocumentRul
      * @param event
      * @return
      */
+    @Override
     public boolean processAddAwardReportTermRecipientBusinessRules(AddAwardReportTermRecipientRuleEvent event) {
         AwardReportTermRecipient awardReportTermRecipientItemForValidation = event.getAwardReportTermRecipientItemForValidation();
         

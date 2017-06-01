@@ -80,6 +80,7 @@ public class ProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaire
         setModuleSubItemCode(subModuleCode);
     }
     
+    @Override
     public boolean equals(Object o) {
         boolean retVal = false;
         if( (o != null) && (o instanceof ProtocolModuleQuestionnaireBean) ) {

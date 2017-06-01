@@ -121,10 +121,12 @@ public class Report extends KcPersistableBusinessObjectBase implements MutableIn
         return true;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

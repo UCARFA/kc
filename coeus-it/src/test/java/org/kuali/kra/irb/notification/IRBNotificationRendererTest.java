@@ -121,22 +121,27 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
             }
             
             // mock methods
+            @Override
             public ProtocolPerson getPrincipalInvestigator() {
                 return principalInvestigator;
             }
             
+            @Override
             public String getLeadUnitNumber() {
                 return LEAD_UNIT_VAL;
             }
             
+            @Override
             public String getLeadUnitName() {
                 return LEAD_UNIT_NAME_VAL;
             }
             
+            @Override
             public ProtocolAction getLastProtocolAction() {
                 return lastProtocolAction;
             }
             
+            @Override
             public ProtocolSubmission getProtocolSubmission() {
                 return protocolSubmission;
             }
@@ -213,22 +218,27 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
                 //do nothing
             }
             
+            @Override
             public ProtocolPerson getPrincipalInvestigator() {
                 return principalInvestigator;
             }
             
+            @Override
             public String getLeadUnitNumber() {
                 return LEAD_UNIT_VAL;
             }
             
+            @Override
             public String getLeadUnitName() {
                 return LEAD_UNIT_NAME_VAL;
             }
             
+            @Override
             public ProtocolAction getLastProtocolAction() {
                 return null;
             }
             
+            @Override
             public ProtocolSubmission getProtocolSubmission() {
                 return null;
             }
@@ -267,6 +277,7 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
         final List<ProtocolActionType> returnActionTypes = new ArrayList<>();
         returnActionTypes.add(new ProtocolActionType() {
             
+           @Override
            public String getDescription() {
                return LAST_ACTION_NAME_VAL;
            }
@@ -283,6 +294,7 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
         final List<ProtocolSubmissionType> returnSubmissionTypes = new ArrayList<>();
         returnSubmissionTypes.add(new ProtocolSubmissionType() {
             
+           @Override
            public String getDescription() {
                return LAST_SUBMISSION_NAME_VAL;
            }
@@ -299,6 +311,7 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
         final List<ProtocolSubmissionQualifierType> returnSubmissionQualifierTypes = new ArrayList<>();
         returnSubmissionQualifierTypes.add(new ProtocolSubmissionQualifierType() {
             
+           @Override
            public String getDescription() {
                return LAST_SUBMISSION_TYPE_QUAL_NAME_VAL;
            }
@@ -315,6 +328,7 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
         final List<ProtocolReviewType> returnReviewTypes = new ArrayList<>();
         returnReviewTypes.add(new ProtocolReviewType() {
             
+           @Override
            public String getDescription() {
                return PROTOCOL_REVIEW_TYPE_DESC_VAL;
            }
@@ -331,6 +345,7 @@ public class IRBNotificationRendererTest extends KcIntegrationTestBase {
         final List<Committee> returnCommittees = new ArrayList<>();
         returnCommittees.add(new Committee() {
             
+           @Override
            public String getCommitteeName() {
                return COMMITTEE_NAME_VAL;
            }

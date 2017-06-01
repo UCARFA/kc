@@ -28,6 +28,7 @@ import java.util.Map;
 public class IacucProtocolPersonTrainingServiceImpl extends ProtocolPersonTrainingServiceImplBase implements IacucProtocolPersonTrainingService{
     private static final String PERSON_ID_FIELD = "personId";
 
+    @Override
     public List<IacucPersonTraining> getIacucPersonTrainingDetails(String personId) {
         Map<String, Object> matchingKeys = new HashMap<String, Object>();
         matchingKeys.put(PERSON_ID_FIELD, personId);

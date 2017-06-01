@@ -179,6 +179,7 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
      * Added mthod to enable change of status when the document changes KEW status.
      * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
      */
+    @Override
     public void doRouteStatusChange(DocumentRouteStatusChange dto) {
         executeAsLastActionUser(() -> {
 
@@ -213,6 +214,7 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
      * the document is actually being re-submitted after a rejection.  The award budget status then 
      * changes back to In Progress.
      */
+    @Override
     public void doActionTaken(ActionTakenEvent event) {
         executeAsLastActionUser( () -> {
             super.doActionTaken(event);
@@ -366,30 +368,37 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
         return null;
     }
 
+    @Override
     public String getDocumentBoNumber() {
         return getBudget().getBudgetId().toString();
     }
 
+    @Override
     public String getDocumentKey() {
         return getBudget().getBudgetParent().getDocument().getBudgetPermissionable().getDocumentKey();
     }
 
+    @Override
     public String getDocumentNumberForPermission() {
         return getDocumentNumber();
     }
 
+    @Override
     public List<String> getRoleNames() {
         return getBudget().getBudgetParent().getDocument().getBudgetPermissionable().getRoleNames();
     }
 
+    @Override
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_BUDGET;
     }
 
+    @Override
     public String getLeadUnitNumber() {
         return getBudget().getBudgetParent().getDocument().getBudgetPermissionable().getLeadUnitNumber();
     }
 
+    @Override
     public String getDocumentRoleTypeCode() {
         return RoleConstants.PROPOSAL_ROLE_TYPE;
     }
@@ -402,6 +411,7 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
         return methodToCalls;
     }
 
+    @Override
     public boolean isProcessComplete() {
         return true;
     }

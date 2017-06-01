@@ -35,6 +35,7 @@ import static org.kuali.rice.krad.util.GlobalVariables.getAuditErrorMap;
 public class AwardBudgetBudgetTypeAuditRule implements DocumentAuditRule {
     public static final String AWARD_BUDGET_TYPE_ERROR_KEY = "awardBudgetTypeAuditErrors";
 
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         AwardBudgetExt budget = (AwardBudgetExt)((AwardBudgetDocument)document).getBudget();
 

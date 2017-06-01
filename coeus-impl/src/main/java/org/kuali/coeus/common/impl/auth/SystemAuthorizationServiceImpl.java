@@ -75,11 +75,13 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
     }
     
 
+    @Override
     public List<Role> getRolesForPermission(String permissionName, String namespaceCode) {
         List<String> roleResults = permissionService.getRoleIdsForPermission(namespaceCode, permissionName);
         return roleManagementService.getRoles(roleResults);
     }
 
+    @Override
     public List<String> getRoleNamesForPermission(String permissionName, String namespaceCode) {
         List<String> roleNames = new ArrayList<String>();
         List<Role> roles = getRolesForPermission(permissionName, namespaceCode);
@@ -89,6 +91,7 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
         return roleNames;
     }
 
+    @Override
     public List<String> getRoleIdsForPermission(String permissionName, String namespaceCode) {
         List<String> roleNames = new ArrayList<String>();
         List<Role> roles = getRolesForPermission(permissionName, namespaceCode);
@@ -116,6 +119,7 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
         return roleResults.getResults();
     }
 
+    @Override
     public KimType getKimTypeInfoForRole(Role role) {
         return getKimTypeInfoService().getKimType(role.getKimTypeId());
     }

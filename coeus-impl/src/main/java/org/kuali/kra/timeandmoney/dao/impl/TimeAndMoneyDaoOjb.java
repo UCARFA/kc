@@ -65,7 +65,8 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
         SUMMARY_SQL_QUERY = sb.toString();
 	}
 
-	public List<TimeAndMoneyActionSummary> buildTimeAndMoneyActionSummaryForAward(String awardNumber) {
+	@Override
+    public List<TimeAndMoneyActionSummary> buildTimeAndMoneyActionSummaryForAward(String awardNumber) {
         List<TimeAndMoneyActionSummary> summaryItems = new ArrayList<>();
         PersistenceBroker pbInstance = getPersistenceBroker(true);
         TimeAndMoneyActionSummary timeAndMoneyActionSummary;
@@ -115,6 +116,7 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
     }
 
 
+    @Override
     public List<TransactionDetail> getTransactionDetailsForDocument(String documentNumber) {
         Map<String, Object> criteria = new HashMap<>();
         criteria.put(TIME_AND_MONEY_DOCUMENT_NUMBER, documentNumber);

@@ -190,6 +190,7 @@ public class AwardApprovedForeignTravel extends AwardAssociate implements Compar
      * Gets the amount attribute. 
      * @return Returns the amount.
      */
+    @Override
     public ScaleTwoDecimal getAmount() {
         return amount;
     }
@@ -371,10 +372,12 @@ public class AwardApprovedForeignTravel extends AwardAssociate implements Compar
         return true;
     }
 
+    @Override
     public String toString() {
         return String.format("********** %s=%s;%s=%s [%d]", "travelerId", personId, "travelerName", travelerName, instanceNumber);
     }
 
+    @Override
     public int compareTo(AwardApprovedForeignTravel other) {
         int result = startDate != null ? startDate.compareTo(other.startDate) : 0;
         if (result == 0) {

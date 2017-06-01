@@ -133,6 +133,7 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
         return valuesFinder.getKeyValues();
     }
 
+    @Override
     public void processAfterNew(org.kuali.rice.krad.maintenance.MaintenanceDocument document, Map<String, String[]> requestParameters) {
         Rolodex rolodex = (Rolodex) document.getNewMaintainableObject().getDataObject();
         rolodex.setActive(true);
@@ -202,6 +203,7 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
         this.kradApplicationDataSource = kradApplicationDataSource;
     }
 
+    @Override
     public GlobalVariableService getGlobalVariableService() {
         if (globalVariableService == null) {
             globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
@@ -209,6 +211,7 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
         return globalVariableService;
     }
 
+    @Override
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }

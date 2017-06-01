@@ -47,6 +47,7 @@ public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase imple
 
     private String ruleId;
 
+    @Override
     public String getRuleId() {
         return ruleId;
     }
@@ -165,10 +166,12 @@ public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase imple
         this.questionnaire = questionnaire;
     }
 
+    @Override
     public Questionnaire getSequenceOwner() {
         return this.getQuestionnaire();
     }
 
+    @Override
     public void setSequenceOwner(Questionnaire newlyVersionedOwner) {
         setQuestionnaire(newlyVersionedOwner);
     }
@@ -178,6 +181,7 @@ public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase imple
         this.setId(null);
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return this.sequenceOwner.getSequenceNumber();
     }

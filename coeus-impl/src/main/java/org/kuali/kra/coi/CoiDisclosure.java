@@ -208,6 +208,7 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
         this.coiDisclosureNumber = coiDisclosureNumber;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -350,6 +351,7 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
 
     }
     
+    @Override
     public String getLeadUnitNumber() {
         for (DisclosurePersonUnit disclosurePersonUnit : disclosurePersons.get(0).getDisclosurePersonUnits()) {
             if (disclosurePersonUnit.isLeadUnitFlag()) {

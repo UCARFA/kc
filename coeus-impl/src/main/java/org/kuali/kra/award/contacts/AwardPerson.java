@@ -209,10 +209,12 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
 
 
+    @Override
     public boolean isPrincipalInvestigator() {
         return StringUtils.equals(getContactRoleCode(), ContactRole.PI_CODE);
     }
     
+    @Override
     public boolean isMultiplePi() {
     	return StringUtils.equals(getContactRoleCode(), PropAwardPersonRole.MULTI_PI);
     }
@@ -273,6 +275,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         this.units = units;
     }
 
+    @Override
     public String toString() {
         return String.format("%s:%s", getContact().getIdentifier().toString(), getContact().getFullName());
     }
@@ -297,10 +300,12 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         optInUnitStatus = false;
     }
 
+    @Override
     public String getProjectRole() {
         return getContactRole().getRoleDescription();
     }
 
+    @Override
     public boolean isOtherSignificantContributorFlag() {
         return false;
     }
@@ -323,10 +328,12 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         }
     }
 
+    @Override
     public Sponsorable getParent() {
         return getAward();
     }
 
+    @Override
     public String getInvestigatorRoleDescription() {
     	return getContactRole().getRoleDescription();
     }
@@ -339,6 +346,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         this.optInUnitStatus = optInUnitStatus;
     }
     
+    @Override
     public String getLastName() {
         String lastName = null;
         if (getPerson() != null) {
@@ -392,6 +400,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         this.roleChanged = roleChanged;
     }
 
+    @Override
     protected ContactRole refreshContactRole() {
     	if (StringUtils.isNotBlank(getRoleCode()) && getParent() != null && StringUtils.isNotBlank(getParent().getSponsorCode())) {
     		contactRole = getPropAwardPersonRoleService().getRole(getRoleCode(), getParent().getSponsorCode());
@@ -401,14 +410,16 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     	return contactRole;
     }
 
-	public PropAwardPersonRoleService getPropAwardPersonRoleService() {
+	@Override
+    public PropAwardPersonRoleService getPropAwardPersonRoleService() {
 		if (propAwardPersonRoleService == null) {
 			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
 		}
 		return propAwardPersonRoleService;
 	}
 
-	public void setPropAwardPersonRoleService(
+	@Override
+    public void setPropAwardPersonRoleService(
 			PropAwardPersonRoleService propAwardPersonRoleService) {
 		this.propAwardPersonRoleService = propAwardPersonRoleService;
 	}

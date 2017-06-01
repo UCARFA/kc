@@ -260,6 +260,7 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
         }
         Collections.sort(this.versions, new Comparator<ProtocolAttachmentProtocolBase>() {
 
+            @Override
             public int compare(ProtocolAttachmentProtocolBase attachment1, ProtocolAttachmentProtocolBase attachment2) {
                 return attachment2.getUpdateTimestamp().compareTo(attachment1.getUpdateTimestamp());
             }

@@ -67,6 +67,7 @@ public class ProjectPushIacucTest extends ProjectPushTestBase {
         return iacucProtocolDocument.getProtocol().getProtocolNumber();
     }
 
+    @Override
     public ProjectRetrievalService getProjectRetrievalService() {
         if (iacucProjectRetrievalService == null) {
             iacucProjectRetrievalService = KcServiceLocator.getService(IACUC_PROJECT_RETRIEVAL_SERVICE);

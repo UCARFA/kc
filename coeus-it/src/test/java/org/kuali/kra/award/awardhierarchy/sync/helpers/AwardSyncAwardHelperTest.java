@@ -35,6 +35,7 @@ public class AwardSyncAwardHelperTest extends AwardSyncHelperTestBase {
         super("Award");
     }
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -42,6 +43,7 @@ public class AwardSyncAwardHelperTest extends AwardSyncHelperTestBase {
         award.setStatusCode(statusCode);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         super.tearDown();

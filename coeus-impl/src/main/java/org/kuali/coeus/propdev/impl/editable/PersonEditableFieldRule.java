@@ -51,6 +51,7 @@ public class PersonEditableFieldRule extends KcMaintenanceDocumentRuleBase {
          * 
          * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
          */ 
+        @Override
         public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
             boolean retval = true;
             if (document.isNew()) {
@@ -81,6 +82,7 @@ public class PersonEditableFieldRule extends KcMaintenanceDocumentRuleBase {
         /**
          * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
          */
+        @Override
         protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
             return true;
         }

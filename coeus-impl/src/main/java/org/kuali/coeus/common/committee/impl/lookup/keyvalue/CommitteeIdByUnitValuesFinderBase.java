@@ -300,6 +300,7 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
      * Returns the committees that the user is eligible to choose from.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         // check if data pre-loaded; if not then do it now
         if(!this.initialized) {

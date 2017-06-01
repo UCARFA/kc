@@ -29,7 +29,8 @@ public class KcEventBase implements KcEvent {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getEventName() {
+	@Override
+    public String getEventName() {
 		return eventName;
 	}
 

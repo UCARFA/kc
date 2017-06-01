@@ -165,6 +165,7 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
 
     protected abstract Collection<String> getActiveProtocolStatusCodesHook();
 
+    @Override
     public List<ProtocolBase> getNotifiedProtocols(String committeeId, Date startDate, Date endDate) {
         Criteria subCritProtocolAction = new Criteria();
         subCritProtocolAction.addEqualToField("protocolId", Criteria.PARENT_QUERY_PREFIX + "protocolId");
@@ -436,6 +437,7 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
      *   b.protocol_status_code in (100, 101, 102, 103, 104, 105, 106);
      *
      */
+    @Override
     public boolean getProtocolSubmissionCountFromProtocol(String protocolNumber) {
         Criteria crit = new Criteria();
         

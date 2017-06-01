@@ -313,10 +313,12 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
 		this.dataObjectService = dataObjectService;
 	}
     
-	public void refreshBudgetPerson(BudgetPerson budgetPerson) {
+	@Override
+    public void refreshBudgetPerson(BudgetPerson budgetPerson) {
 		refreshPersonAppointmentType(budgetPerson);
 	}
 	
+    @Override
     public PersonRolodex getBudgetPersonRolodex(Budget budget, BudgetPersonContract budgetPerson) {
         BudgetParent budgetParent = budget.getBudgetParent();
         PersonRolodex personRolodex = null;

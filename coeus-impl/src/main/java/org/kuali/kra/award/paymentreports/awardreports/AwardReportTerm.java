@@ -114,6 +114,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
 
     class ARTRComparator implements Comparator {
 
+        @Override
         public int compare(Object artr1, Object artr2) {
             try {
                 String artr1Desc = ((AwardReportTermRecipient) artr1).getRolodex().getLastName();
@@ -182,6 +183,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
      * @param otherReportTerm
      * @return
      */
+    @Override
     public boolean equalsInitialFields(GenericAwardReportTerm otherReportTerm) {
         boolean isEqual = true;
         if (otherReportTerm == null) {
@@ -211,6 +213,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
      * Gets the reportClassCode attribute. 
      * @return Returns the reportClassCode.
      */
+    @Override
     public String getReportClassCode() {
         return reportClassCode;
     }
@@ -227,6 +230,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
      * Gets the reportCode attribute. 
      * @return Returns the reportCode.
      */
+    @Override
     public String getReportCode() {
         return reportCode;
     }
@@ -243,6 +247,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
      * Gets the frequencyCode attribute. 
      * @return Returns the frequencyCode.
      */
+    @Override
     public String getFrequencyCode() {
         return frequencyCode;
     }
@@ -259,6 +264,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
      * Gets the frequencyBaseCode attribute. 
      * @return Returns the frequencyBaseCode.
      */
+    @Override
     public String getFrequencyBaseCode() {
         return frequencyBaseCode;
     }
@@ -275,6 +281,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
      * Gets the ospDistributionCode attribute. 
      * @return Returns the ospDistributionCode.
      */
+    @Override
     public String getOspDistributionCode() {
         return ospDistributionCode;
     }
@@ -291,6 +298,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
      * Gets the dueDate attribute. 
      * @return Returns the dueDate.
      */
+    @Override
     public Date getDueDate() {
         return dueDate;
     }

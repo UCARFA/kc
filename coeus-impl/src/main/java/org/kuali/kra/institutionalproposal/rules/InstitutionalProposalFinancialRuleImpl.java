@@ -38,6 +38,7 @@ public class InstitutionalProposalFinancialRuleImpl extends KcTransactionalDocum
     private static final String INDIRECT_COST_TOTAL_PERIOD = "Indirect Cost Total Period";
 
     
+    @Override
     public boolean processInstitutionalProposalFinancialRules(
             InstitutionalProposalFinancialRuleEvent institutionalProposalFinancialRuleEvent) {
         boolean valid = true;

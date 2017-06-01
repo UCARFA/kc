@@ -34,14 +34,16 @@ public abstract class ProtocolCorrespondenceTemplateServiceImpl implements Proto
 
     BusinessObjectService businessObjectService;
 
-    public void addDefaultProtocolCorrespondenceTemplate(ProtocolCorrespondenceTypeBase correspondenceType, 
-        ProtocolCorrespondenceTemplateBase correspondenceTemplate) throws Exception {
+    @Override
+    public void addDefaultProtocolCorrespondenceTemplate(ProtocolCorrespondenceTypeBase correspondenceType,
+                                                         ProtocolCorrespondenceTemplateBase correspondenceTemplate) throws Exception {
         correspondenceTemplate.setCommitteeId(Constants.DEFAULT_CORRESPONDENCE_TEMPLATE);
         addProtocolCorrespondenceTemplate(correspondenceType, correspondenceTemplate);
     }
     
-    public void addCommitteeProtocolCorrespondenceTemplate(ProtocolCorrespondenceTypeBase correspondenceType, 
-            ProtocolCorrespondenceTemplateBase correspondenceTemplate) throws Exception {
+    @Override
+    public void addCommitteeProtocolCorrespondenceTemplate(ProtocolCorrespondenceTypeBase correspondenceType,
+                                                           ProtocolCorrespondenceTemplateBase correspondenceTemplate) throws Exception {
         addProtocolCorrespondenceTemplate(correspondenceType, correspondenceTemplate);
     }
 
@@ -56,8 +58,9 @@ public abstract class ProtocolCorrespondenceTemplateServiceImpl implements Proto
         correspondenceType.getProtocolCorrespondenceTemplates().add(correspondenceTemplate);
     }
     
-    public void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes, 
-            List<ProtocolCorrespondenceTemplateBase> deletedBos) {
+    @Override
+    public void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes,
+                                                    List<ProtocolCorrespondenceTemplateBase> deletedBos) {
         if (!deletedBos.isEmpty()) {
             businessObjectService.delete(deletedBos);
         }
@@ -71,6 +74,7 @@ public abstract class ProtocolCorrespondenceTemplateServiceImpl implements Proto
         this.businessObjectService = businessObjectService;
     }
     
+    @Override
     public ProtocolCorrespondenceTemplateBase getProtocolCorrespondenceTemplate (String committeeId, String protoCorrespTypeCode) {
         Map fieldValues = new HashMap();
         fieldValues.put("committeeId", committeeId);

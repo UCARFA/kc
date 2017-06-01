@@ -80,6 +80,7 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
         return this.getCodeType(getProtocolAttachmentTypeClassHook(), code);
     }
 
+    @Override
     public abstract Collection<ProtocolAttachmentTypeBase> getTypesForGroup(String code);
     
     @Override

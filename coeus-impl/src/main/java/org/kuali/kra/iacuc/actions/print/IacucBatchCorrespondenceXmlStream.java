@@ -25,6 +25,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 
 public class IacucBatchCorrespondenceXmlStream extends BatchCorrespondenceXmlStreamBase {
 	
+    @Override
     public String getRenewalReminderCorrespondenceTypesParamValues() {
         return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_IACUC, ParameterConstants.DOCUMENT_COMPONENT, ComplianceConstants.IACUC_RENEWAL_REMINDER_CORRESP_TYPES);
     }

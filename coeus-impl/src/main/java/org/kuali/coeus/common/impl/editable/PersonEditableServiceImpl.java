@@ -50,7 +50,8 @@ public class PersonEditableServiceImpl implements PersonEditableService {
 	@Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
 
-	public void populateContactFields(PersonEditable person) {
+	@Override
+    public void populateContactFields(PersonEditable person) {
 		if (StringUtils.isNotBlank(person.getPersonId())) {
 			populateContactFieldsFromPersonId(person);
 		} else if (person.getRolodexId() != null) {
@@ -58,6 +59,7 @@ public class PersonEditableServiceImpl implements PersonEditableService {
 		}
 	}
 	
+    @Override
     public void populateContactFieldsFromPersonId(PersonEditable protocolPerson) {
         
         DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
@@ -137,6 +139,7 @@ public class PersonEditableServiceImpl implements PersonEditableService {
         protocolPerson.setCitizenshipTypeCode(person.getCitizenshipTypeCode());
     }
 
+    @Override
     public void populateContactFieldsFromRolodexId(PersonEditable protocolPerson) {
         Map valueMap = new HashMap();
         valueMap.put("rolodexId", protocolPerson.getRolodexId());

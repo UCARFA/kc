@@ -269,11 +269,13 @@ public class ProposalBudgetSubAwardController extends ProposalBudgetControllerBa
 		this.propDevBudgetSubAwardService = propDevBudgetSubAwardService;
 	}
 
-	public GlobalVariableService getGlobalVariableService() {
+	@Override
+    public GlobalVariableService getGlobalVariableService() {
 		return globalVariableService;
 	}
 
-	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+	@Override
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
 		this.globalVariableService = globalVariableService;
 	}
 

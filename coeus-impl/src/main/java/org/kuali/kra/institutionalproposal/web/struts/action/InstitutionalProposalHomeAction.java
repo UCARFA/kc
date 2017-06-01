@@ -446,6 +446,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         return this.kcAttachmentService;
     }
 
+    @Override
     protected ParameterService getParameterService() {
         if (this.parameterService == null ) {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);

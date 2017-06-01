@@ -94,6 +94,7 @@ public class AwardSyncLog extends KcPersistableBusinessObjectBase implements Com
         this.change = change;
     }
 
+    @Override
     public int compareTo(AwardSyncLog log) {
         if (getAwardSyncLogId() == null) {
             return 1;

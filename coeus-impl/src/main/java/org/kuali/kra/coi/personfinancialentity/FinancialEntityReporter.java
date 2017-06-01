@@ -54,6 +54,7 @@ public class FinancialEntityReporter extends DisclosureReporter {
         this.reporterRoleId = "FER";
     }
 
+    @Override
     public String getPersonId() {
         return personId;
     }

@@ -75,6 +75,7 @@ public final class ProposalUnitCreditSplit extends KcPersistableBusinessObjectBa
         this.investigatorCreditType = argInvCreditType;
     }
 
+    @Override
     public String getInvCreditTypeCode() {
         return this.invCreditTypeCode;
     }
@@ -89,6 +90,7 @@ public final class ProposalUnitCreditSplit extends KcPersistableBusinessObjectBa
         return this.credit == null ? new ScaleTwoDecimal(0) : this.credit;
     }
 
+    @Override
     public void setCredit(ScaleTwoDecimal argCredit) {
         this.credit = argCredit;
     }

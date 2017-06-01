@@ -36,6 +36,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
  */
 public class ProtocolAbandonServiceImpl extends ProtocolAbandonServiceImplBase implements ProtocolAbandonService {
 
+    @Override
     protected String getActionType() {
         return ProtocolActionType.ABANDON_PROTOCOL;
     }

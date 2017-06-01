@@ -45,6 +45,7 @@ public class DateRangeFilter extends BusinessObjectBase {
         this.endingOn = endingOn;
     }
 
+    @Override
     public void refresh() {
     }
 }

@@ -249,6 +249,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         }
     }
     
+    @Override
     public void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients) {
         sendNotification(contextName, subject, message, notificationRecipients, null);
     }
@@ -352,8 +353,10 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         return new Long(parameterValue);
     }
     
+    @Override
     public Set<NotificationRecipient.Builder> getNotificationRecipients(NotificationContext context) {
         Set<NotificationRecipient.Builder> uniqueRecipients = new TreeSet<>(new Comparator<NotificationRecipient.Builder>() {
+            @Override
             public int compare(NotificationRecipient.Builder o1, NotificationRecipient.Builder o2) {
                 return o1.getRecipientId().compareTo(o2.getRecipientId());
             }
@@ -368,6 +371,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     
     private Set<NotificationRecipient.Builder> getNotificationRecipients(List<NotificationTypeRecipient> notificationRecipients, NotificationContext context) {
         Set<NotificationRecipient.Builder> uniqueRecipients = new TreeSet<NotificationRecipient.Builder>(new Comparator<NotificationRecipient.Builder>() {
+            @Override
             public int compare(NotificationRecipient.Builder o1, NotificationRecipient.Builder o2) {
                 return o1.getRecipientId().compareTo(o2.getRecipientId());
             }
@@ -393,6 +397,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     
     private Set<String> getEmailRecipients(List<NotificationTypeRecipient> notificationRecipients) {
         Set<String> uniqueEmailAddresses = new TreeSet<String>(new Comparator<String>() {
+            @Override
             public int compare(String o1, String o2) {
                 return o1.compareTo(o2);
             }
@@ -413,6 +418,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     
     private Set<NotificationRecipient.Builder> getNotificationRecipients(List<String> principalNames) {
         Set<NotificationRecipient.Builder> uniqueRecipients = new TreeSet<NotificationRecipient.Builder>(new Comparator<NotificationRecipient.Builder>() {
+            @Override
             public int compare(NotificationRecipient.Builder o1, NotificationRecipient.Builder o2) {
                 return o1.getRecipientId().compareTo(o2.getRecipientId());
             }
@@ -435,6 +441,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         
         List<NotificationTypeRecipient> recipients = new ArrayList<NotificationTypeRecipient>();
         Collections.sort(notificationRecipients, new Comparator<NotificationTypeRecipient>() {
+            @Override
             public int compare(NotificationTypeRecipient roleRecipeient1, NotificationTypeRecipient roleRecipeient2) {
                 return roleRecipeient2.getRoleName().compareTo(roleRecipeient1.getRoleName());
             }
@@ -652,6 +659,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     
     
     
+    @Override
     public void sendNotificationAndPersist(NotificationContext context, KcNotification notification, KcPersistableBusinessObjectBase object) {
         fillinNotificationObject(notification, context);
         if (notification.getNotificationType() != null && notification.getNotificationType().isActive()) {
@@ -660,6 +668,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         }
     }
 
+    @Override
     public void sendNotificationAndPersist(NotificationContext context, KcNotification notification, List<NotificationTypeRecipient> notificationTypeRecipients, KcPersistableBusinessObjectBase object) {
         fillinNotificationObject(notification, context, notificationTypeRecipients);
         if (notification.getNotificationType() != null && notification.getNotificationType().isActive()) {
@@ -668,6 +677,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         }
     }
 
+    @Override
     public List<NotificationTypeRecipient> addRecipient(List<Object> results) {
         List<NotificationTypeRecipient> recipients = new ArrayList<NotificationTypeRecipient>();
         for (Object object : results) {

@@ -37,10 +37,12 @@ public class ProtocolSpecialReview extends ProtocolSpecialReviewBase  {
         return protocolSpecialReviewExemption;
     }
 
+    @Override
     public Protocol getSequenceOwner() {
         return (Protocol) super.getSequenceOwner();
     }
 
+    @Override
     public void resetPersistenceState() {
         super.resetPersistenceState();
         for (ProtocolSpecialReviewExemption exemption : getSpecialReviewExemptions()) {

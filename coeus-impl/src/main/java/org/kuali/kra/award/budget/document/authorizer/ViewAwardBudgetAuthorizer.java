@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.auth.task.Task;
  */
 public class ViewAwardBudgetAuthorizer extends BudgetAuthorizer {
 
+    @Override
     public boolean isAuthorized(String userId, Task task) {
         return true;
     }

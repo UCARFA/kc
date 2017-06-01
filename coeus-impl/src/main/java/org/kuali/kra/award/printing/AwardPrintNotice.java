@@ -47,7 +47,8 @@ public class AwardPrintNotice extends BusinessObjectBase {
 		setDefaults();
 	}
 
-	public void refresh() {
+	@Override
+    public void refresh() {
 		// do nothing
 	}
 

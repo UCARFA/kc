@@ -658,6 +658,7 @@ public class AwardAction extends BudgetParentActionBase {
 
     }
 
+    @Override
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
@@ -882,6 +883,7 @@ public class AwardAction extends BudgetParentActionBase {
         return KRADServiceLocatorWeb.getDocumentService();
     }
 
+    @Override
     protected KualiRuleService getKualiRuleService() {
         return KcServiceLocator.getService(KualiRuleService.class);
     }

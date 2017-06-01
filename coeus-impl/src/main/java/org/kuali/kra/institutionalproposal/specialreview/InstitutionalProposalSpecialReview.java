@@ -51,14 +51,17 @@ public class InstitutionalProposalSpecialReview extends SpecialReview<Institutio
         this.proposalId = proposalId;
     }
 
+    @Override
     public InstitutionalProposal getSequenceOwner() {
         return sequenceOwner;
     }
 
+    @Override
     public void setSequenceOwner(InstitutionalProposal sequenceOwner) {
         this.sequenceOwner = sequenceOwner;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceOwner != null ? sequenceOwner.getSequenceNumber() : null;
     }

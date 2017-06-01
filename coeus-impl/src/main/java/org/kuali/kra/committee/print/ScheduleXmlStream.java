@@ -78,6 +78,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     private CommitteeMembershipService committeeMembershipService;
     private IrbPrintXmlUtilService irbPrintXmlUtilService;
 
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         CommitteeSchedule committeeSchedule = (CommitteeSchedule)printableBusinessObject;
 

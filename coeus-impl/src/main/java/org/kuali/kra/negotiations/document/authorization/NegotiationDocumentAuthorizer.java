@@ -120,16 +120,19 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
         return this.getTaskAuthorizationService().isAuthorized(userId, modifyActivitiesTask);
     }
     
+    @Override
     public boolean canEdit(Document document, Person user) {
         return canExecuteNegotiationTask(user.getPrincipalId(), (NegotiationDocument) document, TaskName.NEGOTIATION_MODIFIY_NEGOTIATION)
             || canExecuteNegotiationTask(user.getPrincipalId(), (NegotiationDocument) document, TaskName.NEGOTIATION_MODIFY_ACTIVITIES)
             || canExecuteNegotiationTask(user.getPrincipalId(), (NegotiationDocument) document, TaskName.NEGOTIATION_CREATE_ACTIVITIES);
     }
     
+    @Override
     public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
     
+    @Override
     public boolean canReload(Document document, Person user) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         return canEdit(document, user) && !workflowDocument.isInitiated();

@@ -201,6 +201,7 @@ public class CommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorre
         }
     }
     
+    @Override
     protected CommitteePrintingService getCommitteePrintingService() {
         return KcServiceLocator.getService(CommitteePrintingService.class);
     }
