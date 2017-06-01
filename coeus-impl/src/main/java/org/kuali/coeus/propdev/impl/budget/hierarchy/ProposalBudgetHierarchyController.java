@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.propdev.impl.budget.hierarchy;
 
-import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetViewHelperServiceImpl;

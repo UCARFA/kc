@@ -37,7 +37,6 @@ import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import javax.persistence.Transient;
 import java.util.List;
 import java.util.concurrent.Callable;
 

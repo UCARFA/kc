@@ -22,17 +22,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TimeAndMoneyPermissionConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.krad.document.Document;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * This class is the Time and Money Document Authorizer.  It determines the edit modes and

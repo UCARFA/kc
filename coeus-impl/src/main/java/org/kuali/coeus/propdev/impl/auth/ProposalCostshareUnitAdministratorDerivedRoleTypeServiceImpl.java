@@ -19,7 +19,6 @@
 package org.kuali.coeus.propdev.impl.auth;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministrator;
 import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministratorDerivedRoleTypeService;
@@ -37,7 +36,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component("proposalCostShareUnitAdministratorDerivedRoleTypeService")
 public class ProposalCostshareUnitAdministratorDerivedRoleTypeServiceImpl extends AbstractUnitAdministratorDerivedRoleTypeService

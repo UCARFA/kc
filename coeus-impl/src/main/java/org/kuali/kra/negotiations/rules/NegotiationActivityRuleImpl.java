@@ -27,8 +27,6 @@ import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import java.util.Calendar;
-
 /**
  * 
  * Validation class to use when validating activities.

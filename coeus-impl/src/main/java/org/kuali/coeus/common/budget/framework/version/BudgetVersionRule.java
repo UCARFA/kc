@@ -20,7 +20,6 @@ package org.kuali.coeus.common.budget.framework.version;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocumentRule;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;

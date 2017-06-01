@@ -19,9 +19,6 @@
 package org.kuali.kra.irb;
 
 import java.util.List;
-
-import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
-import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.ProtocolBase;

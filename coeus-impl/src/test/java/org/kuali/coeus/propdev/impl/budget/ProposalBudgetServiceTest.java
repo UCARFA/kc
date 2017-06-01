@@ -32,8 +32,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.impl.gv.GlobalVariableServiceImpl;
 import org.kuali.kra.bo.CostShareType;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.MessageMap;
 

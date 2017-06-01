@@ -19,8 +19,6 @@
 package org.kuali.kra.award.notification;
 
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 import java.util.HashMap;
 import java.util.Map;

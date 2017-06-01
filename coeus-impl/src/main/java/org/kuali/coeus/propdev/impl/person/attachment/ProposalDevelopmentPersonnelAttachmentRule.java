@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
-import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.ATTACHMENT_PERSONNEL_SECTION_ID;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
 
 

@@ -20,20 +20,10 @@ package org.kuali.coeus.s2sgen.impl.generate.support;
 
 import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
-import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.rice.core.api.util.ClassLoaderUtils;
-import org.kuali.rice.krad.data.DataObjectService;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 public class PHS398ResTrainProgPlanV3_0GeneratorTest extends S2STestBase {
 

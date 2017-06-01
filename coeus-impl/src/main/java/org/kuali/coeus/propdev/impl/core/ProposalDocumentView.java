@@ -21,7 +21,6 @@ package org.kuali.coeus.propdev.impl.core;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.sys.framework.view.KcTransactionalDocumentView;
 import org.kuali.coeus.sys.impl.lock.PessimisticLockConstants;
 import org.kuali.kra.authorization.KraAuthorizationConstants;

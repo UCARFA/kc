@@ -27,7 +27,6 @@ import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolBase;

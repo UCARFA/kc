@@ -20,7 +20,6 @@ package org.kuali.coeus.propdev.impl.budget.modular;
 
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalAuditEvent;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -35,7 +34,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * This validates the Budget Modular's Total Direct Cost.

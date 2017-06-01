@@ -33,8 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
-import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID;
-import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.ATTACHMENT_PROPOSAL_SECTION_ID;
 
 @KcBusinessRule("submitToSponsorRule")
 public class SubmitToSponsorRule {

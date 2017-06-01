@@ -18,8 +18,6 @@
  */
 package org.kuali.coeus.award.finance.timeAndMoney.dto;
 
-import org.kuali.coeus.award.dto.AwardDto;
-
 import java.sql.Timestamp;
 
 public class TimeAndMoneyPostDto {

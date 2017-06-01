@@ -23,7 +23,6 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
-import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.List;

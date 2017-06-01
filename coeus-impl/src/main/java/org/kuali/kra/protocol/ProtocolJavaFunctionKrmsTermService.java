@@ -18,8 +18,6 @@
  */
 package org.kuali.kra.protocol;
 
-import org.kuali.coeus.common.framework.krms.KcKrmsJavaFunctionTermService;
-
 public interface ProtocolJavaFunctionKrmsTermService {
 
     /**

@@ -19,7 +19,6 @@
 package org.kuali.kra.institutionalproposal.rules;
 
 
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

@@ -18,21 +18,10 @@
  */
 package org.kuali.coeus.sys.framework.controller.interceptor;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.service.ViewService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.KRADUtils;
-import org.kuali.rice.krad.web.controller.UifHandlerExceptionResolver;
-import org.kuali.rice.krad.web.form.DocumentFormBase;
-import org.kuali.rice.krad.web.form.IncidentReportForm;
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krad.web.service.ModelAndViewService;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;

@@ -22,7 +22,6 @@ import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstant
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krms.api.engine.TermResolver;
 
 import java.util.*;

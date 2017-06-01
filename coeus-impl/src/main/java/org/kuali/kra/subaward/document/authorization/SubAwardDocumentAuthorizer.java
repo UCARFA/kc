@@ -30,15 +30,11 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.util.KRADConstants;
 
-/**
- * This class is using as SubAwardDocumentAuthorizer...
- */
+
 public class SubAwardDocumentAuthorizer
 extends KcTransactionalDocumentAuthorizerBase {
 

@@ -21,7 +21,6 @@ package org.kuali.kra.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.unit.crrspndnt.UnitCorrespondent;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -33,7 +32,6 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Lookupable helper service used for person id lookup

@@ -10,7 +10,6 @@ import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.dao.InstitutionalProposalDao;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;

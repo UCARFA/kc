@@ -21,7 +21,6 @@ package org.kuali.coeus.propdev.impl.print;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.AssuranceType;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.ContactInfoType;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.PostalAddressType;
-import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.AbstractType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ApplicantOrganizationType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ApplicantOrganizationType.OrganizationClassification;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.AuthorizedOrganizationalRepresentativeType;

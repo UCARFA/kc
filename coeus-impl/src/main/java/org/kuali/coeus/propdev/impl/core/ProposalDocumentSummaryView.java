@@ -18,16 +18,9 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
-import org.apache.commons.lang3.StringUtils;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
-import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.document.DocumentRequestAuthorizationCache;
-import org.kuali.rice.krad.document.DocumentViewAuthorizerBase;
-import org.kuali.rice.krad.document.DocumentViewPresentationControllerBase;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.view.FormView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

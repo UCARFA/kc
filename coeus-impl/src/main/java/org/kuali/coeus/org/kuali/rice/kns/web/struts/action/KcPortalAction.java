@@ -23,7 +23,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kns.web.struts.action.KualiPortalAction;
 import org.kuali.rice.kns.web.struts.action.KualiSimpleAction;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -33,8 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- */
 public class KcPortalAction extends KualiSimpleAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

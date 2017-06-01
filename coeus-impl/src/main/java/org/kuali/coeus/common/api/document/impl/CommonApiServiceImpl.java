@@ -28,12 +28,10 @@ import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.IdentityService;
@@ -54,7 +52,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 @Component("commonApiService")
 public class CommonApiServiceImpl implements CommonApiService {

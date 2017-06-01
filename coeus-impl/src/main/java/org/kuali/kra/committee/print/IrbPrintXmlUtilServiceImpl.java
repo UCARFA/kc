@@ -39,7 +39,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

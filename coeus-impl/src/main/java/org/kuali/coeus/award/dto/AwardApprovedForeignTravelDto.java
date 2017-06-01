@@ -18,8 +18,6 @@
  */
 package org.kuali.coeus.award.dto;
 
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.sql.Date;

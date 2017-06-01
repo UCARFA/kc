@@ -21,8 +21,6 @@ package org.kuali.coeus.common.framework.print.stream.xml;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Map;
 
