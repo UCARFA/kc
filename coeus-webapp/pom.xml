@@ -204,7 +204,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<configuration>
-					<url>https://kcnonprod1.fanda.ucar.edu:1443/manager/text</url>
+					<url>https://kcnonprod1.fanda.ucar.edu/manager/text</url>
 					<server>kcnonprod1</server>
 					<path>/kc-dev</path>
 				</configuration>
@@ -214,25 +214,11 @@
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>${db.groupId}</groupId>
-                        <artifactId>${db.artifactId}</artifactId>
-                        <version>${db.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-instrument-tomcat</artifactId>
-                        <version>${spring.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
                 <configuration>
-                    <classLoaderClass>org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader</classLoaderClass>
+               <!--      <classLoaderClass>org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader</classLoaderClass> -->
               <!--       <port>${kc.port}</port> -->
                     <path>${kc.context.path}</path>
-                    <addWarDependenciesInClassloader>false</addWarDependenciesInClassloader>
+           <!--          <addWarDependenciesInClassloader>false</addWarDependenciesInClassloader> -->
                     
                     <update>true</update>
 					<url>https://kcnonprod1.fanda.ucar.edu/manager/text</url>
