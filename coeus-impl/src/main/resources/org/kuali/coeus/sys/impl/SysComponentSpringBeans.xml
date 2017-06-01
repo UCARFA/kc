@@ -240,7 +240,7 @@
                 <entry key="monitoring-path" value="/monitoring/jm" />
                 <entry key="quartz-default-listener-disabled" value="true"/>
                 <entry key="storage-directory" value="${kc.monitoring.storage-directory}" />
-                <entry key="rum-enabled" value="true" />
+                <entry key="rum-enabled" value="false" />
                 <entry key="update-check-disabled" value="true" />
             </map>
         </property>
