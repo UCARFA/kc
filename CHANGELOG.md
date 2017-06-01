@@ -1,6 +1,9 @@
 
 
 ##CURRENT
+* disabling rum due to KRAD javascript error  * Travis Schneeberger on Thu, 1 Jun 2017 11:08:10 -0400 [View Commit](../../commit/2ddee9d651769395a379dc7ea6158bccec43321f)
+
+##coeus-1706.0002
 * No Changes
 
 
