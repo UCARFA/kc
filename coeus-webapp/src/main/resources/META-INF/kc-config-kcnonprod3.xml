@@ -1,9 +1,9 @@
 <config>
         <param name="application.http.scheme">https</param>
-        <param name="application.host">kcnonprod1.fanda.ucar.edu</param>
+        <param name="application.host">kcnonprod3.fanda.ucar.edu</param>
 <!--    <param name="application.host">localhost</param> -->
         <param name="http.port">443</param>
-        <param name="app.context.name">kc-dev</param>
+        <param name="app.context.name">ra</param>
         <param name="version">coeus-webapp:1609.0056</param>
 
         <!-- Auth parameters -->
@@ -18,13 +18,13 @@
         <param name="filter.login.class">edu.ucar.fanda.kuali.auth.UcarLoginFilter</param>
         <param name="filtermapping.login.1">/*</param>
 -->
-		<param name="keystore.alias">kcnonprod1.fanda.ucar.edu</param>
+		<param name="keystore.alias">kcnonprod3.fanda.ucar.edu</param>
         <param name="keystore.file">/usr/local/kuali/config/keystore/keystore.file</param>
         <param name="keystore.password">BornOnTheBayou</param>
         
         <!-- KC Client DB -->
 <!--         <param name="datasource.url">jdbc:mysql://localhost:3306/coeus</param> -->
-	    <param name="datasource.url">jdbc:mysql://kcnonprod1_mysql:3306/coeus</param>
+	    <param name="datasource.url">jdbc:mysql://kcnonprod3_mysql:3306/coeus</param>
         <param name="datasource.username">coeus</param>
         <param name="datasource.password">kuali</param>
         <param name="datasource.ojb.platform">MySQL</param>
@@ -32,7 +32,7 @@
         <!-- Rice Server DB -->
         <!-- Should be the same as KC Client DB when running bundled mode -->
 <!--         <param name="server.datasource.url">jdbc:mysql://localhost:3306/coeus</param> -->
-	    <param name="server.datasource.url">jdbc:mysql://kcnonprod1_mysql:3306/coeus</param>
+	    <param name="server.datasource.url">jdbc:mysql://kcnonprod3_mysql:3306/coeus</param>
         <param name="server.datasource.username">coeus</param>
         <param name="server.datasource.password">kuali</param>
 

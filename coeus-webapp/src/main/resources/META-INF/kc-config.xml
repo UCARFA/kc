@@ -52,6 +52,5 @@ This config file should only contain config locations not actual config properti
 	 		UCAR  kc-config.xml
 	-->
  <!-- 	<param name="config.location">classpath:META-INF/${kcconfig.ucar}</param> -->
-   	<param name="config.location">classpath:META-INF/kc-config-ucardev.xml</param>
-	
+   	<param name="config.location">classpath:META-INF/kc-config-ucar.xml</param>	
 </config>
