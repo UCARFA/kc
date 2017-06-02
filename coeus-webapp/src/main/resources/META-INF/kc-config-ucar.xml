@@ -2,7 +2,7 @@
         <param name="application.http.scheme">https</param>
         <param name="application.host">${kcserver.fqdn}</param>
 <!--    <param name="application.host">localhost</param> -->
-        <param name="http.port">{kualiAppPort}</param>
+        <param name="http.port">${kualiAppPort}</param>
         <param name="app.context.name">${kualiAppName}</param>
         <param name="version">${kualiAppVersion}</param>
 
