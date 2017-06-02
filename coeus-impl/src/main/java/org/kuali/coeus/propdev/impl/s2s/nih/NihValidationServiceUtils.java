@@ -32,7 +32,7 @@ public final class NihValidationServiceUtils {
     }
 
     public static String toMessageString(ValidationMessage message) {
-        String msg = StringUtils.replaceChars(StringUtils.replaceChars(message.getValidationMessageText(), StringUtils.LF, ""), StringUtils.CR, "");
+        String msg = StringUtils.replaceChars(StringUtils.replaceChars(message.getValidationMessageText(), StringUtils.LF, " "), StringUtils.CR, "");
         if (message.getValidationMessageText().contains(STACKTRACE_START)) {
             msg = message.getValidationMessageText().substring(0, message.getValidationMessageText().indexOf(STACKTRACE_START));
         }
