@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-2262: Add tests
+  * Travis Schneeberger on Thu, 1 Jun 2017 16:36:22 -0400 [View Commit](../../commit/3cd1383180ef8c36a525ab6fd078efa54b815ba1)
+* RESKC-2262: Allowing MPI for DEFAULT to be added to PropAwardRole maintenance table
+  * Travis Schneeberger on Thu, 1 Jun 2017 13:01:38 -0400 [View Commit](../../commit/d01345c42f8c23cae004fafa7361ffb7b058b972)
+
+##coeus-1706.0003
 * disabling rum due to KRAD javascript error  * Travis Schneeberger on Thu, 1 Jun 2017 11:08:10 -0400 [View Commit](../../commit/2ddee9d651769395a379dc7ea6158bccec43321f)
 
 ##coeus-1706.0002
