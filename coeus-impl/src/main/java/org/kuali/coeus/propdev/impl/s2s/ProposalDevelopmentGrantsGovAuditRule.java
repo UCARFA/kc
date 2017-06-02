@@ -38,9 +38,9 @@ import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.AuditCluster;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -57,6 +57,8 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
     private static final String WARNINGS = "Warnings";
     private static final String PAGE_SECTION_DELIMETER = ".";
     private static final String ERROR_CODE = "E";
+    private static final String SCHEMA_ERROR_RULE_NUMBER = "000.6";
+    private static final String INFO_NIH_VALIDATION_SERVICE_IGNORED = "info.nih.validation.service.ignored";
 
     private ParameterService parameterService;
     private GlobalVariableService globalVariableService;
@@ -123,15 +125,25 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
             final List<ValidationMessage> errors = response.getValidationMessageList().getValidationMessage()
                     .stream()
                     .filter(msg -> ERROR_CODE.equals(msg.getValidationSeverityCode()))
+                    .filter(msg -> !SCHEMA_ERROR_RULE_NUMBER.equals(msg.getValidationRuleNumber()))
                     .collect(Collectors.toList());
 
             final List<ValidationMessage> warnings = response.getValidationMessageList().getValidationMessage()
                     .stream()
                     .filter(msg -> !ERROR_CODE.equals(msg.getValidationSeverityCode()))
+                    .filter(msg -> !SCHEMA_ERROR_RULE_NUMBER.equals(msg.getValidationRuleNumber()))
                     .collect(Collectors.toList());
+
+            final boolean schemaFailure = response.getValidationMessageList().getValidationMessage()
+                    .stream()
+                    .anyMatch(msg -> SCHEMA_ERROR_RULE_NUMBER.equals(msg.getValidationRuleNumber()));
 
             getAuditErrors(S2S_PAGE_NAME,S2S_OPPORTUNITY_SECTION_NAME, VALIDATION_SERVICE, ERROR).addAll(toAuditErrors(errors));
             getAuditErrors(S2S_PAGE_NAME,S2S_OPPORTUNITY_SECTION_NAME,VALIDATION_SERVICE, WARNINGS).addAll(toAuditErrors(warnings));
+
+            if (schemaFailure) {
+                getGlobalVariableService().getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, INFO_NIH_VALIDATION_SERVICE_IGNORED);
+            }
 
         } catch (S2sCommunicationException ex) {
             LOG.error("Error validating with nih.gov", ex);
@@ -187,11 +199,11 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
     private List<org.kuali.rice.krad.util.AuditError> getAuditErrors(String areaName, String sectionName, String provider, String level) {
         List<org.kuali.rice.krad.util.AuditError> auditErrors = new ArrayList<>();
         String clusterKey = areaName + PAGE_SECTION_DELIMETER + sectionName;
-        if (!GlobalVariables.getAuditErrorMap().containsKey(clusterKey+".s2s")) {
-            GlobalVariables.getAuditErrorMap().put(clusterKey+".s2s", new AuditCluster(clusterKey, auditErrors, provider + " " + level));
+        if (!getGlobalVariableService().getAuditErrorMap().containsKey(clusterKey+".s2s")) {
+            getGlobalVariableService().getAuditErrorMap().put(clusterKey+".s2s", new AuditCluster(clusterKey, auditErrors, provider + " " + level));
         }
         else {
-            auditErrors = GlobalVariables.getAuditErrorMap().get(clusterKey+".s2s").getAuditErrorList();
+            auditErrors = getGlobalVariableService().getAuditErrorMap().get(clusterKey+".s2s").getAuditErrorList();
         }
 
         return auditErrors;
