@@ -150,7 +150,7 @@
                 </property>
                 <property name="items">
                     <list>
-                        <bean parent="Uif-MessageField" p:fieldLabel.labelText="Investigator" p:messageText="@{#line.fullName} (@{#line.role.description})" p:order="10"/>
+                        <bean parent="Uif-MessageField" p:fieldLabel.labelText="Investigator" p:messageText="@{#line.fullName} (@{#line.role != null ? #line.role.description : #line.proposalPersonRoleId})" p:order="10"/>
                     </list>
                 </property>
                 <property name="subCollections">

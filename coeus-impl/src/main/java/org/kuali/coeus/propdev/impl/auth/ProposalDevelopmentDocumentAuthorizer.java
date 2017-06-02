@@ -472,10 +472,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     public boolean hasProposalPersonApproved(ProposalDevelopmentDocument document, ProposalPerson proposalPerson) {
         // In the proposal personnel tab for each person, if this proposalPerson has approved the PD or
         final String personId = proposalPerson.getPersonId();
-        final ProposalPerson principalInvestigator = document.getDevelopmentProposal().getPrincipalInvestigator();
 
-        final String principalInvestigatorId = principalInvestigator.getPersonId() == null ?
-                principalInvestigator.getRolodexId().toString() : principalInvestigator.getPersonId();
         boolean proposalPersonApprovedDocument = Boolean.FALSE;
         boolean personIsInRouteLog = Boolean.FALSE;
         List<ActionTaken> actionsTaken = getActionsTaken(document);
@@ -488,13 +485,27 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
                     ids.equalsIgnoreCase(personId));
 
         }
-        // if this person is not in workflow approval but PI has approved, then make uneditable
-        boolean piApprovedDocument = actionsTaken.stream().anyMatch(actionTaken ->
-                KewApiConstants.ACTION_REQUEST_APPROVE_REQ.equalsIgnoreCase(actionTaken.getActionTaken().getCode()) &&
-                        principalInvestigatorId.equalsIgnoreCase(actionTaken.getPrincipalId()));
-         return proposalPersonApprovedDocument || (!personIsInRouteLog && piApprovedDocument);
+
+         return proposalPersonApprovedDocument || (!personIsInRouteLog && piApprovedDocument(document));
         // pi could be a rolodex and the pi is part of the approval process -- this is an edge case that
         // probably never happens so ignoring this scenario
+    }
+
+    private boolean piApprovedDocument(ProposalDevelopmentDocument document) {
+        final ProposalPerson principalInvestigator = document.getDevelopmentProposal().getPrincipalInvestigator();
+        if (principalInvestigator == null) {
+            return false;
+        }
+
+        final String principalInvestigatorId = principalInvestigator.getPersonId() == null ?
+                principalInvestigator.getRolodexId().toString() : principalInvestigator.getPersonId();
+
+        final List<ActionTaken> actionsTaken = getActionsTaken(document);
+
+        // if this person is not in workflow approval but PI has approved, then make uneditable
+        return actionsTaken.stream().anyMatch(actionTaken ->
+                KewApiConstants.ACTION_REQUEST_APPROVE_REQ.equalsIgnoreCase(actionTaken.getActionTaken().getCode()) &&
+                        principalInvestigatorId.equalsIgnoreCase(actionTaken.getPrincipalId()));
     }
 
     protected List<ActionTaken> getActionsTaken(ProposalDevelopmentDocument document) {

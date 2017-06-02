@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -119,7 +120,8 @@ public class AwardContactsAction extends AwardAction {
         boolean valid = true;
         boolean multiPiAllowed = isMultiPiAllowed(sponsor);
         for(int index = 0; index < persons.size(); index++) {
-            if (persons.get(index).isMultiplePi() && !multiPiAllowed) {
+            final boolean multiplePi = persons.get(index).isMultiplePi();
+            if (multiplePi && !multiPiAllowed && getPropAwardPersonRoleService().getRole(PropAwardPersonRole.MULTI_PI, PropAwardPersonRoleService.DEFAULT_SPONSOR_HIERARCHY_NAME) == null) {
                 valid = false;
                 GlobalVariables.getMessageMap().putError("projectPersonnelBean.projectPersonnel[" + index + "].contactRoleCode",
                         AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_MULTIPLE_PI_EXISTS);
