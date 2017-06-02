@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1706.0008
 * Allow Admin User to be pushed to Core in order to update School ID, which is required for COI and Protocols
   * Terry Durkin on Fri, 2 Jun 2017 14:13:45 -0400 [View Commit](../../commit/196826c084522dc546b8a7e13bcaf7a26d35e5e0)
 * RESKC-2228: ignoring schema failures for the NIH service.
