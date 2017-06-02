@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1706.0004
 * RESKC-2262: Add tests
   * Travis Schneeberger on Thu, 1 Jun 2017 16:36:22 -0400 [View Commit](../../commit/3cd1383180ef8c36a525ab6fd078efa54b815ba1)
 * RESKC-2262: Allowing MPI for DEFAULT to be added to PropAwardRole maintenance table
