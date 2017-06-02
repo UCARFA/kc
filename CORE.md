@@ -27,7 +27,7 @@ are for a production environment, there are some that are intended for a develop
 > **Example:** admin 
 
 ### auth.rest.urls.regex
-> comma separated list of valid auth urls
+> comma separated list of valid auth urls that must be protected via api style security instead of traditional cookie based security.
 >
 > **default:** `.*/api/v1/.*,.*/api/v2/.*,.*/hr-import/hrimport/.*` 
 
@@ -35,11 +35,11 @@ are for a production environment, there are some that are intended for a develop
 > Auth Token Generated in Core for admin user.
 
 ### auth.user.push.dev.password
-> Password used for all users in a development system. Must be set prior to pushing users to Core.
+> Password used for all users when `auth.user.push.use.dev.password` is set to true. Must be set prior to pushing users to Core.
 >
 > **Dev Only**
  
-### auth.user.push.use.dev.password*
+### auth.user.push.use.dev.password
 > Enable/Disable the use of dev passwords 
 >
 > **Valid Values:** true | false
