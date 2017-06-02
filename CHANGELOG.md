@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Allow Admin User to be pushed to Core in order to update School ID, which is required for COI and Protocols
+  * Terry Durkin on Fri, 2 Jun 2017 14:13:45 -0400 [View Commit](../../commit/196826c084522dc546b8a7e13bcaf7a26d35e5e0)
+* RESKC-2228: ignoring schema failures for the NIH service.
+
+  * There isn't a good way to know if opportunities are supported by the NIH validation service.  We are already doing schema validation internally so any schema validation failure likely indicates that the opportunity contains forms that NIH doesn't understand.  We detect this condition and downgrade the message to info level and display that NIH validation is not active.
+  * Travis Schneeberger on Fri, 2 Jun 2017 13:25:15 -0400 [View Commit](../../commit/61229f2ae090a63b4497926d074287b636de7dbf)
+
+##coeus-1706.0007
 * No Changes
 
 
