@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Contributing CORE.md file to document integrating monolith with Kuali Core server. (#2357)
+
+  * Tyler Wilson on Fri, 2 Jun 2017 15:50:25 -0600 [View Commit](../../commit/1df4547d86c91d3a56f67f65e46846bbb63967f1)
+
+##coeus-1706.0009
 * No Changes
 
 
