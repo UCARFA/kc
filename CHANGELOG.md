@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1706.0006
 * RESKC-2228: adding a space to replace a newline character
   * Travis Schneeberger on Fri, 2 Jun 2017 12:07:53 -0400 [View Commit](../../commit/b0b4257e10a2c699e54185f540247dd43f39ea9c)
 * RESKC-2228: NIH validation service requires an opportunity first.  Removing validation from UAF service.
