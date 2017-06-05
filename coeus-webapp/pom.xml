@@ -125,8 +125,18 @@
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
                 <includes>
+                	<include>**/*.properties</include>
                     <include>META-INF/kc-config-build.xml</include>
-					<include>META-INF/kc-config-ucar.xml</include>
+                    <include>META-INF/kc-config.xml</include>
+			  		<include>META-INF/kc-config-ucar.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                 	<include>metadata/*</include>
+                	<include>security/*</include>
                 </includes>
             </resource>
         </resources>
@@ -193,6 +203,13 @@
                         <resource>
                             <directory>${rice.web.sources}</directory>
                         </resource>
+                        <resource>
+							<filtering>true</filtering>
+							<directory>src/main/webapp</directory>
+					        <includes>
+					                <include>WEB-INF/SpringSecurityBeans.xml</include>
+					        </includes>
+						</resource>
                     </webResources>
                 </configuration>
             </plugin>
@@ -215,6 +232,31 @@
     </build>
     <profiles>
     	
+    	<!-- Steve's Workstation -->
+    	<profile>
+    		<id>faswmbpro</id>
+    		<properties>
+    		<!-- 	<kcconfig.ucar>kc-config-kcnonprod1.xml</kcconfig.ucar> -->
+    			<!-- ADFS/SAML -->    			
+    			<metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
+    			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+    			<!-- Kuali -->
+    			<kcserver.fqdn>faswmbpro.fanda.ucar.edu</kcserver.fqdn>
+    			<kualiAppPort>8443</kualiAppPort>
+    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppName>kc-dev</kualiAppName>
+    			<kualiRest.user>admin</kualiRest.user>
+    			<kualiRest.password>restapipassword</kualiRest.password>
+    			<!-- JDBC -->
+    			<jdbcKualiMySQL.url>jdbc:mysql://localhost:3306/coeus</jdbcKualiMySQL.url>
+    			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
+    			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
+    			<!--  Tomcat deployment url -->
+				<tomcat.deployUrl>https://faswmbpro.fanda.ucar.edu:8443/manager/text</tomcat.deployUrl>
+				<tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
+    		</properties>
+    	</profile>
+    	
     	<profile>
     		<id>kcnonprod1</id>
     		<properties>
@@ -235,6 +277,102 @@
     			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
 				<tomcat.deployUrl>https://kcnonprod1.fanda.ucar.edu/manager/text</tomcat.deployUrl>
+				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
+    		</properties>
+    	</profile>
+    	
+    	<profile>
+    		<id>kcnonprod2</id>
+    		<properties>
+    		<!-- 	<kcconfig.ucar>kc-config-kcnonprod1.xml</kcconfig.ucar> -->
+    			<!-- ADFS/SAML -->    			
+    			<metadataSp.filename>kcnonprod2fandaucaredu_sp.xml</metadataSp.filename>
+    			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+    			<!-- Kuali -->
+    			<kcserver.fqdn>kcnonprod2.fanda.ucar.edu</kcserver.fqdn>
+    			<kualiAppPort>443</kualiAppPort>
+    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppName>ra</kualiAppName>
+    			<kualiRest.user>apiuser</kualiRest.user>
+    			<kualiRest.password>BlueOrchid05</kualiRest.password>
+    			<!-- JDBC -->
+    			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod2_mysql:3306/coeus</jdbcKualiMySQL.url>
+    			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
+    			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
+    			<!--  Tomcat deployment url -->
+				<tomcat.deployUrl>https://kcnonprod2.fanda.ucar.edu/manager/text</tomcat.deployUrl>
+				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
+    		</properties>
+    	</profile>
+    	
+    	<profile>
+    		<id>kcnonprod3</id>
+    		<properties>
+    		<!-- 	<kcconfig.ucar>kc-config-kcnonprod1.xml</kcconfig.ucar> -->
+    			<!-- ADFS/SAML -->    			
+    			<metadataSp.filename>kcnonprod3fandaucaredu_sp.xml</metadataSp.filename>
+    			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+    			<!-- Kuali -->
+    			<kcserver.fqdn>kcnonprod3.fanda.ucar.edu</kcserver.fqdn>
+    			<kualiAppPort>443</kualiAppPort>
+    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppName>ra</kualiAppName>
+    			<kualiRest.user>apiuser</kualiRest.user>
+    			<kualiRest.password>BlueOrchid05</kualiRest.password>
+    			<!-- JDBC -->
+    			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod3_mysql:3306/coeus</jdbcKualiMySQL.url>
+    			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
+    			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
+    			<!--  Tomcat deployment url -->
+				<tomcat.deployUrl>https://kcnonprod3.fanda.ucar.edu/manager/text</tomcat.deployUrl>
+				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
+    		</properties>
+    	</profile>
+    	
+    	<profile>
+    		<id>kcnonprod4</id>
+    		<properties>
+    		<!-- 	<kcconfig.ucar>kc-config-kcnonprod1.xml</kcconfig.ucar> -->
+    			<!-- ADFS/SAML -->    			
+    			<metadataSp.filename>kcnonprod4fandaucaredu_sp.xml</metadataSp.filename>
+    			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+    			<!-- Kuali -->
+    			<kcserver.fqdn>kcnonprod4.fanda.ucar.edu</kcserver.fqdn>
+    			<kualiAppPort>443</kualiAppPort>
+    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppName>ra</kualiAppName>
+    			<kualiRest.user>apiuser</kualiRest.user>
+    			<kualiRest.password>BlueOrchid05</kualiRest.password>
+    			<!-- JDBC -->
+    			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod4_mysql:3306/coeus</jdbcKualiMySQL.url>
+    			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
+    			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
+    			<!--  Tomcat deployment url -->
+				<tomcat.deployUrl>https://kcnonprod4.fanda.ucar.edu/manager/text</tomcat.deployUrl>
+				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
+    		</properties>
+    	</profile>
+    	
+    	<profile>
+    		<id>kcnonprod5</id>
+    		<properties>
+    		<!-- 	<kcconfig.ucar>kc-config-kcnonprod1.xml</kcconfig.ucar> -->
+    			<!-- ADFS/SAML -->    			
+    			<metadataSp.filename>kcnonprod5fandaucaredu_sp.xml</metadataSp.filename>
+    			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+    			<!-- Kuali -->
+    			<kcserver.fqdn>kcnonprod5.fanda.ucar.edu</kcserver.fqdn>
+    			<kualiAppPort>443</kualiAppPort>
+    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppName>ra</kualiAppName>
+    			<kualiRest.user>apiuser</kualiRest.user>
+    			<kualiRest.password>BlueOrchid05</kualiRest.password>
+    			<!-- JDBC -->
+    			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod5_mysql:3306/coeus</jdbcKualiMySQL.url>
+    			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
+    			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
+    			<!--  Tomcat deployment url -->
+				<tomcat.deployUrl>https://kcnonprod5.fanda.ucar.edu/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>

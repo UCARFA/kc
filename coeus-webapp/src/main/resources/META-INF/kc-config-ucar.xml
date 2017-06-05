@@ -10,14 +10,16 @@
         <!-- To disable ADFS auth, set auth.core.enabled to false, comment -->
         <!-- out filter.login.class and filtermapping.login.1, and modify -->
         <!-- the web.xml to comment out sections with labeled with UCAR. -->
-        <param name="auth.core.enabled">false</param>
-        <param name="showPassword">true</param>
+        <!-- Change showPassword to true for local authentication -->
+        <param name="auth.core.enabled">true</param>
+        <param name="showPassword">false</param>
         <param name="kc.rest.admin.username">${kualiRest.user}</param>
         <param name="kc.rest.admin.password">${kualiRest.password}</param>
-<!--  
+ 
+ 		<!-- Comment out the following 2 lines to disable ADFS -->
         <param name="filter.login.class">edu.ucar.fanda.kuali.auth.UcarLoginFilter</param>
         <param name="filtermapping.login.1">/*</param>
--->
+
 		<param name="keystore.alias">${kcserver.fqdn}</param>
         <param name="keystore.file">/usr/local/kuali/config/keystore/keystore.file</param>
         <param name="keystore.password">BornOnTheBayou</param>

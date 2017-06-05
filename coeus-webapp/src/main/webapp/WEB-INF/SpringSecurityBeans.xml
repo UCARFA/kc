@@ -149,7 +149,8 @@
                             </constructor-arg>
                             <constructor-arg>
                                 <bean class="org.opensaml.util.resource.ClasspathResource">
-                                	<constructor-arg value="/metadata/${metadataIdp.fileName}"/>
+                                 	<constructor-arg value="/metadata/${metadataIdp.fileName}"/>
+                         <!--       <constructor-arg value="/metadata/nonprodadfsmetadata.xml"/> -->
                                 </bean>
                             </constructor-arg>
                             <property name="parserPool" ref="parserPool"/>
@@ -171,7 +172,8 @@
             				</constructor-arg>
             				<constructor-arg>
                 				<bean class="org.opensaml.util.resource.ClasspathResource">
-                    			<constructor-arg value="/metadata/${metadataSp.filename}"/>
+                    	 		<constructor-arg value="/metadata/${metadataSp.filename}"/>
+                    			<!-- 	<constructor-arg value="/metadata/faswmbprofandaucaredu_sp.xml"/> -->
                 				</bean>
             				</constructor-arg>
             				<property name="parserPool" ref="parserPool"/>
@@ -193,72 +195,6 @@
 				        </bean>
 				    </constructor-arg>
 				</bean>
-			
-				<!-- kuali-eval.fanda.ucar.edu 				
-				<bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
-    				<constructor-arg>
-        				<bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
-            				<constructor-arg>
-                				<bean class="java.util.Timer"/>
-            				</constructor-arg>
-            				<constructor-arg>
-               					<bean class="org.opensaml.util.resource.ClasspathResource">
-                    				<constructor-arg value="/metadata/kualievalfandaucaredu_sp.xml"/>
-                				</bean>
-            				</constructor-arg>
-            				<property name="parserPool" ref="parserPool"/>
-        				</bean>
-				    </constructor-arg>
-				    <constructor-arg>
-				        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
-				           <property name="local" value="true"/>
-				           <property name="securityProfile" value="metaiop"/>
-				           <property name="sslSecurityProfile" value="pkix"/>
-				           <property name="sslHostnameVerification" value="default"/>
-				           <property name="signMetadata" value="false"/>
-				           <property name="signingKey" value="apollo"/>
-				           <property name="encryptionKey" value="apollo"/>
-				           <property name="requireArtifactResolveSigned" value="true"/>
-				           <property name="requireLogoutRequestSigned" value="true"/>
-				           <property name="requireLogoutResponseSigned" value="false"/>
-				           <property name="idpDiscoveryEnabled" value="false"/>
-				        </bean>
-				    </constructor-arg>
-				</bean>
--->
-
-				<!-- kcnonprod1.fanda.ucar.edu
-				<bean class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
-    				<constructor-arg>
-        				<bean class="org.opensaml.saml2.metadata.provider.ResourceBackedMetadataProvider">
-            				<constructor-arg>
-                				<bean class="java.util.Timer"/>
-            				</constructor-arg>
-            				<constructor-arg>
-               					<bean class="org.opensaml.util.resource.ClasspathResource">
-                    				<constructor-arg value="/metadata/kcnonprod1fandaucaredu_sp.xml"/>
-                				</bean>
-            				</constructor-arg>
-            				<property name="parserPool" ref="parserPool"/>
-        				</bean>
-				    </constructor-arg>
-				    <constructor-arg>
-				        <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
-				           <property name="local" value="true"/>
-				           <property name="securityProfile" value="metaiop"/>
-				           <property name="sslSecurityProfile" value="pkix"/>
-				           <property name="sslHostnameVerification" value="default"/>
-				           <property name="signMetadata" value="false"/>
-				           <property name="signingKey" value="apollo"/>
-				           <property name="encryptionKey" value="apollo"/>
-				           <property name="requireArtifactResolveSigned" value="true"/>
-				           <property name="requireLogoutRequestSigned" value="true"/>
-				           <property name="requireLogoutResponseSigned" value="false"/>
-				           <property name="idpDiscoveryEnabled" value="false"/>
-				        </bean>
-				    </constructor-arg>
-				</bean>
--->
             </list>
         </constructor-arg>
     </bean>
