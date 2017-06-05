@@ -18,6 +18,8 @@
  */
 package org.kuali.coeus.sys.framework.keyvalue;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
@@ -37,28 +39,27 @@ import java.util.List;
  */
 public class ExtendedPersistableBusinessObjectValuesFinder extends PersistableBusinessObjectValuesFinder {
 
-    
-    class PBOComparator implements Comparator
+    private static final Comparator<KeyValue> PBO_COMPARATOR = new PBOComparator();
+    private static final ConcreteKeyValue SELECT_PREFIX = new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue());
+    private static final Log LOG = LogFactory.getLog(ExtendedPersistableBusinessObjectValuesFinder.class);
+
+    private static class PBOComparator implements Comparator<KeyValue>
     {    
         @Override
-        public int compare(Object kv1, Object kv2 )
+        public int compare(KeyValue kv1, KeyValue kv2 )
         {    
-            try
-            {
-                String desc1 = ((KeyValue)kv1).getValue();
-                String desc2 = ((KeyValue)kv2).getValue();
-                if (desc1 == null)
-                {
+            try {
+                String desc1 = kv1.getValue();
+                String desc2 = kv2.getValue();
+                if (desc1 == null) {
                     desc1 = "";
                 }
-                if (desc2 == null)
-                {
+                if (desc2 == null) {
                     desc2 = "";
                 }
                 return desc1.compareTo(desc2);  
-            }
-            catch (Exception e)
-            {
+            } catch (RuntimeException e) {
+                LOG.error("Exception sorting KeyValues", e);
                 return 0;
             }
         }
@@ -68,17 +69,12 @@ public class ExtendedPersistableBusinessObjectValuesFinder extends PersistableBu
      * Build the list of KeyValues using the key (keyAttributeName) and
      * label (labelAttributeName) of the list of all business objects found
      * for the BO class specified along with a "select" entry.
-     * 
-     * {@inheritDoc}
      */
     @Override
     public List<KeyValue> getKeyValues(){
-        List<KeyValue> labels;
-        
-        labels = super.getKeyValues();
-        Collections.sort(labels, new PBOComparator());
-        
-        labels.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
+        final List<KeyValue> labels = super.getKeyValues();
+        labels.sort(PBO_COMPARATOR);
+        labels.add(0, SELECT_PREFIX);
         return labels;
     }
 }
