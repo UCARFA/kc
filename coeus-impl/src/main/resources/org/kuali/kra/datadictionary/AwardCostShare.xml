@@ -161,17 +161,11 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.CostShareType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="costShareTypeCode" p:labelAttribute="description"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.core.CostShareTypeValuesFinder" />
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.CostShareType"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="costShareTypeCode"/>
-        <property name="labelAttributeName" value="description"/>
-      </bean>
+      <bean class="org.kuali.coeus.common.budget.impl.core.CostShareTypeValuesFinder" />
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
