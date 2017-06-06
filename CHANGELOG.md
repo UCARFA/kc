@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+* RESKC-2201: Make section id and page id dropdowns. Remove requiredness on some fields. Added bootstrap data. (#2361)
+
+  * Gayathri Athreya on Tue, 6 Jun 2017 13:51:13 -0700 [View Commit](../../commit/135479b179e487211d57b0b835ca56fc544586c6)
+* RESKC-2259: cost share validation (#2373)
+
+* RESKC-2259: cost share validation
+  * When the parameter Cost_Share_Account_Validation_Message is set to W for warning,
+  * it should provide a warning message if the Unit or Type is incomplete and continue showing an error message when the account field is empty.
+  * However it should not validate against the account maintenance table when the table is empty
+  * When account table is empty or everything is inactive then it should never validate against the content of what a user enters for source account.
+  * The Warning messages should also be updated to change from "must be provided" to "may need to be added"
+  * 
+* PR review changes.
+  * Gayathri Athreya on Tue, 6 Jun 2017 13:50:35 -0700 [View Commit](../../commit/a348c43064f0aa9f80d00faaabd14594b0d662c7)
+
+##coeus-1706.0014
 * No Changes
 
 
