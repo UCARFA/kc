@@ -2634,6 +2634,24 @@ function updateStateFromCountry() {
 	StateService.findAllStatesInCountryByAltCode(countryCode, dwrReply);
 }
 
+function updateSectionFromPage() {
+  var pageId = dwr.util.getValue( 'document.newMaintainableObject.pageId' );
+
+  var dwrReply = {
+    callback:function(data) {
+      if ( data != null ) {
+        dwr.util.removeAllOptions( 'document.newMaintainableObject.sectionId' );
+        dwr.util.addOptions( 'document.newMaintainableObject.sectionId', data);
+        console.log('data is ' + data);
+      }
+    },
+    errorHandler:function( errorMessage ) {
+      window.status = errorMessage;
+    }
+  };
+
+  PageSectionService.getSectionsOnPage(pageId, dwrReply);
+}
 
 
 /*

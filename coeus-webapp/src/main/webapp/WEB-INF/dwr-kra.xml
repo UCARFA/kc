@@ -58,6 +58,12 @@
             <param name="include" value="code,name,countryCode" />
         </convert>
 
+
+        <create creator="spring" javascript="PageSectionService">
+            <param name="beanName" value="pageSectionService" />
+            <include method="getSectionsOnPage" />
+        </create>
+
         <create creator="spring" javascript="SponsorService">
             <param name="beanName" value="sponsorService" />
             <include method="getSponsorName" />

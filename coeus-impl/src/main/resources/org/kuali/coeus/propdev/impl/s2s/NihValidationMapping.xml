@@ -105,13 +105,13 @@
         <property name="validCharactersConstraint">
             <bean parent="AnyCharacterPatternConstraint"/>
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition" p:size="50"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.s2s.nih.ProposalPageValuesFinder" p:includeKeyInLabel="false"/>
         </property>
-        <property name="controlField">
-            <bean p:size="300" parent="Uif-TextControl"/>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.propdev.impl.s2s.nih.ProposalPageValuesFinder"/>
         </property>
-        <property name="required" value="true"/>
+        <property name="required" value="false"/>
         <property name="summary" value="Page Id" />
         <property name="description" value="Page Id" />
     </bean>
@@ -129,11 +129,11 @@
         <property name="validCharactersConstraint">
             <bean parent="AnyCharacterPatternConstraint"/>
         </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition" p:size="50"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.s2s.nih.SectionIdValuesFinder" p:includeKeyInLabel="false"/>
         </property>
-        <property name="controlField">
-            <bean p:size="300" parent="Uif-TextControl"/>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.propdev.impl.s2s.nih.SectionIdValuesFinder"/>
         </property>
         <property name="required" value="false"/>
         <property name="summary" value="Section Id" />
@@ -159,7 +159,6 @@
         <property name="controlField">
             <bean parent="Uif-CheckboxControl"/>
         </property>
-        <property name="required" value="true"/>
         <property name="summary" value="Active" />
         <property name="description" value="Active" />
     </bean>
@@ -183,7 +182,6 @@
         <property name="controlField">
             <bean parent="Uif-CheckboxControl"/>
         </property>
-        <property name="required" value="true"/>
         <property name="summary" value="Force Error" />
         <property name="description" value="Force Error" />
     </bean>
@@ -207,7 +205,6 @@
         <property name="controlField">
             <bean parent="Uif-CheckboxControl"/>
         </property>
-        <property name="required" value="true"/>
         <property name="summary" value="Append to Original" />
         <property name="description" value="Append to Original" />
     </bean>

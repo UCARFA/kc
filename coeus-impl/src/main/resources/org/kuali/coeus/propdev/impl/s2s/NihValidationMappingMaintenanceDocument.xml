@@ -38,6 +38,11 @@
 
     <property name="documentTypeName" value="NihValidationMappingMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="webScriptFiles">
+        <list>
+            <value>../dwr/interface/PageSectionService.js</value>
+        </list>
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -50,11 +55,11 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="ruleNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="customMessage"/>
-        <bean parent="MaintainableFieldDefinition" p:name="pageId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="pageId" p:webUILeaveFieldFunction="updateSectionFromPage"/>
         <bean parent="MaintainableFieldDefinition" p:name="sectionId"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="appendToOriginal" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="forceError" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"/>
+        <bean parent="MaintainableFieldDefinition" p:name="appendToOriginal"/>
+        <bean parent="MaintainableFieldDefinition" p:name="forceError"/>
       </list>
     </property>
   </bean>
