@@ -71,6 +71,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public static final String ACCOUNT_NUMBER = "accountNumber";
     public static final String UNIT_NUMBER = "unitNumber";
     public static final String SOURCE_ACCOUNT = "sourceAccount";
+    public static final String FISCAL_YEAR = "fiscalYear";
 
     @Autowired
     @Qualifier("budgetCalculationService")
@@ -483,7 +484,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
                 valid &= isValidSourceAccountCostShareType(Constants.VALIDATION_MESSAGE_ERROR, budgetCostShare, SOURCE_ACCOUNT);
             }
 
-            valid = isUniqueSourceAccountFiscalYear(budget, valid, budgetCostShare);
+            valid = isUniqueSourceAccountFiscalYear(budget, valid, budgetCostShare, isCostShareTypeEnabled());
 
         }
 
@@ -512,17 +513,22 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         return valid;
     }
 
-    public boolean isUniqueSourceAccountFiscalYear(ProposalDevelopmentBudgetExt budget, boolean valid, BudgetCostShare budgetCostShare) {
+    public boolean isUniqueSourceAccountFiscalYear(ProposalDevelopmentBudgetExt budget, boolean valid, BudgetCostShare budgetCostShare, boolean costShareTypeEnabled) {
         int thisFiscalYear = budgetCostShare.getProjectPeriod() == null ? Integer.MIN_VALUE : budgetCostShare.getProjectPeriod();
-        long numberOfOccurences = budget.getBudgetCostShares().stream()
-                .filter(costShare -> StringUtils.equalsIgnoreCase(costShare.getSourceAccount(), budgetCostShare.getSourceAccount()) &&
-                        thisFiscalYear == (costShare.getProjectPeriod() == null ? Integer.MIN_VALUE : costShare.getProjectPeriod()))
-                .count();
+        long numberOfOccurences = budget.getBudgetCostShares().stream().filter(costShare -> findMatchingCostShare(costShare, budgetCostShare,
+                thisFiscalYear, costShareTypeEnabled)).count();
         if (numberOfOccurences > 1) {
-            addValidationMessage(Constants.VALIDATION_MESSAGE_ERROR, "fiscalYear", KeyConstants.ERROR_COST_SHARE_DUPLICATE);
+            addValidationMessage(Constants.VALIDATION_MESSAGE_ERROR, FISCAL_YEAR, KeyConstants.ERROR_COST_SHARE_DUPLICATE);
             valid &= Boolean.FALSE;
         }
         return valid;
+    }
+
+    public boolean findMatchingCostShare(BudgetCostShare costShare, BudgetCostShare budgetCostShare, int thisFiscalYear, boolean costShareTypeEnabled) {
+        boolean valid = StringUtils.equalsIgnoreCase(costShare.getSourceAccount(), budgetCostShare.getSourceAccount()) &&
+                thisFiscalYear == (costShare.getProjectPeriod() == null ? Integer.MIN_VALUE : costShare.getProjectPeriod());
+        return costShareTypeEnabled && valid ? costShare.getCostShareTypeCode() == null || budgetCostShare.getCostShareTypeCode() == null &&
+                 costShare.getCostShareTypeCode() == budgetCostShare.getCostShareTypeCode() : valid;
     }
 
     public boolean validateUnit(String unitNumber, String field) {
