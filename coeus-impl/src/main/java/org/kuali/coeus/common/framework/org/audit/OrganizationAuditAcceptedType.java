@@ -20,13 +20,14 @@ package org.kuali.coeus.common.framework.org.audit;
 
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "ORGANIZATION_AUDIT_ACC_TYPE")
-public class OrganizationAuditAcceptedType extends KcPersistableBusinessObjectBase {
+public class OrganizationAuditAcceptedType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     @Id
     @Column(name = "CODE")
@@ -47,10 +48,12 @@ public class OrganizationAuditAcceptedType extends KcPersistableBusinessObjectBa
         this.code = code;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

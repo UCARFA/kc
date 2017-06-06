@@ -23,17 +23,15 @@ import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.external.dunningcampaign.DunningCampaign;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
 
-/**
- * Class representing a Sponsor Business Object
- */
 @Entity
 @Table(name = "SPONSOR")
-public class Sponsor extends KcPersistableBusinessObjectBase implements SponsorContract {
+public class Sponsor extends KcPersistableBusinessObjectBase implements SponsorContract, MutableInactivatable {
 
     @PortableSequenceGenerator(name = "SEQ_SPONSOR_CODE")
     @GeneratedValue(generator = "SEQ_SPONSOR_CODE")
@@ -244,20 +242,10 @@ public class Sponsor extends KcPersistableBusinessObjectBase implements SponsorC
         this.state = state;
     }
 
-    /**
-     * Unit reference referred by {@link #getOwnedByUnit()}
-     *
-     * @param unit 
-     */
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
 
-    /**
-     * Unit reference referred by {@link #getOwnedByUnit()}
-     *
-     * @return unit 
-     */
     public Unit getUnit() {
         return unit;
     }
@@ -299,6 +287,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase implements SponsorC
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

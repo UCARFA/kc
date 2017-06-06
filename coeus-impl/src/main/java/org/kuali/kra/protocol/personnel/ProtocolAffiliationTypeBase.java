@@ -19,22 +19,17 @@
 package org.kuali.kra.protocol.personnel;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public abstract class ProtocolAffiliationTypeBase extends KcPersistableBusinessObjectBase {
-    
-
+public abstract class ProtocolAffiliationTypeBase extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 1837379583066291237L;
-    
 
     private Integer affiliationTypeCode;
 
     private String description;
 
     private boolean active;
-
-    public ProtocolAffiliationTypeBase() {
-    }
 
     public Integer getAffiliationTypeCode() {
         return this.affiliationTypeCode;
@@ -52,10 +47,12 @@ public abstract class ProtocolAffiliationTypeBase extends KcPersistableBusinessO
         this.description = description;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

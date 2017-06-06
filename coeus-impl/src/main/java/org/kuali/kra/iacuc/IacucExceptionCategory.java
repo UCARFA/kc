@@ -19,18 +19,15 @@
 package org.kuali.kra.iacuc;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class IacucExceptionCategory extends KcPersistableBusinessObjectBase {
+public class IacucExceptionCategory extends KcPersistableBusinessObjectBase implements MutableInactivatable {
     
     private static final long serialVersionUID = 1L;
 
     private Integer exceptionCategoryCode; 
     private String exceptionCategoryDesc; 
     private boolean active;
-    
-    public IacucExceptionCategory() { 
-
-    } 
     
     public Integer getExceptionCategoryCode() {
         return exceptionCategoryCode;
@@ -48,10 +45,12 @@ public class IacucExceptionCategory extends KcPersistableBusinessObjectBase {
         this.exceptionCategoryDesc = exceptionCategoryDesc;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
