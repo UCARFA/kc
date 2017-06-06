@@ -34,6 +34,7 @@
                 <ref bean="Account-code" />
                 <ref bean="Account-accountNumber" />
                 <ref bean="Account-description" />
+                <ref bean="Account-active" />
             </list>
         </property>
     </bean>
@@ -129,6 +130,15 @@
         <property name="description" value="Account description" />
     </bean>
 
+    <bean id="Account-active" parent="Account-active-parentBean" />
+    <bean id="Account-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="active" />
+        <property name="required" value="true" />
+        <property name="label" value="Active" />
+        <property name="shortLabel" value="Active" />
+        <property name="summary" value="Active" />
+        <property name="description" value="Active" />
+    </bean>
 
     <bean id="Account-versionNumber" parent="Account-versionNumber-parentBean" />
     <bean id="Account-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
@@ -148,6 +158,7 @@
                             <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
                             <bean parent="FieldDefinition" p:attributeName="accountNumber" p:forceInquiry="true"/>
                             <bean parent="FieldDefinition" p:attributeName="description"/>
+                            <bean parent="FieldDefinition" p:attributeName="active"/>
                         </list>
                     </property>
                 </bean>
@@ -168,6 +179,7 @@
                             <bean p:propertyName="code" parent="Uif-DataField"/>
                             <bean p:propertyName="accountNumber" parent="Uif-DataField"/>
                             <bean p:propertyName="description" parent="Uif-DataField"/>
+                            <bean p:propertyName="active" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -186,12 +198,14 @@
             <list>
                 <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="description"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
         </property>
         <property name="resultFields">
             <list>
                 <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="description"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
         </property>
     </bean>
@@ -203,12 +217,14 @@
             <list>
                 <bean p:propertyName="accountNumber" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
                 <bean p:propertyName="accountNumber" parent="Uif-DataField"/>
                 <bean p:propertyName="description" parent="Uif-DataField"/>
+                <bean p:propertyName="active" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

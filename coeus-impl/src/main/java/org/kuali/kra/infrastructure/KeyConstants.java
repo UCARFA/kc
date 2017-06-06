@@ -1158,7 +1158,6 @@ public final class KeyConstants {
     public static final String INVALID_SOURCE_ACCOUNT = "error.budget.distribution.costShare.sourceAccount.invalid";
     public static final String INVALID_SOURCE_ACCOUNT_COST_SHARE_TYPE = "error.budget.distribution.costShare.costShareType.sourceAccount.invalid";
 
-    public static final String ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING = "error.budget.distribution.sourceMissing";
     public static final String ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE = "error.format.org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern.allowUnderscore.allowDash.allowWhitespace";
     public static final String ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE_PERIOD = "error.format.org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern.allowUnderscore.allowDash.allowWhitespace.allowPeriod";
     public static final String QUESTION_DELETE_FNA = "document.question.deleteFandA.text";

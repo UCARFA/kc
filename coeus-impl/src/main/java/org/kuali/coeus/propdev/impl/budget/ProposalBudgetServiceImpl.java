@@ -72,6 +72,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public static final String UNIT_NUMBER = "unitNumber";
     public static final String SOURCE_ACCOUNT = "sourceAccount";
     public static final String FISCAL_YEAR = "fiscalYear";
+    public static final String ERROR = "E";
 
     @Autowired
     @Qualifier("budgetCalculationService")
@@ -483,7 +484,9 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
             if (!Objects.isNull(budgetCostShare.getSourceAccount()) && !Objects.isNull(budgetCostShare.getCostShareTypeCode())) {
                 valid &= isValidSourceAccountCostShareType(Constants.VALIDATION_MESSAGE_ERROR, budgetCostShare, SOURCE_ACCOUNT);
             }
-
+            if (Objects.isNull(budgetCostShare.getSourceAccount())) {
+                valid &= addValidationMessage(ERROR, SOURCE_ACCOUNT, KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING);
+            }
             valid = isUniqueSourceAccountFiscalYear(budget, valid, budgetCostShare, isCostShareTypeEnabled());
 
         }
@@ -491,10 +494,8 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
 
         if (isCostShareTypeEnabled()) {
             String validationMessageType = getValidationMessageType();
+            final boolean activeAccountsAbsent = getBusinessObjectService().countMatching(Account.class, Collections.singletonMap(ACTIVE, Boolean.TRUE)) < 1;
             for(BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
-                if (Objects.isNull(budgetCostShare.getSourceAccount())) {
-                    valid &= addValidationMessage(validationMessageType, SOURCE_ACCOUNT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING);
-                }
                 if (Objects.isNull(budgetCostShare.getUnit())) {
                     valid &= addValidationMessage(validationMessageType, UNIT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_UNIT_MISSING);
                 }
@@ -502,6 +503,9 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
                     valid &= addValidationMessage(validationMessageType, COST_SHARE_TYPE, KeyConstants.ERROR_BUDGET_DISTRIBUTION_COST_SHARE_TYPE_MISSING);
                 }
                 if (!Objects.isNull(budgetCostShare.getSourceAccount())) {
+                    if (activeAccountsAbsent) {
+                        return valid;
+                    }
                     Map<String, Object> fieldValues = new HashMap<>();
                     fieldValues.put(ACCOUNT_NUMBER, budgetCostShare.getSourceAccount());
                     if(getBusinessObjectService().countMatching(Account.class, fieldValues) == 0) {
