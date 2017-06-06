@@ -26,7 +26,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <bean id="DataValidationSection" parent="DataValidationSection-parentBean"/>
-    <bean id="DataValidationSection-parentBean" parent="Uif-DialogGroup" p:resetDataOnRefresh="true"
+    <bean id="DataValidationSection-parentBean" abstract="true" parent="Uif-DialogGroup" p:resetDataOnRefresh="true"
             p:dialogCssClass="modal-lg">
         <property name="header">
             <bean parent="Uif-DialogHeader" p:headerText="Data Validation">
@@ -64,7 +64,7 @@
     </bean>
 
     <bean id="DataValidationSection-Collection" parent="DataValidationSection-Collection-parentBean"/>
-    <bean id="DataValidationSection-Collection-parentBean" parent="Uif-TableCollectionSection"
+    <bean id="DataValidationSection-Collection-parentBean" abstract="true" parent="Uif-TableCollectionSection"
           p:collectionObjectClass="org.kuali.coeus.sys.impl.validation.DataValidationItem"
           p:propertyName="dataValidationItems"
           p:renderAddLine="false" p:layoutManager.renderSequenceField="false" p:readOnly="false">
@@ -104,7 +104,7 @@
     </bean>
 
     <bean id="DataValidationSection-WithSubmit" parent="DataValidationSection-WithSubmit-parentBean"/>
-    <bean id="DataValidationSection-WithSubmit-parentBean" parent="DataValidationSection">
+    <bean id="DataValidationSection-WithSubmit-parentBean" abstract="true" parent="DataValidationSection">
         <property name="footer.items">
             <list>
                 <bean  p:actionLabel="Submit With Warnings" parent="Uif-PrimaryActionButton" p:methodToCall="internalSubmit"  p:order="10"
@@ -116,7 +116,7 @@
     </bean>
 
     <bean id="DataValidationSection-WithApprove" parent="DataValidationSection-WithApprove-parentBean"/>
-    <bean id="DataValidationSection-WithApprove-parentBean" parent="DataValidationSection">
+    <bean id="DataValidationSection-WithApprove-parentBean" abstract="true" parent="DataValidationSection">
         <property name="footer.items">
             <list>
                 <bean  p:actionLabel="Approve With Warnings" parent="Uif-PrimaryActionButton" p:methodToCall="approve"  p:order="10"

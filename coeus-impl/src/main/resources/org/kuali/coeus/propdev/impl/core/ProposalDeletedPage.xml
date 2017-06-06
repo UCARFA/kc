@@ -24,7 +24,7 @@
 
     <!-- Proposal Deleted Page -->
     <bean id="PropDev-DeletedPage" parent="PropDev-DeletedPage-parentBean" />
-    <bean id="PropDev-DeletedPage-parentBean" parent="Uif-DocumentPage">
+    <bean id="PropDev-DeletedPage-parentBean" abstract="true" parent="Uif-DocumentPage">
         <property name="items">
         <list>
             <bean parent="PropDev-DeletedPage-messageField" p:order="10" />

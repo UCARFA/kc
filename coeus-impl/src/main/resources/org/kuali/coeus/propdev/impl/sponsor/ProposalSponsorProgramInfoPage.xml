@@ -24,7 +24,7 @@
 
 			
 	<bean id="PropDev-SponsorProgramInfoPage" parent="PropDev-SponsorProgramInfoPage-parentBean" p:header.headerText="Sponsor &amp; Program Information" />
-	<bean id="PropDev-SponsorProgramInfoPage-parentBean" parent="PropDev-DocumentPage">
+	<bean id="PropDev-SponsorProgramInfoPage-parentBean" abstract="true" parent="PropDev-DocumentPage">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-SponsorProgramInfo-DefaultDetailsSection" p:order="10" />

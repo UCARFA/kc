@@ -27,7 +27,7 @@
 
 	<!-- Proposal Compliance Page -->
 	<bean id="PropDev-PermissionsPage" parent="PropDev-PermissionsPage-parentBean" />
-	<bean id="PropDev-PermissionsPage-parentBean" parent="PropDev-DocumentPage">
+	<bean id="PropDev-PermissionsPage-parentBean" abstract="true" parent="PropDev-DocumentPage">
 		<property name="items">
 			<list>
 				<ref bean="PropDev-PermissionsPage-Section"/>

@@ -24,7 +24,7 @@
 
 	<!-- Proposal Details Page -->
 	<bean id="PropDev-DetailsPage" parent="PropDev-DetailsPage-parentBean" />
-	<bean id="PropDev-DetailsPage-parentBean" parent="PropDev-DocumentPage">
+	<bean id="PropDev-DetailsPage-parentBean" abstract="true" parent="PropDev-DocumentPage">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-DetailsPage-Section" p:order="10" />
@@ -177,7 +177,7 @@
     </bean>
 
     <bean id="PropDev-DetailsPage-SponsorQuickFinder" parent="PropDev-DetailsPage-SponsorQuickFinder-parentBean" />
-    <bean id="PropDev-DetailsPage-SponsorQuickFinder-parentBean" parent="Uif-QuickFinderByScript"
+    <bean id="PropDev-DetailsPage-SponsorQuickFinder-parentBean" abstract="true" parent="Uif-QuickFinderByScript"
           p:hideCriteriaOnSearch="true"
           p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"/>
 

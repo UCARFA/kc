@@ -26,7 +26,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <bean id="PropBudget-HierarchySummaryPage" parent="PropBudget-HierarchySummaryPage-parentBean" />
-    <bean id="PropBudget-HierarchySummaryPage-parentBean" parent="PropBudget-Page">
+    <bean id="PropBudget-HierarchySummaryPage-parentBean" parent="PropBudget-Page" abstract="true">
         <property name="items">
             <list>
                 <bean parent="PropDev-SubmitPage-Hierarchy" p:order="10"/>

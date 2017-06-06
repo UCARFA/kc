@@ -27,7 +27,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropBudget-NotesPage" parent="PropBudget-NotesPage-parentBean" />
-	<bean id="PropBudget-NotesPage-parentBean" parent="PropBudget-Page" p:fieldBindingObjectPath="budgetJustificationWrapper">
+	<bean id="PropBudget-NotesPage-parentBean" abstract="true" parent="PropBudget-Page" p:fieldBindingObjectPath="budgetJustificationWrapper">
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-NotesPage-Section" />
@@ -36,7 +36,7 @@
 	</bean>
 
 	<bean id="PropBudget-NotesPage-Section" parent="PropBudget-NotesPage-Section-parentBean" />
-	<bean id="PropBudget-NotesPage-Section-parentBean"
+	<bean id="PropBudget-NotesPage-Section-parentBean" abstract="true"
 		parent="Uif-VerticalBoxSubSection" p:headerText="Budget Notes">
 		<property name="header.lowerGroup">
 			<bean parent="Uif-HeaderLowerGroup">

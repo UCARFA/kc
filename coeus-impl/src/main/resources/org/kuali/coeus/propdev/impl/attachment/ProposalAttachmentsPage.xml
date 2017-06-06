@@ -26,7 +26,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropDev-AttachmentsPage" parent="PropDev-AttachmentsPage-parentBean" />
-	<bean id="PropDev-AttachmentsPage-parentBean" parent="PropDev-DocumentPage"
+	<bean id="PropDev-AttachmentsPage-parentBean" abstract="true" parent="PropDev-DocumentPage"
             p:onDocumentReadyScript="Kc.PropDev.Attachments.initAttachmentCounts();">
 		<property name="items">
 			<list>

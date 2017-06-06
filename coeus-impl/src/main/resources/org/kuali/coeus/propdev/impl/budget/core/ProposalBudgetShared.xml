@@ -24,7 +24,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="PropDev-BudgetVersions-GenericCollection" parent="PropDev-BudgetVersions-GenericCollection-parentBean" />
-	<bean id="PropDev-BudgetVersions-GenericCollection-parentBean"
+	<bean id="PropDev-BudgetVersions-GenericCollection-parentBean" abstract="true"
 		parent="Uif-TableCollectionSection" p:title="Budget"
 		p:headerText="Budgets" 
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt"

@@ -26,7 +26,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropBudget-ProjectPersonnelPage" parent="PropBudget-ProjectPersonnelPage-parentBean" />
-	<bean id="PropBudget-ProjectPersonnelPage-parentBean" parent="PropBudget-Page">
+	<bean id="PropBudget-ProjectPersonnelPage-parentBean" abstract="true" parent="PropBudget-Page">
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-ProjectPersonnelPage-CollectionGroup" />

@@ -27,7 +27,7 @@
 
 
 <bean id="PropDev-SuperUserActionsPage" parent="PropDev-SuperUserActionsPage-parentBean" />
-    <bean id="PropDev-SuperUserActionsPage-parentBean" parent="Uif-DocumentPage">
+    <bean id="PropDev-SuperUserActionsPage-parentBean" parent="Uif-DocumentPage" abstract="true">
         <property name="items">
             <list>
                 <ref bean="PropDev-SuperUserActionSection" />

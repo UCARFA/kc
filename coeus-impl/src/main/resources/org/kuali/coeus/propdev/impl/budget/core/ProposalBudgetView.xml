@@ -160,7 +160,7 @@
 		abstract="true" parent="Kc-MenuAction" p:navigateToPageId="PropBudget-ProjectIncomePage"
 		p:actionLabel="Project Income" p:iconClass="icon-money" />
 	<bean id="PropBudget-NavigationMenu-Modular" parent="PropBudget-NavigationMenu-Modular-parentBean" />
-	<bean id="PropBudget-NavigationMenu-Modular-parentBean" parent="Kc-MenuAction"
+	<bean id="PropBudget-NavigationMenu-Modular-parentBean" abstract="true" parent="Kc-MenuAction"
 		p:navigateToPageId="PropBudget-ModularPage" p:actionLabel="Modular"
 		p:iconClass="icon-ok" />
 	<bean id="PropBudget-NavigationMenu-Notes" parent="PropBudget-NavigationMenu-Notes-parentBean" />
@@ -168,11 +168,11 @@
 		abstract="true" parent="Kc-MenuAction" p:navigateToPageId="PropBudget-NotesPage"
 		p:actionLabel="Budget Notes" p:iconClass="icon-th-list" />
 	<bean id="PropBudget-NavigationMenu-Summary" parent="PropBudget-NavigationMenu-Summary-parentBean" />
-	<bean id="PropBudget-NavigationMenu-Summary-parentBean" parent="Kc-MenuAction"
+	<bean id="PropBudget-NavigationMenu-Summary-parentBean" abstract="true" parent="Kc-MenuAction"
 		p:navigateToPageId="PropBudget-SummaryPage" p:actionLabel="Budget Summary" p:iconClass="icon-file"/>
 
     <bean id="PropBudget-NavigationMenu-HierarchySummary" parent="PropBudget-NavigationMenu-HierarchySummary-parentBean" />
-    <bean id="PropBudget-NavigationMenu-HierarchySummary-parentBean" parent="Kc-MenuAction"
+    <bean id="PropBudget-NavigationMenu-HierarchySummary-parentBean" abstract="true" parent="Kc-MenuAction"
           p:navigateToPageId="PropBudget-HierarchySummaryPage" p:actionLabel="Hierarchy Summary" p:iconClass="icon-list-ol"/>
 
     <bean id="PropBudget-DocumentHeader" parent="PropBudget-DocumentHeader-parentBean" />
