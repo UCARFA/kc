@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* RESKC-2264: Allow same src account with different cost share types. (#2369)
+
+  * Gayathri Athreya on Tue, 6 Jun 2017 09:20:30 -0700 [View Commit](../../commit/133a80e6c143151fbeb28c95fd17c47cbbd72fe7)
+* RESKC-2265: fix and cleanup BOattribute tests
+  * Travis Schneeberger on Tue, 6 Jun 2017 11:47:55 -0400 [View Commit](../../commit/5b02970d18b4b5c103f065f714780d04e5d0a215)
+* RESKC-2265: code cleanup
+  * Travis Schneeberger on Tue, 6 Jun 2017 11:02:24 -0400 [View Commit](../../commit/595d1717c65cad14b63a9a95cf8926969235bfd1)
+* RESKC-2265: adding active flag to CostShareType
+  * Travis Schneeberger on Tue, 6 Jun 2017 11:02:06 -0400 [View Commit](../../commit/8aaf96e554cb82f27f5b9540fc727f01c03f2bf1)
+
+##coeus-1706.0011
 * RESKC-2266: sorting cost share type by description (case insensitive)
   * Travis Schneeberger on Mon, 5 Jun 2017 09:22:48 -0400 [View Commit](../../commit/88ac4830286f80ca53a07458cac1e75d98272399)
 
