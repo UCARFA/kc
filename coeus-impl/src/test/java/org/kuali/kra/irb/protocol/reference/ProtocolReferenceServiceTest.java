@@ -21,11 +21,10 @@ package org.kuali.kra.irb.protocol.reference;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import static org.junit.Assert.assertEquals;
 
-public class ProtocolReferenceServiceTest extends KcIntegrationTestBase {
+public class ProtocolReferenceServiceTest  {
     
     Protocol protocol;
     ProtocolReference protocolReference = new ProtocolReference();
@@ -38,7 +37,12 @@ public class ProtocolReferenceServiceTest extends KcIntegrationTestBase {
 
            
         };
-        protocolReference = new ProtocolReference();
+        protocolReference = new ProtocolReference() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+
+            }
+        };
            
     }
     

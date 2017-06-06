@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.kuali.kra.irb.test.ProtocolTestUtil.getProtocol;
 
-public class ProtocolUpdateActionServiceTest extends KcIntegrationTestBase  {
+public class ProtocolUpdateActionServiceTest   {
     
     private static final String ATC200 = "200";
     
@@ -103,7 +102,7 @@ public class ProtocolUpdateActionServiceTest extends KcIntegrationTestBase  {
     private BusinessObjectService businessObjectService;
     
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         context  = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
         protocol = getProtocol(context);
         protocolActionService = new ProtocolActionServiceImpl();
@@ -113,11 +112,9 @@ public class ProtocolUpdateActionServiceTest extends KcIntegrationTestBase  {
             allowing(businessObjectService).save(protocol);
         }});
         protocolActionService.setBusinessObjectService(businessObjectService);
-        try {
+
             protocolActionService.setRuleFiles(getRuleFiles());
-        } catch (Exception e) {
-            
-        }
+
 
         ProtocolSubmissionStatus protocolSubmissionStatus = new ProtocolSubmissionStatus();
         protocolSubmissionStatus.setProtocolSubmissionStatusCode(ProtocolSubmissionStatus.PENDING);        
