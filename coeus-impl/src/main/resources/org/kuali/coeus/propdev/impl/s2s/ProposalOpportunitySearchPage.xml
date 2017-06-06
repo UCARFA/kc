@@ -24,7 +24,7 @@
 
 	<!-- Opportunity Search Page -->
 	<bean id="PropDev-OpportunityPage" parent="PropDev-OpportunityPage-parentBean" />
-	<bean id="PropDev-OpportunityPage-parentBean" parent="PropDev-DocumentPage" p:readOnly="@{!#editModes[#proposalAuthConsts.MODIFY_S2S]}">
+	<bean id="PropDev-OpportunityPage-parentBean" abstract="true" parent="PropDev-DocumentPage" p:readOnly="@{!#editModes[#proposalAuthConsts.MODIFY_S2S]}">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-OpportunityPage-SearchSection" p:order="10"/>

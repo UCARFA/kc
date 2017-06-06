@@ -27,7 +27,7 @@
 
 	<!-- Proposal Compliance Page -->
 	<bean id="PropDev-CompliancePage" parent="PropDev-CompliancePage-parentBean" />
-	<bean id="PropDev-CompliancePage-parentBean" parent="PropDev-DocumentPage">
+	<bean id="PropDev-CompliancePage-parentBean" abstract="true" parent="PropDev-DocumentPage">
 		<property name="items">
 			<list>
 				<ref bean="PropDev-CompliancePage-Section" />
@@ -51,7 +51,7 @@
 	</bean>
 
 	<bean id="PropDev-CompliancePage-CollectionGroup" parent="PropDev-CompliancePage-CollectionGroup-parentBean" />
-	<bean id="PropDev-CompliancePage-CollectionGroup-parentBean"
+	<bean id="PropDev-CompliancePage-CollectionGroup-parentBean" abstract="true"
 		parent="Uif-Disclosure-StackedCollectionSection" p:title="Compliance" p:propertyName="propSpecialReviews"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview"
 		p:layoutManager.summaryTitle="@{#line.specialReviewType.description} @{#line.approvalType != null?#line.approvalType.description:''} @{#line.protocolNumber}"

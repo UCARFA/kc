@@ -238,7 +238,7 @@
 
     <bean id="NihValidationMapping-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
         <property name="headerText" value="NIH Validation Mapping"/>
-        <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.NihValidationMapping"/>
+        <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.nih.NihValidationMapping"/>
         <property name="items">
             <list>
                 <bean parent="Uif-Disclosure-GridSection">
@@ -292,7 +292,7 @@
     </bean>
 
     <bean id="NihValidationMapping-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-        <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.NihValidationMapping"/>
+        <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.nih.NihValidationMapping"/>
         <property name="headerText" value="NIH Validation Mapping"/>
         <property name="criteriaFields">
             <list>

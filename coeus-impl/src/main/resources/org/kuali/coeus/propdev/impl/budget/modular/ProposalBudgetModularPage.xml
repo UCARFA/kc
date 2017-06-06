@@ -27,7 +27,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropBudget-ModularPage"  parent="PropBudget-ModularPage-parentBean" />
-    <bean id="PropBudget-ModularPage-parentBean" parent="PropBudget-Page"
+    <bean id="PropBudget-ModularPage-parentBean" abstract="true" parent="PropBudget-Page"
             p:readOnly="@{(#parent.readOnly and !budget.developmentProposal.isParent()) or viewOnly}">
         <property name="items">
             <list>

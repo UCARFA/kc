@@ -75,7 +75,7 @@
     </bean>
 
     <bean id="Uif-View" parent="Kc-View-parentBean"/>
-    <bean id="Kc-View-parentBean" parent="Uif-View-parentBean">
+    <bean id="Kc-View-parentBean" abstract="true" parent="Uif-View-parentBean">
         <property name="sessionPolicy.renderTimeoutView" value="true"/>
         <property name="sessionPolicy.enableTimeoutWarning" value="true"/>
         <property name="sessionPolicy.timeoutWarningSeconds" value="@{#getParamAsInteger('KR-NS','Document','SESSION_TIMEOUT_WARNING_MESSAGE_TIME') * 60}"/>

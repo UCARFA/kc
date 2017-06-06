@@ -215,7 +215,7 @@
   </bean>
   
   <bean id="Negotiation-negotiationAssociationType.description" parent="Negotiation-negotiationAssociationType.description-parentBean"/>
-  <bean id="Negotiation-negotiationAssociationType.description-parentBean" parent="Negotiation-negotiationAssociationTypeId-parentBean">
+  <bean id="Negotiation-negotiationAssociationType.description-parentBean" abstract="true" parent="Negotiation-negotiationAssociationTypeId-parentBean">
   	<property name="name" value="negotiationAssociationType.description" />
   	<property name="validCharactersConstraint">
       <bean parent="AnyCharacterPatternConstraint">
@@ -347,17 +347,17 @@
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.associatedDocumentId" parent="Negotiation-associatedNegotiable.associatedDocumentId-parentBean"/>
-  <bean id="Negotiation-associatedNegotiable.associatedDocumentId-parentBean" parent="Negotiation-associatedDocumentId">
+  <bean id="Negotiation-associatedNegotiable.associatedDocumentId-parentBean" abstract="true" parent="Negotiation-associatedDocumentId">
   	<property name="name" value="associatedNegotiable.associatedDocumentId" />
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerName" parent="Negotiation-associatedNegotiable.subAwardRequisitionerName-parentBean"/>
-  <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerName-parentBean" parent="NegotiationUnassociatedDetail-subAwardRequisitionerName">
+  <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerName-parentBean" abstract="true" parent="NegotiationUnassociatedDetail-subAwardRequisitionerName">
   	<property name="name" value="associatedNegotiable.subAwardRequisitionerName" />
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerId" parent="Negotiation-associatedNegotiable.subAwardRequisitionerId-parentBean"/>
-  <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerId-parentBean" parent="SubAward-requisitionerId">
+  <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerId-parentBean" abstract="true" parent="SubAward-requisitionerId">
   	<property name="name" value="associatedNegotiable.subAwardRequisitionerId" />
   	<property name="required" value="false" />
   	<property name="label" value="Requesitioner Id" />
@@ -366,7 +366,7 @@
   </bean>
   
   <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerUnitNumber" parent="Negotiation-associatedNegotiable.subAwardRequisitionerUnitNumber-parentBean"/>
-  <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerUnitNumber-parentBean" parent="NegotiationUnassociatedDetail-subAwardRequisitionerUnitNumber">
+  <bean id="Negotiation-associatedNegotiable.subAwardRequisitionerUnitNumber-parentBean" abstract="true" parent="NegotiationUnassociatedDetail-subAwardRequisitionerUnitNumber">
   	<property name="name" value="associatedNegotiable.subAwardRequisitionerUnitNumber" />
   </bean>
   

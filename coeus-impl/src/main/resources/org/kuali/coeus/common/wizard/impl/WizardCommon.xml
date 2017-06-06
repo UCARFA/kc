@@ -38,7 +38,7 @@
     </bean>
 
     <bean id="Kc-Wizard-EmployeeInputFields" abstract="true" parent="Kc-Wizard-EmployeeInputFields-parentBean"/>
-    <bean id="Kc-Wizard-EmployeeInputFields-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+    <bean id="Kc-Wizard-EmployeeInputFields-parentBean" abstract="true" parent="Uif-CssGridSection-1FieldLabelColumn">
         <property name="items">
             <list>
                 <bean parent="Kc-Wizard-PersonInputField"
@@ -77,7 +77,7 @@
     </bean>
 
     <bean id="Kc-Wizard-NonEmployeeInputFields" parent="Kc-Wizard-NonEmployeeInputFields-parentBean" />
-    <bean id="Kc-Wizard-NonEmployeeInputFields-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+    <bean id="Kc-Wizard-NonEmployeeInputFields-parentBean" abstract="true" parent="Uif-CssGridSection-1FieldLabelColumn">
         <property name="header.rightGroup">
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
@@ -116,7 +116,7 @@
     </bean>
 
     <bean id="Kc-Wizard-RoleInputFields" parent="Kc-Wizard-RoleInputFields-parentBean"/>
-    <bean id="Kc-Wizard-RoleInputFields-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+    <bean id="Kc-Wizard-RoleInputFields-parentBean" abstract="true" parent="Uif-CssGridSection-1FieldLabelColumn">
         <property name="items">
             <list>
                 <bean parent="Kc-Wizard-RoleInputField"
