@@ -59,8 +59,8 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
 
     public Questionnaire() {
         super();
-        questionnaireQuestions = new AutoPopulatingList<QuestionnaireQuestion>(QuestionnaireQuestion.class);
-        questionnaireUsages = new AutoPopulatingList<QuestionnaireUsage>(QuestionnaireUsage.class);
+        questionnaireQuestions = new AutoPopulatingList<>(QuestionnaireQuestion.class);
+        questionnaireUsages = new AutoPopulatingList<>(QuestionnaireUsage.class);
     }
 
     @Override
@@ -282,8 +282,6 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         }
         return retVal;
     }
-    
-    // TODO: Added temporarily, pending official fix in KCINFR-579
 
     @Override
     public byte[] getAttachmentContent() {

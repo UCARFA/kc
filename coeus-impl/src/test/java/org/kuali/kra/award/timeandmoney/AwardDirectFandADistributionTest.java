@@ -18,49 +18,18 @@
  */
 package org.kuali.kra.award.timeandmoney;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.AbstractBoTest;
 
-/**
- * This class tests methods in AwardDirectFandADistribution.java class
- */
-public class AwardDirectFandADistributionTest {
+public class AwardDirectFandADistributionTest extends AbstractBoTest<AwardDirectFandADistribution> {
+    private static final int AWARD_DIRECT_F_AND_A_DISTRIBUTION_ATTRIBUTES_COUNT = 9;
 
-private static final int AWARD_DIRECT_F_AND_A_DISTRIBUTION_ATTRIBUTES_COUNT = 9;
-    
-    private AwardDirectFandADistribution awardDirectFandADistributionBo;
-    private Award award = new Award();
-    
-    /**
-     *
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        awardDirectFandADistributionBo = new AwardDirectFandADistribution();
-        awardDirectFandADistributionBo.setAward(award);
+    @Override
+    protected Class<AwardDirectFandADistribution> getBoClass() {
+        return AwardDirectFandADistribution.class;
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-        awardDirectFandADistributionBo = null;
+    @Override
+    protected int getAttributeCount() {
+        return AWARD_DIRECT_F_AND_A_DISTRIBUTION_ATTRIBUTES_COUNT;
     }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_DIRECT_F_AND_A_DISTRIBUTION_ATTRIBUTES_COUNT, awardDirectFandADistributionBo.getClass().getDeclaredFields().length);
-    }
-    
 }

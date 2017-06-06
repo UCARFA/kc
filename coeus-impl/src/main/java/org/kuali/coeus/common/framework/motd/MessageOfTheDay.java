@@ -20,11 +20,11 @@ package org.kuali.coeus.common.framework.motd;
 
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-/**
- * This class is Business Object representation of a comment type.
- */
-public class MessageOfTheDay extends KcPersistableBusinessObjectBase {
+public class MessageOfTheDay extends KcPersistableBusinessObjectBase implements MutableInactivatable {
+
+    private static final long serialVersionUID = 5649376154094364142L;
 
     private Long messageOfTheDayId;
 
@@ -33,9 +33,6 @@ public class MessageOfTheDay extends KcPersistableBusinessObjectBase {
     private boolean active;
 
     private Long displayOrder;
-
-
-    private static final long serialVersionUID = 5649376154094364142L;
 
     public Long getMessageOfTheDayId() {
         return messageOfTheDayId;
@@ -53,10 +50,12 @@ public class MessageOfTheDay extends KcPersistableBusinessObjectBase {
         this.message = message;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

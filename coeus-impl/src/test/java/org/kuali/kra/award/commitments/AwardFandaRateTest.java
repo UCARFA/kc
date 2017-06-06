@@ -18,46 +18,18 @@
  */
 package org.kuali.kra.award.commitments;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.kuali.kra.bo.AbstractBoTest;
 
-/**
- * 
- * This class tests methods in Award.java class
- */
-public class AwardFandaRateTest { 
+public class AwardFandaRateTest extends AbstractBoTest<AwardFandaRate> {
     private static final int AWARD_FANDA_RATE_COUNT = 11;
-    
-    private AwardFandaRate awardFandaRate;
-    
-    /**
-     *
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        awardFandaRate = new AwardFandaRate();
+
+    @Override
+    protected Class<AwardFandaRate> getBoClass() {
+        return AwardFandaRate.class;
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-        awardFandaRate = null;
+    @Override
+    protected int getAttributeCount() {
+        return AWARD_FANDA_RATE_COUNT;
     }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testAwardIndirectCostRateBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_FANDA_RATE_COUNT, awardFandaRate.getClass().getDeclaredFields().length);
-    }
-    
 }

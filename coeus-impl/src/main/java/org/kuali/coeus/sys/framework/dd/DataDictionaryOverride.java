@@ -23,9 +23,10 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.api.model.Identifiable;
 import org.kuali.coeus.sys.api.model.Inactivatable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableAttachment;
 
-public class DataDictionaryOverride extends KcPersistableBusinessObjectBase implements Inactivatable, Identifiable, PersistableAttachment {
+public class DataDictionaryOverride extends KcPersistableBusinessObjectBase implements Inactivatable, Identifiable, PersistableAttachment, MutableInactivatable {
 
     private String id;
     private byte[] attachmentContent;
@@ -79,6 +80,7 @@ public class DataDictionaryOverride extends KcPersistableBusinessObjectBase impl
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.address.EntityAddress;
 import org.kuali.rice.kim.api.identity.address.EntityAddressContract;
@@ -59,7 +60,7 @@ import java.util.Date;
 /**
  * Represents a person in KC.
  */
-public class KcPerson extends TransientBusinessObjectBase implements Contactable, KcPersonContract {
+public class KcPerson extends TransientBusinessObjectBase implements Contactable, KcPersonContract, Inactivatable {
 
     private static final long serialVersionUID = 1L;
 

@@ -27,6 +27,7 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class CostShareTypeValuesFinder extends UifKeyValuesFinderBase {
 
     @Override
     public List<KeyValue> getKeyValues() {
-        final Collection<CostShareType> costSharetypes = getBusinessObjectService().findAll(CostShareType.class);
+        final Collection<CostShareType> costSharetypes = getBusinessObjectService().findMatching(CostShareType.class, Collections.singletonMap("active", "true"));
         return Stream.concat(Stream.of(SELECT), costSharetypes.stream()
                 .map(costShareType -> new ConcreteKeyValue(costShareType.getCostShareTypeCode().toString(), costShareType.getDescription()))
                 .sorted(Comparator.comparing(ConcreteKeyValue::getValue, String.CASE_INSENSITIVE_ORDER)))

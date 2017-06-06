@@ -19,16 +19,16 @@
 package org.kuali.kra.bo;
 
 
+import org.kuali.coeus.sys.api.model.Inactivatable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "COST_SHARE_TYPE")
-public class CostShareType extends KcPersistableBusinessObjectBase {
+public class CostShareType extends KcPersistableBusinessObjectBase implements Inactivatable, MutableInactivatable {
 
 
     private static final long serialVersionUID = -4625330898428160836L;
@@ -40,10 +40,9 @@ public class CostShareType extends KcPersistableBusinessObjectBase {
     @Column(name = "DESCRIPTION")
     private String description;
 
-
-    public CostShareType() {
-        super();
-    }
+    @Column(name = "ACTV_IND")
+    @Convert(converter = BooleanYNConverter.class)
+    private boolean active;
 
     public Integer getCostShareTypeCode() {
         return costShareTypeCode;
@@ -62,26 +61,33 @@ public class CostShareType extends KcPersistableBusinessObjectBase {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((costShareTypeCode == null) ? 0 : costShareTypeCode.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        return result;
+    public boolean isActive() {
+        return active;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        final CostShareType other = (CostShareType) obj;
-        if (costShareTypeCode == null) {
-            if (other.costShareTypeCode != null) return false;
-        } else if (!costShareTypeCode.equals(other.costShareTypeCode)) return false;
-        if (description == null) {
-            if (other.description != null) return false;
-        } else if (!description.equals(other.description)) return false;
-        return true;
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CostShareType that = (CostShareType) o;
+
+        if (active != that.active) return false;
+        if (costShareTypeCode != null ? !costShareTypeCode.equals(that.costShareTypeCode) : that.costShareTypeCode != null)
+            return false;
+        return description != null ? description.equals(that.description) : that.description == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = costShareTypeCode != null ? costShareTypeCode.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (active ? 1 : 0);
+        return result;
     }
 }

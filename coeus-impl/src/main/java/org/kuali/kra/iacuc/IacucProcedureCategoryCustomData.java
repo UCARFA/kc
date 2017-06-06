@@ -19,19 +19,15 @@
 package org.kuali.kra.iacuc;
 
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class IacucProcedureCategoryCustomData extends CustomAttribute { 
+public class IacucProcedureCategoryCustomData extends CustomAttribute implements MutableInactivatable {
     
     private static final long serialVersionUID = 1L;
 
     private Integer procedureCategoryCode; 
     private boolean active; 
-    private Integer sortId; 
-    
-    
-    public IacucProcedureCategoryCustomData() { 
-
-    } 
+    private Integer sortId;
     
     @Override
     protected void prePersist() {
@@ -49,10 +45,12 @@ public class IacucProcedureCategoryCustomData extends CustomAttribute {
         this.procedureCategoryCode = procedureCategoryCode;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

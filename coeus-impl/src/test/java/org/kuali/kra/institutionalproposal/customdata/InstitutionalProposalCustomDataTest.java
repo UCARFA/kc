@@ -16,20 +16,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.customdata;
+package org.kuali.kra.institutionalproposal.customdata;
 
 import org.kuali.kra.bo.AbstractBoTest;
 
-public class AwardCustomDataTest extends AbstractBoTest<AwardCustomData> {
-    private static final int AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT = 5;
+public class InstitutionalProposalCustomDataTest extends AbstractBoTest<InstitutionalProposalCustomData> {
+    private static final int INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT = 5;
 
     @Override
-    protected Class<AwardCustomData> getBoClass() {
-        return AwardCustomData.class;
+    protected Class<InstitutionalProposalCustomData> getBoClass() {
+        return InstitutionalProposalCustomData.class;
     }
 
     @Override
     protected int getAttributeCount() {
-        return AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT;
+        return INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT;
     }
 }
