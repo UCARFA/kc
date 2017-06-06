@@ -18,47 +18,17 @@
  */
 package org.kuali.kra.bo;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-/**
- * 
- * This class tests methods in Award.java class
- */
-public class CommentTypeTest { 
+public class CommentTypeTest extends AbstractBoTest<CommentType> {
     private static final int COMMENT_TYPE_ATTRIBUTES_COUNT = 7;
-    
-    private CommentType commentTypeBo;
-    
-    /**
-     *
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        commentTypeBo = new CommentType();
+
+    @Override
+    protected Class<CommentType> getBoClass() {
+        return CommentType.class;
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-        commentTypeBo = null;
+    @Override
+    protected int getAttributeCount() {
+        return COMMENT_TYPE_ATTRIBUTES_COUNT;
     }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testCommentTypeBoAttributesCount() throws Exception {              
-        Assert.assertEquals(COMMENT_TYPE_ATTRIBUTES_COUNT, commentTypeBo.getClass().getDeclaredFields().length);
-    }
-    
 }
 

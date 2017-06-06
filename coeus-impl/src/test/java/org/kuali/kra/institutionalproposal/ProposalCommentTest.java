@@ -18,43 +18,18 @@
  */
 package org.kuali.kra.institutionalproposal;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.kuali.kra.bo.AbstractBoTest;
 
-public class ProposalCommentTest {
-    
-private static final int PROPOSAL_COMMENT_ATTRIBUTES_COUNT = 7;
-    
-    private ProposalComment proposalComment;
-    
-    /**
-     *
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        proposalComment = new ProposalComment();
+public class ProposalCommentTest extends AbstractBoTest<ProposalComment> {
+    private static final int PROPOSAL_COMMENT_ATTRIBUTES_COUNT = 7;
+
+    @Override
+    protected Class<ProposalComment> getBoClass() {
+        return ProposalComment.class;
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-        proposalComment = null;
+    @Override
+    protected int getAttributeCount() {
+        return PROPOSAL_COMMENT_ATTRIBUTES_COUNT;
     }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(PROPOSAL_COMMENT_ATTRIBUTES_COUNT, proposalComment.getClass().getDeclaredFields().length);
-    }
-
 }

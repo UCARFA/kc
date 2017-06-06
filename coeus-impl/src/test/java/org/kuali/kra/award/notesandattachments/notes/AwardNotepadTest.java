@@ -18,48 +18,18 @@
  */
 package org.kuali.kra.award.notesandattachments.notes;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.AbstractBoTest;
 
-/**
- * This class tests methods in AwardNotepad.java
- */
-public class AwardNotepadTest {
+public class AwardNotepadTest extends AbstractBoTest<AwardNotepad> {
+    private static final int AWARD_NOTEPAD_ATTRIBUTES_COUNT = 12;
 
-private static final int AWARD_NOTEPAD_ATTRIBUTES_COUNT = 12;
-    
-    private AwardNotepad awardNotepadBo;
-    private Award award = new Award();
-    
-    /**
-     *
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        awardNotepadBo = new AwardNotepad();
-        awardNotepadBo.setAward(award);
+    @Override
+    protected Class<AwardNotepad> getBoClass() {
+        return AwardNotepad.class;
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-        awardNotepadBo = null;
-    }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testAwardNotepadBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_NOTEPAD_ATTRIBUTES_COUNT, awardNotepadBo.getClass().getDeclaredFields().length);
+    @Override
+    protected int getAttributeCount() {
+        return AWARD_NOTEPAD_ATTRIBUTES_COUNT;
     }
 }

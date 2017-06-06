@@ -18,47 +18,17 @@
  */
 package org.kuali.kra.bo;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+public class CostShareTypeTest extends AbstractBoTest<CostShareType> {
+    private static final int COST_SHARE_TYPE_ATTRIBUTES_COUNT = 4;
 
-/**
- * 
- * This class tests methods in Award.java class
- */
-public class CostShareTypeTest { 
-    private static final int COST_SHARE_TYPE_ATTRIBUTES_COUNT = 3;
-    
-    private CostShareType costShareTypeBo;
-    
-    /**
-     *
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        costShareTypeBo = new CostShareType();
+    @Override
+    protected Class<CostShareType> getBoClass() {
+        return CostShareType.class;
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-        costShareTypeBo = null;
+    @Override
+    protected int getAttributeCount() {
+        return COST_SHARE_TYPE_ATTRIBUTES_COUNT;
     }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testCostShareTypeBoAttributesCount() throws Exception {              
-        Assert.assertEquals(COST_SHARE_TYPE_ATTRIBUTES_COUNT, costShareTypeBo.getClass().getDeclaredFields().length);
-    }
-    
 }
 

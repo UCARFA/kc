@@ -18,32 +18,18 @@
  */
 package org.kuali.kra.award.commitments;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.AbstractBoTest;
 
-public class AwardCostShareTest { 
+public class AwardCostShareTest extends AbstractBoTest<AwardCostShare> {
     private static final int AWARD_COST_SHARE_ATTRIBUTES_COUNT = 13;
-    
-    private AwardCostShare awardCostShareBo;
-    private Award award = new Award();
 
-    @Before
-    public void setUp() throws Exception {
-        awardCostShareBo = new AwardCostShare();
-        awardCostShareBo.setAward(award);
+    @Override
+    protected Class<AwardCostShare> getBoClass() {
+        return AwardCostShare.class;
     }
 
-    @After
-    public void tearDown() throws Exception {
-        awardCostShareBo = null;
+    @Override
+    protected int getAttributeCount() {
+        return AWARD_COST_SHARE_ATTRIBUTES_COUNT;
     }
-
-    @Test
-    public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_COST_SHARE_ATTRIBUTES_COUNT, awardCostShareBo.getClass().getDeclaredFields().length);
-    }
-    
 }

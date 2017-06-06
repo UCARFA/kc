@@ -18,50 +18,18 @@
  */
 package org.kuali.kra.award.home;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.kuali.kra.bo.AbstractBoTest;
 
-/**
- * Test class for AwardTransferringSponsor.java BO
- * 
- * @author Kuali Coeus development team (kc.dev@kuali.org)
- */
-public class AwardTransferringSponsorTest {
-    
+public class AwardTransferringSponsorTest extends AbstractBoTest<AwardTransferringSponsor> {
     private static final int AWARD_TRANSFERRING_SPONSOR_ATTRIBUTES_COUNT = 4;
-    
-    private AwardTransferringSponsor awardTransferringSponsor;
-    private Award award = new Award();
-    
-    /**
-    * @throws Exception
-    */
-   @Before
-   public void setUp() throws Exception {
-       awardTransferringSponsor = new AwardTransferringSponsor();
-       awardTransferringSponsor.setAward(award);
-   }
 
-   /**
-    *
-    * @throws Exception
-    */
-   @After
-   public void tearDown() throws Exception {
-       awardTransferringSponsor = null;
-   }
-   
-   /**
-    * 
-    * This method tests that total attributes of Award Business Object 
-    * @throws Exception
-    */
-   @Test
-   public void testAwardCostShareBoAttributesCount() throws Exception {              
-       Assert.assertEquals(AWARD_TRANSFERRING_SPONSOR_ATTRIBUTES_COUNT, 
-               awardTransferringSponsor.getClass().getDeclaredFields().length);
-   }
+    @Override
+    protected Class<AwardTransferringSponsor> getBoClass() {
+        return AwardTransferringSponsor.class;
+    }
 
+    @Override
+    protected int getAttributeCount() {
+        return AWARD_TRANSFERRING_SPONSOR_ATTRIBUTES_COUNT;
+    }
 }
