@@ -21,34 +21,42 @@ package org.kuali.kra.irb.protocol.participant;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * 
- * The JUnit test class for <code>{@link ProtocolParticipantService}</code>
- * 
- * @author Kuali Research Administration Team (kc.dev@kuali.org)
- */
-public class ProtocolParticipantServiceTest extends KcIntegrationTestBase {
+public class ProtocolParticipantServiceTest {
 
     private Protocol protocol;
 
     @Before
     public void setUp() {
 
-        ProtocolParticipant protocolParticipant1 = new ProtocolParticipant();
+        ProtocolParticipant protocolParticipant1 = new ProtocolParticipant() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+
+            }
+        };
         protocolParticipant1.setParticipantTypeCode("1");
         protocolParticipant1.setParticipantCount(15);
 
-        ProtocolParticipant protocolParticipant2 = new ProtocolParticipant();
+        ProtocolParticipant protocolParticipant2 = new ProtocolParticipant() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+
+            }
+        };
         protocolParticipant2.setParticipantTypeCode("2");
         protocolParticipant2.setParticipantCount(25);
 
-        ProtocolParticipant protocolParticipant3 = new ProtocolParticipant();
+        ProtocolParticipant protocolParticipant3 = new ProtocolParticipant() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+
+            }
+        };
         protocolParticipant3.setParticipantTypeCode("3");
         protocolParticipant3.setParticipantCount(35);
 
@@ -64,7 +72,12 @@ public class ProtocolParticipantServiceTest extends KcIntegrationTestBase {
 
     @Test
     public void testAddProtocolParticipant() {
-        ProtocolParticipant protocolParticipant = new ProtocolParticipant();
+        ProtocolParticipant protocolParticipant = new ProtocolParticipant() {
+            @Override
+            public void refreshReferenceObject(String referenceObjectName) {
+
+            }
+        };
         protocolParticipant.setParticipantTypeCode("4");
 
         final ProtocolParticipantServiceImpl protocolParticipantService = new ProtocolParticipantServiceImpl();
