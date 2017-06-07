@@ -28,6 +28,26 @@ are for a production environment, there are some that are intended for a develop
 >
 > **Example:** admin 
 
+### auth.filter.service2service.secret
+> Shared secret for service to service communication.
+>
+> **Example:** secret
+
+### auth.filter.service2service.enabled
+> Enables service to service communication.
+>
+> **Valid Values:** true | false \
+
+### auth.filter.service2service.singleUse
+> When enabled service2service tokens are only valid for one service request.
+>
+> **Valid Values:** true | false \
+
+### auth.filter.service2service.username
+> Username for the proxy user used for service2service requests.
+>
+> **Example:** admin
+
 ### auth.rest.urls.regex
 > comma separated list of valid auth urls that must be protected via api style security instead of traditional cookie based security.
 >
