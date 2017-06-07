@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* add service2service authentication
+  * Joe Williams on Tue, 6 Jun 2017 16:16:40 -0500 [View Commit](../../commit/08b923b3cd318bd7141af7fdb9b19f1b1efbc2cb)
+* RESKC-2201: making all Data Dictionary spring beans with -parentBean in their name abstract
+  * Travis Schneeberger on Tue, 6 Jun 2017 18:19:12 -0400 [View Commit](../../commit/1d037f4fa4e3dc65256d951d55ea5fca984ac716)
+
+##coeus-1706.0015
 * RESKC-2201: Make section id and page id dropdowns. Remove requiredness on some fields. Added bootstrap data. (#2361)
 
   * Gayathri Athreya on Tue, 6 Jun 2017 13:51:13 -0700 [View Commit](../../commit/135479b179e487211d57b0b835ca56fc544586c6)
