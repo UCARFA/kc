@@ -30,6 +30,7 @@ public final class UcarKeyConstants {
 	
     public static final String ERROR_INVALID_UNIT_NUMBER = "ucar.error.award.unitNumber";
     public static final String ERROR_INVALID_SPONSOR_CODE = "ucar.error.award.sponsorCode";
+    public static final String ERROR_INVALID_ACCOUNT_NUMBER = "ucar.error.award.accountNumber";
    
 
 

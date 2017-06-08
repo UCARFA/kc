@@ -30,7 +30,11 @@
     
     <property name="documentTypeName" value="AwardDocument"/>
     <property name="documentClass" value="org.kuali.kra.award.document.AwardDocument"/>
+    <!--  
     <property name="businessRulesClass" value="org.kuali.kra.award.AwardDocumentRule"/>
+    -->
+    <!-- UCAR Document rule -->
+    <property name="businessRulesClass" value="edu.ucar.fanda.kuali.rules.UcarAwardDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer"/>
      
     <property name="allowsCopy" value="true"/>

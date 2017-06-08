@@ -87,10 +87,10 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 		 // start with validation result set to true
 		 boolean valid = true;
 	        Award award = awardDetailsAndDatesSaveEvent.getAward();
-	      
-	        if(award.getAnticipatedTotal().isLessThan(award.getObligatedTotal())) {
+	        // INVALID ACCOUNT NUMBER
+	        if(award.getAccountNumber().equalsIgnoreCase("TEST")) {
 	            valid = false;
-	            reportError(ANTICIPATED_AMOUNT_PROPERTY_NAME, UcarKeyConstants.ERROR_INVALID_UNIT_NUMBER);
+	            reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, UcarKeyConstants.ERROR_INVALID_UNIT_NUMBER);
 	        }
 	        // return result
 	        return valid;
