@@ -236,12 +236,12 @@
     	<profile>
     		<id>faswmbpro</id>
     		<properties>
-    		<!-- 	<kcconfig.ucar>kc-config-kcnonprod1.xml</kcconfig.ucar> -->
     			<!-- ADFS/SAML -->    			
     			<metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
-    			<kcserver.fqdn>faswmbpro.fanda.ucar.edu</kcserver.fqdn>
+    	<!--  		<kcserver.fqdn>faswmbpro.fanda.ucar.edu</kcserver.fqdn> -->
+    			<kcserver.fqdn>localhost</kcserver.fqdn>
     			<kualiAppPort>8443</kualiAppPort>
     			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
     			<kualiAppName>kc-dev</kualiAppName>
@@ -260,7 +260,6 @@
     	<profile>
     		<id>kcnonprod1</id>
     		<properties>
-    		<!-- 	<kcconfig.ucar>kc-config-kcnonprod1.xml</kcconfig.ucar> -->
     			<!-- ADFS/SAML -->    			
     			<metadataSp.filename>kcnonprod1fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
@@ -284,7 +283,6 @@
     	<profile>
     		<id>kcnonprod2</id>
     		<properties>
-    		<!-- 	<kcconfig.ucar>kc-config-kcnonprod1.xml</kcconfig.ucar> -->
     			<!-- ADFS/SAML -->    			
     			<metadataSp.filename>kcnonprod2fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
@@ -308,7 +306,6 @@
     	<profile>
     		<id>kcnonprod3</id>
     		<properties>
-    		<!-- 	<kcconfig.ucar>kc-config-kcnonprod1.xml</kcconfig.ucar> -->
     			<!-- ADFS/SAML -->    			
     			<metadataSp.filename>kcnonprod3fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
@@ -332,7 +329,6 @@
     	<profile>
     		<id>kcnonprod4</id>
     		<properties>
-    		<!-- 	<kcconfig.ucar>kc-config-kcnonprod1.xml</kcconfig.ucar> -->
     			<!-- ADFS/SAML -->    			
     			<metadataSp.filename>kcnonprod4fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
@@ -356,7 +352,6 @@
     	<profile>
     		<id>kcnonprod5</id>
     		<properties>
-    		<!-- 	<kcconfig.ucar>kc-config-kcnonprod1.xml</kcconfig.ucar> -->
     			<!-- ADFS/SAML -->    			
     			<metadataSp.filename>kcnonprod5fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>

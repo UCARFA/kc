@@ -55,6 +55,7 @@ import java.util.stream.Collectors;
  */
 public class UcarLoginFilter implements Filter {
     private String loginPath;
+    private boolean adfsEnabled = true;
     private boolean showPassword = false;
     // Borrowed from the AuthServiceFilter which is implemented with the future core auth
     private String apiUserName;
@@ -72,7 +73,8 @@ public class UcarLoginFilter implements Filter {
     
 
     public void init(FilterConfig config) throws ServletException {
-        loginPath = ConfigContext.getCurrentContextConfig().getProperty("loginPath");
+        loginPath = ConfigContext.getCurrentContextConfig().getProperty("loginPath");  
+        adfsEnabled = ConfigContext.getCurrentContextConfig().getBooleanProperty("adfs.enabled", true);
         showPassword = Boolean.valueOf(ConfigContext.getCurrentContextConfig().getProperty("showPassword")).booleanValue();
 
         if (loginPath == null) {
@@ -100,16 +102,12 @@ public class UcarLoginFilter implements Filter {
 
         if (isUrlForRest(request.getRequestURI())) {
         	LOG.info("REST URI DETECTED");
-            authenticateBasedOnAuthorizationHeader(request.getHeader(AUTHORIZATION_HEADER_NAME),
-            		request, response, chain);
-        } else {
-        
+            authenticateBasedOnAuthorizationHeader(request.getHeader(AUTHORIZATION_HEADER_NAME), request, response, chain);
+        } else {        
         	LOG.info("Session is: " + session);
 	        if (session == null) {
-	            loginRequired(request, response, chain);
-	
-	            return;
-	
+	            loginRequired(request, response, chain);	
+	            return;	
 	        } else {
 	            // Perform request as signed in user
 	            request = new HttpServletRequestWrapper(request) {
@@ -124,18 +122,24 @@ public class UcarLoginFilter implements Filter {
     }
 
     private void loginRequired(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-       
-    	SecurityContext secContext = SecurityContextHolder.getContext();
-    	if (StringUtils.isNotBlank(request.getParameter("__login_user")) || (
-			secContext.getAuthentication() != null &&
-			secContext.getAuthentication().isAuthenticated())) {
-            performLoginAttempt(request, response);
-        } else {
+    	boolean performLogin = false;
+    	if (!adfsEnabled ) {
+    		if (StringUtils.isNotBlank(request.getParameter("__login_user"))) {
+    			performLoginAttempt(request, response);
+    			performLogin = true;
+	        }
+    	} else {
+    		SecurityContext secContext = SecurityContextHolder.getContext();
+    		if (StringUtils.isNotBlank(request.getParameter("__login_user")) || (secContext.getAuthentication() != null && secContext.getAuthentication().isAuthenticated())) {
+    			performLoginAttempt(request, response);
+    			performLogin = true;
+    		}
+    	}
+		if(!performLogin) {
             // ignore ajax calls from login screen
             if (StringUtils.equals(request.getPathInfo(),"/listener")) {
                return;
             }
-
             // allow redirect and form submit from login screen
             if (StringUtils.equals(request.getPathInfo(),"/login")) {
                 chain.doFilter(request, response);
@@ -147,79 +151,117 @@ public class UcarLoginFilter implements Filter {
     }
 
     private void performLoginAttempt(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        IdentityService auth = KimApiServiceLocator.getIdentityService();
-        
-        // Get spring security context from spring security framework
-        // This authentication occurred before this 
-	    String userName  = "";
-	    String userNameAttr = "";
-	    String[] groupAttr = null;
-        
-        boolean kualiUser = false;
-        SecurityContext secContext = SecurityContextHolder.getContext();
-        Authentication springAuth = secContext.getAuthentication();        
-        
-        if (secContext.getAuthentication() != null && springAuth.isAuthenticated()) {
-        	SAMLCredential credential = (SAMLCredential) springAuth.getCredentials();
-            userNameAttr = credential.getAttributeAsString("username");            
-            groupAttr = credential.getAttributeAsStringArray("http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
-            
-            for (String groupName : groupAttr) {
-            	if (groupName.equals("Kuali Users")) {
-            		kualiUser = true;
-            		break;
-            	}
-            }
-            
-        	// check principal is valid in id service            
-        	Principal principal = auth.getPrincipalByPrincipalName(userNameAttr);
-            if (principal == null || !principal.isActive() || !kualiUser) {
+    	IdentityService auth = KimApiServiceLocator.getIdentityService();
+    	if (!adfsEnabled) {    		
+            final String user = request.getParameter("__login_user");
+            String password = request.getParameter("__login_pw");
+            // if passwords are used, they cannot be blank
+            if (showPassword && StringUtils.isBlank(password)) {
                 handleInvalidLogin(request, response);
                 return;
             }
-        } else {        
-	        userName = request.getParameter("__login_user");
-	        String password = request.getParameter("__login_pw");
-	
-	        // if passwords are used, they cannot be blank
-	        if (showPassword && StringUtils.isBlank(password)) {
-	            handleInvalidLogin(request, response);
-	            return;
-	        }
-	        
-	        // Very simple password checking. Nothing hashed or encrypted. This is strictly for demonstration purposes only.
-	        //    password must have non null value on krim_prncpl_t record
-	        Principal principal = showPassword ? auth.getPrincipalByPrincipalNameAndPassword(userName, password) : auth.getPrincipalByPrincipalName(userName);
-	        if (principal == null || !principal.isActive()) {
-	            handleInvalidLogin(request, response);
-	            return;
-	        }
-        }
 
-      //  final String user = userName;
-        final String user = userNameAttr;
-
-        UserSession userSession = new UserSession(user);
-
-        // Test if session was successfully build for this user
-        if ( userSession.getPerson() == null ) {
-            throw new AuthenticationException("Invalid User: " + user  );
-        }
-
-        request.getSession().setAttribute(KRADConstants.USER_SESSION_KEY, userSession);
-
-        // wrap the request with the signed in user
-        // UserLoginFilter and WebAuthenticationService will build the session
-        request = new HttpServletRequestWrapper(request) {
-            @Override
-            public String getRemoteUser() {
-                return user;
+            // Very simple password checking. Nothing hashed or encrypted. This is strictly for demonstration purposes only.
+            //    password must have non null value on krim_prncpl_t record
+            Principal principal = showPassword ? auth.getPrincipalByPrincipalNameAndPassword(user, password) : auth.getPrincipalByPrincipalName(user);
+            if (principal == null || !principal.isActive()) {
+                handleInvalidLogin(request, response);
+                return;
             }
-        };
+            
+            UserSession userSession = new UserSession(user);
 
-        StringBuilder redirectUrl = new StringBuilder(ConfigContext.getCurrentContextConfig().getProperty(KRADConstants.APPLICATION_URL_KEY));
-        redirectUrl.append(findTargetUrl(request));
-        response.sendRedirect(redirectUrl.toString());
+            // Test if session was successfully build for this user
+            if ( userSession.getPerson() == null ) {
+                throw new AuthenticationException("Invalid User: " + user  );
+            }
+
+            request.getSession().setAttribute(KRADConstants.USER_SESSION_KEY, userSession);
+            // wrap the request with the signed in user
+            // UserLoginFilter and WebAuthenticationService will build the session
+
+            request = new HttpServletRequestWrapper(request) {
+                @Override
+                public String getRemoteUser() {
+                    return user;
+                }
+            };
+            StringBuilder redirectUrl = new StringBuilder(ConfigContext.getCurrentContextConfig().getProperty(KRADConstants.APPLICATION_URL_KEY));
+            redirectUrl.append(findTargetUrl(request));
+            response.sendRedirect(redirectUrl.toString());
+    	} else {	        
+	        // Get spring security context from spring security framework
+	        // This authentication occurred before this 
+		    String userName  = "";
+		    String userNameAttr = "";
+		    String[] groupAttr = null;
+	        
+	        boolean kualiUser = false;
+	        SecurityContext secContext = SecurityContextHolder.getContext();
+	        Authentication springAuth = secContext.getAuthentication();        
+	        
+	        if (secContext.getAuthentication() != null && springAuth.isAuthenticated()) {
+	        	SAMLCredential credential = (SAMLCredential) springAuth.getCredentials();
+	            userNameAttr = credential.getAttributeAsString("username");            
+	            groupAttr = credential.getAttributeAsStringArray("http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
+	            
+	            for (String groupName : groupAttr) {
+	            	if (groupName.equals("Kuali Users")) {
+	            		kualiUser = true;
+	            		break;
+	            	}
+	            }
+	            
+	        	// check principal is valid in id service            
+	        	Principal principal = auth.getPrincipalByPrincipalName(userNameAttr);
+	            if (principal == null || !principal.isActive() || !kualiUser) {
+	                handleInvalidLogin(request, response);
+	                return;
+	            }
+	        } else {        
+		        userName = request.getParameter("__login_user");
+		        String password = request.getParameter("__login_pw");
+		
+		        // if passwords are used, they cannot be blank
+		        if (showPassword && StringUtils.isBlank(password)) {
+		            handleInvalidLogin(request, response);
+		            return;
+		        }
+		        
+		        // Very simple password checking. Nothing hashed or encrypted. This is strictly for demonstration purposes only.
+		        //    password must have non null value on krim_prncpl_t record
+		        Principal principal = showPassword ? auth.getPrincipalByPrincipalNameAndPassword(userName, password) : auth.getPrincipalByPrincipalName(userName);
+		        if (principal == null || !principal.isActive()) {
+		            handleInvalidLogin(request, response);
+		            return;
+		        }
+	        }
+
+	      //  final String user = userName;
+	        final String user = userNameAttr;
+	
+	        UserSession userSession = new UserSession(user);
+	
+	        // Test if session was successfully build for this user
+	        if ( userSession.getPerson() == null ) {
+	            throw new AuthenticationException("Invalid User: " + user  );
+	        }
+	
+	        request.getSession().setAttribute(KRADConstants.USER_SESSION_KEY, userSession);
+	
+	        // wrap the request with the signed in user
+	        // UserLoginFilter and WebAuthenticationService will build the session
+	        request = new HttpServletRequestWrapper(request) {
+	            @Override
+	            public String getRemoteUser() {
+	                return user;
+	            }
+	        };
+	
+	        StringBuilder redirectUrl = new StringBuilder(ConfigContext.getCurrentContextConfig().getProperty(KRADConstants.APPLICATION_URL_KEY));
+	        redirectUrl.append(findTargetUrl(request));
+	        response.sendRedirect(redirectUrl.toString());
+	    }
     }
 
     /**
