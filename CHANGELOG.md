@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* RESKC-2264: Checking unit number also while looking for cost share duplicates. (#2380)
+
+  * Gayathri Athreya on Thu, 8 Jun 2017 10:44:40 -0700 [View Commit](../../commit/43ad195a035f97f8d7503090b6c260437f6698d7)
+* handle parsing authorization headers better
+  * Joe Williams on Thu, 8 Jun 2017 10:49:51 -0500 [View Commit](../../commit/5ab37adbc7f3066028af1730fe8e4bb6af20be38)
+
+##coeus-1706.0016
 * add service2service authentication
   * Joe Williams on Tue, 6 Jun 2017 16:16:40 -0500 [View Commit](../../commit/08b923b3cd318bd7141af7fdb9b19f1b1efbc2cb)
 * RESKC-2201: making all Data Dictionary spring beans with -parentBean in their name abstract
