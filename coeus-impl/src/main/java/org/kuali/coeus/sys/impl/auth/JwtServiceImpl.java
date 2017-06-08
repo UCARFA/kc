@@ -21,6 +21,7 @@ package org.kuali.coeus.sys.impl.auth;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.JwtClaims;
@@ -46,7 +47,8 @@ public class JwtServiceImpl implements JwtService {
     private static final String SHARED_SECRET = "auth.filter.service2service.secret";
     private static final String SERVICE_2_SERVICE_ENABLED = "auth.filter.service2service.enabled";
     private static final String SINGLE_USE = "auth.filter.service2service.singleUse";
-    public static final String UUID_CLAIM = "uuid";
+    private static final String UUID_CLAIM = "uuid";
+    private static final String AUTHORIZATION_PREFIX = "Bearer ";
 
     @Autowired
     @Qualifier("kualiConfigurationService")
@@ -61,8 +63,15 @@ public class JwtServiceImpl implements JwtService {
             return false;
         }
 
+        String jwtString = getJwtString(authToken);
+
+        if (StringUtils.isEmpty(jwtString)) {
+            return false;
+        }
+
         try {
-            JwtClaims jwtClaims =  getJwtConsumer().processToClaims(authToken);
+
+            JwtClaims jwtClaims =  getJwtConsumer().processToClaims(jwtString);
             if (isSingleUse()) {
                 return validateSingleUse(jwtClaims);
             }
@@ -109,6 +118,18 @@ public class JwtServiceImpl implements JwtService {
         jwtClaims.setIssuedAtToNow();
         jwtClaims.setClaim(UUID_CLAIM, UUID.randomUUID());
         return jwtClaims;
+    }
+
+    protected String getJwtString(String authTokenValue) {
+        if (!StringUtils.startsWith(authTokenValue, AUTHORIZATION_PREFIX)) {
+            return null;
+        } else {
+            String[] parts = authTokenValue.split(" ");
+            if (parts.length < 2) {
+                return null;
+            }
+            return parts[1];
+        }
     }
 
     protected boolean isService2serviceEnabled() {
