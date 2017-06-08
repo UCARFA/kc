@@ -72,7 +72,7 @@ public class RestMessageConsumer implements MessageListener {
             headers.putAll(request.getHeaders());
         }
 
-        headers.put("Authorization", Collections.singletonList("Bearer " + jwtService.createToken()));
+        headers.put("Authorization", Collections.singletonList("Bearer " + getJwtService().createToken()));
 
         final HttpEntity<String> entity = StringUtils.isNotBlank(request.getBody()) ? new HttpEntity<>(request.getBody(), headers): HttpEntity.EMPTY;
         final HttpMethod method = HttpMethod.valueOf(request.getMethod().name());
