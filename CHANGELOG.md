@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-2272, RESKC-2271: changing logic around treatment of income and human data exchange
+  * Travis Schneeberger on Thu, 8 Jun 2017 13:02:24 -0400 [View Commit](../../commit/5429b5bb62749f53dfe92d764be4d67425111ba5)
+* RESKC-2272: updating pdfbox to bring in fixes in version 2.0.6.  Removing workarounds.
+  * Travis Schneeberger on Thu, 8 Jun 2017 12:27:41 -0400 [View Commit](../../commit/17a9ecd19d5bbd68b1eb6d8a3f9648d15af2d4c5)
+
+##coeus-1706.0018
 * No Changes
 
 
