@@ -187,7 +187,7 @@ public class ProposalBudgetServiceTest {
         costShare2.setProjectPeriod(1);
         budget.getBudgetCostShares().add(costShare2);
         proposalDevelopmentDocument.getDevelopmentProposal().setFinalBudget(budget);
-        Assert.assertFalse(proposalBudgetService.findMatchingCostShare(costShare, costShare2, 1, true));
+        Assert.assertTrue(proposalBudgetService.findMatchingCostShare(costShare, costShare2, 1, true));
 
         budget.setBudgetCostShares(new ArrayList<>());
         costShare = new BudgetCostShare();
@@ -236,6 +236,51 @@ public class ProposalBudgetServiceTest {
         costShare2.setProjectPeriod(null);
         budget.getBudgetCostShares().add(costShare2);
         Assert.assertTrue(proposalBudgetService.findMatchingCostShare(costShare, costShare2, Integer.MIN_VALUE, true));
+
+        budget.setBudgetCostShares(new ArrayList<>());
+        costShare = new BudgetCostShare();
+        costShare.setSourceAccount("123");
+        costShare.setCostShareTypeCode(1);
+        costShare.setProjectPeriod(1);
+        costShare.setUnitNumber("000001");
+        budget.getBudgetCostShares().add(costShare);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("123");
+        costShare2.setCostShareTypeCode(1);
+        costShare2.setUnitNumber(null);
+        costShare2.setProjectPeriod(1);
+        budget.getBudgetCostShares().add(costShare2);
+        Assert.assertFalse(proposalBudgetService.findMatchingCostShare(costShare, costShare2, 1, true));
+
+        budget.setBudgetCostShares(new ArrayList<>());
+        costShare = new BudgetCostShare();
+        costShare.setSourceAccount("123");
+        costShare.setCostShareTypeCode(1);
+        costShare.setProjectPeriod(1);
+        costShare.setUnitNumber("000001");
+        budget.getBudgetCostShares().add(costShare);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("123");
+        costShare2.setCostShareTypeCode(1);
+        costShare2.setUnitNumber("000001");
+        costShare2.setProjectPeriod(1);
+        budget.getBudgetCostShares().add(costShare2);
+        Assert.assertTrue(proposalBudgetService.findMatchingCostShare(costShare, costShare2, 1, true));
+
+        budget.setBudgetCostShares(new ArrayList<>());
+        costShare = new BudgetCostShare();
+        costShare.setSourceAccount("123");
+        costShare.setCostShareTypeCode(1);
+        costShare.setProjectPeriod(1);
+        costShare.setUnitNumber("000001");
+        budget.getBudgetCostShares().add(costShare);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("123");
+        costShare2.setUnitNumber("000001");
+        costShare2.setCostShareTypeCode(null);
+        costShare2.setProjectPeriod(1);
+        budget.getBudgetCostShares().add(costShare2);
+        Assert.assertFalse(proposalBudgetService.findMatchingCostShare(costShare, costShare2, 1, true));
 
     }
 

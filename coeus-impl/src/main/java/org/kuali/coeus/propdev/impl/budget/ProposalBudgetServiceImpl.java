@@ -531,8 +531,12 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public boolean findMatchingCostShare(BudgetCostShare costShare, BudgetCostShare budgetCostShare, int thisFiscalYear, boolean costShareTypeEnabled) {
         boolean valid = StringUtils.equalsIgnoreCase(costShare.getSourceAccount(), budgetCostShare.getSourceAccount()) &&
                 thisFiscalYear == (costShare.getProjectPeriod() == null ? Integer.MIN_VALUE : costShare.getProjectPeriod());
-        return costShareTypeEnabled && valid ? costShare.getCostShareTypeCode() == null || budgetCostShare.getCostShareTypeCode() == null &&
-                 costShare.getCostShareTypeCode() == budgetCostShare.getCostShareTypeCode() : valid;
+
+        if (costShareTypeEnabled && valid) {
+             return costShare.getCostShareTypeCode() == budgetCostShare.getCostShareTypeCode() &&
+                    StringUtils.equalsIgnoreCase(costShare.getUnitNumber(), budgetCostShare.getUnitNumber());
+        }
+        return valid;
     }
 
     public boolean validateUnit(String unitNumber, String field) {
