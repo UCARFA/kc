@@ -64,7 +64,7 @@
         <cas-client-core.version>3.4.1</cas-client-core.version>
         <cglib.version>3.2.5</cglib.version>
         <coeus-api-all.version>1705.0002</coeus-api-all.version>
-        <coeus-s2sgen.version>1705.0008</coeus-s2sgen.version>
+        <coeus-s2sgen.version>1706.0003</coeus-s2sgen.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -122,7 +122,7 @@
         <org.eclipse.birt.runtime.version>4.4.2</org.eclipse.birt.runtime.version>
         <!-- do not update due to incompatibility with tomcat 7.0.57.  Newer versions of tomcat are not incompatible -->
         <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
-        <pdfbox.version>2.0.5</pdfbox.version>
+        <pdfbox.version>2.0.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
         <schemaspy.version>1611.0001</schemaspy.version>
         <rice.version>2.5.3.1706.0001-kualico</rice.version>
