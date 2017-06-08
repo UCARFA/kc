@@ -208,7 +208,7 @@ public class AuthServiceFilter implements Filter {
 			request.getSession().removeAttribute(AUTH_SERVICE_FILTER_AUTHED_USER_ATTR);
 		}
 
-        if (getJwtService().verifyToken(getJwtString(authTokenValue))) {
+        if (getJwtService().verifyToken(authTokenValue)) {
             authedUser = createServiceUser();
         } else {
             String currentGetUserUrl = getCurrentUserUrl;
@@ -231,10 +231,6 @@ public class AuthServiceFilter implements Filter {
 
 		return authedUser;
 	}
-
-    protected String getJwtString(String authTokenValue) {
-        return authTokenValue.split(" ")[1];
-    }
 	
 	public static String getAuthToken(HttpSession session) {
 		return ((AuthUser)session.getAttribute(AUTH_SERVICE_FILTER_AUTHED_USER_ATTR)).getAuthToken();
