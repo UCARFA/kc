@@ -190,15 +190,20 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
     }
 
     private void setHumanSubjectsDataExchangeTerms(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_IN_ADD_TERMS.getfName(), HumanDataExchangeTerms.ADDITIONAL_TERMS.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_SEP_AGREEMENT.getfName(), HumanDataExchangeTerms.SEPARATE_AGREEMENT.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
+        if (fromYN(templateInfo.getHumanFlag()) && (HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) || HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()))) {
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_IN_ADD_TERMS.getfName(), HumanDataExchangeTerms.ADDITIONAL_TERMS.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_SEP_AGREEMENT.getfName(), HumanDataExchangeTerms.SEPARATE_AGREEMENT.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
+        }
     }
 
     private void setHumanSubjectsDataExchange(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_NOT_APPLICABLE.getfName(), HumanDataExchangeAgreement.NOT_APPLICABLE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_APPLICABLE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) || HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_SUB_TO_PTE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_PTE_TO_SUB.getfName(), HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+        if (fromYN(templateInfo.getHumanFlag())) {
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_NOT_APPLICABLE.getfName(), HumanDataExchangeAgreement.NOT_APPLICABLE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_APPLICABLE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) || HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_SUB_TO_PTE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_PTE_TO_SUB.getfName(), HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+        }
     }
 
     private void setAnimalPteVerification(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
@@ -323,6 +328,8 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
 
             if (fromYN(templateInfo.getTreatmentPrgmIncomeAdditive())) {
                 setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_ADDITIVE_VALUE);
+            } else {
+                setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_OTHER_VALUE);
             }
 
         } else if (type == SponsorFormType.NSF) {
