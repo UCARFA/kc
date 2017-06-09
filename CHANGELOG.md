@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2143: only adding rate if within the correct date range.
+  * Travis Schneeberger on Fri, 9 Jun 2017 11:10:46 -0400 [View Commit](../../commit/a6f282a2cffe040065564a2fdb104853b0aa938b)
+
+##coeus-1706.0019
 * RESKC-2272, RESKC-2271: changing logic around treatment of income and human data exchange
   * Travis Schneeberger on Thu, 8 Jun 2017 13:02:24 -0400 [View Commit](../../commit/5429b5bb62749f53dfe92d764be4d67425111ba5)
 * RESKC-2272: updating pdfbox to bring in fixes in version 2.0.6.  Removing workarounds.
