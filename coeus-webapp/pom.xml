@@ -256,7 +256,31 @@
 				<tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
     		</properties>
     	</profile>
+  	<!-- Generic Developer Workstation no ADFS -->
+        <profile>
+                <id>dev-noadfs</id>
+                <properties>
+                        <!-- ADFS/SAML -->
+                        <metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
+                        <metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+                        <!-- Kuali -->
+                        <kcserver.fqdn>localhost</kcserver.fqdn>
+                        <kualiAppPort>8080</kualiAppPort>
+                        <kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+                        <kualiAppName>kc-dev</kualiAppName>
+                        <kualiRest.user>admin</kualiRest.user>
+                        <kualiRest.password>restapipassword</kualiRest.password>
+                        <!-- JDBC -->
+                        <jdbcKualiMySQL.url>jdbc:mysql://localhost:3306/coeus</jdbcKualiMySQL.url>
+                        <jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
+                        <jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
+                        <!--  Tomcat deployment url -->
+                        <tomcat.deployUrl>http://localhost:8080/manager/text</tomcat.deployUrl>
+                        <tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
+                </properties>
+        </profile>
     	
+
     	<profile>
     		<id>kcnonprod1</id>
     		<properties>
