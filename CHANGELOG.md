@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2226: Rice upgrade and adding adhocRouteNode name. (#2382)
+
+  * Gayathri Athreya on Fri, 9 Jun 2017 11:10:30 -0700 [View Commit](../../commit/87d0a1ed7ed40fc845fa22527604409d67922e13)
+
+##coeus-1706.0020
 * RESKC-2143: only adding rate if within the correct date range.
   * Travis Schneeberger on Fri, 9 Jun 2017 11:10:46 -0400 [View Commit](../../commit/a6f282a2cffe040065564a2fdb104853b0aa938b)
 
