@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2297:Allow budget personnel in proposal to be lazy loaded when … (#2384)
+
+* RESKC-2297:Allow budget personnel in proposal to be lazy loaded when the number of personnel assigned to a budget goes over a configured amount.
+  * 
+  * New parameter 'Proposal_Budget_Period_Loading' added for this.
+  * Douglas Pace on Fri, 9 Jun 2017 15:46:13 -0700 [View Commit](../../commit/4552508f94a97bcddaf2ea07334e94523f378b30)
+
+##coeus-1706.0021
 * RESKC-2226: Rice upgrade and adding adhocRouteNode name. (#2382)
 
   * Gayathri Athreya on Fri, 9 Jun 2017 11:10:30 -0700 [View Commit](../../commit/87d0a1ed7ed40fc845fa22527604409d67922e13)

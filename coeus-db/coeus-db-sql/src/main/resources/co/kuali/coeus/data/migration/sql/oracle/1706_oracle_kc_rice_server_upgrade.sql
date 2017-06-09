@@ -17,7 +17,9 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+set define off
+set sqlblanklines on
 
-\. ./rice/bootstrap/V1706_001__account_active_flag.sql
-\. ./rice/bootstrap/V1706_003__budget_personnel_lazy_load_param.sql
+spool 1706_oracle_kc_rice_server_upgrade.sql.log
+@./rice/bootstrap/V1706_003__budget_personnel_lazy_load_param.sql
 commit;
