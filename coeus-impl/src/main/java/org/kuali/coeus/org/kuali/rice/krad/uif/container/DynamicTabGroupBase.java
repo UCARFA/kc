@@ -56,6 +56,7 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
 	private Map<String, String> expressionProperties;
 	private String idSuffixPropertyName;
 	private Boolean setFieldBindingObjectPath = Boolean.FALSE;
+	private String applyLazyLoadProperty;
 
     /**
      * {@inheritDoc}
@@ -65,6 +66,10 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
     	List<Component> items = new ArrayList<Component>();
         List<Object> modelCollection = ObjectPropertyUtils.getPropertyValue(model,
                 tabCollectionPropertyName);
+        Boolean applyLazyLoading = false;
+        if (applyLazyLoadProperty != null) {
+        	applyLazyLoading = ObjectPropertyUtils.getPropertyValue(model, applyLazyLoadProperty);
+        }
         int index = 0;
         for (Object tabObj : modelCollection) {
         	String idSuffix;
@@ -85,6 +90,11 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
         		((CollectionGroup)newGroup).getBindingInfo().setBindingObjectPath(tabCollectionPropertyName + "[" + index + "]");
         	} else if (setFieldBindingObjectPath) {
         		 newGroup.setFieldBindingObjectPath(tabCollectionPropertyName + "[" + index + "]");
+        	}
+        	if (applyLazyLoading != null && applyLazyLoading) {
+        		newGroup.getDisclosure().setDefaultOpen(false);
+        		newGroup.getDisclosure().setRender(true);
+        		newGroup.getDisclosure().setAjaxRetrievalWhenOpened(true);
         	}
 			items.add(newGroup);
             index ++;
@@ -148,5 +158,13 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
 	@Override
     public void setSetFieldBindingObjectPath(Boolean setFieldBindingObjectPath) {
 		this.setFieldBindingObjectPath = setFieldBindingObjectPath;
+	}
+
+	public String isApplyLazyLoadProperty() {
+		return applyLazyLoadProperty;
+	}
+
+	public void setApplyLazyLoadProperty(String applyLazyLoadProperty) {
+		this.applyLazyLoadProperty = applyLazyLoadProperty;
 	}
 }

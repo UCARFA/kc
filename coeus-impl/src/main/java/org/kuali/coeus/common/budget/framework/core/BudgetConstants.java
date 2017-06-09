@@ -23,6 +23,7 @@ public class BudgetConstants {
     public static final String DEFAULT_CAMPUS_FLAG = "D";
     public static final String BUDGET_CATEGORY_TYPE_PARTICIPANT_SUPPORT = "S";
     public static final String ENABLE_BUDGET_CALCULATED_SALARY = "enableBudgetCalculatedSalary";
+    public static final String LAZY_LOAD_LIMIT_FOR_BUDGET_PERSONNEL = "Proposal_Budget_Period_Loading";
 
     public enum BudgetPerson {
         SUMMARYPERSON ("-1", "Summary");

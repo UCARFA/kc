@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetContainer;
 import org.kuali.coeus.common.budget.framework.income.BudgetPeriodIncomeTotal;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
@@ -44,6 +46,8 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
@@ -358,6 +362,10 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
             return false;
         }
         return isCanEditView();
+    }
+    
+    public boolean isLazyLoadBudgetPersonnel() {
+    	return ((ProposalBudgetViewHelperServiceImpl)getViewHelperService()).lazyLoadBudgetPersonnel(budget);
     }
 
 }

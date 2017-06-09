@@ -44,7 +44,7 @@
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-TabGroup" parent="PropBudget-AssignPersonnelToPeriodsPage-TabGroup-parentBean"/>
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-TabGroup-parentBean" abstract="true" parent="Kc-DynamicTabSection"
 		p:tabCollectionPropertyName="budget.budgetPeriods" p:expressionProperties="budgetPeriod:budgetPeriod,budgetPeriodId:budgetPeriodId"
-		p:idSuffixPropertyName="budgetPeriod" p:header.headerText="Assign Personnel to Periods">
+		p:idSuffixPropertyName="budgetPeriod" p:header.headerText="Assign Personnel to Periods" p:applyLazyLoadProperty="lazyLoadBudgetPersonnel">
 		<property name="groupPrototype"><bean id="PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails" parent="PropBudget-AssignPersonnelToPeriodsPage-PeriodTab"/></property>
 		<property name="header.lowerGroup">
 			<bean parent="Uif-HeaderLowerGroup">

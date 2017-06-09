@@ -208,6 +208,15 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
                 KRADConstants.SystemGroupParameterNames.LOOKUP_RESULTS_LIMIT);
     }
     
+    public boolean lazyLoadBudgetPersonnel(Budget budget) {
+    	String limitStr = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_BUDGET,
+    			ParameterConstants.ALL_COMPONENT,
+    			BudgetConstants.LAZY_LOAD_LIMIT_FOR_BUDGET_PERSONNEL);
+    	int limit = Integer.parseInt(limitStr);
+    	boolean lazyLoad = budget.getBudgetPersonnelDetails().size() > limit; 
+    	return lazyLoad;
+    }
+    
     public boolean syncRequiresEndDateExtension(DevelopmentProposal proposal) {
     	DevelopmentProposal hierarchyProposal = getProposalHierarchyService().getDevelopmentProposal(proposal.getHierarchyParentProposalNumber());
     	return getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal, proposal);
