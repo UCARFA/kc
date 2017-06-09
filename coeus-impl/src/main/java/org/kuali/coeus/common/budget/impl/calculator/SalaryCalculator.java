@@ -374,7 +374,9 @@ public class SalaryCalculator {
             if (!budgetPerson.getSalaryAnniversaryDate().before(budgetPerson.getEffectiveDate())) {
                 budgetRate.setStartDate(budgetPerson.getSalaryAnniversaryDate());
             }
-            budgetRates.add(budgetRate);
+            if (budgetRate.getStartDate().before(endDate) || budgetRate.getStartDate().equals(endDate)) {
+                budgetRates.add(budgetRate);
+            }
         }
         Calendar salaryDateCalendar = getDateTimeService().getCalendar(budgetPerson.getSalaryAnniversaryDate());
         Calendar endCalendar = getDateTimeService().getCalendar(endDate);
@@ -545,7 +547,7 @@ public class SalaryCalculator {
             strBffr.append(";");
             strBffr.append("Duration=>" + workingMonths);
             strBffr.append(";");
-            strBffr.append("Boundary=>" + boundary.toString());
+            strBffr.append("Boundary=>" + String.valueOf(boundary));
             strBffr.append(";");
             strBffr.append("Calculated salary=>" + calculatedSalary);
             strBffr.append("\n");
