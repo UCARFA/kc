@@ -133,7 +133,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
     public CustomAttributeDataType getCustomAttributeDataType(String dataTypeCode) {
 
         if (StringUtils.isNotEmpty(dataTypeCode)) {
-            return (CustomAttributeDataType) dataObjectService.findUnique(CustomAttributeDataType.class,
+            return dataObjectService.findUnique(CustomAttributeDataType.class,
             		QueryByCriteria.Builder.forAttribute("code", dataTypeCode).build());
         }
         return null;
@@ -142,7 +142,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 
     @Override
     public List getLookupReturns(String lookupClass) throws Exception {
-        List<String> lookupReturns = new ArrayList<String>();
+        List<String> lookupReturns = new ArrayList<>();
         if (ARGVALUELOOKUPE_CLASS.equals(lookupClass)) {
             for (ArgValueLookup argValueLookup : businessObjectService.findAll(ArgValueLookup.class)) {
                 if (!lookupReturns.contains(argValueLookup.getArgumentName())) {

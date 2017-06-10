@@ -54,6 +54,8 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
     private static final String STRING = "String";
     private static final String DATE = "Date";
     private static final String NUMBER = "Number";
+    public static final String ARGUMENT_NAME = "argumentName";
+    public static final String USER_NAME = "userName";
     private static String CUSTOMATTRIBUTE_ERROR_START = "[";
     private static String CUSTOMATTRIBUTE_ERROR_END = "].value";   
     private static DateFormat dateFormat;
@@ -128,7 +130,7 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
     }
 
     protected boolean isDocEnrouteAndDoesNotContainCustomAttribute(Long customAttributeId, List<? extends DocumentCustomData> customDataList, WorkflowDocument workflowDocument) {
-        if (!workflowDocument.isSaved() && !workflowDocument.isInitiated()){
+        if (!workflowDocument.isSaved() && !workflowDocument.isInitiated()) {
             for (DocumentCustomData data : customDataList) {
                 if (data.getCustomAttributeId().equals(customAttributeId)) {
                     return false;
@@ -152,14 +154,13 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
 
         boolean isValid = true;
         CustomAttributeDataType customAttributeDataType = customAttribute.getCustomAttributeDataType();
-        String attributeValue = customAttribute.getValue();
         if (customAttributeDataType == null && customAttribute.getDataTypeCode() != null) {
             customAttributeDataType = getCustomAttributeService().getCustomAttributeDataType(
                     customAttribute.getDataTypeCode());
         }
         if (customAttributeDataType != null) {
             Integer maxLength = customAttribute.getDataLength();
-            if ((maxLength != null) && (maxLength.intValue() < attributeValue.length())) {
+            if ((maxLength != null) && (maxLength.intValue() < customAttribute.getValue().length())) {
                 event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_MAX_LENGTH, customAttribute.getLabel(), maxLength.toString());
                 isValid = false;
             }
@@ -167,80 +168,78 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
             ValidationPattern validationPattern = VALIDATION_CLASSES.get(customAttributeDataType.getDescription());
             String validFormat = getValidFormat(customAttributeDataType.getDescription());
             if (validationPattern != null) {
-                if (!validationPattern.matches(attributeValue)) {
-                    event.reportError(customAttribute, errorKey, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, customAttribute.getLabel(), attributeValue, validFormat);
+                if (!validationPattern.matches(customAttribute.getValue())) {
+                    event.reportError(customAttribute, errorKey, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, customAttribute.getLabel(), customAttribute.getValue(), validFormat);
                     isValid = false;
                 }
             } else if (DATE.equals(customAttributeDataType.getDescription())) {
-                if (attributeValue != null && !attributeValue.matches(DATE_REGEX)) {
-                    event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, customAttribute.getLabel(), attributeValue, validFormat);
+                if (customAttribute.getValue() != null && !customAttribute.getValue().matches(DATE_REGEX)) {
+                    event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, customAttribute.getLabel(), customAttribute.getValue(), validFormat);
                     isValid = false;
                 } else {
                     try {
-                        dateFormat.parse(attributeValue);
+                        dateFormat.parse(customAttribute.getValue());
                     }
                     catch (ParseException e) {
-                        event.reportError(customAttribute, errorKey, KeyConstants.ERROR_DATE, attributeValue, customAttribute.getLabel());
+                        event.reportError(customAttribute, errorKey, KeyConstants.ERROR_DATE, customAttribute.getValue(), customAttribute.getLabel());
                         isValid = false;
                     }
                 }
             }
-            
-            // validate BO data against the database contents 
-            String lookupClass = customAttribute.getLookupClass();
-           
-            if (lookupClass != null && lookupClass.equals(KcPerson.class.getName()))
-            {
-                if (customAttribute.getDataTypeCode().equals("1") && customAttribute.getLookupReturn().equals("userName"))
-                {
+
+            if (customAttribute.getLookupClass() != null && customAttribute.getLookupClass().equals(KcPerson.class.getName())) {
+                if (customAttribute.getDataTypeCode().equals("1") && customAttribute.getLookupReturn().equals(USER_NAME)) {
                     validFormat = getValidFormat(customAttributeDataType.getDescription());
                     KcPersonService kps = getKcPersonService();
                     KcPerson customPerson = kps.getKcPersonByUserName(customAttribute.getValue());
-                    if (customPerson == null)
-                    {
-                        event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
-                            customAttribute.getLabel(), attributeValue, validFormat);
+                    if (customPerson == null) {
+                        addError(customAttribute, errorKey, event, customAttribute.getValue(), validFormat);
                         isValid = false;
                     }
                 }
-            } else if (lookupClass != null && lookupClass.equals(ArgValueLookup.class.getName()))
-            {
-                Collection<ArgValueLookup> searchResults = getLegacyDataAdapter().findAll(ArgValueLookup.class);
-                boolean argValueValid = false;
-                for (ArgValueLookup argValueLookup : searchResults) {
-                    if (customAttribute.getValue().equals(argValueLookup.getValue())){
-                        argValueValid = true;
-                        break;
-                    }
-                }
-                if (!argValueValid) {
-                    validFormat = getValidFormat(customAttributeDataType.getDescription());
-                    event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_EXISTENCE,
-                            customAttribute.getLabel(), attributeValue, validFormat);
-                    isValid = false;
-                }
+            } else if (customAttribute.getLookupClass() != null && customAttribute.getLookupClass().equals(ArgValueLookup.class.getName())) {
+                isValid &= isValidArgValue(customAttribute, errorKey, event, customAttributeDataType);
             }
-            else if (lookupClass != null)
-            {    
+            else if (customAttribute.getLookupClass() != null) {
                 Class boClass = null;
-                try
-                {
-                    boClass = Class.forName(lookupClass);
-                }
-                catch (ClassNotFoundException cnfE) {/* Do nothing, checked on input */ }
+                try {
+                    boClass = Class.forName(customAttribute.getLookupClass());
+                } catch (ClassNotFoundException cnfE) {/* Do nothing, checked on input */ }
 
-                if (isInvalid(boClass, keyValue(customAttribute.getLookupReturn(), customAttribute.getValue() ) ) )         
-                {
+                if (isInvalid(boClass, keyValue(customAttribute.getLookupReturn(), customAttribute.getValue()))) {
                     validFormat = getValidFormat(customAttributeDataType.getDescription());
-                    event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
-                             customAttribute.getLabel(), attributeValue, validFormat);
+                    addError(customAttribute, errorKey, event, customAttribute.getValue(), validFormat);
                     return false;
                 }
             }                 
         }
         return isValid;
     }
-    
+
+    public boolean isValidArgValue(CustomAttribute customAttribute, String errorKey, SaveCustomDataEvent event, CustomAttributeDataType customAttributeDataType) {
+        Collection<ArgValueLookup> searchResults = getMatchingArgValues(customAttribute);
+        String validFormat;
+        boolean matchedArgValues = searchResults.stream().anyMatch(argValueLookup1 -> customAttribute.getValue().equals(argValueLookup1.getValue()));
+
+        if (!matchedArgValues) {
+            validFormat = getValidFormat(customAttributeDataType.getDescription());
+            addError(customAttribute, errorKey, event, customAttribute.getValue(), validFormat);
+            return false;
+        }
+        return true;
+    }
+
+    public Collection<ArgValueLookup> getMatchingArgValues(CustomAttribute customAttribute) {
+        Map<String, Object> criteria = new HashMap<>();
+        criteria.put(ARGUMENT_NAME, customAttribute.getLookupReturn());
+        return getLegacyDataAdapter().findMatching(ArgValueLookup.class, criteria);
+    }
+
+    public void addError(CustomAttribute customAttribute, String errorKey, SaveCustomDataEvent event, String attributeValue, String validFormat) {
+        event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_EXISTENCE,
+                customAttribute.getLabel(), attributeValue, validFormat);
+    }
+
     private String getValidFormat(String dataType) {
         String validFormat = Constants.DATA_TYPE_STRING;
         if (dataType.equalsIgnoreCase(NUMBER)) {
