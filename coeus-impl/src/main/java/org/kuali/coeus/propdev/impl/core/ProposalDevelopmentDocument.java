@@ -716,6 +716,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     @Override
     public String getAdHocRouteNodeName() {
-        return PEOPLE_FLOWS;
+        return getDocumentHeader().getWorkflowDocument().isSaved() ? null : PEOPLE_FLOWS;
     }
 }
