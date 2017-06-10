@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2226: Remaining adhoc fixes. Fix issue where STE happens when adhoc recipients are added before submit. (#2385)
+
+  * Gayathri Athreya on Fri, 9 Jun 2017 17:32:30 -0700 [View Commit](../../commit/fd910715fa6789e0fc72f4a53079e652095aea5e)
+
+##coeus-1706.0022
 * RESKC-2297:Allow budget personnel in proposal to be lazy loaded when … (#2384)
 
 * RESKC-2297:Allow budget personnel in proposal to be lazy loaded when the number of personnel assigned to a budget goes over a configured amount.
