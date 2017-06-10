@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* RESKC-2021: Fixing rules so that argValue lookup values are checked. (#2383)
+
+  * In the IP, Award and Subaward modules, on the Custom Data tab you can either lookup and return custom data arg values or manually type values directly into each custom data field. Manually entering data into these fields allows ANY arg lookup value to be used regardless if it's a returnable value for that specific field. This does not throw an error and allows submitting to final status which could lead to major data integrity issues.
+  * For example - in res-demo1:
+  * In the Subaward Module:
+  * I have a My Custom Data field that uses yes_no_flag Argument Name HOWEVER, I can enter "Kat Szulc" for My Custom Data even-though that is NOT a returnable value
+  * It appears that any arg value option on ANY of the fields is allowed regardless if it's an option on the returnable list of values.  * Gayathri Athreya on Fri, 9 Jun 2017 19:39:24 -0700 [View Commit](../../commit/4cdf82ecb1e80823076d1f3c5551100647ff8ebe)
+
+##coeus-1706.0023
 * RESKC-2226: Remaining adhoc fixes. Fix issue where STE happens when adhoc recipients are added before submit. (#2385)
 
   * Gayathri Athreya on Fri, 9 Jun 2017 17:32:30 -0700 [View Commit](../../commit/fd910715fa6789e0fc72f4a53079e652095aea5e)
