@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2300: Fix Oracle sql scripts (#2386)
+
+  * Douglas Pace on Tue, 13 Jun 2017 13:12:55 -0600 [View Commit](../../commit/57fbcfd6b003c4c52341aa8a1205a1b0094f817b)
+
+##coeus-1706.0024
 * RESKC-2021: Fixing rules so that argValue lookup values are checked. (#2383)
 
   * In the IP, Award and Subaward modules, on the Custom Data tab you can either lookup and return custom data arg values or manually type values directly into each custom data field. Manually entering data into these fields allows ANY arg lookup value to be used regardless if it's a returnable value for that specific field. This does not throw an error and allows submitting to final status which could lead to major data integrity issues.
