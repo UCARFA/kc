@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* s2s upgrade for rr personal 1.2 fix to fix tests (#2389)
+
+  * Douglas Pace on Thu, 15 Jun 2017 02:35:07 -0600 [View Commit](../../commit/3acdb1776477cd9151273821cf5adb61eaff0244)
+
+##coeus-1706.0026
 * RESKC-2297:Update param to increase default value (#2388)
 
   * Douglas Pace on Thu, 15 Jun 2017 00:03:29 -0600 [View Commit](../../commit/d510af26f2440c270167dea22028a416927b40a6)
