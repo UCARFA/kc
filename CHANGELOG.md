@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1706.0027
 * s2s upgrade for rr personal 1.2 fix to fix tests (#2389)
 
   * Douglas Pace on Thu, 15 Jun 2017 02:35:07 -0600 [View Commit](../../commit/3acdb1776477cd9151273821cf5adb61eaff0244)
