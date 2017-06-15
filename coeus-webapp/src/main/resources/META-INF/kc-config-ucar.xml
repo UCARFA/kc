@@ -12,7 +12,7 @@
         <!-- the web.xml to comment out sections with labeled with UCAR. -->
         <!-- Change showPassword to true for local authentication -->
         <param name="auth.core.enabled">true</param>
-        <param name="adfs.enabled">false</param>
+        <param name="adfs.enabled">${adfs.enabled}</param>
         <param name="showPassword">false</param>
         <param name="kc.rest.admin.username">${kualiRest.user}</param>
         <param name="kc.rest.admin.password">${kualiRest.password}</param>

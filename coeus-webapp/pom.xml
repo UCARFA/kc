@@ -231,6 +231,29 @@
         </plugins>
     </build>
     <profiles>
+    	<profile>
+    		<id>kc-sb</id>
+    		<properties>
+    			<!-- ADFS/SAML -->    			
+    			<metadataSp.filename>kc-sbfandaucaredu_sp.xml</metadataSp.filename>
+    			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+    			<!-- Kuali -->
+    			<kcserver.fqdn>kc-sb.fanda.ucar.edu</kcserver.fqdn>
+    			<kualiAppPort>8080</kualiAppPort>
+    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppName>kc-dev</kualiAppName>
+    			<kualiRest.user>apiuser</kualiRest.user>
+    			<kualiRest.password>BlueOrchid05</kualiRest.password>
+    			<adfs.enabled>true</adfs.enabled>
+    			<!-- JDBC -->
+    			<jdbcKualiMySQL.url>jdbc:mysql://localhost:3306/coeus</jdbcKualiMySQL.url>
+    			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
+    			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
+    			<!--  Tomcat deployment url -->
+				<tomcat.deployUrl>http://kc-sb.fanda.ucar.edu:8080/manager/text</tomcat.deployUrl>
+				<tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
+    		</properties>
+    	</profile>
     	
     	<!-- Steve's Workstation -->
     	<profile>
@@ -241,12 +264,13 @@
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
     	<!--  		<kcserver.fqdn>faswmbpro.fanda.ucar.edu</kcserver.fqdn> -->
-    			<kcserver.fqdn>localhost</kcserver.fqdn>
+    			<kcserver.fqdn>faswmbpro.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>8443</kualiAppPort>
-    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppVersion>FASWMBPRO:coeus-webapp:1609.0056</kualiAppVersion>
     			<kualiAppName>kc-dev</kualiAppName>
     			<kualiRest.user>admin</kualiRest.user>
     			<kualiRest.password>restapipassword</kualiRest.password>
+    			<adfs.enabled>false</adfs.enabled>
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://localhost:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
@@ -270,6 +294,7 @@
                         <kualiAppName>kc-dev</kualiAppName>
                         <kualiRest.user>admin</kualiRest.user>
                         <kualiRest.password>restapipassword</kualiRest.password>
+                        <adfs.enabled>false</adfs.enabled>
                         <!-- JDBC -->
                         <jdbcKualiMySQL.url>jdbc:mysql://localhost:3306/coeus</jdbcKualiMySQL.url>
                         <jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
@@ -290,10 +315,11 @@
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod1.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
-    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppVersion>PRE-PROD:coeus-webapp:1609.0056</kualiAppVersion>
     			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password>BlueOrchid05</kualiRest.password>
+    			<adfs.enabled>true</adfs.enabled>
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod1_mysql:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
@@ -313,10 +339,11 @@
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod2.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
-    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppVersion>TRAINING:coeus-webapp:1609.0056</kualiAppVersion>
     			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password>BlueOrchid05</kualiRest.password>
+    			<adfs.enabled>false</adfs.enabled>
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod2_mysql:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
@@ -336,10 +363,11 @@
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod3.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
-    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppVersion>TEST:coeus-webapp:1609.0056</kualiAppVersion>
     			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password>BlueOrchid05</kualiRest.password>
+    			<adfs.enabled>false</adfs.enabled>
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod3_mysql:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
@@ -359,10 +387,11 @@
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod4.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
-    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppVersion>INTEGRATION:coeus-webapp:1609.0056</kualiAppVersion>
     			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password>BlueOrchid05</kualiRest.password>
+    			<adfs.enabled>false</adfs.enabled>
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod4_mysql:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
@@ -382,10 +411,11 @@
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod5.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
-    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppVersion>SANDBOX:coeus-webapp:1609.0056</kualiAppVersion>
     			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password>BlueOrchid05</kualiRest.password>
+    			<adfs.enabled>false</adfs.enabled>
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod5_mysql:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
