@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1706_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1706_003__budget_personnel_lazy_load_param.sql
+@./rice/bootstrap/V1706_004__update_budget_personnel_lazy_flag.sql
 commit;

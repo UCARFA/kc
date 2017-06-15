@@ -20,4 +20,5 @@
 
 \. ./rice/bootstrap/V1706_001__account_active_flag.sql
 \. ./rice/bootstrap/V1706_003__budget_personnel_lazy_load_param.sql
+\. ./rice/bootstrap/V1706_004__update_budget_personnel_lazy_flag.sql
 commit;

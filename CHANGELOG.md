@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2297:Update param to increase default value (#2388)
+
+  * Douglas Pace on Thu, 15 Jun 2017 00:03:29 -0600 [View Commit](../../commit/d510af26f2440c270167dea22028a416927b40a6)
+* s2s upgrade for rr personal 1.2 fix (#2387)
+
+  * Terry Durkin on Thu, 15 Jun 2017 00:03:14 -0600 [View Commit](../../commit/fbd6981c3831de3b764c17c4fd358c18abb6d232)
+
+##coeus-1706.0025
 * RESKC-2300: Fix Oracle sql scripts (#2386)
 
   * Douglas Pace on Tue, 13 Jun 2017 13:12:55 -0600 [View Commit](../../commit/57fbcfd6b003c4c52341aa8a1205a1b0094f817b)
