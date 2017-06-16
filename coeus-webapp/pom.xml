@@ -384,8 +384,8 @@
     		<id>kcnonprod4</id>
     		<properties>
     			<!-- ADFS/SAML -->  
-    			<maven.war.webxml>src/main/webapp/WEB-INF/web-adfs.xml</maven.war.webxml>
-    			<adfs.enabled>true</adfs.enabled>   			
+    			<maven.war.webxml>src/main/webapp/WEB-INF/web-noadfs.xml</maven.war.webxml>
+    			<adfs.enabled>false</adfs.enabled>   			
     			<metadataSp.filename>kcnonprod4fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
