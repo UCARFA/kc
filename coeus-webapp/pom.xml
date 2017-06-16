@@ -233,7 +233,7 @@
     <profiles>
     	<profile>
     		<id>kc-sb</id>
-    		<properties>
+    		<properties>    			
     			<!-- ADFS/SAML -->    			
     			<metadataSp.filename>kc-sbfandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
@@ -259,7 +259,10 @@
     	<profile>
     		<id>faswmbpro</id>
     		<properties>
-    			<!-- ADFS/SAML -->    			
+    			
+    			<!-- ADFS/SAML -->  
+    			<maven.war.webxml>src/main/webapp/WEB-INF/web-noadfs.xml</maven.war.webxml>
+    			<adfs.enabled>false</adfs.enabled>  			
     			<metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
@@ -269,8 +272,7 @@
     			<kualiAppVersion>FASWMBPRO:coeus-webapp:1609.0056</kualiAppVersion>
     			<kualiAppName>kc-dev</kualiAppName>
     			<kualiRest.user>admin</kualiRest.user>
-    			<kualiRest.password>restapipassword</kualiRest.password>
-    			<adfs.enabled>false</adfs.enabled>
+    			<kualiRest.password>restapipassword</kualiRest.password>    			
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://localhost:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
