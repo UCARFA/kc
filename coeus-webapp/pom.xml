@@ -383,7 +383,9 @@
     	<profile>
     		<id>kcnonprod4</id>
     		<properties>
-    			<!-- ADFS/SAML -->    			
+    			<!-- ADFS/SAML -->  
+    			<maven.war.webxml>src/main/webapp/WEB-INF/web-adfs.xml</maven.war.webxml>
+    			<adfs.enabled>true</adfs.enabled>   			
     			<metadataSp.filename>kcnonprod4fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
@@ -393,7 +395,6 @@
     			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password>BlueOrchid05</kualiRest.password>
-    			<adfs.enabled>false</adfs.enabled>
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod4_mysql:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
