@@ -39,7 +39,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
 
-import static java.util.Collections.sort;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
@@ -47,13 +46,6 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 
-/**
- * Implementation of business rules required for the Key Persons Page of the 
- * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>.
- *
- * @author $Author: cdenne $
- * @version $Revision: 1.46 $
- */
 public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -74,16 +66,13 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
      * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
      *
      * @param document ProposalDevelopmentDocument being saved
-     * @return boolean
      */
     public boolean processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument document) {
         LOG.info("Processing Key Personnel Save Document Rule");
         boolean retval = true;
         int pi_cnt = 0;
         int personIndex = 0;
-        List<ProposalPerson> investigators = document.getDevelopmentProposal().getInvestigators();
-       
-               
+
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             if (person.isPrincipalInvestigator()) {
                 pi_cnt++;
@@ -123,7 +112,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
             if(person.getPercentageEffort()!= null && (person.getPercentageEffort().isLessThan(new ScaleTwoDecimal(0))
                     || person.getPercentageEffort().isGreaterThan(new ScaleTwoDecimal(100)))){
                 GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].percentageEffort", ERROR_PERCENTAGE,
-                        new String[] {"Percentage Effort" });
+                        "Percentage Effort" );
             }
             
             personIndex++;
@@ -157,7 +146,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
                      }
                }
            }
-            sort(document.getDevelopmentProposal().getProposalPersons(), new PersonRolodexComparator());
+            document.getDevelopmentProposal().getProposalPersons().sort(PersonRolodexComparator.INSTANCE);
         }
      return retval;
     }
@@ -187,19 +176,10 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         return true;
     }
 
-    /**
-     * Locate in Spring <code>{@link KeyPersonnelService}</code> singleton  
-     * 
-     * @return KeyPersonnelService
-     */
     private KeyPersonnelService getKeyPersonnelService() {
         return getService(KeyPersonnelService.class);
     }
-    
-    /**
-     * Gets the KcPersonSevice.
-     * @return the service.
-     */
+
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
             this.kcPersonService = getService(KcPersonService.class);    
@@ -227,8 +207,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
 
     /**
      * Checks to makes sure that the unit is valid. Usually called as a result of a <code>{@link ProposalPersonUnit}</code> being added to a <code>{@link ProposalPerson}</code>.
-     * 
-     * @param source
+     *
      * @return boolean pass or fail
      */
     private boolean validateUnit(ProposalPersonUnit source, ProposalPerson person,int index) {
@@ -239,8 +218,10 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
             return false;
         }
 
-        LOG.debug("Validating unit " + source);
-       
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Validating unit " + source);
+        }
+
         if (source.getUnit() == null && isBlank(source.getUnitNumber()) && (GlobalVariables.getMessageMap().getMessages("newProposalPersonUnit*")== null)) {
             GlobalVariables.getMessageMap().putError("newProposalPersonUnit[" + index + "].unitNumber", ERROR_SELECT_UNIT);
             retval = false;
@@ -277,10 +258,6 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
     /**
      * Determine whether the <code>{@link ProposalPersonUnit}</code> already exists by Unit Number in the 
      * given <code>{@link ProposalPerson}</code>
-     * 
-     * @param source
-     * @param person
-     * @return true or false
      */
     private boolean unitExists(ProposalPersonUnit source, ProposalPerson person) {
         for (ProposalPersonUnit unit : person.getUnits()) {
@@ -297,7 +274,6 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
      * 
      * @param unit intending to be deleted
      * @param person possible PI
-     * @return boolean
      */
     private boolean isDeletingUnitFromPrincipalInvestigator(ProposalPersonUnit unit, ProposalPerson person) {
         boolean retval = false;
@@ -309,9 +285,6 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
 
     /**
      * Checks to makes sure that the degree is valid. Usually called as a result of a <code>{@link ProposalPersonDegree}</code> being added to a <code>{@link ProposalPerson}</code>.
-     * 
-     * @param source
-     * @return boolean
      */
     private boolean validateDegree(ProposalPersonDegree source,int index) {
         boolean retval = true;
@@ -320,12 +293,8 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         if(source.getGraduationYear()!=null && !(source.getGraduationYear().matches(regExpr)) && GlobalVariables.getMessageMap().getMessages("document.newProposalPersonDegree") == null)
         {            
             GlobalVariables.getMessageMap().putError("newProposalPersonDegree[" + index + "].graduationYear", ERROR_INVALID_YEAR,
-                    new String[] { source.getGraduationYear(), "Graduation Year"});
+                    source.getGraduationYear(), "Graduation Year");
             retval = false;
-        }
-
-        if (source == null) {
-            return false;
         }
         
         if (isNotBlank(source.getDegreeCode()) && isInvalid(DegreeType.class, keyValue("code", source.getDegreeCode()))) {
@@ -333,14 +302,14 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         }
         if(StringUtils.isBlank(source.getDegreeCode())){
             GlobalVariables.getMessageMap().putError("newProposalPersonDegree[" + index + "].degreeCode", RiceKeyConstants.ERROR_REQUIRED,
-                    new String[] {"Degree Type" });
+                    "Degree Type" );
             retval= false;
         }
 
         if(StringUtils.isBlank(source.getDegree())){
 
             GlobalVariables.getMessageMap().putError("newProposalPersonDegree[" + index + "].degree", RiceKeyConstants.ERROR_REQUIRED,
-                    new String[] {"Degree Description" });
+                    "Degree Description" );
             retval= false;
         }
         
@@ -348,7 +317,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         if(StringUtils.isBlank(source.getGraduationYear())){
 
             GlobalVariables.getMessageMap().putError("newProposalPersonDegree[" + index + "].graduationYear", RiceKeyConstants.ERROR_REQUIRED,
-                    new String[] {"Graduation year" });
+                    "Graduation year" );
             retval= false;
         }
         
@@ -364,7 +333,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
    
 
         for (int i = 0; i < person.size(); i++) {
-            ProposalPerson propPerson = (ProposalPerson)person.get(i);
+            ProposalPerson propPerson = person.get(i);
             List<ProposalPersonCreditSplit> personCreditSplit=propPerson.getCreditSplits();
             List<ProposalPersonUnit> propUnitCreditSplit=propPerson.getUnits();
             for (int j = 0; j < personCreditSplit.size(); j++) {
@@ -372,7 +341,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
                 if(creditSplit.getCredit() !=null){
                     if(creditSplit.getCredit().doubleValue() > 100.00 || creditSplit.getCredit().doubleValue() < 0.00){
                         GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].investigator["+i+"].creditSplits["+j+"].credit", ERROR_PERCENTAGE,
-                                new String[] {"Credit Split" });
+                                "Credit Split" );
                         retval=false;
                     }
                 }
@@ -385,7 +354,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
                     if(unitSplit.getCredit()!= null){
                         if(unitSplit.getCredit().doubleValue() > 100.00 || unitSplit.getCredit().doubleValue() < 0.00){
                             GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].investigator["+i+"].units["+j+"].creditSplits["+k+"].credit", ERROR_PERCENTAGE,
-                                    new String[] {"Credit Split" });
+                                    "Credit Split" );
                             retval=false; 
                         }
                         
