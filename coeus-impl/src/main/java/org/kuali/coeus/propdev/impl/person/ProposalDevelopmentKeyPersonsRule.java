@@ -59,7 +59,9 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
 
     private static final String ADD_KEY_PERSON_HELPER_PARAMETER_MAP_KEY_PERSON_PROJECT_ROLE = "addKeyPersonHelper.parameterMap['keyPersonProjectRole']";
+    private static final String ADD_KEY_PERSON_HELPER_PARAMETER_MAP_PERSON_ROLE = "addKeyPersonHelper.parameterMap['personRole']";
     private static final String KEY_PERSON_S_ROLE = "Key Person's Role";
+    private static final String ROLE = "Role";
     private KcPersonService kcPersonService;
     
     @Override
@@ -172,6 +174,11 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
      */
     @Override
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
+        if (StringUtils.isBlank(person.getProposalPersonRoleId())) {
+            reportError(ADD_KEY_PERSON_HELPER_PARAMETER_MAP_PERSON_ROLE,RiceKeyConstants.ERROR_REQUIRED, ROLE);
+            return false;
+        }
+
         if (Constants.KEY_PERSON_ROLE.equals(person.getProposalPersonRoleId()) && StringUtils.isEmpty(person.getProjectRole())) {
             reportError(ADD_KEY_PERSON_HELPER_PARAMETER_MAP_KEY_PERSON_PROJECT_ROLE,RiceKeyConstants.ERROR_REQUIRED, KEY_PERSON_S_ROLE);
             return false;

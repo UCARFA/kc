@@ -181,9 +181,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         {   
             proposalPerson.setDivision(ROLODEX_PERSON);
         } 
-        if (proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)  ||
-            proposalPerson.getProposalPersonRoleId().equals(MULTI_PI_ROLE) ||
-            proposalPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
+        if (PRINCIPAL_INVESTIGATOR_ROLE.equals(proposalPerson.getProposalPersonRoleId())  ||
+                MULTI_PI_ROLE.equals(proposalPerson.getProposalPersonRoleId()) ||
+                CO_INVESTIGATOR_ROLE.equals(proposalPerson.getProposalPersonRoleId())) {
             if (isNotBlank(proposalPerson.getHomeUnit()) && isValidHomeUnit(proposalPerson.getHomeUnit())){
                 addUnitToPerson(proposalPerson, createProposalPersonUnit(proposalPerson.getHomeUnit(), proposalPerson));
             }
