@@ -20,22 +20,16 @@ package org.kuali.coeus.common.framework.person;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.rule.KcKradMaintenanceDocumentRuleBase;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.List;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 
-public class PropAwardPersonRoleRule extends MaintenanceDocumentRuleBase {
-    private DataObjectService dataObjectService;
-    private GlobalVariableService globalVariableService;
-
+public class PropAwardPersonRoleRule extends KcKradMaintenanceDocumentRuleBase {
     private static final String UNIQUE_PERSON_ROLE_ENTRY = "error.unique.person.role.entry";
 
     @Override
@@ -46,7 +40,8 @@ public class PropAwardPersonRoleRule extends MaintenanceDocumentRuleBase {
 
         if (StringUtils.isNotBlank(propAwardPersonRole.getCode())
                 && StringUtils.isNotBlank(propAwardPersonRole.getSponsorHierarchyName())
-                && !KRADConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+                && !KRADConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())
+                && !KRADConstants.MAINTENANCE_DELETE_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
 
 
             final List<PropAwardPersonRole> existingPropAwardPersonRoles = getDataObjectService().findMatching(PropAwardPersonRole.class,
@@ -63,30 +58,5 @@ public class PropAwardPersonRoleRule extends MaintenanceDocumentRuleBase {
         }
 
         return valid;
-    }
-
-    @Override
-    public DataObjectService getDataObjectService() {
-        if (dataObjectService == null) {
-            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
-        }
-
-        return dataObjectService;
-    }
-
-    public void setDataObjectService(DataObjectService dataObjectService) {
-        this.dataObjectService = dataObjectService;
-    }
-
-    public GlobalVariableService getGlobalVariableService() {
-        if (globalVariableService == null) {
-            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
-        }
-
-        return globalVariableService;
-    }
-
-    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
-        this.globalVariableService = globalVariableService;
     }
 }

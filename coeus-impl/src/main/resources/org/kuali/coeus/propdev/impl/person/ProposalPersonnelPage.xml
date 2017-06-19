@@ -249,7 +249,7 @@
                 <bean parent="Uif-InputField"
                       p:propertyName="parameterMap['keyPersonProjectRole']"
                       p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson"
-                      p:dictionaryAttributeName="projectRole" p:required="true"
+                      p:dictionaryAttributeName="projectRole" p:required="@{#fp.parameterMap['personRole'] == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
                       p:label="Key Person's role will be" p:progressiveRender="@{#fp.parameterMap['personRole'] == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
                       p:order="30" />
             </list>
