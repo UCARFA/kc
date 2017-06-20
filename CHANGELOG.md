@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* RESKC-26: Refactor embedded HTML templates to be a little easier to reason with.
+  * Removed inline styles from most of the HTML. Updated CSS stylings.
+  * Jeremiah Piontek on Thu, 1 Jun 2017 12:48:20 -0500 [View Commit](../../commit/c8fc4f7d374ce1e8e3f2e0db765ec3d0d2fa9834)
+* RESKC-2298: adding fields to Organization Idc
+  * Travis Schneeberger on Tue, 20 Jun 2017 10:21:06 -0400 [View Commit](../../commit/830d7dcd914aa41f7880f1d0d62ebc610a129f6f)
+* RESKC-2296: Allowing Proposal/Award Key Person entries to be deleted
+  * Travis Schneeberger on Mon, 19 Jun 2017 13:16:18 -0400 [View Commit](../../commit/1b1948064c3ca9598da27d4c67da5563505babe7)
+
+##coeus-1706.0028
 * No Changes
 
 
