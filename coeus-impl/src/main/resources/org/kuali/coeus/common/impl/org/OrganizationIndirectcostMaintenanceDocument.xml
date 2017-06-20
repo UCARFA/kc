@@ -62,6 +62,9 @@
         <bean parent="MaintainableFieldDefinition" p:name="idcRateTypeCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="requestedDate"/>
         <bean parent="MaintainableFieldDefinition" p:name="startDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="federalApprovingAgency"/>
+        <bean parent="MaintainableFieldDefinition" p:name="federalApprovingAgencyName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="restrictedRatePolicy"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>

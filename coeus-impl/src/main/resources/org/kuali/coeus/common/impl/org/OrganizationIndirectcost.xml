@@ -39,6 +39,9 @@
         <ref bean="OrganizationIndirectcost-idcRateTypeCode" />
         <ref bean="OrganizationIndirectcost-requestedDate" />
         <ref bean="OrganizationIndirectcost-startDate" />
+        <ref bean="OrganizationIndirectcost-federalApprovingAgency" />
+        <ref bean="OrganizationIndirectcost-federalApprovingAgencyName" />
+        <ref bean="OrganizationIndirectcost-restrictedRatePolicy" />
       </list>
     </property>
   </bean>
@@ -194,6 +197,71 @@
     <property name="description" value="Start Date" />
   </bean>
 
+  <bean id="OrganizationIndirectcost-federalApprovingAgency" parent="OrganizationIndirectcost-federalApprovingAgency-parentBean"/>
+  <bean id="OrganizationIndirectcost-federalApprovingAgency-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="federalApprovingAgency" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Federal Approving Agency" />
+    <property name="shortLabel" value="Federal Approving Agency" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.framework.org.FederalApprovingAgencyFinder" />
+    </property>
+    <property name="summary" value="Federal Approving Agency" />
+    <property name="description" value="Federal Approving Agency" />
+  </bean>
+
+  <bean id="OrganizationIndirectcost-federalApprovingAgencyName" parent="OrganizationIndirectcost-federalApprovingAgencyName-parentBean"/>
+  <bean id="OrganizationIndirectcost-federalApprovingAgencyName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="federalApprovingAgencyName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Federal Approving Agency Name" />
+    <property name="shortLabel" value="Federal Approving Agency Name" />
+    <property name="maxLength" value="255" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint">
+        <property name="allowWhitespace" value="true"/>
+      </bean>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="100"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="100" parent="Uif-TextControl"/>
+    </property>
+    <property name="summary" value="Federal Approving Agency Name" />
+    <property name="description" value="Federal Approving Agency Name" />
+  </bean>
+
+  <bean id="OrganizationIndirectcost-restrictedRatePolicy" parent="OrganizationIndirectcost-restrictedRatePolicy-parentBean"/>
+  <bean id="OrganizationIndirectcost-restrictedRatePolicy-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="restrictedRatePolicy" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Restricted Rate Policy" />
+    <property name="shortLabel" value="Restricted Rate Policy" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.framework.org.RestrictedRatePolicyFinder" />
+    </property>
+    <property name="summary" value="Restricted Rate Policy" />
+    <property name="description" value="Restricted Rate Policy" />
+  </bean>
+
 <!-- Business Object Inquiry Definition -->
   <bean id="OrganizationIndirectcost-inquiryDefinition" parent="OrganizationIndirectcost-inquiryDefinition-parentBean" />
   <bean id="OrganizationIndirectcost-InquiryView" parent="OrganizationIndirectcost-InquiryView-parentBean"/>
@@ -214,6 +282,9 @@
               <bean parent="FieldDefinition" p:attributeName="idcRateTypeCode"/>
               <bean parent="FieldDefinition" p:attributeName="requestedDate"/>
               <bean parent="FieldDefinition" p:attributeName="startDate"/>
+              <bean parent="FieldDefinition" p:attributeName="federalApprovingAgency"/>
+              <bean parent="FieldDefinition" p:attributeName="federalApprovingAgencyName"/>
+              <bean parent="FieldDefinition" p:attributeName="restrictedRatePolicy"/>
             </list>
           </property>
         </bean>
@@ -239,6 +310,9 @@
               <bean p:propertyName="idcRateTypeCode" parent="Uif-DataField"/>
               <bean p:propertyName="requestedDate" parent="Uif-DataField"/>
               <bean p:propertyName="startDate" parent="Uif-DataField"/>
+              <bean p:propertyName="federalApprovingAgency" parent="Uif-DataField"/>
+              <bean p:propertyName="federalApprovingAgencyName" parent="Uif-DataField"/>
+              <bean p:propertyName="restrictedRatePolicy" parent="Uif-DataField"/>
             </list>
           </property>
         </bean>
@@ -263,6 +337,9 @@
         <bean parent="FieldDefinition" p:attributeName="idcRateTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="requestedDate"/>
         <bean parent="FieldDefinition" p:attributeName="startDate"/>
+        <bean parent="FieldDefinition" p:attributeName="federalApprovingAgency"/>
+        <bean parent="FieldDefinition" p:attributeName="federalApprovingAgencyName"/>
+        <bean parent="FieldDefinition" p:attributeName="restrictedRatePolicy"/>
       </list>
     </property>
     <property name="resultFields" >
@@ -275,6 +352,9 @@
         <bean parent="FieldDefinition" p:attributeName="idcRateTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="requestedDate"/>
         <bean parent="FieldDefinition" p:attributeName="startDate"/>
+        <bean parent="FieldDefinition" p:attributeName="federalApprovingAgency"/>
+        <bean parent="FieldDefinition" p:attributeName="federalApprovingAgencyName"/>
+        <bean parent="FieldDefinition" p:attributeName="restrictedRatePolicy"/>
       </list>
     </property>
   </bean>
@@ -292,6 +372,9 @@
         <bean p:propertyName="idcRateTypeCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="requestedDate" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="startDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="federalApprovingAgency" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="federalApprovingAgencyName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="restrictedRatePolicy" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
@@ -304,6 +387,9 @@
         <bean p:propertyName="idcRateTypeCode" parent="Uif-DataField"/>
         <bean p:propertyName="requestedDate" parent="Uif-DataField"/>
         <bean p:propertyName="startDate" parent="Uif-DataField"/>
+        <bean p:propertyName="federalApprovingAgency" parent="Uif-DataField"/>
+        <bean p:propertyName="federalApprovingAgencyName" parent="Uif-DataField"/>
+        <bean p:propertyName="restrictedRatePolicy" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

@@ -965,7 +965,9 @@ public final class KeyConstants {
     public static final String ERROR_ORGANIZATION_QUESTIONYNQ_EXPLANATION_REQUIRED = "error.organization.questionYnq.explanationRequired";
     public static final String ERROR_ORGANIZATION_QUESTIONYNQ_DATE_REQUIRED = "error.organization.questionYnq.reviewDateRequired";
     public static final String ERROR_INVALID_ROLODEX_ENTRY = "error.organization.rolodexEntry.invalid";
-    
+    public static final String ERROR_INVALID_AGENCY_NAME_REQUIRED = "error.organization.idc.agency.name.required";
+    public static final String ERROR_INVALID_AGENCY_NAME_NOT_ALLOWED = "error.organization.idc.agency.name.not.allowed";
+
     public static final String ERROR_AWARD_BASIS_EXIST = "error.awardBasis.exist";
     public static final String ERROR_PERIOD_COST_LIMIT_EXCEED_OBLIGATED_TOTAL = "error.period.costlimit.exceed.obligatedtotal";
     public static final String ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET = "error.protocol.correspondence.template.not.set";
