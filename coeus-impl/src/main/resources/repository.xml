@@ -1012,6 +1012,9 @@
 		<field-descriptor name="idcRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="requestedDate" column="REQUESTED_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="federalApprovingAgency" column="FED_APPROVAL_AGENCY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="federalApprovingAgencyName" column="FED_APPROVAL_AGENCY_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="restrictedRatePolicy" column="RESTRICTED_RATE_POLICY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" nullable="false" />
