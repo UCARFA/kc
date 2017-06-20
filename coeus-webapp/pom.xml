@@ -350,7 +350,7 @@
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
     			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kcnonprod1.fanda.ucar.edu/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kcnonprod1.fanda.ucar.edu:1443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
@@ -380,7 +380,7 @@
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
     			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kcnonprod2.fanda.ucar.edu/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kcnonprod2.fanda.ucar.edu:2443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
@@ -410,7 +410,7 @@
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
     			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kcnonprod3.fanda.ucar.edu/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kcnonprod3.fanda.ucar.edu:3443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
@@ -471,7 +471,7 @@
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
     			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kcnonprod5.fanda.ucar.edu/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kcnonprod5.fanda.ucar.edu:5443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
