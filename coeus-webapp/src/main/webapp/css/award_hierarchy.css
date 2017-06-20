@@ -69,3 +69,35 @@ div.awardHierarchy {
 #awardhierarchy li.odd {
   background-color: #fff;
 }
+
+div.awardHierarchy  .outer-table,
+div.awardHierarchy  .outer-table td {
+  border-collapse: collapse;
+}
+
+div.awardHierarchy .outer-table td,
+div.awardHierarchy .dist-table td,
+div.divAHT td
+{
+  width: 155px;
+}
+
+div.awardHierarchy .outer-table td:first-child,
+div.awardHierarchy .dist-table td:first-child,
+div.divAHT td:first-child {
+  width: auto;
+}
+
+div.awardHierarchy .outer-table td:first-child {
+  border: medium none;
+  vertical-align: top;
+}
+
+div.awardHierarchy .outer-table td:not(:first-child) img {
+  margin-left: 3px;
+}
+
+div.awardHierarchy .outer-table td input {
+  width: 75%
+}
+
