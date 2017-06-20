@@ -196,6 +196,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
+                	<webXml>${web.xml.path}</webXml>
                     <webResources>
                         <resource>
                             <directory>${help.web.sources}</directory>
@@ -234,7 +235,14 @@
     	<profile>
     		<id>kc-sb</id>
     		<properties>    			
-    			<!-- ADFS/SAML -->    			
+    			<!-- ADFS/SAML -->    
+    			<!-- Enable ADFS
+    			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
+    			<adfs.enabled>true</adfs.enabled>  	
+    			-->
+    			<!-- Disable ADFS -->
+    			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
+    			<adfs.enabled>false</adfs.enabled>			
     			<metadataSp.filename>kc-sbfandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
@@ -244,7 +252,6 @@
     			<kualiAppName>kc-dev</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password>BlueOrchid05</kualiRest.password>
-    			<adfs.enabled>true</adfs.enabled>
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://localhost:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
@@ -261,8 +268,13 @@
     		<properties>
     			
     			<!-- ADFS/SAML -->  
-    			<maven.war.webxml>src/main/webapp/WEB-INF/web-noadfs.xml</maven.war.webxml>
-    			<adfs.enabled>false</adfs.enabled>  			
+    			<!-- Enable ADFS
+    			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
+    			<adfs.enabled>true</adfs.enabled>  	
+    			-->
+    			<!-- Disable ADFS -->
+    			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
+    			<adfs.enabled>false</adfs.enabled>
     			<metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
@@ -284,34 +296,46 @@
     	</profile>
   	<!-- Generic Developer Workstation no ADFS -->
         <profile>
-                <id>dev-noadfs</id>
-                <properties>
-                        <!-- ADFS/SAML -->
-                        <metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
-                        <metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
-                        <!-- Kuali -->
-                        <kcserver.fqdn>localhost</kcserver.fqdn>
-                        <kualiAppPort>8080</kualiAppPort>
-                        <kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
-                        <kualiAppName>kc-dev</kualiAppName>
-                        <kualiRest.user>admin</kualiRest.user>
-                        <kualiRest.password>restapipassword</kualiRest.password>
-                        <adfs.enabled>false</adfs.enabled>
-                        <!-- JDBC -->
-                        <jdbcKualiMySQL.url>jdbc:mysql://localhost:3306/coeus</jdbcKualiMySQL.url>
-                        <jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
-                        <jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
-                        <!--  Tomcat deployment url -->
-                        <tomcat.deployUrl>http://localhost:8080/manager/text</tomcat.deployUrl>
-                        <tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
-                </properties>
-        </profile>
-    	
+            <id>dev-noadfs</id>
+            <properties>
+                <!-- ADFS/SAML -->
+                <!-- Enable ADFS
+				<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
+  				<adfs.enabled>true</adfs.enabled>  	
+  				-->
+  				<!-- Disable ADFS -->
+  				<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
+  				<adfs.enabled>false</adfs.enabled>	
+                <metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
+                <metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+                <!-- Kuali -->
+                <kcserver.fqdn>localhost</kcserver.fqdn>
+                <kualiAppPort>8080</kualiAppPort>
+                <kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+                <kualiAppName>kc-dev</kualiAppName>
+                <kualiRest.user>admin</kualiRest.user>
+                <kualiRest.password>restapipassword</kualiRest.password>
+                <!-- JDBC -->
+                <jdbcKualiMySQL.url>jdbc:mysql://localhost:3306/coeus</jdbcKualiMySQL.url>
+                <jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
+                <jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
+                <!--  Tomcat deployment url -->
+                <tomcat.deployUrl>http://localhost:8080/manager/text</tomcat.deployUrl>
+                <tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
+            </properties>
+        </profile> 	
 
     	<profile>
     		<id>kcnonprod1</id>
     		<properties>
-    			<!-- ADFS/SAML -->    			
+    			<!-- ADFS/SAML -->    	
+    			<!-- Enable ADFS -->
+    			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
+    			<adfs.enabled>true</adfs.enabled>
+    			<!-- Disable ADFS
+    			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
+    			<adfs.enabled>false</adfs.enabled>
+    			-->
     			<metadataSp.filename>kcnonprod1fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
@@ -321,7 +345,6 @@
     			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password>BlueOrchid05</kualiRest.password>
-    			<adfs.enabled>true</adfs.enabled>
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod1_mysql:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
@@ -335,7 +358,14 @@
     	<profile>
     		<id>kcnonprod2</id>
     		<properties>
-    			<!-- ADFS/SAML -->    			
+    			<!-- ADFS/SAML -->   
+    			<!-- Enable ADFS
+    			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
+    			<adfs.enabled>true</adfs.enabled>  	
+    			-->
+    			<!-- Disable ADFS -->
+    			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
+    			<adfs.enabled>false</adfs.enabled> 			
     			<metadataSp.filename>kcnonprod2fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
@@ -345,7 +375,6 @@
     			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password>BlueOrchid05</kualiRest.password>
-    			<adfs.enabled>false</adfs.enabled>
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod2_mysql:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
@@ -359,7 +388,14 @@
     	<profile>
     		<id>kcnonprod3</id>
     		<properties>
-    			<!-- ADFS/SAML -->    			
+    			<!-- ADFS/SAML -->    
+    			<!-- Enable ADFS
+    			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
+    			<adfs.enabled>true</adfs.enabled>  	
+    			-->
+    			<!-- Disable ADFS -->
+    			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
+    			<adfs.enabled>false</adfs.enabled>			
     			<metadataSp.filename>kcnonprod3fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
@@ -369,7 +405,6 @@
     			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password>BlueOrchid05</kualiRest.password>
-    			<adfs.enabled>false</adfs.enabled>
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod3_mysql:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
@@ -384,8 +419,14 @@
     		<id>kcnonprod4</id>
     		<properties>
     			<!-- ADFS/SAML -->  
-    			<maven.war.webxml>src/main/webapp/WEB-INF/web-noadfs.xml</maven.war.webxml>
-    			<adfs.enabled>false</adfs.enabled>   			
+    			<!-- Enable ADFS
+    			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
+    			<adfs.enabled>true</adfs.enabled>  	
+    			-->
+    			<!-- Disable ADFS -->
+    			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
+    			<adfs.enabled>false</adfs.enabled>
+    			<maven.war.webxml>src/main/webapp/WEB-INF/web-noadfs.xml</maven.war.webxml> 			
     			<metadataSp.filename>kcnonprod4fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
@@ -408,7 +449,14 @@
     	<profile>
     		<id>kcnonprod5</id>
     		<properties>
-    			<!-- ADFS/SAML -->    			
+    			<!-- ADFS/SAML -->
+    			<!-- Enable ADFS
+    			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
+    			<adfs.enabled>true</adfs.enabled>  	
+    			-->
+    			<!-- Disable ADFS -->
+    			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
+    			<adfs.enabled>false</adfs.enabled>    			
     			<metadataSp.filename>kcnonprod5fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
@@ -418,7 +466,6 @@
     			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password>BlueOrchid05</kualiRest.password>
-    			<adfs.enabled>false</adfs.enabled>
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod5_mysql:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
