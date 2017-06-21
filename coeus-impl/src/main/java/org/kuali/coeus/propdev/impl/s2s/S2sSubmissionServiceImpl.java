@@ -45,6 +45,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.criteria.QueryResults;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,12 +64,16 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.util.*;
 
+import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
+
+
 @Component("s2sSubmissionService")
 public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     private static final Log LOG = LogFactory.getLog(S2sSubmissionServiceImpl.class);
     private static final String GRANTS_GOV_STATUS_ERROR = "ERROR";
     private static final String ERROR_MESSAGE = "Exception Occurred";
+    private static final String PREVENT_MULTIPLE_S2S_SUBMISSIONS = "PREVENT_MULTIPLE_S2S_SUBMISSIONS";
 
     @Autowired
     @Qualifier("proposalAdminDetailsService")
@@ -115,6 +122,10 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     /**
      *
@@ -311,13 +322,22 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      * a given {@link ProposalDevelopmentDocument}, validates and then submits
      * the forms
      *
-     * @param pdDoc
-     *            Proposal Development Document.
-     * @return true if submitted false otherwise.
+     * @param pdDoc Proposal Development Document.
      */
     @Override
-    public FormGenerationResult submitApplication(ProposalDevelopmentDocument pdDoc)
-            throws S2sCommunicationException {
+    public void submitApplication(ProposalDevelopmentDocument pdDoc) throws S2sCommunicationException {
+        if (getParameterService().getParameterValueAsBoolean(Constants.KC_S2S_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PREVENT_MULTIPLE_S2S_SUBMISSIONS)) {
+            final QueryResults<S2sAppSubmission> submissions = getDataObjectService().findMatching(S2sAppSubmission.class,
+                    QueryByCriteria.Builder.create().setPredicates(and(equal("proposalNumber", pdDoc.getDevelopmentProposal().getProposalNumber()),
+                            isNotNull("ggTrackingId"))).build());
+
+            if (submissions.getResults().stream().anyMatch(submission -> StringUtils.isNotBlank(submission.getGgTrackingId())) ) {
+                if (LOG.isInfoEnabled()) {
+                        LOG.info("Proposal Number: " + pdDoc.getDevelopmentProposal().getProposalNumber() + " is already submitted.");
+                }
+                return;
+            }
+        }
 
         final FormGenerationResult result = s2SService.generateAndValidateForms(pdDoc);
         if (result.isValid()) {
@@ -360,7 +380,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
                     result.getApplicationXml(), s2sAppAttachmentList);
             result.setValid(true);
         }
-        return result;
     }
 
     /**
@@ -686,5 +705,13 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     public void setS2sFormConfigurationService(S2sFormConfigurationService s2sFormConfigurationService) {
         this.s2sFormConfigurationService = s2sFormConfigurationService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }
