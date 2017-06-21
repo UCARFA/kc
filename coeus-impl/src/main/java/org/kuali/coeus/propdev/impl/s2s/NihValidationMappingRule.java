@@ -43,7 +43,8 @@ public class NihValidationMappingRule extends KcMaintenanceDocumentRuleBase {
 
         final NihValidationMapping nihValidationMapping = (NihValidationMapping) document.getNewMaintainableObject().getDataObject();
 
-        if (!KRADConstants.MAINTENANCE_DELETE_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+        if (!KRADConstants.MAINTENANCE_DELETE_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) &&
+                !KRADConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
 
             Map<String, String> criteria = new HashMap<>();
             criteria.put(RULE_NUMBER, nihValidationMapping.getRuleNumber());

@@ -27,10 +27,6 @@ public final class ProposalDevelopmentDataValidationConstants {
     public static final String DETAILS_PAGE_ID = "PropDev-DetailsPage";
     public static final String DETAILS_PAGE_NAME = "Proposal Details";
 
-    public static final String S2S_PAGE_ID = "PropDev-OpportunityPage";
-    public static final String S2S_PAGE_NAME = "S2S Opportunity Search";
-    public static final String S2S_OPPORTUNITY_SECTION_ID = "PropDev-OpportunityPage-General";
-    public static final String S2S_OPPORTUNITY_SECTION_NAME = "Opportunity";
     public static final String REVISION_CODE_KEY = "document.developmentProposal.s2sOpportunity.revisionCode";
     public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.developmentProposal.s2sOpportunity.s2sSubmissionTypeCode";
     public static final String COMPETITION_ID = "document.developmentProposal.s2sOpportunity.competetionId";

@@ -970,5 +970,9 @@ public interface Constants {
     String DOCUMENT_INSTITUTIONAL_PROPOSAL_CFDA_NUMBER = "document.institutionalProposalList[0].cfdaNumber";
     String INSTITUTIONAL_PROPOSAL_CFDA_NUMBER = "document.institutionalProposal.cfdaNumber";
     String NOTIFICATION_HELPER = "notificationHelper";
+    String S2S_PAGE_ID = "PropDev-OpportunityPage";
+    String S2S_PAGE_NAME = "S2S Opportunity Search";
+    String S2S_OPPORTUNITY_SECTION_ID = "PropDev-OpportunityPage-General";
+    String S2S_OPPORTUNITY_SECTION_NAME = "Opportunity";
 }
 

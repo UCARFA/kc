@@ -26,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.propdev.impl.s2s.nih.NihSubmissionValidationService;
+import org.kuali.coeus.propdev.impl.s2s.nih.NihValidationMapping;
 import org.kuali.coeus.propdev.impl.s2s.nih.NihValidationServiceUtils;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -37,15 +38,15 @@ import org.kuali.coeus.s2sgen.api.generate.FormGenerationResult;
 import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.util.KRADConstants;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
 
@@ -59,9 +60,12 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
     private static final String ERROR_CODE = "E";
     private static final String SCHEMA_ERROR_RULE_NUMBER = "000.6";
     private static final String INFO_NIH_VALIDATION_SERVICE_IGNORED = "info.nih.validation.service.ignored";
+    public static final String RULE_NUMBER = "ruleNumber";
+    public static final String ACTIVE = "active";
 
     private ParameterService parameterService;
     private GlobalVariableService globalVariableService;
+    private BusinessObjectService businessObjectService;
 
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
@@ -77,26 +81,33 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         return this.globalVariableService;
     }
 
+    protected BusinessObjectService getBusinessObjectService() {
+        if (this.businessObjectService == null) {
+            this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+        return this.businessObjectService;
+    }
+
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
 
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
 		if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null && (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() == null || StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode(), ""))) {
-            valid = false;            
-            getAuditErrors(S2S_PAGE_NAME,S2S_OPPORTUNITY_SECTION_NAME,"", ERROR).add(new org.kuali.rice.krad.util.AuditError(S2S_SUBMISSIONTYPE_CODE_KEY, KeyConstants.ERROR_NOT_SELECTED_SUBMISSION_TYPE, S2S_PAGE_ID+ PAGE_SECTION_DELIMETER +S2S_OPPORTUNITY_SECTION_ID));
+            valid = false;
+            getAuditErrors(Constants.S2S_PAGE_NAME, Constants.S2S_OPPORTUNITY_SECTION_NAME,"", ERROR).add(new org.kuali.rice.krad.util.AuditError(S2S_SUBMISSIONTYPE_CODE_KEY, KeyConstants.ERROR_NOT_SELECTED_SUBMISSION_TYPE, Constants.S2S_PAGE_ID+ PAGE_SECTION_DELIMETER + Constants.S2S_OPPORTUNITY_SECTION_ID));
         }
         
         if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode() != null && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId() != null && proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION)) && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionCode() == null) {
             valid &= false;
-            getAuditErrors(S2S_PAGE_NAME,S2S_OPPORTUNITY_SECTION_NAME,"", ERROR).add(new org.kuali.rice.krad.util.AuditError(REVISION_CODE_KEY, KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION, S2S_PAGE_ID+ PAGE_SECTION_DELIMETER +S2S_OPPORTUNITY_SECTION_ID));
+            getAuditErrors(Constants.S2S_PAGE_NAME, Constants.S2S_OPPORTUNITY_SECTION_NAME,"", ERROR).add(new org.kuali.rice.krad.util.AuditError(REVISION_CODE_KEY, KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION, Constants.S2S_PAGE_ID+ PAGE_SECTION_DELIMETER + Constants.S2S_OPPORTUNITY_SECTION_ID));
         }
         if((getSponsorHierarchyService().isSponsorNihOsc(proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode())||
                     getSponsorHierarchyService().isSponsorNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode()))&&
                     proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!=null &&
                     proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId()!=null &&
                     proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId().equals("ADOBE-FORMS-A")){
-        	getAuditErrors(S2S_PAGE_NAME,S2S_OPPORTUNITY_SECTION_NAME,"", ERROR).add(new org.kuali.rice.krad.util.AuditError(COMPETITION_ID, KeyConstants.ERROR_IF_COMPETITION_ID_IS_INVALID, S2S_PAGE_ID+ PAGE_SECTION_DELIMETER +S2S_OPPORTUNITY_SECTION_ID));
+        	getAuditErrors(Constants.S2S_PAGE_NAME, Constants.S2S_OPPORTUNITY_SECTION_NAME,"", ERROR).add(new org.kuali.rice.krad.util.AuditError(COMPETITION_ID, KeyConstants.ERROR_IF_COMPETITION_ID_IS_INVALID, Constants.S2S_PAGE_ID+ PAGE_SECTION_DELIMETER + Constants.S2S_OPPORTUNITY_SECTION_ID));
         	valid= false;
         }
 
@@ -138,8 +149,7 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
                     .stream()
                     .anyMatch(msg -> SCHEMA_ERROR_RULE_NUMBER.equals(msg.getValidationRuleNumber()));
 
-            getAuditErrors(S2S_PAGE_NAME,S2S_OPPORTUNITY_SECTION_NAME, VALIDATION_SERVICE, ERROR).addAll(toAuditErrors(errors));
-            getAuditErrors(S2S_PAGE_NAME,S2S_OPPORTUNITY_SECTION_NAME,VALIDATION_SERVICE, WARNINGS).addAll(toAuditErrors(warnings));
+            convertToAuditErrors(errors, warnings);
 
             if (schemaFailure) {
                 getGlobalVariableService().getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, INFO_NIH_VALIDATION_SERVICE_IGNORED);
@@ -147,23 +157,94 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
 
         } catch (S2sCommunicationException ex) {
             LOG.error("Error validating with nih.gov", ex);
-            getAuditErrors(S2S_PAGE_NAME,S2S_OPPORTUNITY_SECTION_NAME,VALIDATION_SERVICE, ERROR)
-                    .add(new org.kuali.rice.krad.util.AuditError(S2S_PAGE_ID, ex.getErrorKey(), "", ex.getMessageWithParams() ));
+            getAuditErrors(Constants.S2S_PAGE_NAME, Constants.S2S_OPPORTUNITY_SECTION_NAME,VALIDATION_SERVICE, ERROR)
+                    .add(new org.kuali.rice.krad.util.AuditError(Constants.S2S_PAGE_ID, ex.getErrorKey(), StringUtils.EMPTY, ex.getMessageWithParams() ));
             result = false;
         }
         return result;
     }
 
-    protected List<org.kuali.rice.krad.util.AuditError> toAuditErrors(List<ValidationMessage> messages) {
+    protected void convertToAuditErrors(List<ValidationMessage> errors, List<ValidationMessage> warnings) {
+        sortMessages(errors).forEach(error -> addToAuditErrors(error, getNihValidationMappings(error), ERROR));
+
+        sortMessages(warnings).forEach(warning -> {
+            final List<NihValidationMapping> nihValidationMappings = getNihValidationMappings(warning);
+            String errorType = nihValidationMappings.isEmpty() ? WARNINGS : nihValidationMappings.get(0).getForceError() ? ERROR : WARNINGS;
+            addToAuditErrors(warning, nihValidationMappings, errorType);
+        });
+    }
+
+    protected void addToAuditErrors(ValidationMessage error, List<NihValidationMapping> mapping, String errorType) {
+        String pageId;
+        String sectionId;
+        if (mapping.isEmpty() || StringUtils.isEmpty(mapping.get(0).getPageId())) {
+            pageId = Constants.S2S_PAGE_NAME;
+            sectionId = Constants.S2S_OPPORTUNITY_SECTION_NAME;
+        } else {
+            pageId = mapping.get(0).getPageId();
+            sectionId = mapping.get(0).getSectionId();
+        }
+        getAuditErrors(pageId, sectionId, VALIDATION_SERVICE, errorType).add(getCustomizedAuditError(error));
+    }
+
+    protected Stream<ValidationMessage> sortMessages(List<ValidationMessage> messages) {
         final Comparator<ValidationMessage> comparator = Comparator.comparing(ValidationMessage::getFormName)
                 .thenComparing(ValidationMessage::getValidationRuleNumber)
                 .thenComparingInt(ValidationMessage::getValidationMessageId)
                 .thenComparing(ValidationMessage::getValidationMessageText);
 
         return messages.stream()
-                .sorted(comparator)
-                .map(msg -> new org.kuali.rice.krad.util.AuditError(S2S_PAGE_ID, Constants.GRANTS_GOV_GENERIC_ERROR_KEY, "", new String[]{ NihValidationServiceUtils.toMessageString(msg) }))
-                .collect(Collectors.toList());
+                .sorted(comparator);
+    }
+
+    protected org.kuali.rice.krad.util.AuditError getCustomizedAuditError(ValidationMessage msg) {
+        return createAuditErrorBasedOnMapping(msg, getNihValidationMappings(msg));
+    }
+
+    protected List<NihValidationMapping> getNihValidationMappings(ValidationMessage msg) {
+        Map<String, Object> criteria = new HashMap<>();
+        criteria.put(RULE_NUMBER, msg.getValidationRuleNumber());
+        criteria.put(ACTIVE, Boolean.TRUE);
+        return (List<NihValidationMapping>) getBusinessObjectService().findMatching(NihValidationMapping.class, criteria);
+    }
+
+    protected org.kuali.rice.krad.util.AuditError createAuditErrorBasedOnMapping(ValidationMessage msg, List<NihValidationMapping> matches) {
+        if (matches.isEmpty()) {
+            return new org.kuali.rice.krad.util.AuditError(
+                    Constants.S2S_PAGE_ID, Constants.GRANTS_GOV_GENERIC_ERROR_KEY, StringUtils.EMPTY,
+                    new String[]{NihValidationServiceUtils.toMessageString(msg)});
+        } else {
+            NihValidationMapping match = matches.get(0);
+            if (!StringUtils.isEmpty(match.getCustomMessage())) {
+                if (match.getAppendToOriginal()) {
+                    msg.setValidationMessageText(msg.getValidationMessageText() + match.getCustomMessage());
+                } else {
+                    msg.setValidationMessageText(match.getCustomMessage());
+                }
+            }
+            return new org.kuali.rice.krad.util.AuditError(
+                    StringUtils.isEmpty(match.getPageId()) ? Constants.S2S_PAGE_ID : match.getPageId(),
+                    Constants.GRANTS_GOV_GENERIC_ERROR_KEY,
+                    getAuditLink(matches.get(0)),
+                    new String[]{NihValidationServiceUtils.toMessageString(msg)});
+        }
+    }
+
+    protected List<org.kuali.rice.krad.util.AuditError> getAuditErrors(String areaName, String sectionName, String provider, String level) {
+        String clusterKey = areaName + PAGE_SECTION_DELIMETER + sectionName + "." + level;
+        final String s2sClusterKey = clusterKey + ".s2s";
+        AuditCluster value = getGlobalVariableService().getAuditErrorMap().computeIfAbsent(s2sClusterKey, k ->
+                new AuditCluster(clusterKey, new ArrayList<org.kuali.rice.krad.util.AuditError>(), provider + " " + level));
+        if (value != null) {
+            getGlobalVariableService().getAuditErrorMap().put(s2sClusterKey, value);
+            return getGlobalVariableService().getAuditErrorMap().get(clusterKey+".s2s").getAuditErrorList();
+        }
+        return new ArrayList<>();
+    }
+
+    protected String getAuditLink(NihValidationMapping match) {
+        return StringUtils.isEmpty(match.getPageId()) ? StringUtils.EMPTY :
+                StringUtils.isEmpty(match.getSectionId()) ? match.getPageId() : match.getPageId() + "." + match.getSectionId();
     }
 
     protected void setValidationErrorMessage(List<AuditError> s2sErrors, String provider) {
@@ -188,25 +269,12 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
                             Constants.GRANTS_GOV_GENERIC_ERROR_KEY, ORGANIZATION_PAGE_ID + PAGE_SECTION_DELIMETER + APPLICANT_ORGANIZATION_SECTION_ID,
                             new String[]{error.getMessageKey()}));
                 } else {
-                getAuditErrors(S2S_PAGE_NAME,S2S_OPPORTUNITY_SECTION_NAME,provider, AUDIT_ERRORS).add(new org.kuali.rice.krad.util.AuditError(S2S_PAGE_ID,
-                        Constants.GRANTS_GOV_GENERIC_ERROR_KEY, S2S_PAGE_ID+ PAGE_SECTION_DELIMETER +S2S_OPPORTUNITY_SECTION_ID,
+                getAuditErrors(Constants.S2S_PAGE_NAME, Constants.S2S_OPPORTUNITY_SECTION_NAME,provider, AUDIT_ERRORS).add(new org.kuali.rice.krad.util.AuditError(Constants.S2S_PAGE_ID,
+                        Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.S2S_PAGE_ID + PAGE_SECTION_DELIMETER + Constants.S2S_OPPORTUNITY_SECTION_ID,
                         new String[]{error.getMessageKey()}));
                 }
             }
         }
-    }
-
-    private List<org.kuali.rice.krad.util.AuditError> getAuditErrors(String areaName, String sectionName, String provider, String level) {
-        List<org.kuali.rice.krad.util.AuditError> auditErrors = new ArrayList<>();
-        String clusterKey = areaName + PAGE_SECTION_DELIMETER + sectionName;
-        if (!getGlobalVariableService().getAuditErrorMap().containsKey(clusterKey+".s2s")) {
-            getGlobalVariableService().getAuditErrorMap().put(clusterKey+".s2s", new AuditCluster(clusterKey, auditErrors, provider + " " + level));
-        }
-        else {
-            auditErrors = getGlobalVariableService().getAuditErrorMap().get(clusterKey+".s2s").getAuditErrorList();
-        }
-
-        return auditErrors;
     }
 
     private SponsorHierarchyService getSponsorHierarchyService() {
