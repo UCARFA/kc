@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1706.0029
 * RESKC-26: Refactor embedded HTML templates to be a little easier to reason with.
   * Removed inline styles from most of the HTML. Updated CSS stylings.
   * Jeremiah Piontek on Thu, 1 Jun 2017 12:48:20 -0500 [View Commit](../../commit/c8fc4f7d374ce1e8e3f2e0db765ec3d0d2fa9834)
