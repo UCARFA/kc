@@ -182,19 +182,15 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      * This method checks for the status of submission for the given
      * {@link ProposalDevelopmentDocument} on Grants.gov
      *
-     * @param pdDoc
-     *            for which status has to be checked
-     * @return boolean, <code>true</code> if status has changed, false
-     *         otherwise
+     * @param pdDoc for which status has to be checked
      */
     @Override
-    public boolean refreshGrantsGov(ProposalDevelopmentDocument pdDoc)
+    public void refreshGrantsGov(ProposalDevelopmentDocument pdDoc)
             throws S2sCommunicationException {
         GetApplicationListResponse applicationListResponse = fetchApplicationListResponse(pdDoc);
         if (applicationListResponse != null) {
             saveGrantsGovStatus(pdDoc, applicationListResponse);
         }
-        return true;
     }
 
     /**
