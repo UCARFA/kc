@@ -1,6 +1,30 @@
 
 
 ##CURRENT
+* RESKC-1917: NIH Validation Fix It (#2392)
+
+* RESKC-1917: NIH Validation Fix It
+  * Build the NIH Mapping table logic so that
+  * When the Enable NIH Validation Service is Y, AND there are entries in the maintenance document for NIH Mapping:
+  * The maintenance table will inform what error needs to be displayed and where a user should be guided in the system using the Fix It link when the NIH Validation Service error or warning is triggered.
+  * In the absence of an entry in maintenance document, still show the NIH Validation error message which is standard but do not show a fix it link.
+  * Steps to have NIH Message show
+  * create a proposal
+  * add grants.gov opportunity PA-DD-R01 - choose select for the opportunity which says FORMS-D-ISH for the competition ID
+  * Add person and do certification
+  * Add Attachments (research strategy, project summary and narrative) mark complete
+  * Complete the questionnaires (you can say No to everything)
+  * Turn on Data Validation - see message for NIH Validation Service : 0.28	You must include a budget with this application.
+  * When the csv is loaded into the maintenance table - that message should have the fix it link which takes the user to the S2S Opportunity tab
+  * 
+* PR review changes
+  * Gayathri Athreya on Wed, 21 Jun 2017 10:15:46 -0700 [View Commit](../../commit/bf08528c0d5994d8f80fc4a506593ab5b6721fb4)
+* RESKC-2311: code cleanup
+  * Travis Schneeberger on Wed, 21 Jun 2017 08:21:51 -0400 [View Commit](../../commit/3f59ed912385bf575922e067dd634ac73beaf505)
+* RESKC-2311: preventing multiple s2s submissions
+  * Travis Schneeberger on Wed, 21 Jun 2017 08:16:20 -0400 [View Commit](../../commit/8b1bf16fe516bf8ee41d208206abcab332c8aefb)
+
+##coeus-1706.0030
 * No Changes
 
 

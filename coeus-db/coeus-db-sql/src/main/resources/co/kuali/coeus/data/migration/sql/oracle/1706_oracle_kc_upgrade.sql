@@ -24,4 +24,5 @@ spool 1706_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1706_001__account_active_flag.sql
 @./kc/bootstrap/V1706_002__NIH_validation_data.sql
 @./kc/bootstrap/V1706_005__org_idc_fed_rate.sql
+@./kc/bootstrap/V1706_007__NIH_validation_data_correction.sql
 commit;
