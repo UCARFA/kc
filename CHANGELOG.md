@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2296: Not allowing Proposal/Award Key Person entries to be deleted
+  * Travis Schneeberger on Fri, 23 Jun 2017 15:32:29 -0400 [View Commit](../../commit/cc0d85be516b16bc55b96b18b10183fb68894bb7)
+
+##coeus-1706.0032
 * Revert "RESKC-26: Refactor embedded HTML templates to be a little easier to reason with." (#2394)
 
   * This reverts commit c8fc4f7d374ce1e8e3f2e0db765ec3d0d2fa9834.  * Gayathri Athreya on Thu, 22 Jun 2017 17:29:07 -0700 [View Commit](../../commit/1577d36a539eadb20c75e47260b20ab00f3e747e)
