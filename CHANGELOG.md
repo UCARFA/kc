@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Revert "RESKC-26: Refactor embedded HTML templates to be a little easier to reason with." (#2394)
+
+  * This reverts commit c8fc4f7d374ce1e8e3f2e0db765ec3d0d2fa9834.  * Gayathri Athreya on Thu, 22 Jun 2017 17:29:07 -0700 [View Commit](../../commit/1577d36a539eadb20c75e47260b20ab00f3e747e)
+
+##coeus-1706.0031
 * RESKC-1917: NIH Validation Fix It (#2392)
 
 * RESKC-1917: NIH Validation Fix It
