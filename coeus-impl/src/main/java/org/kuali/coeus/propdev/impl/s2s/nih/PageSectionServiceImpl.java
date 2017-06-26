@@ -21,13 +21,18 @@ package org.kuali.coeus.propdev.impl.s2s.nih;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.service.DataDictionaryService;
-import org.kuali.rice.krad.uif.container.*;
+import org.kuali.rice.krad.uif.container.Container;
+import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.container.PageGroup;
 import org.springframework.beans.factory.BeanIsAbstractException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -39,6 +44,27 @@ public class PageSectionServiceImpl implements PageSectionService {
     @Autowired
     @Qualifier("dataDictionaryService")
     private DataDictionaryService dataDictionaryService;
+    private static Map<String, ArrayList<String>> pageToSections;
+
+    static
+    {
+        pageToSections = new HashMap();
+        ArrayList<String> sections = new ArrayList();
+        sections.add(Constants.PROP_DEV_OPPORTUNITY_PAGE_FORMS);
+        pageToSections.put(Constants.PROP_DEV_SPONSOR_PROGRAM_INFO_PAGE, sections);
+        sections = new ArrayList<>();
+        sections.add(Constants.PROP_DEV_APPLICANT_ORGANIZATION_PAGE_SECTION);
+        sections.add(Constants.PROP_DEV_PERFORMING_ORGANIZATION_PAGE_SECTION);
+        sections.add(Constants.PROP_DEV_PERFORMANCE_SITES_PAGE_SECTION);
+        sections.add(Constants.PROP_DEV_OTHER_ORGANIZATIONS_PAGE_SECTION);
+        pageToSections.put(Constants.PROP_DEV_ORGANIZATION_LOCATIONS_PAGE, sections);
+        sections = new ArrayList<>();
+        sections.add(Constants.PROP_DEV_CREDIT_ALLOCATION_SECTION);
+        pageToSections.put(Constants.PROP_DEV_CREDIT_ALLOCATION_PAGE, sections);
+        sections = new ArrayList<>();
+        sections.add(Constants.PROP_DEV_SUPPLEMENTAL_SECTION);
+        pageToSections.put(Constants.PROP_DEV_SUPPLEMENTAL_PAGE, sections);
+    }
 
     @Override
     public List<String> getSectionsOnPage(String pageId) {
@@ -53,11 +79,12 @@ public class PageSectionServiceImpl implements PageSectionService {
     }
 
     protected boolean getSectionIds(DataDictionary dd, String currentName, String pageId) {
-        Pattern p = Pattern.compile("Actions|Collection|Button|Dialog|parentBean|Confirm|Footer|LowerGroup|Wizard|Forms");
+        Pattern p = Pattern.compile("Actions|Button|Dialog|parentBean|Confirm|Footer|LowerGroup|Wizard");
         Matcher m = p.matcher(currentName);
 
+
         try {
-            if (currentName.contains(pageId) && !m.find()) {
+            if ((currentName.contains(pageId) || (pageToSections.containsKey(pageId) && pageToSections.get(pageId).contains(currentName))) && !m.find()) {
                 Object bean = dd.getDictionaryBean(currentName);
                 if (!(bean instanceof PageGroup) && bean instanceof Group && ((Container)bean).getLayoutManager() != null) {
                     return true;
@@ -73,7 +100,7 @@ public class PageSectionServiceImpl implements PageSectionService {
     public List<String> getPageIds() {
         DataDictionary dd = dataDictionaryService.getDataDictionary();
         List<String> nm = getBeanNamesForNamespace(dd);
-        List<String> pageIds = nm.stream().filter(currentName -> filterBeansForPages(dd, currentName)).collect(Collectors.toList());
+        List<String> pageIds = nm.stream().filter(currentName -> filterBeansForPages(dd, currentName)).sorted().collect(Collectors.toList());
         return pageIds;
     }
 

@@ -297,7 +297,6 @@
                 <bean parent="FieldDefinition" p:attributeName="ruleNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="customMessage"/>
                 <bean parent="FieldDefinition" p:attributeName="pageId"/>
-                <bean parent="FieldDefinition" p:attributeName="sectionId"/>
                 <bean parent="FieldDefinition" p:attributeName="active"/>
                 <bean parent="FieldDefinition" p:attributeName="appendToOriginal"/>
                 <bean parent="FieldDefinition" p:attributeName="forceError"/>
@@ -324,7 +323,6 @@
                 <bean p:propertyName="ruleNumber" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="customMessage" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="pageId" parent="Uif-LookupCriteriaInputField"/>
-                <bean p:propertyName="sectionId" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="appendToOriginal" parent="Uif-LookupCriteriaInputField"/>
                 <bean p:propertyName="forceError" parent="Uif-LookupCriteriaInputField"/>

@@ -974,5 +974,16 @@ public interface Constants {
     String S2S_PAGE_NAME = "S2S Opportunity Search";
     String S2S_OPPORTUNITY_SECTION_ID = "PropDev-OpportunityPage-General";
     String S2S_OPPORTUNITY_SECTION_NAME = "Opportunity";
+    String PROP_DEV_OPPORTUNITY_PAGE_FORMS = "PropDev-OpportunityPage-Forms";
+    String PROP_DEV_SPONSOR_PROGRAM_INFO_PAGE = "PropDev-SponsorProgramInfoPage";
+    String PROP_DEV_APPLICANT_ORGANIZATION_PAGE_SECTION = "PropDev-ApplicantOrganizationPage-Section";
+    String PROP_DEV_PERFORMING_ORGANIZATION_PAGE_SECTION = "PropDev-PerformingOrganizationPage-Section";
+    String PROP_DEV_PERFORMANCE_SITES_PAGE_SECTION = "PropDev-PerformanceSitesPage-Section";
+    String PROP_DEV_OTHER_ORGANIZATIONS_PAGE_SECTION = "PropDev-OtherOrganizationsPage-Section";
+    String PROP_DEV_ORGANIZATION_LOCATIONS_PAGE = "PropDev-OrganizationLocationsPage";
+    String PROP_DEV_CREDIT_ALLOCATION_SECTION = "PropDev-CreditAllocation-Section";
+    String PROP_DEV_CREDIT_ALLOCATION_PAGE = "PropDev-CreditAllocationPage";
+    String PROP_DEV_SUPPLEMENTAL_SECTION = "PropDev-Supplemental-Section";
+    String PROP_DEV_SUPPLEMENTAL_PAGE = "PropDev-SupplementalPage";
 }
 
