@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-2100: fix multicampus
+  * Travis Schneeberger on Fri, 23 Jun 2017 15:28:10 -0400 [View Commit](../../commit/49b65074144f0d532071d4bd25919f7f4e578358)
+* RESKC-2105: url encoding attachment file name in proposal development
+  * Travis Schneeberger on Fri, 23 Jun 2017 13:37:47 -0400 [View Commit](../../commit/0d4b3b7c0e35d71c7d8d840175206691cf941a8c)
+
+##coeus-1706.0033
 * RESKC-2296: Not allowing Proposal/Award Key Person entries to be deleted
   * Travis Schneeberger on Fri, 23 Jun 2017 15:32:29 -0400 [View Commit](../../commit/cc0d85be516b16bc55b96b18b10183fb68894bb7)
 
