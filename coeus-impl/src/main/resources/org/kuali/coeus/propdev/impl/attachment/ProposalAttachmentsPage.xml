@@ -630,7 +630,7 @@
     <bean id="PropDev-AttachmentPage-LinkField" parent="PropDev-AttachmentPage-LinkField-parentBean"/>
     <bean id="PropDev-AttachmentPage-LinkField-parentBean" abstract="true" parent="Uif-LinkField"
           p:readOnly="true" p:label="File" p:link.linkText="@{#line.name}"
-          p:link.href="?methodToCall=getFileFromLine&amp;formKey=@{formKey}&amp;fileName=@{#line.name}&amp;propertyPath=@{#collectionGroup.bindingInfo.bindingPath}&amp;selectedLineIndex=@{#index}"
+          p:link.href="?methodToCall=getFileFromLine&amp;formKey=@{formKey}&amp;fileName=@{#ViewHelper.urlEncode(#line.name)}&amp;propertyPath=@{#collectionGroup.bindingInfo.bindingPath}&amp;selectedLineIndex=@{#index}"
           p:order="10"/>
 
     <bean id="PropDev-AttachmentPage-MultiFileCollection" parent="PropDev-AttachmentPage-MultiFileCollection-parentBean"/>
