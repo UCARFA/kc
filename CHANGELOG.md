@@ -1,6 +1,23 @@
 
 
 ##CURRENT
+* RESKC-2341: Add missing sections to mapping (#2400)
+
+  * Gayathri Athreya on Mon, 26 Jun 2017 14:27:29 -0700 [View Commit](../../commit/ad76353c5aa7cb4e76d2983ca7bf62c937b34206)
+* RESKC-2322: Fix subaward Estimated Project Period End Date. (#2401)
+
+  * SUMMARY: In the FDP Cost Reimbursement Research Subaward Agreement printout the Estimated Project Period section should be mapping the Start Date of the last Financial entry and the End Date of the over Project End Date from the Subaward tab. Currently the End Date is also mapping from the Financial entry. The Estimated End Date needs to be updated to map from the Subaward End Date.
+  * STEPS TO REPRODUCE:
+  * create Subaward
+  * fill out required fields for saving - input Start/End Date on the Subaward tab (i.e. 6/1/17 - 6/30/17)
+  * go to the Financial tab and add transaction entry with Start/End Date of 6/2/17-6/29/17
+  * fill out required info on the Templates tab
+  * go to Subaward Actions and print the FDP Subaward Agreement
+  * notice the Estimated Project Period End Date is 6/29/18 when it should be 6/30/18 from the Project End Date on the Subaward tab.  * Gayathri Athreya on Mon, 26 Jun 2017 14:26:33 -0700 [View Commit](../../commit/d110197dc2f9ca7dae8de07645bdf9b00834ec3c)
+* RESKC-2183, RESKC-2342: updating s2s, adding parameter
+  * Travis Schneeberger on Mon, 26 Jun 2017 17:10:13 -0400 [View Commit](../../commit/7e706e4b26b63816575febd84e11b263dcb02f66)
+
+##coeus-1706.0034
 * RESKC-2100: fix multicampus
   * Travis Schneeberger on Fri, 23 Jun 2017 15:28:10 -0400 [View Commit](../../commit/49b65074144f0d532071d4bd25919f7f4e578358)
 * RESKC-2105: url encoding attachment file name in proposal development
