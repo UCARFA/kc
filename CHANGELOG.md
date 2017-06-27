@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Make admin email unique in bootstrap data so it can be succesfully pushed to Core (required to update schoolId in Core)
+  * Terry Durkin on Tue, 27 Jun 2017 14:08:05 -0400 [View Commit](../../commit/477c2e937e5679e7057b96daf667ed24694fd11f)
+
+##coeus-1706.0035
 * RESKC-2341: Add missing sections to mapping (#2400)
 
   * Gayathri Athreya on Mon, 26 Jun 2017 14:27:29 -0700 [View Commit](../../commit/ad76353c5aa7cb4e76d2983ca7bf62c937b34206)
