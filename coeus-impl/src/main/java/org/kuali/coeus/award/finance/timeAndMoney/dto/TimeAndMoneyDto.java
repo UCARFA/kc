@@ -21,6 +21,7 @@ package org.kuali.coeus.award.finance.timeAndMoney.dto;
 
 import com.codiform.moo.annotation.CollectionProperty;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.kuali.kra.award.home.AwardAmountInfoDto;
 
 import java.util.List;
 
@@ -38,6 +39,11 @@ public class TimeAndMoneyDto {
     @CollectionProperty(source="transactionDetails", itemClass= AwardAmountTransactionDto.class)
     private List<TransactionDetailDto> transactionDetails;
 
+    @JsonProperty(value="awardAmountInfos")
+    @CollectionProperty(source = "awardAmountInfos", itemClass=AwardAmountInfoDto.class)
+    private List<AwardAmountInfoDto> awardAmountInfos;
+
+
     public List<AwardAmountTransactionDto> getAwardAmountTransactions() {
         return awardAmountTransactions;
     }
@@ -52,6 +58,14 @@ public class TimeAndMoneyDto {
 
     public void setTransactionDetails(List<TransactionDetailDto> transactionDetails) {
         this.transactionDetails = transactionDetails;
+    }
+
+    public List<AwardAmountInfoDto> getAwardAmountInfos() {
+        return awardAmountInfos;
+    }
+
+    public void setAwardAmountInfos(List<AwardAmountInfoDto> awardAmountInfos) {
+        this.awardAmountInfos = awardAmountInfos;
     }
 
     public String getAwardId() {
