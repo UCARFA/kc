@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2351: Add Award Amount Infos to Time and Money API (#2405)
+
+  * RESKC-2351: Add Award Adount Infos to Time and Money API  * Terry Durkin on Thu, 29 Jun 2017 11:45:21 -0400 [View Commit](../../commit/a5068e9270c4957bea22c28f658360ab44a77e5b)
+
+##coeus-1706.0036
 * Make admin email unique in bootstrap data so it can be succesfully pushed to Core (required to update schoolId in Core)
   * Terry Durkin on Tue, 27 Jun 2017 14:08:05 -0400 [View Commit](../../commit/477c2e937e5679e7057b96daf667ed24694fd11f)
 
