@@ -18,6 +18,7 @@
  */
 package co.kuali.coeus.common.impl.attachment;
 
+import co.kuali.rice.coreservice.api.attachment.S3FileService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -44,7 +45,7 @@ public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3C
     private static final String QUERY_SQL = "select id, data from file_data where data is not null";
     private static final String UPDATE_SQL = "update file_data set data = null where id = ?";
 
-    private KcS3FileService kcS3FileService;
+    private S3FileService kcS3FileService;
     private ParameterService parameterService;
     private Integer fetchSize = 5;
     private DataSource dataSource;
@@ -161,11 +162,11 @@ public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3C
         return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KcAttachmentDataS3Constants.S3_DUAL_SAVE_ENABLED);
     }
 
-    public KcS3FileService getKcS3FileService() {
+    public S3FileService getKcS3FileService() {
         return kcS3FileService;
     }
 
-    public void setKcS3FileService(KcS3FileService kcS3FileService) {
+    public void setKcS3FileService(S3FileService kcS3FileService) {
         this.kcS3FileService = kcS3FileService;
     }
 

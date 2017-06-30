@@ -19,6 +19,7 @@
 package co.kuali.coeus.common.impl.attachment;
 
 
+import co.kuali.rice.coreservice.api.attachment.S3FileService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -43,7 +44,7 @@ public class KcAttachmentDataDaoS3Impl extends KcAttachmentDataDaoImpl {
     private static final String INSERT_RECORD_ID_ONLY = "insert into file_data (id) values (?)";
     private static Log LOG = LogFactory.getLog(KcAttachmentDataDaoS3Impl.class);
 
-    private KcS3FileService kcS3FileService;
+    private S3FileService kcS3FileService;
     private ParameterService parameterService;
 
     @Override
@@ -194,11 +195,11 @@ public class KcAttachmentDataDaoS3Impl extends KcAttachmentDataDaoImpl {
         return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KcAttachmentDataS3Constants.S3_DUAL_RETRIEVE_ENABLED);
     }
 
-    public KcS3FileService getKcS3FileService() {
+    public S3FileService getKcS3FileService() {
         return kcS3FileService;
     }
 
-    public void setKcS3FileService(KcS3FileService kcS3FileService) {
+    public void setKcS3FileService(S3FileService kcS3FileService) {
         this.kcS3FileService = kcS3FileService;
     }
 

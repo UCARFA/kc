@@ -365,6 +365,12 @@
 	<param name="s3.access.key">access_key</param>
 	<param name="s3.secret.key">secret_key</param>
 	<param name="s3.encryption.key.file">classpath:dummy.s3.key</param>
-	
+
+	<param name="rice.s3.bucket.name">${s3.bucket.name}</param>
+	<param name="rice.s3.region">${s3.region}</param>
+	<param name="rice.s3.access.key">${s3.access.key}</param>
+	<param name="rice.s3.secret.key">${s3.secret.key}</param>
+	<param name="rice.s3.encryption.key.file">${s3.encryption.key.file}</param>
+
 	<param name="drools.dialect.java.compiler.lnglevel" system="true">1.7</param>
 </config>

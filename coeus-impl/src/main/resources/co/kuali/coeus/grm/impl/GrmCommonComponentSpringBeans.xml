@@ -36,7 +36,7 @@
     <tx:annotation-driven transaction-manager="transactionManager" />
     <context:annotation-config />
 
-    <bean id="attachmentDataAmazonClient" class="co.kuali.coeus.s3.api.EncryptedS3FileServiceFactoryBean">
+    <bean id="kcAttachmentDataAmazonClient" class="co.kuali.coeus.s3.api.EncryptedS3FileServiceFactoryBean">
         <property name="bucketName" value="${s3.bucket.name}" />
         <property name="region" value="${s3.region}" />
         <property name="accessKey" value="${s3.access.key}" />
@@ -44,8 +44,8 @@
         <property name="encryptionKey" value="${s3.encryption.key.file}" />
     </bean>
 
-    <bean id="kcS3FileService" class="co.kuali.coeus.common.impl.attachment.KcS3FileServiceReflectionImpl">
-        <property name="s3FileService" ref="attachmentDataAmazonClient"/>
+    <bean id="kcS3FileService" class="co.kuali.rice.coreservice.impl.attachment.S3FileServiceReflectionImpl">
+        <property name="s3FileServiceClient" ref="kcAttachmentDataAmazonClient"/>
     </bean>
 
     <bean id="kcAttachmentDataDao" class="co.kuali.coeus.common.impl.attachment.KcAttachmentDataDaoS3Impl">
