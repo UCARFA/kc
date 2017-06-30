@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+* RESKC-2245: adding rice s3 config
+  * Travis Schneeberger on Fri, 23 Jun 2017 11:58:26 -0400 [View Commit](../../commit/0f38a007343988495121a003add80837a648056f)
+* RESKC-1792: Adding question required for ED524 Budget (#2408)
+
+  * Gayathri Athreya on Fri, 30 Jun 2017 08:58:48 -0700 [View Commit](../../commit/340183880097424e99d0448ca029a39a9477e555)
+* RESKC-2294:MIT Contribution: Sponsor Hierarchy Maintenance fixes
+  * User should receive the prompt "This node has sub sponsor group; can't
+  * add sponsors" when attempting to add a sponsor to a Sponsor Hierarchy
+  * Node/Group that has Sub-nodes/groups regardless of whether or not the
+  * parent has been expanded on the screen.  * vineeth on Tue, 27 Jun 2017 10:40:46 -0400 [View Commit](../../commit/7d2f9e6faacced7845f6a8093bc934094d1ee2f2)
+
+##coeus-1706.0039
 * No Changes
 
 

@@ -25,4 +25,6 @@ spool 1706_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1706_004__update_budget_personnel_lazy_flag.sql
 @./rice/bootstrap/V1706_006__prevent_multiple_s2s_submissions.sql
 @./rice/bootstrap/V1706_008__sf424a_mapping.sql
+@./rice/bootstrap/V1706_011__rice_s3_flags.sql
+@./rice/bootstrap/V1706_012__file_data_id.sql
 commit;
