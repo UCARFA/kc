@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1707.0001
 * RESKC-2206: Fixing on / off campus flag (#2410)
 
   * Gayathri Athreya on Wed, 5 Jul 2017 11:59:28 -0700 [View Commit](../../commit/8a339a8a3aab2c7dae207d2a1e5cf7330c067193)
