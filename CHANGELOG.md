@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2206: Fixing on / off campus flag (#2410)
+
+  * Gayathri Athreya on Wed, 5 Jul 2017 11:59:28 -0700 [View Commit](../../commit/8a339a8a3aab2c7dae207d2a1e5cf7330c067193)
+* Missing SQL (#2411)
+
+  * Gayathri Athreya on Wed, 5 Jul 2017 11:20:36 -0700 [View Commit](../../commit/5186745cc0bc7aceb3bda34320765b9e6064853b)
+
+##coeus-1706.0040
 * RESKC-2245: adding rice s3 config
   * Travis Schneeberger on Fri, 23 Jun 2017 11:58:26 -0400 [View Commit](../../commit/0f38a007343988495121a003add80837a648056f)
 * RESKC-1792: Adding question required for ED524 Budget (#2408)
