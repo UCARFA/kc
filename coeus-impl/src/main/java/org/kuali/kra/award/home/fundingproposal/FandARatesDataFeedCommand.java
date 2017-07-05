@@ -115,7 +115,7 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
         awardFandA.setFiscalYear(ipFandA.getFiscalYear());
         awardFandA.setApplicableFandaRate(ipFandA.getApplicableRate());
         awardFandA.setFandaRateTypeCode(ipFandA.getRateTypeCode());
-        awardFandA.setOnCampusFlag(ipFandA.getOnOffCampusFlag() ? "Y" : "N");
+        awardFandA.setOnCampusFlag(convertOnCampusBooleanToString(ipFandA.getOnOffCampusFlag()));
         awardFandA.setStartDate(ipFandA.getStartDate());
         awardFandA.setUnderrecoveryOfIndirectCost(ipFandA.getAmount());
         return awardFandA;

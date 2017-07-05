@@ -92,8 +92,11 @@
     <bean id="InstitutionalProposalFandA-onOffCampusFlag" parent="InstitutionalProposalFandA-onOffCampusFlag-parentBean"/>
     <bean id="InstitutionalProposalFandA-onOffCampusFlag-parentBean" abstract="true" parent="BudgetRate-onOffCampusFlag-parentBean">
         <property name="required" value="true" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
         <property name="control" >
-            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.award.budget.AwardOnOffCampusValuesFinder" p:includeKeyInLabel="false"/>
+            <bean parent="CheckboxControlDefinition" />
         </property>
     </bean>
 
