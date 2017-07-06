@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1707_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1707_001__ED524-supplemental.sql
+@./kc/bootstrap/V1707_002__ED524-supplement-disable.sql
 commit;

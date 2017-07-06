@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1707_001__ED524-supplemental.sql
+\. ./kc/bootstrap/V1707_002__ED524-supplement-disable.sql
 commit;
