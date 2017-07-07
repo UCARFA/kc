@@ -25,6 +25,8 @@
               "timeAndMoney": {
                   "awardAmountInfos": [
                     {
+                      "awardId": 40201,
+                      "awardNumber": "000038-00004",
                       "amountObligatedToDate": 244403.05, 
                       "antDistributableAmount": 273667.73, 
                       "anticipatedChange": 0, 
@@ -94,6 +96,8 @@
               "timeAndMoney": {
                   "awardAmountInfos": [
                     {
+                      "awardId": 40201,
+                      "awardNumber": "000038-00004",
                       "amountObligatedToDate": 244403.05, 
                       "antDistributableAmount": 273667.73, 
                       "anticipatedChange": 0, 
@@ -175,6 +179,8 @@
               "timeAndMoney": {
                   "awardAmountInfos": [
                     {
+                      "awardId": 40201,
+                      "awardNumber": "000038-00004",
                       "amountObligatedToDate": 244403.05, 
                       "antDistributableAmount": 273667.73, 
                       "anticipatedChange": 0, 

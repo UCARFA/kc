@@ -20,6 +20,7 @@ package org.kuali.kra.award.home;
 
 import java.sql.Date;
 
+import com.codiform.moo.annotation.Property;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 public class AwardAmountInfoDto {
@@ -45,7 +46,11 @@ public class AwardAmountInfoDto {
     private ScaleTwoDecimal obligatedTotalDirect;
     private ScaleTwoDecimal obligatedTotalIndirect;
     private Integer originatingAwardVersion;
-    
+	private String awardNumber;
+	@Property(source="award.awardId")
+	private Long awardId;
+
+
 	public Long getTransactionId() {
 		return transactionId;
 	}
@@ -172,5 +177,19 @@ public class AwardAmountInfoDto {
 	public void setAwardAmountInfoId(Long awardAmountInfoId) {
 		this.awardAmountInfoId = awardAmountInfoId;
 	}
-	
+
+	public String getAwardNumber() {
+		return awardNumber;
+	}
+	public void setAwardNumber(String awardNumber) {
+		this.awardNumber = awardNumber;
+	}
+
+	public Long getAwardId() {
+		return awardId;
+	}
+	public void setAwardId(Long awardId) {
+		this.awardId = awardId;
+	}
+
 }
