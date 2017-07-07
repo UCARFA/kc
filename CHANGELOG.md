@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-476: Make description not required. (#2414)
+
+  * Gayathri Athreya on Fri, 7 Jul 2017 11:22:46 -0700 [View Commit](../../commit/7f7a1b4b7b7f5299c29fb1cd0973575f43831d3b)
+
+##coeus-1707.0006
 * RESKC-2355: Expose Award Number and Award ID in Award Amount Info DTO for API usage (#2415)
 
   * Terry Durkin on Thu, 6 Jul 2017 21:36:45 -0400 [View Commit](../../commit/ef57de9b88ac2834f985015fb1d0347255ae6fb5)
