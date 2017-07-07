@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2355: Expose Award Number and Award ID in Award Amount Info DTO for API usage (#2415)
+
+  * Terry Durkin on Thu, 6 Jul 2017 21:36:45 -0400 [View Commit](../../commit/ef57de9b88ac2834f985015fb1d0347255ae6fb5)
+
+##coeus-1707.0005
 * RESKC-2369: Disabling forms (#2413)
 
   * Gayathri Athreya on Thu, 6 Jul 2017 12:09:21 -0700 [View Commit](../../commit/20cac79749e308440666d6367a7764e00c52aa90)
