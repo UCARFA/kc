@@ -21,4 +21,5 @@
 \. ./kc/bootstrap/V1707_001__ED524-supplemental.sql
 \. ./kc/bootstrap/V1707_002__ED524-supplement-disable.sql
 \. ./kc/bootstrap/V1707_003__multi_choice_question.sql
+\. ./kc/bootstrap/V1707_004__award_posts_indexes.sql
 commit;

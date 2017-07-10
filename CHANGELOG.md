@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Add indexes to improve API performance (#2421)
+
+  * Terry Durkin on Mon, 10 Jul 2017 17:23:02 -0400 [View Commit](../../commit/6171c1fc6ddce57dd3d73080c973d00502cd16fe)
+
+##coeus-1707.0009
 * No Changes
 
 
