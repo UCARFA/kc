@@ -60,7 +60,7 @@
 	<c:set var="tabTitle" value="${tabTitle}/${KualiForm.document.budget.budgetPeriods[budgetPeriod-1].budgetLineItems[budgetLineItemNumber].groupName}" />
 </c:if>
 
-<c:set var="tabErrorKey"                value="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetPersonnelDetailsList*" />
+<c:set var="tabErrorKey" value="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetPersonnelDetailsList*" />
 <c:set var="tabErrorKey" value="${tabErrorKey},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetPersonnelDetailsList*" />
 <c:set var="tabErrorKey" value="${tabErrorKey},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].startDate" />
 <c:set var="tabErrorKey" value="${tabErrorKey},document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].endDate" />
@@ -91,7 +91,6 @@
          <c:set var="cumulativePersonnelFringeCost" value="${BigDecimal.ZERO}" />
          
 	   	 <c:forEach var="budgetPersonnelDetails" items="${KualiForm.document.budget.budgetPeriods[budgetPeriod-1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList}" varStatus="status">
-		   	
 		   	<c:set var="personnelFringeCost" value="${BigDecimal.ZERO}" />
 		   	<c:forEach var="fringeRate" items="${budgetPersonnelDetails.budgetPersonnelCalculatedAmounts}" varStatus="frStatus">
 		   		<c:if test="${fringeRate.addToFringeRate}">
@@ -101,7 +100,8 @@
 		   	
 		   	<c:set var="cumulativeSalary" value="${cumulativeSalary.add(krafn:getBigDecimal(KualiForm.document.budget.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList[status.index].salaryRequested))}" />
 		   	<c:set var="cumulativePersonnelFringeCost" value="${cumulativePersonnelFringeCost.add(personnelFringeCost)}" />
-		   	
+
+
 		   	<tr>
 				<th valign="middle"  nowrap="true">
 					<div align=center>
@@ -146,11 +146,15 @@
                   	<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetPersonnelDetailsList[${status.index}].salaryRequested" attributeEntry="${budgetPersonnelDetailsAttributes.salaryRequested}" styleClass="amount" readOnly="true"/>
                 	</div>
 				</td>
-				<td valign="middle"  nowrap="true">                	
-                	<div align="right">
-                  	<fmt:formatNumber value="${personnelFringeCost}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
-                	</div>
-				</td>
+                <td valign="middle"  nowrap="true">
+                    <div align="right">
+                        <c:set var="costElement" value="${KualiForm.document.budget.budgetPeriods[budgetPeriod-1].budgetLineItems[budgetLineItemNumber].costElement}" />
+                        <c:set var="personId" value="${budgetPersonnelDetails.personId}" />
+                        <c:set var="createdKey" value="${costElement},${personId}" />
+                        <c:set var="summaryFringeTotals" value="${KualiForm.document.budget.objectCodePersonnelFringeTotals[createdKey][budgetPeriod-1]}" />
+                        <fmt:formatNumber value="${summaryFringeTotals}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+                    </div>
+                </td>
 				<td valign="middle" >
 					<div align=center>
                  		<kra:section permission="modifyBudgets">
@@ -196,13 +200,6 @@
 		</c:if>
 		
 		<c:if test="${fn:length(KualiForm.document.budget.budgetPeriods[budgetPeriod-1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList) == 0}" >
-		
-			<c:set var="fringeCost" value="${BigDecimal.ZERO}" />
-		   	<c:forEach var="fringeRate" items="${KualiForm.document.budget.budgetPeriods[budgetPeriod-1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts}" varStatus="frStatus">
-		   		<c:if test="${fringeRate.addToFringeRate}">
-		   			<c:set var="fringeCost" value="${fringeCost.add(krafn:getBigDecimal(fringeRate.calculatedCost))}" />
-		   		</c:if>
-		   	</c:forEach>
 		   	
 			<tr>
 				<td valign="middle"  nowrap="true">
@@ -239,8 +236,11 @@
 				</td>
 				<td valign="middle"  nowrap="true">                	
                 	<div align="right">
-                  		<fmt:formatNumber value="${fringeCost}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
-                	</div>
+                        <c:set var="costElement" value="${KualiForm.document.budget.budgetPeriods[budgetPeriod-1].budgetLineItems[budgetLineItemNumber].costElement}" />
+                        <c:set var="createdKey" value="${costElement}" />
+                        <c:set var="summaryFringeTotals" value="${KualiForm.document.budget.objectCodePersonnelFringeTotals[createdKey][budgetPeriod-1]}" />
+                        <fmt:formatNumber value="${summaryFringeTotals}" type="currency" currencySymbol="" maxFractionDigits="2" />&nbsp;
+                    </div>
 				</td>
 				<td valign="middle" >
 					<div align=center>
