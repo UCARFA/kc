@@ -29,6 +29,7 @@ import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.interactive.form.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -108,7 +109,7 @@ public final class PdfBoxUtils {
      * Sets a form field value on a PDF Document.  If a field is not found nothing happens.
      * @param pdfDocument the Pdf Document.  Cannot be null.
      * @param name the field name. Cannot be blank.
-     * @param value the value to set the field to.  Cannot be null of contain null values.
+     * @param value the value to set the field to.  If null does nothing.  Cannot contain null values.
      * @throws IllegalArgumentException if document is null or name is blank or the value is null or contains null values.
      */
     public static void setField(PDDocument pdfDocument, String name, List<String> value) {
@@ -130,11 +131,27 @@ public final class PdfBoxUtils {
      * Sets a form field value on a PDF Document.  If a field is not found nothing happens.
      * @param pdfDocument the Pdf Document.  Cannot be null.
      * @param name the field name. Cannot be blank.
-     * @param value the value to set the field to.  Cannot be null.
+     * @param value the value to set the field to.  If null does nothing.
      * @throws IllegalArgumentException if document is null or name is blank or value is null.
      */
     public static void setField(PDDocument pdfDocument, String name, String value) {
         setF(pdfDocument, name, value);
+    }
+
+    /**
+     * Sets a form field value on a PDF Document.  If a field is not found nothing happens.  The value if not null is
+     * set as a string in a type aware way.
+     * @param pdfDocument the Pdf Document.  Cannot be null.
+     * @param name the field name. Cannot be blank.
+     * @param value the value to set the field to.  If null does nothing.
+     * @throws IllegalArgumentException if document is null or name is blank or value is null.
+     */
+    public static void setFieldAsStr(PDDocument pdfDocument, String name, Object value) {
+        if (value instanceof BigDecimal) {
+            setF(pdfDocument, name, ((BigDecimal) value).toPlainString());
+        } else if (value != null) {
+            setF(pdfDocument, name, value.toString());
+        }
     }
 
     //purposely named different to avoid overloading with an Object type
@@ -148,16 +165,14 @@ public final class PdfBoxUtils {
             throw new IllegalArgumentException("name is blank");
         }
 
-        if (value == null) {
-            throw new IllegalArgumentException("value is null");
-        }
-
         final PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
         final PDAcroForm acroForm = docCatalog.getAcroForm();
         final PDField field = acroForm.getField(name);
 
         if (field != null) {
-            setField(field, value);
+            if (value != null) {
+                setField(field, value);
+            }
         } else {
             LOG.error("No field found with name:" + name);
         }
@@ -170,7 +185,7 @@ public final class PdfBoxUtils {
         }
 
         if (value == null) {
-            throw new IllegalArgumentException("value is null");
+            return;
         }
 
         try {
