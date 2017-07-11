@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2099- fixingFringeDisplay (#2419)
+
+  * Gayathri Athreya on Tue, 11 Jul 2017 08:53:23 -0700 [View Commit](../../commit/77b815b9f7f458b0f4b6ba40058a999218ed5cb1)
+
+##coeus-1707.0011
 * No Changes
 
 
