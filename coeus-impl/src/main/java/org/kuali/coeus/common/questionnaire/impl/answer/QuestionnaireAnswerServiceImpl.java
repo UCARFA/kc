@@ -54,11 +54,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * 
- * This class implemented the questionnaire answer related methods.
- */
-
 @Component("questionnaireAnswerService")
 public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerService {
 
@@ -89,9 +84,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
+
 
 
 
@@ -100,27 +93,27 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      */
     @Override
     public List<QuestionnaireUsage> getPublishedQuestionnaire(ModuleQuestionnaireBean moduleQuestionnaireBean) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
+        Map<String, String> fieldValues = new HashMap<>();
         fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
         fieldValues.put(MODULE_SUB_ITEM_CODE, moduleQuestionnaireBean.getModuleSubItemCode());
 
-        List<QuestionnaireUsage> usages = new ArrayList<QuestionnaireUsage>();
-        List<String> questionnaireIds = new ArrayList<String>();
+        List<QuestionnaireUsage> usages = new ArrayList<>();
+        List<String> questionnaireIds = new ArrayList<>();
         List<QuestionnaireUsage> questionnaireUsages = (List<QuestionnaireUsage>) businessObjectService.findMatching(
                 QuestionnaireUsage.class, fieldValues);
 
         // use this sort, to list the higher version before lower version
         if (CollectionUtils.isNotEmpty(questionnaireUsages)) {
-            Collections.sort((List<QuestionnaireUsage>) questionnaireUsages);
+            Collections.sort(questionnaireUsages);
         }
         
-        List<String> ruleIds = new ArrayList<String>();
+        List<String> ruleIds = new ArrayList<>();
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
             if (StringUtils.isNotBlank(questionnaireUsage.getRuleId())) {
                 ruleIds.add(questionnaireUsage.getRuleId());
             }
         }
-        Map<String, Boolean> ruleResults = new HashMap<String, Boolean>();
+        Map<String, Boolean> ruleResults = new HashMap<>();
         if (!ruleIds.isEmpty()) {
             ruleResults = runApplicableRules(ruleIds, moduleQuestionnaireBean);
         }
@@ -132,7 +125,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
                 if (moduleQuestionnaireBean.isFinalDoc() || (getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()) && questionnaireUsage.getQuestionnaire().isActive())) {
                     if (StringUtils.isNotBlank(questionnaireUsage.getRuleId())) {
-                        if (ruleResults.containsKey(questionnaireUsage.getRuleId()) && ruleResults.get(questionnaireUsage.getRuleId()).booleanValue()) {
+                        if (ruleResults.containsKey(questionnaireUsage.getRuleId()) && ruleResults.get(questionnaireUsage.getRuleId())) {
                             usages.add(questionnaireUsage);
                         }
                     } else {
@@ -149,7 +142,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * set up answer headers for the initial load of module questionnaire answers
      */
     protected List<AnswerHeader> initAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean, Map<String, AnswerHeader> answerHeaderMap) {
-        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        List<AnswerHeader> answerHeaders = new ArrayList<>();
         for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean)) {
             String questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireSeqId();
             if (answerHeaderMap.containsKey(questionnaireId)) {
@@ -201,7 +194,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     @Override
     public List<AnswerHeader> versioningQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean,
             Integer newSequenceNumber) {
-        List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
+        List<AnswerHeader> newAnswerHeaders = new ArrayList<>();
         List<String> questionnaireIds = getAssociateedQuestionnaireIds(moduleQuestionnaireBean);
         for (AnswerHeader answerHeader : retrieveAnswerHeaders(moduleQuestionnaireBean)) {
             if (questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireSeqId())) {
@@ -229,7 +222,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     protected List<AnswerHeader> copyAnswerHeadersToNewModuleQB(ModuleQuestionnaireBean srcModuleQuestionnaireBean,
             ModuleQuestionnaireBean destModuleQuestionnaireBean) {
 
-        List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
+        List<AnswerHeader> newAnswerHeaders = new ArrayList<>();
         List<String> questionnaireIds = getAssociateedQuestionnaireIds(destModuleQuestionnaireBean);
         List<AnswerHeader> srcModuleAnswerHeaders = retrieveAnswerHeaders(srcModuleQuestionnaireBean);
         for (AnswerHeader answerHeader : srcModuleAnswerHeaders) {
@@ -254,7 +247,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      */
     @Override
     public List<AnswerHeader> getQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
-        Map<String, AnswerHeader> answerHeaderMap = new HashMap<String, AnswerHeader>();
+        Map<String, AnswerHeader> answerHeaderMap = new HashMap<>();
         List<AnswerHeader> answers = retrieveAnswerHeaders(moduleQuestionnaireBean);
 
         if (globalVariableService.getUserSession() != null) {
@@ -271,7 +264,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
         List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap);
         for (AnswerHeader answerHeader : answerHeaders) {
-            Collections.sort(answerHeader.getAnswers(), new AnswerComparator());
+            answerHeader.getAnswers().sort(new AnswerComparator());
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
             answerHeader.setHasVisibleQuestion(hasVisibleQuestion(answerHeader.getAnswers()));
         }
@@ -280,7 +273,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
     protected List<AnswerHeader> retrieveAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
+        Map<String, String> fieldValues = new HashMap<>();
         fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
         fieldValues.put(MODULE_SUB_ITEM_CODE, moduleQuestionnaireBean.getModuleSubItemCode());
         fieldValues.put(MODULE_ITEM_KEY, moduleQuestionnaireBean.getModuleItemKey());
@@ -289,7 +282,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
     protected List<String> getAssociateedQuestionnaireIds(ModuleQuestionnaireBean moduleQuestionnaireBean) {
-        List<String> questionnaireIds = new ArrayList<String>();
+        List<String> questionnaireIds = new ArrayList<>();
         for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean)) {
             questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireSeqId());
         }
@@ -303,7 +296,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      */
     protected Questionnaire getLatestQuestionnaireVersion(Integer questionniareSeqId) {
         Questionnaire latestQnnrInstance = null;
-        Map<String, Long> fieldValues = new HashMap<String, Long>();
+        Map<String, Long> fieldValues = new HashMap<>();
         fieldValues.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, Long.valueOf(questionniareSeqId));
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class,
                 fieldValues, SEQUENCE_NUMBER, false);
@@ -470,22 +463,18 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      */
     protected List<List<Answer>> initParentAnswers(List<Answer> answers) {
         int maxQuestionNumber = 0;
-        List<List<Answer>> parentAnswers = new ArrayList<List<Answer>>();
+        List<List<Answer>> parentAnswers = new ArrayList<>();
         for (Answer answer : answers) {
             if (answer.getQuestionNumber() > maxQuestionNumber) {
                 while (maxQuestionNumber < answer.getQuestionNumber()) {
-                    parentAnswers.add(new ArrayList<Answer>());
+                    parentAnswers.add(new ArrayList<>());
                     maxQuestionNumber++;
                 }
             }
         }
-        parentAnswers.add(new ArrayList<Answer>());
+        parentAnswers.add(new ArrayList<>());
         return parentAnswers;
 
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     /*
@@ -495,8 +484,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     	Questionnaire questionnaire = questionnaireUsage.getQuestionnaire();
         AnswerHeader answerHeader = new AnswerHeader(moduleQuestionnaireBean, questionnaire.getQuestionnaireRefIdAsLong());
         answerHeader.setQuestionnaire(questionnaire);
-        List<Answer> answers = new ArrayList<Answer>();
-        List<QuestionnaireQuestion> questions = new ArrayList<QuestionnaireQuestion>();
+        List<Answer> answers = new ArrayList<>();
+
         for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
             if (question.getParentQuestionNumber() == 0) {
                 answers.addAll(setupAnswersForQuestion(question));
@@ -516,7 +505,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * Load the descendant questions for this questionnaire question.
      */
     protected List<Answer> getChildQuestions(Questionnaire questionnaire, QuestionnaireQuestion question) {
-        List<Answer> answers = new ArrayList<Answer>();
+        List<Answer> answers = new ArrayList<>();
         for (QuestionnaireQuestion questionnaireQuestion : questionnaire.getQuestionnaireQuestions()) {
             if (questionnaireQuestion.getParentQuestionNumber() != 0
                     && questionnaireQuestion.getParentQuestionNumber().equals(question.getQuestionNumber())) {
@@ -532,7 +521,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * Utility method to really fill the answer fields from question.
      */
     protected List<Answer> setupAnswersForQuestion(QuestionnaireQuestion questionnaireQuestion) {
-        List<Answer> answers = new ArrayList<Answer>();
+        List<Answer> answers = new ArrayList<>();
         int maxAnswers = 1;
         if (questionnaireQuestion.getQuestion().getMaxAnswers() != null) {
             maxAnswers = questionnaireQuestion.getQuestion().getMaxAnswers();
@@ -559,7 +548,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public void setupChildAnswerIndicator(AnswerHeader answerHeader) {
         List<Answer> answers = answerHeader.getAnswers();
         List<List<Answer>> parentAnswers = setupParentAnswers(answers);
-        List<String> ruleIds = new ArrayList<String>();
+        List<String> ruleIds = new ArrayList<>();
         for (Answer answer : answers) {
             if (answer.getQuestionnaireQuestion() != null && answer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
                 answer.setParentAnswers(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()));
@@ -571,9 +560,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 ruleIds.add(answer.getQuestionnaireQuestion().getConditionValue());
             }
         }
-        Collections.sort(answers, new AnswerComparator());
+        answers.sort(new AnswerComparator());
         
-        Map<String, Boolean> ruleResults = new HashMap<String, Boolean>();
+        Map<String, Boolean> ruleResults = new HashMap<>();
         if (!ruleIds.isEmpty()) {
              ruleResults = runApplicableRules(ruleIds, getModuleSpecificBean(answerHeader));
         }
@@ -583,7 +572,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             if (questionnaireQuestion.getParentQuestionNumber() == 0) {
                 String ruleId = questionnaireQuestion.getRuleId();
                 if (StringUtils.isNotBlank(ruleId)) {
-                    if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId).booleanValue()) {
+                    if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId)) {
                         answer.setMatchedChild(YES);
                         answer.setRuleMatched(true);
                     } else {
@@ -613,7 +602,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                     if (ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition())) {
                         // evaluate this rule, so the ruleReferenced map can be populated
                         String ruleId = questionnaireQuestion.getConditionValue();
-                         if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId).booleanValue()) {
+                         if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId)) {
                              answer.setRuleMatched(true);
                          } else {
                              answer.setRuleMatched(false);
@@ -621,7 +610,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                     }
                 }
                 else if ((ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition()) 
-                            && ruleResults.containsKey(questionnaireQuestion.getConditionValue()) && ruleResults.get(questionnaireQuestion.getConditionValue()).booleanValue()) 
+                            && ruleResults.containsKey(questionnaireQuestion.getConditionValue()) && ruleResults.get(questionnaireQuestion.getConditionValue()))
                        || isAnyAnswerMatched(questionnaireQuestion.getCondition(), 
                                parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()), questionnaireQuestion.getConditionValue())) {
                     answer.setMatchedChild(YES);
@@ -671,7 +660,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             } else if (YES.equals(answer.getMatchedChild())) {
                 final Boolean questionHasAnswer = questionIdsAnswered.get(answer.getQuestionId());
-                if(questionHasAnswer == null || !questionHasAnswer.booleanValue()) {
+                if(questionHasAnswer == null || !questionHasAnswer) {
                     questionIdsAnswered.put(answer.getQuestionId(), answer.getAnswer() != null);
                 }
            }
@@ -685,8 +674,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /**
      * 
      * Checks to see that at least one answer was matched by the rule and is visible.
-     * @param answers
-     * @return
      */
     public boolean hasVisibleQuestion(List<Answer> answers) {
 
@@ -822,7 +809,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<AnswerHeader> printAnswerHeaders = questionnaireHelper.getPrintAnswerHeaders();
         if (isAmendmentOrRenewal) {
             originalProtocolNumber = protocolNumber.substring(0, 10);
-            List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
+            List<AnswerHeader> headers = new ArrayList<>();
             for (AnswerHeader printAnswerHeader : printAnswerHeaders) {
                 if (!(CoeusSubModule.PROTOCOL_SUBMISSION.equals(printAnswerHeader.getModuleSubItemCode()) && printAnswerHeader.getModuleItemKey().equals(originalProtocolNumber))
                         && printAnswerHeader.getModuleItemKey().equals(protocolNumber)) {
@@ -839,7 +826,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     
     private Map<String, Boolean> runApplicableRules(List<String> ruleIds, ModuleQuestionnaireBean moduleQuestionnaireBean) {
         KrmsRulesContext rulesContext = moduleQuestionnaireBean.getKrmsRulesContextFromBean();
-        Map<String, Boolean> ruleResults = new HashMap<String, Boolean>();
+        Map<String, Boolean> ruleResults = new HashMap<>();
         if (rulesContext != null) {
             ruleResults.putAll(getKrmsRulesExecutionService().runApplicableRules(ruleIds, rulesContext, QUESTIONNAIRE_AGENDA_TYPE_ID));
         }
@@ -886,14 +873,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                         Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ProposalPersonModuleQuestionnaireBean.MODULE_SUB_ITEM_CODE_PI_CERTIFICATION));
     }
 
-    protected QuestionnaireService getQuestionnaireService() {
-        return questionnaireService;
-    }
-
-    public void setQuestionnaireService(QuestionnaireService questionnaireService) {
-        this.questionnaireService = questionnaireService;
-    }
-
     @Override
     public List<AnswerHeader> getNewVersionOfQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         List<AnswerHeader> newAnswerHeaders = getQuestionnaireAnswer(moduleQuestionnaireBean);
@@ -904,6 +883,22 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             }
         }
         return newAnswerHeaders;
+    }
+
+    protected QuestionnaireService getQuestionnaireService() {
+        return questionnaireService;
+    }
+
+    public void setQuestionnaireService(QuestionnaireService questionnaireService) {
+        this.questionnaireService = questionnaireService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
     public KrmsRulesExecutionService getKrmsRulesExecutionService() {
