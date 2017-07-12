@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Reskc 1496 (#2425)
+
+* RESKC-1496: Added check for encrypted pdf file in BudgetSubAwardsRule. Added resources/constants for error messages. Also, renamed a few misspelled constants.
+  * 
+* Cleanup
+  * Jeremiah Piontek on Wed, 12 Jul 2017 17:38:20 -0500 [View Commit](../../commit/0dd99230b256765aee96be1305461dc96392adce)
+
+##coeus-1707.0015
 * Revert "RESKC-26: Previous code relied on implicit type conversion for compar…"
   * Jeremiah Piontek on Wed, 12 Jul 2017 15:25:18 -0500 [View Commit](../../commit/b2787bba200bcb2514a33bd256fcc9b9b83ee01c)
 
