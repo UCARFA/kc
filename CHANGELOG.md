@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* RESKC-26: Previous code relied on implicit type conversion for comparisons.
+  * So the magic number value "1" was equal the int value 1. This was broken
+  * in refactor when using strict equality comparisons, i.e. "===". Code now
+  * properly parses the values to an int before doing a strict comparison.
+  * jeremiah on Thu, 29 Jun 2017 14:48:12 -0500 [View Commit](../../commit/8beed4e04901ee2bfa9ec467bf56c37a9eba8cc8)
+
+##coeus-1707.0013
 * RESKC-2077: supporting form SF424 Mandatory 1.2 - fixing DB scripts
   * Travis Schneeberger on Tue, 11 Jul 2017 14:30:33 -0400 [View Commit](../../commit/853f8159f58cd41f5ae158ea7d619ea89cef4907)
 * RESKC-2077: supporting form SF424 Mandatory 1.2
