@@ -22,6 +22,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
@@ -60,7 +62,7 @@ public class BudgetSubAwardsRule  {
     
     protected void verifyOrganizationName(BudgetSubAwardsEvent event, KcEventResult result){
         if (StringUtils.isBlank(event.getBudgetSubAwards().getOrganizationId())) {
-        	result.getMessageMap().putError(SUBAWARD_ORG_NAME_FIELD_NAME, Constants.SUBAWARD_ORG_NAME_REQUIERED);
+        	result.getMessageMap().putError(SUBAWARD_ORG_NAME_FIELD_NAME, Constants.SUBAWARD_ORG_NAME_REQUIRED);
             result.setSuccess(false);
         } else {
         	if (event.getBudgetSubAwards().getOrganization() == null) {
@@ -69,32 +71,44 @@ public class BudgetSubAwardsRule  {
             }
         }
     }
-    
-    protected void verifyAttachment(BudgetSubAwardsEvent event, KcEventResult result) {
-        if (event.getBudgetSubAwards().getNewSubAwardFile() != null) {
-	        try {
-	        	byte[] subAwardData = event.getBudgetSubAwards().getNewSubAwardFile().getBytes();
-	            if (ArrayUtils.isEmpty(subAwardData)) {
-	            	result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
-	                result.setSuccess(false);
-	            }
-	            String contentType = event.getBudgetSubAwards().getNewSubAwardFile().getContentType();
 
-	            if(ArrayUtils.isEmpty(subAwardData) || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){
-	            	result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
-	            	result.setSuccess(false);
-	            }
-	        } catch(FileNotFoundException fnfe) {
-	            LOG.error(fnfe.getMessage(), fnfe);
-	            result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
-	            result.setSuccess(false);
-	        } catch(IOException ioe) {
-	            LOG.error(ioe.getMessage(), ioe);
-	            result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
-	            result.setSuccess(false);
-	        }
+  protected void verifyAttachment(BudgetSubAwardsEvent event, KcEventResult result) {
+    if (event.getBudgetSubAwards().getNewSubAwardFile() != null) {
+      try {
+        byte[] subAwardData = event.getBudgetSubAwards().getNewSubAwardFile().getBytes();
+        if (ArrayUtils.isEmpty(subAwardData)) {
+          result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
+          result.setSuccess(false);
         }
+        String contentType = event.getBudgetSubAwards().getNewSubAwardFile().getContentType();
+
+        if(ArrayUtils.isEmpty(subAwardData) || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){
+          result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
+          result.setSuccess(false);
+        }
+
+        if(isEncryptedFile(subAwardData)) {
+          result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_ENCRYPTED);
+          result.setSuccess(false);
+        }
+      } catch(IOException e) {
+        LOG.error(e.getMessage(), e);
+        result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
+        result.setSuccess(false);
+      }
     }
+  }
+
+  private boolean isEncryptedFile(byte[] data) throws IOException {
+    boolean encrypted;
+    try {
+      PDDocument pdd = PDDocument.load(data);
+      encrypted = pdd.isEncrypted();
+    } catch(InvalidPasswordException ipe) {
+      encrypted = true;
+    }
+    return encrypted;
+  }
 
     protected KcAttachmentService getKcAttachmentService() {
         return kcAttachmentService;

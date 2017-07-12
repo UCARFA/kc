@@ -137,7 +137,7 @@ public class ProposalBudgetSubAwardController extends ProposalBudgetControllerBa
 				updateBudgetAttachment(form.getBudget(), subAward, fileName, fileData, "dialogDataObject");
 			} catch (Exception e) {
 				LOG.warn("Error adding subaward", e);
-				globalVariableService.getMessageMap().putError("dialogDataObject." + Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+				globalVariableService.getMessageMap().putError("dialogDataObject." + Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
 			} 
         }
         //on success make sure that dialogDataObject is the new, updated version.
@@ -190,7 +190,7 @@ public class ProposalBudgetSubAwardController extends ProposalBudgetControllerBa
 			} catch (Exception e) {
 				LOG.warn("Error adding subaward", e);
 				success = false;
-				globalVariableService.getMessageMap().putError(addLineBindingInfo.getBindingPath() + "." + Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+				globalVariableService.getMessageMap().putError(addLineBindingInfo.getBindingPath() + "." + Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
 			} 
         }
         if (success) {
@@ -235,7 +235,7 @@ public class ProposalBudgetSubAwardController extends ProposalBudgetControllerBa
 	        updateSubAwardBudgetDetails(budget, subAward, errorPath);
         }
     	if (subAward.getSubAwardXmlFileData() != null && kcAttachmentService.getSpecialCharacter(subAward.getSubAwardXmlFileData())) {
-    		globalVariableService.getMessageMap().putWarning(ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);
+    		globalVariableService.getMessageMap().putWarning(ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION, Constants.SUBAWARD_FILE_SPECIAL_CHARACTER);
             subAward.getBudgetSubAwardFiles().get(0).setSubAwardXmlFileData(kcAttachmentService.
                     checkAndReplaceSpecialCharacters(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData()));
             subAward.setSubAwardXmlFileData(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData());

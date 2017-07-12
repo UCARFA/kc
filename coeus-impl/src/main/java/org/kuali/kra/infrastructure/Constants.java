@@ -378,12 +378,13 @@ public interface Constants {
      * Subaward budget information
      */
     String SUBAWARD_FILE_FIELD_NAME = "newSubAwardFile";
-    String SUBAWARD_FILE_REQUIERED = "newSubAward.subAwardFile.required";
-    String SUBAWARD_ORG_NAME_REQUIERED = "newSubAward.organizationName.required";
+    String SUBAWARD_FILE_REQUIRED = "newSubAward.subAwardFile.required";
+    String SUBAWARD_ORG_NAME_REQUIRED = "newSubAward.organizationName.required";
     String SUBAWARD_ORG_NAME_INVALID = "newSubAward.organizationName.invalid";
-    String SUBAWARD_FILE_SPECIAL_CHARECTOR = "newSubAward.subAwardFile.special.character";
+    String SUBAWARD_FILE_SPECIAL_CHARACTER = "newSubAward.subAwardFile.special.character";
     String SUBAWARD_FILE_PERIOD_NOT_FOUND = "newSubAward.subAwardFile.periodNotFound";
     String SUBAWARD_FILE_DETAILS_UPDATED = "newSubAward.subAwardFile.detailsUpdated";
+    String SUBAWARD_FILE_ENCRYPTED = "newSubAward.subAwardFile.encrypted";
     
     // sponsor hierarchy
     String HIERARCHY_NAME = "hierarchyName";
