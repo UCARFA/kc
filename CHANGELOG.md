@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-2077: supporting form SF424 Mandatory 1.2 - fixing DB scripts
+  * Travis Schneeberger on Tue, 11 Jul 2017 14:30:33 -0400 [View Commit](../../commit/853f8159f58cd41f5ae158ea7d619ea89cef4907)
+* RESKC-2077: supporting form SF424 Mandatory 1.2
+  * Travis Schneeberger on Tue, 11 Jul 2017 12:15:43 -0400 [View Commit](../../commit/e8dcdb65d66979c8700561178746b38925632fc2)
+
+##coeus-1707.0012
 * RESKC-2099- fixingFringeDisplay (#2419)
 
   * Gayathri Athreya on Tue, 11 Jul 2017 08:53:23 -0700 [View Commit](../../commit/77b815b9f7f458b0f4b6ba40058a999218ed5cb1)

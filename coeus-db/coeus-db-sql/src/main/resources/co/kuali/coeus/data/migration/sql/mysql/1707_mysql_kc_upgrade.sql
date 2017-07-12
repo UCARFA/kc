@@ -22,4 +22,6 @@
 \. ./kc/bootstrap/V1707_002__ED524-supplement-disable.sql
 \. ./kc/bootstrap/V1707_003__multi_choice_question.sql
 \. ./kc/bootstrap/V1707_004__award_posts_indexes.sql
+\. ./kc/bootstrap/V1707_006__SF424_Mandatory_questions.sql
+\. ./kc/bootstrap/V1707_007__SF424_Mandatory_narratives.sql
 commit;
