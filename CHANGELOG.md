@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Revert "RESKC-26: Previous code relied on implicit type conversion for compar…"
+  * Jeremiah Piontek on Wed, 12 Jul 2017 15:25:18 -0500 [View Commit](../../commit/b2787bba200bcb2514a33bd256fcc9b9b83ee01c)
+
+##coeus-1707.0014
 * RESKC-26: Previous code relied on implicit type conversion for comparisons.
   * So the magic number value "1" was equal the int value 1. This was broken
   * in refactor when using strict equality comparisons, i.e. "===". Code now
