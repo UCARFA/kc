@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
+import com.lowagie.text.pdf.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -35,6 +36,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @KcBusinessRule("budgetSubAwardsRule")
 public class BudgetSubAwardsRule  {
@@ -45,7 +48,7 @@ public class BudgetSubAwardsRule  {
     @Autowired
     @Qualifier("kcAttachmentService")
     private KcAttachmentService kcAttachmentService;
-    
+
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
@@ -100,14 +103,19 @@ public class BudgetSubAwardsRule  {
   }
 
   private boolean isEncryptedFile(byte[] data) throws IOException {
-    boolean encrypted;
     try {
       PDDocument pdd = PDDocument.load(data);
-      encrypted = pdd.isEncrypted();
+      if (pdd.isEncrypted()) return true;
+
+      PdfReader reader = new PdfReader(data);
+      Map<Object, Object> attachments = getKcAttachmentService().extractAttachments(reader);
+      for (Map.Entry<Object, Object> pair : attachments.entrySet()) {
+        if (isEncryptedFile((byte[]) pair.getValue())) return true;
+      }
+      return false;
     } catch(InvalidPasswordException ipe) {
-      encrypted = true;
+      return true;
     }
-    return encrypted;
   }
 
     protected KcAttachmentService getKcAttachmentService() {

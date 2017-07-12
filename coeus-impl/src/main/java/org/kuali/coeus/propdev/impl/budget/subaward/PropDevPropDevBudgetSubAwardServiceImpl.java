@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xpath.XPathAPI;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.s2sgen.api.core.InfastructureConstants;
 import org.kuali.coeus.s2sgen.api.hash.GrantApplicationHashService;
@@ -60,7 +61,6 @@ import java.util.stream.Stream;
 
 @Component("propDevBudgetSubAwardService")
 public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSubAwardService {
-    private static final String DUPLICATE_FILE_NAMES =  "Duplicate PDF Attachment File Names"; 
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
     private static final Log LOG = LogFactory.getLog(PropDevPropDevBudgetSubAwardServiceImpl.class);
     private static final String YYYY_MM_DD = "yyyy-MM-dd";
@@ -98,6 +98,10 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     @Qualifier("sponsorHierarchyService")
     private SponsorHierarchyService sponsorHierarchyService;
 
+    @Autowired
+    @Qualifier("kcAttachmentService")
+    private KcAttachmentService kcAttachmentService;
+
     @Override
     public void populateBudgetSubAwardFiles(Budget budget, BudgetSubAwards subAward, String newFileName, byte[] newFileData) {
         subAward.setSubAwardStatusCode(1);
@@ -116,7 +120,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             byte[] xmlContents=getXMLFromPDF(reader);
             subawardBudgetExtracted = (xmlContents!=null && xmlContents.length>0);
             if(subawardBudgetExtracted){
-                Map fileMap = extractAttachments(reader);
+                Map fileMap = getKcAttachmentService().extractAttachments(reader);
                 updateXML(xmlContents, fileMap, subAward);
             }
         }catch (Exception e) {
@@ -369,95 +373,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         }
         return budgetNode;
     }
-    /**
-     * extracts attachments from PDF File
-     */
-    protected Map<Object, Object> extractAttachments(PdfReader reader)throws IOException{
-        Map<Object, Object> fileMap = new HashMap<>();
-        PdfDictionary catalog = reader.getCatalog();
-        PdfDictionary names = (PdfDictionary) PdfReader.getPdfObject(catalog.get(PdfName.NAMES));
-        if (names != null) {
-            PdfDictionary embFiles = (PdfDictionary)
-            PdfReader.getPdfObject(names.get(new PdfName("EmbeddedFiles")));
-            if (embFiles != null) {
-                HashMap embMap = PdfNameTree.readTree(embFiles);
-                for (Object o : embMap.values()) {
-                    PdfDictionary filespec = (PdfDictionary) PdfReader.getPdfObject((PdfObject) o);
-                    Object fileInfo[] = unpackFile(filespec);
-                    if (fileMap.containsKey(fileInfo[0])) {
-                        throw new RuntimeException(DUPLICATE_FILE_NAMES);
-                    }
-                    fileMap.put(fileInfo[0], fileInfo[1]);
-                }
-            }
-        }
-        for (int k = 1; k <= reader.getNumberOfPages(); ++k) {
-            PdfArray annots = (PdfArray) PdfReader.getPdfObject(reader.getPageN(k).get(PdfName.ANNOTS));
-            if (annots == null) {
-                continue;
-            }
-            for (Object o : annots.getArrayList()) {
-                PdfDictionary annot = (PdfDictionary) PdfReader.getPdfObject((PdfObject) o);
-                PdfName subType = (PdfName) PdfReader.getPdfObject(annot.get(PdfName.SUBTYPE));
-                if (!PdfName.FILEATTACHMENT.equals(subType)) {
-                    continue;
-                }
-                PdfDictionary filespec = (PdfDictionary)
-                        PdfReader.getPdfObject(annot.get(PdfName.FS));
-                Object fileInfo[] = unpackFile(filespec);
-                if (fileMap.containsKey(fileInfo[0])) {
-                    throw new RuntimeException(DUPLICATE_FILE_NAMES);
-                }
 
-                fileMap.put(fileInfo[0], fileInfo[1]);
-            }
-        }
-
-        return fileMap;
-    }
-
-    /**
-     * Unpacks a file attachment.
-     * @param filespec The dictonary containing the file specifications
-     * @throws IOException
-     */
-
-    protected static Object[] unpackFile(PdfDictionary filespec)throws IOException  {
-        Object arr[] = new Object[2]; //use to store name and file bytes
-        if (filespec == null) {
-            return null;
-        }
-        
-        PdfName type = (PdfName) PdfReader.getPdfObject(filespec.get(PdfName.TYPE));
-        if (!PdfName.F.equals(type) && !PdfName.FILESPEC.equals(type)) {
-            return null;
-        }
-
-        PdfDictionary ef = (PdfDictionary) PdfReader.getPdfObject(filespec.get(PdfName.EF));
-        if (ef == null) {
-            return null;
-        }
-        
-        PdfString fn = (PdfString) PdfReader.getPdfObject(filespec.get(PdfName.F));
-        if (fn == null) {
-            return null;
-        }
-
-        File fLast = new File(fn.toUnicodeString());
-        PRStream prs = (PRStream) PdfReader.getPdfObject(ef.get(PdfName.F));
-        if (prs == null) {
-            return null;
-        }
-
-        byte attachmentByte[] = PdfReader.getStreamBytes(prs);
-        arr[0] = fLast.getName();
-        arr[1] = attachmentByte;
-
-
-        return arr;
-
-    }
-    
     @Override
     public void updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards budgetSubAward, List<String[]> errors) throws Exception {
 
@@ -825,4 +741,12 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
 			SponsorHierarchyService sponsorHierarchyService) {
 		this.sponsorHierarchyService = sponsorHierarchyService;
 	}
+
+    protected KcAttachmentService getKcAttachmentService() {
+        return kcAttachmentService;
+    }
+
+    public void setKcAttachmentService(KcAttachmentService kcAttachmentService) {
+        this.kcAttachmentService = kcAttachmentService;
+    }
 }
