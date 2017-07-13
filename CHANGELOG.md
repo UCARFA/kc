@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1707.0016
 * Reskc 1496 (#2425)
 
 * RESKC-1496: Added check for encrypted pdf file in BudgetSubAwardsRule. Added resources/constants for error messages. Also, renamed a few misspelled constants.
