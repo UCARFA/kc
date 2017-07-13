@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2077: supporting form SF424 Mandatory 1.2 - fixing DB scripts to handle non-standard environments
+  * Travis Schneeberger on Thu, 13 Jul 2017 16:39:34 -0400 [View Commit](../../commit/a332a271047c830c14bfbe9f1e56c88bd0416a77)
+
+##coeus-1707.0017
 * No Changes
 
 
