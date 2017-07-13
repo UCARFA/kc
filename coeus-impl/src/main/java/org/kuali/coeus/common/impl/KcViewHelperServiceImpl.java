@@ -79,6 +79,9 @@ public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
     }
 
     public String urlEncode(String s) throws UnsupportedEncodingException {
+        if (s == null) {
+            return "";
+        }
         return URLEncoder.encode(s, "UTF-8");
     }
    
