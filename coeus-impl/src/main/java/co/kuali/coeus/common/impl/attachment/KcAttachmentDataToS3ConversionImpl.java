@@ -44,6 +44,7 @@ public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3C
     private static final Log LOG = LogFactory.getLog(KcAttachmentDataToS3ConversionImpl.class);
     private static final String QUERY_SQL = "select id, data from file_data where data is not null";
     private static final String UPDATE_SQL = "update file_data set data = null where id = ?";
+    private static final String DELETE_FILE_FROM_DB = "DELETE_FILE_FROM_DB";
 
     private S3FileService kcS3FileService;
     private ParameterService parameterService;
@@ -99,12 +100,14 @@ public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3C
                                     if (!Objects.equals(s3MD5, dbMD5)) {
                                         LOG.error("S3 data MD5: " + s3MD5 + " does not equal DB data MD5: " + dbMD5 + " for id: " + fileDataId);
                                     } else {
-                                        updateStmt.setString(1, fileDataId);
-                                        int numUpdated = updateStmt.executeUpdate();
-                                        if (numUpdated != 1) {
-                                            LOG.error("Expected to update a single row, but instead updated " + numUpdated + ". Job exiting.");
-                                            conn.rollback();
-                                            return;
+                                        if (isDeleteFromDatabase()) {
+                                            updateStmt.setString(1, fileDataId);
+                                            int numUpdated = updateStmt.executeUpdate();
+                                            if (numUpdated != 1) {
+                                                LOG.error("Expected to update a single row, but instead updated " + numUpdated + ". Job exiting.");
+                                                conn.rollback();
+                                                return;
+                                            }
                                         }
                                     }
                                 }
@@ -160,6 +163,10 @@ public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3C
 
     protected boolean isS3DualSaveEnabled() {
         return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KcAttachmentDataS3Constants.S3_DUAL_SAVE_ENABLED);
+    }
+
+    protected boolean isDeleteFromDatabase() {
+        return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, DELETE_FILE_FROM_DB);
     }
 
     public S3FileService getKcS3FileService() {
