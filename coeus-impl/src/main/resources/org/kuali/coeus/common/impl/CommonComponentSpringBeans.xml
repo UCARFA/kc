@@ -128,6 +128,10 @@
         <property name="lookupableHelperService" ref="sponsorLookupableHelperService" />
     </bean>
 
+    <bean id="sponsorHierarchyMaintenanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="sponsorHierarchyMaintenanceLookupableHelperService" />
+    </bean>
+    
     <bean id="unitAdministratorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="unitAdministratorLookupableHelperService" />
     </bean>

@@ -636,6 +636,7 @@
                 <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReviewType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReviewUsage.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/Sponsor.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/sponsor/SponsorHierarchyMaintenanceLookupable.xml</value> 
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/form/SponsorForms.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/form/SponsorFormTemplate.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/hierarchy/SponsorHierarchy.xml</value>
