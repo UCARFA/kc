@@ -27,4 +27,5 @@ spool 1707_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1707_004__award_posts_indexes.sql
 @./kc/bootstrap/V1707_006__SF424_Mandatory_questions.sql
 @./kc/bootstrap/V1707_007__SF424_Mandatory_narratives.sql
+@./kc/bootstrap/V1707_008__SF424_supplement_errors.sql
 commit;
