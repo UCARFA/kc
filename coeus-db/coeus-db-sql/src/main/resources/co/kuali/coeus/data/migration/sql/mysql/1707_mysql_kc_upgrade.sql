@@ -25,4 +25,5 @@
 \. ./kc/bootstrap/V1707_006__SF424_Mandatory_questions.sql
 \. ./kc/bootstrap/V1707_007__SF424_Mandatory_narratives.sql
 \. ./kc/bootstrap/V1707_008__SF424_supplement_errors.sql
+\. ./kc/bootstrap/V1707_009__SF424_Mandatory_questions_revert.sql
 commit;

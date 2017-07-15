@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2077: reverting new s2s questions that are colliding with certain environments.
+  * Travis Schneeberger on Fri, 14 Jul 2017 21:19:53 -0400 [View Commit](../../commit/10505c4d515f1117f07319370a1b64304441f750)
+
+##coeus-1707.0019
 * RESKC-2365: Adding useful error messages. (#2424)
 
   * Gayathri Athreya on Thu, 13 Jul 2017 19:42:30 -0700 [View Commit](../../commit/285ad6c243679757e5f0a95789d1499d6ddb7cfd)
