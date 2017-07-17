@@ -93,12 +93,7 @@
         </property>
         <property name="layoutManager.richTable.templateOptions">
             <map>
-                <entry key="sDom" value="tip"/>
-                <entry key="bRetrieve" value="true"/>
-                <entry key="bPaginate" value="false"/>
-                <entry key="bInfo" value="false"/>
-                <entry key="aoColumnDefs"
-                       value="[{'bSortable':false, 'aTargets' : [4]}]" />
+                <entry key="bAutoWidth" value="true" />
             </map>
         </property>
     </bean>
