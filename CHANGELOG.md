@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2398: Fix modal display issues. (#2435)
+
+  * Gayathri Athreya on Mon, 17 Jul 2017 12:29:51 -0700 [View Commit](../../commit/ed98d67d8bd7b52122b9995b782e3ee45570de55)
+
+##coeus-1707.0021
 * No Changes
 
 
