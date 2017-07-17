@@ -22,11 +22,12 @@ import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.rice.krad.bo.Note;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProposalDevelopmentAttachmentHelper {
+public class ProposalDevelopmentAttachmentHelper implements Serializable {
     private Narrative narrative;
     private Narrative instituteAttachment;
     private Note note;
