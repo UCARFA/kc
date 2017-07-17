@@ -989,6 +989,9 @@
                 <value>classpath:org/kuali/coeus/sys/impl/dd/DataDictionaryOverride.xml</value>
                 <value>classpath:org/kuali/coeus/sys/impl/dd/DataDictionaryOverrideMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/sys/impl/dd/DataDictionaryFile.xml</value>
+                <value>classpath:org/kuali/coeus/sys/impl/session/ser/SerializableSessionAttribute.xml</value>
+                <value>classpath:org/kuali/coeus/sys/impl/session/ser/SerializableUserSessionAttribute.xml</value>
+                <value>classpath:org/kuali/coeus/sys/impl/session/ser/SerializableKradForm.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/LineItemTableCommon.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AwardCgb.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/DummyLoginOverrides.xml</value>

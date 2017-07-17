@@ -248,8 +248,32 @@
 
     <bean class="org.kuali.coeus.sys.framework.listener.ListenerRegistrator">
         <property name="listener">
+            <bean class="org.kuali.coeus.sys.impl.session.SessionHoldingListener"/>
+        </property>
+    </bean>
+
+    <bean class="org.kuali.coeus.sys.framework.listener.ListenerRegistrator">
+        <property name="listener">
+            <bean class="org.kuali.coeus.sys.impl.session.ser.SerializableSessionListener"/>
+        </property>
+    </bean>
+
+    <bean class="org.kuali.coeus.sys.framework.listener.ListenerRegistrator">
+        <property name="listener">
             <bean class="net.bull.javamelody.SessionListener"/>
         </property>
+    </bean>
+
+    <bean id="serializableSessionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="serializableSessionLookupableHelperService" />
+    </bean>
+
+    <bean id="serializableUserSessionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="serializableUserSessionLookupableHelperService" />
+    </bean>
+
+    <bean id="serializableKradFormLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="serializableKradFormLookupableHelperService" />
     </bean>
 
     <!-- not using the activemq format here in order to use property replacement
