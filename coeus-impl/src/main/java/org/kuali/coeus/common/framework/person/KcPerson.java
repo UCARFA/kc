@@ -1176,22 +1176,14 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
             public boolean shouldSelect(PrincipalContract a) { return personId.equals(a.getPrincipalId()); }
         });
     }
-    
-    @Override()
-    public String toString(){
-        StringBuffer retVal = new StringBuffer(50);
-        retVal.append("getAddressLine1:'").append(this.getAddressLine1()).append("'\n");
-        retVal.append("getAddressLine2:'").append(this.getAddressLine2()).append("'\n");
-        retVal.append("getAddressLine3:'").append(this.getAddressLine3()).append("'\n");
-        retVal.append("city:'").append(this.getCity()).append("'\n");
-        retVal.append("org name:'").append(this.getContactOrganizationName()).append("'\n");
-        retVal.append("userName:'").append(this.getUserName()).append("'\n");
-        retVal.append("first name:'").append(this.getFirstName()).append("'\n");
-        retVal.append("last name:'").append(this.getLastName()).append("'\n");
-        retVal.append("full name:'").append(this.getFullName()).append("'\n");
-        retVal.append("personID:'").append(this.getPersonId()).append("'\n");
-        retVal.append("entity type:'").append(this.getEntityType()).append("'\n");
-        return retVal.toString();
+
+    @Override
+    public String toString() {
+        return "KcPerson{" +
+                "personId='" + personId + '\'' +
+                ", entity=" + entity +
+                ", extendedAttributes=" + extendedAttributes +
+                '}';
     }
 
     public void setIdentityService(IdentityService identityService) {
