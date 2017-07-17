@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1707.0020
 * RESKC-2077: reverting new s2s questions that are colliding with certain environments.
   * Travis Schneeberger on Fri, 14 Jul 2017 21:19:53 -0400 [View Commit](../../commit/10505c4d515f1117f07319370a1b64304441f750)
 
