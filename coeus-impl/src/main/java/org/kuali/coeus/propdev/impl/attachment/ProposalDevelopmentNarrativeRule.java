@@ -38,6 +38,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.util.List;
 
 
+import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_STATUS_COMPLETE;
+import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_STATUS_INCOMPLETE;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 
 
@@ -82,7 +84,9 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         rulePassed &= getDictionaryValidationService().isBusinessObjectValid(narrative);
         rulePassed &= checkNarrative(document.getDevelopmentProposal().getNarratives(), narrative);
         rulePassed &= validFileNameCharacters(narrative);
-        rulePassed &= getKcFileService().validPDFFile(narrative, getErrorReporter(), ERROR_PREFIX_FOR_ATTACHMENTS);
+        if (narrative.getModuleStatusCode().equals(NARRATIVE_MODULE_STATUS_COMPLETE) || narrative.getMultipartFile() != null) {
+            rulePassed &= getKcFileService().validPDFFile(narrative, getErrorReporter(), ERROR_PREFIX_FOR_ATTACHMENTS);
+        }
 
         return rulePassed;
     }
