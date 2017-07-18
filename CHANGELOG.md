@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* cleanup
+  * jeremiah on Mon, 17 Jul 2017 22:18:41 -0500 [View Commit](../../commit/6cd1932c7b6f3b5575944a09f1a92a1828a66dbc)
+* RESKC-1496: SubAward document attachments will also be checked for encryption when saving. Added unit tests.
+  * jeremiah on Wed, 12 Jul 2017 15:04:28 -0500 [View Commit](../../commit/b341a31d6feb3ff6060277749e9b949b302ca432)
+
+##coeus-1707.0025
 * RESKC-26: Previous code relied on implicit type conversion for comparisons.
   * So the magic number value "1" was equal the int value 1. This was broken
   * in refactor when using strict equality comparisons, i.e. "===". Code now
