@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
+import com.lowagie.text.pdf.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -35,6 +36,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @KcBusinessRule("budgetSubAwardsRule")
 public class BudgetSubAwardsRule  {
@@ -45,7 +48,7 @@ public class BudgetSubAwardsRule  {
     @Autowired
     @Qualifier("kcAttachmentService")
     private KcAttachmentService kcAttachmentService;
-    
+
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
@@ -76,20 +79,15 @@ public class BudgetSubAwardsRule  {
     if (event.getBudgetSubAwards().getNewSubAwardFile() != null) {
       try {
         byte[] subAwardData = event.getBudgetSubAwards().getNewSubAwardFile().getBytes();
-        if (ArrayUtils.isEmpty(subAwardData)) {
-          result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
-          result.setSuccess(false);
-        }
         String contentType = event.getBudgetSubAwards().getNewSubAwardFile().getContentType();
-
-        if(ArrayUtils.isEmpty(subAwardData) || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){
+        if (ArrayUtils.isEmpty(subAwardData) || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)) {
           result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
           result.setSuccess(false);
-        }
-
-        if(isEncryptedFile(subAwardData)) {
-          result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_ENCRYPTED);
-          result.setSuccess(false);
+        } else {
+          if(isEncryptedFile(subAwardData)) {
+            result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_ENCRYPTED);
+            result.setSuccess(false);
+          }
         }
       } catch(IOException e) {
         LOG.error(e.getMessage(), e);
@@ -100,14 +98,19 @@ public class BudgetSubAwardsRule  {
   }
 
   private boolean isEncryptedFile(byte[] data) throws IOException {
-    boolean encrypted;
     try {
       PDDocument pdd = PDDocument.load(data);
-      encrypted = pdd.isEncrypted();
+      if (pdd.isEncrypted()) return true;
+
+      PdfReader reader = new PdfReader(data);
+      Map<Object, Object> attachments = getKcAttachmentService().extractAttachments(reader);
+      for (Map.Entry<Object, Object> pair : attachments.entrySet()) {
+        if (isEncryptedFile((byte[]) pair.getValue())) return true;
+      }
+      return false;
     } catch(InvalidPasswordException ipe) {
-      encrypted = true;
+      return true;
     }
-    return encrypted;
   }
 
     protected KcAttachmentService getKcAttachmentService() {
