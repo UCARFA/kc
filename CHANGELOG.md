@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2352: Creating an incomplete file attachment without file content should not cause an STE.
+  * jeremiah on Thu, 13 Jul 2017 15:48:40 -0500 [View Commit](../../commit/dbd03f433683c7038a5101993bd3ce9ca0839af2)
+
+##coeus-1707.0023
 * use service2service with getting coi disclosure status
   * Joe Williams on Mon, 17 Jul 2017 16:15:57 -0500 [View Commit](../../commit/543104b16b94696a592666338a4a9147fafc3120)
 
