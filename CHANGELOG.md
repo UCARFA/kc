@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* RESKC-26: Previous code relied on implicit type conversion for comparisons.
+  * So the magic number value "1" was equal the int value 1. This was broken
+  * in refactor when using strict equality comparisons, i.e. "===". Code now
+  * properly parses the values to an int before doing a strict comparison.
+  * Added missing tbody, tr and td tags to some templates that caused date
+  * misalignment in the table.
+  * jeremiah on Thu, 29 Jun 2017 14:48:12 -0500 [View Commit](../../commit/d2367d51c1f62d602f876b12a0b2d517508f9d2c)
+
+##coeus-1707.0024
 * RESKC-2352: Creating an incomplete file attachment without file content should not cause an STE.
   * jeremiah on Thu, 13 Jul 2017 15:48:40 -0500 [View Commit](../../commit/dbd03f433683c7038a5101993bd3ce9ca0839af2)
 
