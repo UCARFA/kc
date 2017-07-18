@@ -79,20 +79,15 @@ public class BudgetSubAwardsRule  {
     if (event.getBudgetSubAwards().getNewSubAwardFile() != null) {
       try {
         byte[] subAwardData = event.getBudgetSubAwards().getNewSubAwardFile().getBytes();
-        if (ArrayUtils.isEmpty(subAwardData)) {
-          result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
-          result.setSuccess(false);
-        }
         String contentType = event.getBudgetSubAwards().getNewSubAwardFile().getContentType();
-
-        if(ArrayUtils.isEmpty(subAwardData) || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){
+        if (ArrayUtils.isEmpty(subAwardData) || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)) {
           result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
           result.setSuccess(false);
-        }
-
-        if(isEncryptedFile(subAwardData)) {
-          result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_ENCRYPTED);
-          result.setSuccess(false);
+        } else {
+          if(isEncryptedFile(subAwardData)) {
+            result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_ENCRYPTED);
+            result.setSuccess(false);
+          }
         }
       } catch(IOException e) {
         LOG.error(e.getMessage(), e);
