@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
 import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.sys.framework.auth.AuthConstants;
+import org.kuali.coeus.sys.framework.auth.JwtService;
 import org.kuali.coeus.sys.framework.mq.rest.RestRequest;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -51,6 +52,9 @@ public class DisclosureStatusRetrievalServiceImpl implements DisclosureStatusRet
     @Qualifier("kualiConfigurationService")
     private ConfigurationService configurationService;
 
+    @Autowired
+    @Qualifier("jwtService")
+    private JwtService jwtService;
 
     @Override
     public List<DisclosureProjectStatus> getDisclosureStatusesForProject(String sourceId, String projectId) {
@@ -65,7 +69,7 @@ public class DisclosureStatusRetrievalServiceImpl implements DisclosureStatusRet
     }
 
     protected String getAuthToken() {
-        return Constants.BEARER_TOKEN + getConfigurationService().getPropertyValueAsString(AuthConstants.AUTH_SYSTEM_TOKEN_PARAM);
+        return Constants.BEARER_TOKEN + getJwtService().createToken();
     }
 
     protected String getCoiApiUrl() {
@@ -112,4 +116,11 @@ public class DisclosureStatusRetrievalServiceImpl implements DisclosureStatusRet
         this.restOperations = restOperations;
     }
 
+    public JwtService getJwtService() {
+        return jwtService;
+    }
+
+    public void setJwtService(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
 }

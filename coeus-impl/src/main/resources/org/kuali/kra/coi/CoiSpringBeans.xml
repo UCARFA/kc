@@ -73,6 +73,10 @@
         <property name="serviceName" value="restOperations" />
     </bean>
 
+    <bean id="jwtService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="jwtService" />
+    </bean>
+
     <bean id="beanValidator" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="beanValidator" />
     </bean>
