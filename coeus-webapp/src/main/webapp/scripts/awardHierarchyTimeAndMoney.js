@@ -221,7 +221,7 @@ function builduUi(info, awardNumber) {
             0: "<table class='outer-table'><tbody><tr><td>" + txtImage + " " + text1 + "</td><td>" + text2 + "</td><td>" + text3 + "</td><td>" + text4 + "</td></tr></tbody></table>",
 
             // distributed/distributable
-            1: "<table class='outer-table'><tbody><tr><td>" + txtImage + " " + text1 + "</td><td>${text2}</td><td>" + text3 + "</td><td>" + text4 + "</td>" +
+            1: "<table class='outer-table'><tbody><tr><td>" + txtImage + " " + text1 + "</td><td>" + text2 + "</td><td>" + text3 + "</td><td>" + text4 + "</td>"
             +"<td>Distributed:</td>"
             + "<td>" + text9 + "</td>"
             + "<td>" + text10 + "</td>"
