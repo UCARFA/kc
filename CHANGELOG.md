@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* use service2service with getting coi disclosure status
+  * Joe Williams on Mon, 17 Jul 2017 16:15:57 -0500 [View Commit](../../commit/543104b16b94696a592666338a4a9147fafc3120)
+
+##coeus-1707.0022
 * RESKC-2398: Fix modal display issues. (#2435)
 
   * Gayathri Athreya on Mon, 17 Jul 2017 12:29:51 -0700 [View Commit](../../commit/ed98d67d8bd7b52122b9995b782e3ee45570de55)
