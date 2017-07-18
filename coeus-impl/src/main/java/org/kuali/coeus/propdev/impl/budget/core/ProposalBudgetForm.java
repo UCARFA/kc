@@ -85,7 +85,7 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
     	editableBudgetLineItems = new HashMap<>();
     	addProjectPersonnelHelper = new AddProjectPersonnelHelper();
     	addProjectBudgetLineItemHelper = new AddProjectBudgetLineItemHelper();
-        budgetJustificationWrapper = new BudgetJustificationWrapper (budget.getBudgetJustification());
+        budgetJustificationWrapper = new BudgetJustificationWrapper (budget != null ? budget.getBudgetJustification() : "");
         dataValidationItems = new ArrayList<>();
         newBudgetChangedData = new BudgetChangedData();
         notificationHelper = new NotificationHelper<>();

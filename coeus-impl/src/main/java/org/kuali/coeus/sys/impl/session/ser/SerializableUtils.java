@@ -78,6 +78,15 @@ final class SerializableUtils {
         public String getFailurePath() {
             return failurePath;
         }
+
+        @Override
+        public String toString() {
+            return "SerInfo{" +
+                    "serializable=" + serializable +
+                    ", size=" + size +
+                    ", failurePath='" + failurePath + '\'' +
+                    '}';
+        }
     }
 
     /*
