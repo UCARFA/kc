@@ -107,4 +107,17 @@ public class SerializableSessionAttribute implements Serializable, BusinessObjec
     public void refresh() {
         //no op
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + "{" +
+                "sessionId='" + sessionId + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", value='" + value + '\'' +
+                ", serializable=" + serializable +
+                ", size=" + size +
+                ", failurePath='" + failurePath + '\'' +
+                '}';
+    }
 }

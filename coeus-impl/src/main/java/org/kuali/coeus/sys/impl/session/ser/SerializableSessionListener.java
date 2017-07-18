@@ -37,7 +37,7 @@ public class SerializableSessionListener implements HttpSessionAttributeListener
         if (LOG.isWarnEnabled()) {
             final SerializableUtils.SerInfo info = SerializableUtils.getSerializationInfo(event.getValue());
             if (!info.isSerializable()) {
-                LOG.warn("Attribute added to session " + getMessage(event, info));
+                LOG.warn("Serialization failed: Attribute added to session " + getMessage(event, info));
             }
         }
     }
@@ -52,7 +52,7 @@ public class SerializableSessionListener implements HttpSessionAttributeListener
         if (LOG.isWarnEnabled()) {
             final SerializableUtils.SerInfo info = SerializableUtils.getSerializationInfo(event.getValue());
             if (!info.isSerializable()) {
-                LOG.warn("Attribute replaced in session " + getMessage(event, info));
+                LOG.warn("Serialization failed: Attribute replaced in session " + getMessage(event, info));
             }
         }
     }
