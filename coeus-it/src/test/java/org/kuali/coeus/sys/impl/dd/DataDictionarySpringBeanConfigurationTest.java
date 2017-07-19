@@ -32,7 +32,7 @@ import org.kuali.rice.krad.datadictionary.DefaultListableBeanFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsAbstractException;
-import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.*;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -44,9 +44,7 @@ public class DataDictionarySpringBeanConfigurationTest extends KcIntegrationTest
 
     private static final Log LOG = LogFactory.getLog(DataDictionarySpringBeanConfigurationTest.class);
 
-    private static final Collection<String> IGNORE_PATTERN = Stream.of(
-            "Questionnaire-ControlMappings-parentBean"
-    ).collect(Collectors.toList());
+    private static final Collection<String> IGNORE_PATTERN = Stream.<String>empty().collect(Collectors.toList());
 
     /**
      * This test method makes sure all Data Dictionary spring beans can be retrieved.
@@ -68,7 +66,7 @@ public class DataDictionarySpringBeanConfigurationTest extends KcIntegrationTest
         toEachSpringBean(((context, name) -> {
             if (name.contains("-parentBean")) {
                 BeanDefinition definition = context.getBeanDefinition(name);
-                if (!definition.isAbstract()) {
+                if (!definition.isAbstract() && !isSpringUtilType(definition)) {
                     nonAbstractParents.add(name);
                 }
             }
@@ -76,6 +74,20 @@ public class DataDictionarySpringBeanConfigurationTest extends KcIntegrationTest
 
         Assert.assertTrue("The DataDictionary contains parent beans that aren't abstract: " + nonAbstractParents, nonAbstractParents.isEmpty());
 
+    }
+
+    /**
+     * Spring beans created like: <util:map cannot be marked as abstract.
+     * @return true if collection type
+     */
+    private boolean isSpringUtilType(BeanDefinition definition) {
+        final Class<?> beanClass;
+        try {
+            beanClass = Class.forName(definition.getBeanClassName());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return MapFactoryBean.class.equals(beanClass) || ListFactoryBean.class.equals(beanClass) || PropertiesFactoryBean.class.equals(beanClass) || SetFactoryBean.class.equals(beanClass);
     }
 
     /**
