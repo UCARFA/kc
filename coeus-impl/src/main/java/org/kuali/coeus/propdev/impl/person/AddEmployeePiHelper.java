@@ -4,10 +4,12 @@ package org.kuali.coeus.propdev.impl.person;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 
-public class AddEmployeePiHelper {
+import java.io.Serializable;
+
+public class AddEmployeePiHelper implements Serializable {
 
     private String personId;
-    private KcPerson kcPerson;
+    private transient KcPerson kcPerson;
 
     public String getPersonId() {
         return personId;

@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.location;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.Map;
 
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 
-public class OrganizationAddWizardHelper {
+public class OrganizationAddWizardHelper implements Serializable {
 
     private Map<String, String> lookupFieldValues;
     private Map<String, String> newOrganizationFieldValues;
