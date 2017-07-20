@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1707.0032
 * RESKC-2324: fixing a serialization issue
   * Travis Schneeberger on Thu, 20 Jul 2017 16:43:17 -0400 [View Commit](../../commit/a716391ef4743b2a556c92575e71e634b82a4e90)
 * RESKC-1907, RESKC-2280, RESKC-1906, RESKC-2277: supporting NASA and ONR for Subaward Fdp forms
