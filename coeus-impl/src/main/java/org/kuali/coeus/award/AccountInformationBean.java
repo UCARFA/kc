@@ -21,7 +21,9 @@ package org.kuali.coeus.award;
 import org.kuali.coeus.award.finance.AccountStatus;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
-public class AccountInformationBean {
+import java.io.Serializable;
+
+public class AccountInformationBean implements Serializable {
     private String status;
     private ScaleTwoDecimal budgeted;
     private ScaleTwoDecimal pending;

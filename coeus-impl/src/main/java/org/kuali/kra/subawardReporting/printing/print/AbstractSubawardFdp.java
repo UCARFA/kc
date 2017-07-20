@@ -184,6 +184,10 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
             setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNihFCoiGuidance());
         } else if (type == SponsorFormType.NSF) {
             setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNsfFCoiGuidance());
+        } else if (type == SponsorFormType.NASA) {
+            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNasaFCoiGuidance());
+        } else if (type == SponsorFormType.ONR) {
+            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpOnrFCoiGuidance());
         }
 
         setField(document, Pdf.Field.FCOI_OTHER_SPONSOR_AGENCY.getfName(), "");
@@ -337,6 +341,16 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
             setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), configInfo.getFdpNsfGrantsPolicyStatement());
             setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), configInfo.getFdpNsfInterimResearchTerms());
             setField(document, Pdf.Field.REQUIREMENTS.getfName(), configInfo.getFdpNsfAgencyRequirements());
+        } else if (type == SponsorFormType.NASA) {
+            setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), configInfo.getFdpNasaPolicy());
+            setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), configInfo.getFdpNasaGrantsPolicyStatement());
+            setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), configInfo.getFdpNasaInterimResearchTerms());
+            setField(document, Pdf.Field.REQUIREMENTS.getfName(), configInfo.getFdpNasaAgencyRequirements());
+        } else if (type == SponsorFormType.ONR) {
+            setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), configInfo.getFdpOnrPolicy());
+            setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), configInfo.getFdpOnrGrantsPolicyStatement());
+            setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), configInfo.getFdpOnrInterimResearchTerms());
+            setField(document, Pdf.Field.REQUIREMENTS.getfName(), configInfo.getFdpOnrAgencyRequirements());
         }
     }
 
