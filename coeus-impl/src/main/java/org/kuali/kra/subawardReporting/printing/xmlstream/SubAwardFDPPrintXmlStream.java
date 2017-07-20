@@ -98,6 +98,16 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private static final String FDP_NSF_INTERIM_RESEARCH_TERMS = "FDP_NSF_Interim_Research_Terms";
     private static final String FDP_NSF_AGENCY_REQUIREMENTS = "FDP_NSF_Agency_Requirements";
     private static final String FDP_NSF_FCOI_GUIDANCE = "FDP_NSF_FCOI_Guidance";
+    private static final String FDP_NASA_POLICY = "FDP_NASA_Policy";
+    private static final String FDP_NASA_GRANTS_POLICY_STATEMENT = "FDP_NASA_Grants_Policy_Statement";
+    private static final String FDP_NASA_INTERIM_RESEARCH_TERMS = "FDP_NASA_Interim_Research_Terms";
+    private static final String FDP_NASA_AGENCY_REQUIREMENTS = "FDP_NASA_Agency_Requirements";
+    private static final String FDP_NASA_FCOI_GUIDANCE = "FDP_NASA_FCOI_Guidance";
+    private static final String FDP_ONR_POLICY = "FDP_ONR_Policy";
+    private static final String FDP_ONR_GRANTS_POLICY_STATEMENT = "FDP_ONR_Grants_Policy_Statement";
+    private static final String FDP_ONR_INTERIM_RESEARCH_TERMS = "FDP_ONR_Interim_Research_Terms";
+    private static final String FDP_ONR_AGENCY_REQUIREMENTS = "FDP_ONR_Agency_Requirements";
+    private static final String FDP_ONR_FCOI_GUIDANCE = "FDP_ONR_FCOI_Guidance";
 
     private BusinessObjectService businessObjectService;
     private CountryService countryService;
@@ -215,6 +225,38 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         otherConfigInfo.setFdpNsfFCoiGuidance(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
                 ParameterConstants.DOCUMENT_COMPONENT,
                 FDP_NSF_FCOI_GUIDANCE));
+
+        otherConfigInfo.setFdpNasaPolicy(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NASA_POLICY));
+        otherConfigInfo.setFdpNasaGrantsPolicyStatement(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NASA_GRANTS_POLICY_STATEMENT));
+        otherConfigInfo.setFdpNasaInterimResearchTerms(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NASA_INTERIM_RESEARCH_TERMS));
+        otherConfigInfo.setFdpNasaAgencyRequirements(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NASA_AGENCY_REQUIREMENTS));
+        otherConfigInfo.setFdpNasaFCoiGuidance(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_NASA_FCOI_GUIDANCE));
+
+        otherConfigInfo.setFdpOnrPolicy(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_ONR_POLICY));
+        otherConfigInfo.setFdpOnrGrantsPolicyStatement(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_ONR_GRANTS_POLICY_STATEMENT));
+        otherConfigInfo.setFdpOnrInterimResearchTerms(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_ONR_INTERIM_RESEARCH_TERMS));
+        otherConfigInfo.setFdpOnrAgencyRequirements(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_ONR_AGENCY_REQUIREMENTS));
+        otherConfigInfo.setFdpOnrFCoiGuidance(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_ONR_FCOI_GUIDANCE));
 
         otherConfigInfoList.add(otherConfigInfo);
         subContractData.setOtherConfigInfoArray(otherConfigInfoList.toArray(new OtherConfigInfo[0]));

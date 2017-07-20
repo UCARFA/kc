@@ -324,6 +324,16 @@
                             <xs:element name="FdpNsfInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FdpNsfAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FdpNsfFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNasaPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNasaGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNasaInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNasaAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpNasaFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpOnrPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpOnrGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpOnrInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpOnrAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpOnrFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
