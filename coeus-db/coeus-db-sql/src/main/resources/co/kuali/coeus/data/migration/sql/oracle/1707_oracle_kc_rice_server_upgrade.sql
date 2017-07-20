@@ -23,4 +23,8 @@ set sqlblanklines on
 spool 1707_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1707_005__SF424_Mandatory_questions.sql
 @./rice/bootstrap/V1707_010__serialization_logging.sql
+@./rice/bootstrap/V1707_012__RESKC-2382.sql
+@./rice/bootstrap/V1707_013__nasa_fdp_parameters.sql
+@./rice/bootstrap/V1707_014__onr_fdp_parameters.sql
+@./rice/bootstrap/V1707_015__force_xsl_param.sql
 commit;

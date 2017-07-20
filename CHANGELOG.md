@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2324: fixing a serialization issue
+  * Travis Schneeberger on Thu, 20 Jul 2017 16:43:17 -0400 [View Commit](../../commit/a716391ef4743b2a556c92575e71e634b82a4e90)
+* RESKC-1907, RESKC-2280, RESKC-1906, RESKC-2277: supporting NASA and ONR for Subaward Fdp forms
+  * Travis Schneeberger on Thu, 20 Jul 2017 16:42:31 -0400 [View Commit](../../commit/f5cc10108371cde5691e8407a06fac22734c95de)
+* RESKC-2382: ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI is now ALL_SPONSOR_HIERARCHY_AS_NIH.
+  * jeremiah on Thu, 20 Jul 2017 15:05:58 -0500 [View Commit](../../commit/8133e77057cbdbb4e437f927dbb6e27fe05dcbb4)
+
+##coeus-1707.0031
 * No Changes
 
 
