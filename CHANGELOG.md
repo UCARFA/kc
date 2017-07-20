@@ -1,6 +1,54 @@
 
 
 ##CURRENT
+* RESKC-2385: Fixing integration test
+  * Travis Schneeberger on Wed, 19 Jul 2017 18:08:12 -0400 [View Commit](../../commit/0a0ff3b3ce06c7118f18ce789d851fae91738822)
+* updates to core.md to make params more clear (#2416)
+
+  * Douglas Pace on Wed, 19 Jul 2017 13:17:14 -0700 [View Commit](../../commit/500a549eb4791048814f14430721003b241ac521)
+* RESKC-2324: Making lookup helper services prototype scope
+  * Travis Schneeberger on Wed, 19 Jul 2017 15:57:53 -0400 [View Commit](../../commit/34955e13cbd799d132d5eb8cbe7e24916c7e8063)
+* RESKC-2385:MIT Contribution: Sponsor Hierarchy Fixes - Search returns
+  * unreliable after maintenance
+  * Problem with Sponsor search results being unreliable after Sponsor
+  * Hierarchy is maintained unless user logs out of KC before searching for
+sponsor - currently the Sponsor Hierarchy Sponsor Search session is not
+  * released properly affecting user's subsequent sponsor searches.
+  * After maintaining sponsor hierarchy, sponsor search returns unreliable
+  * results.
+  * This is true for Sponsor Search in all other modules, including from
+  * with PD when searching for sponsor to enter in proposal
+  * It appears that the sponsor search session from within sponsor hierarchy
+  * is not released: in subsequent cross-module searches sponsor results are
+  * only returned if were also included in last sponsor search results from
+  * within sponsor hierarchy.
+  * The only workaround is to completely log out of KC after every time
+  * maintaining sponsor hierarchy and launching a new session before
+searching for sponsor.
+  * Steps to reproduce:
+  * o Open Sponsor Hierarchy MIT Brown Book (or any sponsor hierarchy where
+  * most or all sponsors are included in hierarchy)
+  * o Maintain
+  * o Search for a specific sponsor adding a sponsor to hierarchy
+  * o Save
+  * o Go to Sponsor maintenance
+  * o Search for any sponsor(s) other than the one just searched for within
+sponsor hierarchy
+  * o No results appear.
+  * Expected results: User should get a list of sponsors or sponsor based on
+search criteria, not prior Sponsor Maintenance search results.  * vineeth on Fri, 14 Jul 2017 11:16:06 -0400 [View Commit](../../commit/75104e6377fa27f256d048d7286adad8d805438d)
+* RESKC-2324: Adding an int test for KRAD forms
+  * Travis Schneeberger on Tue, 18 Jul 2017 13:21:53 -0400 [View Commit](../../commit/d3d7bdac2efd1e5851c39f003db1623d7dedd1ac)
+* RESKC-2324: Adding quartz jobs to log serialization failures
+  * Travis Schneeberger on Tue, 18 Jul 2017 09:55:20 -0400 [View Commit](../../commit/872dbaf1be07febbc2e0cbbf7276273bfad9dc97)
+* RESKC-2324: preventing toString from calling the DB.  Only print the internal state of the object
+  * Travis Schneeberger on Mon, 17 Jul 2017 19:00:48 -0400 [View Commit](../../commit/27475cbe3758cbd26dc92d6c8a4eb27ed934f882)
+* RESKC-2324: fixing serialization issues
+  * Travis Schneeberger on Mon, 17 Jul 2017 19:00:19 -0400 [View Commit](../../commit/5670c61ec353557a68efd8bac440da0ced5b090a)
+* RESKC-2324: Adding several methods for finding non-serializable session data.
+  * Travis Schneeberger on Mon, 17 Jul 2017 18:59:57 -0400 [View Commit](../../commit/6e076d7e956d3dcc771b9c8236597774b196cf7d)
+
+##coeus-1707.0026
 * cleanup
   * jeremiah on Mon, 17 Jul 2017 22:18:41 -0500 [View Commit](../../commit/6cd1932c7b6f3b5575944a09f1a92a1828a66dbc)
 * RESKC-1496: SubAward document attachments will also be checked for encryption when saving. Added unit tests.

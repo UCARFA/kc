@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1707_005__SF424_Mandatory_questions.sql
+\. ./rice/bootstrap/V1707_010__serialization_logging.sql
 commit;
