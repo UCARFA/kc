@@ -325,33 +325,27 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
     private void setGenTermsAndConditions(PDDocument document, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, SponsorFormType type) {
         //General Terms and Conditions
         if (type == SponsorFormType.NIH) {
-            setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), configInfo.getFdpNihPolicy());
-            setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), configInfo.getFdpNihGrantsPolicyStatement());
-            setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), configInfo.getFdpNihInterimResearchTerms());
-            setField(document, Pdf.Field.REQUIREMENTS.getfName(), configInfo.getFdpNihAgencyRequirements());
-
-            if (fromYN(templateInfo.getTreatmentPrgmIncomeAdditive())) {
-                setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_ADDITIVE_VALUE);
-            } else {
-                setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_OTHER_VALUE);
-            }
-
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNihPolicy(), configInfo.getFdpNihGrantsPolicyStatement(), configInfo.getFdpNihInterimResearchTerms(), configInfo.getFdpNihAgencyRequirements());
         } else if (type == SponsorFormType.NSF) {
-            setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), configInfo.getFdpNsfPolicy());
-            setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), configInfo.getFdpNsfGrantsPolicyStatement());
-            setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), configInfo.getFdpNsfInterimResearchTerms());
-            setField(document, Pdf.Field.REQUIREMENTS.getfName(), configInfo.getFdpNsfAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNsfPolicy(), configInfo.getFdpNsfGrantsPolicyStatement(), configInfo.getFdpNsfInterimResearchTerms(), configInfo.getFdpNsfAgencyRequirements());
         } else if (type == SponsorFormType.NASA) {
-            setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), configInfo.getFdpNasaPolicy());
-            setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), configInfo.getFdpNasaGrantsPolicyStatement());
-            setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), configInfo.getFdpNasaInterimResearchTerms());
-            setField(document, Pdf.Field.REQUIREMENTS.getfName(), configInfo.getFdpNasaAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNasaPolicy(), configInfo.getFdpNasaGrantsPolicyStatement(), configInfo.getFdpNasaInterimResearchTerms(), configInfo.getFdpNasaAgencyRequirements());
         } else if (type == SponsorFormType.ONR) {
-            setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), configInfo.getFdpOnrPolicy());
-            setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), configInfo.getFdpOnrGrantsPolicyStatement());
-            setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), configInfo.getFdpOnrInterimResearchTerms());
-            setField(document, Pdf.Field.REQUIREMENTS.getfName(), configInfo.getFdpOnrAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpOnrPolicy(), configInfo.getFdpOnrGrantsPolicyStatement(), configInfo.getFdpOnrInterimResearchTerms(), configInfo.getFdpOnrAgencyRequirements());
         }
+
+        if (fromYN(templateInfo.getTreatmentPrgmIncomeAdditive())) {
+            setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_ADDITIVE_VALUE);
+        } else {
+            setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_OTHER_VALUE);
+        }
+    }
+
+    private void setGenTermsAndConditions1To4(PDDocument document, String policy, String policyStatement, String terms, String requirements) {
+        setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), policy);
+        setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), policyStatement);
+        setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), terms);
+        setField(document, Pdf.Field.REQUIREMENTS.getfName(), requirements);
     }
 
     private void setRequiredDataElements(PDDocument document) {
