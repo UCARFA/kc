@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2324: fixing serialization issue in sponsor hierarchy maintenance
+  * Travis Schneeberger on Fri, 21 Jul 2017 08:49:41 -0400 [View Commit](../../commit/80869c348fcd7a3637cd7a8c2ea3e54a91d2670d)
+* RESKC-2324: fixing serialization issue in award budget
+  * Travis Schneeberger on Fri, 21 Jul 2017 08:31:54 -0400 [View Commit](../../commit/c78db6706559305d084e97f911a5e85e059eb580)
+* RESKC-2324: fixing NPE in toString identified by serialization failure, code cleanup
+  * Travis Schneeberger on Fri, 21 Jul 2017 08:18:20 -0400 [View Commit](../../commit/075fa35da1be19c481ef6aaf0a29c26f93b09e17)
+
+##coeus-1707.0033
 * No Changes
 
 
