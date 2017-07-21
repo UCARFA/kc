@@ -37,9 +37,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.*;
 
-/**
- * This class implements an Award Person 
- */
 public class AwardPerson extends AwardContact implements PersonRolodex, Comparable<AwardPerson>, AbstractProjectPerson {
 
     private static final long serialVersionUID = 7980027108784055721L;
@@ -91,9 +88,6 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         init();
     }
 
-    /**
-     * @param creditSplit
-     */
     public void add(AwardPersonCreditSplit creditSplit) {
         creditSplits.add(creditSplit);
         creditSplit.setAwardPerson(this);
@@ -108,26 +102,14 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         this.includeInCreditAllocation = includeInCreditAllocation;
     }
 
-    /**
-     * Gets the academicYearEffort attribute. 
-     * @return Returns the academicYearEffort.
-     */
     public ScaleTwoDecimal getAcademicYearEffort() {
         return academicYearEffort;
     }
 
-    /**
-     * Gets the calendarYearEffort attribute. 
-     * @return Returns the calendarYearEffort.
-     */
     public ScaleTwoDecimal getCalendarYearEffort() {
         return calendarYearEffort;
     }
 
-    /**
-     * @param index
-     * @return
-     */
     public AwardPersonCreditSplit getCreditSplit(int index) {
         return creditSplits.get(index);
     }
@@ -137,36 +119,18 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         return creditSplits;
     }
 
-    /**
-     * Gets the summerEffort attribute. 
-     * @return Returns the summerEffort.
-     */
     public ScaleTwoDecimal getSummerEffort() {
         return summerEffort;
     }
 
-    /**
-     * Gets the totalEffort attribute. 
-     * @return Returns the totalEffort.
-     */
     public ScaleTwoDecimal getTotalEffort() {
         return totalEffort;
     }
 
-    /**
-     * @param index
-     * @return
-     */
     public AwardPersonUnit getUnit(int index) {
         return units.get(index);
     }
 
-    /**
-     * Get the award unit if it exists from this person
-     * 
-     * @param unitNumber String
-     * @return AwardPersonUnit 
-     */
     public AwardPersonUnit getUnit(String unitNumber) {
         for (AwardPersonUnit awardPersonUnit : this.getUnits()) {
             if (awardPersonUnit.getUnitNumber().equals(unitNumber)) {
@@ -176,34 +140,18 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         return null;
     }
 
-    /**
-     * Gets the units attribute. 
-     * @return Returns the units.
-     */
     public List<AwardPersonUnit> getUnits() {
         return units;
     }
 
-    /**
-     * This method determines if person is CO-I
-     * @return
-     */
     public boolean isCoInvestigator() {
         return StringUtils.equals(getContactRoleCode(), ContactRole.COI_CODE);
     }
 
-    /**
-     * Gets the faculty attribute. 
-     * @return Returns the faculty.
-     */
     public boolean isFaculty() {
         return faculty;
     }
 
-    /**
-     * This method determines if person is KeyPerson
-     * @return
-     */
     public boolean isKeyPerson() {
         return StringUtils.equals(getContactRoleCode(), ContactRole.KEY_PERSON_CODE);
     }
@@ -219,65 +167,32 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     	return StringUtils.equals(getContactRoleCode(), PropAwardPersonRole.MULTI_PI);
     }
 
-    /**
-     * Sets the academicYearEffort attribute value.
-     * @param academicYearEffort The academicYearEffort to set.
-     */
     public void setAcademicYearEffort(ScaleTwoDecimal academicYearEffort) {
         this.academicYearEffort = academicYearEffort;
     }
 
-    /**
-     * Sets the calendarYearEffort attribute value.
-     * @param calendarYearEffort The calendarYearEffort to set.
-     */
     public void setCalendarYearEffort(ScaleTwoDecimal calendarYearEffort) {
         this.calendarYearEffort = calendarYearEffort;
     }
 
-    /**
-     * Sets the creditSplits attribute value.
-     * @param creditSplits The creditSplits to set.
-     */
     public void setCreditSplits(List<AwardPersonCreditSplit> creditSplits) {
         this.creditSplits = creditSplits;
     }
 
-    /**
-     * Sets the faculty attribute value.
-     * @param faculty The faculty to set.
-     */
     public void setFaculty(boolean faculty) {
         this.faculty = faculty;
     }
 
-    /**
-     * Sets the summerEffort attribute value.
-     * @param summerEffort The summerEffort to set.
-     */
     public void setSummerEffort(ScaleTwoDecimal summerEffort) {
         this.summerEffort = summerEffort;
     }
 
-    /**
-     * Sets the totalEffort attribute value.
-     * @param totalEffort The totalEffort to set.
-     */
     public void setTotalEffort(ScaleTwoDecimal totalEffort) {
         this.totalEffort = totalEffort;
     }
 
-    /**
-     * Sets the units attribute value.
-     * @param units The units to set.
-     */
     public void setUnits(List<AwardPersonUnit> units) {
         this.units = units;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s:%s", getContact().getIdentifier().toString(), getContact().getFullName());
     }
 
     @SuppressWarnings("unchecked")
@@ -288,15 +203,15 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     @Override
     protected Map<String, Object> getContactRoleIdentifierMap() {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("code", getRoleCode());
         map.put("sponsorHierarchyName", getPropAwardPersonRoleService().getSponsorHierarchy(getAward().getSponsorCode()));
         return map;
      }
 
     protected void init() {
-        units = new ArrayList<AwardPersonUnit>();
-        creditSplits = new ArrayList<AwardPersonCreditSplit>();
+        units = new ArrayList<>();
+        creditSplits = new ArrayList<>();
         optInUnitStatus = false;
     }
 
