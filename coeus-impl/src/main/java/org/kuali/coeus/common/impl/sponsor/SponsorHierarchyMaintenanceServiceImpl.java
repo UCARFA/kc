@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -63,7 +64,7 @@ public class SponsorHierarchyMaintenanceServiceImpl implements SponsorHierarchyM
         INSERT, UPDATE_NAME, UPDATE_SORT, DELETE;
     }
     
-    protected class SponsorAction {
+    protected static class SponsorAction implements Serializable {
         public SponsorActionType actionType;
         public String hierarchyName;
         public String sponsorCode;
