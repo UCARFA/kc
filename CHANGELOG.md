@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Reskc 2267 cost share (#2438)
+
+* clean up code
+  * 
+* RESKC-2267: Add default cost share type when cost share type code is null.
+  * Gayathri Athreya on Fri, 21 Jul 2017 12:44:31 -0700 [View Commit](../../commit/c3e749a360675dd701e70d1339db36c9eafd5624)
+
+##coeus-1707.0034
 * RESKC-2324: fixing serialization issue in sponsor hierarchy maintenance
   * Travis Schneeberger on Fri, 21 Jul 2017 08:49:41 -0400 [View Commit](../../commit/80869c348fcd7a3637cd7a8c2ea3e54a91d2670d)
 * RESKC-2324: fixing serialization issue in award budget
