@@ -949,6 +949,7 @@ public interface Constants {
     String KC_SYS = "KC-SYS";
     String PENDING = "PENDING";
     String ENABLE_COST_SHARE_ACCOUNT_VALIDATION = "ENABLE_COST_SHARE_ACCOUNT_VALIDATION";
+    String DEFAULT_IP_AWARD_COST_SHARE_TYPE = "Default_IP_Award_Cost_Share_Type";
     String PROP_BUDGET_COST_SHARING_PAGE = "PropBudget-CostSharingPage";
     String PROP_BUDGET_UNRECOVERED_FAND_APAGE = "PropBudget-UnrecoveredFandAPage";
     String VALIDATION_MESSAGE_WARNING = "W";

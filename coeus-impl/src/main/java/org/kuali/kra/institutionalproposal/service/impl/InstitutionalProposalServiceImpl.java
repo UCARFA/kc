@@ -172,8 +172,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         try {
             InstitutionalProposal institutionalProposal = new InstitutionalProposal();
 
-            // Set proposal number on new Institutional Proposal so that it will be propagated to all created child BO's before initial save.
-
+            // Set proposal number on new Institutional Proposal so that it will be propagated to
+            // all created child BO's before initial save.
             institutionalProposal.setProposalNumber(getNextInstitutionalProposalNumber());
 
             InstitutionalProposalDocument institutionalProposalDocument = mergeProposals(institutionalProposal, developmentProposal, budget);
@@ -685,29 +685,15 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             institutionalProposal.setTotalIndirectCostTotal(new ScaleTwoDecimal(budget.getTotalIndirectCost().bigDecimalValue()));
         }
 
-        // Cost Shares (from Budget)
-        final boolean costShareTypeEnabled = isCostShareTypeEnabled();
-        institutionalProposal.getInstitutionalProposalCostShares().clear();
-        for (BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
-            InstitutionalProposalCostShare ipCostShare = new InstitutionalProposalCostShare();
-            ipCostShare.setCostShareTypeCode(costShareTypeEnabled ? budgetCostShare.getCostShareTypeCode() : DEFAULT_COST_SHARE_TYPE_CODE);
-            if (costShareTypeEnabled) {
-                ProposalDevelopmentBudgetExt budgetExt = (ProposalDevelopmentBudgetExt) budgetCostShare.getBudget();
-                institutionalProposal.getCostShareComment().setComments(budgetExt.getCostShareComment());
-            }
-            ipCostShare.setAmount(new ScaleTwoDecimal(budgetCostShare.getShareAmount().bigDecimalValue()));
-            ipCostShare.setCostSharePercentage(new ScaleTwoDecimal(budgetCostShare.getSharePercentage().bigDecimalValue()));
-            ipCostShare.setProjectPeriod(budgetCostShare.getProjectPeriod().toString());
-            ipCostShare.setSourceAccount(budgetCostShare.getSourceAccount());
-            ipCostShare.setUnitNumber(budgetCostShare.getUnitNumber());
-            ipCostShare.setUnit(budgetCostShare.getUnit());
-            institutionalProposal.add(ipCostShare);
-        }
-        if (!institutionalProposal.getInstitutionalProposalCostShares().isEmpty()) {
-            institutionalProposal.setCostSharingIndicator(TRUE_INDICATOR_VALUE);
-        }
+        populateCostSharesFromBudget(institutionalProposal, budget);
 
-        // Unrecovered F and As (from Budget)
+        populateUnrecoveredFandA(institutionalProposal, budget);
+
+        copyIndirectRates(institutionalProposal, budget);
+
+    }
+
+    private void populateUnrecoveredFandA(InstitutionalProposal institutionalProposal, Budget budget) {
         institutionalProposal.getInstitutionalProposalUnrecoveredFandAs().clear();
         for (BudgetUnrecoveredFandA budgetUfa : budget.getBudgetUnrecoveredFandAs()) {
             InstitutionalProposalUnrecoveredFandA ipUfa = new InstitutionalProposalUnrecoveredFandA();
@@ -722,9 +708,35 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         if (!institutionalProposal.getInstitutionalProposalUnrecoveredFandAs().isEmpty()) {
             institutionalProposal.setIdcRateIndicator(TRUE_INDICATOR_VALUE);
         }
+    }
 
-        copyIndirectRates(institutionalProposal, budget);
+    private void populateCostSharesFromBudget(InstitutionalProposal institutionalProposal, Budget budget) {
+        institutionalProposal.getInstitutionalProposalCostShares().clear();
+        for (BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
+            InstitutionalProposalCostShare ipCostShare = new InstitutionalProposalCostShare();
+            ipCostShare.setCostShareTypeCode(getCostShareTypeCode(budgetCostShare));
+            if (isCostShareTypeEnabled()) {
+                ProposalDevelopmentBudgetExt budgetExt = (ProposalDevelopmentBudgetExt) budgetCostShare.getBudget();
+                institutionalProposal.getCostShareComment().setComments(budgetExt.getCostShareComment());
+            }
+            ipCostShare.setAmount(new ScaleTwoDecimal(budgetCostShare.getShareAmount().bigDecimalValue()));
+            ipCostShare.setCostSharePercentage(new ScaleTwoDecimal(budgetCostShare.getSharePercentage().bigDecimalValue()));
+            ipCostShare.setProjectPeriod(budgetCostShare.getProjectPeriod().toString());
+            ipCostShare.setSourceAccount(budgetCostShare.getSourceAccount());
+            ipCostShare.setUnitNumber(budgetCostShare.getUnitNumber());
+            ipCostShare.setUnit(budgetCostShare.getUnit());
+            institutionalProposal.add(ipCostShare);
+        }
+        if (!institutionalProposal.getInstitutionalProposalCostShares().isEmpty()) {
+            institutionalProposal.setCostSharingIndicator(TRUE_INDICATOR_VALUE);
+        }
+    }
 
+    protected Integer getCostShareTypeCode(BudgetCostShare budgetCostShare) {
+        if (isCostShareTypeEnabled()) {
+            return budgetCostShare.getCostShareTypeCode() == null ? getCostShareTypeDefault() : budgetCostShare.getCostShareTypeCode();
+        }
+        return DEFAULT_COST_SHARE_TYPE_CODE;
     }
 
     protected void copyIndirectRates(InstitutionalProposal institutionalProposal, Budget budget) {
@@ -764,6 +776,14 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                 ParameterConstants.ALL_COMPONENT,
                 Constants.ENABLE_COST_SHARE_ACCOUNT_VALIDATION);
     }
+
+    protected Integer getCostShareTypeDefault() {
+        String costSharetype = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.DEFAULT_IP_AWARD_COST_SHARE_TYPE);
+        return !StringUtils.isEmpty(costSharetype) ? Integer.parseInt(costSharetype) : null;
+    }
+
     @Override
     public InstitutionalProposalDocument createAndSaveNewVersion(InstitutionalProposal currentInstitutionalProposal,
                                                                  InstitutionalProposalDocument currentInstitutionalProposalDocument) throws VersionException,
