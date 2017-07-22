@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-2392: updating jose4j and drools to the latest versions.  Switching cglib to cglib-nodep to remove ant transitive dependencies.
+  * Travis Schneeberger on Fri, 21 Jul 2017 16:14:38 -0400 [View Commit](../../commit/966f5b665e421a8239ba4570430f2f5635e0f40e)
+* RESKC-1907, RESKC-2280, RESKC-1906, RESKC-2277: supporting NASA and ONR for Subaward Fdp forms
+  * Travis Schneeberger on Fri, 21 Jul 2017 16:28:59 -0400 [View Commit](../../commit/a565949ed26d6b34a3cfbe580f7c063a57668322)
+
+##coeus-1707.0035
 * Reskc 2267 cost share (#2438)
 
 * clean up code
