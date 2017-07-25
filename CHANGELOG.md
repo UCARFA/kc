@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1707.0037
 * RESKC-2429: Fixing inflation calculation. (#2451)
 
 *Steps to Reproduce:*
