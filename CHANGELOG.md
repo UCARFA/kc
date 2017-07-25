@@ -1,6 +1,51 @@
 
 
 ##CURRENT
+* RESKC-2429: Fixing inflation calculation. (#2451)
+
+*Steps to Reproduce:*
+  * 1. Create Proposal with min. info to save with project dates 01/01/2018 – 12/31/2022
+  * 2. Add a Detail Budget
+  * 3. In the Project Personnel add:
+* 1 TBA-Graduate Assistant and update the Details for the Grad Assistant as follows:
+ - Salary Anniversary Date: 01/01/2019
+ - Base Salary 12,000
+* 1 Post-Doctoral Research Assistant and update the Details for the Post-Doc as follows:
+ - Salary Anniversary Date: 01/01/2019
+ - Base Salary 24,000
+  * 
+  * 4. Navigate to the Assign Personnel to Periods and in Period 1, click the [Assign Personnel…] button. In the Add Personnel to Period window add/select:
+* Person: TBA-Graduate Assistant
+* Object Code: Research Asst – On
+* Start Date: 01/01/2018
+* End Date: 12/31/2018
+* Effort %: 100
+* Charged %: 100
+* Period Type: Calendar
+* Click [Assign to Period 1]
+  * 
+  * 5. Click the [Assign Personnel…] button again. In the Add Personnel to Period window add/select:
+* Person: Post-Doctoral Research Assistant
+* Object Code: Post-Doctoral Staff
+* Start Date: 01/01/2018
+* End Date: 12/31/2018
+* Effort %: 100
+* Charged %: 100
+* Period Type: Calendar
+* Click [Assign to Period 1]
+  * 
+  * 6. Click the Autocalculate Periods link
+  * 
+  * 7. Navigate to Period 4:
+  * Click the [Details] button for the Grad Assistant and in the Edit Assigner Personnel window change the Effort % and Charge % to 50
+  * 
+  * 8. Click the [Calculate] button
+  * 
+*Actual Result:* The Requested Salary for the Grad Assistant changes to $6,180.00 which is incorrect. The amount in this example (with 3% inflation) should be *$6,556.36*  * Gayathri Athreya on Tue, 25 Jul 2017 08:12:44 -0700 [View Commit](../../commit/4ea83c4d5305df75bfc57e3664f398c04880605f)
+* udpate s2s to 1707.0010
+  * jeremiah on Tue, 25 Jul 2017 10:02:29 -0500 [View Commit](../../commit/98333266dfc167465f5a2050466dc9b0bcc90cc3)
+
+##coeus-1707.0036
 * RESKC-2392: updating jose4j and drools to the latest versions.  Switching cglib to cglib-nodep to remove ant transitive dependencies.
   * Travis Schneeberger on Fri, 21 Jul 2017 16:14:38 -0400 [View Commit](../../commit/966f5b665e421a8239ba4570430f2f5635e0f40e)
 * RESKC-1907, RESKC-2280, RESKC-1906, RESKC-2277: supporting NASA and ONR for Subaward Fdp forms
