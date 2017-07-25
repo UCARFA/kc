@@ -616,19 +616,20 @@ public class SalaryCalculator {
 
     }
 
-    private Date getPreviousPeriodEndDate() {
+    protected Date getPreviousPeriodEndDate() {
         int previousPeriod = personnelLineItem.getBudgetPeriod() - 1;
 
         List<BudgetPersonnelDetails> previousPeriodsPersonnelDetails = budget.getBudgetPeriods()
                 .stream()
                 .filter(budgetPeriod -> budgetPeriod.getBudgetPeriod().equals(previousPeriod))
                 .flatMap(l -> l.getBudgetLineItems().stream())
+                .filter(l -> StringUtils.equalsIgnoreCase(l.getCostElement(), personnelLineItem.getCostElement()))
                 .flatMap(l -> l.getBudgetPersonnelDetailsList().stream())
                 .filter(budgetPersonnelDetail -> (
                     budgetPersonnelDetail.getBudgetPerson() != null &&
                     personnelLineItem.getBudgetPerson() != null &&
-                    StringUtils.equals(budgetPersonnelDetail.getBudgetPerson().getPersonRolodexTbnId(), personnelLineItem.getBudgetPerson().getPersonRolodexTbnId()) &&
-                    StringUtils.equals(budgetPersonnelDetail.getCostElement(), personnelLineItem.getCostElement())))
+                    StringUtils.equals(budgetPersonnelDetail.getBudgetPerson().getPersonRolodexTbnId(), personnelLineItem.getBudgetPerson().getPersonRolodexTbnId())
+                    ))
                 .sorted(Comparator.comparing(BudgetPersonnelDetails::getEndDate))
                 .collect(Collectors.toList());
 
