@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2426: Hiding section column behind feature flag. (#2458)
+
+  * Gayathri Athreya on Wed, 26 Jul 2017 12:32:52 -0700 [View Commit](../../commit/992005e5c481f02d5b5127697d6873f265d1a3d3)
+
+##coeus-1707.0040
 * RESKC-2403: fixing duplication question_id sequence_number combinations in our bootstrap data
   * Travis Schneeberger on Wed, 26 Jul 2017 13:22:54 -0400 [View Commit](../../commit/4d3c1bf094aaff72c05863c313193a1c5a904f1a)
 * RESKC-2128: Fixing tab ids. (#2456)
