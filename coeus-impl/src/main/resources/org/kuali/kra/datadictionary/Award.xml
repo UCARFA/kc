@@ -207,7 +207,7 @@
         <property name="forceUppercase" value="false"/>
         <property name="label" value="Amount"/>
         <property name="shortLabel" value="Amount"/>
-        <property name="maxLength" value="12"/>
+        <property name="maxLength" value="13"/>
         <property name="validationPattern">
             <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
         </property>
@@ -248,7 +248,7 @@
         <property name="forceUppercase" value="false"/>
         <property name="label" value="Amount"/>
         <property name="shortLabel" value="Amount"/>
-        <property name="maxLength" value="12"/>
+        <property name="maxLength" value="13"/>
         <property name="validationPattern">
             <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
         </property>
@@ -901,7 +901,7 @@
         <property name="forceUppercase" value="false"/>
         <property name="label" value="Obligated Total"/>
         <property name="shortLabel" value="Obligated Total"/>
-        <property name="maxLength" value="12"/>
+        <property name="maxLength" value="13"/>
         <property name="validationPattern">
             <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
         </property>
@@ -930,7 +930,7 @@
         <property name="forceUppercase" value="false"/>
         <property name="label" value="Anticipated Total"/>
         <property name="shortLabel" value="Anticipated Total"/>
-        <property name="maxLength" value="12"/>
+        <property name="maxLength" value="13"/>
         <property name="validationPattern">
             <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
         </property>
