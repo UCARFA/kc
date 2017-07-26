@@ -30,4 +30,5 @@ spool 1707_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1707_008__SF424_supplement_errors.sql
 @./kc/bootstrap/V1707_009__SF424_Mandatory_questions_revert.sql
 @./kc/bootstrap/V1707_016__cost_share_type_default.sql
+@./kc/bootstrap/V1707_017__questionnaire_data_fix.sql
 commit;

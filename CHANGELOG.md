@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* RESKC-2403: fixing duplication question_id sequence_number combinations in our bootstrap data
+  * Travis Schneeberger on Wed, 26 Jul 2017 13:22:54 -0400 [View Commit](../../commit/4d3c1bf094aaff72c05863c313193a1c5a904f1a)
+* RESKC-2128: Fixing tab ids. (#2456)
+
+  * Gayathri Athreya on Wed, 26 Jul 2017 09:48:21 -0700 [View Commit](../../commit/e86e6e81aef875f6c44a1b139f9073a27534db9a)
+* RESKC-2408: Fixed HTML template to correctly display and align date in distributed/distributable view. Removed extra + causing NaN to be inserted in view.
+  * jeremiah on Tue, 18 Jul 2017 17:07:55 -0500 [View Commit](../../commit/c231cdbcd3c4d0b4a781768670d7eeec06d2b7b4)
+
+##coeus-1707.0039
 * No Changes
 
 
