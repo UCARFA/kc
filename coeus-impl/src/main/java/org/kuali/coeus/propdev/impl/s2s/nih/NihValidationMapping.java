@@ -18,9 +18,14 @@
  */
 package org.kuali.coeus.propdev.impl.s2s.nih;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public class NihValidationMapping extends KcPersistableBusinessObjectBase {
+    public static final String A_TAG = "a";
+    public static final String HREF = "href";
+    public static final String TARGET = "target";
     private Long id;
     private String ruleNumber;
     private String customMessage;
@@ -92,5 +97,23 @@ public class NihValidationMapping extends KcPersistableBusinessObjectBase {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+        cleanCustomMessage();
+    }
+
+    @Override
+    protected void preUpdate() {
+        super.preUpdate();
+        cleanCustomMessage();
+    }
+
+    public void cleanCustomMessage() {
+        final Whitelist basic = Whitelist.basic();
+        basic.addAttributes(A_TAG, HREF, TARGET);
+        setCustomMessage(Jsoup.clean(customMessage, basic));
     }
 }

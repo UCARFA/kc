@@ -102,6 +102,7 @@
         <joda-time.version>2.9.9</joda-time.version>
         <joda-time-jsptags.version>1.1.1</joda-time-jsptags.version>
         <jsp.version>2.2.1</jsp.version>
+        <jsoup.version>1.10.3</jsoup.version>
         <jstl.version>1.2.1</jstl.version>
         <jstl.impl.version>1.2.4</jstl.impl.version>
         <junit.version>4.12</junit.version>

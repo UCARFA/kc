@@ -651,7 +651,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 
     public boolean isDataValidationSectionEnabled() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
-                "Show_Section_In_Data_Validation");
+                Constants.SHOW_SECTION_IN_DATA_VALIDATION);
     }
 
     public void populateCreditSplits(ProposalDevelopmentDocumentForm form) {

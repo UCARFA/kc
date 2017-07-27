@@ -107,7 +107,7 @@
             <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition" p:size="400"/>
+            <bean parent="TextareaControlDefinition" p:size="400"/>
         </property>
         <property name="controlField">
             <bean p:size="300" parent="Uif-TextControl"/>

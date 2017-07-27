@@ -33,6 +33,7 @@ import java.util.Map;
 public class NihValidationMappingRule extends KcMaintenanceDocumentRuleBase {
 
     public static final String DOCUMENT_NEW_MAINTAINABLE_OBJECT_RULE_NUMBER = "document.newMaintainableObject.ruleNumber";
+
     public static final String RULE_NUMBER = "ruleNumber";
     private BusinessObjectService businessObjectService;
 
@@ -54,7 +55,7 @@ public class NihValidationMappingRule extends KcMaintenanceDocumentRuleBase {
                 final NihValidationMapping existingMapping = ruleNumbers.get(0);
                 if (existingMapping.getRuleNumber().equals(nihValidationMapping.getRuleNumber())) {
                     getGlobalVariableService().getMessageMap().putError(DOCUMENT_NEW_MAINTAINABLE_OBJECT_RULE_NUMBER, KeyConstants.UNIQUE_NIH_VALIDATION_KEY, "");
-                    valid = false;
+                    valid = Boolean.FALSE;
                 }
             }
         }

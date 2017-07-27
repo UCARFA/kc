@@ -72,7 +72,7 @@
             <list>
                 <bean parent="Uif-DataField" p:propertyName="area" p:fieldLabel.labelText="Area" p:order="10"/>
                 <bean parent="Uif-DataField" p:propertyName="section" p:fieldLabel.labelText="Section" p:order="20" p:render="@{#ViewHelper.isDataValidationSectionEnabled()}"/>
-                <bean parent="Uif-DataField" p:propertyName="description" p:fieldLabel.labelText="Description" p:order="30"/>
+                <bean parent="Uif-DataField" p:propertyName="description" p:escapeHtmlInPropertyValue="false" p:fieldLabel.labelText="Description" p:order="30"/>
                 <bean parent="Uif-DataField" p:propertyName="severity" p:fieldLabel.labelText="Severity" p:order="40"
                       p:cssClasses="label,@{#ViewHelper.getErrorCssClass(#line.severity)}"/>
             </list>
