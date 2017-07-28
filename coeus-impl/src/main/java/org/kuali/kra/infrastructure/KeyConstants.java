@@ -125,6 +125,7 @@ public final class KeyConstants {
     public static final String ERROR_ATTACHMENT_NOT_AUTHORIZED = "error.proposalAttachment.notAuthorized";
     public static final String ERROR_ATTACHMENT_STATUS_NOT_SELECTED = "error.proposalAttachment.narrativeStatus.notSelected";
     public static final String ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED = "error.proposalAttachment.description.required";
+    public static final String ERROR_NARRATIVE_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS = "error.proposalAttachment.description.illegalCharacters";
     public static final String ERROR_PROTOCOL_ATTACHMENT_PERSONNEL_INVALID_TYPE = "error.protocol.attachment.personnel.invalid.type";
     public static final String ERROR_PROTOCOL_ATTACHMENT_PERSONNEL_DUPLICATE_TYPE = "error.protocol.attachment.personnel.duplicate.type";
     public static final String ERROR_PROTOCOL_ATTACHMENT_PERSONNEL_INVALID_DESCRIPTION = "error.protocol.attachment.personnel.invalid.description";

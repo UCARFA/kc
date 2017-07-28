@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
@@ -39,7 +40,6 @@ import java.util.List;
 
 
 import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_STATUS_COMPLETE;
-import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_STATUS_INCOMPLETE;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 
 
@@ -84,12 +84,24 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         rulePassed &= getDictionaryValidationService().isBusinessObjectValid(narrative);
         rulePassed &= checkNarrative(document.getDevelopmentProposal().getNarratives(), narrative);
         rulePassed &= validFileNameCharacters(narrative);
+        rulePassed &= validModuleTitle(narrative, document.getDevelopmentProposal());
         if (narrative.getModuleStatusCode().equals(NARRATIVE_MODULE_STATUS_COMPLETE) || narrative.getMultipartFile() != null) {
             rulePassed &= getKcFileService().validPDFFile(narrative, getErrorReporter(), ERROR_PREFIX_FOR_ATTACHMENTS);
         }
 
         return rulePassed;
     }
+
+    protected boolean validModuleTitle(Narrative narrative, DevelopmentProposal developmentProposal) {
+        if (StringUtils.contains(narrative.getModuleTitle(), '&')
+                && developmentProposal.getS2sOpportunity() != null
+                && narrative.getNarrativeType().isAllowMultiple()) {
+            reportError(MODULE_TITLE, ERROR_NARRATIVE_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS);
+            return false;
+        }
+        return true;
+    }
+
     private boolean validFileNameCharacters(Narrative narrative) {
         String attachmentFileName = narrative.getName();
         KcAttachmentService attachmentService = getKcFileService();
