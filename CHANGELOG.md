@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1758: Description fields containing ampersands should now return a validation error when the proposal contains an s2s opportunity and allows multiple files. Added tests for narrative and audit rule.
+  * jeremiah on Fri, 28 Jul 2017 11:42:23 -0500 [View Commit](../../commit/0d3880d22f486e7bde8638d3cf61beb3b96460e1)
+
+##coeus-1707.0044
 * Fixing broken tests (#2460)
 
   * Gayathri Athreya on Fri, 28 Jul 2017 09:03:05 -0700 [View Commit](../../commit/0c06462ea03ab98320274afd675152644afd1d2e)
