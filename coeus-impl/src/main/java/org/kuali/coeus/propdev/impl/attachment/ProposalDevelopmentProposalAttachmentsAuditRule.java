@@ -70,8 +70,23 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
         valid &= checkForIncompleteAttachments(developmentProposal);
         valid &= checkNihRelatedAttachments(developmentProposal);
         valid &= checkNsfRelatedAttachments(proposalDevelopmentDocument);
+        int i = 0;
+        for (Narrative narrative : developmentProposal.getNarratives()) {
+            valid &= validModuleTitle(narrative, developmentProposal, i++);
+        }
         
         return valid;
+    }
+
+    protected boolean validModuleTitle(Narrative narrative, DevelopmentProposal developmentProposal, int index) {
+        if (StringUtils.contains(narrative.getModuleTitle(), '&')
+                && developmentProposal.getS2sOpportunity() != null
+                && narrative.getNarrativeType().isAllowMultiple()) {
+            getAuditErrors(ATTACHMENT_PROPOSAL_SECTION_NAME).add(new AuditError(String.format(NARRATIVES_DESCRIPTION_KEY, index),
+                    KeyConstants.ERROR_NARRATIVE_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS, ATTACHMENT_PAGE_ID+"."+ATTACHMENT_PROPOSAL_SECTION_ID));
+            return false;
+        }
+        return true;
     }
 
     public boolean checkForIncompleteAttachments(DevelopmentProposal developmentProposal) {
