@@ -118,7 +118,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
         Assert.assertTrue(rule.getGlobalVariableService().getAuditErrorMap().get(WARNINGS_KEY) == null);
         Assert.assertTrue(rule.getGlobalVariableService().getAuditErrorMap().get(ERROR_KEY).getSize() == 1);
         Assert.assertTrue(StringUtils.equalsIgnoreCase(((org.kuali.rice.krad.util.AuditError)rule.getGlobalVariableService().getAuditErrorMap().
-                get(ERROR_KEY).getAuditErrorList().get(0)).getParams()[0], "SF424 - 000.28 - 1 - " + ZUKO_SAYS + BOOMI));
+                get(ERROR_KEY).getAuditErrorList().get(0)).getParams()[0], "SF424 - 000.28 - 1 - " + ZUKO_SAYS + StringUtils.SPACE + BOOMI));
         rule.getGlobalVariableService().getAuditErrorMap().clear();
     }
 

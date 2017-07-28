@@ -217,7 +217,7 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
             NihValidationMapping match = matches.get(0);
             if (!StringUtils.isEmpty(match.getCustomMessage())) {
                 if (match.getAppendToOriginal()) {
-                    msg.setValidationMessageText(msg.getValidationMessageText() + " " + match.getCustomMessage());
+                    msg.setValidationMessageText(msg.getValidationMessageText() + StringUtils.SPACE + match.getCustomMessage());
                 } else {
                     msg.setValidationMessageText(match.getCustomMessage());
                 }
