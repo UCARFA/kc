@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Fixing broken tests (#2460)
+
+  * Gayathri Athreya on Fri, 28 Jul 2017 09:03:05 -0700 [View Commit](../../commit/0c06462ea03ab98320274afd675152644afd1d2e)
+* RESKC-2399: Allowing html in input and adding rule to catch XSS. (#2459)
+
+  * Gayathri Athreya on Thu, 27 Jul 2017 15:27:03 -0700 [View Commit](../../commit/e6523ea36aa7afd6cad911903ccdf455deee8f16)
+
+##coeus-1707.0043
 * No Changes
 
 
