@@ -83,7 +83,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
                 && developmentProposal.getS2sOpportunity() != null
                 && narrative.getNarrativeType().isAllowMultiple()) {
             getAuditErrors(ATTACHMENT_PROPOSAL_SECTION_NAME).add(new AuditError(String.format(NARRATIVES_DESCRIPTION_KEY, index),
-                    KeyConstants.ERROR_NARRATIVE_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS, ATTACHMENT_PAGE_ID+"."+ATTACHMENT_PROPOSAL_SECTION_ID));
+                    KeyConstants.ERROR_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS, ATTACHMENT_PAGE_ID+"."+ATTACHMENT_PROPOSAL_SECTION_ID));
             return false;
         }
         return true;

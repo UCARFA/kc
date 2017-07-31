@@ -96,7 +96,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         if (StringUtils.contains(narrative.getModuleTitle(), '&')
                 && developmentProposal.getS2sOpportunity() != null
                 && narrative.getNarrativeType().isAllowMultiple()) {
-            reportError(MODULE_TITLE, ERROR_NARRATIVE_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS);
+            reportError(MODULE_TITLE, ERROR_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS);
             return false;
         }
         return true;
