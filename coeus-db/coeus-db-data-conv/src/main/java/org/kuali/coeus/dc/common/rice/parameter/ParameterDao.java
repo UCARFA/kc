@@ -22,4 +22,5 @@ public interface ParameterDao {
 
     Parameter getParameter(ParameterKey key);
     void deleteParameter(ParameterKey key);
+    void updateParameter(ParameterKey key, String value);
 }

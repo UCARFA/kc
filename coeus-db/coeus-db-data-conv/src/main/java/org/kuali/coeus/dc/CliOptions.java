@@ -93,7 +93,11 @@ public class CliOptions {
     public boolean containsQuestSeq() {
         return contains("questseq");
     }
-    
+
+    public boolean containsQuestReseq() {
+        return contains("questreseq");
+    }
+
     public boolean containsTimeAndMoneyDocStatus() {
     	return contains("tmdocstatus");
     }
