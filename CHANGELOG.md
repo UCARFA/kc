@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-2404: adding backup logic to question resequence migration
+  * Travis Schneeberger on Mon, 31 Jul 2017 17:40:43 -0400 [View Commit](../../commit/245a559fd5e662a7178c3deb016960f26876266f)
+* RESKC-2404: resequencing question ids in bootstrap data to avoid collisions with questions added through maintenance
+  * Travis Schneeberger on Mon, 31 Jul 2017 16:54:13 -0400 [View Commit](../../commit/fba8fec6525ab7e56c54aabbace4d007de5afd71)
+
+##coeus-1707.0045
 * RESKC-1758: Description fields containing ampersands should now return a validation error when the proposal contains an s2s opportunity and allows multiple files. Added tests for narrative and audit rule.
   * jeremiah on Fri, 28 Jul 2017 11:42:23 -0500 [View Commit](../../commit/0d3880d22f486e7bde8638d3cf61beb3b96460e1)
 
