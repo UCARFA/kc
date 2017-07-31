@@ -67,7 +67,23 @@ public class ParameterDaoImpl implements ParameterDao {
                      setString(3, key.getName(),
                      setString(2, key.getComponentCode(),
                      setString(1, key.getNamespaceCode(),
-                       connection.prepareStatement("DELETE FROM KRCR_PARM_T WHERE NMSPC_CD = ? AND CMPNT_CD = ? AND PARM_NM = ? AND APPL_ID = ?")))));) {
+                       connection.prepareStatement("DELETE FROM KRCR_PARM_T WHERE NMSPC_CD = ? AND CMPNT_CD = ? AND PARM_NM = ? AND APPL_ID = ?")))))) {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void updateParameter(ParameterKey key, String value) {
+        Connection connection = connectionDaoService.getRiceConnection();
+        try (PreparedStatement stmt =
+                     setString(5, key.getApplicationId(),
+                     setString(4, key.getName(),
+                     setString(3, key.getComponentCode(),
+                     setString(2, key.getNamespaceCode(),
+                     setString(1, value,
+                         connection.prepareStatement("UPDATE KRCR_PARM_T SET VAL = ? WHERE NMSPC_CD = ? AND CMPNT_CD = ? AND PARM_NM = ? AND APPL_ID = ?"))))))) {
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

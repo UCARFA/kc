@@ -123,6 +123,10 @@ public final class Main {
             if (options.containsQuestSeq()) {
                 factory.getQuestSeqDao().convertQuestSeqKrmsValues();
             }
+
+            if (options.containsQuestReseq()) {
+                factory.getQuestReseqDao().resequenceQuestions();
+            }
             
             if (options.containsTimeAndMoneyDocStatus()) {
             	factory.getTimeAndMoneyDocumentStatusDao().updateTimeAndMoneyDocumentStatusFromKew();
