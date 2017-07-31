@@ -144,6 +144,10 @@ public class QuestReseqDaoImpl implements QuestReseqDao {
 
     private static final String UPDATE_QUESTION_ID = "update QUESTION set QUESTION_ID = ? where QUESTION_ID = ? and question = ?";
 
+    private static final String BACKUP_KRMS_TERM_PARM_T = "create table krms_term_parm_t_bak07312017 as select * from krms_term_parm_t";
+    private static final String BACKUP_QUESTION = "create table question_bak07312017 as select * from question";
+
+
     private static final ParameterKey PARAMETER_KEY = new ParameterKey("KC-GEN", "All", "PROP_PERSON_COI_CERTIFY_QID", "KC");
 
     private ConnectionDaoService connectionDaoService;
@@ -151,6 +155,14 @@ public class QuestReseqDaoImpl implements QuestReseqDao {
 
     @Override
     public void resequenceQuestions() {
+        try(PreparedStatement backupTerms = getConnectionDaoService().getRiceConnection().prepareStatement(BACKUP_KRMS_TERM_PARM_T);
+            PreparedStatement backupQuestions = getConnectionDaoService().getCoeusConnection().prepareStatement(BACKUP_QUESTION)){
+            backupTerms.execute();
+            backupQuestions.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         QUESTIONS.forEach((questionSeqId, question) -> {
             try (PreparedStatement selectQuestionnaires = setString(2, question, setInt(1, questionSeqId, getConnectionDaoService().getCoeusConnection().prepareStatement(SELECT_QUESTIONNAIRES_WITH_QUESTION)));
                  PreparedStatement updateQuestion = setString(3, question, setInt(2, questionSeqId, setInt(1, (questionSeqId * -1), getConnectionDaoService().getCoeusConnection().prepareStatement(UPDATE_QUESTION_ID))))) {
