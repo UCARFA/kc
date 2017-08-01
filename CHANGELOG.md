@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1758: Personnel attachment's description should now also be validated to not contain &
+  * jeremiah on Mon, 31 Jul 2017 13:50:11 -0500 [View Commit](../../commit/ba756d7dbf65bd25c8969ce5f93d76ce4c99691b)
+
+##coeus-1708.0001
 * RESKC-2404: adding missing constraints to questionnaire table to help ensure data integrity
   * Travis Schneeberger on Tue, 1 Aug 2017 11:09:23 -0400 [View Commit](../../commit/c8d5541ed6416ad6fd4bd2d0590c98e32d1e635d)
 
