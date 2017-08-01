@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2404: adding missing constraints to questionnaire table to help ensure data integrity
+  * Travis Schneeberger on Tue, 1 Aug 2017 11:09:23 -0400 [View Commit](../../commit/c8d5541ed6416ad6fd4bd2d0590c98e32d1e635d)
+
+##coeus-1707.0046
 * RESKC-2404: adding backup logic to question resequence migration
   * Travis Schneeberger on Mon, 31 Jul 2017 17:40:43 -0400 [View Commit](../../commit/245a559fd5e662a7178c3deb016960f26876266f)
 * RESKC-2404: resequencing question ids in bootstrap data to avoid collisions with questions added through maintenance
