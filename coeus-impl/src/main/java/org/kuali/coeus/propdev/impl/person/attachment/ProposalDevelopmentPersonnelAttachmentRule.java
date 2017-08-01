@@ -21,6 +21,7 @@ package org.kuali.coeus.propdev.impl.person.attachment;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -36,6 +37,7 @@ import java.util.List;
 
 import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS;
 
 
 public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule, ReplacePersonnelAttachmentRule {
@@ -91,6 +93,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         }
 
         rulePassed &= getKcAttachmentService().validPDFFile(proposalPersonBiography, getErrorReporter(), PERSONNEL_ATTACHMENT_FILE);
+        rulePassed &= validDescription(proposalPersonBiography, document.getDevelopmentProposal());
 
         if (!checkForProposalPerson(proposalPersonBiography)) {
             rulePassed = false;
@@ -103,6 +106,19 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         }
         
         return rulePassed;
+    }
+
+    /**
+     * Checks if the description contains ampersand character for proposals that have an S2S opportunity.
+     * @return True if description does not contain ampersands or the proposal does not contain an S2S opportunity.
+     */
+    protected boolean validDescription(ProposalPersonBiography proposalPersonBiography, DevelopmentProposal developmentProposal) {
+        if (StringUtils.contains(proposalPersonBiography.getDescription(), '&')
+                && developmentProposal.getS2sOpportunity() != null) {
+            reportError(DOC_TYPE_DESCRIPTION, ERROR_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS);
+            return false;
+        }
+        return true;
     }
 
     @Override
