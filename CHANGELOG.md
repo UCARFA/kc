@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1708.0003
 * RESKC-1758: Personnel attachment's description should now also be validated to not contain &
   * jeremiah on Mon, 31 Jul 2017 13:50:11 -0500 [View Commit](../../commit/ba756d7dbf65bd25c8969ce5f93d76ce4c99691b)
 
