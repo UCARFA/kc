@@ -29,6 +29,7 @@ public class QuestReseqDaoImpl implements QuestReseqDao {
         QUESTIONS = new HashMap<>();
 
         QUESTIONS.put(10001,"Does this project involve human subjects?");
+        QUESTIONS.put(10001,"Does your project involve the use of human subjects?");
         QUESTIONS.put(10002,"Does this project involve animal subjects?");
         QUESTIONS.put(10003,"Are you involved in recruiting and/or obtaining consent of human subjects to participate in this study?");
         QUESTIONS.put(10004,"Will the entity provide a drug, device, vaccine or procedure for use in the protocol?");
