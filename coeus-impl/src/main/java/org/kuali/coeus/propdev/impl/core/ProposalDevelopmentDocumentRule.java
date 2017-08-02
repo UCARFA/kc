@@ -122,6 +122,8 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER="answer";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_REVIEW_DATE="reviewDate";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_EXPLANATION="explanation";
+    private static final String AWARD_NUMBER = "awardNumber";
+    private static final String PROPOSAL_CURRENT_AWARD_NUMBER = "currentAwardNumber";
 
     private SponsorService sponsorService;
     private DataDictionaryService dataDictionaryService;
@@ -348,12 +350,12 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         }
         
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCurrentAwardNumber())) {
-            HashMap<String,String> criteria=new HashMap<>();
-            criteria.put("awardNumber",proposalDevelopmentDocument.getDevelopmentProposal().getCurrentAwardNumber());
-            if (getBusinessObjectService().countMatching(Award.class, criteria)<1) {
+            HashMap<String,String> criteria = new HashMap<>();
+            criteria.put(AWARD_NUMBER,proposalDevelopmentDocument.getDevelopmentProposal().getCurrentAwardNumber());
+            if (getBusinessObjectService().countMatching(Award.class, criteria) < 1) {
                 valid = false;
-                errorMap.putError("currentAwardNumber", KeyConstants.ERROR_MISSING, 
-                        dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "currentAwardNumber"));
+                errorMap.putError(PROPOSAL_CURRENT_AWARD_NUMBER, KeyConstants.ERROR_MISSING,
+                        dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, PROPOSAL_CURRENT_AWARD_NUMBER));
             }
         }
         
