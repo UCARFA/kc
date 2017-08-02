@@ -36,6 +36,7 @@
       <list>
         <ref bean="CostShareType-costShareTypeCode" />
         <ref bean="CostShareType-description" />
+        <ref bean="CostShareType-active" />
       </list>
     </property>
   </bean>
@@ -69,6 +70,17 @@
   
   <bean id="CostShareType-description" parent="CostShareType-description-parentBean" />
   <bean id="CostShareType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
+
+  <bean id="CostShareType-active" parent="CostShareType-active-parentBean" />
+  <bean id="CostShareType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="active" />
+    <property name="required" value="true" />
+    <property name="label" value="Active" />
+    <property name="shortLabel" value="Active" />
+    <property name="summary" value="Active" />
+    <property name="description" value="Active" />
+  </bean>
+
   <bean id="CostShareType-versionNumber" parent="CostShareType-versionNumber-parentBean" />
   <bean id="CostShareType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 <!-- Business Object Inquiry Definition -->
@@ -85,6 +97,7 @@
             <list>
               <bean parent="FieldDefinition" p:attributeName="costShareTypeCode" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -104,6 +117,7 @@
             <list>
               <bean p:propertyName="costShareTypeCode" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="active" parent="Uif-DataField"/>
             </list>
           </property>
         </bean>
@@ -122,12 +136,14 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="costShareTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition" p:attributeName="costShareTypeCode" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>
@@ -139,12 +155,14 @@
       <list>
         <bean p:propertyName="costShareTypeCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean p:propertyName="costShareTypeCode" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="active" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

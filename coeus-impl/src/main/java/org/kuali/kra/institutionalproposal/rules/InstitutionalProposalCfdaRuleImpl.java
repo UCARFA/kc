@@ -31,6 +31,7 @@ public class InstitutionalProposalCfdaRuleImpl extends KcTransactionalDocumentRu
 
     public static final String CFDA_NUMBER = "cfdaNumber";
 
+    @Override
     public boolean processCfdaRules(
             InstitutionalProposalCfdaRuleEvent institutionalProposalCfdaRuleEvent) {
         return validateCfdaNumber(institutionalProposalCfdaRuleEvent.getInstitutionalProposalForValidation());

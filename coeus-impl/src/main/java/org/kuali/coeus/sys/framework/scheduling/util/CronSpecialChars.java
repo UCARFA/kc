@@ -39,6 +39,7 @@ public enum CronSpecialChars {
         this.chr = chr;
     }
    
+    @Override
     public String toString() {
         return chr;
     }

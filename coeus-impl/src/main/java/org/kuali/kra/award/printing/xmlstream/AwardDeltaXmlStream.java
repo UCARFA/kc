@@ -70,7 +70,8 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	 *            parameters related to XML generation
 	 * @return {@link XmlObject} representing the XML
 	 */
-	public Map<String, XmlObject> generateXmlStream(
+	@Override
+    public Map<String, XmlObject> generateXmlStream(
 			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory
@@ -228,7 +229,8 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	 * This method will set the values to award attributes and finally returns
 	 * award Xml object
 	 */
-	protected AwardType getAward() {
+	@Override
+    protected AwardType getAward() {
 		AwardType awardType = super.getAward();
 		awardType.setAwardTransferringSponsors(getAwardTransferringSponsors());
 		awardType.setAwardPaymentSchedules(getAwardPaymentSchedules());
@@ -415,7 +417,8 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	 * This method sets the values to print requirement attributes and finally
 	 * returns the print requirement xml object
 	 */
-	protected PrintRequirement getPrintRequirement(
+	@Override
+    protected PrintRequirement getPrintRequirement(
 			Map<String, Object> reportParameters) {
 		PrintRequirement printRequirement = PrintRequirement.Factory
 				.newInstance();

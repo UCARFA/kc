@@ -27,10 +27,6 @@ public final class ProposalDevelopmentDataValidationConstants {
     public static final String DETAILS_PAGE_ID = "PropDev-DetailsPage";
     public static final String DETAILS_PAGE_NAME = "Proposal Details";
 
-    public static final String S2S_PAGE_ID = "PropDev-OpportunityPage";
-    public static final String S2S_PAGE_NAME = "S2S Opportunity Search";
-    public static final String S2S_OPPORTUNITY_SECTION_ID = "PropDev-OpportunityPage-General";
-    public static final String S2S_OPPORTUNITY_SECTION_NAME = "Opportunity";
     public static final String REVISION_CODE_KEY = "document.developmentProposal.s2sOpportunity.revisionCode";
     public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.developmentProposal.s2sOpportunity.s2sSubmissionTypeCode";
     public static final String COMPETITION_ID = "document.developmentProposal.s2sOpportunity.competetionId";
@@ -71,6 +67,7 @@ public final class ProposalDevelopmentDataValidationConstants {
     public static final String ATTACHMENT_INTERNAL_SECTION_NAME = "Internal Attachments";
     public static final String NARRATIVES_KEY = "document.developmentProposal.narratives";
     public static final String NARRATIVES_STATUS_KEY = "document.developmentProposal.narratives[%d].moduleStatusCode";
+    public static final String NARRATIVES_DESCRIPTION_KEY = "document.developmentProposal.narratives[%d].moduleTitle";
     public static final String INSTITUTE_ATTACHMENTS_STATUS_KEY = "document.developmentProposal.instituteAttachments[%d].moduleStatusCode";
     public static final String BIOGRAPHIES_KEY = "document.developmentProposal.propPersonBios";
     public static final String BIOGRAPHY_TYPE_KEY = "document.developmentProposal.propPersonBios[%d].documentTypeCode";

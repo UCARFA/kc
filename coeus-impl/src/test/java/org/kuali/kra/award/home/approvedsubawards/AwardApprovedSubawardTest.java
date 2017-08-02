@@ -18,46 +18,18 @@
  */
 package org.kuali.kra.award.home.approvedsubawards;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.kuali.kra.bo.AbstractBoTest;
 
-/**
- * 
- * This class tests methods in Award.java class
- */
-public class AwardApprovedSubawardTest { 
+public class AwardApprovedSubawardTest extends AbstractBoTest<AwardApprovedSubaward> {
     private static final int AWARD_APPROVED_SUBAWARD_ATTRIBUTES_COUNT = 6;
-    
-    private AwardApprovedSubaward awardApprovedSubawrdBo;
-    
-    /**
-     *
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        awardApprovedSubawrdBo = new AwardApprovedSubaward();
+
+    @Override
+    protected Class<AwardApprovedSubaward> getBoClass() {
+        return AwardApprovedSubaward.class;
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-        awardApprovedSubawrdBo = null;
+    @Override
+    protected int getAttributeCount() {
+        return AWARD_APPROVED_SUBAWARD_ATTRIBUTES_COUNT;
     }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testAwardApprovedSubawardBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_APPROVED_SUBAWARD_ATTRIBUTES_COUNT, awardApprovedSubawrdBo.getClass().getDeclaredFields().length);
-    }
-    
 }

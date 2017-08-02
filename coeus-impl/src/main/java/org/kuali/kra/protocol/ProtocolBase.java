@@ -58,6 +58,7 @@ import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewExemption;
 import org.kuali.kra.protocol.summary.*;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -73,7 +74,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 
-public abstract class ProtocolBase extends KcPersistableBusinessObjectBase implements SequenceOwner<ProtocolBase>, Permissionable, UnitAclLoadable, Disclosurable, KcKrmsContextBo {
+public abstract class ProtocolBase extends KcPersistableBusinessObjectBase implements SequenceOwner<ProtocolBase>, Permissionable, UnitAclLoadable, Disclosurable, KcKrmsContextBo, MutableInactivatable {
    
     private static final long serialVersionUID = -5556152547067349988L;
     
@@ -267,11 +268,13 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
-    
+
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
-    
+
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -960,7 +963,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         if (protocolActions.size() == 0) {
             return null;
         }
-        Collections.sort(protocolActions, (action1, action2) -> action2.getActualActionDate().compareTo(action1.getActualActionDate()));
+        protocolActions.sort((action1, action2) -> action2.getActualActionDate().compareTo(action1.getActualActionDate()));
         return protocolActions.get(0);
     }
     
@@ -1868,7 +1871,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
                 sortedActions.add((ProtocolActionBase) ObjectUtils.deepCopy(action));
             }
 
-            Collections.sort(sortedActions, (action1, action2) -> action1.getActionId().compareTo(action2.getActionId()));
+            sortedActions.sort(Comparator.comparing(ProtocolActionBase::getActionId));
             
         }
         return sortedActions;

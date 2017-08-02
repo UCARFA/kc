@@ -110,6 +110,7 @@ public abstract class BudgetDistributionAndIncomeTest {
     public class Budget_TestRoot extends Budget {
         //removes dependence on BudgetDocument
         private Integer nextVal = 1;
+        @Override
         public Integer getNextValue(String key) {
             return nextVal++;
         }

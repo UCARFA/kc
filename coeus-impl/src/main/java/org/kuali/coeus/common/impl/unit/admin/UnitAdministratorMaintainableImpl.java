@@ -45,6 +45,7 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
 
     private transient DataObjectService dataObjectService;
 
+    @Override
     public DataObjectService getDataObjectService() {
         if (dataObjectService == null) {
             dataObjectService = KcServiceLocator.getService(DataObjectService.class);
@@ -52,6 +53,7 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
         return dataObjectService;
     }
 
+    @Override
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
     }

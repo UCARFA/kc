@@ -411,7 +411,8 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 			setTotalForPeriodWise(salaryTypeList, budgetPeriodWiseTotalMap);
 		}
 		Collections.sort(salaryTypeList, new Comparator<SalaryType>() {
-			public int compare(SalaryType salaryType1, SalaryType salaryType2) {
+			@Override
+            public int compare(SalaryType salaryType1, SalaryType salaryType2) {
 				int i = 0;
 				if (salaryType1.getCostElementCode() != null
 						&& salaryType2.getCostElementCode() != null) {

@@ -96,6 +96,7 @@ public class PersonTrainingMaintainableImpl extends KraMaintainableImpl {
         }
     }
 
+    @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);
         String keyName = "personId";

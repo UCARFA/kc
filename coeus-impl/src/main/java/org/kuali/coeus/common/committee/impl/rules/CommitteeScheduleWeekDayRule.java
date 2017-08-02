@@ -30,6 +30,7 @@ public class CommitteeScheduleWeekDayRule extends KcTransactionalDocumentRuleBas
     public static final String ID = "committeeHelper.scheduleData.weeklySchedule.daysOfWeek";
             
 
+    @Override
     public boolean processRules(CommitteeScheduleWeekDayEvent weekdayCommitteeScheduleEvent) {
         
         boolean rulePassed = true;        

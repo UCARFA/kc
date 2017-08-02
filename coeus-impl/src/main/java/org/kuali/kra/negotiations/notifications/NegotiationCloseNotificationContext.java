@@ -78,6 +78,7 @@ public class NegotiationCloseNotificationContext extends NotificationContextBase
         this.negotiationDocument = negotiationDocument;
     }
 
+    @Override
     public List<EmailAttachment> getEmailAttachments() {
         return emailAttachments;
     }

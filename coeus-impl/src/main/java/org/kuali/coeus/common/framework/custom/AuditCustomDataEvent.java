@@ -35,6 +35,7 @@ public class AuditCustomDataEvent extends SaveCustomDataEvent {
         super(document, true);
     }
     
+    @Override
     public void reportError(CustomAttribute customAttribute, String propertyName, String errorKey, String... errorParams) {
         String key = "CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors";
         AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);

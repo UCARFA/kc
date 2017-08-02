@@ -18,8 +18,6 @@
  */
 package org.kuali.kra.bo;
 
-
-import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public class Training extends KcPersistableBusinessObjectBase {

@@ -35,16 +35,19 @@ public class AwardSyncReportRecipientHelperTest extends AwardSyncReportHelperTes
         super("AwardReportTermRecipient");
     }
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         super.setUp();
     }
     
+    @Override
     @Test
     public void testBuildXmlExport() throws Exception {
         AwardSyncXmlExport xmlExport = awardSyncHelper.buildXmlExport(recipient, null);
@@ -56,6 +59,7 @@ public class AwardSyncReportRecipientHelperTest extends AwardSyncReportHelperTes
         assertEquals(recipient.getNumberOfCopies(), recipientExport.getValues().get("numberOfCopies"));
     }
     
+    @Override
     @Test
     public void testCreateAwardSyncChange() throws Exception {
         AwardSyncChange change = 
@@ -64,6 +68,7 @@ public class AwardSyncReportRecipientHelperTest extends AwardSyncReportHelperTes
         assertNotNull(change.getXmlExport());
     }
     
+    @Override
     @Test
     public void testApplySyncChange() throws Exception {
         AwardSyncChange change = 

@@ -39,6 +39,7 @@ public class PostAwardBudgetAuthorizer extends BudgetAuthorizer {
  
     private static final String POST_ENABLED_PARAM_VALUE_1 = "1";
 
+    @Override
     public boolean isAuthorized(String userId, Task task) {
         AwardBudgetTask budgetTask = (AwardBudgetTask) task;
         

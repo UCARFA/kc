@@ -30,6 +30,7 @@ import java.util.Comparator;
 
 public class MedusaNodeComparator implements Comparator<MedusaNode> {
 
+    @Override
     public int compare(MedusaNode m1, MedusaNode m2) {
         return getNodeValue(m1).compareTo(getNodeValue(m2));
     }   

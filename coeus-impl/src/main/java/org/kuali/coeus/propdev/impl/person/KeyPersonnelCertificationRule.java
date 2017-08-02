@@ -48,8 +48,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevParameterConstants.ENABLE_KEY_PERSON_VALIDATION_FOR_NON_EMPLOYEE_PERSONNEL;
-import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.AUDIT_ERRORS;
-import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.PERSONNEL_PAGE_ID;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_NONEMPLOYEE_CERTIFICATION_INCOMPLETE;
 
@@ -68,6 +66,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
         return questionnaireAnswerService;
     }
     
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) document;

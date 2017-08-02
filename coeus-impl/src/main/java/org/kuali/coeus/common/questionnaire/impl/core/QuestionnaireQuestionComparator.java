@@ -24,6 +24,7 @@ import java.util.Comparator;
 
 public class QuestionnaireQuestionComparator implements Comparator<QuestionnaireQuestion>  {
 
+    @Override
     public int compare(QuestionnaireQuestion q1, QuestionnaireQuestion q2) {
         int retval = 0;
         retval = q1.getParentQuestionNumber().compareTo(q2.getParentQuestionNumber());

@@ -45,6 +45,7 @@ public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
     private ProtocolDocumentRule rule = null;
     private DictionaryValidationService dictionaryValidationService = null;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -52,6 +53,7 @@ public class ProtocolDocumentRuleTest extends ProtocolRuleTestBase {
         dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

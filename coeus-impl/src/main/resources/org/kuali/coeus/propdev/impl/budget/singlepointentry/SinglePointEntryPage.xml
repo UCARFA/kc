@@ -23,7 +23,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="PropBudget-SinglePointEntryPage" parent="PropBudget-SinglePointEntryPage-parentBean" />
-	<bean id="PropBudget-SinglePointEntryPage-parentBean" parent="PropBudget-Page" >
+	<bean id="PropBudget-SinglePointEntryPage-parentBean" abstract="true" parent="PropBudget-Page" >
 		<property name="items">
 			<list>
 					<ref bean="PropBudget-PeriodsPageSPE-CollectionGroup" />
@@ -256,7 +256,7 @@
 	</bean>
 
 	<bean id="PropBudget-SPECosts-Details-TabSection" parent="PropBudget-SPECosts-Details-TabSection-parentBean" />
-	<bean id="PropBudget-SPECosts-Details-TabSection-parentBean" parent="Uif-TabSection">
+	<bean id="PropBudget-SPECosts-Details-TabSection-parentBean" abstract="true" parent="Uif-TabSection">
 		<property name="items">
 			<list>
 				<bean parent="PropBudget-SPECosts-Details-Tab" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"
@@ -284,7 +284,7 @@
 	</bean>
 
 	<bean id="PropBudget-SPECosts-LineItem-ObjectFieldSection" parent="PropBudget-SPECosts-LineItem-ObjectFieldSection-parentBean" />
-	<bean id="PropBudget-SPECosts-LineItem-ObjectFieldSection-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+	<bean id="PropBudget-SPECosts-LineItem-ObjectFieldSection-parentBean" abstract="true" parent="Uif-CssGridSection-1FieldLabelColumn">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="budgetCategoryTypeCode" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag or #parent.readOnly}"

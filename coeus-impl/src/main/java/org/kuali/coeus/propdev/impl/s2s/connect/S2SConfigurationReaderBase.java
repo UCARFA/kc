@@ -119,7 +119,7 @@ public class S2SConfigurationReaderBase implements S2SConfigurationReader {
         } catch (UnrecoverableKeyException e) {
             throw new S2sCommunicationException(KeyConstants.ERROR_S2S_KEYSTORE_CREATION,e);
         }
-        return null;
+        return keyStoreAlias;
     }
 
     @Override

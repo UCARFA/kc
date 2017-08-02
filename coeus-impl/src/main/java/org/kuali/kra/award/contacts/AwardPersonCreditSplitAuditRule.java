@@ -355,6 +355,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
         return personCreditTypeTotals;
     }   
 
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         AwardDocument awardDocument = (AwardDocument) document;
         boolean valid = recalculateCreditSplit(awardDocument);

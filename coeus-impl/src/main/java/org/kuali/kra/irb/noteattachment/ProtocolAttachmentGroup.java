@@ -57,6 +57,7 @@ public class ProtocolAttachmentGroup extends ProtocolAttachmentGroupBase {
      * Gets the protocol attachment group code.
      * @return the protocol attachment group code
      */
+    @Override
     public String getCode() {
         return this.code;
     }
@@ -65,6 +66,7 @@ public class ProtocolAttachmentGroup extends ProtocolAttachmentGroupBase {
      * Sets the protocol attachment group code.
      * @param code the protocol attachment group code
      */
+    @Override
     public void setCode(String code) {
         this.code = code;
     }
@@ -73,6 +75,7 @@ public class ProtocolAttachmentGroup extends ProtocolAttachmentGroupBase {
      * Gets the protocol attachment group description.
      * @return the protocol attachment group description
      */
+    @Override
     public String getDescription() {
         return this.description;
     }
@@ -81,6 +84,7 @@ public class ProtocolAttachmentGroup extends ProtocolAttachmentGroupBase {
      * Sets the protocol attachment group description.
      * @param description the protocol attachment group description
      */
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }

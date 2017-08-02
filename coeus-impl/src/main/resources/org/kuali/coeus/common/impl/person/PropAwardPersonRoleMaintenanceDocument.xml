@@ -25,7 +25,8 @@
     <bean id="PropAwardPersonRoleMaintenanceDocument" parent="uifMaintenanceDocumentEntry"
         p:dataObjectClass="org.kuali.coeus.common.framework.person.PropAwardPersonRole"
         p:businessRulesClass="org.kuali.coeus.common.framework.person.PropAwardPersonRoleRule"
-        p:documentTypeName="PropAwardPersonRoleMaintenanceDocument"/>
+        p:documentTypeName="PropAwardPersonRoleMaintenanceDocument"
+        p:allowsRecordDeletion="false"/>
 
 
     <bean id="PropAwardPersonRole-MaintenanceView" parent="Uif-MaintenanceView"

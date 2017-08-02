@@ -20,8 +20,9 @@ package org.kuali.kra.bo;
 
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public abstract class ResearchAreaBase extends KcPersistableBusinessObjectBase {
+public abstract class ResearchAreaBase extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
 
     private static final long serialVersionUID = -1950434459698084680L;
@@ -36,11 +37,6 @@ public abstract class ResearchAreaBase extends KcPersistableBusinessObjectBase {
 
     private boolean active;
 
-    /*
-    private CommResearchAreas commResearchAreas
-    private CommMemberExpertise commMemberExpertise
-    private ProtocolResearchAreas protocolResearchAreas
-    */
     public ResearchAreaBase() {
         super();
     }
@@ -86,10 +82,12 @@ public abstract class ResearchAreaBase extends KcPersistableBusinessObjectBase {
         this.parentResearchAreaCode = parentResearchAreaCode;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

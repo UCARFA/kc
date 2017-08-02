@@ -57,6 +57,7 @@ public class AwardApprovedSubawardRuleEvent extends KcDocumentEventBase {
     
     class SubAwardComparator implements Comparator
     {    
+        @Override
         public int compare(Object kv1, Object kv2 )
         {    
             try

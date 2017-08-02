@@ -111,6 +111,7 @@ public class NegotiationDocument extends KcTransactionalDocumentBase implements 
      * can implement its own isProcessComplete
      * @return
      */
+    @Override
     public boolean isProcessComplete() {
         boolean isComplete = false;
         
@@ -155,6 +156,7 @@ public class NegotiationDocument extends KcTransactionalDocumentBase implements 
         return getNegotiation().getNegotiationCustomDataList();
     }
 
+    @Override
     public String getDocumentBoNumber() {
         return getNegotiation().getNegotiationId().toString();
         

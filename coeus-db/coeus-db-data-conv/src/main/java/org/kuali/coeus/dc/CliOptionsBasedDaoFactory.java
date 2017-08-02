@@ -31,6 +31,8 @@ import org.kuali.coeus.dc.proposalpersons.ProposalPersonsDao;
 import org.kuali.coeus.dc.proposalpersons.ProposalPersonsDaoImpl;
 import org.kuali.coeus.dc.propynq.ProposalYnqConversionDao;
 import org.kuali.coeus.dc.propynq.ProposalYnqConversionDaoImpl;
+import org.kuali.coeus.dc.questreseq.QuestReseqDao;
+import org.kuali.coeus.dc.questreseq.QuestReseqDaoImpl;
 import org.kuali.coeus.dc.questseq.QuestSeqDao;
 import org.kuali.coeus.dc.questseq.QuestSeqDaoImpl;
 import org.kuali.coeus.dc.subaward.amntinfo.SubAwardAmountInfoDao;
@@ -154,6 +156,13 @@ public final class CliOptionsBasedDaoFactory {
         QuestSeqDaoImpl qsd = new QuestSeqDaoImpl();
         qsd.setConnectionDaoService(getConnectionDaoService());
         return qsd;
+    }
+
+    public QuestReseqDao getQuestReseqDao() {
+        QuestReseqDaoImpl qrd = new QuestReseqDaoImpl();
+        qrd.setConnectionDaoService(getConnectionDaoService());
+        qrd.setParameterDao(getParameterDao());
+        return qrd;
     }
     
     public KewDocHeaderDao getKewDocHeaderDao() {

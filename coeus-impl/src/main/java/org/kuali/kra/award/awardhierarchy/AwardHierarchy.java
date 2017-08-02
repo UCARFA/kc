@@ -417,6 +417,7 @@ public class AwardHierarchy extends KcPersistableBusinessObjectBase implements C
         }
     }
 
+    @Override
     public AwardHierarchy clone() {
         AwardHierarchy copy = null;
         try {

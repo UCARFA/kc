@@ -334,6 +334,7 @@ public class PropDevBudgetSubAwardServiceTest {
     protected void assertCostShare(long costShareAmount) {
         for (BudgetPeriod period : budget.getBudgetPeriods()) {
             Collections.sort(period.getBudgetLineItems(), new Comparator<BudgetLineItem>() {
+                @Override
                 public int compare(BudgetLineItem arg0, BudgetLineItem arg1) {
                     return arg0.getLineItemNumber().compareTo(arg1.getLineItemNumber());
                 }
@@ -387,6 +388,7 @@ public class PropDevBudgetSubAwardServiceTest {
     
     protected class BudgetServiceMock extends AbstractBudgetService {
         int newLineItemNumber = 28;
+        @Override
         public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod) {
             newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
             newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());

@@ -159,6 +159,7 @@ public class SalaryCalculatorTest {
         budgetLineItem.setEndDate(createDateFromString(endDate));
         budgetLineItem.setBudgetPersonnelDetailsList(Arrays.asList(details));
         budgetLineItem.setCostElementBO(createCostElement());
+        budgetLineItem.setCostElement(COST_ELEMENT);
         Stream.of(details).forEach(budgetPersonnelDetail -> budgetPersonnelDetail.setBudgetLineItem(budgetLineItem));
         return budgetLineItem;
     }
@@ -600,5 +601,36 @@ public class SalaryCalculatorTest {
 
         Assert.assertEquals(getCalculateSalary(budget, budgetPersonnelDetails1), new ScaleTwoDecimal(20300));
         Assert.assertEquals(getCalculateSalary(budget, budgetPersonnelDetails2), new ScaleTwoDecimal(21536.27));
+    }
+
+    @Test
+    public void testInflationCalculationOnLaterPeriods() throws Exception {
+
+        BudgetPerson budgetPerson = createBudgetPerson("1", "01/01/2015", 10000, 12, null);
+
+        Budget budget = createBudget("01/01/2015", "12/31/2020", budgetPerson);
+
+        BudgetPersonnelDetails budgetPersonnelDetails1 = createBudgetPersonnelDetails(1, budgetPerson, "01/01/2015", "12/31/2016");
+        budgetPersonnelDetails1.setCostElement(null);
+        budgetPersonnelDetails1.setBudgetPeriod(0);
+        BudgetPersonnelDetails budgetPersonnelDetails2 = createBudgetPersonnelDetails(1, budgetPerson, "01/01/2017", "12/31/2018");
+        budgetPersonnelDetails1.setCostElement(null);
+        budgetPersonnelDetails1.setBudgetPeriod(1);
+
+        BudgetLineItem budgetLineItem1 = createBudgetLineItem("01/01/2015", "12/31/2016",
+                budgetPersonnelDetails1);
+        budgetLineItem1.setCostElement(COST_ELEMENT);
+        BudgetLineItem budgetLineItem2 = createBudgetLineItem("01/01/2017", "12/31/2018",
+                budgetPersonnelDetails2);
+        budgetLineItem2.setCostElement(COST_ELEMENT);
+
+        budget.getBudgetPeriods().add(createBudgetPeriod(0, "01/01/2015", "12/31/2016", budgetLineItem1));
+        budget.getBudgetPeriods().add(createBudgetPeriod(1, "01/01/2017", "12/31/2018", budgetLineItem2));
+
+        SalaryCalculator salaryCalculator = new MockSalaryCalculator(budget, budgetPersonnelDetails2);
+        java.util.Date date = salaryCalculator.getPreviousPeriodEndDate();
+        Assert.assertTrue(date.compareTo(createDateFromString("12/31/2016")) == 0);
+        System.out.println("Date is " );
+
     }
 }

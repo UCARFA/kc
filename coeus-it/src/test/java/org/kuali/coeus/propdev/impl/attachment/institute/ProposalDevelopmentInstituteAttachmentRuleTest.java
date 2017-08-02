@@ -57,6 +57,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     private List<NarrativeType> narrativeTypes;
     private List<NarrativeStatus> narrativeStatuses;
     private BusinessObjectService bos;
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -69,6 +70,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         narrativeStatuses = (List)bos.findAll(NarrativeStatus.class);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

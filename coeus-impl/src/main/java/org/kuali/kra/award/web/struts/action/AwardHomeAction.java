@@ -39,7 +39,6 @@ import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -262,6 +261,7 @@ public class AwardHomeAction extends AwardAction {
      * Looks up and returns the ParameterService.
      * @return the parameter service. 
      */
+    @Override
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
@@ -393,6 +393,7 @@ public class AwardHomeAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    @Override
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }

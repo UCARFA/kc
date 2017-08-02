@@ -107,6 +107,7 @@ public class CoiDisclosureDocument extends KcTransactionalDocumentBase implement
     /*
      * This is just a holder, business logic needs to be added to this
      */
+    @Override
     public boolean isProcessComplete() {
 
         boolean isComplete = true;
@@ -123,11 +124,13 @@ public class CoiDisclosureDocument extends KcTransactionalDocumentBase implement
 
     }
     
+    @Override
     public void populateContextQualifiers(Map<String, String> qualifiers) {
         qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_COIDISCLOSURE);
         qualifiers.put("name", KcKrmsConstants.CoiDisclosure.COI_DISCLOSURE_CONTEXT);
     }
     
+    @Override
     public void addFacts(Facts.Builder factsBuilder) {
         KcKrmsFactBuilderService fbService = KcServiceLocator.getService("coiDisclosureFactBuilderService");
         fbService.addFacts(factsBuilder, this);
@@ -143,6 +146,7 @@ public class CoiDisclosureDocument extends KcTransactionalDocumentBase implement
         return new ArrayList();
     }
     
+    @Override
     public String getDocumentBoNumber() {
         return getCoiDisclosure().getCoiDisclosureNumber();
         

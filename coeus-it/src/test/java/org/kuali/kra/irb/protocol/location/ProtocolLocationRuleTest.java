@@ -42,6 +42,7 @@ public class ProtocolLocationRuleTest extends ProtocolRuleTestBase {
     protected static final String NEW_ORGANIZATION_VALUE =  "000002";
     protected static final String OLD_ORGANIZATION_VALUE =  "000001";
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -50,6 +51,7 @@ public class ProtocolLocationRuleTest extends ProtocolRuleTestBase {
         protocolOrganizationTypeList = (List)bos.findAll(ProtocolOrganizationType.class);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

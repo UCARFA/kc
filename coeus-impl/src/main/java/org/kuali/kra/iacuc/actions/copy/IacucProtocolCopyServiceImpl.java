@@ -108,10 +108,12 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<Ia
         destProtocol.setIacucAlternateSearches(newIacucAlternateSearches); 
     }
 
+    @Override
     public void copyProtocolThreers(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
         addThreeRs(srcProtocol, destProtocol);
     }
 
+    @Override
     public void copyProtocolExceptions(IacucProtocol srcProtocol, IacucProtocol destProtocol) {
         addProtocolExceptions(srcProtocol, destProtocol);
     }

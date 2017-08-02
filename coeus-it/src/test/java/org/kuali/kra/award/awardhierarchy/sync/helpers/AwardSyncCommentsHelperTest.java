@@ -39,6 +39,7 @@ public class AwardSyncCommentsHelperTest extends AwardSyncHelperTestBase {
         super("AwardComment");
     }
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -56,6 +57,7 @@ public class AwardSyncCommentsHelperTest extends AwardSyncHelperTestBase {
         
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         super.tearDown();

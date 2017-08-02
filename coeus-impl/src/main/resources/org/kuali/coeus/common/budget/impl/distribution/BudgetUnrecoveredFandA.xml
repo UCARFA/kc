@@ -149,5 +149,5 @@
   </bean>
 
   <bean id="BudgetUnrecoveredFandA-sourceAccount" parent="BudgetUnrecoveredFandA-sourceAccount-parentBean"/>
-  <bean id="BudgetUnrecoveredFandA-sourceAccount-parentBean" parent="KraAttributeReferenceDummy-sourceAccount"/>
+  <bean id="BudgetUnrecoveredFandA-sourceAccount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-sourceAccount"/>
 </beans>

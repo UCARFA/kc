@@ -42,6 +42,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
         return attributeNames;
     }
     
+    @Override
     public Collection<String> getReportTypesUsingReportClassCode(String reportClassCode) {
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> classReportFreqParams = new HashMap<String, String>();
@@ -69,6 +70,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
         return attributeNames;
     }
     
+    @Override
     public Collection<String> getFrequencyUsingReportCodeAndClass(String reportCode, String reportClass) {
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> classReportFreqParams = new HashMap<String, String>();
@@ -97,6 +99,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
         return attributeNames;
     }
     
+    @Override
     public Collection<String> getFrequencyBaseUsingFrequencyCode(String frequencyCode) {
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> params = new HashMap<String, String>();

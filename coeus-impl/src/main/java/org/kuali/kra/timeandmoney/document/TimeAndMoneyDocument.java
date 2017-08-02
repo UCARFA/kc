@@ -39,7 +39,6 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TimeAndMoneyPermissionConstants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
-import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyService;
@@ -93,6 +92,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
         init();
     }
         
+    @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
@@ -241,18 +241,21 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
         return (ActivePendingTransactionsService) KcServiceLocator.getService(ActivePendingTransactionsService.class);
     }
 
+    @Override
     public String getDocumentKey() {
         //KimIntegration : Verify
         //return Permissionable.TIME_AND_MONEY_KEY;
         return PermissionableKeys.AWARD_KEY;
     }
 
+    @Override
     public String getDocumentNumberForPermission() {
         //KimIntegration : Verify
         //return documentNumber;
         return getRootAwardNumber();
     }
 
+    @Override
     public List<String> getRoleNames() {
         List<String> roles = new ArrayList<String>();
         return roles;
@@ -407,11 +410,13 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
         }
     }
 
+    @Override
     public String getNamespace() {
         //FIXME:KimMigration - Verify the Namespace
          return Constants.MODULE_NAMESPACE_AWARD;
     }
 
+    @Override
     public String getLeadUnitNumber() {
         if(getAward() != null)
             return getAward().getLeadUnitNumber(); 
@@ -419,6 +424,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
             return null;
     }
 
+    @Override
     public String getDocumentRoleTypeCode() {
         //FIXME: verify
         return RoleConstants.AWARD_ROLE_TYPE;
@@ -463,6 +469,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
      * can implement its own isProcessComplete
      * @return
      */
+    @Override
     public boolean isProcessComplete() {
         boolean isComplete = false;
         
@@ -495,6 +502,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
         return new ArrayList();
     }
 
+    @Override
     public String getDocumentBoNumber() {
       return "TIME AND MONEY-" + getAwardNumber();
     }

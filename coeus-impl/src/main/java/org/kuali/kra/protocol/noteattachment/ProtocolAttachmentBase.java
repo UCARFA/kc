@@ -337,10 +337,12 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
         }
     }
 
+    @Override
     public Integer getDocumentId() {
         return documentId;
     }
 
+    @Override
     public void setDocumentId(Integer documentId) {
         this.documentId = documentId;
     }

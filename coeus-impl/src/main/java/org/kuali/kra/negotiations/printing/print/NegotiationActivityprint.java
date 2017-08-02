@@ -27,6 +27,7 @@ import java.util.List;
 
 public class NegotiationActivityprint extends AbstractPrint {
 
+    @Override
     public List<Source> getXSLTemplates() {
         List<Source> sourceList = PrintingUtils
                 .getXSLTforReport(NegotiationActivityPrintType.NEGOTIATION_ACTIVITY_REPORT

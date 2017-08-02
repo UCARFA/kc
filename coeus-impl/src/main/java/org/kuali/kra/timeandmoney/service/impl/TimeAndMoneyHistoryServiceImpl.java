@@ -26,9 +26,7 @@ import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.dao.AwardDao;
-import org.kuali.kra.award.dao.ojb.AwardDaoOjb;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
@@ -107,7 +105,8 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		return awardVersionHistoryCollection;
 	}
 
-	public List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs, List<AwardAmountInfo> awardAmountInfos, Award award)
+	@Override
+    public List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs, List<AwardAmountInfo> awardAmountInfos, Award award)
 			throws WorkflowException {
 		List<TimeAndMoneyDocumentHistory> timeAndMoneyDocumentHistoryList = new ArrayList<>();
 		List<AwardAmountInfo> validInfos = getValidAwardAmountInfosAssociatedWithAwardVersion(awardAmountInfos, award);
@@ -305,6 +304,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         return doc.getDocumentHeader().hasWorkflowDocument() && doc.getDocumentHeader().getWorkflowDocument().isCanceled();
     }
 
+    @Override
     public List<TimeAndMoneyDocument> buildTimeAndMoneyListForAwardDisplay(Award award, boolean bounded) throws WorkflowException {
 		Map<String, Object> fieldValues1 = new HashMap<>();
 		// get the award number.

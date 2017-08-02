@@ -36,6 +36,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
  */
 public class RejectAwardBudgetAuthorizer extends BudgetAuthorizer {
 
+    @Override
     public boolean isAuthorized(String username, Task task) {
     	if(task instanceof AwardBudgetTask) {
 	        AwardBudgetDocument doc = ((AwardBudgetTask) task).getAwardBudgetDocument();

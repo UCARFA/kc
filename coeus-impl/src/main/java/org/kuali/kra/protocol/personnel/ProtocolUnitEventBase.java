@@ -42,6 +42,7 @@ public abstract class ProtocolUnitEventBase extends KcDocumentEventBase implemen
     /**
      * @return <code>{@link ProtocolUnitBase}</code> that triggered this event.
      */
+    @Override
     public ProtocolUnitBase getProtocolUnit() {
         return this.protocolUnit;
     }
@@ -49,6 +50,7 @@ public abstract class ProtocolUnitEventBase extends KcDocumentEventBase implemen
     /**
      * @return <code>{@link PersonIndex}</code> that triggered this event.
      */
+    @Override
     public int getPersonIndex() {
         return this.personIndex;
     }
@@ -65,6 +67,7 @@ public abstract class ProtocolUnitEventBase extends KcDocumentEventBase implemen
     /**
      * Logs the event type and some information about the associated unit
      */
+    @Override
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");

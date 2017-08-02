@@ -48,6 +48,7 @@ public class AwardAttachmentEventBase extends KcDocumentEventBase implements Awa
             LOG.debug(getDescription());
     }
 
+    @Override
     public AwardAttachment getAwardAttachment() {
        return attachment;
     }
@@ -57,10 +58,12 @@ public class AwardAttachmentEventBase extends KcDocumentEventBase implements Awa
     }
 
     
+    @Override
     public Class getRuleInterfaceClass() {
        return AddAwardAttachmentRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return false;
     }

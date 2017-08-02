@@ -127,6 +127,7 @@ public class CommitteeMembershipRole extends CommitteeSequenceAssociateBase {
         return result;
     }
 
+    @Override
     public void resetPersistenceState() {
         setCommitteeMembershipRoleId(null);
     }

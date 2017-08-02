@@ -128,6 +128,7 @@ public class InstitutionalProposalUnrecoveredFandA extends InstitutionalProposal
         this.proposalUnrecoveredFandAId = null;
     }
 
+    @Override
     public ScaleTwoDecimal getAmount() {
         return underrecoveryOfIndirectcost;
     }

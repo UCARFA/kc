@@ -159,10 +159,12 @@ public class ProposalDevelopmentPrintController extends ProposalDevelopmentContr
         this.proposalDevelopmentDocumentViewAuthorizer = proposalDevelopmentDocumentViewAuthorizer;
     }
 
+    @Override
     public GlobalVariableService getGlobalVariableService() {
         return globalVariableService;
     }
 
+    @Override
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }

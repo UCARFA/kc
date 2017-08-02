@@ -91,6 +91,7 @@ import java.util.Map;
 @Table(name = "EPS_PROPOSAL_DOCUMENT")
 public class ProposalDevelopmentDocument extends BudgetParentDocument<DevelopmentProposal> implements Copyable, SessionDocument, DocumentLevelPermissionable, KrmsRulesContext, ProposalDevelopmentDocumentContract {
 
+    public static final String PEOPLE_FLOWS = "PeopleFlows";
     private static Log LOG = LogFactory.getLog(ProposalDevelopmentDocument.class);
 
     public static final String DOCUMENT_TYPE_CODE = "PRDV";
@@ -711,5 +712,10 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     public void setProjectRetrievalService(ProjectRetrievalService propDevProjectRetrievalService) {
         this.propDevProjectRetrievalService = propDevProjectRetrievalService;
+    }
+
+    @Override
+    public String getAdHocRouteNodeName() {
+        return getDocumentHeader().getWorkflowDocument().isSaved() ? null : PEOPLE_FLOWS;
     }
 }

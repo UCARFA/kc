@@ -29,6 +29,7 @@ import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorresponden
 
 public class IacucProtocolAbandonServiceImpl extends ProtocolAbandonServiceImplBase implements IacucProtocolAbandonService {
 
+    @Override
     protected String getActionType() {
         return IacucProtocolActionType.IACUC_ABANDON;
     }

@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.kuali.coeus.coi.framework.Project;
 import org.kuali.coeus.coi.framework.ProjectPublisher;
 import org.kuali.coeus.coi.framework.ProjectRetrievalService;
+import org.kuali.coeus.sys.framework.auth.JwtService;
 import org.kuali.coeus.sys.framework.mq.MessageFactory;
 import org.kuali.coeus.sys.framework.mq.rest.RestRequest;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -103,6 +104,11 @@ public abstract class ProjectPushTestBase extends KcIntegrationTestBase {
         @Override
         public ConfigurationService getConfigurationService() {
             return KcServiceLocator.getService(ConfigurationService.class);
+        }
+
+        @Override
+        public JwtService getJwtService() {
+            return KcServiceLocator.getService(JwtService.class);
         }
     }
 

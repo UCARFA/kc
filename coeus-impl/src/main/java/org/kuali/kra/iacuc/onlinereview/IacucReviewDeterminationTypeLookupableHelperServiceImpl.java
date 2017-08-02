@@ -31,6 +31,7 @@ import org.kuali.rice.krad.bo.BusinessObject;
 public class IacucReviewDeterminationTypeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();

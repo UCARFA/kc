@@ -153,6 +153,7 @@ public class FinancialEntityServiceTest {
         reporter.setReporterRoleId("FER");
         reporter.setFinancialEntityReporterUnits(new ArrayList<FinancialEntityReporterUnit>());
         FinancialEntityReporterUnit financialEntityReporterUnit = new FinancialEntityReporterUnit() {
+            @Override
             public String getUnitName() {
                 return UNIT_NAME;
             }

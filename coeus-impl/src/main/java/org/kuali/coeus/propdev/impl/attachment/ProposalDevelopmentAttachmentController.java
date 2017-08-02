@@ -53,6 +53,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.util.*;
 
+import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_STATUS_COMPLETE;
+
 @Controller
 public class ProposalDevelopmentAttachmentController extends ProposalDevelopmentControllerBase {
 
@@ -277,12 +279,16 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
 
     protected void initializeNarrative(Narrative narrative, ProposalDevelopmentDocumentForm form) throws Exception {
         getLegacyNarrativeService().prepareNarrative(form.getProposalDevelopmentDocument(), narrative);
-        final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, narrative.getMultipartFile());
-        if (!messages.hasMessages()) {
-            narrative.init(narrative.getMultipartFile());
-            ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
-        } else {
-            getGlobalVariableService().getMessageMap().merge(messages);
+
+        MultipartFile file = narrative.getMultipartFile();
+        if (narrative.getModuleStatusCode().equals(NARRATIVE_MODULE_STATUS_COMPLETE) || file != null) {
+            final MessageMap messages = multipartFileValidationService.validateMultipartFile(ATTACHMENT_FILE, narrative.getMultipartFile());
+            if (!messages.hasMessages()) {
+                narrative.init(narrative.getMultipartFile());
+                ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
+            } else {
+                getGlobalVariableService().getMessageMap().merge(messages);
+            }
         }
     }
 
@@ -558,18 +564,22 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         this.legacyNarrativeService = legacyNarrativeService;
     }
 
+    @Override
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
+    @Override
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
+    @Override
     public GlobalVariableService getGlobalVariableService() {
         return globalVariableService;
     }
 
+    @Override
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }

@@ -28,6 +28,7 @@ import java.util.Set;
 @Component("questionResolverTypeService")
 public class QuestionResolverTypeServiceImpl implements TermResolverTypeService {
     
+    @Override
     public TermResolver<?> loadTermResolver(TermResolverDefinition termResolverDefinition) {
         Set<String> paramsSet = termResolverDefinition.getParameterNames();
         return new QuestionResolver(termResolverDefinition.getOutput().getName(), paramsSet);

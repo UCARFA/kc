@@ -22,4 +22,6 @@
 \. ./kc/bootstrap/V1705_003__org_lobbying.sql
 \. ./kc/bootstrap/V1705_005__budget_narrative.sql
 \. ./kc/bootstrap/V1705_007__add_indexes.sql
+\. ./kc/bootstrap/V1705_008__project_narrative.sql
+\. ./kc/bootstrap/V1705_009__cost_share_type_active.sql
 commit;

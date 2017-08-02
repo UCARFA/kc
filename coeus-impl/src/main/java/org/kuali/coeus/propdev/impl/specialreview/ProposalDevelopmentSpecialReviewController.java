@@ -280,10 +280,12 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
         this.iacucProtocolFinderDao = iacucProtocolFinderDao;
     }
 
+    @Override
     public DataObjectService getDataObjectService() {
         return dataObjectService;
     }
 
+    @Override
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
     }

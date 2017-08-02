@@ -26,12 +26,10 @@ import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
-import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
-import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
-import org.apache.pdfbox.pdmodel.interactive.annotation.*;
 import org.apache.pdfbox.pdmodel.interactive.form.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -41,7 +39,6 @@ import java.util.stream.Collectors;
 public final class PdfBoxUtils {
 
     private static final Log LOG = LogFactory.getLog(PdfBoxUtils.class);
-    private static final String DEFAULT_APPEARANCE = "/TimesNewRoman 0 Tf 0 0 0 rg";
     private static final String SEPARATOR = ".";
     private static final String TOP_LEVEL = "|--";
     private static final String CHILD_LEVEL = "|  ";
@@ -112,7 +109,7 @@ public final class PdfBoxUtils {
      * Sets a form field value on a PDF Document.  If a field is not found nothing happens.
      * @param pdfDocument the Pdf Document.  Cannot be null.
      * @param name the field name. Cannot be blank.
-     * @param value the value to set the field to.  Cannot be null of contain null values.
+     * @param value the value to set the field to.  If null does nothing.  Cannot contain null values.
      * @throws IllegalArgumentException if document is null or name is blank or the value is null or contains null values.
      */
     public static void setField(PDDocument pdfDocument, String name, List<String> value) {
@@ -134,11 +131,27 @@ public final class PdfBoxUtils {
      * Sets a form field value on a PDF Document.  If a field is not found nothing happens.
      * @param pdfDocument the Pdf Document.  Cannot be null.
      * @param name the field name. Cannot be blank.
-     * @param value the value to set the field to.  Cannot be null.
+     * @param value the value to set the field to.  If null does nothing.
      * @throws IllegalArgumentException if document is null or name is blank or value is null.
      */
     public static void setField(PDDocument pdfDocument, String name, String value) {
         setF(pdfDocument, name, value);
+    }
+
+    /**
+     * Sets a form field value on a PDF Document.  If a field is not found nothing happens.  The value if not null is
+     * set as a string in a type aware way.
+     * @param pdfDocument the Pdf Document.  Cannot be null.
+     * @param name the field name. Cannot be blank.
+     * @param value the value to set the field to.  If null does nothing.
+     * @throws IllegalArgumentException if document is null or name is blank or value is null.
+     */
+    public static void setFieldAsStr(PDDocument pdfDocument, String name, Object value) {
+        if (value instanceof BigDecimal) {
+            setF(pdfDocument, name, ((BigDecimal) value).toPlainString());
+        } else if (value != null) {
+            setF(pdfDocument, name, value.toString());
+        }
     }
 
     //purposely named different to avoid overloading with an Object type
@@ -152,16 +165,14 @@ public final class PdfBoxUtils {
             throw new IllegalArgumentException("name is blank");
         }
 
-        if (value == null) {
-            throw new IllegalArgumentException("value is null");
-        }
-
         final PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
         final PDAcroForm acroForm = docCatalog.getAcroForm();
         final PDField field = acroForm.getField(name);
 
         if (field != null) {
-            setField(field, value);
+            if (value != null) {
+                setField(field, value);
+            }
         } else {
             LOG.error("No field found with name:" + name);
         }
@@ -174,7 +185,7 @@ public final class PdfBoxUtils {
         }
 
         if (value == null) {
-            throw new IllegalArgumentException("value is null");
+            return;
         }
 
         try {
@@ -207,12 +218,6 @@ public final class PdfBoxUtils {
                 }
             }
 
-            if (field instanceof PDVariableText) {
-                doVariableTextWorkaround((PDVariableText) field);
-            } else if (field instanceof PDRadioButton) {
-                doRadioButtonWorkaround((PDRadioButton) field);
-            }
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -227,39 +232,6 @@ public final class PdfBoxUtils {
         }
 
         return value;
-    }
-
-    /**
-     * Radio Buttons that have Export Values are not toggled like they are supposed to be.  Instead of setting the value to
-     * to one of the valid options you have to set it to the index of one of the valid options.
-     * This appears to be a bug in Pdfbox.  This is a workaround.
-     * See https://issues.apache.org/jira/browse/PDFBOX-3753
-     */
-    private static void doRadioButtonWorkaround(PDRadioButton field) {
-
-        if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(field.getExportValues()) && field.getWidgets() != null) {
-            field.getWidgets().forEach(w -> {
-                PDAppearanceEntry appearanceEntry = w.getAppearance().getNormalAppearance();
-
-                final int idx = field.getExportValues().indexOf((field).getValue());
-
-                if (((COSDictionary) appearanceEntry.getCOSObject()).containsKey(String.valueOf(idx))) {
-                    w.getCOSObject().setName(COSName.AS, String.valueOf(idx));
-                }
-            });
-        }
-    }
-
-    /**
-     * for some reason flattened pdfs have invisible text unless you explicitly set the text and background color
-     * then the document must be flattened with refreshAppearances=true in order for these changes to apply
-     * see https://issues.apache.org/jira/browse/PDFBOX-3752
-     */
-    private static void doVariableTextWorkaround(PDVariableText field) {
-        field.setDefaultAppearance(DEFAULT_APPEARANCE);
-        if (field.getWidgets() != null) {
-            field.getWidgets().forEach(w -> w.getAppearanceCharacteristics().setBackground(new PDColor(new float[]{255,255,255}, PDDeviceRGB.INSTANCE)));
-        }
     }
 
     private static String booleanToStr(boolean value) {
@@ -278,30 +250,11 @@ public final class PdfBoxUtils {
             throw new IllegalArgumentException("pdfDocument is null");
         }
 
-        doFlatteningWorkaround(pdfDocument);
-
         try {
             pdfDocument.getDocumentCatalog().getAcroForm().flatten(pdfDocument.getDocumentCatalog().getAcroForm().getFields(), true);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * when flattening with refreshAppearances, a NPE will occur if each widget doesn't have a
-     * PDAppearanceDictionary instance with a normal PDAppearanceEntry instance set
-     * see https://issues.apache.org/jira/browse/PDFBOX-3751
-     */
-    private static void doFlatteningWorkaround(PDDocument pdfDocument) {
-        pdfDocument.getDocumentCatalog().getAcroForm().getFields()
-                .stream()
-                .flatMap(f -> f.getWidgets().stream())
-                .filter(w -> w.getAppearance() == null)
-                .forEach(w -> {
-                    final PDAppearanceDictionary appearance = new PDAppearanceDictionary(new COSDictionary());
-                    appearance.setNormalAppearance(new PDAppearanceEntry(new COSDictionary()));
-                    w.setAppearance(appearance);
-                });
     }
 
     /**

@@ -190,11 +190,11 @@
         p:iconClass="icon-bell" p:methodToCall="navigate"/>
 
 	<bean id="PropDev-NavigationMenu-Submit" parent="PropDev-NavigationMenu-Submit-parentBean" />
-	<bean id="PropDev-NavigationMenu-Submit-parentBean" parent="Kc-MenuAction"
+	<bean id="PropDev-NavigationMenu-Submit-parentBean" abstract="true" parent="Kc-MenuAction"
 		p:navigateToPageId="PropDev-SubmitPage" p:actionLabel="Summary/Submit"
 		p:iconClass="icon-signout" />
     <bean id="PropDev-NavigationMenu-SuperUserActions" parent="PropDev-NavigationMenu-SuperUserActions-parentBean" />
-    <bean id="PropDev-NavigationMenu-SuperUserActions-parentBean" parent="Kc-MenuAction"
+    <bean id="PropDev-NavigationMenu-SuperUserActions-parentBean" abstract="true" parent="Kc-MenuAction"
           p:navigateToPageId="PropDev-SuperUserActionsPage" p:actionLabel="Super User Actions"
           p:iconClass="icon-user4" />
 

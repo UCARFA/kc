@@ -53,18 +53,22 @@ public class FinancialEntityReporterUnit extends DisclosureReporterUnit {
         this.financialEntityReporterUnitsId = financialEntityReporterUnitsId;
     }
 
+    @Override
     public String getUnitNumber() {
         return unitNumber;
     }
 
+    @Override
     public void setUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
     }
 
+    @Override
     public boolean isLeadUnitFlag() {
         return leadUnitFlag;
     }
 
+    @Override
     public void setLeadUnitFlag(boolean leadUnitFlag) {
         this.leadUnitFlag = leadUnitFlag;
     }

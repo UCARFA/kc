@@ -43,6 +43,7 @@ public abstract class BaseQuestionnaireAuditRule<T extends KcTransactionalDocume
     
     protected abstract List<Integer> getIncompleteMandatoryQuestionnaire(T document);
     
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         @SuppressWarnings("unchecked")
         T inDocument = (T)document;

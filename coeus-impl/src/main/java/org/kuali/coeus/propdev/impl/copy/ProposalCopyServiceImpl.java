@@ -177,6 +177,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc the proposal development document to copy.
      * @param criteria the user-specified criteria that controls various copy operations.
      */
+    @Override
     public ProposalDevelopmentDocument copyProposal(ProposalDevelopmentDocument doc, ProposalCopyCriteria criteria) {
 
         ProposalDevelopmentDocument newDoc = null;

@@ -63,6 +63,15 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase im
     @Column(name = "START_DATE")
     private Date startDate;
 
+    @Column(name = "FED_APPROVAL_AGENCY")
+    private String federalApprovingAgency;
+
+    @Column(name = "FED_APPROVAL_AGENCY_NM")
+    private String federalApprovingAgencyName;
+
+    @Column(name = "RESTRICTED_RATE_POLICY")
+    private String restrictedRatePolicy;
+
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
@@ -137,6 +146,30 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase im
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    public String getFederalApprovingAgency() {
+        return federalApprovingAgency;
+    }
+
+    public void setFederalApprovingAgency(String federalApprovingAgency) {
+        this.federalApprovingAgency = federalApprovingAgency;
+    }
+
+    public String getFederalApprovingAgencyName() {
+        return federalApprovingAgencyName;
+    }
+
+    public void setFederalApprovingAgencyName(String federalApprovingAgencyName) {
+        this.federalApprovingAgencyName = federalApprovingAgencyName;
+    }
+
+    public String getRestrictedRatePolicy() {
+        return restrictedRatePolicy;
+    }
+
+    public void setRestrictedRatePolicy(String restrictedRatePolicy) {
+        this.restrictedRatePolicy = restrictedRatePolicy;
     }
 
     public Organization getOrganization() {

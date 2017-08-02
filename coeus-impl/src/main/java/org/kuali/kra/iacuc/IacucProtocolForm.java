@@ -126,6 +126,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_IACUC_PROTOCOL;
     }
 
+    @Override
     public IacucProtocolHelper getProtocolHelper() {
         return (IacucProtocolHelper)super.getProtocolHelper();
     }
@@ -163,6 +164,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
         return new IacucNotesAttachmentsHelper((IacucProtocolForm)protocolForm);
     }
     
+    @Override
     protected QuestionnaireHelperBase createNewQuestionnaireHelper(ProtocolFormBase form) {
         return new IacucQuestionnaireHelper(form);
     }

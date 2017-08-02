@@ -211,6 +211,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     
     protected abstract KcDocumentEventBaseExtension getSaveProtocolPersonnelEventHook(ProtocolDocumentBase document);
 
+    @Override
     public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEventBase addProtocolReferenceEvent) {
         return getNewProtocolReferenceRuleInstanceHook().processAddProtocolReferenceBusinessRules(addProtocolReferenceEvent);        
     }
@@ -232,6 +233,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
       return new ProtocolPermissionsRule().processAddPermissionsUserBusinessRules(document, users, newUser);
   }  
     
+    @Override
     public boolean processAddProtocolAttachmentPersonnelRules(AddProtocolAttachmentPersonnelEvent addProtocolAttachmentPersonnelEvent) {
         return getProtocolAttachmentPersonnelRuleInstanceHook().processAddProtocolAttachmentPersonnelRules(addProtocolAttachmentPersonnelEvent);
     }

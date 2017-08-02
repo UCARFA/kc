@@ -51,14 +51,17 @@ public class IacucQuestionnaireHelper extends QuestionnaireHelperBase {
     /*
      * authorization check.
      */
+    @Override
     protected ProtocolTaskBase getModifyQnnrTaskHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_QUESTIONNAIRE, (IacucProtocol)protocol);
     }
     
+    @Override
     public String getModuleCode() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
     }
 
+    @Override
     protected ProtocolModuleQuestionnaireBeanBase getProtocolModuleQuestionnaireBeanHook(ProtocolBase protocol) {
         return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }

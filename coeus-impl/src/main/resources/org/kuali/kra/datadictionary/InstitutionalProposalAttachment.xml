@@ -73,7 +73,7 @@
     </bean>
 
     <bean id="InstitutionalProposalAttachment-fileName" parent="InstitutionalProposalAttachment-fileName-parentBean"/>
-    <bean id="InstitutionalProposalAttachment-fileName-parentBean" parent="AttachmentFile-id">
+    <bean id="InstitutionalProposalAttachment-fileName-parentBean" abstract="true" parent="AttachmentFile-id">
         <property name="name" value="fileName"/>
         <property name="forceUppercase" value="false"/>
         <property name="label" value="File Name"/>
@@ -90,7 +90,7 @@
     </bean>
 
     <bean id="InstitutionalProposalAttachment-comments" parent="InstitutionalProposalAttachment-comments-parentBean"/>
-    <bean id="InstitutionalProposalAttachment-comments-parentBean" parent="AttributeDefinition">
+    <bean id="InstitutionalProposalAttachment-comments-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="comments"/>
         <property name="forceUppercase" value="false"/>
         <property name="label" value="Comments"/>
@@ -152,7 +152,7 @@
 
     <bean id="InstitutionalProposalAttachment-attachmentTitle"
           parent="InstitutionalProposalAttachment-attachmentTitle-parentBean"/>
-    <bean id="InstitutionalProposalAttachment-attachmentTitle-parentBean" parent="AttributeDefinition">
+    <bean id="InstitutionalProposalAttachment-attachmentTitle-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="attachmentTitle"/>
         <property name="forceUppercase" value="false"/>
         <property name="label" value="Description"/>

@@ -59,43 +59,55 @@ public class InstitutionalProposalSummaryControllerTest {
 		
 		piPerson = new KcPerson() {
 			String personId;
-			public String getPersonId() {
+			@Override
+            public String getPersonId() {
 				return personId;
 			}
-			public void setPersonId(String personId) {
+			@Override
+            public void setPersonId(String personId) {
 				this.personId = personId;
 			}
-			public String getAddressLine1() {
+			@Override
+            public String getAddressLine1() {
 				return "123 Nowhere";
 			}
-			public String getAddressLine2() {
+			@Override
+            public String getAddressLine2() {
 				return null;
 			}
-			public String getAddressLine3() {
+			@Override
+            public String getAddressLine3() {
 				return null;
 			}
-			public String getCity() {
+			@Override
+            public String getCity() {
 				return "Nowhere";
 			}
-			public String getState() {
+			@Override
+            public String getState() {
 				return "NA";
 			}
-			public String getPostalCode() {
+			@Override
+            public String getPostalCode() {
 				return "55555";
 			}
-			public String getUserName() {
+			@Override
+            public String getUserName() {
 				return "Foobar";
 			}
-			public String getEmailAddress() {
+			@Override
+            public String getEmailAddress() {
 				return "noarealemail@nowhere.com";
 			}
 		};
 		piPerson.setPersonId(PERSON_ID123);
 		pi = new InstitutionalProposalPerson() {
-			public String getProjectRole() {
+			@Override
+            public String getProjectRole() {
 				return "Principal Investigator";
 			}
-			public String getEmailAddress() {
+			@Override
+            public String getEmailAddress() {
 				return "test@nowhere.com";
 			}
 		};
@@ -135,7 +147,8 @@ public class InstitutionalProposalSummaryControllerTest {
 	InstitutionalProposal buildTestProposal(InstitutionalProposalBoLite proposalLite) {
 		InstitutionalProposal proposal1;
 		proposal1 = new InstitutionalProposal() {
-			protected void calculateFiscalMonthAndYearFields() { }
+			@Override
+            protected void calculateFiscalMonthAndYearFields() { }
 		};
 		proposal1.getProjectPersons().add(pi);
 		proposal1.setSponsor(sponsor);

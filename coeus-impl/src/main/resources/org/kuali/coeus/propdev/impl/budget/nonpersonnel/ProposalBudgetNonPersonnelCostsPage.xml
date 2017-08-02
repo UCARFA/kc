@@ -24,7 +24,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="PropBudget-NonPersonnelCostsPage" parent="PropBudget-NonPersonnelCostsPage-parentBean" />
-	<bean id="PropBudget-NonPersonnelCostsPage-parentBean" parent="PropBudget-Page">
+	<bean id="PropBudget-NonPersonnelCostsPage-parentBean" abstract="true" parent="PropBudget-Page">
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-NonPersonnelCosts-TabGroup" />
@@ -239,7 +239,7 @@
 	</bean>
 
 	<bean id="PropBudget-NonPersonnelCosts-Details-TabSection" parent="PropBudget-NonPersonnelCosts-Details-TabSection-parentBean" />
-	<bean id="PropBudget-NonPersonnelCosts-Details-TabSection-parentBean" parent="Uif-TabSection">
+	<bean id="PropBudget-NonPersonnelCosts-Details-TabSection-parentBean" abstract="true" parent="Uif-TabSection">
 		<property name="items">
 			<list>
 				<bean parent="PropBudget-NonPersonnelCosts-Details-Tab" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"
@@ -358,7 +358,7 @@
 		  p:header.headerText="Delete Formulated Cost?"/>
 
 	<bean id="PropBudget-FormulatedCost-EditDetails" parent="PropBudget-FormulatedCost-EditDetails-parentBean"/>
-	<bean id="PropBudget-FormulatedCost-EditDetails-parentBean" parent="Uif-DialogGroup"
+	<bean id="PropBudget-FormulatedCost-EditDetails-parentBean" parent="Uif-DialogGroup" abstract="true"
 		  p:headerText="Edit Formulated Cost"
 		  p:fieldBindingObjectPath="addProjectBudgetLineItemHelper.budgetFormulatedCostDetail">
 		<property name="items">
@@ -383,7 +383,7 @@
 	</bean>
 
 	<bean id="PropBudget-NonPersonnelCosts-CostSharing-Section" parent="PropBudget-NonPersonnelCosts-CostSharing-Section-parentBean" />
-	<bean id="PropBudget-NonPersonnelCosts-CostSharing-Section-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+	<bean id="PropBudget-NonPersonnelCosts-CostSharing-Section-parentBean" abstract="true" parent="Uif-CssGridSection-1FieldLabelColumn">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.costSharingAmount"
@@ -400,7 +400,7 @@
           p:propertyName="addProjectBudgetLineItemHelper.budgetLineItem.budgetLineItemCalculatedAmounts"/>
 
 	<bean id="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection" parent="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection-parentBean" />
-	<bean id="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+	<bean id="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection-parentBean" abstract="true" parent="Uif-CssGridSection-1FieldLabelColumn">
 		<property name="items">
 			<list>
                 <bean parent="Uif-InputField" p:propertyName="budgetCategoryTypeCode" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag or #parent.readOnly}"
@@ -433,7 +433,7 @@
 	</bean>
 
 	<bean id="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection" parent="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection-parentBean" />
-	<bean id="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+	<bean id="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection-parentBean" abstract="true" parent="Uif-CssGridSection-1FieldLabelColumn">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.startDate"
@@ -468,7 +468,7 @@
           </bean>
 
 	<bean id="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection" parent="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection-parentBean" />
-	<bean id="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+	<bean id="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection-parentBean" abstract="true" parent="Uif-CssGridSection-1FieldLabelColumn">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.applyInRateFlag"

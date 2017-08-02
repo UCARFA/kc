@@ -39,6 +39,7 @@ public class CurrentReportDaoOjb extends BaseReportDaoOjb implements CurrentRepo
     
     private VersionHistoryService versionHistoryService;
 
+     @Override
      public List<CurrentReportBean> queryForCurrentSupport(String personId) throws WorkflowException {
         List<CurrentReportBean> data = new ArrayList<CurrentReportBean>();
         for(AwardPerson awardPerson: executeCurrentSupportQuery(personId)) {

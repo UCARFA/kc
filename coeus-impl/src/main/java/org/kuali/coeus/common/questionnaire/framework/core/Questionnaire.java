@@ -59,8 +59,8 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
 
     public Questionnaire() {
         super();
-        questionnaireQuestions = new AutoPopulatingList<QuestionnaireQuestion>(QuestionnaireQuestion.class);
-        questionnaireUsages = new AutoPopulatingList<QuestionnaireUsage>(QuestionnaireUsage.class);
+        questionnaireQuestions = new AutoPopulatingList<>(QuestionnaireQuestion.class);
+        questionnaireUsages = new AutoPopulatingList<>(QuestionnaireUsage.class);
     }
 
     @Override
@@ -111,6 +111,7 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -147,10 +148,12 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         return getQuestionnaireUsages().get(index);
     }
 
+    @Override
     public Integer getOwnerSequenceNumber() {
         return null;
     }
 
+    @Override
     public String getVersionNameField() {
         return QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME;
     }
@@ -160,20 +163,25 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         return questionnaireSeqId;
     }
 
+    @Override
     public void incrementSequenceNumber() {
         sequenceNumber++;
     }
 
+    @Override
     public Questionnaire getSequenceOwner() {
         return this;
     }
 
+    @Override
     public void setSequenceOwner(Questionnaire newlyVersionedOwner) {
     }
 
+    @Override
     public void resetPersistenceState() {
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -216,6 +224,7 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         this.documentNumber = documentNumber;
     }
 
+    @Override
     public int compareTo(Questionnaire argQuestionnaire) {
         if (ObjectUtils.equals(this.getId(), argQuestionnaire.getId())) {
             return this.getSequenceNumber().compareTo(argQuestionnaire.getSequenceNumber());
@@ -229,6 +238,7 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         return fileName;
     }
 
+    @Override
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
@@ -272,8 +282,6 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         }
         return retVal;
     }
-    
-    // TODO: Added temporarily, pending official fix in KCINFR-579
 
     @Override
     public byte[] getAttachmentContent() {

@@ -41,30 +41,37 @@ public class ProtocolPersonRoleMapping extends ProtocolPersonRoleMappingBase {
     public ProtocolPersonRoleMapping() {
     }
 
+    @Override
     public Integer getRoleMappingId() {
         return roleMappingId;
     }
 
+    @Override
     public void setRoleMappingId(Integer roleMappingId) {
         this.roleMappingId = roleMappingId;
     }
 
+    @Override
     public String getSourceRoleId() {
         return sourceRoleId;
     }
 
+    @Override
     public void setSourceRoleId(String sourceRoleId) {
         this.sourceRoleId = sourceRoleId;
     }
 
+    @Override
     public String getTargetRoleId() {
         return targetRoleId;
     }
 
+    @Override
     public void setTargetRoleId(String targetRoleId) {
         this.targetRoleId = targetRoleId;
     }
 
+    @Override
     public ProtocolPersonRole getSourceRole() {
         return sourceRole;
     }
@@ -73,6 +80,7 @@ public class ProtocolPersonRoleMapping extends ProtocolPersonRoleMappingBase {
         this.sourceRole = sourceRole;
     }
 
+    @Override
     public ProtocolPersonRole getTargetRole() {
         return targetRole;
     }

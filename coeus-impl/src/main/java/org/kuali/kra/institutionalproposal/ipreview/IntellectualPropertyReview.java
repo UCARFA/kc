@@ -432,6 +432,7 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
         return this;
     }
 
+    @Override
     public void setSequenceOwner(IntellectualPropertyReview newlyVersionedOwner) {
     }
 

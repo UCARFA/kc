@@ -20,7 +20,6 @@ package org.kuali.coeus.common.impl.costshare;
 
 
 import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.coeus.common.impl.unit.UnitAgenda;
 import org.kuali.coeus.common.impl.unit.UnitAgendaTypeServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
@@ -32,7 +31,6 @@ import org.kuali.rice.krms.framework.engine.AgendaTree;
 import org.kuali.rice.krms.framework.engine.BasicAgenda;
 import org.kuali.rice.krms.impl.provider.repository.LazyAgendaTree;
 import org.kuali.rice.krms.impl.provider.repository.RepositoryToEngineTranslator;
-import org.kuali.rice.krms.impl.type.AgendaTypeServiceBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

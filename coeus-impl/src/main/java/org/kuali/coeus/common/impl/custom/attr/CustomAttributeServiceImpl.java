@@ -133,7 +133,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
     public CustomAttributeDataType getCustomAttributeDataType(String dataTypeCode) {
 
         if (StringUtils.isNotEmpty(dataTypeCode)) {
-            return (CustomAttributeDataType) dataObjectService.findUnique(CustomAttributeDataType.class,
+            return dataObjectService.findUnique(CustomAttributeDataType.class,
             		QueryByCriteria.Builder.forAttribute("code", dataTypeCode).build());
         }
         return null;
@@ -142,7 +142,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 
     @Override
     public List getLookupReturns(String lookupClass) throws Exception {
-        List<String> lookupReturns = new ArrayList<String>();
+        List<String> lookupReturns = new ArrayList<>();
         if (ARGVALUELOOKUPE_CLASS.equals(lookupClass)) {
             for (ArgValueLookup argValueLookup : businessObjectService.findAll(ArgValueLookup.class)) {
                 if (!lookupReturns.contains(argValueLookup.getArgumentName())) {
@@ -218,7 +218,8 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 		this.parameterService = parameterService;
 	}
 
-	public boolean isRequired(String dataTypeCode, CustomAttribute attr, List<? extends DocumentCustomData> customDataList)
+	@Override
+    public boolean isRequired(String dataTypeCode, CustomAttribute attr, List<? extends DocumentCustomData> customDataList)
 	{
 		Map<String, CustomAttributeDocument> map = getDefaultCustomAttributeDocuments(dataTypeCode, customDataList );
 		for(Map.Entry<String, CustomAttributeDocument> document: map.entrySet()) {
@@ -228,7 +229,8 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 		return false;
 	}
 	
-	public Map<String, String> getDocumentTypeMap() {
+	@Override
+    public Map<String, String> getDocumentTypeMap() {
 		Map<String, String> documentTypes = new HashMap<String, String>();
         for (String documentType : getDocumentTypeParam()) {
             String[] params = documentType.split(EQUAL_CHAR);
@@ -237,7 +239,8 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         return documentTypes;
 	}
 	
-	public Map<String, String> getReverseDocumentTypeMap() {
+	@Override
+    public Map<String, String> getReverseDocumentTypeMap() {
 		Map<String, String> documentTypes = new HashMap<String, String>();
         for (String documentType : getDocumentTypeParam()) {
             String[] params = documentType.split(EQUAL_CHAR);

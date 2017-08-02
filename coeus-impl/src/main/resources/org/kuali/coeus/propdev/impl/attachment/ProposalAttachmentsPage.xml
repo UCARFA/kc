@@ -26,7 +26,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropDev-AttachmentsPage" parent="PropDev-AttachmentsPage-parentBean" />
-	<bean id="PropDev-AttachmentsPage-parentBean" parent="PropDev-DocumentPage"
+	<bean id="PropDev-AttachmentsPage-parentBean" abstract="true" parent="PropDev-DocumentPage"
             p:onDocumentReadyScript="Kc.PropDev.Attachments.initAttachmentCounts();">
 		<property name="items">
 			<list>
@@ -66,7 +66,8 @@
 	<bean id="PropDev-AttachmentsPage-ProposalSection-parentBean" abstract="true"
 		parent="Uif-VerticalBoxSection" p:header.headerText="Proposal (&lt;span class='proposalAttachmentCount'&gt;@{document.developmentProposal.narratives.size()}&lt;/span&gt;)"
         p:instructionalText= 'Add attachments to this proposal'
-        p:fieldBindingObjectPath="document.developmentProposal">
+        p:fieldBindingObjectPath="document.developmentProposal"
+        p:id="PropDev-AttachmentsPage-ProposalSection">
 		<property name="items">
 			<list>
                 <bean parent="PropDev-AttachmentPage-ProposalButtons" p:order="10"/>
@@ -220,6 +221,7 @@
 
     <bean id="PropDev-AttachmentsPage-PersonnelSection" parent="PropDev-AttachmentsPage-PersonnelSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-PersonnelSection-parentBean"
+          p:id="PropDev-AttachmentsPage-PersonnelSection"
           abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Personnel (&lt;span class='personnelAttachmentCount'&gt;@{document.developmentProposal.propPersonBios.size()}&lt;/span&gt;)"
           p:instructionalText="@{document.developmentProposal.isInHierarchy() ? 'Attachments for personnel in multiple child proposals can only be added at the parent. Attachments for all other personnel need to be added
     at the respective child.' : 'Add attachments to this proposal'}"
@@ -343,8 +345,7 @@
     </bean>
 
     <bean id="PropDev-AttachmentsPage-AbstractsSection" parent="PropDev-AttachmentsPage-AbstractsSection-parentBean" />
-    <bean id="PropDev-AttachmentsPage-AbstractsSection-parentBean"
-          abstract="true" parent="Uif-VerticalBoxSection">
+    <bean id="PropDev-AttachmentsPage-AbstractsSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection" p:id="PropDev-AttachmentsPage-AbstractsSection">
         <property name="header.headerText" value="Abstracts (&lt;span class='abstractCount'&gt;@{document.developmentProposal.proposalAbstracts.size()}&lt;/span&gt;)" />
         <property name="items">
             <list>
@@ -428,7 +429,9 @@
 
     <bean id="PropDev-AttachmentsPage-InternalSection" parent="PropDev-AttachmentsPage-InternalSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-InternalSection-parentBean"
-          abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Internal (&lt;span class='internalAttachmentCount'&gt;@{document.developmentProposal.instituteAttachments.size()}&lt;/span&gt;)"
+          abstract="true" parent="Uif-VerticalBoxSection"
+          p:id="PropDev-AttachmentsPage-InternalSection"
+          p:header.headerText="Internal (&lt;span class='internalAttachmentCount'&gt;@{document.developmentProposal.instituteAttachments.size()}&lt;/span&gt;)"
           p:fieldBindingObjectPath="document.developmentProposal">
         <property name="items">
             <list>
@@ -630,7 +633,7 @@
     <bean id="PropDev-AttachmentPage-LinkField" parent="PropDev-AttachmentPage-LinkField-parentBean"/>
     <bean id="PropDev-AttachmentPage-LinkField-parentBean" abstract="true" parent="Uif-LinkField"
           p:readOnly="true" p:label="File" p:link.linkText="@{#line.name}"
-          p:link.href="?methodToCall=getFileFromLine&amp;formKey=@{formKey}&amp;fileName=@{#line.name}&amp;propertyPath=@{#collectionGroup.bindingInfo.bindingPath}&amp;selectedLineIndex=@{#index}"
+          p:link.href="?methodToCall=getFileFromLine&amp;formKey=@{formKey}&amp;fileName=@{#ViewHelper.urlEncode(#line.name)}&amp;propertyPath=@{#collectionGroup.bindingInfo.bindingPath}&amp;selectedLineIndex=@{#index}"
           p:order="10"/>
 
     <bean id="PropDev-AttachmentPage-MultiFileCollection" parent="PropDev-AttachmentPage-MultiFileCollection-parentBean"/>

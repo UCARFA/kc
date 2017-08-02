@@ -34,6 +34,7 @@ public class KcFileServiceImpl implements KcFileService {
     @Qualifier("parameterService")
     private ParameterService parameterService;
 
+    @Override
     public Long getMaxUploadSizeParameter() {
         long maxUploadSize = 0;
         String maxString = getParameterService().getParameterValueAsString(KRADConstants.KNS_NAMESPACE, ParameterConstants.ALL_COMPONENT, KRADConstants.MAX_UPLOAD_SIZE_PARM_NM);

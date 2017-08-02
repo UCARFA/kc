@@ -18,8 +18,6 @@
  */
 package org.kuali.kra.award;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -29,14 +27,11 @@ import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
-
-    private static final Log LOG = LogFactory.getLog(AwardAmountInfoService.class);
 
     transient BusinessObjectService businessObjectService;
     transient DocumentService documentService;
@@ -48,6 +43,7 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
      * 2)The Award Amount Infos timeAndMoneyDocumentNumber must be null or from a T&amp;M document that has been finalized
      * Users don't want this data to apply to Award until the T&amp;M document has been approved.
      */
+    @Override
     @SuppressWarnings("unchecked")
     public AwardAmountInfo fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(Award award) {
         
@@ -83,6 +79,7 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
         }).findFirst().get();
 }
     
+    @Override
     public AwardAmountInfo fetchLastAwardAmountInfoForDocNum(Award award, String docNum){
             List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
         int docNumIntValue = Integer.parseInt(docNum.trim());

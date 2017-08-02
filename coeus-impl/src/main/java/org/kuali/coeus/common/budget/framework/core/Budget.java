@@ -744,7 +744,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
     @Override
     public List<BudgetPerson> getBudgetPersons() {
-    	budgetPersons.sort(new PersonRolodexComparator());
+    	budgetPersons.sort(PersonRolodexComparator.INSTANCE);
         return budgetPersons;
     }
 

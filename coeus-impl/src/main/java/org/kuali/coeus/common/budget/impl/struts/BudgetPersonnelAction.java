@@ -185,7 +185,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                 }
                 
                 //If flag not set, then create a new Budget Line Item - ObjCode / Group Name combo is new
-                if(!existingCeGroupCombo) {
+                if (!existingCeGroupCombo) {
                     newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                     newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
                     newBudgetLineItem.setBudgetPeriodBO(budgetPeriod);
@@ -211,7 +211,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                     newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
                     newBudgetLineItem.setLineItemSequence(newBudgetLineItem.getLineItemNumber());
                     
-                    if(budgetPersonDetails.getPersonSequenceNumber().intValue() != -1) {
+                    if (budgetPersonDetails.getPersonSequenceNumber().intValue() != -1) {
                         addBudgetPersonnelDetails(budgetForm, budgetPeriod, newBudgetLineItem, budgetPersonDetails);
                     }
                     setLineItemQuantity(newBudgetLineItem);
@@ -328,8 +328,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
 
             getAwardBudgetPeriodCalculationService().recalculateBudgetPeriod(budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));
             getCalculationService().populateCalculatedAmount(budget, selectedBudgetLineItem);
-        }  
-        
+        }
+        budget.getBudgetTotals();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -447,8 +447,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
     }
     
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
         List<Integer> toBeDeletedLineItems;
@@ -771,7 +770,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             getAwardBudgetPeriodCalculationService().recalculateBudgetPeriod(budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));
             getCalculationService().populateCalculatedAmount(budget, selectedBudgetLineItem);
         }
-        
+        budget.getBudgetTotals();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -785,6 +784,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward applyToLaterPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();

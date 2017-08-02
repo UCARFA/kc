@@ -62,11 +62,13 @@ public class KcEmailServiceImpl implements KcEmailService {
 
     private ExecutorService executorService = Executors.newCachedThreadPool();
 
+    @Override
     public void sendEmail(String from, Set<String> toAddresses, String subject, Set<String> ccAddresses,
                           Set<String> bccAddresses, String body, boolean htmlMessage) {
         sendEmailWithAttachments(from, toAddresses, subject, ccAddresses, bccAddresses, body, htmlMessage, null);
     }
 
+    @Override
     public void sendEmailWithAttachments(String from, Set<String> toAddresses, String subject, Set<String> ccAddresses,
                                          Set<String> bccAddresses, String body, boolean htmlMessage, List<EmailAttachment> attachments) {
         
@@ -178,6 +180,7 @@ public class KcEmailServiceImpl implements KcEmailService {
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATION_TEST_ENABLED");
         return emailTestEnabled==null?false:emailTestEnabled;
     }
+    @Override
     public String getDefaultFromAddress() {
         String fromAddress = parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATION_FROM_ADDRESS");

@@ -36,6 +36,7 @@ public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingRepo
 
     private static final Log LOG = LogFactory.getLog(PendingReportDaoOjb.class);
 
+    @Override
     public List<PendingReportBean> queryForPendingSupport(String personId) throws WorkflowException {
         List<PendingReportBean> data = new ArrayList<>();
         for(InstitutionalProposalPerson ipPerson: executePendingSupportQuery(personId)) {

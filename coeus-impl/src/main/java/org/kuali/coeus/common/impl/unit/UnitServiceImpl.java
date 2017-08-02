@@ -18,9 +18,9 @@
  */
 package org.kuali.coeus.common.impl.unit;
 
-import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -37,6 +37,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 
@@ -149,6 +150,7 @@ public class UnitServiceImpl implements UnitService {
         return getParentUnitsInclusive(getUnits(),unitNumber);
     }
 
+    @Override
     public boolean appliesToUnit(String unit, String unitNumbers) {
         if(unitNumbers == null) {
             return Boolean.FALSE;
@@ -174,7 +176,7 @@ public class UnitServiceImpl implements UnitService {
 
     protected List<Unit> getParentUnitsInclusive(List<Unit> units, final String unit) {
         if (CollectionUtils.isNotEmpty(units)) {
-            final Unit matched = CollectionUtils.find(units, input -> input.getUnitNumber() != null && input.getUnitNumber().equals(unit));
+            final Unit matched = IterableUtils.find(units, input -> input.getUnitNumber() != null && input.getUnitNumber().equals(unit));
 
             if (matched != null) {
                 final List<Unit> totalMatched = new ArrayList<>();

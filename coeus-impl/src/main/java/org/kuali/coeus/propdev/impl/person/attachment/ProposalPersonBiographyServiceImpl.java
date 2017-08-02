@@ -54,8 +54,9 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      * @see org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService#addProposalPersonBiography(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument,
      *      org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography)
      */
+    @Override
     public void addProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument,
-            ProposalPersonBiography proposalPersonBiography) {
+                                           ProposalPersonBiography proposalPersonBiography) {
 
         proposalPersonBiography.setDevelopmentProposal(proposaldevelopmentDocument.getDevelopmentProposal());
         proposalPersonBiography.setBiographyNumber(proposaldevelopmentDocument
@@ -91,8 +92,9 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      * @see org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService#removePersonnelAttachmentForDeletedPerson(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument,
      *      org.kuali.coeus.propdev.impl.person.ProposalPerson)
      */
+    @Override
     public void removePersonnelAttachmentForDeletedPerson(ProposalDevelopmentDocument proposaldevelopmentDocument,
-            ProposalPerson person) {
+                                                          ProposalPerson person) {
 
         List<ProposalPersonBiography> personAttachments = new ArrayList();
         for (ProposalPersonBiography proposalPersonBiography : proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios()) {
@@ -111,6 +113,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      * @see org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService#deleteProposalPersonBiography(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument,
      *      int)
      */
+    @Override
     public void deleteProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument, int lineToDelete) {
         ProposalPersonBiography proposalPersonBiography = proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().get(lineToDelete);
         proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().remove(proposalPersonBiography);

@@ -37,5 +37,6 @@ public interface ProtocolNumberService extends ProtocolNumberServiceBase {
      *       
      * @return a protocol number
      */
+    @Override
     public String generateProtocolNumber();
 }

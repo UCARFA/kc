@@ -45,12 +45,15 @@ public class KcPersonFixtureFactory {
      */
     public static KcPerson createKcPerson(String personId, BusinessObjectService boService, IdentityService identityService) {
         KcPerson person = new KcPerson() {
+            @Override
             public String getFirstName() {
                 return "Joe";
             }
+            @Override
             public String getLastName() {
                 return "Tester";
             }
+            @Override
             public String getMiddleName() {
                 return "";
             }

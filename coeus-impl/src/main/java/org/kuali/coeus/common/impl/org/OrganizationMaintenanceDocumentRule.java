@@ -19,7 +19,9 @@
 package org.kuali.coeus.common.impl.org;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.org.FederalApprovingAgency;
 import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.org.OrganizationIndirectcost;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.framework.org.audit.OrganizationAudit;
@@ -29,11 +31,13 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.Collections;
 
 public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentRuleBase {
 
+    private static final String FEDERAL_APPROVING_AGENCY_NAME = "organizationIdcs[%s].federalApprovingAgencyName";
     private transient ErrorReporter errorReporter;
     private transient RolodexService rolodexService;
     
@@ -60,6 +64,7 @@ public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentR
         result &= checkYNQ(document);
         result &= checkRolodexEntries(document);
         result &= checkAudits(document);
+        result &= checkIdcs(document);
         return result;
     }
 
@@ -136,6 +141,24 @@ public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentR
         int i = 0;
         for (OrganizationAudit organizationAudit : newOrganization.getOrganizationAudits()) {
             valid &= checkExistenceFromTable(OrganizationAuditAcceptedType.class, Collections.singletonMap("code", organizationAudit.getAuditAcceptedCode()), String.format( "organizationAudits[%s].auditAcceptedCode", i ), "Accepted Type");
+            i++;
+        }
+        return valid;
+    }
+
+    private boolean checkIdcs(MaintenanceDocument maintenanceDocument) {
+
+        boolean valid = true;
+        final Organization newOrganization = (Organization) maintenanceDocument.getNewMaintainableObject().getDataObject();
+        int i = 0;
+        for (OrganizationIndirectcost organizationIndirectcost : newOrganization.getOrganizationIdcs()) {
+            if (FederalApprovingAgency.OTHER.getCode().equals(organizationIndirectcost.getFederalApprovingAgency()) && StringUtils.isBlank(organizationIndirectcost.getFederalApprovingAgencyName())) {
+                getErrorReporter().reportError(String.format( KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + FEDERAL_APPROVING_AGENCY_NAME, i ), KeyConstants.ERROR_INVALID_AGENCY_NAME_REQUIRED, FederalApprovingAgency.OTHER.getDescription());
+                valid = false;
+            } else if (!FederalApprovingAgency.OTHER.getCode().equals(organizationIndirectcost.getFederalApprovingAgency()) && StringUtils.isNotBlank(organizationIndirectcost.getFederalApprovingAgencyName())) {
+                getErrorReporter().reportError(String.format( KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + FEDERAL_APPROVING_AGENCY_NAME, i ), KeyConstants.ERROR_INVALID_AGENCY_NAME_NOT_ALLOWED, FederalApprovingAgency.OTHER.getDescription());
+                valid = false;
+            }
             i++;
         }
         return valid;

@@ -415,14 +415,13 @@ function sponsorHierarchy() {
 		oCurrentTextNode=oTextNodeMap[mapKey];
 		if (!oCurrentTextNode.dynamicLoadComplete) {
 		    if (!oCurrentTextNode.isVirtualNode) {
-		      // alert("not a subgrp")
-	       	   loadNextLevelSponsorHierarchy(oCurrentTextNode);
+	       	   loadNextLevelSponsorHierarchyNode(oCurrentTextNode, mapKey);
 	       	} else {
-	       	  //alert("subgrp")
 	       	   loadNextLevelSH(oCurrentTextNode);	       	
 	       	}
+		} else {
+			checkToAddSponsor(mapKey);
 		}
-		checkToAddSponsor(mapKey);
 		
 	 }
 
@@ -776,6 +775,108 @@ function sponsorHierarchy() {
 	
 	}
 	
+	function loadNextLevelSponsorHierarchyNode(node, mapKey) {
+		var customReply = {
+			callback : function(data) {
+				if (data != null) {
+					var group_array = data.split("#1#");
+					var sponsorHierarchy_array = group_array[0].split(";1;");
+					leafNode = "false";
+					var startIdx = 0;
+					if (sponsorHierarchy_array[0] == "((leafNodes))") {
+						leafNode = "true";
+						startIdx = 1;
+					}
+					if (data != "") {
+						showWait();
+						for (var i = startIdx; i < sponsorHierarchy_array.length; i++) {
+							var tempNode = new SHNode("<table style=\"width:"
+									+ String(1080 - (node.depth + 1) * widthGap)
+									+ "px\"><tr><td style=\"width:"
+									+ String(760 - (node.depth + 1) * widthGap)
+									+ "px\">"
+									+ sponsorHierarchy_array[i]
+									+ "</td><td style=\"width:320px\">"
+									+ setupMaintenanceButtons(
+											sponsorHierarchy_array[i] + " (1 - "
+													+ numberPerGroup + ")", node)
+									+ "</td></tr></table>", node, false, true,
+									false, sponsorHierarchy_array[i]);
+							tempNode.contentStyle = "icon-page";
+							if (leafNode == "false") {
+								tempNode.setDynamicLoad(
+										loadNextLevelSponsorHierarchy, 1);
+							} else {
+								tempNode.isLeaf = "true";
+							}
+							oTextNodeMap[nodeKey++] = tempNode;
+						}
+						if (group_array.length > 1) {
+							var nodeHtml = node.data;
+							nodeHtml = nodeHtml.replace(">" + node.description
+									+ "<", ">" + node.description + " (1 - "
+									+ numberPerGroup + " )<");
+							node.data = nodeHtml;
+							node.html = nodeHtml;
+							node.setHtml;
+						}
+						for (var i = 1; i < group_array.length; i++) {
+							var tempNode = new SHNode(
+									"<table style=\"width:"
+											+ String(1080 - (node.depth + 1)
+													* widthGap)
+											+ "px\"><tr><td style=\"width:"
+											+ String(760 - (node.depth + 1)
+													* widthGap)
+											+ "px\">"
+											+ node.description
+											+ " ("
+											+ (i * numberPerGroup + 1)
+											+ " - "
+											+ ((i + 1) * numberPerGroup)
+											+ ")"
+											+ "</td><td style=\"width:320px\"><INPUT TYPE=\"button\" SRC=\"button.gif\" VALUE=\"Add Sponsor\" ALT=\"Add Sponsor\" NAME=\"addsponsor\" onClick=\"addSponsor("
+											+ nodeKey
+											+ ");return false;\" > </td></tr></table>",
+									node.parent, false, true, true,
+									node.description + " ("
+											+ (i * numberPerGroup + 1) + " - "
+											+ ((i + 1) * numberPerGroup) + ")");
+							tempNode.contentStyle = "icon-page";
+							tempNode.setDynamicLoad(loadNextLevelSH, 1);
+							if (i == 1) {
+								tempNode.insertAfter(node);
+							} else {
+								tempNode.insertAfter(oTextNodeMap[nodeKey - 1]);
+							}
+							if (startIdx == 1) {
+								subgroup[nodeKey] = "((leafNodes));1;"
+										+ group_array[i];
+							} else {
+								subgroup[nodeKey] = group_array[i];
+							}
+							var idx = nodeKey;
+							idx = idx + '';
+							subgroupNodes = subgroupNodes + idx + ";";
+							oTextNodeMap[nodeKey++] = tempNode;
+						}
+						if (group_array.length > 1) {
+							tree.draw();
+						}
+					}
+				}
+				node.loadComplete();
+				hideWait();
+				if (oCurrentTextNode.dynamicLoadComplete) {
+					checkToAddSponsor(mapKey);
+				}
+			},
+			errorHandler : function(errorMessage) {
+				window.status = errorMessage;
+			}
+		};
+		SponsorHierarchyMaintenanceService.getSubSponsorHierarchiesForTreeView(hierarchyName, node.depth, getAscendants(node, "false"), customReply);
+	}
 
 	var waitCount = 0;
 	function showWait() {

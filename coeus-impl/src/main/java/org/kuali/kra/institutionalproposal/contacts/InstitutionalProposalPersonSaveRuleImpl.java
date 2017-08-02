@@ -36,6 +36,7 @@ public class InstitutionalProposalPersonSaveRuleImpl implements InstitutionalPro
      * @param event
      * @return
      */
+    @Override
     public boolean processInstitutionalProposalPersonSaveBusinessRules(InstitutionalProposalPersonSaveRuleEvent event) {
         return processSaveInstitutionalProposalProjectPersonsBusinessRules(event.getProjectPersons());
     }

@@ -95,6 +95,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
         };
     }
     
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;
@@ -234,6 +235,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
         
     }
 
+    @Override
     protected void assertError(String propertyKey, String errorKey) {
         List errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
         Assert.assertNotNull(errors);

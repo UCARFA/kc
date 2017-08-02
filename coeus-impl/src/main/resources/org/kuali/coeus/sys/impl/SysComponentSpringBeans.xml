@@ -152,15 +152,7 @@
         <property name="parameterNamespace" value="KC-SYS" />
         <property name="parameterComponent" value="All" />
     </bean>
-    
-    <bean id="kcQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="exposeSchedulerInRepository" value="true" />
-        <property name="triggers">
-            <list merge="true">
-                <ref bean="kcPessimisticLockingCronTrigger" />
-            </list>
-        </property>
-    </bean>
+
 
     <bean id="noEditLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="noEditLookupableHelperService" />
@@ -240,7 +232,7 @@
                 <entry key="monitoring-path" value="/monitoring/jm" />
                 <entry key="quartz-default-listener-disabled" value="true"/>
                 <entry key="storage-directory" value="${kc.monitoring.storage-directory}" />
-                <entry key="rum-enabled" value="true" />
+                <entry key="rum-enabled" value="false" />
                 <entry key="update-check-disabled" value="true" />
             </map>
         </property>
@@ -248,7 +240,57 @@
 
     <bean class="org.kuali.coeus.sys.framework.listener.ListenerRegistrator">
         <property name="listener">
+            <bean class="org.kuali.coeus.sys.impl.session.SessionHoldingListener"/>
+        </property>
+    </bean>
+
+    <bean class="org.kuali.coeus.sys.framework.listener.ListenerRegistrator">
+        <property name="listener">
+            <bean class="org.kuali.coeus.sys.impl.session.ser.SerializableSessionListener"/>
+        </property>
+    </bean>
+
+    <bean class="org.kuali.coeus.sys.framework.listener.ListenerRegistrator">
+        <property name="listener">
             <bean class="net.bull.javamelody.SessionListener"/>
+        </property>
+    </bean>
+
+    <bean id="serializableSessionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="serializableSessionLookupableHelperService" />
+    </bean>
+
+    <bean id="serializableUserSessionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="serializableUserSessionLookupableHelperService" />
+    </bean>
+
+    <bean id="serializableKradFormLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="serializableKradFormLookupableHelperService" />
+    </bean>
+
+    <bean id="serializableSessionJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="serializableLogger" />
+        <property name="targetMethod" value="log" />
+        <property name="concurrent" value="false" />
+    </bean>
+
+    <bean id="serializableSessionCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="serializableSessionJobDetail" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="cronExpressionParameterName" value="Serializable_Session_Cron_Expression" />
+        <property name="triggerEnabledParameterName" value="Serializable_Session_Enabled" />
+        <property name="parameterNamespace" value="KC-SYS" />
+        <property name="parameterComponent" value="All" />
+    </bean>
+
+    <bean id="kcQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="exposeSchedulerInRepository" value="true" />
+        <property name="triggers">
+            <list merge="true">
+                <ref bean="kcPessimisticLockingCronTrigger" />
+                <ref bean="serializableSessionCronTrigger" />
+            </list>
         </property>
     </bean>
 

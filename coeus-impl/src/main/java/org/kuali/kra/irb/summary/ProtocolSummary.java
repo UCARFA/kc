@@ -41,7 +41,8 @@ public class ProtocolSummary extends org.kuali.kra.protocol.summary.ProtocolSumm
         participants.add(participantSummary);
     }
 
-    public void compare(org.kuali.kra.protocol.summary.ProtocolSummary other) {        
+    @Override
+    public void compare(org.kuali.kra.protocol.summary.ProtocolSummary other) {
         super.compare(other);
         compareParticipants((ProtocolSummary) other);
     }

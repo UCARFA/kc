@@ -29,6 +29,7 @@ public class RecordCommitteeDecisionIacucProtocolUnavailableAuthorizer extends I
 
     private KcWorkflowService kraWorkflowService;
 
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return 
                hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO) 

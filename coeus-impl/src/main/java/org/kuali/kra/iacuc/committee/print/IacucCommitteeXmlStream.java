@@ -65,6 +65,7 @@ public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         CommitteeBase committee = (CommitteeBase)printableBusinessObject;
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();

@@ -184,21 +184,30 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
             setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNihFCoiGuidance());
         } else if (type == SponsorFormType.NSF) {
             setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNsfFCoiGuidance());
+        } else if (type == SponsorFormType.NASA) {
+            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNasaFCoiGuidance());
+        } else if (type == SponsorFormType.ONR) {
+            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpOnrFCoiGuidance());
         }
 
         setField(document, Pdf.Field.FCOI_OTHER_SPONSOR_AGENCY.getfName(), "");
     }
 
     private void setHumanSubjectsDataExchangeTerms(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_IN_ADD_TERMS.getfName(), HumanDataExchangeTerms.ADDITIONAL_TERMS.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_SEP_AGREEMENT.getfName(), HumanDataExchangeTerms.SEPARATE_AGREEMENT.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
+        if (fromYN(templateInfo.getHumanFlag()) && (HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) || HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()))) {
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_IN_ADD_TERMS.getfName(), HumanDataExchangeTerms.ADDITIONAL_TERMS.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_SEP_AGREEMENT.getfName(), HumanDataExchangeTerms.SEPARATE_AGREEMENT.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
+        }
     }
 
     private void setHumanSubjectsDataExchange(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_NOT_APPLICABLE.getfName(), HumanDataExchangeAgreement.NOT_APPLICABLE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_APPLICABLE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) || HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_SUB_TO_PTE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_PTE_TO_SUB.getfName(), HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+        if (fromYN(templateInfo.getHumanFlag())) {
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_NOT_APPLICABLE.getfName(), HumanDataExchangeAgreement.NOT_APPLICABLE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_APPLICABLE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) || HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_SUB_TO_PTE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_PTE_TO_SUB.getfName(), HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+        }
     }
 
     private void setAnimalPteVerification(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
@@ -316,21 +325,27 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
     private void setGenTermsAndConditions(PDDocument document, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, SponsorFormType type) {
         //General Terms and Conditions
         if (type == SponsorFormType.NIH) {
-            setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), configInfo.getFdpNihPolicy());
-            setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), configInfo.getFdpNihGrantsPolicyStatement());
-            setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), configInfo.getFdpNihInterimResearchTerms());
-            setField(document, Pdf.Field.REQUIREMENTS.getfName(), configInfo.getFdpNihAgencyRequirements());
-
-            if (fromYN(templateInfo.getTreatmentPrgmIncomeAdditive())) {
-                setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_ADDITIVE_VALUE);
-            }
-
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNihPolicy(), configInfo.getFdpNihGrantsPolicyStatement(), configInfo.getFdpNihInterimResearchTerms(), configInfo.getFdpNihAgencyRequirements());
         } else if (type == SponsorFormType.NSF) {
-            setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), configInfo.getFdpNsfPolicy());
-            setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), configInfo.getFdpNsfGrantsPolicyStatement());
-            setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), configInfo.getFdpNsfInterimResearchTerms());
-            setField(document, Pdf.Field.REQUIREMENTS.getfName(), configInfo.getFdpNsfAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNsfPolicy(), configInfo.getFdpNsfGrantsPolicyStatement(), configInfo.getFdpNsfInterimResearchTerms(), configInfo.getFdpNsfAgencyRequirements());
+        } else if (type == SponsorFormType.NASA) {
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNasaPolicy(), configInfo.getFdpNasaGrantsPolicyStatement(), configInfo.getFdpNasaInterimResearchTerms(), configInfo.getFdpNasaAgencyRequirements());
+        } else if (type == SponsorFormType.ONR) {
+            setGenTermsAndConditions1To4(document, configInfo.getFdpOnrPolicy(), configInfo.getFdpOnrGrantsPolicyStatement(), configInfo.getFdpOnrInterimResearchTerms(), configInfo.getFdpOnrAgencyRequirements());
         }
+
+        if (fromYN(templateInfo.getTreatmentPrgmIncomeAdditive())) {
+            setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_ADDITIVE_VALUE);
+        } else {
+            setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_OTHER_VALUE);
+        }
+    }
+
+    private void setGenTermsAndConditions1To4(PDDocument document, String policy, String policyStatement, String terms, String requirements) {
+        setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), policy);
+        setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), policyStatement);
+        setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), terms);
+        setField(document, Pdf.Field.REQUIREMENTS.getfName(), requirements);
     }
 
     private void setRequiredDataElements(PDDocument document) {
@@ -347,9 +362,7 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
     }
 
     private void setHeaderInformation(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail) {
-        if (subcontractDetail.getFsrsSubawardNumber() != null) {
-            setField(document, Pdf.Field.SUBAWARD_NUMBER.getfName(), subcontractDetail.getFsrsSubawardNumber());
-        }
+        setField(document, Pdf.Field.SUBAWARD_NUMBER.getfName(), subcontractDetail.getFsrsSubawardNumber());
     }
 
     @Override

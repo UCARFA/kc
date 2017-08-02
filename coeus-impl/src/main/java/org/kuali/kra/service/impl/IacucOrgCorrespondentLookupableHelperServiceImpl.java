@@ -19,7 +19,6 @@
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -33,7 +32,6 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Lookupable helper service used for person id lookup
@@ -43,6 +41,7 @@ public class IacucOrgCorrespondentLookupableHelperServiceImpl extends KualiLooku
 
     private static final long serialVersionUID = 749587517623905557L;
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();

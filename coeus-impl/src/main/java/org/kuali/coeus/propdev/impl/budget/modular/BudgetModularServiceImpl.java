@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Component("budgetModularService")
 public class BudgetModularServiceImpl implements BudgetModularService {
@@ -54,6 +53,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     @Qualifier("parameterService")
     private ParameterService parameterService;
     
+    @Override
     public void generateModularPeriod(BudgetPeriod budgetPeriod) {
 
         if (ObjectUtils.isNull(budgetPeriod.getBudgetModular())) {
@@ -115,6 +115,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
         budgetModular.calculateTotalRequestedCost();
     }
     
+    @Override
     public void synchModularBudget(Budget budget) {
         
         if (budget == null) {

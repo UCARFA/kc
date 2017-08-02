@@ -70,6 +70,7 @@ public class CollectionToggleMenu extends ToggleMenu {
         }
 
         Collections.sort(menuItemList, new Comparator<Component>(){
+            @Override
             public int compare(Component c1, Component c2) {
                 if (c1 instanceof Action && c2 instanceof Action) {
                     return ((Action)c1).getActionLabel().compareTo(((Action)c2).getActionLabel());

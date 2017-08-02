@@ -24,7 +24,6 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeType;
 import org.kuali.coeus.common.committee.impl.lookup.CommitteeLookupableHelperServiceImplBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;
-import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class IacucCommitteeLookupableHelperServiceImpl extends CommitteeLookupableHelperServiceImplBase<IacucCommittee> {

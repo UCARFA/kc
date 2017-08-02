@@ -29,6 +29,7 @@ import javax.annotation.PostConstruct;
 @Component("typeUtilsInitializer")
 public class TypeUtilsInitializerImpl implements TypeUtilsInitializer {
 
+    @Override
     @PostConstruct
     public void addToTypeUtils() {
         TypeUtils.addToDecimalType(ScaleThreeDecimal.class);

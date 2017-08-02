@@ -58,18 +58,22 @@ public class IRBNotificationRoleQualifierServiceImpl implements IRBNotificationR
         return roleQualifierValue;
     }
 
+    @Override
     public Protocol getProtocol() {
         return protocol;
     }
 
+    @Override
     public void setProtocol(Protocol protocol) {
         this.protocol = protocol;
     }
 
+    @Override
     public ProtocolOnlineReview getProtocolOnlineReview() {
         return protocolOnlineReview;
     }
 
+    @Override
     public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
         this.protocolOnlineReview = protocolOnlineReview;
     }

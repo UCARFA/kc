@@ -45,6 +45,7 @@ public class ProposalBudgetNavigationServiceImpl implements  ProposalBudgetNavig
     @Qualifier("parameterService")
     private ParameterService parameterService;
 
+    @Override
     public void createNavigationLink(Action action, ProposalBudgetForm form, String direction) {
         String navigateToPageId = "";
         String methodToCall = "";

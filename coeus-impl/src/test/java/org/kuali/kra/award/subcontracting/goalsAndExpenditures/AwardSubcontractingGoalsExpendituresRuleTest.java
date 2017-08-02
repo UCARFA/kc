@@ -117,6 +117,7 @@ public class AwardSubcontractingGoalsExpendituresRuleTest {
             one(rule.getDictionaryValidationService()).validateAttributeFormat(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, AWARD_NUMBER); 
             // 'will' side-effect custom action to add dummy error message to global error map, since rule checks that map.
             will(new CustomAction("Add random value to list") {
+                @Override
                 public Object invoke(Invocation invocation) throws Throwable {
                     GlobalVariables.getMessageMap().putError(BAD_FORMAT_PROPERTY_KEY, BAD_FORMAT_ERROR_KEY);
                     return null;

@@ -39,7 +39,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -56,6 +55,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
     private ReviewCommentsService reviewCommentsService;
     private ProtocolAmendRenewService protocolAmendRenewService;
     
+    @Override
     public void setPersonXml(KcPerson person, Person personType) {
         personType.setPersonID(person.getPersonId());
         personType.setFullname(person.getFullName());
@@ -86,6 +86,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
 
     }
 
+    @Override
     public void setPersonRolodexType(ProtocolPerson protocolPerson, Person personType) {
         if (protocolPerson.getPerson() == null) {
             ProtocolPersonRolodex rolodex = getBusinessObjectService().findBySinglePrimaryKey(ProtocolPersonRolodex.class,
@@ -99,6 +100,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
     }
 
 
+    @Override
     public void setPersonXml(ProtocolPersonRolodex rolodex, Person personType) {
         personType.setPersonID(rolodex.getRolodexId().toString());
         String fullName = rolodex.getMiddleName() != null ? rolodex.getLastName() + "," + rolodex.getFirstName()
@@ -126,8 +128,9 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
      * @param protocolSubmission
      * @param protocolSubmissionDetail
      */
+    @Override
     public void setProtocolSubmissionAction(org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission,
-            SubmissionDetails protocolSubmissionDetail) {
+                                            SubmissionDetails protocolSubmissionDetail) {
         ProtocolAction protcolAction = findProtocolActionForSubmission(protocolSubmission);
         if (protcolAction != null) {
             protcolAction.refreshNonUpdateableReferences();
@@ -152,8 +155,9 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
         return actions.isEmpty() ? null : actions.get(0);
     }
 
+    @Override
     public void setSubmissionCheckListinfo(org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission,
-            SubmissionDetails protocolSubmissionDetail) {
+                                           SubmissionDetails protocolSubmissionDetail) {
         SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
         String formattedCode = new String();
 
@@ -183,6 +187,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
         }
     }
 
+    @Override
     public void setMinutes(CommitteeSchedule scheduleDetailsBean, Schedule schedule) {
         List<CommitteeScheduleMinute> vecMinutes = scheduleDetailsBean.getCommitteeScheduleMinutes();
         if (!vecMinutes.isEmpty()) {
@@ -238,8 +243,9 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
         return committeeScheduleMinute.getProtocolNumber();
     }
 
+    @Override
     public void setProcotolMinutes(CommitteeSchedule committeeSchedule,
-            org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission, ProtocolSubmission protocolSubmissionType) {
+                                   org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission, ProtocolSubmission protocolSubmissionType) {
         List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
             if (minuteEntryInfoBean.getProtocolNumber() != null) {
@@ -258,8 +264,9 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
         }
     }
 
+    @Override
     public void setProcotolSubmissionMinutes(CommitteeSchedule committeeSchedule,
-            org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType) {
+                                             org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType) {
         List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
             if (minuteEntryInfoBean.getProtocolNumber() != null) {
@@ -281,8 +288,9 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
      * @param protocolSubmission
      * @param submissionsType
      */
+    @Override
     public void setProtocolReviewMinutes(CommitteeSchedule committeeSchedule,
-            org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType) {
+                                         org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType) {
         List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
             if (minuteEntryInfoBean.getProtocolNumber() != null && minuteEntryInfoBean.getSubmissionNumber() != null) {

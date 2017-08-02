@@ -63,7 +63,7 @@
     </bean>
 
     <bean id="CoiReviewer-description" parent="CoiReviewer-description-parentBean" />
-    <bean id="CoiReviewer-description-parentBean" parent="KraAttributeReferenceDummy-description"/>
+    <bean id="CoiReviewer-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
     <bean id="CoiReviewer-versionNumber" parent="CoiReviewer-versionNumber-parentBean" />
   <bean id="CoiReviewer-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->

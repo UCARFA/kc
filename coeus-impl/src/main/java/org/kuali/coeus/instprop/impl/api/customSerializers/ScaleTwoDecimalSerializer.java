@@ -26,7 +26,6 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.io.IOException;
-import java.text.ParseException;
 
 public class ScaleTwoDecimalSerializer extends JsonDeserializer<ScaleTwoDecimal> {
     @Override

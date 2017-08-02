@@ -76,6 +76,7 @@ public class ProtocolParticipantRuleBase extends KcTransactionalDocumentRuleBase
         return isValid;
     }
 
+    @Override
     protected DictionaryValidationService getKnsDictionaryValidationService() {
         if (this.dictionaryValidationService == null) {
             this.dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();

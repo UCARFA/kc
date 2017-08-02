@@ -203,11 +203,13 @@ public class TimeAndMoneyDocumentRule extends KcTransactionalDocumentRuleBase im
     }
 
 
+    @Override
     public boolean processAddPendingTransactionBusinessRules(AddTransactionRuleEvent event) {
         return new TransactionRuleImpl().processAddPendingTransactionBusinessRules(event);
     }
 
 
+    @Override
     public boolean processPendingTransactionBusinessRules(TransactionRuleEvent event) {
         return new TransactionRuleImpl().processPendingTransactionBusinessRules(event);
     }
@@ -216,11 +218,13 @@ public class TimeAndMoneyDocumentRule extends KcTransactionalDocumentRuleBase im
      * @see org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processAddAwardTransferringSponsorEvent
      * (org.kuali.kra.award.rule.event.AddAwardTransferringSponsorEvent)
      */
-    public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent 
+    @Override
+    public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent
                                                                                         awardDirectFandADistributionRuleEvent) {
         return new AwardDirectFandADistributionRuleImpl().processAddAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);
     }
 
+    @Override
     public boolean processAwardDirectFandADistributionBusinessRules(
             AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         return new AwardDirectFandADistributionRuleImpl().processAwardDirectFandADistributionBusinessRules(awardDirectFandADistributionRuleEvent);

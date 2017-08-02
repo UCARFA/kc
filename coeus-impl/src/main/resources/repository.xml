@@ -444,6 +444,16 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
 
+	<class-descriptor class="org.kuali.kra.bo.CostShareType" table="COST_SHARE_TYPE">
+		<field-descriptor name="costShareTypeCode" column="COST_SHARE_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+
 	<class-descriptor class="org.kuali.coeus.common.framework.org.Organization" table="ORGANIZATION">
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="address" column="ADDRESS" jdbc-type="VARCHAR"/>
@@ -1002,6 +1012,9 @@
 		<field-descriptor name="idcRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="requestedDate" column="REQUESTED_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="federalApprovingAgency" column="FED_APPROVAL_AGENCY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="federalApprovingAgencyName" column="FED_APPROVAL_AGENCY_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="restrictedRatePolicy" column="RESTRICTED_RATE_POLICY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" nullable="false" />
@@ -1690,5 +1703,39 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.coeus.common.framework.sponsor.SponsorHierarchyMaintenanceLookupable" table="SPONSOR">
+		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR" primarykey="true" sequence-name="SEQ_SPONSOR_CODE" autoincrement="true" />
+		<field-descriptor name="acronym" column="ACRONYM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="auditReportSentForFy" column="AUDIT_REPORT_SENT_FOR_FY" jdbc-type="CHAR"/>
+		<field-descriptor name="cageNumber" column="CAGE_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="countryCode" column="COUNTRY_CODE" jdbc-type="CHAR"/>
+		<field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="dodacNumber" column="DODAC_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="dunAndBradstreetNumber" column="DUN_AND_BRADSTREET_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="dunsPlusFourNumber" column="DUNS_PLUS_FOUR_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="ownedByUnit" column="OWNED_BY_UNIT" jdbc-type="VARCHAR"/>
+		<field-descriptor name="postalCode" column="POSTAL_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER"/>
+		<field-descriptor name="sponsorName" column="SPONSOR_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="sponsorTypeCode" column="SPONSOR_TYPE_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="state" column="STATE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+    	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+
+ 		<reference-descriptor name="sponsorType" class-ref="org.kuali.coeus.common.framework.sponsor.SponsorType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="sponsorTypeCode" />
+    	</reference-descriptor>
+
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="ownedByUnit" />
+    	</reference-descriptor>
+    	<reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="object" auto-delete="none">
+        	<foreignkey field-ref="rolodexId" />
+    	</reference-descriptor> 
 	</class-descriptor>
 </descriptor-repository>

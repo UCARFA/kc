@@ -53,11 +53,13 @@ public class ProtocolAdminCorrectionEvent extends KcDocumentEventBase {
         LOG.debug(logMessage);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return ExecuteProtocolAdminCorrectionRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ExecuteProtocolAdminCorrectionRule) rule).processAdminCorrectionRule((ProtocolDocument) getDocument(), actionBean);
     }

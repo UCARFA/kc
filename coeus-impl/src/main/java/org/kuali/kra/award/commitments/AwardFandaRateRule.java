@@ -66,6 +66,7 @@ public class AwardFandaRateRule  extends KcTransactionalDocumentRuleBase impleme
      * @see org.kuali.kra.award.commitments.AddFandaRateRule
      * #processAddFandaRateBusinessRules(org.kuali.kra.award.commitments.AddAwardFandaRateEvent)
      */
+    @Override
     public boolean processAddFandaRateBusinessRules(AddAwardFandaRateEvent
             addAwardFandaRateEvent) {
         AwardFandaRate awardFandaRate = 

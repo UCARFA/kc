@@ -138,6 +138,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         try {
             List<SyncRunnable> runnables = new ArrayList<SyncRunnable>();
             runInTransaction(new TransactionRunnable() {
+                @Override
                 public void run() {
                     clearSyncStatuses(award);
                     setParentAwardStatus(award, true, 
@@ -161,6 +162,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                 sendSyncFYIs(award, getAllPrincipalsToNotify(runnables), runnables);
             }
             runInTransaction(new TransactionRunnable() {
+                @Override
                 public void run() {
                     setParentAwardStatus(award, true, 
                         syncType == SyncType.VALIDATE ? "Validation Complete" : "Sync Descendants Complete");
@@ -754,6 +756,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         TransactionTemplate template = new TransactionTemplate((PlatformTransactionManager) KcServiceLocator.getService("transactionManager"));
         template.setPropagationBehavior(Propagation.REQUIRES_NEW.value());
         template.execute(new TransactionCallback() {
+            @Override
             @SuppressWarnings("unchecked")
             public Object doInTransaction(TransactionStatus status) {
                 if (object instanceof PersistableBusinessObject) {
@@ -774,12 +777,14 @@ public class AwardSyncServiceImpl implements AwardSyncService {
     protected void runInTransaction(final TransactionRunnable runnable) {
         final UserSession session = GlobalVariables.getUserSession();
         syncExecutor.execute(new SyncRunnable() {
+            @Override
             public void run() {
                 GlobalVariables.setUserSession(session);
                 TransactionTemplate template = 
                     new TransactionTemplate((PlatformTransactionManager) KcServiceLocator.getService("transactionManager"));
                 template.setPropagationBehavior(Propagation.REQUIRES_NEW.value());
                 template.execute(new TransactionCallback() {
+                    @Override
                     public Object doInTransaction(TransactionStatus status) {
                         runnable.run();
                         return null;
@@ -842,6 +847,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      */
     protected abstract class SyncRunnable implements Runnable {
         protected boolean finished;
+        @Override
         public void run() {
             setFinished(true);
         }
@@ -877,6 +883,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                 TransactionTemplate template = new TransactionTemplate((PlatformTransactionManager) KcServiceLocator.getService("transactionManager"));
                 template.setPropagationBehavior(Propagation.REQUIRES_NEW.value());
                 template.execute(new TransactionCallback() {
+                    @Override
                     public Object doInTransaction(TransactionStatus status) {
                         runSyncChanges(parentAward, hierarchy, syncType, changes, principalsToNotify);
                         return null;
@@ -913,6 +920,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
             this.session = session;
         }
         
+        @Override
         public void run() {
             UserSession oldSession = GlobalVariables.getUserSession();
             try {

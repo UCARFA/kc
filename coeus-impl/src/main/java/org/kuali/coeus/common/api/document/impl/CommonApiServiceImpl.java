@@ -28,12 +28,10 @@ import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.IdentityService;
@@ -54,7 +52,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 @Component("commonApiService")
 public class CommonApiServiceImpl implements CommonApiService {
@@ -79,6 +76,7 @@ public class CommonApiServiceImpl implements CommonApiService {
     @Qualifier("auditHelper")
     private AuditHelper auditHelper;
 
+    @Override
     public void validatePerson(String personId, Integer rolodexId) {
         Entity personEntity = null;
         RolodexContract rolodex = null;
@@ -94,10 +92,12 @@ public class CommonApiServiceImpl implements CommonApiService {
         }
     }
 
+    @Override
     public void clearErrors() {
         getGlobalVariableService().getMessageMap().clearErrorMessages();
     }
 
+    @Override
     public <T> T convertObject(Object input, Class<T> clazz) {
         Configuration mooConfig = new Configuration();
         mooConfig.setSourcePropertiesRequired(false);
@@ -116,6 +116,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         }
     }
 
+    @Override
     public Document getDocumentFromDocId(Long documentNumber) {
         try {
             return getDocumentService().getByDocumentHeaderId(documentNumber.toString());
@@ -124,6 +125,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         }
     }
 
+    @Override
     public void routeDocument(Document document) {
         List<ErrorMessage> auditErrors = getAuditErrors(document);
         String errorMessage = StringUtils.EMPTY;
@@ -140,6 +142,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         }
     }
 
+    @Override
     public List<ErrorMessage> getAuditErrors(Document document) {
         boolean auditPassed = getAuditHelper().auditUnconditionally(document);
         List<ErrorMessage> errors = new ArrayList<>();
@@ -161,6 +164,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         return errors;
     }
 
+    @Override
     public String getValidationErrors() {
         String errors = "";
         for (Map.Entry<String, List<ErrorMessage>> entry : getGlobalVariableService().getMessageMap().getErrorMessages().entrySet()) {
@@ -171,6 +175,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         return errors;
     }
 
+    @Override
     public Document saveDocument(Document document) throws WorkflowException {
             try {
                 document.validateBusinessRules(new SaveDocumentEvent("", document));
@@ -183,6 +188,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         return document;
     }
 
+    @Override
     public AwardDto convertAwardToDto(Award award) {
         AwardDto awardDto = convertObject(award, AwardDto.class);
         awardDto.getAwardSponsorContacts().stream().forEach(contact -> {
@@ -194,6 +200,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         return awardDto;
     }
 
+    @Override
     public void updateDataObjectFromDto(Object existingDataObject, Object input) {
         Configuration mooConfig = new Configuration();
         mooConfig.setSourcePropertiesRequired(false);
@@ -201,6 +208,7 @@ public class CommonApiServiceImpl implements CommonApiService {
         moo.update(input, existingDataObject);
     }
 
+    @Override
     public boolean isDocInModifiableState(WorkflowDocument workflowDocument) {
         return !workflowDocument.isCanceled();
     }

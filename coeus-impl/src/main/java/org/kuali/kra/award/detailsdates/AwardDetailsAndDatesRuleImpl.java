@@ -58,6 +58,7 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
      * @see org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processAddAwardTransferringSponsorEvent
      * (org.kuali.kra.award.rule.event.AddAwardTransferringSponsorEvent)
      */
+    @Override
     public boolean processAddAwardTransferringSponsorEvent(AddAwardTransferringSponsorEvent addAwardTransferringSponsorEvent) {
         boolean valid = true;
         Sponsor sponsor = addAwardTransferringSponsorEvent.getSponsorToBecomeAwardTransferringSponsor();
@@ -91,6 +92,7 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
         return false;
     }
 
+    @Override
     public boolean processSaveAwardDetailsAndDates(AwardDetailsAndDatesSaveEvent awardDetailsAndDatesSaveEvent) {
         boolean valid = true;
         Award award = awardDetailsAndDatesSaveEvent.getAward();

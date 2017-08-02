@@ -55,6 +55,7 @@ public class ResubmissionRuleEvent extends KcDocumentEventBase {
         return ((ResubmissionPromptRule) rule).processResubmissionPromptBusinessRules(this);
     }
 
+    @Override
     public Class<ResubmissionPromptRule> getRuleInterfaceClass() {
         return ResubmissionPromptRule.class;
     }

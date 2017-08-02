@@ -1129,6 +1129,9 @@
                     <bean p:attributeName="idcRateTypeCode" parent="FieldDefinition"/>
                     <bean p:attributeName="requestedDate" parent="FieldDefinition"/>
                     <bean p:attributeName="startDate" parent="FieldDefinition"/>
+                    <bean p:attributeName="federalApprovingAgency" parent="FieldDefinition"/>
+                    <bean p:attributeName="federalApprovingAgencyName" parent="FieldDefinition"/>
+                    <bean p:attributeName="restrictedRatePolicy" parent="FieldDefinition"/>
                   </list>
                 </property>
               </bean>
@@ -1279,6 +1282,9 @@
               <bean p:propertyName="idcRateTypeCode" parent="Uif-DataField"/>
               <bean p:propertyName="requestedDate" parent="Uif-DataField"/>
               <bean p:propertyName="startDate" parent="Uif-DataField"/>
+              <bean p:propertyName="federalApprovingAgency" parent="Uif-DataField"/>
+              <bean p:propertyName="federalApprovingAgencyName" parent="Uif-DataField"/>
+              <bean p:propertyName="restrictedRatePolicy" parent="Uif-DataField"/>
             </list>
           </property>
         </bean>

@@ -200,6 +200,7 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
      * Gets the budgetId attribute. 
      * @return Returns the budgetId.
      */
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }

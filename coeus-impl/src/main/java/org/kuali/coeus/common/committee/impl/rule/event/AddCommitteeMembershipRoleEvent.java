@@ -64,6 +64,7 @@ public class AddCommitteeMembershipRoleEvent extends CommitteeMembershipRoleEven
      * 
      * @return <code>{@link AddCommitteeMembershipRoleRule} class</code>
      */
+    @Override
     public Class getRuleInterfaceClass() {
         return AddCommitteeMembershipRoleRule.class;
     }
@@ -75,6 +76,7 @@ public class AddCommitteeMembershipRoleEvent extends CommitteeMembershipRoleEven
      * @param rule <code>{@link AddCommitteeMembershipRoleRule}</code> that is to be used for processing
      * @return <code>true</code> if all rules are satisfied, otherwise <code>false</code>
      */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddCommitteeMembershipRoleRule) rule).processAddCommitteeMembershipRoleBusinessRules(this);
     }

@@ -87,14 +87,17 @@ public class AwardScienceKeyword extends AbstractScienceKeyword implements Seque
         this.award = award;
     }
     
+    @Override
     public Award getSequenceOwner() {
         return award;
     }
 
+    @Override
     public void setSequenceOwner(Award sequenceOwner) {
         award = sequenceOwner;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return getSequenceOwner() != null ? getSequenceOwner().getSequenceNumber() : null;
     }

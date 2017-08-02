@@ -19,7 +19,6 @@
 package org.kuali.kra.external.customercreation;
 
 import org.kuali.kfs.module.external.kc.service.CustomerCreationService;
-import org.kuali.kfs.module.external.kc.service.DunningCampaignService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 
 public final class CustomerCreationKSBClientImpl extends CustomerCreationClientBase {

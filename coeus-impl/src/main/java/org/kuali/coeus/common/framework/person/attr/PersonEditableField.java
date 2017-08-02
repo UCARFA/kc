@@ -65,6 +65,7 @@ public class PersonEditableField extends KcPersistableBusinessObjectBase impleme
      * Read access to active flag
      * @return boolean active or not
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -73,6 +74,7 @@ public class PersonEditableField extends KcPersistableBusinessObjectBase impleme
      * Write access to active flag
      * @param active
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

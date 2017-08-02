@@ -67,6 +67,7 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
     	nextValues = new ArrayList<>();
     }
 
+    @Override
     public Integer getHierarchyLastSyncHashCode() {
         return hierarchyLastSyncHashCode;
     }
@@ -93,14 +94,17 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
 		return developmentProposal.getProposalNumber();
 	}
 
+    @Override
     public String getParentDocumentGroupName() {
     	return BUDGET_PERSON_GROUP_PD;
     }
 	
+    @Override
     public java.util.Date getBudgetStartDate() {
         return getDevelopmentProposal().getRequestedStartDateInitial();
     }
 
+    @Override
     public java.util.Date getBudgetEndDate() {
         return getDevelopmentProposal().getRequestedEndDateInitial();
     }

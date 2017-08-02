@@ -22,6 +22,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class MaintainIacucProtocolOnlineReviewsAuthorizer extends IacucProtocolOnlineReviewAuthorizer {
 
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolOnlineReviewTask task) {
         return getKraAuthorizationService().hasPermission(userId, task.getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_IACUC_ONLINE_REVIEWS);
     }

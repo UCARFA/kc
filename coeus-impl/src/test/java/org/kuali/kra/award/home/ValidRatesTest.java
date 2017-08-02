@@ -18,33 +18,18 @@
  */
 package org.kuali.kra.award.home;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.kuali.kra.bo.AbstractBoTest;
 
-/**
- * 
- * This class tests the Valid Rates BO.
- */
-public class ValidRatesTest {
-    
-    public static final int VALID_RATES_ATTRIUTES_COUNT = 7;
-    ValidRates validRates;
+public class ValidRatesTest extends AbstractBoTest<ValidRates> {
+    private static final int VALID_RATES_ATTRIUTES_COUNT = 7;
 
-    @Before
-    public void setUp() throws Exception {
-        validRates = new ValidRates();
+    @Override
+    protected Class<ValidRates> getBoClass() {
+        return ValidRates.class;
     }
 
-    @After
-    public void tearDown() throws Exception {
-        validRates = null;
+    @Override
+    protected int getAttributeCount() {
+        return VALID_RATES_ATTRIUTES_COUNT;
     }
-
-    @Test
-    public final void testToStringMapper() {
-        Assert.assertEquals(VALID_RATES_ATTRIUTES_COUNT, validRates.getClass().getDeclaredFields().length);
-    }
-
 }

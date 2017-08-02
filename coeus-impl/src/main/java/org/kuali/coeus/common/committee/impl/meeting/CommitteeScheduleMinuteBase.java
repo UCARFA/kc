@@ -26,7 +26,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -35,7 +34,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * 
@@ -118,6 +116,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     @SuppressWarnings("rawtypes")
     public static final Comparator<CommitteeScheduleMinuteBase> entryTypeComparator = new Comparator<CommitteeScheduleMinuteBase>() {
 
+        @Override
         public int compare(CommitteeScheduleMinuteBase csm1, CommitteeScheduleMinuteBase csm2) {
             int retVal = 0;
             // first sort by protocol number if possible  
@@ -164,6 +163,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         return entryNumber;
     }
 
+    @Override
     public String getProtocolNumber() {
         return protocolNumber;
     }
@@ -172,6 +172,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         this.protocolNumber = protocolNumber;
     }
 
+    @Override
     public Integer getSubmissionNumber() {
         return submissionNumber;
     }
@@ -296,6 +297,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         this.finalFlag = finalFlag;
     }
 
+    @Override
     public ProtocolBase getProtocol() {
         return protocol;
     }
@@ -324,6 +326,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         this.createUser = createUser;
     }
 
+    @Override
     public String getCreateUser() {
         return createUser;
     }
@@ -340,6 +343,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
      * Gets the protocolReviewIdFk attribute. 
      * @return Returns the protocolReviewIdFk.
      */
+    @Override
     public Long getProtocolOnlineReviewIdFk() {
         return protocolOnlineReviewIdFk;
     }
@@ -479,6 +483,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         return this.commScheduleMinutesId != null;
     }
 
+    @Override
     public Long getProtocolId() {
         return protocolIdFk;
         
@@ -524,6 +529,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         this.updateUserFullName = updateUserFullName;
     }
 
+    @Override
     public CS getCommitteeSchedule() {
         return committeeSchedule;
     }
@@ -565,6 +571,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         return displayReviewerName;
     }
 
+    @Override
     public void setDisplayReviewerName(boolean displayReviewerName) {
         this.displayReviewerName = displayReviewerName;
     }
@@ -593,6 +600,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     //    private BusinessObjectService getBusinessObjectService() {  
     //        return KcServiceLocator.getService(BusinessObjectService.class);  
     //    }  
+    @Override
     public boolean isReviewComment() {
 
         return true;

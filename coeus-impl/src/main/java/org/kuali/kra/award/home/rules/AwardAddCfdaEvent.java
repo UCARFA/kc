@@ -22,6 +22,7 @@ public class AwardAddCfdaEvent extends KcDocumentEventBase {
         return ((AwardCfdaRule) rule).processAddCfdaRules(this);
     }
 
+    @Override
     public Class<AwardCfdaRule> getRuleInterfaceClass() {
         return AwardCfdaRule.class;
     }

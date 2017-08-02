@@ -39,6 +39,7 @@ public class ProposalDevelopmentCopyRule extends KcTransactionalDocumentRuleBase
      * 
      * @see org.kuali.coeus.propdev.impl.abstrct.AbstractsRule#processAddAbstractBusinessRules(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument, org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract)
      */
+    @Override
     public boolean processCopyProposalBusinessRules(ProposalDevelopmentDocument document, ProposalCopyCriteria criteria) {
         boolean isValid = true;
         

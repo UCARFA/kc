@@ -51,7 +51,7 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
     private String awardInMultipleNodeHierarchy;
     private String budgetParentId;
     private AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount;
-    private ParameterService parameterService;
+    private transient ParameterService parameterService;
     private Boolean isBudgetVersionSummaryCumulative;
 
     @Override

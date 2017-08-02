@@ -85,6 +85,7 @@ public class KcQueryCustomizerDefaultImpl extends org.apache.ojb.broker.accessla
      * Override this method, if developer needs more than just supplying values to the 'where' clause
      * @see org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl#addAttribute(java.lang.String, java.lang.String)
      */
+    @Override
     public void addAttribute(String name, String value) {
         queryMap.put(name, value);
     }

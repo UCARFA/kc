@@ -87,10 +87,12 @@ public class UnitAdministratorType extends KcPersistableBusinessObjectBase imple
         this.description = description;
     }
 
+    @Override
     public String getRoleCode() {
         return getCode();
     }
 
+    @Override
     public String getRoleDescription() {
         return getDescription();
     }

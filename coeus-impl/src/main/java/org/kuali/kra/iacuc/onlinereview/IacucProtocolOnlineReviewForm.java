@@ -71,6 +71,7 @@ public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewFormBase
     }
 
 
+    @Override
     public List<ExtraButton> getExtraActionsButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
@@ -91,6 +92,7 @@ public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewFormBase
     }
     
     
+    @Override
     public boolean getAdminFieldsEditable() {
         return KcServiceLocator.getService(KcAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(),
                                     getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocol(), PermissionConstants.MAINTAIN_IACUC_ONLINE_REVIEWS);

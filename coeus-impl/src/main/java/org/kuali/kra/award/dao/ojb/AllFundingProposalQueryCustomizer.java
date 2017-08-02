@@ -19,7 +19,6 @@
 package org.kuali.kra.award.dao.ojb;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl;

@@ -47,18 +47,22 @@ public class IacucProtocolWithdrawBean extends IacucProtocolActionBean implement
         super(actionHelper);
     }
 
+    @Override
     public void setReason(String reason) {
         this.reason = reason;
     }
 
+    @Override
     public String getReason() {
         return reason;
     }
 
+    @Override
     public Date getActionDate() {
         return actionDate;
     }
     
+    @Override
     public void setActionDate(Date actionDate) {
         this.actionDate = actionDate;
     }
@@ -68,6 +72,7 @@ public class IacucProtocolWithdrawBean extends IacucProtocolActionBean implement
      * This method returns the correct correspondence for this object
      * 
      */
+    @Override
     public IacucProtocolActionsCorrespondence getCorrespondence() {
         IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(IacucProtocolActionType.IACUC_WITHDRAWN);
         return correspondence;

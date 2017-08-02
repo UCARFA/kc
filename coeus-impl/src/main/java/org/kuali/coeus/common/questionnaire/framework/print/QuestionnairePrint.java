@@ -57,6 +57,7 @@ public class QuestionnairePrint extends AbstractPrint {
      * 
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
+    @Override
     public List<Source> getXSLTemplates() {
         List<Source> sourceList = new ArrayList<Source>();
         Object template = getReportParameters().get("template");

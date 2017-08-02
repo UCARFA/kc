@@ -87,6 +87,7 @@ public class AwardDirectFandADistributionServiceImplTest extends AwardDirectFand
             super(principalName);
         }
 
+        @Override
         public String getPrincipalName() {
             return "quickstart";
         }

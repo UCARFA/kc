@@ -55,10 +55,12 @@ public class ProtocolAssignCmtSchedEvent extends KcDocumentEventBase {
         LOG.debug(logMessage);
     }
 
+    @Override
     public Class getRuleInterfaceClass() {
         return ExecuteProtocolAssignCmtSchedRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ExecuteProtocolAssignCmtSchedRule) rule).processAssignToCommitteeSchedule((ProtocolDocument) getDocument(), actionBean);
     }

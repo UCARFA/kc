@@ -166,14 +166,17 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
         return protocolActionType.getTriggerCorrespondence();
     }
 
+    @Override
     public void createProtocol(ProtocolFormBase protocolForm) throws Exception {
         generateActionCorrespondence(getProtocolCreatedActionTypeHook(), protocolForm.getProtocolDocument().getProtocol());
     }
 
+    @Override
     public void rejectedInRouting(ProtocolBase protocol) throws Exception {
         generateActionCorrespondence(getProtocolRejectedInRoutingActionTypeHook(), protocol);
     }
 
+    @Override
     public void recalledInRouting(ProtocolBase protocol) throws Exception {
         generateActionCorrespondence(getProtocolRecalledInRoutingActionTypeHook(), protocol);
     }
@@ -266,6 +269,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
         }
     }
     
+    @Override
     public boolean checkToSendNotification(ProtocolFormBase protocolForm, ProtocolNotificationRequestBeanBase notificationRequestBean, String promptAfterNotification) {
         ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
         ProtocolNotificationContextBase context = getProtocolNotificationContextHook(notificationRequestBean, protocolForm);
@@ -279,6 +283,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
         }
     }    
 
+    @Override
     public ProtocolCorrespondence getProtocolCorrespondence (ProtocolFormBase protocolForm, String forwardName, ProtocolNotificationRequestBeanBase notificationRequestBean, boolean holdingPage) {
         return getProtocolCorrespondence(protocolForm.getProtocolDocument().getProtocol(), forwardName, notificationRequestBean, holdingPage);
     }

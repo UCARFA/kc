@@ -19,7 +19,6 @@
 package org.kuali.coeus.propdev.impl.budget.rate;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
@@ -79,11 +78,13 @@ public class ProposalBudgetRatesController extends ProposalBudgetControllerBase 
         return getModelAndViewService().getModelAndView(form);
 	}	
 
-	public BudgetRatesService getBudgetRatesService() {
+	@Override
+    public BudgetRatesService getBudgetRatesService() {
 		return budgetRatesService;
 	}
 
-	public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
+	@Override
+    public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
 		this.budgetRatesService = budgetRatesService;
 	}
 }

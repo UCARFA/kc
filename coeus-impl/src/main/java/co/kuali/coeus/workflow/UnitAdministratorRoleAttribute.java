@@ -63,8 +63,9 @@ public class UnitAdministratorRoleAttribute extends GenericRoleAttribute {
 	
 	UnitService unitService;
 	
-	public List<String> getQualifiedRoleNames(String roleName,
-			DocumentContent documentContent) {
+	@Override
+    public List<String> getQualifiedRoleNames(String roleName,
+                                              DocumentContent documentContent) {
 
 		// RoleName!Unit Administrator Code!TRUE OF PARENT
 		if (roleName != null) {
@@ -87,7 +88,8 @@ public class UnitAdministratorRoleAttribute extends GenericRoleAttribute {
 		return qualifiedRoleNames;
 	}
 	
-	public List<RoleName> getRoleNames() {
+	@Override
+    public List<RoleName> getRoleNames() {
 		RoleName role = RoleName.Builder.create(UnitAdministratorRoleAttribute.class.getName(), roleName, roleName).build();
 		return Collections.singletonList(role);
 	}

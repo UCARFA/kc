@@ -94,6 +94,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @see org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService#getOpportunityList(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
+    @Override
     public GetOpportunitiesResponse getOpportunityList(String cfdaNumber, String opportunityId, String competitionId)
             throws S2sCommunicationException {
         ApplicantWebServicesPortType port = configureApplicantIntegrationSoapPort(null,false);
@@ -126,6 +127,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @throws S2sCommunicationException
      * @see org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService#getApplicationStatusDetail(java.lang.String, java.lang.String)
      */
+    @Override
     public GetApplicationStatusDetailResponse getApplicationStatusDetail(String ggTrackingId, String proposalNumber)
             throws S2sCommunicationException {
         ApplicantWebServicesPortType port = getApplicantIntegrationSoapPort(proposalNumber);
@@ -149,6 +151,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @return GetApplicationListResponse application list.
      * @throws S2sCommunicationException
      */
+    @Override
     public GetApplicationListResponse getApplicationList(String opportunityId, String cfdaNumber, String proposalNumber)
             throws S2sCommunicationException {
         GetApplicationListRequest applicationListRequest = new GetApplicationListRequest();
@@ -187,8 +190,9 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @throws S2sCommunicationException
      * @see org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService#submitApplication(java.lang.String, java.util.Map, java.lang.String)
      */
-    public SubmitApplicationResponse submitApplication(String xmlText, 
-                    Map<String, DataHandler> attachments, String proposalNumber)
+    @Override
+    public SubmitApplicationResponse submitApplication(String xmlText,
+                                                       Map<String, DataHandler> attachments, String proposalNumber)
             throws S2sCommunicationException {
         ApplicantWebServicesPortType port = getApplicantIntegrationSoapPort(proposalNumber);
         SubmitApplicationRequest request = new SubmitApplicationRequest();

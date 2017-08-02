@@ -39,6 +39,7 @@ public class ProtocolPersonnelRuleTest extends ProtocolRuleTestBase {
     private static final String CO_INVESTIGATOR_ROLE_ID = "COI";
 
     
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -51,6 +52,7 @@ public class ProtocolPersonnelRuleTest extends ProtocolRuleTestBase {
         };
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

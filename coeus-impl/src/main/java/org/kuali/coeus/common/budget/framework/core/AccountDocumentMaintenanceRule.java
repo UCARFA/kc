@@ -59,7 +59,8 @@ public class AccountDocumentMaintenanceRule extends KcMaintenanceDocumentRuleBas
             errorMessages.put(DESCRIPTION_KEY, messages);
         }
 
-        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
+        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION) &&
+                !document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
             return validate(account);
         }
         return Boolean.TRUE;
@@ -67,7 +68,8 @@ public class AccountDocumentMaintenanceRule extends KcMaintenanceDocumentRuleBas
     
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
+        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION) &&
+                !document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
             Account costShareSourceAccount = (Account) document.getDocumentBusinessObject();
             return validate(costShareSourceAccount);
         }

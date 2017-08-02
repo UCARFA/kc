@@ -19,7 +19,6 @@
 package org.kuali.coeus.common.impl.org.crrspndnt;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
@@ -37,7 +36,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Lookupable helper service used for person id lookup
@@ -53,6 +51,7 @@ public class OrganizationCorrespondentLookupableHelperServiceImpl extends KcKual
     @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();

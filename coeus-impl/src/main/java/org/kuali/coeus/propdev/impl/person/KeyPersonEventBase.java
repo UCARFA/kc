@@ -53,6 +53,7 @@ public abstract class KeyPersonEventBase extends KcDocumentEventBase implements 
     /**
      * @return <code>{@link ProposalPerson}</code> that triggered this event.
      */
+    @Override
     public ProposalPerson getProposalPerson() {
         return person;
     }
@@ -68,6 +69,7 @@ public abstract class KeyPersonEventBase extends KcDocumentEventBase implements 
     /**
      * Logs the event type and some information about the associated accountingLine
      */
+    @Override
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");

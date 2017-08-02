@@ -102,6 +102,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         return valid;
     }
 
+    @Override
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
         retval &= new InstitutionalProposalPersonAuditRule().processRunAuditBusinessRules(document);
@@ -206,6 +207,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         return new InstitutionalProposalRuleImpl().processInstitutionalProposalRules(event);
     }
 
+    @Override
     public boolean processRules(KcDocumentEventBaseExtension event) {
         return event.getRule().processRules(event);
     }

@@ -27,7 +27,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropBudget-SubawardsPage" parent="PropBudget-SubawardsPage-parentBean" />
-	<bean id="PropBudget-SubawardsPage-parentBean" parent="PropBudget-Page">
+	<bean id="PropBudget-SubawardsPage-parentBean" abstract="true" parent="PropBudget-Page">
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-SubawardsPage-CollectionGroup" />

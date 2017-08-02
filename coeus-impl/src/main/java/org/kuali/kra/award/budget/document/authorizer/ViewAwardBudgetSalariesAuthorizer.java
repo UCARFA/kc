@@ -32,6 +32,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  */
 public class ViewAwardBudgetSalariesAuthorizer extends BudgetAuthorizer {
 
+    @Override
     public boolean isAuthorized(String userId, Task task) {
             AwardBudgetTask budgetTask = (AwardBudgetTask) task;
             AwardBudgetDocument budgetDocument = budgetTask.getAwardBudgetDocument();

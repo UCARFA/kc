@@ -87,6 +87,7 @@ public class PersonMassChangeDocument extends KcTransactionalDocumentBase implem
         return StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
     }
     
+    @Override
     public boolean isProcessComplete() {
         boolean isComplete = false;
         
@@ -115,6 +116,7 @@ public class PersonMassChangeDocument extends KcTransactionalDocumentBase implem
         return new ArrayList();
     }
 
+    @Override
     public String getDocumentBoNumber() {
         return getPersonMassChange().getPersonMassChangeId()+"";
     }

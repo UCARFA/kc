@@ -25,14 +25,10 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.calculator.ValidCalcType;
 import org.kuali.coeus.common.budget.framework.query.operator.*;
 import org.kuali.coeus.common.budget.framework.rate.*;
-import org.kuali.coeus.common.budget.framework.rate.RateClassType;
 import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
 import org.kuali.coeus.common.framework.type.ActivityType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.coeus.common.budget.framework.rate.AbstractInstituteRate;
-import org.kuali.coeus.common.budget.framework.rate.InstituteLaRate;
-import org.kuali.coeus.common.budget.framework.rate.InstituteRate;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
@@ -401,6 +397,7 @@ public abstract class BudgetRatesServiceImpl implements BudgetRatesService {
         return effectiveDate;
     }
    
+    @Override
     public Date getBudgetPersonSalaryEffectiveDate(Budget budget) {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("budgetId", budget.getBudgetId());
@@ -898,6 +895,7 @@ public abstract class BudgetRatesServiceImpl implements BudgetRatesService {
 
     }
 
+    @Override
     public boolean isOverhead(String rateClassTypeCode) {
         return StringUtils.equals(rateClassTypeCode, org.kuali.coeus.common.budget.api.rate.RateClassType.OVERHEAD.getRateClassType());
     }

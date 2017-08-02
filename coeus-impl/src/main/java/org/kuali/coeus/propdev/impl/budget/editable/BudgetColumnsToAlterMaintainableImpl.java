@@ -51,6 +51,7 @@ public class BudgetColumnsToAlterMaintainableImpl  extends KraMaintainableImpl {
 
     private transient KcPersistenceStructureService kcPersistenceStructureService;
 
+    @Override
     public void prepareForSave() {
         super.prepareForSave();
         final BudgetColumnsToAlter budgetCol = (BudgetColumnsToAlter)businessObject;

@@ -117,22 +117,27 @@ public class OwnerAssociate implements SequenceOwner<SequenceOwnerImpl> {
      * Gets the ownerSequenceNumber attribute. 
      * @return Returns the ownerSequenceNumber.
      */
+    @Override
     public Integer getOwnerSequenceNumber() {
         return ownerSequenceNumber;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
+    @Override
     public SequenceOwnerImpl getSequenceOwner() {
         return owner;
     }
     
+    @Override
     public void incrementSequenceNumber() {
         this.sequenceNumber++;
     }
 
+    @Override
     public void resetPersistenceState() {
         this.ownerAssociateId = null;
     }

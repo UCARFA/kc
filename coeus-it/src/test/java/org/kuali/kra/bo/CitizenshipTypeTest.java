@@ -18,9 +18,6 @@
  */
 package org.kuali.kra.bo;
 
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

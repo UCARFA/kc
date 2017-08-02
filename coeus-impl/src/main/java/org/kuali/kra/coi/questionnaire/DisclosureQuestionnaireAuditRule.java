@@ -60,6 +60,7 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
 
     private boolean requestSubmission;
 
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         CoiDisclosure coiDisclosure = ((CoiDisclosureDocument) document).getCoiDisclosure();  
 
@@ -130,6 +131,7 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
         return isValid;
     }
     
+    @Override
     protected List<Integer> getIncompleteMandatoryQuestionnaire(CoiDisclosureDocument coiDisclosureDocument) {
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
         ModuleQuestionnaireBean moduleQuestionnaireBean = new DisclosureModuleQuestionnaireBean(coiDisclosure);
@@ -179,6 +181,7 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
      * Creates and adds the AuditCluster to the Global AuditErrorMap.
      */
 
+    @Override
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }

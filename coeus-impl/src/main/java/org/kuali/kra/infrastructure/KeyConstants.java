@@ -125,6 +125,7 @@ public final class KeyConstants {
     public static final String ERROR_ATTACHMENT_NOT_AUTHORIZED = "error.proposalAttachment.notAuthorized";
     public static final String ERROR_ATTACHMENT_STATUS_NOT_SELECTED = "error.proposalAttachment.narrativeStatus.notSelected";
     public static final String ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED = "error.proposalAttachment.description.required";
+    public static final String ERROR_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS = "error.proposalAttachment.description.illegalCharacters";
     public static final String ERROR_PROTOCOL_ATTACHMENT_PERSONNEL_INVALID_TYPE = "error.protocol.attachment.personnel.invalid.type";
     public static final String ERROR_PROTOCOL_ATTACHMENT_PERSONNEL_DUPLICATE_TYPE = "error.protocol.attachment.personnel.duplicate.type";
     public static final String ERROR_PROTOCOL_ATTACHMENT_PERSONNEL_INVALID_DESCRIPTION = "error.protocol.attachment.personnel.invalid.description";
@@ -965,7 +966,9 @@ public final class KeyConstants {
     public static final String ERROR_ORGANIZATION_QUESTIONYNQ_EXPLANATION_REQUIRED = "error.organization.questionYnq.explanationRequired";
     public static final String ERROR_ORGANIZATION_QUESTIONYNQ_DATE_REQUIRED = "error.organization.questionYnq.reviewDateRequired";
     public static final String ERROR_INVALID_ROLODEX_ENTRY = "error.organization.rolodexEntry.invalid";
-    
+    public static final String ERROR_INVALID_AGENCY_NAME_REQUIRED = "error.organization.idc.agency.name.required";
+    public static final String ERROR_INVALID_AGENCY_NAME_NOT_ALLOWED = "error.organization.idc.agency.name.not.allowed";
+
     public static final String ERROR_AWARD_BASIS_EXIST = "error.awardBasis.exist";
     public static final String ERROR_PERIOD_COST_LIMIT_EXCEED_OBLIGATED_TOTAL = "error.period.costlimit.exceed.obligatedtotal";
     public static final String ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET = "error.protocol.correspondence.template.not.set";
@@ -1158,7 +1161,6 @@ public final class KeyConstants {
     public static final String INVALID_SOURCE_ACCOUNT = "error.budget.distribution.costShare.sourceAccount.invalid";
     public static final String INVALID_SOURCE_ACCOUNT_COST_SHARE_TYPE = "error.budget.distribution.costShare.costShareType.sourceAccount.invalid";
 
-    public static final String ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING = "error.budget.distribution.sourceMissing";
     public static final String ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE = "error.format.org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern.allowUnderscore.allowDash.allowWhitespace";
     public static final String ALPHA_NUMERIC_ALLOW_UNDERSCORE_DASH_WHITESPACE_PERIOD = "error.format.org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern.allowUnderscore.allowDash.allowWhitespace.allowPeriod";
     public static final String QUESTION_DELETE_FNA = "document.question.deleteFandA.text";

@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.coeus</groupId>
     <artifactId>coeus</artifactId>
-    <version>1705.0034-SNAPSHOT</version>
+    <version>1708.0005-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Kuali Coeus</name>
     <description>
@@ -63,8 +63,8 @@
         <bouncycastle.version>1.57</bouncycastle.version>
         <cas-client-core.version>3.4.1</cas-client-core.version>
         <cglib.version>3.2.5</cglib.version>
-        <coeus-api-all.version>1705.0002</coeus-api-all.version>
-        <coeus-s2sgen.version>1705.0008</coeus-s2sgen.version>
+        <coeus-api-all.version>1706.0001</coeus-api-all.version>
+        <coeus-s2sgen.version>1708.0001</coeus-s2sgen.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -81,7 +81,7 @@
         <cxf.version>2.7.18</cxf.version>
         <db-ojb.version>1.0.4-patch9</db-ojb.version>
         <displaytag.version>1.2</displaytag.version>
-        <drools.version>6.5.0.Final</drools.version>
+        <drools.version>7.0.0.Final</drools.version>
         <dwr.version>3.0.2-RELEASE</dwr.version>
         <ecj.version>4.6.1</ecj.version>
         <ehcache.version>2.6.11</ehcache.version>
@@ -97,16 +97,18 @@
         <javax.mail.version>1.5.6</javax.mail.version>
         <javax.persistence.version>2.1.0</javax.persistence.version>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
-        <jmock.version>2.8.2</jmock.version>
+        <jose4j.version>0.5.8</jose4j.version>
+        <jmock.version>2.8.3</jmock.version>
         <joda-time.version>2.9.9</joda-time.version>
         <joda-time-jsptags.version>1.1.1</joda-time-jsptags.version>
         <jsp.version>2.2.1</jsp.version>
+        <jsoup.version>1.10.3</jsoup.version>
         <jstl.version>1.2.1</jstl.version>
         <jstl.impl.version>1.2.4</jstl.impl.version>
         <junit.version>4.12</junit.version>
         <kuali-cm.version>1.2.8</kuali-cm.version>
         <log4j.version>1.2.17</log4j.version>
-        <mockito.version>2.8.9</mockito.version>
+        <mockito.version>2.8.47</mockito.version>
         <moo-mvel.version>2.0</moo-mvel.version>
         <mysql.groupId>mysql</mysql.groupId>
         <mysql.artifactId>mysql-connector-java</mysql.artifactId>
@@ -121,10 +123,10 @@
         <org.eclipse.birt.runtime.version>4.4.2</org.eclipse.birt.runtime.version>
         <!-- do not update due to incompatibility with tomcat 7.0.57.  Newer versions of tomcat are not incompatible -->
         <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
-        <pdfbox.version>2.0.5</pdfbox.version>
+        <pdfbox.version>2.0.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
         <schemaspy.version>1611.0001</schemaspy.version>
-        <rice.version>2.5.3.1705.0004-kualico</rice.version>
+        <rice.version>2.5.3.1707.0002-kualico</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.25</slf4j.version>
         <spring.version>3.2.18.RELEASE</spring.version>
@@ -519,19 +521,8 @@
 
             <dependency>
                 <groupId>cglib</groupId>
-                <artifactId>cglib</artifactId>
+                <artifactId>cglib-nodep</artifactId>
                 <version>${cglib.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.ow2.asm</groupId>
-                        <artifactId>asm</artifactId>
-                    </exclusion>
-
-                    <exclusion>
-                        <groupId>org.ow2.asm</groupId>
-                        <artifactId>asm-util</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
@@ -1384,7 +1375,7 @@
                 <exclusions>
                     <exclusion>
                         <groupId>cglib</groupId>
-                        <artifactId>cglib-nodep</artifactId>
+                        <artifactId>cglib</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>org.ow2.asm</groupId>
@@ -1401,7 +1392,7 @@
                 <exclusions>
                     <exclusion>
                         <groupId>cglib</groupId>
-                        <artifactId>cglib-nodep</artifactId>
+                        <artifactId>cglib</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -1486,10 +1477,6 @@
                     <exclusion>
                         <groupId>org.eclipse.persistence</groupId>
                         <artifactId>org.eclipse.persistence.oracle</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>cglib</groupId>
-                        <artifactId>cglib-nodep</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -1611,10 +1598,6 @@
                         <groupId>org.eclipse.persistence</groupId>
                         <artifactId>org.eclipse.persistence.oracle</artifactId>
                     </exclusion>
-                    <exclusion>
-                        <groupId>cglib</groupId>
-                        <artifactId>cglib-nodep</artifactId>
-                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1635,10 +1618,6 @@
                         <groupId>org.apache.velocity</groupId>
                         <artifactId>velocity</artifactId>
                     </exclusion>
-                    <exclusion>
-                        <groupId>cglib</groupId>
-                        <artifactId>cglib-nodep</artifactId>
-                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1646,24 +1625,12 @@
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-ksb-web</artifactId>
                 <version>${rice.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>cglib</groupId>
-                        <artifactId>cglib-nodep</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-legacy-web</artifactId>
                 <version>${rice.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>cglib</groupId>
-                        <artifactId>cglib-nodep</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
@@ -1881,6 +1848,11 @@
                 </exclusions>
             </dependency>
 
+            <dependency>
+                <groupId>org.bitbucket.b_c</groupId>
+                <artifactId>jose4j</artifactId>
+                <version>${jose4j.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -1898,7 +1870,7 @@
                 <build.spring.profiles.active>grm</build.spring.profiles.active>
 
                 <rsmart.cx.token.auth.version>1507.1</rsmart.cx.token.auth.version>
-                <rsmart.hr.rest.version>1705.0005</rsmart.hr.rest.version>
+                <rsmart.hr.rest.version>1707.0004</rsmart.hr.rest.version>
                 <kc-s3.version>1705.0001</kc-s3.version>
                 <kc-sql.version>1705.0001</kc-sql.version>
 
@@ -2175,9 +2147,6 @@
                                                     <!-- excluding all slf4j -->
                                                     <exclude>org.slf4j</exclude>
 
-                                                    <!-- already including cglib -->
-                                                    <exclude>cglib:cglib-nodep</exclude>
-
                                                     <!-- excluding old jstl implementations which can cause hard-to-detect errors -->
                                                     <exclude>taglibs:standard</exclude>
                                                     <exclude>javax.servlet:jstl</exclude>
@@ -2283,6 +2252,9 @@
                                                     <exclude>commons-fileupload:commons-fileupload</exclude>
                                                     <exclude>org.apache.ws.security:wss4j</exclude>
                                                     <exclude>asm:asm</exclude>
+                                                    <exclude>org.apache.ant</exclude>
+                                                    <!-- only include cglib-nodep -->
+                                                    <exclude>cglib:cglib</exclude>
                                                 </excludes>
 
                                                 <includes>
@@ -2380,7 +2352,7 @@
             </activation>
 
             <properties>
-                <error_prone_core.version>2.0.19</error_prone_core.version>
+                <error_prone_core.version>2.0.21</error_prone_core.version>
                 <plexus-compiler-javac.version>2.8.1</plexus-compiler-javac.version>
                 <plexus-compiler-javac-errorprone.version>2.8.1</plexus-compiler-javac-errorprone.version>
             </properties>

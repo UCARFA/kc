@@ -41,7 +41,8 @@ public class RolodexLookupableHelperServiceImpl extends KcKualiLookupableHelperS
     private static final String IS_SPONSOR_ADDRESS = "isSponsorAddress";
     private static final String SPONSOR_NAME = "sponsor.sponsorName";
 
-	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+	@Override
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
 		if(businessObject instanceof Rolodex) {
 			Rolodex rolodex = (Rolodex)businessObject;

@@ -149,6 +149,7 @@ public class ProtocolPersonRolodex extends ProtocolPersonRolodexBase {
         this.eraCommonsUserName = eraCommonsUserName;
     }
 
+    @Override
     public String getFullName() {
         return super.getFullName();
     }

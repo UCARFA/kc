@@ -44,7 +44,6 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.data.CompoundKey;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -313,10 +312,12 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
 		this.dataObjectService = dataObjectService;
 	}
     
-	public void refreshBudgetPerson(BudgetPerson budgetPerson) {
+	@Override
+    public void refreshBudgetPerson(BudgetPerson budgetPerson) {
 		refreshPersonAppointmentType(budgetPerson);
 	}
 	
+    @Override
     public PersonRolodex getBudgetPersonRolodex(Budget budget, BudgetPersonContract budgetPerson) {
         BudgetParent budgetParent = budget.getBudgetParent();
         PersonRolodex personRolodex = null;

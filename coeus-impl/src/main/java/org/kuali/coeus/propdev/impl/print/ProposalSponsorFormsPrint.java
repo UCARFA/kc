@@ -67,7 +67,8 @@ public class ProposalSponsorFormsPrint extends AbstractPrint {
 	@Qualifier("parameterService")
     private ParameterService parameterService;
 
-	public Map<String,Source> getXSLTemplateWithBookmarks() {
+	@Override
+    public Map<String,Source> getXSLTemplateWithBookmarks() {
 		Map<String,Source> sourceMap = new LinkedHashMap<>();
 		List<SponsorFormTemplate> printFormTemplates = (List<SponsorFormTemplate>)getReportParameters().get(ProposalDevelopmentPrintingServiceImpl.SELECTED_TEMPLATES);
 		for (SponsorFormTemplate sponsorFormTemplate : printFormTemplates) {

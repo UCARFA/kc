@@ -104,7 +104,8 @@ public abstract class DunningCampaignClientBase implements DunningCampaignClient
 		return parameterService;
 	}
 
-	public void setParameterService(ParameterService parameterService) {
+	@Override
+    public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
 	}
 

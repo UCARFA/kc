@@ -317,6 +317,7 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
      * Sets the hierarchyProposalNumber attribute value.
      * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
      */
+    @Override
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
@@ -334,6 +335,7 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
      * Sets the hiddenInHierarchy attribute value.
      * @param hiddenInHierarchy The hiddenInHierarchy to set.
      */
+    @Override
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }

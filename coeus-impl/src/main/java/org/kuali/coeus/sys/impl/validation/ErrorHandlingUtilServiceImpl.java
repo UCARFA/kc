@@ -64,7 +64,8 @@ public class ErrorHandlingUtilServiceImpl implements ErrorHandlingUtilService {
 		return resolveErrorKey(errorMessage.getErrorKey(), errorMessage.getMessageParameters());
 	}
 	
-	public String resolveErrorKey(String errorKey, String...params) {
+	@Override
+    public String resolveErrorKey(String errorKey, String...params) {
         String messageText = configurationService.getPropertyValueAsString(errorKey);
         for (int i = 0; i < params.length; i++) {
             messageText = StringUtils.replace(messageText, "{" + i + "}", params[i]);

@@ -38,6 +38,7 @@ public class IacucProtocolOnlineReview extends ProtocolOnlineReviewBase {
     private Date determinationReviewDateDue;
 
     
+    @Override
     public String getNamespace() {
         return "KC-IACUC";
     }

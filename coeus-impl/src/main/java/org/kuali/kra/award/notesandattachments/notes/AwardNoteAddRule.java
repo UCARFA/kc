@@ -37,6 +37,7 @@ public class AwardNoteAddRule extends KcTransactionalDocumentRuleBase implements
      * @param event
      * @return
      */
+    @Override
     public boolean processRules(AwardNoteAddEvent event) {
         boolean rulePassed = true;
         if (StringUtils.isBlank(event.getAwardNotepad().getNoteTopic())) {

@@ -47,10 +47,12 @@ public class ProposalPiTypeDerivedRoleTypeServiceImpl extends ProposalPersonDeri
 		requiredAttributes.add(KcKimAttributes.PROPOSAL);
 	}
 
+    @Override
     public ProposalPersonService getProposalPersonService() {
         return proposalPersonService;
     }
 
+    @Override
     public void setProposalPersonService(ProposalPersonService proposalPersonService) {
         this.proposalPersonService = proposalPersonService;
     }

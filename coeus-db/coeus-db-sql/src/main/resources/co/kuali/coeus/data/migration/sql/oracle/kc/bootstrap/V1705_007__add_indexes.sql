@@ -19,4 +19,4 @@
 
 create index ROLODEX_IDX on ROLODEX(SPONSOR_CODE);
 create index EPS_PROP_RATES_BUDGET_IDX on EPS_PROP_RATES(BUDGET_ID);
-create index budget_person_salary_details_IDX on budget_person_salary_details(PERSON_SEQUENCE_NUMBER, BUDGET_ID);
+create index budget_person_salary_dets_IDX on budget_person_salary_details(PERSON_SEQUENCE_NUMBER, BUDGET_ID);

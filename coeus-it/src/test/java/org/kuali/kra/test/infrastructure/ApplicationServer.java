@@ -131,6 +131,7 @@ public class ApplicationServer implements Lifecycle {
         return new ArrayList<>(relativeExtraResourceDirs);
     }
 
+    @Override
     public String toString() {
 	    return new ToStringBuilder(this).append("port", port)
 	                                    .append("contextName", contextName)

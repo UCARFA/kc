@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.address.EntityAddress;
 import org.kuali.rice.kim.api.identity.address.EntityAddressContract;
@@ -59,7 +60,7 @@ import java.util.Date;
 /**
  * Represents a person in KC.
  */
-public class KcPerson extends TransientBusinessObjectBase implements Contactable, KcPersonContract {
+public class KcPerson extends TransientBusinessObjectBase implements Contactable, KcPersonContract, Inactivatable {
 
     private static final long serialVersionUID = 1L;
 
@@ -333,8 +334,11 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     @Override
     public String getPriorName() {
         return selectSingleValue(this.entity.getNames(), new Selector<EntityNameContract, String>() {
+            @Override
             public String notFoundValue() { return ""; }
+            @Override
             public String select(EntityNameContract a) { return a.getLastName(); }
+            @Override
             public boolean shouldSelect(EntityNameContract a) { return "PRIOR".equals(a.getNameType().getName()) && a.getLastName() != null; }
         });
     }
@@ -359,8 +363,11 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     @Override
     public String getEmailAddress() {
         return selectSingleValue(this.getEntityType().getEmailAddresses(), new Selector<EntityEmailContract, String>() {
+            @Override
             public String notFoundValue() { return ""; }
+            @Override
             public String select(EntityEmailContract a) { return a.getEmailAddress(); }
+            @Override
             public boolean shouldSelect(EntityEmailContract a) { return a.isActive() && a.isDefaultValue() && a.getEmailAddress() != null; }
         });
     }
@@ -644,8 +651,11 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     @Override
     public String getCountryOfCitizenship() {
         return selectSingleValue(this.entity.getCitizenships(), new Selector<EntityCitizenshipContract, String>() {
+            @Override
             public String notFoundValue() { return ""; }
+            @Override
             public String select(EntityCitizenshipContract a) { return convert2DigitCountryCodeTo3Digit(a.getCountryCode()); }
+            @Override
             public boolean shouldSelect(EntityCitizenshipContract a) { return a.getCountryCode() != null; }
         });
     }
@@ -1017,8 +1027,11 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      */
     private String getPhoneNumber(final String type) {
         return selectSingleValue(this.getEntityType().getPhoneNumbers(), new Selector<EntityPhoneContract, String>() {
+            @Override
             public String notFoundValue() { return ""; }
+            @Override
             public String select(EntityPhoneContract a) { return a.getPhoneNumber(); }
+            @Override
             public boolean shouldSelect(EntityPhoneContract a) { return type.equals(a.getPhoneType().getCode()) && a.getPhoneNumber() != null; }
         });
     }
@@ -1034,8 +1047,11 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      */
     private String getPhoneNumber(final String type, final boolean isDefault) {
         return selectSingleValue(this.getEntityType().getPhoneNumbers(), new Selector<EntityPhoneContract, String>() {
+            @Override
             public String notFoundValue() { return ""; }
+            @Override
             public String select(EntityPhoneContract a) { return a.getPhoneNumber(); }
+            @Override
             public boolean shouldSelect(EntityPhoneContract a) { return type.equals(a.getPhoneType().getCode()) && isDefault == a.isDefaultValue() && a.getPhoneNumber() != null; }
         });
     }
@@ -1047,8 +1063,11 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      */
     private boolean hasAffiliation(final String affilTypeCode) {
         return selectSingleValue(this.entity.getAffiliations(), new Selector<EntityAffiliationContract, Boolean>() {
+            @Override
             public Boolean notFoundValue() { return Boolean.FALSE; }
+            @Override
             public Boolean select(EntityAffiliationContract a) { return Boolean.TRUE; }
+            @Override
             public boolean shouldSelect(EntityAffiliationContract a) { return affilTypeCode.equals(a.getAffiliationType().getCode()); }
         });
     }
@@ -1060,8 +1079,11 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      */
     private String getCampusCode(final boolean isDefault) {
         return selectSingleValue(this.entity.getAffiliations(), new Selector<EntityAffiliationContract, String>() {
+            @Override
             public String notFoundValue() { return ""; }
+            @Override
             public String select(EntityAffiliationContract a) { return a.getCampusCode(); }
+            @Override
             public boolean shouldSelect(EntityAffiliationContract a) { return isDefault == a.isDefaultValue(); }
         });
     }
@@ -1093,8 +1115,11 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      */
     private EntityAddressContract getDefaultActiveAddress() {
         return selectSingleValue(this.getEntityType().getAddresses(), new Selector<EntityAddressContract, EntityAddressContract>() {
+            @Override
             public EntityAddressContract notFoundValue() { return EntityAddress.Builder.create(); }
+            @Override
             public EntityAddressContract select(EntityAddressContract a) { return a; }
+            @Override
             public boolean shouldSelect(EntityAddressContract a) { return a.isActive() && a.isDefaultValue(); }
         });
     }
@@ -1143,27 +1168,22 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      */
     private PrincipalContract getPrincipal() {
         return selectSingleValue(this.entity.getPrincipals(), new Selector<PrincipalContract, PrincipalContract>() {
-            public PrincipalContract notFoundValue() { return null; } 
+            @Override
+            public PrincipalContract notFoundValue() { return null; }
+            @Override
             public PrincipalContract select(PrincipalContract a) { return a; }
+            @Override
             public boolean shouldSelect(PrincipalContract a) { return personId.equals(a.getPrincipalId()); }
         });
     }
-    
-    @Override()
-    public String toString(){
-        StringBuffer retVal = new StringBuffer(50);
-        retVal.append("getAddressLine1:'").append(this.getAddressLine1()).append("'\n");
-        retVal.append("getAddressLine2:'").append(this.getAddressLine2()).append("'\n");
-        retVal.append("getAddressLine3:'").append(this.getAddressLine3()).append("'\n");
-        retVal.append("city:'").append(this.getCity()).append("'\n");
-        retVal.append("org name:'").append(this.getContactOrganizationName()).append("'\n");
-        retVal.append("userName:'").append(this.getUserName()).append("'\n");
-        retVal.append("first name:'").append(this.getFirstName()).append("'\n");
-        retVal.append("last name:'").append(this.getLastName()).append("'\n");
-        retVal.append("full name:'").append(this.getFullName()).append("'\n");
-        retVal.append("personID:'").append(this.getPersonId()).append("'\n");
-        retVal.append("entity type:'").append(this.getEntityType()).append("'\n");
-        return retVal.toString();
+
+    @Override
+    public String toString() {
+        return "KcPerson{" +
+                "personId='" + personId + '\'' +
+                ", entity=" + entity +
+                ", extendedAttributes=" + extendedAttributes +
+                '}';
     }
 
     public void setIdentityService(IdentityService identityService) {

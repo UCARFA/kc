@@ -53,10 +53,12 @@ public class ProposalDevelopmentNotificationRoleQualifierServiceImpl implements 
         return roleQualifierValue;
     }
 
+    @Override
     public DevelopmentProposal getDevelopmentProposal() {
         return developmentProposal;
     }
     
+    @Override
     public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
         this.developmentProposal = developmentProposal;
     }

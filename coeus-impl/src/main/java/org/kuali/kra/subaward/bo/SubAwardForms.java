@@ -121,7 +121,8 @@ public class SubAwardForms extends KcPersistableBusinessObjectBase implements Pe
 	 * This is the Getter Method for attachmentContent
 	 * @return Returns the attachmentContent.
 	 */
-	public byte[] getAttachmentContent() {
+	@Override
+    public byte[] getAttachmentContent() {
 		return attachmentContent;
 	}
 
@@ -130,7 +131,8 @@ public class SubAwardForms extends KcPersistableBusinessObjectBase implements Pe
 	 * This is the Setter Method for attachmentContent
 	 * @param attachmentContent The attachmentContent to set.
 	 */
-	public void setAttachmentContent(byte[] attachmentContent) {
+	@Override
+    public void setAttachmentContent(byte[] attachmentContent) {
 		this.attachmentContent = attachmentContent;
 	}
 
@@ -139,7 +141,8 @@ public class SubAwardForms extends KcPersistableBusinessObjectBase implements Pe
 	 * This is the Getter Method for fileName
 	 * @return Returns the fileName.
 	 */
-	public String getFileName() {
+	@Override
+    public String getFileName() {
 		return fileName;
 	}
 
@@ -148,7 +151,8 @@ public class SubAwardForms extends KcPersistableBusinessObjectBase implements Pe
 	 * This is the Setter Method for fileName
 	 * @param fileName The fileName to set.
 	 */
-	public void setFileName(String fileName) {
+	@Override
+    public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 
@@ -157,7 +161,8 @@ public class SubAwardForms extends KcPersistableBusinessObjectBase implements Pe
 	 * This is the Getter Method for contentType
 	 * @return Returns the contentType.
 	 */
-	public String getContentType() {
+	@Override
+    public String getContentType() {
 		return contentType;
 	}
 
@@ -166,7 +171,8 @@ public class SubAwardForms extends KcPersistableBusinessObjectBase implements Pe
 	 * This is the Setter Method for contentType
 	 * @param contentType The contentType to set.
 	 */
-	public void setContentType(String contentType) {
+	@Override
+    public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
 

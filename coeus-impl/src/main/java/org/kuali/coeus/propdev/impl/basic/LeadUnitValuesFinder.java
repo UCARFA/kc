@@ -61,6 +61,7 @@ public class LeadUnitValuesFinder extends UifKeyValuesFinderBase {
         // the drop-down list in the web page.
         
         Collections.sort(userUnits, new Comparator() {
+            @Override
             public int compare(Object o1, Object o2) {
                 Unit unit1 = (Unit) o1;
                 Unit unit2 = (Unit) o2;

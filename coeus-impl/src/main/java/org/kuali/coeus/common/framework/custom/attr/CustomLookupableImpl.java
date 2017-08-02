@@ -53,6 +53,7 @@ public class CustomLookupableImpl extends KualiLookupableImpl {
      * lookupreturnvaluesfinder can't take advantage of that.
      * 
      */
+    @Override
     public boolean checkForAdditionalFields(Map fieldValues) {
         String lookupReturnFieldName = (String) fieldValues.get("lookupReturn");
         String lookupClassName = (String) fieldValues.get("lookupClass");

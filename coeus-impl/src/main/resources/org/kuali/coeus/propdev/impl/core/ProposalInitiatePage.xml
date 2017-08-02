@@ -23,7 +23,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="PropDev-InitiatePage" parent="PropDev-InitiatePage-parentBean" />
-	<bean id="PropDev-InitiatePage-parentBean" parent="Uif-DocumentPage"
+	<bean id="PropDev-InitiatePage-parentBean" abstract="true" parent="Uif-DocumentPage"
 		p:header.headerText="Create Proposal">
 		<property name="items">
 			<list merge="false">

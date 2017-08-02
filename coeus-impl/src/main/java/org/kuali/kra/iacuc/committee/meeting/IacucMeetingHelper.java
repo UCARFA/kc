@@ -88,6 +88,7 @@ public class IacucMeetingHelper extends MeetingHelperBase {
         return new IacucCommitteeScheduleTask(taskName, (IacucCommittee) committee, (IacucCommitteeSchedule) committeeSchedule);
     }
     
+    @Override
     public boolean isAdmin() {
         return getSystemAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
     }

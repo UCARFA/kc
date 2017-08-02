@@ -141,6 +141,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
         return antDistributableAmount;
     }
     
+    @Override
     public String getAwardNumber() {
         return super.getAwardNumber();
     }

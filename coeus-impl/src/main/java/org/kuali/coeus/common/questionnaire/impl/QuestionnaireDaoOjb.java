@@ -20,8 +20,6 @@
 package org.kuali.coeus.common.questionnaire.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -51,6 +49,7 @@ public class QuestionnaireDaoOjb extends PlatformAwareDaoBaseOjb implements Ques
         return sequenceNumber;
     }
 
+    @Override
     public List<AnswerHeader> getQuestionnaireAnswers(String moduleCode, String moduleItemKey, String moduleSubItemKey) {
         String certificationModuleItemKey = moduleItemKey + "|%";
         Criteria certificationCriteria = new Criteria();

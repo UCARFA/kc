@@ -46,6 +46,7 @@ public class SubAwardReports extends SubAwardAssociate implements Comparable<Sub
      * Gets the subAwardId attribute. 
      * @return Returns the subAwardId.
      */
+    @Override
     public Long getSubAwardId() {
         return subAwardId;
     }
@@ -54,6 +55,7 @@ public class SubAwardReports extends SubAwardAssociate implements Comparable<Sub
      * Sets the subAwardId attribute value.
      * @param subAwardId The subAwardId to set.
      */
+    @Override
     public void setSubAwardId(Long subAwardId) {
         this.subAwardId = subAwardId;
     }
@@ -61,6 +63,7 @@ public class SubAwardReports extends SubAwardAssociate implements Comparable<Sub
      * Gets the subAwardCode attribute. 
      * @return Returns the subAwardCode.
      */
+    @Override
     public String getSubAwardCode() {
         return subAwardCode;
     }
@@ -68,6 +71,7 @@ public class SubAwardReports extends SubAwardAssociate implements Comparable<Sub
      * Sets the subAwardCode attribute value.
      * @param subAwardCode The subAwardCode to set.
      */
+    @Override
     public void setSubAwardCode(String subAwardCode) {
         this.subAwardCode = subAwardCode;
     }
@@ -92,6 +96,7 @@ public class SubAwardReports extends SubAwardAssociate implements Comparable<Sub
      * Gets the sequenceNumber attribute. 
      * @return Returns the sequenceNumber.
      */
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -99,6 +104,7 @@ public class SubAwardReports extends SubAwardAssociate implements Comparable<Sub
      * Sets the sequenceNumber attribute value.
      * @param sequenceNumber The sequenceNumber to set.
      */
+    @Override
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }

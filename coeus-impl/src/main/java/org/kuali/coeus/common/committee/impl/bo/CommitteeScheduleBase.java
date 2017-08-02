@@ -453,6 +453,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
      * @param other The CommitteeScheduleBase to be compared.
      * @return the result of comparing this <code>scheduledDate</code> to the other <code>scheduledDate</code>
      */
+    @Override
     public int compareTo(CS other) {
         int compareResult;
         
@@ -472,6 +473,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
         return compareResult;
     }
     
+    @Override
     public void resetPersistenceState() {
         setId(null);
     }
@@ -560,27 +562,33 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
     }
 
     //Permissionable interface
+    @Override
     public String getDocumentKey() {
         return PermissionableKeys.COMMITTEE_SCHEDULE_KEY;
     }
 
+    @Override
     public String getDocumentNumberForPermission() {
         return getScheduleId();
     }
 
+    @Override
     public String getDocumentRoleTypeCode() {
         return null;
     }
 
+    @Override
     public String getLeadUnitNumber() {
 
         return null;
     }
 
+    @Override
     public String getNamespace() {
         return getParentCommittee() != null ? getParentCommittee().getNamespace() : null;
     }
 
+    @Override
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
         roleNames.add(RoleConstants.IRB_ADMINISTRATOR);
@@ -588,6 +596,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
         return roleNames;
     }
 
+    @Override
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         qualifiedRoleAttributes.put(KcKimAttributes.COMMITTEE, getParentCommittee().getCommitteeId());
         qualifiedRoleAttributes.put(KcKimAttributes.COMMITTEESCHEDULE, this.getScheduleId());

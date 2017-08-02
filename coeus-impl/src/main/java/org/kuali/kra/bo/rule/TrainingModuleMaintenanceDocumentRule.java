@@ -19,10 +19,12 @@ public class TrainingModuleMaintenanceDocumentRule extends KcMaintenanceDocument
         super();
     }
 
+    @Override
     public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         return canRecordBeAdded(document);
     }
 
+    @Override
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return canRecordBeAdded(document);
     }

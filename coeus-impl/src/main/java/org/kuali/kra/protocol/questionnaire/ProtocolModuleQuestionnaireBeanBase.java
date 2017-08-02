@@ -58,6 +58,7 @@ public abstract class ProtocolModuleQuestionnaireBeanBase extends ModuleQuestion
         setModuleSubItemCode(subModuleCode);
     }
     
+    @Override
     public boolean equals(Object o) {
         boolean retVal = false;
         if( (o != null) && (o instanceof ProtocolModuleQuestionnaireBeanBase) ) {

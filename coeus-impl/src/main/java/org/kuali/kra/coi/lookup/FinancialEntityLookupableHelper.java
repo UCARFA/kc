@@ -61,6 +61,7 @@ public class FinancialEntityLookupableHelper extends KraLookupableHelperServiceI
      * @param businessObject
      * @return
      */
+    @Override
     protected AnchorHtmlData getEditLink(BusinessObject businessObject) {
         PersonFinIntDisclosure financialEntity = (PersonFinIntDisclosure) businessObject;
         Properties parameters = new Properties();

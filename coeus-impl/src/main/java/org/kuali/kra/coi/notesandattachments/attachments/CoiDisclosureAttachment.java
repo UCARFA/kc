@@ -199,9 +199,11 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     public void setUpdateUserFullName(String updateUserFullName) {
         this.updateUserFullName = updateUserFullName;
     }
+    @Override
     public Long getCoiDisclosureId() {
         return coiDisclosureId;
     }
+    @Override
     public void setCoiDisclosureId(Long coiDisclosureId) {
         this.coiDisclosureId = coiDisclosureId;
     }
@@ -242,6 +244,7 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
         coiDisclosureAttachments.add(coiDisclosureAttachment);
         
     }
+    @Override
     public void setUpdateUser(String updateUser) {
         if (updateUser == null || getUpdateUser() == null  ) {
         super.setUpdateUser(updateUser);
@@ -351,6 +354,7 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
         return updatedByString;
     }
     
+    @Override
     protected void postRemove() {
         //if there aren't another other attachments to the actual file, then delete.
         Map<String, Object> values = new HashMap<String, Object>();

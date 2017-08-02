@@ -92,6 +92,7 @@ public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBas
      *
      * @return the value of credit
      */
+    @Override
     public ScaleTwoDecimal getCredit() {
         return this.credit != null ? this.credit : new ScaleTwoDecimal(0);
     }
@@ -101,6 +102,7 @@ public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBas
      *
      * @return the value of invCreditTypeCode
      */
+    @Override
     public String getInvCreditTypeCode() {
         refreshInvestigatorCreditTypeIfNeeded();
         return invCreditTypeCode;
@@ -145,6 +147,7 @@ public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBas
      *
      * @param argCredit Value to assign to this.credit
      */
+    @Override
     public void setCredit(ScaleTwoDecimal argCredit) {
         this.credit = argCredit;
     }
@@ -154,6 +157,7 @@ public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBas
      *
      * @param argInvCreditTypeCode Value to assign to this.invCreditTypeCode
      */
+    @Override
     public void setInvCreditTypeCode(String argInvCreditTypeCode) {
         this.invCreditTypeCode = argInvCreditTypeCode;
     }
@@ -183,20 +187,24 @@ public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBas
         }
     }
 
+    @Override
     public Award getSequenceOwner() {
         return awardPerson != null ? awardPerson.getAward() : null;
     }
 
+    @Override
     public void setSequenceOwner(Award newlyVersionedOwner) {
         if (awardPerson != null) {
             awardPerson.setAward(newlyVersionedOwner);
         }
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return awardPerson != null ? awardPerson.getSequenceNumber() : 0;
     }
 
+    @Override
     public void resetPersistenceState() {
         awardPersonCreditSplitId = null;
     }

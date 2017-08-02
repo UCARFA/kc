@@ -40,6 +40,7 @@ public class CommitteeActionFilterBatchCorrespondenceHistoryRule extends KcTrans
      * @param event the CommitteeActionFilterBatchCorrespondenceHistoryEvent
      * @return <code>true</code> if all validation rules are passed, <code>false</code> otherwise
      */
+    @Override
     public boolean processRules(CommitteeActionFilterBatchCorrespondenceHistoryEvent event) {
         boolean rulePassed = true;
         

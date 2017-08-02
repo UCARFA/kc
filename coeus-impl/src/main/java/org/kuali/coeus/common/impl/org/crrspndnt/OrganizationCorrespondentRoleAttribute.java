@@ -41,6 +41,7 @@ public class OrganizationCorrespondentRoleAttribute extends GenericRoleAttribute
     private static final String ROLE_NAME = "OrganizationCorrespondent";
     private static final String ORGANIZATION_ID = "organizationId";
 
+    @Override
     public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
         List<String> qualifiedRoleNames = new ArrayList<String>();
         qualifiedRoleNames.add(ROLE_NAME);
@@ -48,6 +49,7 @@ public class OrganizationCorrespondentRoleAttribute extends GenericRoleAttribute
         return qualifiedRoleNames;
     }
 
+    @Override
     public List<RoleName> getRoleNames() {
         RoleName role = RoleName.Builder.create(OrganizationCorrespondentRoleAttribute.class.getName(), ROLE_NAME, ROLE_NAME).build();
         return Collections.singletonList(role);

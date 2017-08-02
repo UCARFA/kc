@@ -35,6 +35,7 @@ public class AddDisclosureReporterUnitRuleTest {
             @Override
             protected void prerequisite() {
                 FinancialEntityReporterUnit financialEntityReporterUnit = new FinancialEntityReporterUnit() {
+                    @Override
                     public Unit getUnit() {
                         Unit unit = new Unit();
                         unit.setUnitNumber(this.getUnitNumber());
@@ -80,6 +81,7 @@ public class AddDisclosureReporterUnitRuleTest {
             @Override
             protected void prerequisite() {
                 FinancialEntityReporterUnit financialEntityReporterUnit = new FinancialEntityReporterUnit() {
+                    @Override
                     public Unit getUnit() {
                         Unit unit = new Unit();
                         unit.setUnitNumber(this.getUnitNumber());
@@ -106,6 +108,7 @@ public class AddDisclosureReporterUnitRuleTest {
             @Override
             protected void prerequisite() {
                 DisclosurePersonUnit disclosurePersonUnit = new DisclosurePersonUnit() {
+                    @Override
                     public Unit getUnit() {
                         Unit unit = new Unit();
                         unit.setUnitNumber(this.getUnitNumber());

@@ -37,6 +37,7 @@ public class ProtocolParticipantServiceImpl implements ProtocolParticipantServic
      * @param protocol which contains list of ProtocolParticipant.
      * @param protocolParticipant which is added to ProtocolParticipants list after setting ParticipantType.
      */
+    @Override
     public void addProtocolParticipant(Protocol protocol, ProtocolParticipant protocolParticipant) {
         protocolParticipant.setProtocol(protocol);
         if (StringUtils.isBlank(protocolParticipant.getProtocolNumber())) {

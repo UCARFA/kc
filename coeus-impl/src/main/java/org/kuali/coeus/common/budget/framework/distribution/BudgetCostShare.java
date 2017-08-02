@@ -173,6 +173,7 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
         return sourceAccount;
     }
 
+    @Override
     public Integer getCostShareTypeCode() {
         return costShareTypeCode;
     }

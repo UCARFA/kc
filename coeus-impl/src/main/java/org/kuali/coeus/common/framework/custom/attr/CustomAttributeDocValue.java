@@ -82,10 +82,12 @@ public class CustomAttributeDocValue extends KcPersistableBusinessObjectBase imp
         return value;
     }
 
+    @Override
     public void setValue(String value) {
         this.value = value;
     }
 
+    @Override
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }

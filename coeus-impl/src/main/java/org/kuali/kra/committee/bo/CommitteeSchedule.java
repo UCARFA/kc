@@ -32,6 +32,7 @@ public class CommitteeSchedule extends CommitteeScheduleBase<CommitteeSchedule, 
     private Committee committee;
 
     
+    @Override
     public Committee getParentCommittee() {
         return this.getCommittee();
     }
@@ -43,7 +44,8 @@ public class CommitteeSchedule extends CommitteeScheduleBase<CommitteeSchedule, 
         return committee;
     }
     
-	public void setCommittee(Committee committee) {
+	@Override
+    public void setCommittee(Committee committee) {
 		this.committee = committee;
 	}
 

@@ -49,6 +49,7 @@ public abstract class ProtocolLocationEventBase extends KcDocumentEventBase impl
     /**
      * @return <code>{@link ProtocolLocationBase}</code> that triggered this event.
      */
+    @Override
     public ProtocolLocationBase getProtocolLocation() {
         return this.protocolLocation;
     }
@@ -56,6 +57,7 @@ public abstract class ProtocolLocationEventBase extends KcDocumentEventBase impl
     /**
      * Logs the event type and some information about the associated location
      */
+    @Override
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");

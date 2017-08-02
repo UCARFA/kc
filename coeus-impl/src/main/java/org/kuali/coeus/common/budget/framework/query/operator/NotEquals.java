@@ -49,6 +49,7 @@ public class NotEquals extends RelationalOperator {
      * @param baseBean BaseBean
      * @return true if the field of the BaseBean object is not equal to the Comparable object/boolean data, else returns false.
      */ 
+    @Override
     public boolean getResult(Object baseBean) {
         try{
             return compare(baseBean) != 0;
@@ -61,6 +62,7 @@ public class NotEquals extends RelationalOperator {
      * returns the inequality condition being checked using fieldName and fixedData
      * @return String - Inequality condition
      */ 
+    @Override
     public String toString() {
         if (! isBoolean) {
             return "( " + fieldName + " != " + fixedData + " )";

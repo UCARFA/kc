@@ -43,6 +43,9 @@
     </c:if>
     <li><portal:portalLink displayTitle="true" title="Monitoring" url="${ConfigProperties.application.url}/monitoring/jm" /></li>
     <li><portal:portalLink displayTitle="true" title="ActiveMQ Message Queue" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.coeus.sys.impl.mq.ActiveMqMessage&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
+    <li><portal:portalLink displayTitle="true" title="Serializable Session Attribute" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.coeus.sys.impl.session.ser.SerializableSessionAttribute&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
+    <li><portal:portalLink displayTitle="true" title="Serializable User Session Attribute" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.coeus.sys.impl.session.ser.SerializableUserSessionAttribute&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
+    <li><portal:portalLink displayTitle="true" title="Serializable KRAD Form" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.coeus.sys.impl.session.ser.SerializableKradForm&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   </ul>
 </div>
 <channel:portalChannelBottom />

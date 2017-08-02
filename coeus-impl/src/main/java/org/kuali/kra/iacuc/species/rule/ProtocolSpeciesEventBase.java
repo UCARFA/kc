@@ -38,6 +38,7 @@ public abstract class ProtocolSpeciesEventBase extends KcDocumentEventBase imple
     protected void logEvent() {
     }
     
+    @Override
     public IacucProtocolSpecies getProtocolSpecies() {
         return this.protocolSpecies;
     }

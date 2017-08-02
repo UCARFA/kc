@@ -187,6 +187,7 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
         this.dateTimeService = dateTimeService;
     }
     
+    @Override
     public void updateCloseoutDueDatesBeforeSave(Award award) {
         Map<String, Object> closeoutDueDates = new HashMap<String, Object>();                
         Date finalExpirationDate = award.getAwardAmountInfos().get(award.getIndexOfLastAwardAmountInfo()).getFinalExpirationDate();

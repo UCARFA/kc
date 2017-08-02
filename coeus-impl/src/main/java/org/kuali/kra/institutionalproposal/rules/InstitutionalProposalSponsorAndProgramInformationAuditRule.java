@@ -42,6 +42,7 @@ public class InstitutionalProposalSponsorAndProgramInformationAuditRule implemen
     private SponsorService sponsorService;
     private GlobalVariableService globalVariableService;
 
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         final List<AuditError> sponsorAuditWarnings = new ArrayList<>();

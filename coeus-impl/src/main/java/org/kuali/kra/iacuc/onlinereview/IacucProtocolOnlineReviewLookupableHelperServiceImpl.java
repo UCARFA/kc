@@ -54,6 +54,7 @@ public class IacucProtocolOnlineReviewLookupableHelperServiceImpl extends Protoc
         return IacucProtocolSubmissionStatus.ADMINISTRATIVELY_APPROVED;
     }
     
+    @Override
     protected List<ProtocolOnlineReviewBase> filterResults(List<ProtocolOnlineReviewBase> results) {
         List<ProtocolOnlineReviewBase> onlineReviews = CollectionUtils.createCorrectImplementationForCollection(results);
         //ensure that only pending submission statuses are shown for online reviews, i.e. do not show reviews assigned but not completed for approved protocols.

@@ -40,6 +40,7 @@ public class ReportTrackingPrint extends AwardReportTracking {
      * 
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
+    @Override
     public List<Source> getXSLTemplates() {
         sourceList = PrintingUtils
                 .getXSLTforReport(ReportTrackingType.AWARD_REPORT_TRACKING

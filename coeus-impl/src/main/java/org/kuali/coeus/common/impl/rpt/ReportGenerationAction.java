@@ -175,6 +175,7 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         return mapping.findForward(MAPPING_BASIC);
     }
     
+    @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.close(mapping, form, request, response);
     }

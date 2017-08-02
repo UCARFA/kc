@@ -3,6 +3,7 @@ package org.kuali.coeus.propdev.impl.s2s;
 
 import org.kuali.coeus.propdev.api.s2s.S2sFormConfigurationContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "S2S_FORM_CONFIG")
-public class S2sFormConfiguration extends KcPersistableBusinessObjectBase implements S2sFormConfigurationContract {
+public class S2sFormConfiguration extends KcPersistableBusinessObjectBase implements S2sFormConfigurationContract, MutableInactivatable {
 
     @PortableSequenceGenerator(name = "SEQ_S2S_FORM_CONFIG_ID")
     @GeneratedValue(generator = "SEQ_S2S_FORM_CONFIG_ID")
@@ -51,6 +52,7 @@ public class S2sFormConfiguration extends KcPersistableBusinessObjectBase implem
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

@@ -103,7 +103,7 @@
           p:promptText="Are you sure you want to link  this Hierarchy?"/>
 
 	<bean id="PropDev-HierarchyPage-HierarchyBudgetTypeField" parent="PropDev-HierarchyPage-HierarchyBudgetTypeField-parentBean" />
-     <bean id="PropDev-HierarchyPage-HierarchyBudgetTypeField-parentBean" parent="Uif-InputField" p:propertyName="hierarchyBudgetTypeCode"  p:required="true" 
+     <bean id="PropDev-HierarchyPage-HierarchyBudgetTypeField-parentBean" abstract="true" parent="Uif-InputField" p:propertyName="hierarchyBudgetTypeCode"  p:required="true"
      	p:optionsFinderClass="org.kuali.coeus.propdev.impl.hierarchy.HierarchyBudgetTypeValuesFinder" 
      	p:enableAutoQuickfinder="false"
      	p:label="Hierarchy Budget Type">

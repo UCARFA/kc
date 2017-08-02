@@ -34,6 +34,7 @@ public class NegotiationPersonDTO implements AbstractProjectPerson {
         this.roleCode = roleCode;
     }
 
+    @Override
     public KcPerson getPerson() {
         return person;
     }
@@ -42,6 +43,7 @@ public class NegotiationPersonDTO implements AbstractProjectPerson {
         this.person = person;
     }
 
+    @Override
     public String getRoleCode() {
         return roleCode;
     }

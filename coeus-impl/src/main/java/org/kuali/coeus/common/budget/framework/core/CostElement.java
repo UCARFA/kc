@@ -132,6 +132,7 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

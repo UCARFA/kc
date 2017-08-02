@@ -251,6 +251,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.comments = comments;
     }
 
+    @Override
     public int compareTo(AbstractBudget otherVersion) {
         return this.budgetVersionNumber.compareTo(otherVersion.getBudgetVersionNumber());
     }

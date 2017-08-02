@@ -59,6 +59,7 @@ public abstract class ResearchAreasFormBase extends KualiForm {
         this.researchAreas = researchAreas;
     }
 
+    @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         // FIXME : just a temporary soln. it always get the methodtocall='refresh' after it started properly the first time.
         // need to investigate this.

@@ -72,6 +72,7 @@ public abstract class AddProtocolFundingSourceEventBase extends ProtocolEventBas
         return fundingSource;
     }
 
+    @Override
     public abstract ProtocolFundingSourceRuleBase getRule();
 
     public List<ProtocolFundingSourceBase> getProtocolFundingSources() {

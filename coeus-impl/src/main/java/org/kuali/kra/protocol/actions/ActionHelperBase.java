@@ -1740,6 +1740,7 @@ public abstract class ActionHelperBase implements Serializable {
     public ProtocolActionBase getLastPerformedAction() {
         List<ProtocolActionBase> protocolActions = form.getProtocolDocument().getProtocol().getProtocolActions();
         Collections.sort(protocolActions, new Comparator<ProtocolActionBase>() {
+            @Override
             public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {
                 return action2.getActualActionDate().compareTo(action1.getActualActionDate());
             }
@@ -1788,6 +1789,7 @@ public abstract class ActionHelperBase implements Serializable {
         }
         
         Collections.sort(protocolActions, new Comparator<ProtocolActionBase>() {
+            @Override
             public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {
                 return action2.getActualActionDate().compareTo(action1.getActualActionDate());
             }

@@ -40,6 +40,7 @@ public class QuestionAuthorizationServiceImpl implements QuestionAuthorizationSe
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
+    @Override
     public boolean hasPermission(String permissionName) {
         KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
         return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-QUESTIONNAIRE", permissionName);

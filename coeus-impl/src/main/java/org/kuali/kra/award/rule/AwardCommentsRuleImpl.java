@@ -40,6 +40,7 @@ public class AwardCommentsRuleImpl extends KcTransactionalDocumentRuleBase imple
     private static final Integer MAX_COMMENT_LENGTH = 5000;
     private static String[] VALID_BASIS_METHOD_PAYMENT_FINDER_FIELDS = new String[] {"basisOfPaymentCode","methodOfPaymentCode"}; 
    
+    @Override
     public boolean processAwardCommentsBusinessRules(AwardCommentsRuleEvent awardCommentsRuleEvent) {
         boolean valid = true;
 

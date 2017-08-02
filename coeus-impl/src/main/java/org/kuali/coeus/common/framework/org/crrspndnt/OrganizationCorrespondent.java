@@ -50,10 +50,12 @@ public class OrganizationCorrespondent extends Correspondent {
         this.organization = organization;
     }
 
+    @Override
     public KcPerson getPerson() {
         return getKcPersonService().getKcPersonByPersonId(getPersonId());
     }
     
+    @Override
     public org.kuali.kra.irb.correspondence.CorrespondentType getCorrespondentType() {
         return (org.kuali.kra.irb.correspondence.CorrespondentType) correspondentType;
     }

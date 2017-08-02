@@ -19,7 +19,6 @@
 package org.kuali.coeus.common.impl.sponsor;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -31,9 +30,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-
-import java.util.regex.Pattern;
 
 /**
  * This class overrides the custom route and custom approve methods of the MaintenanceDocument processing to check the length of the
@@ -116,6 +112,7 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
         this.customerCreationClient = customerCreationClient;
     }
 
+    @Override
     public DataDictionaryService getDataDictionaryService() {
         if (this.dataDictionaryService == null) {
             this.dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);

@@ -21,6 +21,7 @@ package org.kuali.coeus.propdev.impl.core;
 import org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl;
 
 public class ProposalQueryCustomizer extends KcQueryCustomizerDefaultImpl {
+    @Override
     public void addAttribute(String name, String value) {
         super.addProposalSystemAttribute(name, value);
     }

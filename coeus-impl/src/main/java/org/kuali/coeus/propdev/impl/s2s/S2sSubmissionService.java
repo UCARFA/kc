@@ -22,7 +22,6 @@ import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListRespo
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
-import org.kuali.coeus.s2sgen.api.generate.FormGenerationResult;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,12 +52,9 @@ public interface S2sSubmissionService {
      * This method checks for the status of submission for the given
      * {@link ProposalDevelopmentDocument} on Grants.gov
      *
-     * @param pdDoc
-     *            for which status has to be checked
-     * @return boolean, <code>true</code> if status has changed, false
-     *         otherwise
+     * @param pdDoc for which status has to be checked
      */
-    boolean refreshGrantsGov(ProposalDevelopmentDocument pdDoc)
+    void refreshGrantsGov(ProposalDevelopmentDocument pdDoc)
             throws S2sCommunicationException;
 
     /**
@@ -67,9 +63,8 @@ public interface S2sSubmissionService {
      *
      * @param pdDoc
      *            Proposal Development Document.
-     * @return true if submitted false otherwise.
      */
-    FormGenerationResult submitApplication(ProposalDevelopmentDocument pdDoc)
+    void submitApplication(ProposalDevelopmentDocument pdDoc)
             throws S2sCommunicationException;
 
     /**

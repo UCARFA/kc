@@ -24,7 +24,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.infrastructure.Constants;
 
 @WebService(name = "sponsorWebService", targetNamespace = Constants.FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE)

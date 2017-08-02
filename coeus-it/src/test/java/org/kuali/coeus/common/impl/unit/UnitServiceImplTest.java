@@ -24,7 +24,6 @@ import org.junit.Test;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
-import org.kuali.coeus.common.impl.unit.UnitServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
@@ -35,8 +34,7 @@ import static org.junit.Assert.*;
 public class UnitServiceImplTest extends KcIntegrationTestBase {
     
     private UnitService unitService;
-    private UnitServiceImpl unitServiceImpl;
-    
+
     private static final String UNIVERSITY_UNIT_NUMBER = "000001";
     private static final String CARDIOLOGY_UNIT_NUMBER = "IN-CARD";
     private static final String BLOOMINGTON_UNIT_NUMBER_PROPER_CASE = "BL-BL";
@@ -46,14 +44,11 @@ public class UnitServiceImplTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
         unitService = KcServiceLocator.getService(UnitService.class);
-        unitServiceImpl = (UnitServiceImpl) KcServiceLocator.getService(UnitService.class);
-        
     }
 
     @After
     public void tearDown() throws Exception {
         unitService = null;
-        unitServiceImpl = null;
     }
 
     @Test
@@ -96,13 +91,8 @@ public class UnitServiceImplTest extends KcIntegrationTestBase {
     }
 
     @Test
-    public void testGetBusinessObjectService() {
-        assertNotNull(unitServiceImpl.getBusinessObjectService());
-    }
-
-    @Test
     public void testGetTopUnit() {
-        Unit unit = unitServiceImpl.getTopUnit();
+        Unit unit = unitService.getTopUnit();
         assertEquals(UNIVERSITY_UNIT_NUMBER, unit.getUnitNumber());
     }
 

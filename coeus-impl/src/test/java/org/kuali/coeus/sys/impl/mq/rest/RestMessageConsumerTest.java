@@ -24,7 +24,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.sys.framework.auth.AuthConstants;
+import org.kuali.coeus.sys.framework.auth.JwtService;
 import org.kuali.coeus.sys.framework.mq.MessageFactory;
 import org.kuali.coeus.sys.framework.mq.rest.HttpMethod;
 import org.kuali.coeus.sys.framework.mq.rest.RestRequest;
@@ -47,6 +47,7 @@ public class RestMessageConsumerTest {
     private ConfigurationService configurationService;
     private RestOperations restOperations;
     private RestMessageConsumer restMessageConsumer;
+    private JwtService jwtService;
 
     @Before
     public void setUp() throws Exception {
@@ -56,10 +57,11 @@ public class RestMessageConsumerTest {
         restOperations = context.mock(RestOperations.class);
         registry = context.mock(RestDestinationRegistry.class);
         configurationService = context.mock(ConfigurationService.class);
-
+        jwtService = context.mock(JwtService.class);
         restMessageConsumer.setConsumerRestOperations(restOperations);
         restMessageConsumer.setRestDestinationRegistry(registry);
         restMessageConsumer.setConfigurationService(configurationService);
+        restMessageConsumer.setJwtService(jwtService);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -104,7 +106,7 @@ public class RestMessageConsumerTest {
             {
                 oneOf(registry).findUrl("destination");
                 will(returnValue("http://www.google.com"));
-                oneOf(configurationService).getPropertyValueAsString(AuthConstants.AUTH_SYSTEM_TOKEN_PARAM);
+                oneOf(jwtService).createToken();
                 will(returnValue("top_secret_key"));
                 one(restOperations).exchange("http://www.google.com", org.springframework.http.HttpMethod.POST, HttpEntity.EMPTY, Void.class, Collections.emptyMap());
                 will(throwException(response));
@@ -123,7 +125,7 @@ public class RestMessageConsumerTest {
             {
                 oneOf(registry).findUrl("destination");
                 will(returnValue("http://www.google.com"));
-                oneOf(configurationService).getPropertyValueAsString(AuthConstants.AUTH_SYSTEM_TOKEN_PARAM);
+                oneOf(jwtService).createToken();
                 will(returnValue("top_secret_key"));
                 one(restOperations).exchange("http://www.google.com", org.springframework.http.HttpMethod.POST, HttpEntity.EMPTY, Void.class, Collections.emptyMap());
                 will(returnValue(response));

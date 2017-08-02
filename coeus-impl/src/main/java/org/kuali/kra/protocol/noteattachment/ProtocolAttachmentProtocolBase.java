@@ -24,18 +24,14 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-/**
- * This class represents the ProtocolBase Attachment ProtocolBase.
- */
-public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentBase {
+public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentBase implements MutableInactivatable {
 
     private static final long serialVersionUID = -7115904344245464654L;
 
@@ -81,120 +77,60 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
 
     private transient KcPersonService kcPersonService;
 
-    /**
-     * empty ctor to satisfy JavaBean convention.
-     */
     protected ProtocolAttachmentProtocolBase() {
         super();
         attachmentVersion = 1;
     }
 
-    /**
-     * Convenience ctor to add the protocol as an owner.
-     * 
-     * <p>
-     * This ctor does not validate any of the properties.
-     * </p>
-     * 
-     * @param protocol the protocol.
-     */
     protected ProtocolAttachmentProtocolBase(final ProtocolBase protocol) {
         super(protocol);
         attachmentVersion = 1;
     }
 
-    /**
-     * Gets the ProtocolBase Attachment ProtocolBase Status.
-     * @return the ProtocolBase Attachment ProtocolBase Status
-     */
     public ProtocolAttachmentStatusBase getStatus() {
         return this.status;
     }
 
-    /**
-     * Sets the ProtocolBase Attachment ProtocolBase Status.
-     * @param status the ProtocolBase Attachment ProtocolBase Status
-     */
     public void setStatus(ProtocolAttachmentStatusBase status) {
         this.status = status;
     }
 
-    /**
-     * Gets the ProtocolBase Attachment ProtocolBase Contact Name.
-     * @return the ProtocolBase Attachment ProtocolBase Contact Name
-     */
     public String getContactName() {
         return this.contactName;
     }
 
-    /**
-     * Sets the ProtocolBase Attachment ProtocolBase Contact Name.
-     * @param contactName the ProtocolBase Attachment ProtocolBase Contact Name
-     */
     public void setContactName(String contactName) {
         this.contactName = contactName;
     }
 
-    /**
-     * Gets the ProtocolBase Attachment ProtocolBase Contact Email Address.
-     * @return the ProtocolBase Attachment ProtocolBase Contact Email Address
-     */
     public String getContactEmailAddress() {
         return this.contactEmailAddress;
     }
 
-    /**
-     * Sets the ProtocolBase Attachment ProtocolBase Contact Email Address.
-     * @param contactEmailAddress the ProtocolBase Attachment ProtocolBase Contact Email Address
-     */
     public void setContactEmailAddress(String contactEmailAddress) {
         this.contactEmailAddress = contactEmailAddress;
     }
 
-    /**
-     * Gets the ProtocolBase Attachment ProtocolBase Contact Phone Number.
-     * @return the ProtocolBase Attachment ProtocolBase Contact Phone Number
-     */
     public String getContactPhoneNumber() {
         return this.contactPhoneNumber;
     }
 
-    /**
-     * Sets the ProtocolBase Attachment ProtocolBase Contact Phone Number.
-     * @param contactPhoneNumber the ProtocolBase Attachment ProtocolBase Contact Phone Number
-     */
     public void setContactPhoneNumber(String contactPhoneNumber) {
         this.contactPhoneNumber = contactPhoneNumber;
     }
 
-    /**
-     * Gets the ProtocolBase Attachment ProtocolBase Comments.
-     * @return the ProtocolBase Attachment ProtocolBase Comments
-     */
     public String getComments() {
         return this.comments;
     }
 
-    /**
-     * Sets the ProtocolBase Attachment ProtocolBase comments.
-     * @param comments the ProtocolBase Attachment ProtocolBase comments
-     */
     public void setComments(String comments) {
         this.comments = comments;
     }
 
-    /**
-     * Gets the status Code. 
-     * @return the status Code.
-     */
     public String getStatusCode() {
         return this.statusCode;
     }
 
-    /**
-     * Sets the status Code.
-     * @param statusCode the status Code.
-     */
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
@@ -235,13 +171,9 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
     @Override
     public abstract String getAttachmentDescription();
 
-    /**
-     * Gets the versions attribute. 
-     * @return Returns the versions.
-     */
     public List<ProtocolAttachmentProtocolBase> getVersions() {
         if (this.versions == null) {
-            this.versions = new ArrayList<ProtocolAttachmentProtocolBase>();
+            this.versions = new ArrayList<>();
         }
         this.versions.clear();
         // TODO : since this will be called by tag, so should not call service  
@@ -258,19 +190,10 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
         if (this.versions.size() == 1) {
             this.versions.clear();
         }
-        Collections.sort(this.versions, new Comparator<ProtocolAttachmentProtocolBase>() {
-
-            public int compare(ProtocolAttachmentProtocolBase attachment1, ProtocolAttachmentProtocolBase attachment2) {
-                return attachment2.getUpdateTimestamp().compareTo(attachment1.getUpdateTimestamp());
-            }
-        });
+        this.versions.sort((attachment1, attachment2) -> attachment2.getUpdateTimestamp().compareTo(attachment1.getUpdateTimestamp()));
         return this.versions;
     }
 
-    /**
-     * Sets the versions attribute value.
-     * @param versions The versions to set.
-     */
     public void setVersions(List<ProtocolAttachmentProtocolBase> versions) {
         this.versions = versions;
     }
@@ -374,32 +297,20 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
     /**
      * Contains all the property names in this class.
      */
-    public static enum PropertyName {
+    public enum PropertyName {
 
         COMMENTS("comments"), EMAIL("contactEmailAddress"), CONTACT_NAME("contactName"), PHONE("contactPhoneNumber"), STATUS_CODE("statusCode"), DOCUMENT_STATUS_CODE("documentStatusCode"), ATTACHMENT_VERSION("attachmentVersion"), CREATE_TIMESTAMP("createTimestamp");
 
         private final String name;
 
-        /**
-         * Sets the enum properties.
-         * @param name the name.
-         */
         PropertyName(final String name) {
             this.name = name;
         }
 
-        /**
-         * Gets the property name.
-         * @return the the property name.
-         */
         public String getPropertyName() {
             return this.name;
         }
 
-        /**
-         * Gets the {@link #getPropertyName() propertyName()}.
-         * @return {@link #getPropertyName() propertyName()}
-         */
         @Override
         public String toString() {
             return this.name;
@@ -414,10 +325,12 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
         this.documentStatusCode = documentStatusCode;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -486,11 +399,6 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
         return this.kcPersonService;
     }
 
-    /**
-     *
-     * This is ahelper method to get author person name
-     * @return
-     */
     public String getAuthorPersonName() {
         KcPerson person = this.getKcPersonService().getKcPersonByUserName(getUpdateUser());
         return ObjectUtils.isNull(person) ? "Person not found" : person.getFullName();

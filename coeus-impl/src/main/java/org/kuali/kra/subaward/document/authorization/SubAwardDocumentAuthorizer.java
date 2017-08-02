@@ -30,15 +30,11 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.util.KRADConstants;
 
-/**
- * This class is using as SubAwardDocumentAuthorizer...
- */
+
 public class SubAwardDocumentAuthorizer
 extends KcTransactionalDocumentAuthorizerBase {
 
@@ -49,6 +45,7 @@ extends KcTransactionalDocumentAuthorizerBase {
 	 * @param currentEditModes
 	 *  the currentEditmodes ...
 	 */
+    @Override
     public Set<String> getEditModes(
     Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
@@ -112,6 +109,7 @@ extends KcTransactionalDocumentAuthorizerBase {
      * @param user the Person
      * @return boolean
      */
+    @Override
     public boolean canOpen(Document document, Person user) {
         SubAwardDocument subAwardDocument = (SubAwardDocument) document;
         if (subAwardDocument.getSubAward().getSubAwardId() == null) {
@@ -133,6 +131,7 @@ extends KcTransactionalDocumentAuthorizerBase {
         return !((KcTransactionalDocumentBase)document).isViewOnly() && super.canBlanketApprove(document,user);
     }
     
+    @Override
     protected boolean isFinal(Document document) {
         return KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(
                 document.getDocumentHeader().getWorkflowDocument().getStatus().getCode());
@@ -159,6 +158,7 @@ extends KcTransactionalDocumentAuthorizerBase {
     public boolean canInitiate(String documentTypeName, Person user) {
         return canCreateSubAward(user.getPrincipalId());
     }
+    @Override
     public boolean canEdit(Document document, Person user) {
         return canExecuteSubAwardTask(user.getPrincipalId(),
         (SubAwardDocument) document, TaskName.MODIFY_SUBAWARD);

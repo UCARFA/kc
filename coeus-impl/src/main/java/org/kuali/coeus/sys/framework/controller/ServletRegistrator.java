@@ -23,8 +23,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.context.ServletContextAware;
 
 import javax.servlet.*;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

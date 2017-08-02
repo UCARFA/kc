@@ -23,7 +23,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="PropDev-SupplementalPage" parent="PropDev-SupplementalPage-parentBean" />
-    <bean id="PropDev-SupplementalPage-parentBean" parent="PropDev-DocumentPage">
+    <bean id="PropDev-SupplementalPage-parentBean" parent="PropDev-DocumentPage" abstract="true">
         <property name="items">
             <list>
                 <bean parent="PropDev-Supplemental-TabGroup"></bean>

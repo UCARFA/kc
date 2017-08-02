@@ -225,6 +225,7 @@ public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase impl
         return hierarchyProposalNumber;
     }
 
+    @Override
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
@@ -234,6 +235,7 @@ public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase impl
         return hiddenInHierarchy;
     }
 
+    @Override
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }

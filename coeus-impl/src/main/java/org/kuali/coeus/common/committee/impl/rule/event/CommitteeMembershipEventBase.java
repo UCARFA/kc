@@ -78,6 +78,7 @@ public abstract class CommitteeMembershipEventBase extends KcDocumentEventBase
      * 
      * @return <code>CommitteeMembershipBase</code>
      */
+    @Override
     public CommitteeMembershipBase getCommitteeMembership() {
         return this.committeeMembership;
     }
@@ -86,6 +87,7 @@ public abstract class CommitteeMembershipEventBase extends KcDocumentEventBase
      * 
      * Logs the event type and some information about the associated location.
      */
+    @Override
     protected void logEvent() {
         String className = StringUtils.substringAfterLast(this.getClass().getName(), ".");
         StringBuffer logMessage = new StringBuffer(className);

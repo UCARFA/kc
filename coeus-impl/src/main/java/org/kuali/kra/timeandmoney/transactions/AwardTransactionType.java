@@ -57,6 +57,7 @@ public class AwardTransactionType extends AwardAssociate {
         this.showInActionSummary = showInActionSummary;
     }
 
+    @Override
     public void resetPersistenceState() {
     }
 }

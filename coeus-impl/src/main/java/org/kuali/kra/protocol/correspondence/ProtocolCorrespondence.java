@@ -19,7 +19,6 @@
 package org.kuali.kra.protocol.correspondence;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -82,18 +81,22 @@ public class ProtocolCorrespondence extends ProtocolAssociateBase {
         this.id = id;
     }
 
+    @Override
     public String getProtocolNumber() {
         return protocolNumber;
     }
 
+    @Override
     public void setProtocolNumber(String protocolNumber) {
         this.protocolNumber = protocolNumber;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
+    @Override
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
@@ -106,10 +109,12 @@ public class ProtocolCorrespondence extends ProtocolAssociateBase {
         this.actionId = actionId;
     }
 
+    @Override
     public Long getProtocolId() {
         return protocolId;
     }
 
+    @Override
     public void setProtocolId(Long protocolId) {
         this.protocolId = protocolId;
     }
@@ -146,10 +151,12 @@ public class ProtocolCorrespondence extends ProtocolAssociateBase {
         return finalFlag;
     }
 
+    @Override
     public ProtocolBase getProtocol() {
         return protocol;
     }
 
+    @Override
     public void setProtocol(ProtocolBase protocol) {
         this.protocol = protocol;
     }

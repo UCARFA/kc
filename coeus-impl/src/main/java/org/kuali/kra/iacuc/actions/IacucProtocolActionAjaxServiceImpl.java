@@ -22,7 +22,6 @@ package org.kuali.kra.iacuc.actions;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionAjaxServiceImplBase;
@@ -38,6 +37,7 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
     
     public static final String DEFAULT_REVIEW_TYPE_PARAMETER_NAME = "IACUC_ALL_COMM_REVIEWERS_DEFAULT_ASSIGNED";
 
+    @Override
     public Class<? extends ProtocolBase> getProtocolClassHook() {
         return IacucProtocol.class;
     }
@@ -60,6 +60,7 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
         this.parameterService = parameterService;
     }
     
+    @Override
     public String getReviewers(String protocolId, String committeeId, String scheduleId) {
 
         /*
@@ -94,6 +95,7 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
         return clipLastChar(ajaxList);
     }
 
+    @Override
     public String getModifySubmissionProtocolReviewers(String protocolId, String committeeId, String scheduleId, String protocolReviewTypeCode) {
         return getRevs(protocolId, committeeId, scheduleId);
     }

@@ -39,7 +39,6 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class ProposalBudgetUnderrecoveryCalculationTest extends KcIntegrationTestBase {
 
@@ -57,18 +56,23 @@ public class ProposalBudgetUnderrecoveryCalculationTest extends KcIntegrationTes
         public LineItemCalculatorMock(Budget budget, BudgetLineItem bli) {
             super(budget, bli);
         }
+        @Override
         protected boolean isProposalParent() {
             return false;
         }
+        @Override
         protected boolean performSync() {
             return false;
         }
+        @Override
         protected String getActivityTypeCodeFromParent() {
             return "1";
         }
+        @Override
         protected boolean isProposalBudget() {
             return true;
         }
+        @Override
         protected BudgetCalculationService getBudgetCalculationService() {
             return new BudgetCalculationServiceImplMock();
         }
@@ -78,15 +82,19 @@ public class ProposalBudgetUnderrecoveryCalculationTest extends KcIntegrationTes
         public PersonnelLineItemCalculatorMock(Budget budget, BudgetLineItemBase bli) {
             super(budget, bli);
         }
+        @Override
         protected boolean isProposalParent() {
             return false;
         }
+        @Override
         protected boolean isPerformSync() {
             return true;
         }
+        @Override
         protected String getActivityTypeCodeFromParent() {
             return "1";
         }
+        @Override
         protected boolean isProposalBudget() {
             return true;
         }

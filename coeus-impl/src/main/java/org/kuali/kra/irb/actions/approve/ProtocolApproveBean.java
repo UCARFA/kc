@@ -53,26 +53,32 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean implements or
         protocolRiskLevelBean = new ProtocolRiskLevelBean(errorPropertyKey);
     }
     
+    @Override
     public Date getApprovalDate() {
         return approvalDate;
     }
     
+    @Override
     public void setApprovalDate(Date approvalDate) {
         this.approvalDate = approvalDate;
     }
     
+    @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
     
+    @Override
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
     
+    @Override
     public String getErrorPropertyKey() {
         return errorPropertyKey;
     }
        
+    @Override
     public ProtocolRiskLevelBean getProtocolRiskLevelBean() {
         return protocolRiskLevelBean;
     }
@@ -81,6 +87,7 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean implements or
         return defaultExpirationDateDifference;
     }
 
+    @Override
     public void setDefaultExpirationDateDifference(int defaultExpirationDateDifference) {
         this.defaultExpirationDateDifference = defaultExpirationDateDifference;
     }

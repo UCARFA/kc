@@ -53,7 +53,8 @@ public abstract class SubAwardAssociate extends KcPersistableBusinessObjectBase 
 	 * This is the Getter Method for sequenceNumber  
 	 * @return Returns the sequenceNumber.
 	 */
-	public Integer getSequenceNumber() {
+	@Override
+    public Integer getSequenceNumber() {
 		return sequenceNumber;
 	}
 

@@ -35,6 +35,7 @@ public abstract class BudgetAuthorizer extends TaskAuthorizerBase {
     private KcAuthorizationService kraAuthorizationService;
     private boolean requiresWritableDoc = false;
     
+    @Override
     public boolean isAuthorized(String userId, Task task) {
         BudgetTask budgetTask = (BudgetTask)task;
         if (isRequiresWritableDoc() && budgetTask.getBudget().isViewOnly()) {

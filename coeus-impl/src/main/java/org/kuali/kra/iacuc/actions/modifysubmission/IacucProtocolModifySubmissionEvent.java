@@ -49,10 +49,12 @@ public class IacucProtocolModifySubmissionEvent extends KcDocumentEventBase {
         LOG.debug(logMessage);
     }
 
+    @Override
     public Class<? extends BusinessRule> getRuleInterfaceClass() {
         return IacucProtocolModifySubmissionRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((IacucProtocolModifySubmissionRule) rule).processModifySubmissionRule((ProtocolDocumentBase) getDocument(), actionBean);
     }

@@ -33,6 +33,7 @@ public class CoiNotification extends KcNotification {
         super();
     }
 
+    @Override
     public void persistOwningObject(KcPersistableBusinessObjectBase object) {
         if (object instanceof CoiDisclosure) {
             CoiDisclosure disclosure = (CoiDisclosure)object;

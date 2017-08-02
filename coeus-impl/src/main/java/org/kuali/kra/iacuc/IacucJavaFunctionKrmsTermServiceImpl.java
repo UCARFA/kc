@@ -62,11 +62,13 @@ public class IacucJavaFunctionKrmsTermServiceImpl extends ProtocolJavaFunctionKr
     }
 
 
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

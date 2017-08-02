@@ -26,7 +26,7 @@
 	<!-- Proposal DeliveryInfo Page -->
 	<bean id="PropDev-DeliveryInfoPage" parent="PropDev-DeliveryInfoPage-parentBean"
 		p:header.headerText="Delivery Info" />
-	<bean id="PropDev-DeliveryInfoPage-parentBean" parent="PropDev-DocumentPage">
+	<bean id="PropDev-DeliveryInfoPage-parentBean" abstract="true" parent="PropDev-DocumentPage">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-DeliveryInfoPage-Section" p:order="10"/>

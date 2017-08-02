@@ -19,8 +19,9 @@
 package org.kuali.kra.iacuc;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class IacucPainCategory extends KcPersistableBusinessObjectBase implements Comparable {
+public class IacucPainCategory extends KcPersistableBusinessObjectBase implements Comparable, MutableInactivatable {
     
     private static final long serialVersionUID = 1L;
 
@@ -28,11 +29,6 @@ public class IacucPainCategory extends KcPersistableBusinessObjectBase implement
     private String painCategory; 
     private Integer painLevel;
     private boolean active;
-    
-    
-    public IacucPainCategory() { 
-
-    } 
     
     public Integer getPainCategoryCode() {
         return painCategoryCode;
@@ -58,10 +54,12 @@ public class IacucPainCategory extends KcPersistableBusinessObjectBase implement
         this.painLevel = painLevel;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

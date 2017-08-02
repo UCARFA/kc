@@ -1111,6 +1111,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         return Constants.MAPPING_BASIC;
     }
     
+    @Override
     public String performNotificationRendering(IacucProtocolForm protocolForm, List<ProtocolReviewerBeanBase> beans) {
         String returnPath = Constants.MAPPING_BASIC;
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();

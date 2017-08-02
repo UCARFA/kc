@@ -92,7 +92,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	@Qualifier("groupService")
 	private GroupService groupService;
 
-	@Value("#{{'admin', 'kc', 'kr', 'guest'}}")
+	@Value("#{{'kc', 'kr', 'guest'}}")
 	private List<String> ignoredUsers = new ArrayList<>();
 		
 	@Override

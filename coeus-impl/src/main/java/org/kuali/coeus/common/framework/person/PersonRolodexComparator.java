@@ -24,21 +24,17 @@ import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-/**
- * Used to order <code>{@link PersonRolodex}</code> instances by the role.
- */
 public class PersonRolodexComparator implements Comparator<PersonRolodex> {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(PersonRolodexComparator.class);
+
+    public static final Comparator<PersonRolodex> INSTANCE = new PersonRolodexComparator();
 
 
     /**
      * compare one <code>{@link PersonRolodex}</code> instance to another. Sort by the role of the
      *  <code>{@link PersonRolodex}</code>
-     * 
-     * @param person1
-     * @param person2
-     * @return int
      */
+    @Override
     public int compare(PersonRolodex person1, PersonRolodex person2) {
         int retval = 0;
                

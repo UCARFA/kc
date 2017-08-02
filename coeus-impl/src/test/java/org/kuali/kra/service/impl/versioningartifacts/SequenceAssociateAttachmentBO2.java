@@ -65,6 +65,7 @@ public class SequenceAssociateAttachmentBO2 implements SeparatelySequenceableAss
         this.name = name;
     }
     
+    @Override
     public void incrementSequenceNumber() {
         sequenceNumber++;   
      }

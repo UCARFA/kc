@@ -100,6 +100,8 @@ public abstract class NSFCoverPageLegacyBaseGeneratorTest extends NSFCoverPageBa
 
     }
 
+    @Override
     protected abstract String getFormName();
+    @Override
     protected abstract String getNamespace();
 }

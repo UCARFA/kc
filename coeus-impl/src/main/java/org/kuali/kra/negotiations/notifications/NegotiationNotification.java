@@ -32,6 +32,7 @@ public class NegotiationNotification extends KcNotification {
         super();
     }
 
+    @Override
     public void persistOwningObject(KcPersistableBusinessObjectBase object) {
         Negotiation negotiation = (Negotiation)object;
         this.setOwningDocumentIdFk(negotiation.getNegotiationId());

@@ -649,6 +649,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
                 CreditSplitConstants.ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY);
     }
 
+    public boolean isDataValidationSectionEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                Constants.SHOW_SECTION_IN_DATA_VALIDATION);
+    }
+
     public void populateCreditSplits(ProposalDevelopmentDocumentForm form) {
         getKeyPersonnelService().populateCreditSplit(form.getProposalDevelopmentDocument());
         form.setCreditSplitListItems(getKeyPersonnelService().createCreditSplitListItems(form.getProposalDevelopmentDocument()));

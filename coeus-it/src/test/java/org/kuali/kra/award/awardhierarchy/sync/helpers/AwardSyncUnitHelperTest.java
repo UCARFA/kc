@@ -40,6 +40,7 @@ public class AwardSyncUnitHelperTest extends AwardSyncPersonHelperTest {
         super("AwardPersonUnit");
     }
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -50,11 +51,13 @@ public class AwardSyncUnitHelperTest extends AwardSyncPersonHelperTest {
         award.setLeadUnit(leadUnit);
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         super.setUp();
     }
     
+    @Override
     @Test
     public void testBuildXmlExport() throws Exception {
         AwardSyncXmlExport xmlExport = awardSyncHelper.buildXmlExport(unit, null);
@@ -66,6 +69,7 @@ public class AwardSyncUnitHelperTest extends AwardSyncPersonHelperTest {
         assertEquals(unit.isLeadUnit(), unitExport.getValues().get("leadUnit"));
     }
     
+    @Override
     @Test
     public void testCreateAwardSyncChange() throws Exception {
         AwardSyncChange change = 
@@ -74,6 +78,7 @@ public class AwardSyncUnitHelperTest extends AwardSyncPersonHelperTest {
         assertNotNull(change.getXmlExport());
     }
     
+    @Override
     @Test
     public void testApplySyncChange() throws Exception {
         AwardSyncChange change = 

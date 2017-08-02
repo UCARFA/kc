@@ -43,18 +43,22 @@ public class CommitteeNotificationRoleQualifierServiceImpl implements CommonComm
         return qVal;
     }
 
+    @Override
     public CommitteeBase getCommittee() {
         return committee;
     }
 
+    @Override
     public void setCommittee(CommitteeBase committee) {
         this.committee = committee;
     }
 
+    @Override
     public CommitteeScheduleBase getCommitteeSchedule() {
         return committeeSchedule;
     }
 
+    @Override
     public void setCommitteeSchedule(CommitteeScheduleBase committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }

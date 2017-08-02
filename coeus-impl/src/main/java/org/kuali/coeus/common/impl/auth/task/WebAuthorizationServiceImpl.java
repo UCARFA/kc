@@ -62,6 +62,7 @@ public class WebAuthorizationServiceImpl implements WebAuthorizationService, Ini
      * @see org.kuali.coeus.common.framework.auth.task.WebAuthorizationService#isAuthorized(java.lang.String, java.lang.Class, java.lang.String,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
      */
+    @Override
     public boolean isAuthorized(String userId, Class actionClass, String methodName, ActionForm form, HttpServletRequest request) {
         boolean isAuthorized = true;
         

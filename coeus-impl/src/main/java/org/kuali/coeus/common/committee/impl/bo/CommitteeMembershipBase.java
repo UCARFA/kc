@@ -24,18 +24,14 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- * This class implements the committee membership business object.
- * 
- */
-public abstract class CommitteeMembershipBase extends CommitteeAssociateBase {
+public abstract class CommitteeMembershipBase extends CommitteeAssociateBase implements Inactivatable {
 
     private static final long serialVersionUID = 3036751811459612428L;
 
@@ -82,8 +78,8 @@ public abstract class CommitteeMembershipBase extends CommitteeAssociateBase {
     private transient KcPerson kcPerson;
 
     public CommitteeMembershipBase() {
-        setMembershipRoles(new ArrayList<CommitteeMembershipRole>());
-        setMembershipExpertise(new ArrayList<CommitteeMembershipExpertiseBase>());
+        setMembershipRoles(new ArrayList<>());
+        setMembershipExpertise(new ArrayList<>());
     }
 
     public Long getCommitteeMembershipId() {
@@ -233,10 +229,6 @@ public abstract class CommitteeMembershipBase extends CommitteeAssociateBase {
         return kcPerson;
     }
 
-    /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
-     */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
             this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
@@ -302,6 +294,7 @@ public abstract class CommitteeMembershipBase extends CommitteeAssociateBase {
      * This method determines if the current committee member is active as of the current date.
      * @return true if member is active, false otherwise
      */
+    @Override
     public boolean isActive() {
         Date currentDate = DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
         return isActive(currentDate);
@@ -342,6 +335,7 @@ public abstract class CommitteeMembershipBase extends CommitteeAssociateBase {
         return isEquals;
     }
 
+    @Override
     public void resetPersistenceState() {
         setCommitteeMembershipId(null);
     }
@@ -364,8 +358,6 @@ public abstract class CommitteeMembershipBase extends CommitteeAssociateBase {
     /**
      * This method will return true if personId parameter matches that of the membership's personID, and false otherwise.
      * Also returns false if the personId parameter is null, or if the membership's personId is null.
-     * @param personId
-     * @return
      */
     public boolean isRepresentingPerson(String personId) {
         boolean retVal = false;

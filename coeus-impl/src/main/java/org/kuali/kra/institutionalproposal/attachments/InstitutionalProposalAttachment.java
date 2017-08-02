@@ -101,19 +101,23 @@ public class InstitutionalProposalAttachment extends InstitutionalProposalAssoci
 		this.proposalId = proposalId;
 	}
 
-	public String getProposalNumber() {
+	@Override
+    public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(String proposalNumber) {
+	@Override
+    public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 
-	public Integer getSequenceNumber() {
+	@Override
+    public Integer getSequenceNumber() {
 		return sequenceNumber;
 	}
 
-	public void setSequenceNumber(Integer sequenceNumber) {
+	@Override
+    public void setSequenceNumber(Integer sequenceNumber) {
 		this.sequenceNumber = sequenceNumber;
 	}
 
@@ -248,7 +252,8 @@ public class InstitutionalProposalAttachment extends InstitutionalProposalAssoci
 		return this.getFileDataId().compareTo(o.getFileDataId());
 	}
 
-	@PostRemove
+	@Override
+    @PostRemove
 	public void postRemove() {
 		if (getFileDataId() != null) {
 			getKcAttachmentDao().removeData(getFileDataId());

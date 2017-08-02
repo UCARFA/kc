@@ -111,6 +111,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         return submissionBean;
     }
     
+    @Override
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((ProtocolForm)form).getCustomDataHelper().prepareCustomData();
         return branchToPanelOrNotificationEditor(mapping, (ProtocolFormBase)form, getCustomDataForwardNameHook());
@@ -185,6 +186,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         return forward;
     }
 
+    @Override
     protected String getProtocolHistoryForwardNameHook() {
         return PROTOCOL_HISTORY_HOOK;
     }
@@ -193,6 +195,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
      * This method is to get protocol personnel training service
      * @return ProtocolPersonTrainingService
      */
+    @Override
     protected ProtocolPersonTrainingService getProtocolPersonTrainingService() {
         return (ProtocolPersonTrainingService) KcServiceLocator.getService("protocolPersonTrainingService");
     }
@@ -201,6 +204,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
      * This method is to get protocol personnel service
      * @return ProtocolPersonnelService
      */
+    @Override
     protected ProtocolPersonnelService getProtocolPersonnelService() {
         return (ProtocolPersonnelService) KcServiceLocator.getService("protocolPersonnelService");
     }
@@ -263,6 +267,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         return  (AnswerHeader)getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, fieldValues);
     }
 
+    @Override
     protected QuestionnairePrintingService getQuestionnairePrintingService() {
         return KcServiceLocator.getService(QuestionnairePrintingService.class);
     }
@@ -308,6 +313,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         }
     }
 
+    @Override
     protected void sendNotification(ProtocolFormBase protocolForm) {
         Protocol protocol = (Protocol) protocolForm.getProtocolDocument().getProtocol();
         IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
@@ -388,10 +394,12 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     protected String getProtocolActionsMappingNameHoook() {
         return Constants.MAPPING_PROTOCOL_ACTIONS;
     }
+    @Override
     protected String getProtocolNotificationEditorHook() {
         return "protocolNotificationEditor";
     }
     
+    @Override
     protected ProtocolNotificationContextBase getProtocolInitialSaveNotificationContextHook(ProtocolBase protocol) {
         IRBNotificationRenderer renderer = new IRBNotificationRenderer((Protocol)protocol);
         return new IRBNotificationContext((Protocol)protocol, ProtocolActionType.PROTOCOL_CREATED_NOTIFICATION, "Protocol Created", renderer, PROTOCOL_NAME_HOOK);

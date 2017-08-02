@@ -18,49 +18,18 @@
  */
 package org.kuali.kra.award.home;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.kuali.kra.bo.AbstractBoTest;
 
+public class AwardSponsorTermTest extends AbstractBoTest<AwardSponsorTerm> {
+    private static final int AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT = 4;
 
-/**
- * This class tests the Business Object AwardSponsorTerm
- */
-public class AwardSponsorTermTest {
-
-private static final int AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT = 4;
-    
-    private AwardSponsorTerm awardSponsorTermBo;
-    private Award award = new Award();
-    
-    /**
-     *
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        awardSponsorTermBo = new AwardSponsorTerm();
-        awardSponsorTermBo.setAward(award);
+    @Override
+    protected Class<AwardSponsorTerm> getBoClass() {
+        return AwardSponsorTerm.class;
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-        awardSponsorTermBo = null;
+    @Override
+    protected int getAttributeCount() {
+        return AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT;
     }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT, awardSponsorTermBo.getClass().getDeclaredFields().length);
-    }
-    
 }

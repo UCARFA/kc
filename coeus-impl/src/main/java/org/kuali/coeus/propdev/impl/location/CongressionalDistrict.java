@@ -65,6 +65,7 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase imple
         return id;
     }
 
+    @Override
     public String getCongressionalDistrict() {
         return congressionalDistrict;
     }
@@ -104,6 +105,7 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase imple
 		this.proposalSite = proposalSite;
 	}
 
+    @Override
     public Integer getSiteNumber(){
         if (getProposalSite() != null){
             return getProposalSite().getSiteNumber();
@@ -111,6 +113,7 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase imple
         return null;
     }
 
+    @Override
     public String getProposalNumber(){
         if (getProposalSite() != null){
             if (getProposalSite().getDevelopmentProposal() != null){

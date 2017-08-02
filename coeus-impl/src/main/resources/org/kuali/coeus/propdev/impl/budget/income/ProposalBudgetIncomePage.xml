@@ -26,7 +26,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
     <!-- Proposal Budget Income Page -->
     <bean id="PropBudget-ProjectIncomePage" parent="PropBudget-ProjectIncomePage-parentBean" />
-    <bean id="PropBudget-ProjectIncomePage-parentBean"
+    <bean id="PropBudget-ProjectIncomePage-parentBean" abstract="true"
           parent="PropBudget-Page" p:fieldBindingObjectPath="budget">
         <property name="items">
             <list>
@@ -38,7 +38,7 @@
     <bean id="PropBudget-ProjectIncomePage-CollectionGroup"
           parent="PropBudget-ProjectIncomePage-CollectionGroup-parentBean" />
     <bean
-            id="PropBudget-ProjectIncomePage-CollectionGroup-parentBean"
+            id="PropBudget-ProjectIncomePage-CollectionGroup-parentBean" abstract="true"
             parent="Uif-TableCollectionSection" p:headerText="Project Income"
             p:propertyName="budgetProjectIncomes"
             p:collectionObjectClass="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome"
@@ -146,7 +146,7 @@
 
     <bean id="PropBudget-ProjectIncomePage-SummaryTable"
           parent="PropBudget-ProjectIncomePage-SummaryTable-parentBean" />
-    <bean id="PropBudget-ProjectIncomePage-SummaryTable-parentBean"
+    <bean id="PropBudget-ProjectIncomePage-SummaryTable-parentBean" abstract="true"
           parent="Uif-TableCollectionSection" p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
           p:propertyName="budgetPeriodIncomeTotalSummary"
           p:renderLineActions="false"

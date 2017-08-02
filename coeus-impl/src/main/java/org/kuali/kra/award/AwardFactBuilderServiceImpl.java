@@ -42,6 +42,7 @@ public class AwardFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper 
     
     private DocumentService documentService;
     
+    @Override
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
         String documentNumber = getElementValue(docContent, "//documentNumber");
         try {
@@ -52,6 +53,7 @@ public class AwardFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper 
         }
     }
     
+    @Override
     public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext researchDocument) {
         AwardDocument awardDocument = (AwardDocument)researchDocument;
         Award award = awardDocument.getAward();
@@ -63,6 +65,7 @@ public class AwardFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper 
         factsBuilder.addFact(QuestionnaireConstants.MODULE_SUB_ITEM_KEY, award.getSequenceNumber());
     }
     
+    @Override
     protected String getElementValue(String docContent, String xpathExpression) {
         try {
             Document document = XmlHelper.trimXml(new ByteArrayInputStream(docContent.getBytes()));

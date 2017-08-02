@@ -51,6 +51,7 @@ public class InvestigatorCreditTypeRule extends KcMaintenanceDocumentRuleBase {
      * 
      * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
+    @Override
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document)   {
         boolean retval = true;
         if (document.isNew()) {

@@ -66,6 +66,7 @@ public class GroupNameValuesFinder extends UifKeyValuesFinderBase {
         return keyValues; 
     }
     
+    @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();        
         keyValues.add(new ConcreteKeyValue("", "Default"));

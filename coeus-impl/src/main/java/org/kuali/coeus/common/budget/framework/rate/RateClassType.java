@@ -42,6 +42,7 @@ public class RateClassType extends KcPersistableBusinessObjectBase implements Ra
     @Convert(converter = BooleanYNConverter.class)
     private Boolean prefixActivityType;
 
+    @Override
     public String getCode() {
         return code;
     }

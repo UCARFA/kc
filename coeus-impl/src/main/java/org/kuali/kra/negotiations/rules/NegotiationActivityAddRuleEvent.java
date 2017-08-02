@@ -48,6 +48,7 @@ public class NegotiationActivityAddRuleEvent extends KcDocumentEventBase {
         this.newActivity = newActivity;
     }
     
+    @Override
     public Class<NegotiationActivityAddRule> getRuleInterfaceClass() {
         return NegotiationActivityAddRule.class;
     }

@@ -53,6 +53,7 @@ public class DisclosureStatusRetrievalServiceImplTest {
             return "https://goblins-tst.kuali.co/api/coi/project-disclosure-statuses/";
         }
 
+        @Override
         protected String getAuthToken() {
             return "Bearer " + "Unleash the Kraken!";
         }

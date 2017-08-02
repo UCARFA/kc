@@ -85,6 +85,7 @@ public class MultiCampusDummyLoginFilter implements Filter {
                         // wrap the request with the remote user
                         // UserLoginFilter and WebAuthenticationService will create the session
                         request = new HttpServletRequestWrapper(hsreq) {
+                            @Override
                             public String getRemoteUser() {
                                 return multiCampusUser;
                             } 

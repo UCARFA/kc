@@ -24,7 +24,7 @@
 
 
 	<bean id="PropDev-OrganizationLocationsPage" parent="PropDev-OrganizationLocationsPage-parentBean" />
-	<bean id="PropDev-OrganizationLocationsPage-parentBean" parent="PropDev-DocumentPage">
+	<bean id="PropDev-OrganizationLocationsPage-parentBean" abstract="true" parent="PropDev-DocumentPage">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-OrganizationLocationsPage-Group" p:order="10" />
@@ -36,7 +36,7 @@
 	</bean>
 
 	<bean id="PropDev-OrganizationLocationsPage-Group" parent="PropDev-OrganizationLocationsPage-Group-parentBean" />
-	<bean id="PropDev-OrganizationLocationsPage-Group-parentBean"
+	<bean id="PropDev-OrganizationLocationsPage-Group-parentBean" abstract="true"
 		parent="Uif-TabSection" p:header.headerText="Organizations &amp; Locations" >
 			<property name="items">
 				<list>
@@ -49,7 +49,7 @@
 	</bean>
 
 	<bean id="PropDev-ApplicantOrganizationPage-Section" parent="PropDev-ApplicantOrganizationPage-Section-parentBean" />
-	<bean id="PropDev-ApplicantOrganizationPage-Section-parentBean" parent="Uif-VerticalBoxSubSection" p:fieldBindingObjectPath="document.developmentProposal.applicantOrganization">
+	<bean id="PropDev-ApplicantOrganizationPage-Section-parentBean" abstract="true" parent="Uif-VerticalBoxSubSection" p:fieldBindingObjectPath="document.developmentProposal.applicantOrganization">
 		<property name="items">
 			<list>
                 <bean parent="PropDev-PerformingOrganization-OrganizationSearch" p:order="10" p:quickfinder.render="false" />
@@ -84,7 +84,7 @@
 	</bean>
 
 	<bean id="PropDev-PerformingOrganizationPage-Section" parent="PropDev-PerformingOrganizationPage-Section-parentBean" />
-	<bean id="PropDev-PerformingOrganizationPage-Section-parentBean"
+	<bean id="PropDev-PerformingOrganizationPage-Section-parentBean" abstract="true"
 		parent="Uif-VerticalBoxSubSection" p:fieldBindingObjectPath="document.developmentProposal.performingOrganization">
 		<property name="items">
 			<list>

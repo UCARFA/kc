@@ -19,7 +19,6 @@
 package org.kuali.coeus.propdev.impl.sponsor;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -38,10 +37,7 @@ import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 

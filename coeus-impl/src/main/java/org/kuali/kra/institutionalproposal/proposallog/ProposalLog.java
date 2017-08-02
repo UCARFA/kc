@@ -148,6 +148,7 @@ public class ProposalLog extends KcPersistableBusinessObjectBase implements Nego
         this.proposalTypeCode = proposalTypeCode;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -172,6 +173,7 @@ public class ProposalLog extends KcPersistableBusinessObjectBase implements Nego
         this.rolodexId = rolodexId;
     }
 
+    @Override
     public String getPiName() {
         return piName;
     }
@@ -188,6 +190,7 @@ public class ProposalLog extends KcPersistableBusinessObjectBase implements Nego
         this.leadUnit = leadUnit;
     }
 
+    @Override
     public String getSponsorCode() {
         return sponsorCode;
     }
@@ -199,6 +202,7 @@ public class ProposalLog extends KcPersistableBusinessObjectBase implements Nego
         }
     }
 
+    @Override
     public String getSponsorName() {
         return sponsorName;
     }

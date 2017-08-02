@@ -50,21 +50,25 @@ public class IacucProtocolAssignToAgendaBean extends IacucProtocolGenericActionB
         super(actionHelper, Constants.PROTOCOL_ASSIGN_TO_AGENDA_ACTION_PROPERTY_KEY);
     }
 
+    @Override
     public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;
     }
 
 
+    @Override
     public void setCommitteName(String committeName) {
         this.committeName = committeName;
     }
 
 
+    @Override
     public void setScheduleDate(String scheduleDate) {
         this.scheduleDate = scheduleDate;
     }
 
 
+    @Override
     public void setProtocolAssigned(boolean protocolAssigned) {
         this.protocolAssigned = protocolAssigned;
     }
@@ -77,21 +81,25 @@ public class IacucProtocolAssignToAgendaBean extends IacucProtocolGenericActionB
     }
 
 
+    @Override
     public String getCommitteeId() {
         return committeeId;
     }
 
 
+    @Override
     public String getCommitteName() {
         return committeName;
     }
 
 
+    @Override
     public String getScheduleDate() {
         return scheduleDate;
     }
 
 
+    @Override
     public boolean isProtocolAssigned() {
         return protocolAssigned;
     }
@@ -99,6 +107,7 @@ public class IacucProtocolAssignToAgendaBean extends IacucProtocolGenericActionB
     /**
      * Prepare the Assign to Committee and Schedule for rendering with JSP.
      */
+    @Override
     public void prepareView() {
         if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
             // we refresh assign-to-agenda data (committee name, comments etc) from db only if the user is not 
@@ -124,6 +133,7 @@ public class IacucProtocolAssignToAgendaBean extends IacucProtocolGenericActionB
      * This method returns the appropriate printable for this class
      * @return a Printable
      */
+    @Override
     public Printable getCorrespondence() {
         IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(IacucProtocolActionType.ASSIGNED_TO_AGENDA);
         return correspondence;

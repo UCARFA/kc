@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 @Component("irbProtocolCustomDataResolverTypeService")
 public class IrbProtocolCustomDataResolverTypeServiceImpl extends CustomDataResolverTypeServiceImpl {
+    @Override
     protected String getModuleNamePrereq() {
         return KcKrmsConstants.IrbProtocol.IRB_PROTOCOL;
     }

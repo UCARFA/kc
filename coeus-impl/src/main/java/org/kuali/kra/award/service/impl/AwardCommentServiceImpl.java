@@ -40,6 +40,7 @@ public class AwardCommentServiceImpl implements AwardCommentService {
     private String AWARD_COMMENT_TYPE_CODE = "commentTypeCode";
     private String AWARD_ID = "awardId";
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<CommentType> retrieveCommentTypes() {
         Map<String, String> queryMap = new HashMap<String, String>();
@@ -49,6 +50,7 @@ public class AwardCommentServiceImpl implements AwardCommentService {
         return commentTypeList;
     }
     
+    @Override
     @SuppressWarnings("unchecked")
     /**
      * This method retrieves a list of award comment type codes that indicate whether or not to display the Show History
@@ -103,6 +105,7 @@ public class AwardCommentServiceImpl implements AwardCommentService {
         return resultList;
     }
     
+    @Override
     @SuppressWarnings("unchecked")
     public List<AwardComment> retrieveCommentHistoryByType(String awardCommentTypeCode, String awardId) {
         this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);

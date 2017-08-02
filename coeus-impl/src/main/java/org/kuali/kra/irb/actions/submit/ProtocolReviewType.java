@@ -47,26 +47,32 @@ public class ProtocolReviewType extends ProtocolReviewTypeBase {
     public ProtocolReviewType() {
     }
 
+    @Override
     public String getReviewTypeCode() {
         return reviewTypeCode;
     }
 
+    @Override
     public void setReviewTypeCode(String reviewTypeCode) {
         this.reviewTypeCode = reviewTypeCode;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @Override
     public boolean isGlobalFlag() {
         return globalFlag;
     }
 
+    @Override
     public void setGlobalFlag(boolean globalFlag) {
         this.globalFlag = globalFlag;
     }

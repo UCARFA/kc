@@ -18,49 +18,18 @@
  */
 package org.kuali.kra.award.customdata;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.AbstractBoTest;
 
-/**
- * 
- * This class tests methods in Award.java class
- */
-public class AwardCustomDataTest { 
+public class AwardCustomDataTest extends AbstractBoTest<AwardCustomData> {
     private static final int AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT = 5;
-    
-    private AwardCustomData awardCustomDataBo;
-    private Award award = new Award();
-    
-    /**
-     *
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        awardCustomDataBo = new AwardCustomData();
-        awardCustomDataBo.setAward(award);
+
+    @Override
+    protected Class<AwardCustomData> getBoClass() {
+        return AwardCustomData.class;
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-        awardCustomDataBo = null;
+    @Override
+    protected int getAttributeCount() {
+        return AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT;
     }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_CUSTOM_DATA_ATTRIBUTES_COUNT, awardCustomDataBo.getClass().getDeclaredFields().length);
-    }
-    
 }

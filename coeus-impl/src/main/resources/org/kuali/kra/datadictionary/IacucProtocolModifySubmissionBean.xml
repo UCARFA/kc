@@ -40,7 +40,7 @@
 	<bean id="IacucProtocolModifySubmissionBean-protocolReviewTypeCode" parent="IacucProtocolSubmitAction-protocolReviewTypeCode-parentBean" />
 	<bean id="IacucProtocolModifySubmissionBean-submissionQualifierTypeCode" parent="IacucProtocolSubmitAction-submissionQualifierTypeCode-parentBean" />
  	<bean id="IacucProtocolModifySubmissionBean-dueDate" parent="IacucProtocolModifySubmissionBean-dueDate-parentBean" />
-	<bean id="IacucProtocolModifySubmissionBean-dueDate-parentBean" parent="AttributeReferenceDummy-genericDate" >
+	<bean id="IacucProtocolModifySubmissionBean-dueDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate" >
 		<property name="name" value="dueDate" />
         <property name="label" value="Determination Due Date" />
         <property name="shortLabel" value="Determination Due Date" />

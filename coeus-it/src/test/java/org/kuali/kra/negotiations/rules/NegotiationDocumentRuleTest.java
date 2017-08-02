@@ -82,9 +82,11 @@ public class NegotiationDocumentRuleTest extends KcIntegrationTestBase {
     }
     
     class NegotiationServiceMock extends NegotiationServiceImpl {
+        @Override
         public List<String> getInProgressStatusCodes() {
             return Arrays.asList(new String[]{"IP", "TESTIP"});
         }
+        @Override
         public List<String> getCompletedStatusCodes() {
             return Arrays.asList(new String[]{"SUP", "COM"});
         }

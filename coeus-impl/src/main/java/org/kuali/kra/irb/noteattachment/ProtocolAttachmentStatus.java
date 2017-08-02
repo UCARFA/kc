@@ -61,6 +61,7 @@ public class ProtocolAttachmentStatus extends ProtocolAttachmentStatusBase {
      * Gets the protocol attachment status code.
      * @return the protocol attachment status code
      */
+    @Override
     public String getCode() {
         return this.code;
     }
@@ -69,6 +70,7 @@ public class ProtocolAttachmentStatus extends ProtocolAttachmentStatusBase {
      * Sets the protocol attachment status code.
      * @param code the protocol attachment status code
      */
+    @Override
     public void setCode(String code) {
         this.code = code;
     }
@@ -77,6 +79,7 @@ public class ProtocolAttachmentStatus extends ProtocolAttachmentStatusBase {
      * Gets the protocol attachment status description.
      * @return the protocol attachment status description
      */
+    @Override
     public String getDescription() {
         return this.description;
     }
@@ -85,6 +88,7 @@ public class ProtocolAttachmentStatus extends ProtocolAttachmentStatusBase {
      * Sets the protocol attachment status description.
      * @param description the protocol attachment status description
      */
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }

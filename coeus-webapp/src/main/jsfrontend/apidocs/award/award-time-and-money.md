@@ -23,6 +23,33 @@
               "active": true,
               "documentNumber": "4457",
               "timeAndMoney": {
+                  "awardAmountInfos": [
+                    {
+                      "awardId": 40201,
+                      "awardNumber": "000038-00004",
+                      "amountObligatedToDate": 244403.05, 
+                      "antDistributableAmount": 273667.73, 
+                      "anticipatedChange": 0, 
+                      "anticipatedChangeDirect": 0, 
+                      "anticipatedChangeIndirect": 0, 
+                      "anticipatedTotalAmount": 273667.73, 
+                      "anticipatedTotalDirect": 167176.36, 
+                      "anticipatedTotalIndirect": 106491.37, 
+                      "awardAmountInfoId": 39979, 
+                      "currentFundEffectiveDate": "2015-04-01", 
+                      "finalExpirationDate": "2017-03-31", 
+                      "obliDistributableAmount": 244403.05, 
+                      "obligatedChange": 10000, 
+                      "obligatedChangeDirect": 10000, 
+                      "obligatedChangeIndirect": 0, 
+                      "obligatedTotalDirect": 160973.14, 
+                      "obligatedTotalIndirect": 83429.91, 
+                      "obligationExpirationDate": "2017-03-31", 
+                      "originatingAwardVersion": 4, 
+                      "timeAndMoneyDocumentNumber": "22774", 
+                      "transactionId": 318
+                    }
+                  ], 
                 "awardAmountTransactions": [
                   {
                     "awardAmountTransactionId": 2,
@@ -67,6 +94,33 @@
               "active": true,
               "documentNumber": "4464",
               "timeAndMoney": {
+                  "awardAmountInfos": [
+                    {
+                      "awardId": 40201,
+                      "awardNumber": "000038-00004",
+                      "amountObligatedToDate": 244403.05, 
+                      "antDistributableAmount": 273667.73, 
+                      "anticipatedChange": 0, 
+                      "anticipatedChangeDirect": 0, 
+                      "anticipatedChangeIndirect": 0, 
+                      "anticipatedTotalAmount": 273667.73, 
+                      "anticipatedTotalDirect": 167176.36, 
+                      "anticipatedTotalIndirect": 106491.37, 
+                      "awardAmountInfoId": 39979, 
+                      "currentFundEffectiveDate": "2015-04-01", 
+                      "finalExpirationDate": "2017-03-31", 
+                      "obliDistributableAmount": 244403.05, 
+                      "obligatedChange": 10000, 
+                      "obligatedChangeDirect": 10000, 
+                      "obligatedChangeIndirect": 0, 
+                      "obligatedTotalDirect": 160973.14, 
+                      "obligatedTotalIndirect": 83429.91, 
+                      "obligationExpirationDate": "2017-03-31", 
+                      "originatingAwardVersion": 4, 
+                      "timeAndMoneyDocumentNumber": "22774", 
+                      "transactionId": 318
+                    }
+                  ], 
                 "awardAmountTransactions": [
                   {
                     "awardAmountTransactionId": 3,
@@ -123,6 +177,33 @@
               "active": true,
               "documentNumber": "4471",
               "timeAndMoney": {
+                  "awardAmountInfos": [
+                    {
+                      "awardId": 40201,
+                      "awardNumber": "000038-00004",
+                      "amountObligatedToDate": 244403.05, 
+                      "antDistributableAmount": 273667.73, 
+                      "anticipatedChange": 0, 
+                      "anticipatedChangeDirect": 0, 
+                      "anticipatedChangeIndirect": 0, 
+                      "anticipatedTotalAmount": 273667.73, 
+                      "anticipatedTotalDirect": 167176.36, 
+                      "anticipatedTotalIndirect": 106491.37, 
+                      "awardAmountInfoId": 39979, 
+                      "currentFundEffectiveDate": "2015-04-01", 
+                      "finalExpirationDate": "2017-03-31", 
+                      "obliDistributableAmount": 244403.05, 
+                      "obligatedChange": 10000, 
+                      "obligatedChangeDirect": 10000, 
+                      "obligatedChangeIndirect": 0, 
+                      "obligatedTotalDirect": 160973.14, 
+                      "obligatedTotalIndirect": 83429.91, 
+                      "obligationExpirationDate": "2017-03-31", 
+                      "originatingAwardVersion": 4, 
+                      "timeAndMoneyDocumentNumber": "22774", 
+                      "transactionId": 318
+                    }
+                  ], 
                 "awardAmountTransactions": [
                   {
                     "awardAmountTransactionId": 6,

@@ -77,10 +77,12 @@ public class FinIntEntityRelType extends KcPersistableBusinessObjectBase impleme
         this.sortId = sortId;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

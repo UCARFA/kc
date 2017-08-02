@@ -66,6 +66,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
      *   If attachment type does not allow multiple entries, then ensure one entry only for that type.
      * @see org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentRule#processAddInstituteAttachmentBusinessRules(org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentEvent)
      */
+    @Override
     public boolean processAddInstituteAttachmentBusinessRules(AddInstituteAttachmentEvent addInstituteAttachmentEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)addInstituteAttachmentEvent.getDocument();
         Narrative narrative = addInstituteAttachmentEvent.getNarrative();
@@ -177,6 +178,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
         return this.kcAttachmentService;
     }
 
+    @Override
     protected DictionaryValidationService getKnsDictionaryValidationService() {
         if (this.dictionaryValidationService == null) {
             this.dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();

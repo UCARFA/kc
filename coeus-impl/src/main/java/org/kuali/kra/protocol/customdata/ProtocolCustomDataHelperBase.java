@@ -101,8 +101,10 @@ public abstract class ProtocolCustomDataHelperBase<T extends DocumentCustomData>
      * Can the current user modify the custom data values?
      * @return true if can modify the custom data; otherwise false
      */
+    @Override
     public abstract boolean canModifyCustomData();
 
+    @Override
     protected TaskAuthorizationService getTaskAuthorizationService() {
         if (taskAuthorizationService == null) {
             taskAuthorizationService =  KcServiceLocator.getService(TaskAuthorizationService.class);
@@ -114,6 +116,7 @@ public abstract class ProtocolCustomDataHelperBase<T extends DocumentCustomData>
         return form.getProtocolDocument().getDocumentTypeCode();
     }
     
+    @Override
     public boolean documentNotRouted() {
         WorkflowDocument doc = form.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
         return doc.isSaved() || doc.isInitiated();

@@ -109,6 +109,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
     @JoinColumn(name = "PROVIDER", referencedColumnName = "CODE", insertable = false, updatable = false)
     private S2sProvider s2sProvider;
 
+    @Override
     @OneToOne(cascade = { CascadeType.REFRESH })
     public String getCfdaNumber() {
         return cfdaNumber;
@@ -118,6 +119,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.cfdaNumber = cfdaNumber;
     }
 
+    @Override
     public Calendar getClosingDate() {
         return closingDate;
     }
@@ -126,6 +128,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.closingDate = closingDate;
     }
 
+    @Override
     public String getCompetetionId() {
         return competetionId;
     }
@@ -134,6 +137,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.competetionId = competetionId;
     }
 
+    @Override
     public String getInstructionUrl() {
         return instructionUrl;
     }
@@ -142,6 +146,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.instructionUrl = instructionUrl;
     }
 
+    @Override
     public Calendar getOpeningDate() {
         return openingDate;
     }
@@ -150,6 +155,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.openingDate = openingDate;
     }
 
+    @Override
     public String getOpportunity() {
         return opportunity;
     }
@@ -166,6 +172,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.revisionCode = revisionCode;
     }
 
+    @Override
     public String getRevisionOtherDescription() {
         return revisionOtherDescription;
     }
@@ -182,6 +189,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.s2sSubmissionTypeCode = s2sSubmissionTypeCode;
     }
 
+    @Override
     public String getSchemaUrl() {
         return schemaUrl;
     }
@@ -190,6 +198,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.schemaUrl = schemaUrl;
     }
 
+    @Override
     public List<S2sOppForms> getS2sOppForms() {
         return s2sOppForms;
     }
@@ -198,6 +207,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         s2sOppForms = oppForms;
     }
 
+    @Override
     public S2sRevisionType getS2sRevisionType() {
         return s2sRevisionType;
     }
@@ -206,6 +216,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         s2sRevisionType = revisionType;
     }
 
+    @Override
     public String getOpportunityId() {
         return opportunityId;
     }
@@ -214,6 +225,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.opportunityId = opportunityId;
     }
 
+    @Override
     public String getOpportunityTitle() {
         return opportunityTitle;
     }
@@ -222,6 +234,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.opportunityTitle = opportunityTitle;
     }
 
+    @Override
     public S2sSubmissionType getS2sSubmissionType() {
         return s2sSubmissionType;
     }
@@ -238,6 +251,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.providerCode = providerCode;
     }
 
+    @Override
     public S2sProvider getS2sProvider() {
         return s2sProvider;
     }
@@ -246,6 +260,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.s2sProvider = s2sProvider;
     }
 
+    @Override
     public String getFundingOpportunityNumber() {
         return opportunityId;
     }
@@ -254,6 +269,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.opportunityId = fundingOpportunityNumber;
     }
 
+    @Override
     public String getOfferingAgency() {
         return offeringAgency;
     }
@@ -262,6 +278,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.offeringAgency = offeringAgency;
     }
 
+    @Override
     public String getAgencyContactInfo() {
         return agencyContactInfo;
     }
@@ -270,6 +287,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.agencyContactInfo = agencyContactInfo;
     }
 
+    @Override
     public String getCfdaDescription() {
         return cfdaDescription;
     }
@@ -278,6 +296,7 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
         this.cfdaDescription = cfdaDescription;
     }
 
+    @Override
     public boolean isMultiProject() {
         return multiProject;
     }

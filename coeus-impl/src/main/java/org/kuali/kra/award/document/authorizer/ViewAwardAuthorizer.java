@@ -27,6 +27,7 @@ import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
  */
 public class ViewAwardAuthorizer extends AwardAuthorizer {
 
+    @Override
     public boolean isAuthorized(String userId, AwardTask task) {
         return hasPermission(userId, task.getAward(), AwardPermissionConstants.VIEW_AWARD.getAwardPermission());
     }

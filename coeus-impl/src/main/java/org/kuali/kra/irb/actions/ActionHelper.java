@@ -40,7 +40,6 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
-import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean;
@@ -294,6 +293,7 @@ public class ActionHelper extends ActionHelperBase {
      * reviewer comments.  This encapsulates that.
      * @return a ProtocolGenericActionBean, and pre-populated with reviewer comments if any exist
      */
+    @Override
     protected ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey) {
         ProtocolGenericActionBean bean = new ProtocolGenericActionBean(this, errorPropertyKey);
         
@@ -328,6 +328,7 @@ public class ActionHelper extends ActionHelperBase {
      * corresponding modules. 
      * @param amendmentBean
      */
+    @Override
     protected void populateExistingAmendmentBean(org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean amendmentBean, List<String> moduleTypeCodes) {
         ProtocolAmendRenewal protocolAmendRenewal = (ProtocolAmendRenewal) getProtocol().getProtocolAmendRenewal();
         amendmentBean.setSummary(protocolAmendRenewal.getSummary());
@@ -377,6 +378,7 @@ public class ActionHelper extends ActionHelperBase {
         undoLastActionBean = new UndoLastActionBean(this);
         undoLastActionBean.setProtocol(protocol);
         Collections.sort((List)protocol.getProtocolActions(), new Comparator<ProtocolAction>() {
+            @Override
             public int compare(ProtocolAction action1, ProtocolAction action2) {
                 return action2.getActualActionDate().compareTo(action1.getActualActionDate());
             }
@@ -391,6 +393,7 @@ public class ActionHelper extends ActionHelperBase {
      * @param moduleTypeCode
      * @param amendmentBean
      */
+    @Override
     protected void enableModuleOption(String moduleTypeCode, ProtocolEditableBean amendmentBean) {
         if (StringUtils.equals(ProtocolModule.GENERAL_INFO, moduleTypeCode)) {
             amendmentBean.setGeneralInfoEnabled(true);
@@ -430,6 +433,7 @@ public class ActionHelper extends ActionHelperBase {
         }
     }
 
+    @Override
     protected ProtocolAmendRenewService getProtocolAmendRenewServiceHook() {
         if (this.protocolAmendRenewService == null) {
             this.protocolAmendRenewService = KcServiceLocator.getService(ProtocolAmendRenewService.class);
@@ -437,6 +441,7 @@ public class ActionHelper extends ActionHelperBase {
         return (ProtocolAmendRenewService) this.protocolAmendRenewService;
     }
 
+    @Override
     public void prepareView() throws Exception {
         
         super.prepareView();
@@ -571,6 +576,7 @@ public class ActionHelper extends ActionHelperBase {
     /**
      * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
      */
+    @Override
     public void prepareCommentsView() {
         
         super.prepareCommentsView();
@@ -589,6 +595,7 @@ public class ActionHelper extends ActionHelperBase {
         protocolDeferBean.getReviewCommentsBean().setReviewComments(copiedReviewComments);
     }
     
+    @Override
     protected ProtocolVersionService getProtocolVersionService() {
         if (this.protocolVersionService == null) {
             this.protocolVersionService = KcServiceLocator.getService(ProtocolVersionService.class);
@@ -749,10 +756,12 @@ public class ActionHelper extends ActionHelperBase {
         return hasGenericUnavailablePermission(GenericProtocolAuthorizer.CLOSE_ENROLLMENT_PROTOCOL);
     }
         
+    @Override
     protected boolean hasSuspendPermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL);
     }
     
+    @Override
     protected boolean hasSuspendUnavailablePermission() {
         return hasGenericUnavailablePermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL);
     }
@@ -785,18 +794,22 @@ public class ActionHelper extends ActionHelperBase {
         return hasGenericUnavailablePermission(GenericProtocolAuthorizer.CLOSE_PROTOCOL);
     }
     
+    @Override
     protected boolean hasExpirePermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL);
     }
     
+    @Override
     protected boolean hasExpireUnavailablePermission() {
         return hasGenericUnavailablePermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL);
     }
     
+    @Override
     protected boolean hasTerminatePermission() {
         return hasGenericPermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL);
     }
     
+    @Override
     protected boolean hasTerminateUnavailablePermission() {
         return hasGenericUnavailablePermission(GenericProtocolAuthorizer.TERMINATE_PROTOCOL);
     }
@@ -839,18 +852,22 @@ public class ActionHelper extends ActionHelperBase {
     }
    
             
+    @Override
     protected boolean hasAdminCorrectionPermission() {
         return hasPermission(TaskName.PROTOCOL_ADMIN_CORRECTION);
     }
     
+    @Override
     protected boolean hasAdminCorrectionUnavailablePermission() {
         return hasPermission(TaskName.PROTOCOL_ADMIN_CORRECTION_UNAVAILABLE);
     }
     
+    @Override
     protected boolean hasUndoLastActionPermission() {
         return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && undoLastActionBean.canUndoLastAction();
     }
     
+    @Override
     protected boolean hasUndoLastActionUnavailablePermission() {
         return hasPermission(TaskName.PROTOCOL_UNDO_LAST_ACTION) && !undoLastActionBean.canUndoLastAction();
     }
@@ -879,6 +896,7 @@ public class ActionHelper extends ActionHelperBase {
         return hasPermission(TaskName.DEFER_PROTOCOL_UNAVAILABLE);
     }
     
+    @Override
     protected boolean hasApproveOtherPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_APPROVE_OTHER, (Protocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -950,6 +968,7 @@ public class ActionHelper extends ActionHelperBase {
         return ProtocolActionType.REQUEST_FOR_TERMINATION.equals(getLastPerformedAction().getProtocolActionTypeCode());
     }
     
+    @Override
     public Protocol getProtocol() {
         return (Protocol) super.getProtocol();
     }
@@ -1014,6 +1033,7 @@ public class ActionHelper extends ActionHelperBase {
         return protocolIrbAcknowledgementBean;
     }
 
+    @Override
     public UndoLastActionBean getUndoLastActionBean() {
         if(null != undoLastActionBean) {
             undoLastActionBean.refreshActionsPerformed();
@@ -1176,6 +1196,7 @@ public class ActionHelper extends ActionHelperBase {
     /**
      * Prepares all protocol actions for being filtered by setting their isInFilterView attribute.
      */
+    @Override
     public void initFilterDatesView() {
         java.util.Date dayBeforeStartDate = null;
         java.util.Date dayAfterEndDate = null;
@@ -1205,6 +1226,7 @@ public class ActionHelper extends ActionHelperBase {
      * Prepares, sorts, and returns a list of protocol actions.
      * @return
      */
+    @Override
     public List<ProtocolActionBase> getSortedProtocolActions() {
         List<ProtocolAction> protocolActions = new ArrayList<ProtocolAction>();
         for (ProtocolActionBase protocolAction : form.getProtocolDocument().getProtocol().getProtocolActions()) {
@@ -1215,6 +1237,7 @@ public class ActionHelper extends ActionHelperBase {
         }
         
         Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
+            @Override
             public int compare(ProtocolAction action1, ProtocolAction action2) {
                 return action2.getActualActionDate().compareTo(action1.getActualActionDate());
             }
@@ -1223,10 +1246,12 @@ public class ActionHelper extends ActionHelperBase {
         return (List)protocolActions;
     }
     
+    @Override
     protected CommitteeDecisionService getCommitteeDecisionService() {
         return KcServiceLocator.getService("protocolCommitteeDecisionService");
     }
     
+    @Override
     public int getTotalSubmissions() {
         return getProtocolSubmitActionService().getTotalSubmissions((Protocol) getProtocol());
     }
@@ -1234,6 +1259,7 @@ public class ActionHelper extends ActionHelperBase {
     /**
      * Sets up dates for the submission details subpanel.
      */
+    @Override
     public void initSubmissionDetails() {
         if (currentSubmissionNumber <= 0) {
             currentSubmissionNumber = getTotalSubmissions();
@@ -1296,6 +1322,7 @@ public class ActionHelper extends ActionHelperBase {
      * current submission.
      * @throws Exception
      */
+    @Override
     protected void setAmendmentDetails() throws Exception {
         /*
          * Check if the user is trying to modify amendment sections, if so, do not setAmendmentDetails.
@@ -1343,10 +1370,12 @@ public class ActionHelper extends ActionHelperBase {
         }
     } 
     
+    @Override
     protected String getCoeusModule() {
         return CoeusModule.IRB_MODULE_CODE;
     }
     
+    @Override
     protected ModuleQuestionnaireBean getQuestionnaireBean(String moduleCode, String moduleKey, String subModuleCode, String subModuleKey, boolean finalDoc) {
         return new ProtocolModuleQuestionnaireBean(moduleCode, moduleKey, subModuleCode, subModuleKey, finalDoc);
     }
@@ -1394,18 +1423,22 @@ public class ActionHelper extends ActionHelperBase {
         return protocolRequestBean;
     }
     
+    @Override
     public boolean isSubmissionQuestionnaireExist() {
         return submissionQuestionnaireExist;
     }
 
+    @Override
     public void setSubmissionQuestionnaireExist(boolean submissionQuestionnaireExist) {
         this.submissionQuestionnaireExist = submissionQuestionnaireExist;
     }
 
+    @Override
     public boolean isToAnswerSubmissionQuestionnaire() {
         return toAnswerSubmissionQuestionnaire;
     }
 
+    @Override
     public void setToAnswerSubmissionQuestionnaire(boolean toAnswerSubmissionQuestionnaire) {
         this.toAnswerSubmissionQuestionnaire = toAnswerSubmissionQuestionnaire;
     }

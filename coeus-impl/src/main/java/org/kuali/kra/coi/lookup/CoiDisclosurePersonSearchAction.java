@@ -38,6 +38,7 @@ public class CoiDisclosurePersonSearchAction extends CoiDisclosureAction {
 
     public static final String REFRESH_CALLER = "kcPersonLookupable";
     
+    @Override
     @SuppressWarnings("deprecation")
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;

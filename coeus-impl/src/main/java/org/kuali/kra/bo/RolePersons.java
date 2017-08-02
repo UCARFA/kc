@@ -38,6 +38,7 @@ public class RolePersons extends BusinessObjectBase {
     
     
   
+    @Override
     public void refresh() {
         // do nothing
     }

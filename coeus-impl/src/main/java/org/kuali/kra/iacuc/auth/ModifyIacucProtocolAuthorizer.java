@@ -27,6 +27,7 @@ public class ModifyIacucProtocolAuthorizer  extends IacucProtocolAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         boolean hasPermission = true;
         IacucProtocol protocol = task.getProtocol();

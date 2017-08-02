@@ -39,6 +39,7 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
     private static final String NEXT_ACTION_ID_KEY = "actionId";
 
 
+    @Override
     public void assignToCommittee(ProtocolBase protocol, IacucProtocolAssignCmtBean actionBean) throws Exception {
         ProtocolSubmissionBase submission = findSubmission(protocol);
         String prevSubmissionStatusCode = null;
@@ -92,6 +93,7 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
 
     }
     
+    @Override
     public String getAssignedCommitteeId(ProtocolBase protocol) {
         String retVal = null;
         ProtocolSubmissionBase submission = findSubmission(protocol);
@@ -105,6 +107,7 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
         return retVal;
     }
     
+    @Override
     public String getAssignedScheduleId(ProtocolBase protocol) {
         String retVal = null;
         ProtocolSubmissionBase submission = findSubmission(protocol);
@@ -125,6 +128,7 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
         return committeeService;
     }
     
+    @Override
     public ProtocolSubmissionBase getLastSubmission(ProtocolBase protocol) {
         return findSubmission(protocol);
     }

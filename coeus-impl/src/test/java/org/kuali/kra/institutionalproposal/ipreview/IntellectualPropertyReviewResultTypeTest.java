@@ -18,44 +18,18 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.kuali.kra.bo.AbstractBoTest;
 
-public class IntellectualPropertyReviewResultTypeTest {
-    
+public class IntellectualPropertyReviewResultTypeTest extends AbstractBoTest<IntellectualPropertyReviewResultType> {
     private static final int INTELLECTUAL_PROPERTY_REVIEW_RESULT_TYPE_ATTRIBUTES_COUNT = 3;
-    
-    private IntellectualPropertyReviewResultType intellectualPropertyReviewResultType;
-    
-    /**
-     *
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        intellectualPropertyReviewResultType = new IntellectualPropertyReviewResultType();
+
+    @Override
+    protected Class<IntellectualPropertyReviewResultType> getBoClass() {
+        return IntellectualPropertyReviewResultType.class;
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-        intellectualPropertyReviewResultType = null;
+    @Override
+    protected int getAttributeCount() {
+        return INTELLECTUAL_PROPERTY_REVIEW_RESULT_TYPE_ATTRIBUTES_COUNT;
     }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testAwardCostShareBoAttributesCount() throws Exception {              
-        Assert.assertEquals(INTELLECTUAL_PROPERTY_REVIEW_RESULT_TYPE_ATTRIBUTES_COUNT, 
-                intellectualPropertyReviewResultType.getClass().getDeclaredFields().length);
-    }
-
 }

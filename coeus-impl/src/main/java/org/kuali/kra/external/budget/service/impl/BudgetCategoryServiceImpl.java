@@ -46,6 +46,7 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
      * This method looks up the BudgetCategories bo.
      * @see org.kuali.kra.external.budget.service.BudgetCategoryService#lookupBudgetCategories(java.util.List)
      */
+    @Override
     public List<BudgetCategoryDTO> lookupBudgetCategories(List<HashMapElement> criteria) {
 
         HashMap<String, String> searchCriteria =  new HashMap<String, String>();

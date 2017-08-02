@@ -49,6 +49,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
 
     private transient IacucCommitteeScheduleService committeeScheduleService;
     
+    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
         
@@ -109,6 +110,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
         return taskAuthenticationService.isAuthorized(userId, task);
     }
 
+    @Override
     public boolean canInitiate(String documentTypeName, Person user) {
         return true;
     }
@@ -179,6 +181,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     } 
     
     //we only let the Iacuc Admin disapprove these documents.
+    @Override
     public boolean canDisapprove(Document document, Person user) {
         boolean result = super.canDisapprove(document, user);
         result &= canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (IacucProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS); 

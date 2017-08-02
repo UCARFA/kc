@@ -18,33 +18,18 @@
  */
 package org.kuali.kra.subaward.customdata;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.bo.AbstractBoTest;
 
-public class SubAwardCustomDataTest  {
-    
+public class SubAwardCustomDataTest extends AbstractBoTest<SubAwardCustomData> {
     private static final int SUBAWARD_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT = 6;
-    
-    private SubAwardCustomData subAwardCustomDataBo;
-    private SubAward subAward = new SubAward();
-    
-    
-    @Before
-    public void setUp() throws Exception {
-        subAwardCustomDataBo = new SubAwardCustomData();
-        subAwardCustomDataBo.setSubAward(subAward);
+
+    @Override
+    protected Class<SubAwardCustomData> getBoClass() {
+        return SubAwardCustomData.class;
     }
 
-    @After
-    public void tearDown() throws Exception {
-        subAwardCustomDataBo= null;
-    }
-    
-    @Test
-    public void testSubAwardCustomDataBoAttributesCount() throws Exception {              
-        Assert.assertEquals(SUBAWARD_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT, subAwardCustomDataBo.getClass().getDeclaredFields().length);
+    @Override
+    protected int getAttributeCount() {
+        return SUBAWARD_PROPOSAL_CUSTOM_DATA_ATTRIBUTES_COUNT;
     }
 }

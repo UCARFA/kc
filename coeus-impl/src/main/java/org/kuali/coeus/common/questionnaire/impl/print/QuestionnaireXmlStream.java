@@ -126,6 +126,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         /* 
          * Just want to mention that Questionnaire is a maintenance document (not transactional doc), so passed in document will be null.

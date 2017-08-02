@@ -37,10 +37,12 @@ public class DeadlineTypeValuesFinderTest extends PersistableBusinessObjectValue
         setIncludeKeyInDescription(false);
     }
 
+    @Override
     @Test public void testGetKeyValues() throws Exception {
         super.testGetKeyValues();
     }
     
+    @Override
     protected void addKeyValues() {
         testKeyValues.add(new ConcreteKeyValue("P", "Postmark"));
         testKeyValues.add(new ConcreteKeyValue("R", "Receipt"));

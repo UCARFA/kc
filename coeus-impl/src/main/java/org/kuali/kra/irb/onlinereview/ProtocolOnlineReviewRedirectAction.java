@@ -35,6 +35,7 @@ public class ProtocolOnlineReviewRedirectAction extends ProtocolOnlineReviewRedi
         return org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService.class;
     }
 
+    @Override
     protected String getAdminRoleName() {
         return "IRB Administrator";
     }

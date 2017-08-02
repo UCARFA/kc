@@ -18,47 +18,18 @@
  */
 package org.kuali.kra.bo;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
 
-/**
- * This class tests methods in SponsorTerm.java
- */
-public class SponsorTermTest {
-    
-private static final int SPONSOR_TERM_ATTRIBUTES_COUNT = 6;
-    
-    private SponsorTerm sponsorTermBo;
-    
-    /**
-     *
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        sponsorTermBo = new SponsorTerm();
+public class SponsorTermTest extends AbstractBoTest<SponsorTerm> {
+    private static final int SPONSOR_TERM_ATTRIBUTES_COUNT = 6;
+
+    @Override
+    protected Class<SponsorTerm> getBoClass() {
+        return SponsorTerm.class;
     }
 
-    /**
-     *
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-        sponsorTermBo = null;
+    @Override
+    protected int getAttributeCount() {
+        return SPONSOR_TERM_ATTRIBUTES_COUNT;
     }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testCommentTypeBoAttributesCount() throws Exception {              
-        Assert.assertEquals(SPONSOR_TERM_ATTRIBUTES_COUNT, sponsorTermBo.getClass().getDeclaredFields().length);
-    }
-
 }

@@ -378,12 +378,13 @@ public interface Constants {
      * Subaward budget information
      */
     String SUBAWARD_FILE_FIELD_NAME = "newSubAwardFile";
-    String SUBAWARD_FILE_REQUIERED = "newSubAward.subAwardFile.required";
-    String SUBAWARD_ORG_NAME_REQUIERED = "newSubAward.organizationName.required";
+    String SUBAWARD_FILE_REQUIRED = "newSubAward.subAwardFile.required";
+    String SUBAWARD_ORG_NAME_REQUIRED = "newSubAward.organizationName.required";
     String SUBAWARD_ORG_NAME_INVALID = "newSubAward.organizationName.invalid";
-    String SUBAWARD_FILE_SPECIAL_CHARECTOR = "newSubAward.subAwardFile.special.character";
+    String SUBAWARD_FILE_SPECIAL_CHARACTER = "newSubAward.subAwardFile.special.character";
     String SUBAWARD_FILE_PERIOD_NOT_FOUND = "newSubAward.subAwardFile.periodNotFound";
     String SUBAWARD_FILE_DETAILS_UPDATED = "newSubAward.subAwardFile.detailsUpdated";
+    String SUBAWARD_FILE_ENCRYPTED = "newSubAward.subAwardFile.encrypted";
     
     // sponsor hierarchy
     String HIERARCHY_NAME = "hierarchyName";
@@ -944,10 +945,11 @@ public interface Constants {
     String BEARER_TOKEN = "Bearer ";
     String SUB_AWARD_CODE = "subAwardCode";
     String CORRECTION_MODE = "correctionMode";
-    String ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI = "ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI";
+    String ALL_SPONSOR_HIERARCHY_AS_NIH = "ALL_SPONSOR_HIERARCHY_AS_NIH";
     String KC_SYS = "KC-SYS";
     String PENDING = "PENDING";
     String ENABLE_COST_SHARE_ACCOUNT_VALIDATION = "ENABLE_COST_SHARE_ACCOUNT_VALIDATION";
+    String DEFAULT_IP_AWARD_COST_SHARE_TYPE = "Default_IP_Award_Cost_Share_Type";
     String PROP_BUDGET_COST_SHARING_PAGE = "PropBudget-CostSharingPage";
     String PROP_BUDGET_UNRECOVERED_FAND_APAGE = "PropBudget-UnrecoveredFandAPage";
     String VALIDATION_MESSAGE_WARNING = "W";
@@ -970,5 +972,22 @@ public interface Constants {
     String DOCUMENT_INSTITUTIONAL_PROPOSAL_CFDA_NUMBER = "document.institutionalProposalList[0].cfdaNumber";
     String INSTITUTIONAL_PROPOSAL_CFDA_NUMBER = "document.institutionalProposal.cfdaNumber";
     String NOTIFICATION_HELPER = "notificationHelper";
+    String S2S_PAGE_ID = "PropDev-OpportunityPage";
+    String S2S_PAGE_NAME = "S2S Opportunity Search";
+    String S2S_OPPORTUNITY_SECTION_ID = "PropDev-OpportunityPage-General";
+    String S2S_OPPORTUNITY_SECTION_NAME = "Opportunity";
+    String PROP_DEV_OPPORTUNITY_PAGE_FORMS = "PropDev-OpportunityPage-Forms";
+    String PROP_DEV_SPONSOR_PROGRAM_INFO_PAGE = "PropDev-SponsorProgramInfoPage";
+    String PROP_DEV_APPLICANT_ORGANIZATION_PAGE_SECTION = "PropDev-ApplicantOrganizationPage-Section";
+    String PROP_DEV_PERFORMING_ORGANIZATION_PAGE_SECTION = "PropDev-PerformingOrganizationPage-Section";
+    String PROP_DEV_PERFORMANCE_SITES_PAGE_SECTION = "PropDev-PerformanceSitesPage-Section";
+    String PROP_DEV_OTHER_ORGANIZATIONS_PAGE_SECTION = "PropDev-OtherOrganizationsPage-Section";
+    String PROP_DEV_ORGANIZATION_LOCATIONS_PAGE = "PropDev-OrganizationLocationsPage";
+    String PROP_DEV_CREDIT_ALLOCATION_SECTION = "PropDev-CreditAllocation-Section";
+    String PROP_DEV_CREDIT_ALLOCATION_PAGE = "PropDev-CreditAllocationPage";
+    String PROP_DEV_SUPPLEMENTAL_SECTION = "PropDev-Supplemental-Section";
+    String PROP_DEV_SUPPLEMENTAL_PAGE = "PropDev-SupplementalPage";
+    String SHOW_SECTION_IN_DATA_VALIDATION = "Show_Section_In_Data_Validation";
+
 }
 

@@ -32,8 +32,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.impl.gv.GlobalVariableServiceImpl;
 import org.kuali.kra.bo.CostShareType;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -141,6 +139,151 @@ public class ProposalBudgetServiceTest {
 
     }
 
+    @Test
+    public void test_unique_source_account_fiscal_year_cost_share_type() {
+        final ProposalDevelopmentDocument proposalDevelopmentDocument = new ProposalDevelopmentDocument();
+        ProposalBudgetServiceImpl proposalBudgetService = new ProposalBudgetServiceImpl() {
+            @Override
+            public boolean isCostShareTypeEnabled() {
+                return true;
+            }
+
+            @Override
+            public GlobalVariableService getGlobalVariableService() {
+                final GlobalVariableServiceImpl globalVariableService = new GlobalVariableServiceImpl();
+                globalVariableService.setMessageMap(new MessageMap());
+                return globalVariableService;
+            }
+
+            @Override
+            public String getValidationMessageType() {
+                return "E";
+            }
+
+            };
+
+        ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
+        BudgetCostShare costShare = new BudgetCostShare();
+        costShare.setSourceAccount("123");
+        costShare.setProjectPeriod(1);
+        costShare.setCostShareTypeCode(1);
+        budget.getBudgetCostShares().add(costShare);
+        BudgetCostShare costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("123");
+        costShare2.setCostShareTypeCode(2);
+        costShare2.setProjectPeriod(1);
+        budget.getBudgetCostShares().add(costShare2);
+        proposalDevelopmentDocument.getDevelopmentProposal().setFinalBudget(budget);
+        Assert.assertFalse(proposalBudgetService.findMatchingCostShare(costShare, costShare2, 1, true));
+
+        costShare = new BudgetCostShare();
+        costShare.setSourceAccount("123");
+        costShare.setProjectPeriod(1);
+        costShare.setCostShareTypeCode(1);
+        budget.getBudgetCostShares().add(costShare);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("123");
+        costShare2.setCostShareTypeCode(1);
+        costShare2.setProjectPeriod(1);
+        budget.getBudgetCostShares().add(costShare2);
+        proposalDevelopmentDocument.getDevelopmentProposal().setFinalBudget(budget);
+        Assert.assertTrue(proposalBudgetService.findMatchingCostShare(costShare, costShare2, 1, true));
+
+        budget.setBudgetCostShares(new ArrayList<>());
+        costShare = new BudgetCostShare();
+        costShare.setSourceAccount("123");
+        costShare.setCostShareTypeCode(null);
+        budget.getBudgetCostShares().add(costShare);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("456");
+        costShare2.setCostShareTypeCode(null);
+        budget.getBudgetCostShares().add(costShare2);
+        Assert.assertFalse(proposalBudgetService.findMatchingCostShare(costShare, costShare2, Integer.MIN_VALUE, true));
+
+        budget.setBudgetCostShares(new ArrayList<>());
+        costShare = new BudgetCostShare();
+        costShare.setSourceAccount("123");
+        costShare.setProjectPeriod(1);
+        costShare.setCostShareTypeCode(null);
+        budget.getBudgetCostShares().add(costShare);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("123");
+        costShare2.setProjectPeriod(1);
+        costShare2.setCostShareTypeCode(null);
+        budget.getBudgetCostShares().add(costShare2);
+        Assert.assertTrue(proposalBudgetService.findMatchingCostShare(costShare, costShare2, 1, true));
+
+        budget.setBudgetCostShares(new ArrayList<>());
+        costShare = new BudgetCostShare();
+        costShare.setSourceAccount("123");
+        costShare.setCostShareTypeCode(1);
+        costShare.setProjectPeriod(1);
+        budget.getBudgetCostShares().add(costShare);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("123");
+        costShare.setCostShareTypeCode(1);
+        costShare2.setProjectPeriod(2);
+        budget.getBudgetCostShares().add(costShare2);
+        Assert.assertFalse(proposalBudgetService.findMatchingCostShare(costShare, costShare2, 1, true));
+
+        budget.setBudgetCostShares(new ArrayList<>());
+        costShare = new BudgetCostShare();
+        costShare.setSourceAccount("123");
+        costShare.setProjectPeriod(null);
+        budget.getBudgetCostShares().add(costShare);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("123");
+        costShare2.setProjectPeriod(null);
+        budget.getBudgetCostShares().add(costShare2);
+        Assert.assertTrue(proposalBudgetService.findMatchingCostShare(costShare, costShare2, Integer.MIN_VALUE, true));
+
+        budget.setBudgetCostShares(new ArrayList<>());
+        costShare = new BudgetCostShare();
+        costShare.setSourceAccount("123");
+        costShare.setCostShareTypeCode(1);
+        costShare.setProjectPeriod(1);
+        costShare.setUnitNumber("000001");
+        budget.getBudgetCostShares().add(costShare);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("123");
+        costShare2.setCostShareTypeCode(1);
+        costShare2.setUnitNumber(null);
+        costShare2.setProjectPeriod(1);
+        budget.getBudgetCostShares().add(costShare2);
+        Assert.assertFalse(proposalBudgetService.findMatchingCostShare(costShare, costShare2, 1, true));
+
+        budget.setBudgetCostShares(new ArrayList<>());
+        costShare = new BudgetCostShare();
+        costShare.setSourceAccount("123");
+        costShare.setCostShareTypeCode(1);
+        costShare.setProjectPeriod(1);
+        costShare.setUnitNumber("000001");
+        budget.getBudgetCostShares().add(costShare);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("123");
+        costShare2.setCostShareTypeCode(1);
+        costShare2.setUnitNumber("000001");
+        costShare2.setProjectPeriod(1);
+        budget.getBudgetCostShares().add(costShare2);
+        Assert.assertTrue(proposalBudgetService.findMatchingCostShare(costShare, costShare2, 1, true));
+
+        budget.setBudgetCostShares(new ArrayList<>());
+        costShare = new BudgetCostShare();
+        costShare.setSourceAccount("123");
+        costShare.setCostShareTypeCode(1);
+        costShare.setProjectPeriod(1);
+        costShare.setUnitNumber("000001");
+        budget.getBudgetCostShares().add(costShare);
+        costShare2 = new BudgetCostShare();
+        costShare2.setSourceAccount("123");
+        costShare2.setUnitNumber("000001");
+        costShare2.setCostShareTypeCode(null);
+        costShare2.setProjectPeriod(1);
+        budget.getBudgetCostShares().add(costShare2);
+        Assert.assertFalse(proposalBudgetService.findMatchingCostShare(costShare, costShare2, 1, true));
+
+    }
+
 	@Test
 	public void test_getFinalBudgetVersion_no_docHeaderId()
 			throws WorkflowException {
@@ -180,9 +323,11 @@ public class ProposalBudgetServiceTest {
     public void testIsValidSourceAccountCostShareType() {
         ProposalBudgetServiceImpl proposalBudgetServiceImpl = new ProposalBudgetServiceImpl() {
 
+            @Override
             public void refreshReference(CostShare budgetCostShare) {
             }
 
+            @Override
             public Collection<ValidSourceAccountsCostShareType> getMatchingValidSourceAccountsCostShareTypes() {
                 List<ValidSourceAccountsCostShareType> validSourceAccountsCostShareTypeList = new ArrayList<>();
                 final ValidSourceAccountsCostShareType validSourceAccountsCostShareType1 = new ValidSourceAccountsCostShareType();
@@ -203,6 +348,7 @@ public class ProposalBudgetServiceTest {
                 return validSourceAccountsCostShareTypeList;
             }
 
+            @Override
             public boolean isCostShareTypeSourceAccountValidationEnabled() {
                 return true;
             }
@@ -258,11 +404,13 @@ public class ProposalBudgetServiceTest {
     public void testIsValidSourceAccountCostShareTypeNoValidEntries() {
 
         ProposalBudgetServiceImpl proposalBudgetServiceImpl = new ProposalBudgetServiceImpl() {
+            @Override
             public Collection<ValidSourceAccountsCostShareType> getMatchingValidSourceAccountsCostShareTypes() {
                 List<ValidSourceAccountsCostShareType> validSourceAccountsCostShareTypeList = new ArrayList<>();
                 return validSourceAccountsCostShareTypeList;
             }
 
+            @Override
             public boolean isCostShareTypeSourceAccountValidationEnabled() {
                 return true;
             }

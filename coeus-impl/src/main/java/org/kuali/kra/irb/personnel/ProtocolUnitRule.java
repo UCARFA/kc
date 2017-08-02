@@ -30,6 +30,7 @@ public class ProtocolUnitRule extends ProtocolUnitRuleBase {
      * This method is to get protocol personnel service
      * @return ProtocolPersonnelService
      */
+    @Override
     protected ProtocolPersonnelService getProtocolPersonnelService() {
         return KcServiceLocator.getService(ProtocolPersonnelService.class);
     }

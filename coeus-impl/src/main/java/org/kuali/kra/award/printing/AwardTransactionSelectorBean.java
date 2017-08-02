@@ -26,6 +26,7 @@ public class AwardTransactionSelectorBean extends BusinessObjectBase {
     private Integer amountInfoIndex;
     private Boolean requireSignature;
 
+    @Override
     public void refresh() {
         //do nothing
     }

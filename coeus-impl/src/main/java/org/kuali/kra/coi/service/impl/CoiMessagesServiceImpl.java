@@ -47,6 +47,7 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
     /**
      * @ Check COI to see if annual disclosure is coming due
      */
+    @Override
     public List<String> getMessages() {
         List<String>results = new ArrayList<String>();
 

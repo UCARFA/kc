@@ -991,7 +991,7 @@
 	</bean>
 
 	<bean id="DevelopmentProposal-hierarchyStatusName" parent="DevelopmentProposal-hierarchyStatusName-parentBean" />
-  <bean id="DevelopmentProposal-hierarchyStatusName-parentBean" parent="AttributeDefinition">
+  <bean id="DevelopmentProposal-hierarchyStatusName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="hierarchyStatusName" />
 		<property name="label" value="Hierarchy Status" />
 		<property name="shortLabel" value="Hierarchy Status" />

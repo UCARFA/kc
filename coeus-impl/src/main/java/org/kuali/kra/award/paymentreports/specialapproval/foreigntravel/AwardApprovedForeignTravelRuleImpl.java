@@ -45,6 +45,7 @@ public class AwardApprovedForeignTravelRuleImpl extends KcTransactionalDocumentR
     private static final String END_DATE_ERROR_PARM = "End Date";
     private static final String AMOUNT_ERROR_PARM = "Amount";
 
+    @Override
     public boolean processAwardApprovedForeignTravelBusinessRules(AwardApprovedForeignTravelRuleEvent event) {
         return processCommonValidations(APPROVED_FOREIGN_TRAVEL_LIST_ERROR_KEY, event);        
     }

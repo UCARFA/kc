@@ -28,6 +28,7 @@ import java.util.List;
 
 @Component("budgetCostElementValuesFinder")
 public class BudgetCostElementValuesFinder extends CostElementValuesFinder {
+    @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         String budgetCategoryCode = ((ProposalBudgetForm)model).getAddProjectBudgetLineItemHelper().getBudgetLineItem().getBudgetCategoryCode();
         String budgetCategoryTypeCode = ((ProposalBudgetForm)model).getAddProjectBudgetLineItemHelper().getBudgetCategoryTypeCode();

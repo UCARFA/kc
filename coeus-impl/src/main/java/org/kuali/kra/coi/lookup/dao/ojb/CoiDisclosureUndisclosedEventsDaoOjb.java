@@ -63,18 +63,21 @@ public class CoiDisclosureUndisclosedEventsDaoOjb extends PlatformAwareDaoBaseOj
     private static final String FUNDING_SOURCE_NUMBER_FIELD = "protocol.protocolFundingSources.fundingSourceNumber";
     private static final String FUNDING_SOURCE_COLLECTION = "protocol.protocolFundingSources";
     
+    @Override
     @SuppressWarnings("unchecked")
     public List<InstitutionalProposalPerson> getInstituteProposalPersons(Map<String, String> fieldValues) {
         QueryByCriteria query = QueryFactory.newQuery(InstitutionalProposalPerson.class, getSearchCriteria(fieldValues, INST_PROPOSAL_SAVE_DATE, INST_PROPOSAL_SPONSOR_CODE));
         return (List<InstitutionalProposalPerson>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<AwardPerson> getAwardPersons(Map<String, String> fieldValues) {
         QueryByCriteria query = QueryFactory.newQuery(AwardPerson.class, getSearchCriteria(fieldValues, AWARD_SAVE_DATE, AWARD_SPONSOR_CODE));
         return (List<AwardPerson>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<IacucProtocolPerson> getIacucProtocolPersons(Map<String, String> fieldValues) {
         Criteria searchCriteria = getSearchCriteria(fieldValues, IACUC_PROTOCOL_SAVE_DATE);
@@ -87,6 +90,7 @@ public class CoiDisclosureUndisclosedEventsDaoOjb extends PlatformAwareDaoBaseOj
         return (List<IacucProtocolPerson>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<ProtocolPerson> getIrbProtocolPersons(Map<String, String> fieldValues) {
         Criteria searchCriteria = getSearchCriteria(fieldValues, IRB_PROTOCOL_SAVE_DATE);

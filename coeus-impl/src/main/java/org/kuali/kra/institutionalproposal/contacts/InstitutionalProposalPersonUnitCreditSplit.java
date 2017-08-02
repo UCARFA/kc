@@ -97,6 +97,7 @@ public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBus
      * Gets the invCreditTypeCode attribute. 
      * @return Returns the invCreditTypeCode.
      */
+    @Override
     public String getInvCreditTypeCode() {
         refreshInvestigatorCreditTypeIfNeeded();
         return invCreditTypeCode;
@@ -140,6 +141,7 @@ public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBus
      * Sets the invCreditTypeCode attribute value.
      * @param invCreditTypeCode The invCreditTypeCode to set.
      */
+    @Override
     public void setInvCreditTypeCode(String invCreditTypeCode) {
         this.invCreditTypeCode = invCreditTypeCode;
     }
@@ -149,6 +151,7 @@ public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBus
      *
      * @return the value of credit
      */
+    @Override
     public ScaleTwoDecimal getCredit() {
         return this.credit;
     }
@@ -158,6 +161,7 @@ public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBus
      *
      * @param argCredit Value to assign to this.credit
      */
+    @Override
     public void setCredit(ScaleTwoDecimal credit) {
         this.credit = credit != null ? credit : new ScaleTwoDecimal(0);
     }
@@ -178,20 +182,24 @@ public class InstitutionalProposalPersonUnitCreditSplit extends KcPersistableBus
         }
     }
 
+    @Override
     public InstitutionalProposal getSequenceOwner() {
         return getInstitutionalProposalPersonUnit() != null ? getInstitutionalProposalPersonUnit().getInstitutionalProposalPerson().getInstitutionalProposal() : null;
     }
 
+    @Override
     public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
         if (getInstitutionalProposalPersonUnit() != null) {
             getInstitutionalProposalPersonUnit().getInstitutionalProposalPerson().setInstitutionalProposal(newlyVersionedOwner);
         }
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return getInstitutionalProposalPersonUnit() != null ? getInstitutionalProposalPersonUnit().getSequenceNumber() : 0;
     }
 
+    @Override
     public void resetPersistenceState() {
         this.institutionalProposalPersonUnitCreditSplitId = null;
     }

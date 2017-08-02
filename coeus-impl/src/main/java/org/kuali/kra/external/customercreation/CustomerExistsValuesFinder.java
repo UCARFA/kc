@@ -18,7 +18,6 @@
  */
 package org.kuali.kra.external.customercreation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;

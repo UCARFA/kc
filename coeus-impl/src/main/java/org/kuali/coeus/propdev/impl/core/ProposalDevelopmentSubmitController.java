@@ -399,38 +399,36 @@ public class ProposalDevelopmentSubmitController extends
     
     public void submitApplication(ProposalDevelopmentDocumentForm proposalDevelopmentForm)throws Exception {
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        
-        boolean isIPProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IRB, ParameterConstants.DOCUMENT_COMPONENT, Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK);
-        
+        boolean isIPProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(
+                                                Constants.MODULE_NAMESPACE_IRB, ParameterConstants.DOCUMENT_COMPONENT,
+                                                Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK
+                                              );
         List<ProposalSpecialReview> specialReviews = proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews();
-        
-        if (!isIPProtocolLinkingEnabled || getKcBusinessRulesEngine().applyRules(new SaveSpecialReviewLinkEvent<>(proposalDevelopmentDocument, specialReviews))) {
-
-            final boolean generateIp = !(autogenerateInstitutionalProposal() && ProposalDevelopmentConstants.ResubmissionOptions.DO_NOT_GENERATE_NEW_IP.equals(proposalDevelopmentForm.getResubmissionOption()));
-
+        final Boolean validSpecialReviewSave = getKcBusinessRulesEngine().applyRules(new SaveSpecialReviewLinkEvent<>(proposalDevelopmentDocument, specialReviews));
+        if (!isIPProtocolLinkingEnabled || validSpecialReviewSave) {
+            final boolean generateIp = !(autogenerateInstitutionalProposal() &&
+                    ProposalDevelopmentConstants.ResubmissionOptions.DO_NOT_GENERATE_NEW_IP.equals(proposalDevelopmentForm.getResubmissionOption()));
         	if (generateIp) {
                 proposalDevelopmentDocument.getDevelopmentProposal().setSubmitFlag(true);
             }
             setProposalStateType(generateIp, proposalDevelopmentDocument);
-
             String pCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
             proposalDevelopmentForm.setCanEditView(null);
             proposalDevelopmentForm.setEvaluateFlagsAndModes(true);
             getTransactionalDocumentControllerService().save(proposalDevelopmentForm);
-            if( !StringUtils.equals(pCode, proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode() )) {
+            if (!StringUtils.equals(pCode, proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode())) {
                 proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(pCode);
                 proposalDevelopmentDocument.getDevelopmentProposal().refresh();
                 getDataObjectService().save(proposalDevelopmentDocument.getDevelopmentProposal());
             }
 
             updateProposalAdminDetailsForSubmitToSponsor(proposalDevelopmentDocument.getDevelopmentProposal());
-    
             if (autogenerateInstitutionalProposal()) {
                 generateInstitutionalProposal(proposalDevelopmentForm, isIPProtocolLinkingEnabled);
             }
         }
-        
     }
+
     protected void setProposalStateType(boolean generateIp, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         if (generateIp) {
             if (ProposalState.APPROVED.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode())) {

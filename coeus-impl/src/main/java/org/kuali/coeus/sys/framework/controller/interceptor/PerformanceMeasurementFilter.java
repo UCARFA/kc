@@ -41,11 +41,13 @@ public class PerformanceMeasurementFilter implements Filter {
     
     private Calendar _performanceLogCalendar;
     
+    @Override
     public void destroy() {
         setPerformanceLogCalendar(null);
         filterConfig = null;
     }
 
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         final long startTime = System.currentTimeMillis();
         PerformanceFilterResponse filterResponse = new PerformanceFilterResponse((HttpServletResponse) response);
@@ -58,6 +60,7 @@ public class PerformanceMeasurementFilter implements Filter {
         }
     }
 
+    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
         
@@ -112,7 +115,8 @@ public class PerformanceMeasurementFilter implements Filter {
         final HttpSample httpSample = new HttpSample((HttpServletRequest) request, response, outputDirectory, startTime, elapsedTime);
         
         Thread t = new Thread(new Runnable() {
-           public void run() {               
+           @Override
+           public void run() {
                logSample(httpSample, outputDirectory);
            }
         });

@@ -162,6 +162,7 @@ public class SequenceAssociateGrandChild implements SequenceAssociate<SequenceOw
         return name;
     }
 
+    @Override
     public void resetPersistenceState() {
         setGrandChildId(null);
     }

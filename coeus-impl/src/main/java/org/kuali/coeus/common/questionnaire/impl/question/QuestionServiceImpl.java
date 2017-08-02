@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.common.questionnaire.impl.question;
 
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;

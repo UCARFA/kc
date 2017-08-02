@@ -250,34 +250,34 @@
 		</td>
 		
 		<c:if test="${KualiForm.controlForAwardHierarchyView == 0}" >
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px;  align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Oblg. Start
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Oblg. End
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Project End
 			</td>
 		</c:if>
 
 		<c:if test="${KualiForm.controlForAwardHierarchyView == 1}" >
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 114px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Oblg. Start
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 114px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Oblg. End
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 114px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Project End
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			&nbsp;
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Obligated
 			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 			Anticipated
 			</td> 
 		</c:if>
@@ -286,48 +286,48 @@
 		<c:if test="${KualiForm.controlForAwardHierarchyView == 2}" >
 			<c:choose>				
 				<c:when test="${KualiForm.directIndirectViewEnabled == '1'}" >						
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Oblg. Start
 					</td>
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Oblg. End
 					</td>
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Project End
 					</td>
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Oblg. Direct
 					</td>
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Oblg. F&A
 					</td>		
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Oblg. Total
 					</td>
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Ant. Direct
 					</td>
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Ant. F&A
 					</td>
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Ant. Total
 					</td>					
 				</c:when>
 				<c:otherwise>			
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Oblg. Start
 					</td>
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Oblg. End
 					</td>
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Project End
 					</td>		
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Obligated
 					</td>
-					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
+					<td style="border: 1px solid rgb(153, 153, 153); text-align: center; align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
 					Anticipated
 					</td>				
 				</c:otherwise>

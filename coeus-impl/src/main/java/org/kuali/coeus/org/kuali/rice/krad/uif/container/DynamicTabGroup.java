@@ -60,4 +60,10 @@ public interface DynamicTabGroup extends Group {
 	 * @param setFieldBindingObjectPath
 	 */
 	void setSetFieldBindingObjectPath(Boolean setFieldBindingObjectPath);
+	
+	/**
+	 * When set the dynamic tab group will attempt get a boolean value from the specified property on the form.
+	 * This boolean value when true will cause lazy loading properties to be applied to each group in the tab group.
+	 */
+	void setApplyLazyLoadProperty(String applyLazyLoadProperty);
 }

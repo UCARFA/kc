@@ -65,7 +65,8 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 	 *            parameters related to XML generation
 	 * @return Map consisting of XML Objects mapped to bookmarks
 	 */
-	public Map<String, XmlObject> generateXmlStream(
+	@Override
+    public Map<String, XmlObject> generateXmlStream(
 			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectMap = new LinkedHashMap<String, XmlObject>();
 		this.budget = (Budget) printableBusinessObject;
@@ -225,7 +226,8 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 		}
 		setReportTypeForBudgetSummaryNonPersonnel(reportTypeList);
 		Collections.sort(reportTypeList, new Comparator<ReportType>() {
-			public int compare(ReportType reportType1, ReportType reportType2) {
+			@Override
+            public int compare(ReportType reportType1, ReportType reportType2) {
 				return reportType1.getBudgetCategoryDescription().compareTo(reportType2.getBudgetCategoryDescription());
 			}
 		});

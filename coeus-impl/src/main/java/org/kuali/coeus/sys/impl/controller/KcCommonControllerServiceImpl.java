@@ -125,6 +125,7 @@ public class KcCommonControllerServiceImpl implements KcCommonControllerService 
         return requestForm;
     }
 
+    @Override
     public ModelAndView closeDialog(String dialogId, UifFormBase form) {
         ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
         getModelAndViewService().prepareView(form.getRequest(), modelAndView);

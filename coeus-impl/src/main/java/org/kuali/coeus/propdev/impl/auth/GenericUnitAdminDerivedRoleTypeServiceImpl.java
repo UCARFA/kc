@@ -47,11 +47,13 @@ public class GenericUnitAdminDerivedRoleTypeServiceImpl extends ProposalAllUnitA
 			.orElse(null);
 	}
 
-	public DataObjectService getDataObjectService() {
+	@Override
+    public DataObjectService getDataObjectService() {
 		return dataObjectService;
 	}
 
-	public void setDataObjectService(DataObjectService dataObjectService) {
+	@Override
+    public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
 	}
 }

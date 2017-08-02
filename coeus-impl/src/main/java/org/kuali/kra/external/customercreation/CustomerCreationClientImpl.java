@@ -23,7 +23,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.external.kc.service.CustomerCreationService;
 import org.kuali.kfs.module.external.kc.service.CustomerCreationServiceSOAP;
-import org.kuali.kfs.module.external.kc.service.DunningCampaignService;
 import org.kuali.kfs.module.external.kc.service.DunningCampaignServiceSOAP;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.config.property.ConfigContext;

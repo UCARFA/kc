@@ -167,6 +167,7 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
         return params;
     }
 
+    @Override
     public Protocol getProtocol() {
         return protocol;
     }
@@ -175,6 +176,7 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
         this.protocol = protocol;
     }
     
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
             businessObjectService = KNSServiceLocator.getBusinessObjectService();
@@ -182,10 +184,12 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
         return businessObjectService;
     }
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
+    @Override
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
             kcPersonService = KcServiceLocator.getService(KcPersonService.class);
@@ -193,6 +197,7 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
         return kcPersonService;
     }
 
+    @Override
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }

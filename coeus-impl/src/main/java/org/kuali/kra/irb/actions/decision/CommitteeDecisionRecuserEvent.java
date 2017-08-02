@@ -49,10 +49,12 @@ public class CommitteeDecisionRecuserEvent extends KcDocumentEventBase {
 
     }
 
+    @Override
     public Class<ExecuteCommitteeDecisionRecuserRule> getRuleInterfaceClass() {
         return ExecuteCommitteeDecisionRecuserRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ExecuteCommitteeDecisionRecuserRule) rule).proccessCommitteeDecisionRecuserRule((ProtocolDocument) this.getDocument(),
                 this.actionBean);

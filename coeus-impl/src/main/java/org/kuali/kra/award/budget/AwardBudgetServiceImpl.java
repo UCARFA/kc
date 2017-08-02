@@ -1433,6 +1433,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         this.globalVariableService = globalVariableService;
     }
 
+    @Override
     public GlobalVariableService getGlobalVariableService() {
         return globalVariableService;
     }

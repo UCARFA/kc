@@ -19,12 +19,13 @@
 package org.kuali.coeus.propdev.impl.core;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddLineHelper {
+public class AddLineHelper implements Serializable {
 
     private String lineType;
     private Map<String, String> lookupFieldValues;

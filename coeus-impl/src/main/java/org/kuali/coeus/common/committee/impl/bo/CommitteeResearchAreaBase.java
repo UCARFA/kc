@@ -106,6 +106,7 @@ public abstract class CommitteeResearchAreaBase extends CommitteeAssociateBase {
         return result;
     }
 
+    @Override
     public void resetPersistenceState() {
         setId(null);
     }

@@ -37,6 +37,7 @@ public class IacucProtocolAdministrativelyIncompleteBean extends IacucProtocolWi
      * This method returns the correct correspondence for this object
      * 
      */
+    @Override
     public IacucProtocolActionsCorrespondence getCorrespondence() {
         IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE);
         return correspondence;

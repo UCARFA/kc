@@ -72,6 +72,7 @@ public abstract class NarrativeEventBase extends KcDocumentEventBase implements 
     /**
      * @return <code>{@link Narrative}</code> that triggered this event.
      */
+    @Override
     public Narrative getNarrative() {
         return narrative;
     }
@@ -86,6 +87,7 @@ public abstract class NarrativeEventBase extends KcDocumentEventBase implements 
     /**
      * Logs the event type and some information about the associated accountingLine
      */
+    @Override
     protected void logEvent() {
         LOG.debug(getDescription());
     }

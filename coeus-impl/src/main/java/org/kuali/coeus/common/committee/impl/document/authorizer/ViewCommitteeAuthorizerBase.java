@@ -26,6 +26,7 @@ import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTas
  */
 public abstract class ViewCommitteeAuthorizerBase extends CommitteeAuthorizerBase {
 
+    @Override
     public boolean isAuthorized(String userId, CommitteeTaskBase task) {
         return hasPermission(userId, task.getCommittee(), getPermissionNameForViewCommitteeHook());
     }

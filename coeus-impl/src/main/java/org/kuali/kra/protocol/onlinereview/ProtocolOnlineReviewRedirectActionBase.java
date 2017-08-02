@@ -41,6 +41,7 @@ public abstract class ProtocolOnlineReviewRedirectActionBase extends KcTransacti
     private static final String PROTOCOL_DOCUMENT_NUMBER="protocolDocumentNumber";
     private static final String PROTOCOL_ONLINE_REVIEW_DOCUMENT_NUMBER="protocolOnlineReviewDocumentNumber";
     
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);

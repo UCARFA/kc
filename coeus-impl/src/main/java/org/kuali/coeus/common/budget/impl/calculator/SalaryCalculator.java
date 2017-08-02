@@ -42,7 +42,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.*;
-import java.util.Date;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -375,7 +374,9 @@ public class SalaryCalculator {
             if (!budgetPerson.getSalaryAnniversaryDate().before(budgetPerson.getEffectiveDate())) {
                 budgetRate.setStartDate(budgetPerson.getSalaryAnniversaryDate());
             }
-            budgetRates.add(budgetRate);
+            if (budgetRate.getStartDate().before(endDate) || budgetRate.getStartDate().equals(endDate)) {
+                budgetRates.add(budgetRate);
+            }
         }
         Calendar salaryDateCalendar = getDateTimeService().getCalendar(budgetPerson.getSalaryAnniversaryDate());
         Calendar endCalendar = getDateTimeService().getCalendar(endDate);
@@ -546,7 +547,7 @@ public class SalaryCalculator {
             strBffr.append(";");
             strBffr.append("Duration=>" + workingMonths);
             strBffr.append(";");
-            strBffr.append("Boundary=>" + boundary.toString());
+            strBffr.append("Boundary=>" + String.valueOf(boundary));
             strBffr.append(";");
             strBffr.append("Calculated salary=>" + calculatedSalary);
             strBffr.append("\n");
@@ -615,19 +616,20 @@ public class SalaryCalculator {
 
     }
 
-    private Date getPreviousPeriodEndDate() {
+    protected Date getPreviousPeriodEndDate() {
         int previousPeriod = personnelLineItem.getBudgetPeriod() - 1;
 
         List<BudgetPersonnelDetails> previousPeriodsPersonnelDetails = budget.getBudgetPeriods()
                 .stream()
                 .filter(budgetPeriod -> budgetPeriod.getBudgetPeriod().equals(previousPeriod))
                 .flatMap(l -> l.getBudgetLineItems().stream())
+                .filter(l -> StringUtils.equalsIgnoreCase(l.getCostElement(), personnelLineItem.getCostElement()))
                 .flatMap(l -> l.getBudgetPersonnelDetailsList().stream())
                 .filter(budgetPersonnelDetail -> (
                     budgetPersonnelDetail.getBudgetPerson() != null &&
                     personnelLineItem.getBudgetPerson() != null &&
-                    StringUtils.equals(budgetPersonnelDetail.getBudgetPerson().getPersonRolodexTbnId(), personnelLineItem.getBudgetPerson().getPersonRolodexTbnId()) &&
-                    StringUtils.equals(budgetPersonnelDetail.getCostElement(), personnelLineItem.getCostElement())))
+                    StringUtils.equals(budgetPersonnelDetail.getBudgetPerson().getPersonRolodexTbnId(), personnelLineItem.getBudgetPerson().getPersonRolodexTbnId())
+                    ))
                 .sorted(Comparator.comparing(BudgetPersonnelDetails::getEndDate))
                 .collect(Collectors.toList());
 

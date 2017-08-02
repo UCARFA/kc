@@ -133,10 +133,12 @@ public class FrequencyBase extends KcPersistableBusinessObjectBase implements Mu
         this.regenerationTypeName = regenerationTypeName;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

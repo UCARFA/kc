@@ -116,6 +116,7 @@ public abstract class CommitteeCommitteeActionBase extends CommitteeActionBase {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    @Override
     protected abstract CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee);
 
 

@@ -80,6 +80,7 @@ public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword 
      * Gets the sequenceNumber attribute. 
      * @return Returns the sequenceNumber.
      */
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -119,6 +120,7 @@ public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword 
      * Gets the selectKeyword attribute. 
      * @return Returns the selectKeyword.
      */
+    @Override
     public Boolean getSelectKeyword() {
         return selectKeyword;
     }
@@ -127,6 +129,7 @@ public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword 
      * Sets the selectKeyword attribute value.
      * @param selectKeyword The selectKeyword to set.
      */
+    @Override
     public void setSelectKeyword(Boolean selectKeyword) {
         this.selectKeyword = selectKeyword;
     }

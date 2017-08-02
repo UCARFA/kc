@@ -87,6 +87,7 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
         return hierarchyProposalNumber;
     }
 
+    @Override
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
@@ -96,6 +97,7 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
         return hiddenInHierarchy;
     }
 
+    @Override
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }

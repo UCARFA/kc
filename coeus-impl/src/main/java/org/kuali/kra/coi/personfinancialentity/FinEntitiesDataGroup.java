@@ -74,6 +74,7 @@ public class FinEntitiesDataGroup extends KcPersistableBusinessObjectBase implem
         this.finEntitiesDataMatrixs = finEntitiesDataMatrixs;
     }
 
+    @Override
     public int compareTo(FinEntitiesDataGroup arg1) {
         return getDataGroupSortId().compareTo(arg1.getDataGroupSortId());
     }

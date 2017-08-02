@@ -54,6 +54,7 @@ public class SpecialReviewApprovalTypeValuesFinder extends DataObjectValuesFinde
         setLabelAttributeName(DESCRIPTION);
     }
     
+    @Override
     public DataObjectService getDataObjectService() {
     	if (super.getDataObjectService() == null) {
     		this.setDataObjectService(KcServiceLocator.getService(DataObjectService.class));

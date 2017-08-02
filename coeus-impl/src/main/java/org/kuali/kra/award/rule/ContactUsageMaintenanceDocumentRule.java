@@ -41,12 +41,14 @@ public class ContactUsageMaintenanceDocumentRule extends KcMaintenanceDocumentRu
         super();
     }
     
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         setOldTypeId(document);
         ContactUsage contactUsage = (ContactUsage) document.getDocumentBusinessObject();
         return validate(contactUsage, document.getNewMaintainableObject().getMaintenanceAction());
     }
     
+    @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         setOldTypeId(document);
         ContactUsage contactUsage = (ContactUsage) document.getDocumentBusinessObject();

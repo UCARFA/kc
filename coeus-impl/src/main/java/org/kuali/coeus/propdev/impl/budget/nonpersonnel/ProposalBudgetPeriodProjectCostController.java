@@ -27,10 +27,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.ApplyToPeriodsBudgetEvent;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetDirectCostLimitEvent;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetPeriodCostLimitEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.*;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetAddPersonnelPeriodEvent;
@@ -551,11 +547,13 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 		return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.PROP_BUDGET_FORMULATED_COST_EDIT_DETAILS, true, form);
 	}
 
-	public BudgetRatesService getBudgetRatesService() {
+	@Override
+    public BudgetRatesService getBudgetRatesService() {
 		return budgetRatesService;
 	}
 
-	public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
+	@Override
+    public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
 		this.budgetRatesService = budgetRatesService;
 	}
 }

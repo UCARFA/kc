@@ -20,15 +20,10 @@ package org.kuali.coeus.propdev.impl.s2s;
 
 
 import com.lowagie.text.pdf.*;
-import gov.nih.era.svs.types.ValidateApplicationResponse;
-import gov.nih.era.svs.types.ValidationMessage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xpath.XPathAPI;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
-import org.kuali.coeus.propdev.impl.s2s.nih.NihSubmissionValidationService;
-import org.kuali.coeus.propdev.impl.s2s.nih.NihValidationServiceUtils;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
 import org.kuali.coeus.s2sgen.api.core.InfastructureConstants;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
@@ -38,7 +33,7 @@ import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
 import org.kuali.coeus.s2sgen.api.hash.GrantApplicationHashService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.kra.infrastructure.Constants;
+
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,10 +66,6 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     @Autowired
     @Qualifier("formGeneratorService")
     private FormGeneratorService formGeneratorService;
-
-    @Autowired
-    @Qualifier("nihSubmissionValidationService")
-    private NihSubmissionValidationService nihSubmissionValidationService;
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -429,24 +420,8 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         if(!result.isValid()) {
             setValidationErrorMessage(result);
             return false;
-        }else{
-            try {
-                ValidateApplicationResponse response = nihSubmissionValidationService.validateApplication(result.getApplicationXml(), result.getAttachments(), developmentProposal.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber());
-                setValidationErrorMessage(response);
-                return response.getValidationMessageList().getValidationMessage().isEmpty();
-            } catch (S2sCommunicationException ex) {
-                LOG.error("Error validating with nih.gov", ex);
-                getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(), ex.getMessageWithParams());
-                return false;
-            }
         }
-        
-    }
-
-    protected void setValidationErrorMessage(ValidateApplicationResponse result) {
-        for (ValidationMessage error : result.getValidationMessageList().getValidationMessage()) {
-            globalVariableService.getMessageMap().putError(USER_ATTACHED_FORMS_ERRORS, KeyConstants.S2S_USER_ATTACHED_FORM_NOT_VALID, NihValidationServiceUtils.toMessageString(error));
-        }
+        return true;
     }
 
     protected void setValidationErrorMessage(FormGenerationResult result) {
@@ -621,13 +596,5 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
 
     public void setFormGeneratorService(FormGeneratorService formGeneratorService) {
         this.formGeneratorService = formGeneratorService;
-    }
-
-    public NihSubmissionValidationService getNihSubmissionValidationService() {
-        return nihSubmissionValidationService;
-    }
-
-    public void setNihSubmissionValidationService(NihSubmissionValidationService nihSubmissionValidationService) {
-        this.nihSubmissionValidationService = nihSubmissionValidationService;
     }
 }

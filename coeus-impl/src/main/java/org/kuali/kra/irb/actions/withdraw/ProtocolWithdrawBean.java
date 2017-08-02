@@ -44,18 +44,22 @@ public class ProtocolWithdrawBean extends ProtocolActionBean implements org.kual
         super(actionHelper);
     }
 
+    @Override
     public void setReason(String reason) {
         this.reason = reason;
     }
 
+    @Override
     public String getReason() {
         return reason;
     }
     
+    @Override
     public Date getActionDate() {
         return actionDate;
     }
     
+    @Override
     public void setActionDate(Date actionDate) {
         this.actionDate = actionDate;
     }
@@ -65,6 +69,7 @@ public class ProtocolWithdrawBean extends ProtocolActionBean implements org.kual
      * This method returns the correct correspondence for this object
      * @return a WithdrawCorrespondence object
      */
+    @Override
     public ProtocolActionsCorrespondenceBase getCorrespondence() {
         WithdrawCorrespondence correspondence = new WithdrawCorrespondence();
         return correspondence;

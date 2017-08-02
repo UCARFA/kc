@@ -42,7 +42,8 @@ public class RestAuditLoggerDaoImplTest {
 		auditLog.setAdded("[{\"instituteRate\":13.00,\"activityTypeCode\":\"1\",\"onOffCampusFlag\":true,\"unitNumber\":\"000001\",\"rateTypeCode\":\"1\",\"id\":1551,\"rateClassCode\":\"5\",\"fiscalYear\":\"2011\",\"startDate\":\"2010-06-24\"}, {\"instituteRate\":15.00,\"activityTypeCode\":\"1\",\"onOffCampusFlag\":true,\"unitNumber\":\"000001\",\"rateTypeCode\":\"1\",\"id\":1553,\"rateClassCode\":\"5\",\"fiscalYear\":\"2011\",\"startDate\":\"2010-06-24\"}]");
 		auditLog.setDeleted("[{\"instituteRate\":22.00,\"activityTypeCode\":\"1\",\"onOffCampusFlag\":true,\"unitNumber\":\"000001\",\"rateTypeCode\":\"1\",\"id\":1552,\"rateClassCode\":\"5\",\"fiscalYear\":\"2011\",\"startDate\":\"2010-06-24\"}]");
 		RestAuditLoggerDaoImpl dao = new RestAuditLoggerDaoImpl() {
-			protected List<RestAuditLogDataObject> getRestAuditLogsFromDatabase(Class<?> dataObjectClass) {
+			@Override
+            protected List<RestAuditLogDataObject> getRestAuditLogsFromDatabase(Class<?> dataObjectClass) {
 				return Arrays.asList(auditLog);
 			}
 		};

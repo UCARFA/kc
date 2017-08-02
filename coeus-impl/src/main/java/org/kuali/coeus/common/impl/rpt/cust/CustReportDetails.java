@@ -137,6 +137,7 @@ public class CustReportDetails extends KcPersistableBusinessObjectBase implement
      * Gets the fileName attribute. 
      * @return Returns the fileName.
      */
+    @Override
     public String getFileName() {
         return fileName;
     }
@@ -145,6 +146,7 @@ public class CustReportDetails extends KcPersistableBusinessObjectBase implement
      * Sets the fileName attribute value.
      * @param fileName The fileName to set.
      */
+    @Override
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
@@ -153,6 +155,7 @@ public class CustReportDetails extends KcPersistableBusinessObjectBase implement
      * Gets the contentType attribute. 
      * @return Returns the contentType.
      */
+    @Override
     public String getContentType() {
         return contentType;
     }
@@ -161,6 +164,7 @@ public class CustReportDetails extends KcPersistableBusinessObjectBase implement
      * Sets the contentType attribute value.
      * @param contentType The contentType to set.
      */
+    @Override
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
@@ -169,6 +173,7 @@ public class CustReportDetails extends KcPersistableBusinessObjectBase implement
      * Gets the attachmentContent attribute. 
      * @return Returns the attachmentContent.
      */
+    @Override
     public byte[] getAttachmentContent() {
         return attachmentContent;
     }
@@ -177,6 +182,7 @@ public class CustReportDetails extends KcPersistableBusinessObjectBase implement
      * Sets the attachmentContent attribute value.
      * @param attachmentContent The attachmentContent to set.
      */
+    @Override
     public void setAttachmentContent(byte[] attachmentContent) {
         this.attachmentContent = attachmentContent;
     }

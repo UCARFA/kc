@@ -97,6 +97,7 @@ public class InstitutionalProposalUnitContact extends InstitutionalProposalConta
     }
     
 
+    @Override
     protected BusinessObjectService getBusinessObjectService() {
         return (BusinessObjectService) KcServiceLocator.getService("businessObjectService");
     }

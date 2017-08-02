@@ -36,5 +36,6 @@ public interface UnitAclLoadable extends Permissionable {
      * 
      * @return typeCode of document
      */
+    @Override
     String getDocumentRoleTypeCode();
 }

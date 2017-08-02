@@ -50,6 +50,7 @@ public class SubAwardAttachmentEventBase extends KcDocumentEventBase implements 
             LOG.debug(getDescription());
     }
 
+    @Override
     public SubAwardAttachments getSubAwardAttachments() {
        return attachment;
     }
@@ -59,10 +60,12 @@ public class SubAwardAttachmentEventBase extends KcDocumentEventBase implements 
     }
 
     
+    @Override
     public Class getRuleInterfaceClass() {
        return AddSubAwardAttachmentRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return false;
     }

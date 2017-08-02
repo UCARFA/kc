@@ -35,10 +35,12 @@ public class UnitAuthorizationServiceMock implements UnitAuthorizationService {
         return null;
     }
 
+    @Override
     public boolean hasPermission(String userId, String namespaceCode, String permissionName) {
         return hasPermission;
     }
 
+    @Override
     public boolean hasPermission(String userId, String unitNumber, String namespaceCode, String permissionName) {
         return false;
     }

@@ -19,18 +19,15 @@
 package org.kuali.kra.iacuc.procedures;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public class IacucProcedureCategory extends KcPersistableBusinessObjectBase {
+public class IacucProcedureCategory extends KcPersistableBusinessObjectBase implements MutableInactivatable {
     
     private static final long serialVersionUID = 1L;
 
     private Integer procedureCategoryCode; 
     private String procedureCategory; 
     private boolean active;
-    
-    public IacucProcedureCategory() { 
-
-    } 
     
     public Integer getProcedureCategoryCode() {
         return procedureCategoryCode;
@@ -48,10 +45,12 @@ public class IacucProcedureCategory extends KcPersistableBusinessObjectBase {
         this.procedureCategory = procedureCategory;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

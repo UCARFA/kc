@@ -47,10 +47,12 @@ public class AwardNotificationRoleQualifierServiceImpl implements AwardNotificat
         return roleQualifierValue;
     }
 
+    @Override
     public Award getAward() {
         return award;
     }
     
+    @Override
     public void setAward(Award award) {
         this.award = award;
     }

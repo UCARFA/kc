@@ -82,6 +82,7 @@ public class SponsorMaintainableImplTest extends KcIntegrationTestBase {
 
     class ParameterServiceMock extends ParameterServiceImpl {
         public boolean autoGenSponsorCode = true;
+        @Override
         public Boolean getParameterValueAsBoolean(String namespace, String detailCode, String parmValue) {
             assertEquals(Constants.KC_GENERIC_PARAMETER_NAMESPACE, namespace);
             assertEquals(Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, detailCode);

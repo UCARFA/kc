@@ -3,7 +3,7 @@ package org.kuali.coeus.sys.impl.mq.rest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.sys.framework.auth.AuthConstants;
+import org.kuali.coeus.sys.framework.auth.JwtService;
 import org.kuali.coeus.sys.framework.mq.rest.RestRequest;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +45,10 @@ public class RestMessageConsumer implements MessageListener {
     @Qualifier("kualiConfigurationService")
     private ConfigurationService configurationService;
 
+    @Autowired
+    @Qualifier("jwtService")
+    private JwtService jwtService;
+
     @Override
     public void onMessage(Message message) {
         final RestRequest request;
@@ -68,7 +72,7 @@ public class RestMessageConsumer implements MessageListener {
             headers.putAll(request.getHeaders());
         }
 
-        headers.put("Authorization", Collections.singletonList("Bearer " + getConfigurationService().getPropertyValueAsString(AuthConstants.AUTH_SYSTEM_TOKEN_PARAM)));
+        headers.put("Authorization", Collections.singletonList("Bearer " + getJwtService().createToken()));
 
         final HttpEntity<String> entity = StringUtils.isNotBlank(request.getBody()) ? new HttpEntity<>(request.getBody(), headers): HttpEntity.EMPTY;
         final HttpMethod method = HttpMethod.valueOf(request.getMethod().name());
@@ -125,5 +129,13 @@ public class RestMessageConsumer implements MessageListener {
 
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
+    }
+
+    public JwtService getJwtService() {
+        return jwtService;
+    }
+
+    public void setJwtService(JwtService jwtService) {
+        this.jwtService = jwtService;
     }
 }

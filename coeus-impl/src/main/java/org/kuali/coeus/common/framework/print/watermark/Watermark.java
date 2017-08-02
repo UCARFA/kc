@@ -57,10 +57,12 @@ public class Watermark extends KcPersistableBusinessObjectBase implements Persis
         this.watermarkId = watermarkId;
     }
 
+    @Override
     public byte[] getAttachmentContent() {
         return this.attachmentContent;
     }
 
+    @Override
     public void setAttachmentContent(byte[] attachmentContent) {
         this.attachmentContent = attachmentContent;
     }
@@ -129,18 +131,22 @@ public class Watermark extends KcPersistableBusinessObjectBase implements Persis
         this.watermarkStatus = watermarkStatus;
     }
 
+    @Override
     public String getFileName() {
         return fileName;
     }
 
+    @Override
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
+    @Override
     public String getContentType() {
         return contentType;
     }
 
+    @Override
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }

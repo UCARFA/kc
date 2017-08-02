@@ -68,6 +68,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
     /*
      * get all financial entities with the same entity number
      */
+    @Override
     @SuppressWarnings("unchecked")
     public List<PersonFinIntDisclosure> getFinDisclosureVersions(String entityNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -76,6 +77,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
 
     }
     
+    @Override
     @SuppressWarnings("unchecked")
     public List<FinIntEntityRelType> getFinancialEntityRelationshipTypes() {
         // TODO : consider to add sort_id for sorting purposes
@@ -268,6 +270,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * @param entityId
      * @return null when input parameter is null; otherwise list of FinancialEntityAttachment objects 
      */   
+    @Override
     public List<FinancialEntityAttachment> retrieveFinancialEntityAttachmentsFor(Long entityId) {
         List<FinancialEntityAttachment> attachments = null;
         if (ObjectUtils.isNotNull(entityId)) {
@@ -281,7 +284,8 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
     /**
      * As part of the versioning process, the FE row presently seen as current/active will be made non-current/inactive.
      */
-    public PersonFinIntDisclosure versionPersonFinintDisclosure(PersonFinIntDisclosure personFinIntDisclosure, 
+    @Override
+    public PersonFinIntDisclosure versionPersonFinintDisclosure(PersonFinIntDisclosure personFinIntDisclosure,
                                                                 List<FinEntityDataMatrixBean> newRelationDetails,
                                                                 List<FinancialEntityAttachment> newFinancialEntityAttachments) throws VersionException {
         //make the current row non-current before creating new version
@@ -312,6 +316,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
 
     }
     
+    @Override
     public PersonFinIntDisclosure getCurrentFinancialEntities(String entityNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("entityNumber", entityNumber);

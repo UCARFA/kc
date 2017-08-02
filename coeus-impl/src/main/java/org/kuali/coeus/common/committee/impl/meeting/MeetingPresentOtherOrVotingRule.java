@@ -41,6 +41,7 @@ public class MeetingPresentOtherOrVotingRule extends KcTransactionalDocumentRule
      * @param event
      * @return
      */
+@Override
 public boolean processRules(MeetingPresentOtherOrVotingEvent event) {
         boolean rulePassed = true;
         errorReporter = KcServiceLocator.getService(ErrorReporter.class);

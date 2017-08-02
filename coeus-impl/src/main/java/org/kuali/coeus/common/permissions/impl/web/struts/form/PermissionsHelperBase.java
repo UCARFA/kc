@@ -443,6 +443,7 @@ public abstract class PermissionsHelperBase implements Serializable {
     @SuppressWarnings("unchecked")
     private void sortUsers(List<User> users) {
         Collections.sort(users, new Comparator() {
+            @Override
             public int compare(Object o1, Object o2) {
                 User user1 = (User) o1;
                 User user2 = (User) o2;

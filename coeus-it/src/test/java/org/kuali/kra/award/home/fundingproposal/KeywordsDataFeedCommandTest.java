@@ -32,6 +32,7 @@ public class KeywordsDataFeedCommandTest extends BaseDataFeedCommandTest {
     private AwardScienceKeyword awardKey1;
     private AwardScienceKeyword awardKey2;
     
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();

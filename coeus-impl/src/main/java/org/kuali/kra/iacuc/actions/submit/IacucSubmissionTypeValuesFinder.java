@@ -39,6 +39,7 @@ public class IacucSubmissionTypeValuesFinder extends UifKeyValuesFinderBase {
     private static final long serialVersionUID = 3413707416778463429L;
     
 
+    @Override
     public List<KeyValue> getKeyValues() {
         Collection<IacucProtocolSubmissionType> submissionTypes = getKeyValuesService().findAll(IacucProtocolSubmissionType.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

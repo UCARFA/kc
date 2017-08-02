@@ -19,7 +19,6 @@
 package org.kuali.coeus.propdev.impl.custom;
 
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;

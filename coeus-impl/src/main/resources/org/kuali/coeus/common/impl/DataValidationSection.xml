@@ -26,7 +26,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <bean id="DataValidationSection" parent="DataValidationSection-parentBean"/>
-    <bean id="DataValidationSection-parentBean" parent="Uif-DialogGroup" p:resetDataOnRefresh="true"
+    <bean id="DataValidationSection-parentBean" abstract="true" parent="Uif-DialogGroup" p:resetDataOnRefresh="true"
             p:dialogCssClass="modal-lg">
         <property name="header">
             <bean parent="Uif-DialogHeader" p:headerText="Data Validation">
@@ -64,15 +64,15 @@
     </bean>
 
     <bean id="DataValidationSection-Collection" parent="DataValidationSection-Collection-parentBean"/>
-    <bean id="DataValidationSection-Collection-parentBean" parent="Uif-TableCollectionSection"
+    <bean id="DataValidationSection-Collection-parentBean" abstract="true" parent="Uif-TableCollectionSection"
           p:collectionObjectClass="org.kuali.coeus.sys.impl.validation.DataValidationItem"
           p:propertyName="dataValidationItems"
           p:renderAddLine="false" p:layoutManager.renderSequenceField="false" p:readOnly="false">
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="area" p:fieldLabel.labelText="Area" p:order="10"/>
-                <bean parent="Uif-DataField" p:propertyName="section" p:fieldLabel.labelText="Section" p:order="20"/>
-                <bean parent="Uif-DataField" p:propertyName="description" p:fieldLabel.labelText="Description" p:order="30"/>
+                <bean parent="Uif-DataField" p:propertyName="section" p:fieldLabel.labelText="Section" p:order="20" p:render="@{#ViewHelper.isDataValidationSectionEnabled()}"/>
+                <bean parent="Uif-DataField" p:propertyName="description" p:escapeHtmlInPropertyValue="false" p:fieldLabel.labelText="Description" p:order="30"/>
                 <bean parent="Uif-DataField" p:propertyName="severity" p:fieldLabel.labelText="Severity" p:order="40"
                       p:cssClasses="label,@{#ViewHelper.getErrorCssClass(#line.severity)}"/>
             </list>
@@ -93,18 +93,13 @@
         </property>
         <property name="layoutManager.richTable.templateOptions">
             <map>
-                <entry key="sDom" value="tip"/>
-                <entry key="bRetrieve" value="true"/>
-                <entry key="bPaginate" value="false"/>
-                <entry key="bInfo" value="false"/>
-                <entry key="aoColumnDefs"
-                       value="[{'bSortable':false, 'aTargets' : [4]}]" />
+                <entry key="bAutoWidth" value="true" />
             </map>
         </property>
     </bean>
 
     <bean id="DataValidationSection-WithSubmit" parent="DataValidationSection-WithSubmit-parentBean"/>
-    <bean id="DataValidationSection-WithSubmit-parentBean" parent="DataValidationSection">
+    <bean id="DataValidationSection-WithSubmit-parentBean" abstract="true" parent="DataValidationSection">
         <property name="footer.items">
             <list>
                 <bean  p:actionLabel="Submit With Warnings" parent="Uif-PrimaryActionButton" p:methodToCall="internalSubmit"  p:order="10"
@@ -116,7 +111,7 @@
     </bean>
 
     <bean id="DataValidationSection-WithApprove" parent="DataValidationSection-WithApprove-parentBean"/>
-    <bean id="DataValidationSection-WithApprove-parentBean" parent="DataValidationSection">
+    <bean id="DataValidationSection-WithApprove-parentBean" abstract="true" parent="DataValidationSection">
         <property name="footer.items">
             <list>
                 <bean  p:actionLabel="Approve With Warnings" parent="Uif-PrimaryActionButton" p:methodToCall="approve"  p:order="10"

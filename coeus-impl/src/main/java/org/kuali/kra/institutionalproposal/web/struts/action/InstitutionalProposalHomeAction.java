@@ -40,7 +40,6 @@ import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogServic
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalCfdaRuleEvent;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteAddEvent;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalNoteEventBase.ErrorType;
-import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalSponsorAndProgramRuleEvent;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalNoteAttachmentService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
@@ -446,6 +445,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         return this.kcAttachmentService;
     }
 
+    @Override
     protected ParameterService getParameterService() {
         if (this.parameterService == null ) {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);

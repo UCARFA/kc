@@ -48,7 +48,6 @@ import org.kuali.coeus.sys.framework.rest.RestServiceConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -77,6 +76,7 @@ public class AuthServiceFilter implements Filter {
 	private static final String REST_API_URLS_PARAM = "auth.rest.urls.regex";
 	private static final String ALLOW_MISSING_ADMINS_TO_PROXY_ADMIN_ACCOUNT = "auth.filter.allow.admin.proxy";
 	private static final String AUTH_ADMIN_PROXY_USER = "auth.filter.proxy.username";
+    private static final String SERVICE_USER = "auth.filter.service2service.username";
 	private static final String AUTH_IMPERSONATION_LOGGING = "auth.impersonation.logging";
 	private static final Log LOG = LogFactory.getLog(AuthServiceFilter.class);
 	
@@ -88,6 +88,7 @@ public class AuthServiceFilter implements Filter {
 	private List<Pattern> restUrlsRegex;
 	private Boolean allowAdminProxy = Boolean.FALSE;
 	private String adminProxyUsername;
+    private String serviceProxyUsername;
 	private long secondsToCacheAuthTokenInSession = SECONDS_TO_CACHE_AUTH_TOKEN_IN_SESSION_DEFAULT;
 	
 	private ConfigurationService configurationService;
@@ -96,7 +97,8 @@ public class AuthServiceFilter implements Filter {
 	private IdentityService identityService;
 	private BusinessObjectService businessObjectService;
 	private ParameterService parameterService;
-	
+	private JwtService jwtService;
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		String secondsToCache = filterConfig.getInitParameter(SECONDS_TO_CACHE_AUTH_TOKEN_RESPONSE_CONFIG);
@@ -109,7 +111,7 @@ public class AuthServiceFilter implements Filter {
 		getCurrentUserUrl = getConfigurationService().getPropertyValueAsString(RestServiceConstants.Configuration.AUTH_USERS_URL) + CURRENT_USER_APPEND;
 		allowAdminProxy = getConfigurationService().getPropertyValueAsBoolean(ALLOW_MISSING_ADMINS_TO_PROXY_ADMIN_ACCOUNT);
 		adminProxyUsername = getConfigurationService().getPropertyValueAsString(AUTH_ADMIN_PROXY_USER);
-
+        serviceProxyUsername = getConfigurationService().getPropertyValueAsString(SERVICE_USER);
 		restUrlsRegex = buildRestUrlRegexPatterns(getConfigurationService().getPropertyValueAsString(REST_API_URLS_PARAM));
 		
 		apiUserName = getConfigurationService().getPropertyValueAsString(KC_REST_ADMIN_USERNAME);
@@ -205,29 +207,46 @@ public class AuthServiceFilter implements Filter {
 		} else {
 			request.getSession().removeAttribute(AUTH_SERVICE_FILTER_AUTHED_USER_ATTR);
 		}
-		
-		String currentGetUserUrl = getCurrentUserUrl;
-		if (!currentGetUserUrl.startsWith("http")) {
-			currentGetUserUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + currentGetUserUrl;
-		}
-		
-		ResponseEntity<AuthUser> result = getRestTemplate().exchange(currentGetUserUrl, HttpMethod.GET, 
-				new HttpEntity<String>(getAuthServiceRestUtilService().getAuthServiceStyleHttpHeadersForToken(authTokenValue)), AuthUser.class);
-		
-		authedUser = result.getBody();
-		if (authedUser != null) {
-			authedUser.setAuthToken(authTokenValue);
-			request.getSession().setAttribute(AUTH_SERVICE_FILTER_AUTHED_USER_ATTR, authedUser);
-			request.getSession().setAttribute(AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR, authTokenValue);
-		}
-		logImpersonation(authedUser, request.getRequestURL().toString());
+
+        if (getJwtService().verifyToken(authTokenValue)) {
+            authedUser = createServiceUser();
+        } else {
+            String currentGetUserUrl = getCurrentUserUrl;
+            if (!currentGetUserUrl.startsWith("http")) {
+                currentGetUserUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + currentGetUserUrl;
+            }
+
+            ResponseEntity<AuthUser> result = getRestTemplate().exchange(currentGetUserUrl, HttpMethod.GET,
+                    new HttpEntity<String>(getAuthServiceRestUtilService().getAuthServiceStyleHttpHeadersForToken(authTokenValue)), AuthUser.class);
+
+            authedUser = result.getBody();
+            if (authedUser != null) {
+                authedUser.setAuthToken(authTokenValue);
+                request.getSession().setAttribute(AUTH_SERVICE_FILTER_AUTHED_USER_ATTR, authedUser);
+                request.getSession().setAttribute(AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR, authTokenValue);
+            }
+            logImpersonation(authedUser, request.getRequestURL().toString());
+        }
+
+
 		return authedUser;
 	}
 	
 	public static String getAuthToken(HttpSession session) {
 		return ((AuthUser)session.getAttribute(AUTH_SERVICE_FILTER_AUTHED_USER_ATTR)).getAuthToken();
 	}
-	
+
+    protected AuthUser createServiceUser() {
+        if (serviceProxyUsername != null) {
+            AuthUser authUser = new AuthUser();
+            authUser.setUsername(serviceProxyUsername);
+            return authUser;
+        } else {
+            throw new RuntimeException("service2service enabled, but no service user is configured");
+        }
+
+    }
+
 	protected AuthUser proxyAdminUsers(AuthUser authUser) {
 		if (allowAdminProxy 
 			&& ADMIN_ROLE.equals(authUser.getRole())
@@ -264,7 +283,8 @@ public class AuthServiceFilter implements Filter {
 			this.username = username;
 		}
 		
-		public String getRemoteUser() {
+		@Override
+        public String getRemoteUser() {
 			return username;
 		}
 	}
@@ -334,4 +354,15 @@ public class AuthServiceFilter implements Filter {
 	public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
 	}
+
+    public JwtService getJwtService() {
+        if (jwtService == null) {
+            jwtService = KcServiceLocator.getService(JwtService.class);
+        }
+        return jwtService;
+    }
+
+    public void setJwtService(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
 }

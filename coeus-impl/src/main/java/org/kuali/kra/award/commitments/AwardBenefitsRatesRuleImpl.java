@@ -55,6 +55,7 @@ public class AwardBenefitsRatesRuleImpl extends KcTransactionalDocumentRuleBase 
      * @see org.kuali.kra.award.commitments.AwardBenefitsRatesRule#processBenefitsRatesBusinessRules
      * (org.kuali.kra.award.commitments.AwardBenefitsRatesRuleEvent)
      */
+    @Override
     public boolean processBenefitsRatesBusinessRules(AwardBenefitsRatesRuleEvent event) {
         return validateBenefitsRatesInValidRatesTable(event.getAward());
     }

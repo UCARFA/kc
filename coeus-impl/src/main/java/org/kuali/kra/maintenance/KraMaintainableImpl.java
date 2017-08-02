@@ -37,7 +37,6 @@ import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import javax.persistence.Transient;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -70,6 +69,7 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
 
     }
 
+    @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
 
         // businessObject is empty, so we have to dig into global variables

@@ -265,8 +265,8 @@ public class PersistenceVerificationServiceImpl implements PersistenceVerificati
     }
 
     protected boolean validCriteria(Map<String, Object> criteria) {
-        return !criteria.isEmpty() && !criteria.values().stream()
-                .anyMatch(val -> val == null || (val instanceof String && StringUtils.isBlank((String) val)));
+        return !criteria.isEmpty() && criteria.values().stream()
+                .noneMatch(val -> val == null || (val instanceof String && StringUtils.isBlank((String) val)));
     }
 
     protected MessageMap verifyDDRelationshipsForDelete(Object bo, Collection<Class<?>> ignoredRelationships) {

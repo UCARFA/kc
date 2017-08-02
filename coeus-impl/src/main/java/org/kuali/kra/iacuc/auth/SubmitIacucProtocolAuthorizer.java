@@ -23,6 +23,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class SubmitIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 
+    @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return canExecuteAction(task.getProtocol(), IacucProtocolActionType.SUBMITTED_TO_IACUC) && 
                 hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_IACUC_PROTOCOL);

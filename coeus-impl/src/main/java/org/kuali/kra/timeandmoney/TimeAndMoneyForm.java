@@ -169,6 +169,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
         super.populate(request);
     }
     
+    @Override
     public boolean isPropertyEditable(String propertyName) {
         if (propertyName.startsWith("awardHierarchyNodeItems[")) {
             return true;
@@ -705,6 +706,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
      * @param source
      * @param altText
      */ 
+    @Override
     protected void addExtraButton(String property, String source, String altText){
         addExtraButton(property, source, altText,null);
     }

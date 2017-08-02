@@ -130,7 +130,8 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 * @throws PrintingException
 	 *             in case of any errors occur during XML generation.
 	 */
-	public Map<String, XmlObject> generateXmlStream(
+	@Override
+    public Map<String, XmlObject> generateXmlStream(
 			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
 		Budget budget = getBudget(developmentProposal.getProposalDocument());

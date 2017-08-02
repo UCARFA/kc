@@ -39,6 +39,7 @@ public class CommitteeActionPrintCommitteeDocumentRule extends KcTransactionalDo
  * @param event to be validated against the rules.
  * @return true if validation passed the rules, false otherwise.
  */
+    @Override
     public boolean processRules(CommitteeActionPrintCommitteeDocumentEvent event) {
         boolean rulePassed = true;
         

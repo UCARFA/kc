@@ -50,6 +50,7 @@ public abstract class ProtocolSubmissionLookupableHelperServiceImplBase extends 
     protected KcAuthorizationService kraAuthorizationService;
     protected KcPersonService kcPersonService;
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

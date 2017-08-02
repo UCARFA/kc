@@ -54,102 +54,127 @@ public class IacucProtocolAmendmentBean extends IacucProtocolEditableBean implem
         super(actionHelper);
     }
 
+    @Override
     public String getSummary() {
         return summary;
     }
 
+    @Override
     public void setSummary(String summary) {
         this.summary = summary;
     }
 
+    @Override
     public boolean getGeneralInfo() {
         return generalInfo;
     }
 
+    @Override
     public void setGeneralInfo(boolean generalInfo) {
         this.generalInfo = generalInfo;
     }
 
+    @Override
     public boolean getFundingSource() {
         return fundingSource;
     }
 
+    @Override
     public void setFundingSource(boolean fundingSource) {
         this.fundingSource = fundingSource;
     }
 
+    @Override
     public boolean getProtocolReferencesAndOtherIdentifiers() {
         return protocolReferencesAndOtherIdentifiers;
     }
 
+    @Override
     public void setProtocolReferencesAndOtherIdentifiers(boolean protocolReferencesAndOtherIdentifiers) {
         this.protocolReferencesAndOtherIdentifiers = protocolReferencesAndOtherIdentifiers;
     }
 
+    @Override
     public boolean getProtocolOrganizations() {
         return protocolOrganizations;
     }
 
+    @Override
     public void setProtocolOrganizations(boolean protocolOrganizations) {
         this.protocolOrganizations = protocolOrganizations;
     }
 
+    @Override
     public boolean getSubjects() {
         return subjects;
     }
 
+    @Override
     public void setSubjects(boolean subjects) {
         this.subjects = subjects;
     }
 
+    @Override
     public boolean getAddModifyAttachments() {
         return addModifyAttachments;
     }
 
+    @Override
     public void setAddModifyAttachments(boolean addModifyAttachments) {
         this.addModifyAttachments = addModifyAttachments;
     }
 
+    @Override
     public boolean getAreasOfResearch() {
         return areasOfResearch;
     }
 
+    @Override
     public void setAreasOfResearch(boolean areasOfResearch) {
         this.areasOfResearch = areasOfResearch;
     }
 
+    @Override
     public boolean getSpecialReview() {
         return specialReview;
     }
 
+    @Override
     public void setSpecialReview(boolean specialReview) {
         this.specialReview = specialReview;
     }
 
+    @Override
     public boolean getProtocolPersonnel() {
         return protocolPersonnel;
     }
 
+    @Override
     public void setProtocolPersonnel(boolean protocolPersonnel) {
         this.protocolPersonnel = protocolPersonnel;
     }
 
+    @Override
     public boolean getOthers() {
         return others;
     }
 
+    @Override
     public void setOthers(boolean others) {
         this.others = others;
     }
     
+    @Override
     public boolean getProtocolPermissions() {
         return protocolPermissions;
     }
 
+    @Override
     public void setProtocolPermissions(boolean protocolPermissions) {
         this.protocolPermissions = protocolPermissions;
     }
 
+    @Override
     public boolean isSomeSelected() {
         return getAddModifyAttachments() ||
                getAreasOfResearch() ||
@@ -169,10 +194,12 @@ public class IacucProtocolAmendmentBean extends IacucProtocolEditableBean implem
                getQuestionnaire();
     }
 
+    @Override
     public boolean getQuestionnaire() {
         return questionnaire;
     }
 
+    @Override
     public void setQuestionnaire(boolean questionnaire) {
         this.questionnaire = questionnaire;
     }

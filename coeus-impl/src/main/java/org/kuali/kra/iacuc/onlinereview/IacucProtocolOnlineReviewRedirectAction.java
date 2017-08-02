@@ -24,10 +24,12 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 
 public class IacucProtocolOnlineReviewRedirectAction extends ProtocolOnlineReviewRedirectActionBase{
 
+    @Override
     protected Class<IacucProtocol> getProtocolClass() {
         return IacucProtocol.class;
     }
     
+    @Override
     protected String getAdminRoleName() {
         return "IACUC Administrator";
     }

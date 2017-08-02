@@ -44,6 +44,7 @@ public class BudgetPeriodLookupableHelperServiceImpl extends KcKualiLookupableHe
     @Qualifier("awardBudgetService")
     protected AwardBudgetService awardBudgetService;
 
+    @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String awardNumber = fieldValues.get("budgetParentId");
         List<BudgetPeriod> budgetPeriods = getAwardBudgetService().findBudgetPeriodsFromLinkedProposal(awardNumber);

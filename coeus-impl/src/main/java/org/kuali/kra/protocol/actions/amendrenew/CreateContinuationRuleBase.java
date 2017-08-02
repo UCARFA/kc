@@ -25,6 +25,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 
 public abstract class CreateContinuationRuleBase extends KcTransactionalDocumentRuleBase implements KcBusinessRule<CreateContinuationEventBase> {
 
+    @Override
     public boolean processRules(CreateContinuationEventBase event) {
         
         boolean valid = true;

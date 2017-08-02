@@ -20,16 +20,15 @@
 package org.kuali.coeus.award.finance.timeAndMoney;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-
 
 @Entity
 @Table(name="TIME_AND_MONEY_POSTS")
-public class TimeAndMoneyPosts extends KcPersistableBusinessObjectBase {
+public class TimeAndMoneyPosts extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
     @PortableSequenceGenerator(name = "SEQ_TIME_AND_MONEY_POSTS_ID")
     @GeneratedValue(generator = "SEQ_TIME_AND_MONEY_POSTS_ID")
@@ -82,10 +81,12 @@ public class TimeAndMoneyPosts extends KcPersistableBusinessObjectBase {
         this.awardId = awardId;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

@@ -34,7 +34,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     private static final long serialVersionUID = 8832539481443727887L;
 
-    private ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService;
+    private transient ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService;
     private ProposalDevelopmentDocument proposalDevelopmentDocument;
     private boolean modifySpecialReviewPermission;
     

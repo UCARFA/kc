@@ -38,6 +38,7 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
 
     private transient KcWorkflowService kraWorkflowService;
     
+    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
         
@@ -58,6 +59,7 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
         return editModes;
     }
 
+    @Override
     public boolean canInitiate(String documentTypeName, Person user) {
         return true;
     }
@@ -128,6 +130,7 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
     } 
     
     //we only let the IRB Admin disapprove these documents.
+    @Override
     public boolean canDisapprove(Document document, Person user) {
         boolean result = super.canDisapprove(document, user);
         result &= canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS); 

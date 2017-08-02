@@ -54,6 +54,7 @@ public abstract class CommitteeActionGenerateBatchCorrespondenceRuleBase extends
      * 
      * @see org.kuali.coeus.sys.framework.rule.KcBusinessRule#processRules(org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension)
      */
+    @Override
     public boolean processRules(CommitteeActionGenerateBatchCorrespondenceEventBase event) {
         boolean rulePassed = true;
         boolean dateNull = false;

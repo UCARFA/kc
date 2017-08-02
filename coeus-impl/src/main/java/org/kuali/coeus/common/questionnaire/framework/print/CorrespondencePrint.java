@@ -38,6 +38,7 @@ public class CorrespondencePrint extends AbstractPrint {
      * 
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
+    @Override
     public List<Source> getXSLTemplates() {
         List<Source> sourceList = new ArrayList<>();
         Object template = getReportParameters().get("template");

@@ -27,7 +27,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage" parent="PropBudget-AssignPersonnelToPeriodsPage-parentBean" />
-	<bean id="PropBudget-AssignPersonnelToPeriodsPage-parentBean" parent="PropBudget-Page">
+	<bean id="PropBudget-AssignPersonnelToPeriodsPage-parentBean" abstract="true" parent="PropBudget-Page">
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-AssignPersonnelToPeriodsPage-TabGroup" />
@@ -44,7 +44,7 @@
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-TabGroup" parent="PropBudget-AssignPersonnelToPeriodsPage-TabGroup-parentBean"/>
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-TabGroup-parentBean" abstract="true" parent="Kc-DynamicTabSection"
 		p:tabCollectionPropertyName="budget.budgetPeriods" p:expressionProperties="budgetPeriod:budgetPeriod,budgetPeriodId:budgetPeriodId"
-		p:idSuffixPropertyName="budgetPeriod" p:header.headerText="Assign Personnel to Periods">
+		p:idSuffixPropertyName="budgetPeriod" p:header.headerText="Assign Personnel to Periods" p:applyLazyLoadProperty="lazyLoadBudgetPersonnel">
 		<property name="groupPrototype"><bean id="PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails" parent="PropBudget-AssignPersonnelToPeriodsPage-PeriodTab"/></property>
 		<property name="header.lowerGroup">
 			<bean parent="Uif-HeaderLowerGroup">
@@ -388,7 +388,7 @@
     </bean>
 
 	<bean id="PropBudget-AssignPersonneltoPeriods-General" parent="PropBudget-AssignPersonneltoPeriods-General-parentBean" />
-	<bean id="PropBudget-AssignPersonneltoPeriods-General-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+	<bean id="PropBudget-AssignPersonneltoPeriods-General-parentBean" abstract="true" parent="Uif-CssGridSection-1FieldLabelColumn">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.budgetCategoryCode"
@@ -408,7 +408,7 @@
 	</bean>
 
     <bean id="PropBudget-AssignPersonneltoPeriods-ApplyRates" parent="PropBudget-AssignPersonneltoPeriods-ApplyRates-parentBean" />
-    <bean id="PropBudget-AssignPersonneltoPeriods-ApplyRates-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+    <bean id="PropBudget-AssignPersonneltoPeriods-ApplyRates-parentBean" abstract="true" parent="Uif-CssGridSection-1FieldLabelColumn">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="budgetLineItem.applyInRateFlag"

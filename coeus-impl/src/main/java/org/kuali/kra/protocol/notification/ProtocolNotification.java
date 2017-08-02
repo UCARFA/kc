@@ -31,6 +31,7 @@ public class ProtocolNotification extends KcNotification {
 
     private static final long serialVersionUID = -8718347978876523074L;
 
+    @Override
     public void persistOwningObject(KcPersistableBusinessObjectBase object) {
         ProtocolBase protocol = (ProtocolBase)object;
         protocol.getLastProtocolAction().addNotification(this);

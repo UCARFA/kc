@@ -62,6 +62,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
     public void setUpServices() {
     }
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -75,6 +76,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
         };
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

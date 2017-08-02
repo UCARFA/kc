@@ -235,6 +235,7 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
         this.permissionsHelper = permissionsHelper;
     }
     
+    @Override
     public PermissionsHelperBase getPermissionsHelper() {
     	if (permissionsHelper == null) {
     		try {
@@ -266,6 +267,7 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
       
     }
    
+    @Override
     public ProtocolCustomDataHelperBase getCustomDataHelper() {
         return customDataHelper;
     }
@@ -376,6 +378,7 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
         return extraButtons;
     }
      
+    @Override
     public abstract String getModuleCode();
 
     public String getDetailId() {
@@ -394,18 +397,22 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
         this.deletedProtocolFundingSources = deletedProtocolFundingSources;
     }
     
+    @Override
     public String getQuestionnaireFieldStarter() {
         return "questionnaireHelper.answerHeaders[";
     }
     
+    @Override
     public String getQuestionnaireFieldMiddle() {
         return DEFAULT_MIDDLE;
     }
     
+    @Override
     public String getQuestionnaireFieldEnd() {
         return DEFAULT_END;
     }
     
+    @Override
     public String getQuestionnaireExpression() {
         return "^undefined$";
     }
@@ -429,6 +436,7 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
     
     // superuser should never be allowed to perform approve doc on protocol docs since 
     // that bypasses the usual committee voting process for protocol approval, and makes the doc FINAL
+    @Override
     public boolean isSuperUserApproveDocumentAuthorized() {
         return false;
     }
@@ -438,6 +446,7 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
     // since carrying out machine-generated approve requests at a terminal (review) node 
     // will bypass the committee voting process and make the document status final.
     // At non-terminal nodes however we will not restrict the list of available requested actions in any way.
+    @Override
     @SuppressWarnings("deprecation")
     public List<ActionRequest> getActionRequests() {
         List<ActionRequest> retVal;
@@ -484,6 +493,7 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
         this.showNotificationEditor = showNotificationEditor;
     }
 
+    @Override
     @SuppressWarnings("deprecation")
     public boolean isSuperUserActionAvaliable() {
         boolean retVal = false; 

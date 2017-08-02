@@ -168,6 +168,7 @@ public abstract class KcPersistableBusinessObjectBase extends PersistableBusines
                 super(object);
             }
 
+            @Override
             public boolean accept(Field field) {
                 if (String.class.isAssignableFrom(field.getType())
                 		|| ClassUtils.isPrimitiveOrWrapper(field.getType())) {

@@ -258,6 +258,7 @@ public class JqueryAjaxAction extends KualiDocumentActionBase {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    @Override
     protected BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }

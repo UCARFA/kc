@@ -79,7 +79,8 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         performSave(doc, transactionDetailItems, awardItems, awardAmountTransactions);
     }
 
-    public List<AwardAmountTransaction> processTransactions(TimeAndMoneyDocument doc,AwardAmountTransaction newAwardAmountTransaction
+    @Override
+    public List<AwardAmountTransaction> processTransactions(TimeAndMoneyDocument doc, AwardAmountTransaction newAwardAmountTransaction
             , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems, Boolean refreshFlag) {
         
         List<PendingTransaction> updatedPendingTransactions = new ArrayList<PendingTransaction>();
@@ -149,7 +150,8 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         return awardAmountTransactions;
     }
 
-    public List<Award> processTransactionsForAddRuleProcessing(TimeAndMoneyDocument doc,AwardAmountTransaction newAwardAmountTransaction
+    @Override
+    public List<Award> processTransactionsForAddRuleProcessing(TimeAndMoneyDocument doc, AwardAmountTransaction newAwardAmountTransaction
             , Map<String, AwardAmountTransaction> awardAmountTransactionItems, List<Award> awardItems, List<TransactionDetail> transactionDetailItems) {
         
         List<PendingTransaction> updatedPendingTransactions = new ArrayList<PendingTransaction>();

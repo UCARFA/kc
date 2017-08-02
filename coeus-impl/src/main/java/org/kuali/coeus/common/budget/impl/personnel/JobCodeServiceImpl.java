@@ -20,15 +20,11 @@ package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.kuali.coeus.common.budget.framework.personnel.JobCode;
 import org.kuali.coeus.common.budget.framework.personnel.JobCodeService;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Component("jobCodeService")
 public class JobCodeServiceImpl implements JobCodeService {
@@ -47,10 +43,12 @@ public class JobCodeServiceImpl implements JobCodeService {
      * for a particular jobCode string.
      * 
      */
+    @Override
     public JobCode findJobCodeRef(String jobCode) {
         return getDataObjectService().find(JobCode.class, jobCode);
     }
 
+    @Override
     public String findJobCodeTitle(String jobCode) {
         String jobTitle = null;
         JobCode jcRef= findJobCodeRef(jobCode);

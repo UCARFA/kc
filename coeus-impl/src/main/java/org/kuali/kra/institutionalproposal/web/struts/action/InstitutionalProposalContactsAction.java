@@ -34,9 +34,7 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.substringBetween;
@@ -66,6 +64,7 @@ public class InstitutionalProposalContactsAction extends InstitutionalProposalAc
         return forward;
     }
     
+    @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         ActionForward forward = super.reload(mapping, form, request, response);

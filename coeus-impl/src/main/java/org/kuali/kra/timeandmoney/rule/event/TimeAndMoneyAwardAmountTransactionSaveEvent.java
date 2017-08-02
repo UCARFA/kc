@@ -56,11 +56,13 @@ public class TimeAndMoneyAwardAmountTransactionSaveEvent extends KcDocumentEvent
         LOG.info("Logging AwardAmountTransactionRuleEvent");
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return TimeAndMoneyAwardAmountTransactionRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((TimeAndMoneyAwardAmountTransactionRule) rule).processSaveAwardAmountTransactionBusinessRules(this);
     }

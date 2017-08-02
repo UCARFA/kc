@@ -21,7 +21,6 @@ package org.kuali.kra.timeandmoney.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
@@ -110,6 +109,7 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
         return timeAndMoneyDocument;
     }
 
+    @Override
     public void updateDocumentStatus(TimeAndMoneyDocument document, VersionStatus status) {
         if (status.equals(VersionStatus.ACTIVE)) {
             archiveActiveTimeAndMoneyDocs(document.getAwardNumber());
@@ -129,6 +129,7 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
         }
     }
     
+    @Override
     public String getCurrentTimeAndMoneyDocumentNumber(String awardNumber) {
     	try (Connection connection = dataSource.getConnection()) {
     		try (PreparedStatement stmt = connection.prepareStatement("select * from " +

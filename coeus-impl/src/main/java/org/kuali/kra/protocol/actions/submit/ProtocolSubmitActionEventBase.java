@@ -53,10 +53,12 @@ public abstract class ProtocolSubmitActionEventBase  extends KcDocumentEventBase
 
     
     
+    @Override
     public Class getRuleInterfaceClass() {
         return ExecuteProtocolSubmitActionRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ExecuteProtocolSubmitActionRule) rule).processSubmitAction((ProtocolDocumentBase) getDocument(), submitAction);
     }

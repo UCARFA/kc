@@ -71,6 +71,8 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public static final String ACCOUNT_NUMBER = "accountNumber";
     public static final String UNIT_NUMBER = "unitNumber";
     public static final String SOURCE_ACCOUNT = "sourceAccount";
+    public static final String FISCAL_YEAR = "fiscalYear";
+    public static final String ERROR = "E";
 
     @Autowired
     @Qualifier("budgetCalculationService")
@@ -184,6 +186,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         }
     }  
 
+    @Override
     public boolean isRateOverridden(BudgetPeriod budgetPeriod){
         return false;
     }
@@ -192,14 +195,17 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     	return getDataObjectService().save(budget, PersistenceOption.FLUSH);
     }
 
+    @Override
     public Budget copyBudgetVersion(Budget budget){
         return copyBudgetVersion(budget, false);
     }
 
+    @Override
     public void recalculateBudget(Budget budget) {
         budgetCalculationService.calculateBudget(budget);
     }
 
+    @Override
     public void calculateBudgetOnSave(Budget budget) {
         for (BudgetSubAwards subAward : budget.getBudgetSubAwards()) {
             getPropDevBudgetSubAwardService().generateSubAwardLineItems(subAward, (ProposalDevelopmentBudgetExt) budget);
@@ -404,10 +410,12 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public boolean validateAddingNewBudget(BudgetParentDocument<DevelopmentProposal> parentDocument) {
         return true;
     }
+    @Override
     public void recalculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod) {
         budgetCalculationService.calculateBudget(budget);
     }
 
+    @Override
     public boolean isBudgetMarkedForSubmission(Budget finalBudget, Budget currentBudget) {
         boolean budgetMarkedForSubmission = false;
         if (finalBudget != null) {
@@ -466,6 +474,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         return propDevBudgetSubAwardService;
     }
 
+    @Override
     public boolean validateCostShare(ProposalDevelopmentBudgetExt budget) {
         boolean valid = Boolean.TRUE;
         for(BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
@@ -475,18 +484,18 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
             if (!Objects.isNull(budgetCostShare.getSourceAccount()) && !Objects.isNull(budgetCostShare.getCostShareTypeCode())) {
                 valid &= isValidSourceAccountCostShareType(Constants.VALIDATION_MESSAGE_ERROR, budgetCostShare, SOURCE_ACCOUNT);
             }
-
-            valid = isUniqueSourceAccountFiscalYear(budget, valid, budgetCostShare);
+            if (Objects.isNull(budgetCostShare.getSourceAccount())) {
+                valid &= addValidationMessage(ERROR, SOURCE_ACCOUNT, KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING);
+            }
+            valid = isUniqueSourceAccountFiscalYear(budget, valid, budgetCostShare, isCostShareTypeEnabled());
 
         }
 
 
         if (isCostShareTypeEnabled()) {
             String validationMessageType = getValidationMessageType();
+            final boolean activeAccountsAbsent = getBusinessObjectService().countMatching(Account.class, Collections.singletonMap(ACTIVE, Boolean.TRUE)) < 1;
             for(BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
-                if (Objects.isNull(budgetCostShare.getSourceAccount())) {
-                    valid &= addValidationMessage(validationMessageType, SOURCE_ACCOUNT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING);
-                }
                 if (Objects.isNull(budgetCostShare.getUnit())) {
                     valid &= addValidationMessage(validationMessageType, UNIT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_UNIT_MISSING);
                 }
@@ -494,6 +503,9 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
                     valid &= addValidationMessage(validationMessageType, COST_SHARE_TYPE, KeyConstants.ERROR_BUDGET_DISTRIBUTION_COST_SHARE_TYPE_MISSING);
                 }
                 if (!Objects.isNull(budgetCostShare.getSourceAccount())) {
+                    if (activeAccountsAbsent) {
+                        return valid;
+                    }
                     Map<String, Object> fieldValues = new HashMap<>();
                     fieldValues.put(ACCOUNT_NUMBER, budgetCostShare.getSourceAccount());
                     if(getBusinessObjectService().countMatching(Account.class, fieldValues) == 0) {
@@ -505,15 +517,24 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         return valid;
     }
 
-    public boolean isUniqueSourceAccountFiscalYear(ProposalDevelopmentBudgetExt budget, boolean valid, BudgetCostShare budgetCostShare) {
+    public boolean isUniqueSourceAccountFiscalYear(ProposalDevelopmentBudgetExt budget, boolean valid, BudgetCostShare budgetCostShare, boolean costShareTypeEnabled) {
         int thisFiscalYear = budgetCostShare.getProjectPeriod() == null ? Integer.MIN_VALUE : budgetCostShare.getProjectPeriod();
-        long numberOfOccurences = budget.getBudgetCostShares().stream()
-                .filter(costShare -> StringUtils.equalsIgnoreCase(costShare.getSourceAccount(), budgetCostShare.getSourceAccount()) &&
-                        thisFiscalYear == (costShare.getProjectPeriod() == null ? Integer.MIN_VALUE : costShare.getProjectPeriod()))
-                .count();
+        long numberOfOccurences = budget.getBudgetCostShares().stream().filter(costShare -> findMatchingCostShare(costShare, budgetCostShare,
+                thisFiscalYear, costShareTypeEnabled)).count();
         if (numberOfOccurences > 1) {
-            addValidationMessage(Constants.VALIDATION_MESSAGE_ERROR, "fiscalYear", KeyConstants.ERROR_COST_SHARE_DUPLICATE);
+            addValidationMessage(Constants.VALIDATION_MESSAGE_ERROR, FISCAL_YEAR, KeyConstants.ERROR_COST_SHARE_DUPLICATE);
             valid &= Boolean.FALSE;
+        }
+        return valid;
+    }
+
+    public boolean findMatchingCostShare(BudgetCostShare costShare, BudgetCostShare budgetCostShare, int thisFiscalYear, boolean costShareTypeEnabled) {
+        boolean valid = StringUtils.equalsIgnoreCase(costShare.getSourceAccount(), budgetCostShare.getSourceAccount()) &&
+                thisFiscalYear == (costShare.getProjectPeriod() == null ? Integer.MIN_VALUE : costShare.getProjectPeriod());
+
+        if (costShareTypeEnabled && valid) {
+             return costShare.getCostShareTypeCode() == budgetCostShare.getCostShareTypeCode() &&
+                    StringUtils.equalsIgnoreCase(costShare.getUnitNumber(), budgetCostShare.getUnitNumber());
         }
         return valid;
     }
@@ -569,6 +590,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         return budgetCalculationService;
     }
 
+    @Override
     public GlobalVariableService getGlobalVariableService() {
         return globalVariableService;
     }

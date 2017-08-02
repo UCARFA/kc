@@ -49,6 +49,7 @@ public class WatermarkServiceImpl implements WatermarkService {
      * 
      * @return pdfFileData
      */
+    @Override
     public byte[] applyWatermark(byte[] pdfBytes, WatermarkBean watermarkBean) throws Exception {
 
         byte[] pdfFileData = pdfBytes;

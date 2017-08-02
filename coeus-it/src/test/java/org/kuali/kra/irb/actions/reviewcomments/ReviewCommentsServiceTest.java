@@ -480,6 +480,7 @@ public class ReviewCommentsServiceTest extends KcIntegrationTestBase{
     private KcPersonService getMockKcPersonService() {
         final KcPersonService kcPersonService = context.mock(KcPersonService.class);
         final KcPerson kcPerson = new KcPerson() {
+            @Override
             public String getUserName() {
                 
                 return "quickstart";

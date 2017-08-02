@@ -44,7 +44,8 @@ public class AwardNoticePrint extends AbstractPrint {
 	 * 
 	 * @return {@link ArrayList}} of {@link Source} XSLs
 	 */
-	public List<Source> getXSLTemplates() {
+	@Override
+    public List<Source> getXSLTemplates() {
 		List<Source> sourceList = PrintingUtils
 				.getXSLTforReport(AwardPrintType.AWARD_NOTICE_REPORT
 						.getAwardPrintType());

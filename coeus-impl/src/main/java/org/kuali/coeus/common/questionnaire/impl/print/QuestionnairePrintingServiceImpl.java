@@ -58,6 +58,7 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
 
+    @Override
     public AttachmentDataSource printQuestionnaire(
             KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters)
             throws PrintingException {
@@ -74,8 +75,9 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
     }
 
 
+    @Override
     public AttachmentDataSource printQuestionnaireAnswer(KcPersistableBusinessObjectBase printableBusinessObject,
-            Map<String, Object> reportParameters) throws PrintingException {
+                                                         Map<String, Object> reportParameters) throws PrintingException {
         AttachmentDataSource source = null;
         AbstractPrint printable = getQuestionnairePrint();
         if (printable != null) {

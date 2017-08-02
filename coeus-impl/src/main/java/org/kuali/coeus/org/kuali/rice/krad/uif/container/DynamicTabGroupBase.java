@@ -56,6 +56,7 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
 	private Map<String, String> expressionProperties;
 	private String idSuffixPropertyName;
 	private Boolean setFieldBindingObjectPath = Boolean.FALSE;
+	private String applyLazyLoadProperty;
 
     /**
      * {@inheritDoc}
@@ -65,6 +66,10 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
     	List<Component> items = new ArrayList<Component>();
         List<Object> modelCollection = ObjectPropertyUtils.getPropertyValue(model,
                 tabCollectionPropertyName);
+        Boolean applyLazyLoading = false;
+        if (applyLazyLoadProperty != null) {
+        	applyLazyLoading = ObjectPropertyUtils.getPropertyValue(model, applyLazyLoadProperty);
+        }
         int index = 0;
         for (Object tabObj : modelCollection) {
         	String idSuffix;
@@ -86,6 +91,11 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
         	} else if (setFieldBindingObjectPath) {
         		 newGroup.setFieldBindingObjectPath(tabCollectionPropertyName + "[" + index + "]");
         	}
+        	if (applyLazyLoading != null && applyLazyLoading) {
+        		newGroup.getDisclosure().setDefaultOpen(false);
+        		newGroup.getDisclosure().setRender(true);
+        		newGroup.getDisclosure().setAjaxRetrievalWhenOpened(true);
+        	}
 			items.add(newGroup);
             index ++;
         }
@@ -100,7 +110,8 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
     /**
      * {@inheritDoc}
      */
-	public void setTabCollectionPropertyName(String tabCollectionPropertyName) {
+	@Override
+    public void setTabCollectionPropertyName(String tabCollectionPropertyName) {
 		this.tabCollectionPropertyName = tabCollectionPropertyName;
 	}
 
@@ -111,7 +122,8 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
     /**
      * {@inheritDoc}
      */
-	public void setGroupPrototype(Group groupPrototype) {
+	@Override
+    public void setGroupPrototype(Group groupPrototype) {
 		this.groupPrototype = groupPrototype;
 	}
 
@@ -122,7 +134,8 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
     /**
      * {@inheritDoc}
      */
-	public void setExpressionProperties(Map<String, String> expressionProperties) {
+	@Override
+    public void setExpressionProperties(Map<String, String> expressionProperties) {
 		this.expressionProperties = expressionProperties;
 	}
 
@@ -133,7 +146,8 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
     /**
      * {@inheritDoc}
      */
-	public void setIdSuffixPropertyName(String idSuffixPropertyName) {
+	@Override
+    public void setIdSuffixPropertyName(String idSuffixPropertyName) {
 		this.idSuffixPropertyName = idSuffixPropertyName;
 	}
 
@@ -141,7 +155,16 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
 		return setFieldBindingObjectPath;
 	}
 
-	public void setSetFieldBindingObjectPath(Boolean setFieldBindingObjectPath) {
+	@Override
+    public void setSetFieldBindingObjectPath(Boolean setFieldBindingObjectPath) {
 		this.setFieldBindingObjectPath = setFieldBindingObjectPath;
+	}
+
+	public String isApplyLazyLoadProperty() {
+		return applyLazyLoadProperty;
+	}
+
+	public void setApplyLazyLoadProperty(String applyLazyLoadProperty) {
+		this.applyLazyLoadProperty = applyLazyLoadProperty;
 	}
 }

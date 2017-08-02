@@ -94,7 +94,7 @@ public class SponsorHierarchyServiceImpl implements SponsorHierarchyService {
     }
 
     protected Boolean areAllSponsorsMultiPi() {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
     }
 
     public BusinessObjectService getBusinessObjectService() {

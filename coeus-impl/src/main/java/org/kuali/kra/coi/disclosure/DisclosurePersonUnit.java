@@ -49,18 +49,22 @@ public class DisclosurePersonUnit  extends DisclosureReporterUnit implements Seq
         this.disclosurePersonId = disclosurePersonId;
     }
     
+    @Override
     public String getUnitNumber() {
         return unitNumber;
     }
     
+    @Override
     public void setUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
     }
     
+    @Override
     public boolean isLeadUnitFlag() {
         return leadUnitFlag;
     }
     
+    @Override
     public void setLeadUnitFlag(boolean leadUnitFlag) {
         this.leadUnitFlag = leadUnitFlag;
     }

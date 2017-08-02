@@ -18,7 +18,6 @@
  */
 package org.kuali.kra.irb;
 
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolJavaFunctionKrmsTermService;
 
 

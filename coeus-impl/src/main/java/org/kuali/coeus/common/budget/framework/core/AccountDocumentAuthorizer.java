@@ -59,6 +59,7 @@ public class AccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase
                 user.getPrincipalId(), permissionDetails, null);
     }
 
+    @Override
     public boolean canCopy(Document document, Person user) {
         return canInitiate(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), user);
     }

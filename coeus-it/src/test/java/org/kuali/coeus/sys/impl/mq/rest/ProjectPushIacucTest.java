@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.kuali.coeus.coi.framework.Project;
 import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.api.document.service.CommonApiService;
-import org.kuali.coeus.irb.api.dto.IrbProtocolDto;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.test.IacucProtocolFactory;
@@ -67,6 +66,7 @@ public class ProjectPushIacucTest extends ProjectPushTestBase {
         return iacucProtocolDocument.getProtocol().getProtocolNumber();
     }
 
+    @Override
     public ProjectRetrievalService getProjectRetrievalService() {
         if (iacucProjectRetrievalService == null) {
             iacucProjectRetrievalService = KcServiceLocator.getService(IACUC_PROJECT_RETRIEVAL_SERVICE);

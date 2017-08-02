@@ -150,6 +150,7 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl
         this.protocolNumberService = protocolNumberService;
     }
 
+    @Override
     protected ProtocolPersonnelService getProtocolPersonnelService() {
         return protocolPersonnelService;
     }

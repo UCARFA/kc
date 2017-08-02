@@ -62,11 +62,13 @@ public class DeleteProposalCongressionalDistrictEvent extends BasicProposalSiteE
         return "deleting congressional district from document " + getDocumentId(proposalDevelopmentDocument);
     }
     
+    @Override
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
         return DeleteCongressionalDistrictRule.class;
     }
 
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((DeleteCongressionalDistrictRule)rule).processDeleteCongressionalDistrictRules(this);
     }

@@ -48,6 +48,7 @@ public abstract class PersonnelAttachmentEventBase extends KcDocumentEventBase i
     /**
      * @return <code>{@link ProposalPersonBiography}</code> that triggered this event.
      */
+    @Override
     public ProposalPersonBiography getProposalPersonBiography() {
         return proposalPersonBiography;
     }
@@ -63,6 +64,7 @@ public abstract class PersonnelAttachmentEventBase extends KcDocumentEventBase i
     /**
      * Logs the event type and some information about the associated proposal person  bio
      */
+    @Override
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");

@@ -34,6 +34,7 @@ public class SpecialReviewDataFeedCommandTest extends BaseDataFeedCommandTest {
     private InstitutionalProposalUnrecoveredFandA ipFandA2;
     private AwardFandaRate awardFandA;
     
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();

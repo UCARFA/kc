@@ -47,6 +47,7 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends KcTransactionalDocumentRu
 
     private ParameterService parameterService;
 
+    @Override
     public boolean processSaveAwardDatesBusinessRules(TimeAndMoneyAwardDateSaveEvent timeAndMoneyAwardDateSaveEvent) {
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) timeAndMoneyAwardDateSaveEvent.getDocument();
         clearFieldsFromUserSessionMap();

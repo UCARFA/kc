@@ -41,12 +41,14 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
 
     private ProposalDevelopmentAbstractsRule rule = null;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
         rule = new ProposalDevelopmentAbstractsRule();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
         rule = null;

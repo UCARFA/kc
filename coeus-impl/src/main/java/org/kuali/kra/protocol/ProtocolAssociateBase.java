@@ -109,6 +109,7 @@ public abstract class ProtocolAssociateBase extends KcPersistableBusinessObjectB
      * Gets the sequence number.
      * @return sequence number.
      */
+    @Override
     public Integer getSequenceNumber() {
         return this.sequenceNumber;
     }

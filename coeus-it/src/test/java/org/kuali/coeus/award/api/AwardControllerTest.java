@@ -35,13 +35,11 @@ import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 
-import javax.validation.constraints.AssertTrue;
 import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -178,6 +176,7 @@ public class AwardControllerTest extends AwardControllerTestBase {
 
     }
 
+    @Override
     public void setupCreditSplits(AwardPerson person) {
         List<AwardPersonCreditSplit> creditSplits = new ArrayList<>();
 
@@ -405,6 +404,7 @@ public class AwardControllerTest extends AwardControllerTestBase {
 
     }
 
+    @Override
     public java.sql.Date getDate(int year, int month, int day) {
         Calendar cal = Calendar.getInstance();
         cal.set( cal.YEAR, year );
@@ -419,10 +419,12 @@ public class AwardControllerTest extends AwardControllerTestBase {
         return new java.sql.Date( cal.getTime().getTime() );
     }
 
+    @Override
     public AwardController getAwardController() throws IntrospectionException {
         return KcServiceLocator.getService(AwardController.class);
     }
 
+    @Override
     public TimeAndMoneyController getTimeAndMoneyController() throws IntrospectionException {
         return KcServiceLocator.getService(TimeAndMoneyController.class);
     }

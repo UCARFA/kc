@@ -26,24 +26,26 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component("costShareTypeValuesFinder")
 public class CostShareTypeValuesFinder extends UifKeyValuesFinderBase {
 
-    BusinessObjectService businessObjectService;
+    private static final ConcreteKeyValue SELECT = new ConcreteKeyValue("", "select");
+    private BusinessObjectService businessObjectService;
 
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValuesList;
-        List<CostShareType> costSharetypes = (List<CostShareType>) getBusinessObjectService().findAll(CostShareType.class);
-        keyValuesList = costSharetypes.stream().map(costShareType -> {
-            return new ConcreteKeyValue(costShareType.getCostShareTypeCode().toString(), costShareType.getDescription());
-        }).collect(Collectors.toList());
-
-        return keyValuesList;
-
+        final Collection<CostShareType> costSharetypes = getBusinessObjectService().findMatching(CostShareType.class, Collections.singletonMap("active", "true"));
+        return Stream.concat(Stream.of(SELECT), costSharetypes.stream()
+                .map(costShareType -> new ConcreteKeyValue(costShareType.getCostShareTypeCode().toString(), costShareType.getDescription()))
+                .sorted(Comparator.comparing(ConcreteKeyValue::getValue, String.CASE_INSENSITIVE_ORDER)))
+                .collect(Collectors.toList());
     }
 
     public BusinessObjectService getBusinessObjectService() {
@@ -53,7 +55,7 @@ public class CostShareTypeValuesFinder extends UifKeyValuesFinderBase {
         return businessObjectService;
     }
 
-    public void setDataObjectService(BusinessObjectService businessObjectService) {
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 

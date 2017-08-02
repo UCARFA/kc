@@ -41,7 +41,6 @@ import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -50,8 +49,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class ActivePendingTransactionServiceImplTest {
     
@@ -88,7 +85,8 @@ public class ActivePendingTransactionServiceImplTest {
         buildDefaultAwardHierarchy();
         
         emptyAwardAnswer = new Answer<Award>() {
-    		public Award answer(InvocationOnMock invocation) {
+    		@Override
+            public Award answer(InvocationOnMock invocation) {
     			return getEmptyAward(invocation.getArgument(0));
     		}
     	};

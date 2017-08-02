@@ -38,6 +38,7 @@ public abstract class ProtocolAbandonServiceImplBase implements ProtocolAbandonS
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
 
 
+    @Override
     public void abandonProtocol(ProtocolBase protocol, ProtocolGenericActionBean protocolAbandonBean) throws WorkflowException {
 
         ProtocolActionBase protocolAction = getNewActionHook(protocol); 

@@ -35,6 +35,7 @@ public class ProposalCountryServiceImpl implements ProposalCountryService {
     @Qualifier("countryService")
     private CountryService countryService;
     
+    @Override
     public String convertAltCountryCodeToRealCountryCode(String currentCountryCode) {
         try {
             return getCountryService().getCountryByAlternateCode(currentCountryCode).getCode();

@@ -41,11 +41,13 @@ public class PersonnelHelper extends PersonnelHelperBase {
         setNewProtocolPerson(new ProtocolPerson());
     }    
     
+    @Override
     protected void initializeModifyProtocolPermission(ProtocolBase protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_PERSONNEL, (Protocol) protocol);
         modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
     }
     
+    @Override
     protected void initializeTrainingSection() {
         setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION)));
     }

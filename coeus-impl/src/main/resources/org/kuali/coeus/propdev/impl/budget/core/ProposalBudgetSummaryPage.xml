@@ -26,7 +26,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropBudget-SummaryPage" parent="PropBudget-SummaryPage-parentBean" />
-	<bean id="PropBudget-SummaryPage-parentBean" parent="PropBudget-Page">
+	<bean id="PropBudget-SummaryPage-parentBean" abstract="true" parent="PropBudget-Page">
 		<property name="items">
 			<list>
             	<bean parent="Kc-LineItemTable" p:propertyName="budget.budgetSummaryDetails"

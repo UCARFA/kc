@@ -43,6 +43,7 @@ public class DisclosureFinancialEntityAuditRule extends KcTransactionalDocumentR
     private static final String NEW_TAG = "disclosureHelper.newCoiDisclProject.finEntityStatusMissing";
     private List<AuditError> auditErrors;
     
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean isValid = true;
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) document;

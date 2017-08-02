@@ -43,11 +43,13 @@ public class NegotiationNotificationRoleQualifierServiceImpl implements Negotiat
         return result;
     }
 
+    @Override
     public Negotiation getNegotiation() {
         return negotiation;
     }
 
 
+    @Override
     public void setNegotiation(Negotiation negotiation) {
         this.negotiation = negotiation;
     }

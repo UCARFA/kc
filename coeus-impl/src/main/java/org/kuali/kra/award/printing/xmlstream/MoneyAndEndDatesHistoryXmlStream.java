@@ -34,7 +34,8 @@ import java.util.*;
 
 public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 
-	public Map<String, XmlObject> generateXmlStream(
+	@Override
+    public Map<String, XmlObject> generateXmlStream(
 			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
 		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory
@@ -58,7 +59,8 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 		}
 	}
 
-	protected AwardNotice getAwardNotice(Map<String, Object> reportParameters) {
+	@Override
+    protected AwardNotice getAwardNotice(Map<String, Object> reportParameters) {
 		AwardNotice awardNotice = AwardNotice.Factory.newInstance();
 		awardNotice.setSchoolInfo(getSchoolInfoType());
 		awardNotice.setAward(getAward());
@@ -223,21 +225,24 @@ public class MoneyAndEndDatesHistoryXmlStream extends AwardBaseStream {
 		return printRequirement;
 	}
 
-	protected org.kuali.kra.printing.schema.AwardType getAward() {
+	@Override
+    protected org.kuali.kra.printing.schema.AwardType getAward() {
 		org.kuali.kra.printing.schema.AwardType awardType = org.kuali.kra.printing.schema.AwardType.Factory
 				.newInstance();
 		awardType.setAwardDetails(getAwardDetails());
 		return awardType;
 	}
 
-	protected AwardDetails getAwardDetails() {
+	@Override
+    protected AwardDetails getAwardDetails() {
 		AwardDetails awardDetailsType = AwardDetails.Factory.newInstance();
 		AwardHeaderType awardHeaderType = getAwardHeaderType();
 		awardDetailsType.setAwardHeader(awardHeaderType);
 		return awardDetailsType;
 	}
 
-	protected AwardHeaderType getAwardHeaderType() {
+	@Override
+    protected AwardHeaderType getAwardHeaderType() {
 		AwardHeaderType awardHeaderType = AwardHeaderType.Factory.newInstance();
 		if (awardDocument.getAward().getAwardNumber() != null) {
 			awardHeaderType.setAwardNumber(awardDocument.getAward().getAwardNumber());

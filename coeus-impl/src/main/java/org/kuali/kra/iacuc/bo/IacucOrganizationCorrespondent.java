@@ -51,6 +51,7 @@ public class IacucOrganizationCorrespondent extends Correspondent {
         this.organization = organization;
     }
 
+    @Override
     public IacucCorrespondentType getCorrespondentType() {
         return (IacucCorrespondentType) correspondentType;
     }

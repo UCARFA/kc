@@ -51,6 +51,7 @@ public class AwardAccountServiceImpl implements AwardAccountService {
      * This method returns all the awards linked to a financial account number and the chart
      * @see org.kuali.kra.external.award.AwardAccountService#getAwardAccount(java.lang.String)
      */
+    @Override
     public List<AwardAccountDTO> getAwardAccounts(String financialAccountNumber, String chartOfAccounts) {
         if (ObjectUtils.isNull(financialAccountNumber) || ObjectUtils.isNull(chartOfAccounts)) {
             LOG.warn("One or both of the criteria sent was null.");

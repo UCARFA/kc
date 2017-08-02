@@ -72,6 +72,7 @@ public class ProtocolHelper extends ProtocolHelperBase {
         setNewProtocolParticipant(new ProtocolParticipant());
     }    
     
+    @Override
     protected Protocol getProtocol() {
         return (Protocol) super.getProtocol();
     }
@@ -82,6 +83,7 @@ public class ProtocolHelper extends ProtocolHelperBase {
      * Reason: For Institution who does not bill.  
      * @param protocol
      */
+    @Override
     protected void initializePermissions(ProtocolBase protocol) {
         
         super.initializePermissions(protocol);
@@ -96,6 +98,7 @@ public class ProtocolHelper extends ProtocolHelperBase {
     /**
      * Synchronizes the information between this Protocol's Funding Sources and any Institutional Proposal or Award Special Review entries.
      */
+    @Override
     public void syncSpecialReviewsWithFundingSources() throws WorkflowException {
         for (ProtocolFundingSourceBase protocolFundingSource : getProtocol().getProtocolFundingSources()) {
             String fundingSourceNumber = ((ProtocolFundingSource) protocolFundingSource).getFundingSourceNumber();
@@ -126,10 +129,12 @@ public class ProtocolHelper extends ProtocolHelperBase {
         getDeletedProtocolFundingSources().clear();
     }
     
+    @Override
     protected ProtocolNumberService getProtocolNumberService() {
         return KcServiceLocator.getService(ProtocolNumberService.class);
     }
     
+    @Override
     public ProtocolPersonnelService getProtocolPersonnelService() {
         ProtocolPersonnelService theService = KcServiceLocator.getService(ProtocolPersonnelService.class);
         return theService;
@@ -157,6 +162,7 @@ public class ProtocolHelper extends ProtocolHelperBase {
         return getRoleService().principalHasRole(getUserIdentifier(), roleIds, qualifications);
     }
         
+    @Override
     protected boolean getProtocolProposalDevelopmentLinkingHook() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IRB, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }

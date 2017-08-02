@@ -40,6 +40,7 @@ public class IacucProtocolFinalCorrespondenceActionTypeValuesFinder extends Iacu
      * 
      * {@inheritDoc}
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         

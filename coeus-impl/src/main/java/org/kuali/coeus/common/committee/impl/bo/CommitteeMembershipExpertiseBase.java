@@ -103,6 +103,7 @@ public abstract class CommitteeMembershipExpertiseBase extends CommitteeSequence
         return result;
     }
 
+    @Override
     public void resetPersistenceState() {
         setCommitteeMembershipExpertiseId(null);
     }

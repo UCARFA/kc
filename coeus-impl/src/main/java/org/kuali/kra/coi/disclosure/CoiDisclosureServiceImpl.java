@@ -195,6 +195,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
     }
 
+    @Override
     public boolean setDisclProjectForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean) {
         coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
         // reset disclosure's disclprojects from master disclosure bean
@@ -1061,6 +1062,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return isAllSponsors;
     }
 
+    @Override
     public boolean isReporter() {
         // TODO : this is the initial implementation to check if a user need to report
         // more condition may be added
@@ -1416,6 +1418,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return disclosureProjectBean;
     }
     
+    @Override
     public List<CoiDispositionStatus> getDispositionStatuses(String disclosureStatusCode) {
         List<CoiDispositionStatus> coiDispositionStatuses  = new ArrayList<CoiDispositionStatus>();
         if (ObjectUtils.isNotNull(disclosureStatusCode)) {
@@ -1429,6 +1432,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     
     
     
+    @Override
     public void initDisclosureFromMasterDisclosure(CoiDisclosure coiDisclosure) {
         CoiDisclosure masterDisclosure = getCurrentDisclosure();
         coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
@@ -1440,6 +1444,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /*
      * Return current disclosure, ie, the master disclosure
      */
+    @Override
     public CoiDisclosure getCurrentDisclosure() {
         Map fieldValues = new HashMap();
         fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
@@ -1562,6 +1567,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * Called during a "Report Coi" instance for System Events.  This method assumes a 1:1 disclosure to project relationship
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureProject(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
      */
+    @Override
     public void initializeDisclosureProject(CoiDisclosure coiDisclosure, String projectId) {
         List<CoiDisclProject> coiDisclProjects = coiDisclosure.getCoiDisclProjects();
         if (CollectionUtils.isEmpty(coiDisclProjects)) {
@@ -2578,6 +2584,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         this.coiDisclosureUndisclosedEventsDao = coiDisclosureUndisclosedEventsDao;
     }
     
+    @Override
     public List<CoiDisclosure> getAllDisclosuresForUser(String personId) {
         Map fieldValues = new HashMap();
         fieldValues.put("personId", personId);
@@ -2586,6 +2593,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return disclosures;
     }
 
+    @Override
     public boolean checkScreeningQuestionnaireRule(CoiDisclosureDocument coiDisclosureDocument) {
         String krmsRuleId = parameterService.getParameterValueAsString(CoiDisclosureDocument.class, Constants.COI_SCREENING_QUESTIONNAIRE_KRMS_RULE);
         if (StringUtils.isNotBlank(krmsRuleId)) {
@@ -2643,10 +2651,12 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return retval;
     }
     
+    @Override
     public CoiDispositionStatus calculateMaximumDispositionStatus(CoiDisclosure coiDisclosure) {
         return businessObjectService.findBySinglePrimaryKey(CoiDispositionStatus.class, calculateMaximumDispositionStatusCode(coiDisclosure));
     }
     
+    @Override
     public void updateDisclosureAndProjectDisposition(CoiDisclosure coiDisclosure) {
         CoiDispositionStatus disposition = calculateMaximumDispositionStatus(coiDisclosure);
         coiDisclosure.setDisclosureDispositionCode(disposition.getCoiDispositionCode());

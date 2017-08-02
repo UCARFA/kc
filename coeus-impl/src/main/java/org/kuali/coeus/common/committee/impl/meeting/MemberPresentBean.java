@@ -37,6 +37,7 @@ public class MemberPresentBean implements Serializable, Comparable<MemberPresent
         this.attendance = attendance;
     }
 
+    @Override
     public int compareTo(MemberPresentBean arg) {
             return this.getAttendance().getPersonName().compareTo(arg.getAttendance().getPersonName());
         

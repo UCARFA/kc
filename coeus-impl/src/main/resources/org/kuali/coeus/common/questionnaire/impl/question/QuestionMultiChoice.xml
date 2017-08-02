@@ -108,7 +108,7 @@
     <bean id="QuestionMultiChoice-description" parent="QuestionMultiChoice-description-parentBean" />
     <bean id="QuestionMultiChoice-description-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="description" />
-        <property name="required" value="true" />
+        <property name="required" value="false" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Description" />
         <property name="shortLabel" value="Description" />

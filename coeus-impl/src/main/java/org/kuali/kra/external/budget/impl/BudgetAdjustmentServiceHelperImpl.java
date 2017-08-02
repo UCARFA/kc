@@ -61,6 +61,7 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
      * subtracting from previous budget.
      * @return
      */
+    @Override
     public HashMap<String, ScaleTwoDecimal> getNonPersonnelCost(Budget currentBudget, AwardBudgetExt previousBudget) {
         HashMap<String, ScaleTwoDecimal> netCost = new HashMap<String, ScaleTwoDecimal>();
         // only do for one period, assume it is the first 
@@ -80,6 +81,7 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
     /*
      * Returns the non personnel calculated direct cost.
      */
+    @Override
     public SortedMap<RateType, ScaleTwoDecimal> getNonPersonnelCalculatedDirectCost(Budget currentBudget, AwardBudgetExt previousBudget) {
         SortedMap<RateType, List<ScaleTwoDecimal>> currentNonPersonnelCalcDirectCost = currentBudget.getNonPersonnelCalculatedExpenseTotals();
         SortedMap<RateType, ScaleTwoDecimal> netNonPersonnelCalculatedDirectCost = new TreeMap<RateType, ScaleTwoDecimal>();
@@ -97,6 +99,7 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
      * This method returns the indirect cost for the accounting line.
      * @return
      */
+    @Override
     public Map<RateClassRateType, ScaleTwoDecimal> getIndirectCost(Budget currentBudget, AwardBudgetExt previousBudget) {
         int period = currentBudget.getBudgetPeriods().size() - 1;
         List<BudgetLineItem> currentLineItems = currentBudget.getBudgetPeriods().get(period).getBudgetLineItems();
@@ -131,6 +134,7 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
      * This method returns the personnel calculated direct cost.
      * @return
      */
+    @Override
     public Map<RateClassRateType, ScaleTwoDecimal> getPersonnelCalculatedDirectCost(Budget currentBudget, AwardBudgetExt previousBudget) {
         SortedMap<RateType, List<ScaleTwoDecimal>> currentTotals = currentBudget.getPersonnelCalculatedExpenseTotals();
         int period = currentBudget.getBudgetPeriods().size() - 1;
@@ -155,6 +159,7 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
     /*
      * The BudgetCalculationService does this by objectCodeType but we need by RateClass,RateType.
      */
+    @Override
     public Map<RateClassRateType, ScaleTwoDecimal> getPersonnelFringeCost(Budget currentBudget, AwardBudgetExt previousBudget) {
         
         BudgetCategoryType personnelCategory =  getPersonnelCategoryType();
@@ -236,6 +241,7 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
      * @return
      * @throws Exception
      */
+    @Override
     public SortedMap<String, ScaleTwoDecimal> getPersonnelSalaryCost(Budget currentBudget, AwardBudgetExt previousBudget) throws Exception {
         SortedMap<String, List<ScaleTwoDecimal>> currentSalaryTotals = currentBudget.getObjectCodePersonnelSalaryTotals();
         SortedMap<String, ScaleTwoDecimal> netSalary =  new TreeMap<String, ScaleTwoDecimal>();

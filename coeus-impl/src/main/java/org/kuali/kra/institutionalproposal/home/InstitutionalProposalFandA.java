@@ -35,7 +35,7 @@ public class InstitutionalProposalFandA extends KcPersistableBusinessObjectBase 
     private Long proposalId;
     private Long proposalFandARateId;
     private String fiscalYear;
-    private boolean onOffCampusFlag;
+    private boolean onOffCampusFlag = true;
     private String rateClassCode;
     private String rateTypeCode;
     private Date startDate;

@@ -20,7 +20,6 @@ package org.kuali.kra.protocol.personnel;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
 import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.person.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -226,6 +225,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         this.protocolPersonId = protocolPersonId;
     }
 
+    @Override
     public String getPersonId() {
         return this.personId;
     }
@@ -251,10 +251,12 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         this.protocolPersonRoleId = protocolPersonRoleId;
     }
 
+    @Override
     public Integer getRolodexId() {
         return this.rolodexId;
     }
 
+    @Override
     public void setRolodexId(Integer rolodexId) {
         this.rolodexId = rolodexId;
     }
@@ -304,6 +306,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         this.protocolPersonRole = protocolPersonRole;
     }
 
+    @Override
     public KcPerson getPerson() {
         if (kcPerson == null && this.personId != null) {
             kcPerson = getKcPersonService().getKcPersonByPersonId(this.personId);
@@ -603,6 +606,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return socialSecurityNumber;
     }
 
+    @Override
     public void setSocialSecurityNumber(String socialSecurityNumber) {
         this.socialSecurityNumber = socialSecurityNumber;
     }
@@ -611,6 +615,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return firstName;
     }
 
+    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -619,14 +624,17 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return middleName;
     }
 
+    @Override
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
 
+    @Override
     public String getFullName() {
         return fullName;
     }
 
+    @Override
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -635,6 +643,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return priorName;
     }
 
+    @Override
     public void setPriorName(String priorName) {
         this.priorName = priorName;
     }
@@ -643,6 +652,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return userName;
     }
 
+    @Override
     public void setUserName(String userName) {
         this.userName = userName;
     }
@@ -651,6 +661,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return emailAddress;
     }
 
+    @Override
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
@@ -659,6 +670,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return dateOfBirth;
     }
 
+    @Override
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
@@ -667,6 +679,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return age;
     }
 
+    @Override
     public void setAge(Integer age) {
         this.age = age;
     }
@@ -675,6 +688,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return ageByFiscalYear;
     }
 
+    @Override
     public void setAgeByFiscalYear(Integer ageByFiscalYear) {
         this.ageByFiscalYear = ageByFiscalYear;
     }
@@ -683,6 +697,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return gender;
     }
 
+    @Override
     public void setGender(String gender) {
         this.gender = gender;
     }
@@ -691,6 +706,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return race;
     }
 
+    @Override
     public void setRace(String race) {
         this.race = race;
     }
@@ -699,6 +715,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return educationLevel;
     }
 
+    @Override
     public void setEducationLevel(String educationLevel) {
         this.educationLevel = educationLevel;
     }
@@ -707,6 +724,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return degree;
     }
 
+    @Override
     public void setDegree(String degree) {
         this.degree = degree;
     }
@@ -715,6 +733,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return major;
     }
 
+    @Override
     public void setMajor(String major) {
         this.major = major;
     }
@@ -723,6 +742,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return handicappedFlag;
     }
 
+    @Override
     public void setHandicappedFlag(Boolean handicappedFlag) {
         this.handicappedFlag = handicappedFlag;
     }
@@ -731,6 +751,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return handicapType;
     }
 
+    @Override
     public void setHandicapType(String handicapType) {
         this.handicapType = handicapType;
     }
@@ -739,6 +760,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return veteranFlag;
     }
 
+    @Override
     public void setVeteranFlag(Boolean veteranFlag) {
         this.veteranFlag = veteranFlag;
     }
@@ -747,6 +769,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return veteranType;
     }
 
+    @Override
     public void setVeteranType(String veteranType) {
         this.veteranType = veteranType;
     }
@@ -755,6 +778,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return visaCode;
     }
 
+    @Override
     public void setVisaCode(String visaCode) {
         this.visaCode = visaCode;
     }
@@ -763,6 +787,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return visaType;
     }
 
+    @Override
     public void setVisaType(String visaType) {
         this.visaType = visaType;
     }
@@ -771,6 +796,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return visaRenewalDate;
     }
 
+    @Override
     public void setVisaRenewalDate(Date visaRenewalDate) {
         this.visaRenewalDate = visaRenewalDate;
     }
@@ -779,6 +805,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return hasVisa;
     }
 
+    @Override
     public void setHasVisa(Boolean hasVisa) {
         this.hasVisa = hasVisa;
     }
@@ -787,6 +814,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return officeLocation;
     }
 
+    @Override
     public void setOfficeLocation(String officeLocation) {
         this.officeLocation = officeLocation;
     }
@@ -795,6 +823,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return officePhone;
     }
 
+    @Override
     public void setOfficePhone(String officePhone) {
         this.officePhone = officePhone;
     }
@@ -803,6 +832,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return secondaryOfficeLocation;
     }
 
+    @Override
     public void setSecondaryOfficeLocation(String secondaryOfficeLocation) {
         this.secondaryOfficeLocation = secondaryOfficeLocation;
     }
@@ -811,6 +841,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return secondaryOfficePhone;
     }
 
+    @Override
     public void setSecondaryOfficePhone(String secondaryOfficePhone) {
         this.secondaryOfficePhone = secondaryOfficePhone;
     }
@@ -819,6 +850,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return school;
     }
 
+    @Override
     public void setSchool(String school) {
         this.school = school;
     }
@@ -827,6 +859,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return yearGraduated;
     }
 
+    @Override
     public void setYearGraduated(String yearGraduated) {
         this.yearGraduated = yearGraduated;
     }
@@ -835,6 +868,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return directoryDepartment;
     }
 
+    @Override
     public void setDirectoryDepartment(String directoryDepartment) {
         this.directoryDepartment = directoryDepartment;
     }
@@ -843,6 +877,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return saluation;
     }
 
+    @Override
     public void setSaluation(String saluation) {
         this.saluation = saluation;
     }
@@ -851,6 +886,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return countryOfCitizenship;
     }
 
+    @Override
     public void setCountryOfCitizenship(String countryOfCitizenship) {
         this.countryOfCitizenship = countryOfCitizenship;
     }
@@ -859,6 +895,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return primaryTitle;
     }
 
+    @Override
     public void setPrimaryTitle(String primaryTitle) {
         this.primaryTitle = primaryTitle;
     }
@@ -867,6 +904,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return directoryTitle;
     }
 
+    @Override
     public void setDirectoryTitle(String directoryTitle) {
         this.directoryTitle = directoryTitle;
     }
@@ -875,6 +913,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return homeUnit;
     }
 
+    @Override
     public void setHomeUnit(String homeUnit) {
         this.homeUnit = homeUnit;
     }
@@ -883,6 +922,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return facultyFlag;
     }
 
+    @Override
     public void setFacultyFlag(Boolean facultyFlag) {
         this.facultyFlag = facultyFlag;
     }
@@ -891,6 +931,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return graduateStudentStaffFlag;
     }
 
+    @Override
     public void setGraduateStudentStaffFlag(Boolean graduateStudentStaffFlag) {
         this.graduateStudentStaffFlag = graduateStudentStaffFlag;
     }
@@ -899,6 +940,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return researchStaffFlag;
     }
 
+    @Override
     public void setResearchStaffFlag(Boolean researchStaffFlag) {
         this.researchStaffFlag = researchStaffFlag;
     }
@@ -907,6 +949,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return serviceStaffFlag;
     }
 
+    @Override
     public void setServiceStaffFlag(Boolean serviceStaffFlag) {
         this.serviceStaffFlag = serviceStaffFlag;
     }
@@ -915,6 +958,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return supportStaffFlag;
     }
 
+    @Override
     public void setSupportStaffFlag(Boolean supportStaffFlag) {
         this.supportStaffFlag = supportStaffFlag;
     }
@@ -923,6 +967,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return otherAcademicGroupFlag;
     }
 
+    @Override
     public void setOtherAcademicGroupFlag(Boolean otherAcademicGroupFlag) {
         this.otherAcademicGroupFlag = otherAcademicGroupFlag;
     }
@@ -931,6 +976,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return medicalStaffFlag;
     }
 
+    @Override
     public void setMedicalStaffFlag(Boolean medicalStaffFlag) {
         this.medicalStaffFlag = medicalStaffFlag;
     }
@@ -939,6 +985,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return vacationAccrualFlag;
     }
 
+    @Override
     public void setVacationAccrualFlag(Boolean vacationAccrualFlag) {
         this.vacationAccrualFlag = vacationAccrualFlag;
     }
@@ -947,6 +994,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return onSabbaticalFlag;
     }
 
+    @Override
     public void setOnSabbaticalFlag(Boolean onSabbaticalFlag) {
         this.onSabbaticalFlag = onSabbaticalFlag;
     }
@@ -955,6 +1003,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return idProvided;
     }
 
+    @Override
     public void setIdProvided(String idProvided) {
         this.idProvided = idProvided;
     }
@@ -963,6 +1012,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return idVerified;
     }
 
+    @Override
     public void setIdVerified(String idVerified) {
         this.idVerified = idVerified;
     }
@@ -971,6 +1021,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return addressLine1;
     }
 
+    @Override
     public void setAddressLine1(String addressLine1) {
         this.addressLine1 = addressLine1;
     }
@@ -979,6 +1030,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return addressLine2;
     }
 
+    @Override
     public void setAddressLine2(String addressLine2) {
         this.addressLine2 = addressLine2;
     }
@@ -987,6 +1039,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return addressLine3;
     }
 
+    @Override
     public void setAddressLine3(String addressLine3) {
         this.addressLine3 = addressLine3;
     }
@@ -995,6 +1048,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return city;
     }
 
+    @Override
     public void setCity(String city) {
         this.city = city;
     }
@@ -1003,6 +1057,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return county;
     }
 
+    @Override
     public void setCounty(String county) {
         this.county = county;
     }
@@ -1011,6 +1066,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return state;
     }
 
+    @Override
     public void setState(String state) {
         this.state = state;
     }
@@ -1019,6 +1075,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return postalCode;
     }
 
+    @Override
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
@@ -1027,6 +1084,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return countryCode != null ? countryCode.trim() : null;
     }
 
+    @Override
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
@@ -1035,6 +1093,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return faxNumber;
     }
 
+    @Override
     public void setFaxNumber(String faxNumber) {
         this.faxNumber = faxNumber;
     }
@@ -1043,6 +1102,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return pagerNumber;
     }
 
+    @Override
     public void setPagerNumber(String pagerNumber) {
         this.pagerNumber = pagerNumber;
     }
@@ -1051,6 +1111,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return mobilePhoneNumber;
     }
 
+    @Override
     public void setMobilePhoneNumber(String mobilePhoneNumber) {
         this.mobilePhoneNumber = mobilePhoneNumber;
     }
@@ -1059,18 +1120,22 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return eraCommonsUserName;
     }
 
+    @Override
     public void setEraCommonsUserName(String eraCommonsUserName) {
         this.eraCommonsUserName = eraCommonsUserName;
     }
 
+    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
     
+    @Override
     public ProtocolBase getParent() {
         return this.getProtocol();
     }
     
+    @Override
     public String getRoleCode() {
         return getProtocolPersonRoleId();
     }
@@ -1087,7 +1152,8 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 		return citizenshipTypeCode;
 	}
 
-	public void setCitizenshipTypeCode(Integer citizenshipTypeCode) {
+	@Override
+    public void setCitizenshipTypeCode(Integer citizenshipTypeCode) {
 		this.citizenshipTypeCode = citizenshipTypeCode;
 	}
 

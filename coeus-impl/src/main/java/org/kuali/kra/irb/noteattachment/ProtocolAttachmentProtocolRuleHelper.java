@@ -54,6 +54,7 @@ class ProtocolAttachmentProtocolRuleHelper extends ProtocolAttachmentProtocolRul
      * @param attachmentProtocol the attachment.
      * @return true is valid.
      */
+    @Override
     protected boolean validStatusForSubmission(final ProtocolAttachmentProtocolBase attachmentProtocol) {
         if (!StringUtils.equals(attachmentProtocol.getDocumentStatusCode(), "3")) {
             if (!ProtocolAttachmentProtocol.COMPLETE_STATUS_CODE.equals(attachmentProtocol.getStatusCode())) {

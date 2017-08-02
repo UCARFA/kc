@@ -27,22 +27,28 @@ public abstract class CommitteeSequenceAssociateBase extends KcPersistableBusine
 
     private CommitteeBase sequenceOwner;
 
+    @Override
     public CommitteeBase getSequenceOwner() {
         return this.sequenceOwner;
     }
 
+    @Override
     public void setSequenceOwner(CommitteeBase newOwner) {
         this.sequenceOwner = newOwner;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return this.sequenceOwner.getSequenceNumber();
     }
 
+    @Override
     public abstract boolean equals(Object obj);
     
+    @Override
     public abstract int hashCode();
     
+    @Override
     public abstract void resetPersistenceState();
 
 }

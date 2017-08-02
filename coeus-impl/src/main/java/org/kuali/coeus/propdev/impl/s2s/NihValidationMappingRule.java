@@ -18,19 +18,14 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
-
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.s2s.nih.NihValidationMapping;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +33,7 @@ import java.util.Map;
 public class NihValidationMappingRule extends KcMaintenanceDocumentRuleBase {
 
     public static final String DOCUMENT_NEW_MAINTAINABLE_OBJECT_RULE_NUMBER = "document.newMaintainableObject.ruleNumber";
+
     public static final String RULE_NUMBER = "ruleNumber";
     private BusinessObjectService businessObjectService;
 
@@ -48,7 +44,8 @@ public class NihValidationMappingRule extends KcMaintenanceDocumentRuleBase {
 
         final NihValidationMapping nihValidationMapping = (NihValidationMapping) document.getNewMaintainableObject().getDataObject();
 
-        if (!KRADConstants.MAINTENANCE_DELETE_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+        if (!KRADConstants.MAINTENANCE_DELETE_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) &&
+                !KRADConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
 
             Map<String, String> criteria = new HashMap<>();
             criteria.put(RULE_NUMBER, nihValidationMapping.getRuleNumber());
@@ -58,7 +55,7 @@ public class NihValidationMappingRule extends KcMaintenanceDocumentRuleBase {
                 final NihValidationMapping existingMapping = ruleNumbers.get(0);
                 if (existingMapping.getRuleNumber().equals(nihValidationMapping.getRuleNumber())) {
                     getGlobalVariableService().getMessageMap().putError(DOCUMENT_NEW_MAINTAINABLE_OBJECT_RULE_NUMBER, KeyConstants.UNIQUE_NIH_VALIDATION_KEY, "");
-                    valid = false;
+                    valid = Boolean.FALSE;
                 }
             }
         }

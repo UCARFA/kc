@@ -74,6 +74,7 @@ public class CalculateCreditSplitEvent  extends KcDocumentEventBase {
     }
     
     
+    @Override
     public Class getRuleInterfaceClass() {
 
         return CalculateCreditSplitRule.class;

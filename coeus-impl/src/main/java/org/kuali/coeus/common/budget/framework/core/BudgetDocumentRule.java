@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.distribution.*;
 import org.kuali.coeus.common.budget.framework.period.*;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;

@@ -39,7 +39,8 @@ public class Or extends LogicalOperator {
      * @param baseBean BaseBean
      * @return true if any one of the operators return true as result, else returns false.
      */    
-    public boolean getResult(Object baseBean) {        
+    @Override
+    public boolean getResult(Object baseBean) {
         return (lhsOperator.getResult(baseBean) || rhsOperator.getResult(baseBean));
     }
     
@@ -48,6 +49,7 @@ public class Or extends LogicalOperator {
      * and right-hand operator(rhsOperator)
      * @return String - OR condition
      */ 
+    @Override
     public String toString() {
         return "( " + lhsOperator.toString() + " || " + rhsOperator + " )";
     }

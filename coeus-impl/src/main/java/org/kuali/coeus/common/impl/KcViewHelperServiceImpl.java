@@ -18,6 +18,8 @@
  */
 package org.kuali.coeus.common.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
@@ -74,6 +76,13 @@ public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
             return "label-warning";
         }
         return "label-info";
+    }
+
+    public String urlEncode(String s) throws UnsupportedEncodingException {
+        if (s == null) {
+            return "";
+        }
+        return URLEncoder.encode(s, "UTF-8");
     }
    
 	public GlobalVariableService getGlobalVariableService() {

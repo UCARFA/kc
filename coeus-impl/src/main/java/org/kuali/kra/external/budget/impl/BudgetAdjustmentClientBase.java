@@ -571,10 +571,12 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         return budgetAdjustmentServiceHelper;
     }
     
+    @Override
     public void setBudgetAdjustmentServiceHelper(BudgetAdjustmentServiceHelper budgetAdjustmentServiceHelper) {
         this.budgetAdjustmentServiceHelper = budgetAdjustmentServiceHelper;
     }
     
+    @Override
     public void setInstitutionalUnitService(InstitutionalUnitService institutionalUnitService) {
         this.institutionalUnitService = institutionalUnitService;
     }
@@ -583,12 +585,14 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         return businessObjectService;   
     }
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
     /*
      * 
      */
+    @Override
     public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
         this.budgetCalculationService = budgetCalculationService;
     }
@@ -602,6 +606,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * 
      * @param parameterService The parameterService to set.
      */
+    @Override
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -611,6 +616,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * 
      * @param documentService The documentService to set.
      */
+    @Override
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -619,6 +625,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         return configurationService;
     }
 
+    @Override
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }

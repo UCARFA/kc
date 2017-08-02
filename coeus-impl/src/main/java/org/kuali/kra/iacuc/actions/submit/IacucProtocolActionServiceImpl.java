@@ -106,13 +106,15 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImplBas
             IacucProtocolActionType.SUSPENDED  };     
     
     
-    public String getPerformActionFileNameHook() {     
+    @Override
+    public String getPerformActionFileNameHook() {
         return PERFORMACTION_FILE;
     }
 
     /*
      * This method is to check if user has permission in lead unit
      */
+    @Override
     protected boolean hasPermissionLeadUnit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
@@ -123,6 +125,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImplBas
     /**
      * This method is to check if user has permission to submit
      */
+    @Override
     protected boolean hasPermissionToSubmit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
@@ -130,6 +133,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImplBas
                 .getRightId()) : false;
     }
 
+    @Override
     public void resetProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol) {
         IacucProtocolAction protocolAction = (IacucProtocolAction) protocolActionBo;
         if (protocolAction.getPrevProtocolStatusCode() != null) {

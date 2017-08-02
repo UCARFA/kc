@@ -32,6 +32,7 @@ import java.util.List;
 
 public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, SponsorHierarchyDao {
     
+    @Override
     public Iterator getTopSponsorHierarchy() {
         
       Criteria criteriaID = new Criteria();
@@ -47,6 +48,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
      * This is much faster than use 'businessobjectservice.findmatching, and then loop thru bo.
      * @see org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyDao#getAllSponsors(java.lang.String)
      */
+    @Override
     public Iterator getAllSponsors(String hierarchyName) {
         
       Criteria criteriaID = new Criteria();
@@ -62,6 +64,7 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
      * Appears to need to be transactional when this is called during the maint doc page rendering.
      * @see org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyDao#getUniqueNamesAtLevel(java.lang.String, int)
      */
+    @Override
     @Transactional
     public List<String> getUniqueNamesAtLevel(String hierarchyName, int depth) {
         Criteria criteriaID = new Criteria();

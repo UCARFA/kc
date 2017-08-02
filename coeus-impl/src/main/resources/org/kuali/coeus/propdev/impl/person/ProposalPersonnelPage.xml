@@ -23,7 +23,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="PropDev-PersonnelPage" parent="PropDev-PersonnelPage-parentBean" />
-    <bean id="PropDev-PersonnelPage-parentBean" parent="PropDev-DocumentPage">
+    <bean id="PropDev-PersonnelPage-parentBean" abstract="true" parent="PropDev-DocumentPage">
         <property name="items">
             <list>
                 <ref bean="PropDev-PersonnelPage-Section" />
@@ -249,7 +249,7 @@
                 <bean parent="Uif-InputField"
                       p:propertyName="parameterMap['keyPersonProjectRole']"
                       p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson"
-                      p:dictionaryAttributeName="projectRole" p:required="true"
+                      p:dictionaryAttributeName="projectRole" p:required="@{#fp.parameterMap['personRole'] == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
                       p:label="Key Person's role will be" p:progressiveRender="@{#fp.parameterMap['personRole'] == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
                       p:order="30" />
             </list>
@@ -281,7 +281,7 @@
           p:propertyName="document.developmentProposal.proposalPersons"
           p:id="PropDev-PersonnelPage-Collection"
           p:layoutManager.summaryTitle="@{#lp.fullName}
-		                                (@{#lp.role.description}
+		                                (@{#lp.role != null ? #lp.role.description : #lp.proposalPersonRoleId}
                                             @{#lp.keyPerson eq true ? ': ' + #lp.projectRole : '' })
                                                 @{#lp.certifiedBy != null and #lp.isQuestionnairesCompleted() ? '(Certification Completed and Answered By '+ #lp.certifiedPersonName+' - ' + #lp.certifiedTimeStamp+')' : '(Certification Incomplete)'}"
           p:renderAddLine="false"

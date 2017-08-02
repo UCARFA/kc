@@ -35,6 +35,7 @@ public abstract class ProtocolLocationRuleBase extends KcTransactionalDocumentRu
      * Don't allow protocol location with an invalid organization id, organization type code, duplicate organization id
      * @see org.kuali.kra.protocol.protocol.location.AddProtocolLocationRule#processAddProtocolLocationBusinessRules(org.kuali.kra.protocol.protocol.location.AddProtocolLocationEvent)
      */
+    @Override
     public boolean processAddProtocolLocationBusinessRules(AddProtocolLocationEvent addProtocolLocationEvent) {
         boolean isValid = true;
         /**

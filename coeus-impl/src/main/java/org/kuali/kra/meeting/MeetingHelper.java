@@ -90,6 +90,7 @@ public class MeetingHelper extends MeetingHelperBase {
         return new CommitteeScheduleTask(taskName, (Committee) committee, (CommitteeSchedule) committeeSchedule);
     }
     
+    @Override
     public boolean isAdmin() {
         return getSystemAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
     }

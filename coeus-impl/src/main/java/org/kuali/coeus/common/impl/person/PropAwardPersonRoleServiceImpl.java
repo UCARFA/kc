@@ -92,7 +92,8 @@ public class PropAwardPersonRoleServiceImpl implements PropAwardPersonRoleServic
         return areAllSponsorsMultiPi() || getSponsorHierarchyService().isSponsorNihOsc(sponsorCode);
 	}	
 	
-	public String getSponsorHierarchy(String sponsorCode) {
+	@Override
+    public String getSponsorHierarchy(String sponsorCode) {
 		if (areAllSponsorsMultiPi()) {
 			return NIH_MULTIPLE_PI_HIERARCHY;
 		}
@@ -104,8 +105,9 @@ public class PropAwardPersonRoleServiceImpl implements PropAwardPersonRoleServic
 		return DEFAULT_SPONSOR_HIERARCHY_NAME;
 	}
 	
-	public Boolean areAllSponsorsMultiPi() {
-		return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+	@Override
+    public Boolean areAllSponsorsMultiPi() {
+		return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
 	}
 	
 	protected Collection<String> getRoleHierarchies() {

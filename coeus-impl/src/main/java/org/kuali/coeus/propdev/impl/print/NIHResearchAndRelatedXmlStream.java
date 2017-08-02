@@ -21,7 +21,6 @@ package org.kuali.coeus.propdev.impl.print;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.AssuranceType;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.ContactInfoType;
 import gov.nih.era.projectmgmt.sbir.cgap.commonNamespace.PostalAddressType;
-import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.AbstractType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ApplicantOrganizationType;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.ApplicantOrganizationType.OrganizationClassification;
 import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.AuthorizedOrganizationalRepresentativeType;
@@ -195,6 +194,7 @@ public class NIHResearchAndRelatedXmlStream extends
      *            parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(
             KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;

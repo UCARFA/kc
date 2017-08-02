@@ -114,6 +114,7 @@ public class KcIntegrationTestBase implements KcIntegrationTestMethodAware {
      * 
      * @see KcIntegrationTestMethodAware#setTestMethod(java.lang.String)
      */
+    @Override
     public final void setTestMethod(String method) {
         this.method = method;
     }
