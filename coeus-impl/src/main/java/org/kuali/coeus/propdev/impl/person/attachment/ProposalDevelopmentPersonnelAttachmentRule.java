@@ -93,7 +93,10 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         }
 
         rulePassed &= getKcAttachmentService().validPDFFile(proposalPersonBiography, getErrorReporter(), PERSONNEL_ATTACHMENT_FILE);
-        rulePassed &= validDescription(proposalPersonBiography, document.getDevelopmentProposal());
+        if (!validDescription(proposalPersonBiography, document.getDevelopmentProposal())) {
+            rulePassed = false;
+            reportError(DOC_TYPE_DESCRIPTION, ERROR_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS);
+        }
 
         if (!checkForProposalPerson(proposalPersonBiography)) {
             rulePassed = false;
@@ -115,7 +118,6 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
     protected boolean validDescription(ProposalPersonBiography proposalPersonBiography, DevelopmentProposal developmentProposal) {
         if (StringUtils.contains(proposalPersonBiography.getDescription(), '&')
                 && developmentProposal.getS2sOpportunity() != null) {
-            reportError(DOC_TYPE_DESCRIPTION, ERROR_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS);
             return false;
         }
         return true;
@@ -134,6 +136,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         ProposalPersonBiography biography = savePersonnelAttachmentEvent.getProposalPersonBiography();
         List<ProposalPersonBiography> biographies = ((ProposalDevelopmentDocument)savePersonnelAttachmentEvent.getDocument()).getDevelopmentProposal().getPropPersonBios();
         int index = Integer.parseInt(savePersonnelAttachmentEvent.getErrorPathPrefix());
+        DevelopmentProposal proposal = ((ProposalDevelopmentDocument) savePersonnelAttachmentEvent.getDocument()).getDevelopmentProposal();
 
         if (!checkForDescription(biography)) {
             retVal = false;
@@ -151,6 +154,10 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         }
 
         retVal &= getKcAttachmentService().validPDFFile(biography, getErrorReporter(), PERSONNEL_ATTACHMENT_FILE);
+        if (!validDescription(biography, proposal)) {
+            retVal = false;
+            getAuditErrors(ATTACHMENT_PERSONNEL_SECTION_NAME,AUDIT_ERRORS).add(new AuditError(BIOGRAPHIES_KEY, KeyConstants.ERROR_DESCRIPTION_INCLUDES_ILLEGAL_CHARACTERS, ATTACHMENT_PAGE_ID + "." + ATTACHMENT_PERSONNEL_SECTION_ID));
+        }
 
         if (!checkForDuplicates(biography,biographies)){
             retVal = false;
