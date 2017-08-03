@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1708.0005
 * RESKC-1758: Personnel attachments should now properly display error message when description includes an ampersand.
   * jeremiah on Wed, 2 Aug 2017 13:21:00 -0500 [View Commit](../../commit/7c1e2d7e5bc8ef90b1924e8a27bf7aadb9d247c2)
 
