@@ -1,6 +1,27 @@
 
 
 ##CURRENT
+* RESKC-2220: Adding NIH mapping entries (#2469)
+
+  * Gayathri Athreya on Fri, 4 Aug 2017 11:55:23 -0700 [View Commit](../../commit/dca27c55905cc7144d614bde8abdd09ffa710aea)
+* RESKC-1813: CSU Contrib changed validation to check for existence of award (#2468)
+
+* Core Auth implementation in monolith
+  * 
+* Core Auth implementation in monolith
+  * 
+* Updated CORE.md based on feedback
+  * 
+* Updated CORE.md to include default values for parameters as found in kc-config-defaults.xml
+  * 
+* RESKC-111: Changed validation to check for existence of award rather than the sponsor award id field within the award
+  * 
+* RSISSUES-332: Updated contrib with upstream/master and proposal award lookup fix
+  * 
+* RESKC-1813: Updated files per PR comments
+  * Tyler Wilson on Fri, 4 Aug 2017 11:56:39 -0600 [View Commit](../../commit/0d7fa2f9b09b54c7fa9541406dc322fe834e5f23)
+
+##coeus-1708.0006
 * No Changes
 
 

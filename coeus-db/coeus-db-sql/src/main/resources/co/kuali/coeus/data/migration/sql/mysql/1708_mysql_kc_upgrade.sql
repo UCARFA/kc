@@ -18,14 +18,5 @@
 --
 
 
-\. ./kc/bootstrap/V1707_001__ED524-supplemental.sql
-\. ./kc/bootstrap/V1707_002__ED524-supplement-disable.sql
-\. ./kc/bootstrap/V1707_003__multi_choice_question.sql
-\. ./kc/bootstrap/V1707_004__award_posts_indexes.sql
-\. ./kc/bootstrap/V1707_006__SF424_Mandatory_questions.sql
-\. ./kc/bootstrap/V1707_007__SF424_Mandatory_narratives.sql
-\. ./kc/bootstrap/V1707_008__SF424_supplement_errors.sql
-\. ./kc/bootstrap/V1707_009__SF424_Mandatory_questions_revert.sql
-\. ./kc/bootstrap/V1707_016__cost_share_type_default.sql
-\. ./kc/bootstrap/V1707_017__questionnaire_data_fix.sql
+\. ./kc/bootstrap/V1708_001__NIH_validation.sql
 commit;

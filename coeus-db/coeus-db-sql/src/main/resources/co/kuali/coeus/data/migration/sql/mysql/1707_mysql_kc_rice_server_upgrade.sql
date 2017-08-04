@@ -24,4 +24,5 @@
 \. ./rice/bootstrap/V1707_013__nasa_fdp_parameters.sql
 \. ./rice/bootstrap/V1707_014__onr_fdp_parameters.sql
 \. ./rice/bootstrap/V1707_015__force_xsl_param.sql
+\. ./rice/bootstrap/V1707_018__data_validation_section_flags.sql
 commit;
