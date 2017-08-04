@@ -23,16 +23,13 @@ import org.junit.Test;
 import org.kuali.coeus.common.api.document.impl.CommonApiServiceImpl;
 import org.kuali.coeus.common.api.training.dto.PersonTrainingDto;
 import org.kuali.coeus.common.framework.person.attr.PersonTraining;
-import org.kuali.coeus.common.framework.shortUrl.ResourceNotFoundException;
 import org.kuali.kra.bo.TrainingModule;
-import org.springframework.test.annotation.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TrainingControllerTest {
 
-    @ExpectedException(ResourceNotFoundException.class)
     @Test
     public void testTrainingModuleFilter() {
 
@@ -65,7 +62,6 @@ public class TrainingControllerTest {
 
     }
 
-    @ExpectedException(ResourceNotFoundException.class)
     @Test
     public void testTrainingModuleFilterNoTrainings() {
 
@@ -84,7 +80,6 @@ public class TrainingControllerTest {
 
     }
 
-    @ExpectedException(ResourceNotFoundException.class)
     @Test
     public void testTrainingModuleFilterNoModuleCode() {
 

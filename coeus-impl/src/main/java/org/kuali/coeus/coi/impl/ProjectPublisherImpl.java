@@ -19,7 +19,8 @@
 package org.kuali.coeus.coi.impl;
 
 
-import org.codehaus.jackson.map.ObjectMapper;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.kuali.coeus.coi.framework.Project;
 import org.kuali.coeus.coi.framework.ProjectPublisher;
 import org.kuali.coeus.sys.framework.mq.Producer;
@@ -33,6 +34,8 @@ import org.springframework.stereotype.Component;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Set;
 
@@ -58,7 +61,10 @@ public class ProjectPublisherImpl implements ProjectPublisher {
         request.setDestination(Constants.COI_PROJECTS);
         request.setHeaders(Collections.singletonMap(Constants.CONTENT_TYPE, Collections.singletonList(Constants.APPLICATION_JSON)));
         try {
-            request.setBody(new ObjectMapper().writeValueAsString(project));
+            final ObjectMapper objectMapper = new ObjectMapper();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            objectMapper.setDateFormat(format);
+            request.setBody(objectMapper.writeValueAsString(project));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

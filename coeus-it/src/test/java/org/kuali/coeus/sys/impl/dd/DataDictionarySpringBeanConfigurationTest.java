@@ -28,11 +28,11 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
-import org.kuali.rice.krad.datadictionary.DefaultListableBeanFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsAbstractException;
 import org.springframework.beans.factory.config.*;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
 import java.lang.reflect.Field;
 import java.util.*;

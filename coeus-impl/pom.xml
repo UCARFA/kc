@@ -208,18 +208,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <dependencies>
-                    <!-- need to add this to get around the following error
-                     org.apache.xerces.impl.dv.DVFactoryException: DTD factory
-                     class org.apache.xerces.impl.dv.dtd.DTDDVFactoryImpl does not extend
-                     from DTDDVFactory.     -->
-                    <dependency>
-                        <groupId>xerces</groupId>
-                        <artifactId>xercesImpl</artifactId>
-                        <version>${xercesImpl.version}</version>
-                    </dependency>
-
-                </dependencies>
             </plugin>
 
             <plugin>
@@ -279,6 +267,11 @@
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
         </dependency>
 
         <dependency>
@@ -435,7 +428,7 @@
 
         <dependency>
             <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-api</artifactId>
+            <artifactId>cxf-core</artifactId>
         </dependency>
 
         <dependency>
@@ -494,11 +487,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.ws.security</groupId>
-            <artifactId>wss4j</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.xmlbeans</groupId>
             <artifactId>xmlbeans</artifactId>
         </dependency>
@@ -524,8 +512,23 @@
         </dependency>
 
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
         </dependency>
 
         <dependency>

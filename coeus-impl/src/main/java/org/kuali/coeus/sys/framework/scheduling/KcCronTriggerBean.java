@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.springframework.scheduling.quartz.CronTriggerBean;
+import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +37,7 @@ import java.util.Date;
  * the Cron Expression from the SpringBeans.xml file.  Rather,
  * we have to retrieve the Cron Expression from the System Parameters.
  */
-public class KcCronTriggerBean extends CronTriggerBean {
+public class KcCronTriggerBean extends CronTriggerFactoryBean {
 
     private static final Log LOG = LogFactory.getLog(KcCronTriggerBean.class);
     
@@ -54,7 +54,7 @@ public class KcCronTriggerBean extends CronTriggerBean {
      * We need to set the Cron Expression based upon the value in the system parameters.
      */
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() throws ParseException {
         setCronExpression(getSystemCronExpression());
         setStartTime(getCronStartTime());
         super.afterPropertiesSet();
@@ -108,7 +108,7 @@ public class KcCronTriggerBean extends CronTriggerBean {
                 //if we got an exception while getting or parsing the start time, use the disabled start time and log an error.
                 cronStartTime = disabledStartTime;
                 String defaultDateStr = dateFormat.format(cronStartTime);
-                LOG.error("Not able to get the starttime for " + this.getJobName() + " scheduler from system param table. Set it to " + defaultDateStr, e);
+                LOG.error("Not able to get the starttime for scheduler from system param table. Set it to " + defaultDateStr, e);
             }
         }
         return cronStartTime;

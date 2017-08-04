@@ -39,7 +39,7 @@
 
     <bean class="org.kuali.rice.krad.uif.freemarker.FreeMarkerInlineRenderBootstrap" />
 
-    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+    <bean id="freemarkerConfig" class="org.kuali.rice.krad.uif.freemarker.RiceFreeMarkerConfigurer">
         <property name="preferFileSystemAccess" value="false" />
         <property name="templateLoaderPath" value="/"/>
         <property name="freemarkerSettings">
@@ -91,7 +91,7 @@
                 <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
-                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
             </list>

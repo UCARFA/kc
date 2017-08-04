@@ -18,11 +18,11 @@
  */
 package org.kuali.coeus.sys.impl.mq;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.apache.activemq.openwire.OpenWireFormat;
 import org.apache.activemq.util.ByteSequence;
 import org.apache.activemq.wireformat.WireFormat;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import javax.jms.JMSException;

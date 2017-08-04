@@ -20,7 +20,7 @@
 package org.kuali.coeus.award.finance.timeAndMoney.dto;
 
 import com.codiform.moo.annotation.CollectionProperty;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.kuali.kra.award.home.AwardAmountInfoDto;
 
 import java.util.List;

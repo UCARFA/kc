@@ -8,7 +8,7 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import junit.framework.Assert;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.kuali.coeus.coi.framework.Project;
 import org.kuali.coeus.coi.framework.ProjectPublisher;
@@ -35,6 +35,7 @@ import org.springframework.web.client.UnknownHttpStatusCodeException;
 import javax.jms.ObjectMessage;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +61,10 @@ public abstract class ProjectPushTestBase extends KcIntegrationTestBase {
         request.setDestination(Constants.COI_PROJECTS);
         request.setHeaders(Collections.singletonMap(Constants.CONTENT_TYPE, Collections.singletonList(Constants.APPLICATION_JSON)));
         try {
-            request.setBody(new ObjectMapper().writeValueAsString(project));
+            final ObjectMapper objectMapper = new ObjectMapper();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            objectMapper.setDateFormat(format);
+            request.setBody(objectMapper.writeValueAsString(project));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -79,7 +83,7 @@ public abstract class ProjectPushTestBase extends KcIntegrationTestBase {
         }
 
         @Override
-        protected void makeCall(String url, Map<String, List<String>> params, HttpEntity<String> entity, HttpMethod method) {
+        protected void makeCall(String url, Map<String, List<String>> params, HttpEntity<?> entity, HttpMethod method) {
             try {
                 ResponseEntity<Void> response = getRestOperations().exchange(url, method, entity, Void.class, params);
                 LOG.debug(createSentMsg(url, params, entity, method) + " status code " + response.getStatusCode());

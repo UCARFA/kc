@@ -38,12 +38,13 @@
 
     <bean id="hrImport-restServiceServlet" class="org.kuali.coeus.sys.framework.controller.ServletRegistrator" depends-on="hrImport-kcBasicAuthFilter">
         <property name="servlet">
-            <bean class="com.sun.jersey.spi.container.servlet.ServletContainer"/>
+            <bean class="org.glassfish.jersey.servlet.ServletContainer"/>
         </property>
         <property name="servletName" value="HR Import REST Service"/>
         <property name="initParameters">
             <map>
-                <entry key="com.sun.jersey.config.property.packages" value="com.rsmart.kuali.coeus.hr.rest"/>
+                <entry key="jersey.config.server.provider.packages" value="com.rsmart.kuali.coeus.hr.rest"/>
+                <entry key="jersey.config.server.provider.classnames" value="org.glassfish.jersey.media.multipart.MultiPartFeature"/>
             </map>
         </property>
         <property name="loadOnStartup" value="1" />

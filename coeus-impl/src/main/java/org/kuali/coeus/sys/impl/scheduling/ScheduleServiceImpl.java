@@ -28,6 +28,7 @@ import org.kuali.coeus.sys.framework.scheduling.util.CronSpecialChars;
 import org.kuali.coeus.sys.framework.scheduling.util.Time24HrFmt;
 import org.quartz.SimpleTrigger;
 import org.quartz.TriggerUtils;
+import org.quartz.impl.triggers.SimpleTriggerImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -238,7 +239,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         Date triggerEndDate = cal.getTime();
 
-        SimpleTrigger trigger = new SimpleTrigger("myTrigger", "default", triggerStartDate, triggerEndDate,
+        SimpleTriggerImpl trigger = new SimpleTriggerImpl("myTrigger", "default", triggerStartDate, triggerEndDate,
             SimpleTrigger.REPEAT_INDEFINITELY, ((long) intervalInDays) * 24L * 60L * 60L * 1000L);
 
 

@@ -18,8 +18,8 @@
  */
 package org.kuali.coeus.sys.framework.scheduling.seq;
 
-import org.quartz.CronTrigger;
 import org.quartz.TriggerUtils;
+import org.quartz.impl.triggers.CronTriggerImpl;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -45,7 +45,7 @@ public class DefaultScheduleSequence implements ScheduleSequence {
     @SuppressWarnings("unchecked")
     public List<Date> executeScheduleSequence(String expression, Date startDate, Date endDate) throws ParseException {
 
-        CronTrigger ct = new CronTrigger(NAME, GROUP, JOBNAME, JOBGROUP, startDate, null, expression);
+        CronTriggerImpl ct = new CronTriggerImpl(NAME, GROUP, JOBNAME, JOBGROUP, startDate, null, expression);
         return TriggerUtils.computeFireTimesBetween(ct, null, startDate, endDate);
     }
 

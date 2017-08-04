@@ -29,7 +29,7 @@ import org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.impl.datetime.DateTimeServiceImpl;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.quartz.JobDetail;
+import org.quartz.impl.JobDetailImpl;
 
 import java.text.ParseException;
 
@@ -70,7 +70,7 @@ public class KcCronTriggerBeanTest {
         });
         cronTrigger.setParameterService(parameterService);
 
-        JobDetail jobDetail = new JobDetail();
+        JobDetailImpl jobDetail = new JobDetailImpl();
         jobDetail.setName("test");
         cronTrigger.setBeanName("test");
         cronTrigger.setJobDetail(jobDetail);
@@ -80,6 +80,6 @@ public class KcCronTriggerBeanTest {
         cronTrigger.setDateTimeService(new DateTimeServiceImpl());
         cronTrigger.afterPropertiesSet();
         
-        assertEquals(CRON_EXPRESSION, cronTrigger.getCronExpression());
+        assertEquals(CRON_EXPRESSION, cronTrigger.getObject().getCronExpression());
     }
 }

@@ -57,7 +57,7 @@ public class SpringRestSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.headers().xssProtection().addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN));
+        http.headers().xssProtection().and().addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN));
 
 		final String authRestUrlsRegex = configurationService.getPropertyValueAsString(AUTH_REST_URLS_REGEX);
 		if (StringUtils.isNotBlank(authRestUrlsRegex)) {

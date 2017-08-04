@@ -74,7 +74,7 @@ public class RestMessageConsumer implements MessageListener {
 
         headers.put("Authorization", Collections.singletonList("Bearer " + getJwtService().createToken()));
 
-        final HttpEntity<String> entity = StringUtils.isNotBlank(request.getBody()) ? new HttpEntity<>(request.getBody(), headers): HttpEntity.EMPTY;
+        final HttpEntity<?> entity = StringUtils.isNotBlank(request.getBody()) ? new HttpEntity<>(request.getBody(), headers): HttpEntity.EMPTY;
         final HttpMethod method = HttpMethod.valueOf(request.getMethod().name());
 
         makeCall(url, params, entity, method);
@@ -84,7 +84,7 @@ public class RestMessageConsumer implements MessageListener {
         return restDestinationRegistry.findUrl(request.getDestination());
     }
 
-    protected void makeCall(String url, Map<String, List<String>> params, HttpEntity<String> entity, HttpMethod method) {
+    protected void makeCall(String url, Map<String, List<String>> params, HttpEntity<?> entity, HttpMethod method) {
         try {
             ResponseEntity<Void> response = consumerRestOperations.exchange(url, method, entity, Void.class, params);
             if (LOG.isDebugEnabled()) {
@@ -103,7 +103,7 @@ public class RestMessageConsumer implements MessageListener {
         }
     }
 
-    protected String createSentMsg(String url, Map<String, List<String>> params, HttpEntity<String> entity, HttpMethod method) {
+    protected String createSentMsg(String url, Map<String, List<String>> params, HttpEntity<?> entity, HttpMethod method) {
         return "REST request sent for url: " + url + " method " + method + " body " + entity + " parameters " + params;
     }
 

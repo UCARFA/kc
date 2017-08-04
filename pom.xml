@@ -64,7 +64,7 @@
         <cas-client-core.version>3.4.1</cas-client-core.version>
         <cglib.version>3.2.5</cglib.version>
         <coeus-api-all.version>1706.0001</coeus-api-all.version>
-        <coeus-s2sgen.version>1708.0001</coeus-s2sgen.version>
+        <coeus-s2sgen.version>1708.0002</coeus-s2sgen.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -78,7 +78,7 @@
         <commons-net.version>3.6</commons-net.version>
         <commons-pool.version>1.6</commons-pool.version>
         <commons-validator.version>1.6</commons-validator.version>
-        <cxf.version>2.7.18</cxf.version>
+        <cxf.version>3.1.12</cxf.version>
         <db-ojb.version>1.0.4-patch9</db-ojb.version>
         <displaytag.version>1.2</displaytag.version>
         <drools.version>7.0.0.Final</drools.version>
@@ -92,11 +92,11 @@
         <httpclient.version>4.5.3</httpclient.version>
         <hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
         <itext.version>2.1.7</itext.version>
-        <jackson.version>1.9.13</jackson.version>
+        <jackson.version>2.9.0</jackson.version>
         <javamelody-core.version>1.67.0</javamelody-core.version>
         <javax.mail.version>1.5.6</javax.mail.version>
         <javax.persistence.version>2.1.0</javax.persistence.version>
-        <jaxb-impl.version>2.2.6</jaxb-impl.version>
+        <jaxb.version>2.2.11</jaxb.version>
         <jose4j.version>0.5.8</jose4j.version>
         <jmock.version>2.8.3</jmock.version>
         <joda-time.version>2.9.9</joda-time.version>
@@ -124,22 +124,19 @@
         <!-- do not update due to incompatibility with tomcat 7.0.57.  Newer versions of tomcat are not incompatible -->
         <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
         <pdfbox.version>2.0.6</pdfbox.version>
-        <quartz.version>1.8.4</quartz.version>
+        <quartz.version>2.3.0</quartz.version>
         <schemaspy.version>1611.0001</schemaspy.version>
-        <rice.version>2.5.3.1707.0002-kualico</rice.version>
+        <rice.version>2.5.3.1708.0002-kualico</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring.version>3.2.18.RELEASE</spring.version>
-        <spring-security.version>3.2.10.RELEASE</spring-security.version>
+        <spring.version>4.3.10.RELEASE</spring.version>
+        <spring-security.version>4.2.3.RELEASE</spring-security.version>
         <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
         <struts.version>1.3.11-kuali-1</struts.version>
         <tomcat.version>7.0.65</tomcat.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <velocity.version>1.7</velocity.version>
-        <wss4j.version>1.6.19</wss4j.version>
         <xalan.version>2.7.2</xalan.version>
-        <xercesImpl.version>2.11.0</xercesImpl.version>
-        <xml-apis.version>1.4.01</xml-apis.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
         <xmlsec.version>1.5.8</xmlsec.version>
         <xstream.version>1.2.2</xstream.version>
@@ -583,11 +580,18 @@
                 <version>${db.version}</version>
             </dependency>
 
-            <!-- Required for jdk7 -->
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-core</artifactId>
+                <version>${jaxb.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
             <dependency>
                 <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-impl</artifactId>
-                <version>${jaxb-impl.version}</version>
+                <version>${jaxb.version}</version>
+                <scope>runtime</scope>
             </dependency>
 
             <dependency>
@@ -875,24 +879,24 @@
 
             <dependency>
                 <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-api</artifactId>
+                <artifactId>cxf-core</artifactId>
                 <version>${cxf.version}</version>
                 <exclusions>
                     <exclusion>
-                        <artifactId>commons-logging</artifactId>
-                        <groupId>commons-logging</groupId>
+                        <groupId>asm</groupId>
+                        <artifactId>asm</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>org.apache.geronimo.specs</groupId>
                         <artifactId>geronimo-javamail_1.4_spec</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>org.apache.velocity</groupId>
-                        <artifactId>velocity</artifactId>
+                        <groupId>com.sum.xml.bind</groupId>
+                        <artifactId>jaxb-core</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>asm</groupId>
-                        <artifactId>asm</artifactId>
+                        <groupId>com.sum.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -907,7 +911,7 @@
                         <artifactId>geronimo-javamail_1.4_spec</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>asm</groupId>
+                        <groupId>org.ow2.asm</groupId>
                         <artifactId>asm</artifactId>
                     </exclusion>
                 </exclusions>
@@ -917,6 +921,12 @@
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-simple</artifactId>
                 <version>${cxf.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -1045,22 +1055,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.apache.ws.security</groupId>
-                <artifactId>wss4j</artifactId>
-                <version>${wss4j.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>commons-logging</artifactId>
-                        <groupId>commons-logging</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.bouncycastle</groupId>
-                        <artifactId>bcprov-jdk14</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity</artifactId>
                 <version>${velocity.version}</version>
@@ -1139,9 +1133,31 @@
             </dependency>
 
             <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-mapper-asl</artifactId>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
                 <version>${jackson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                <artifactId>jackson-jaxrs-json-provider</artifactId>
+                <version>${jackson.version}</version>
+                <scope>compile</scope>
             </dependency>
 
             <dependency>
@@ -1182,12 +1198,6 @@
                         <artifactId>ecj</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>xml-apis</groupId>
-                <artifactId>xml-apis</artifactId>
-                <version>${xml-apis.version}</version>
             </dependency>
 
             <dependency>
@@ -1478,6 +1488,10 @@
                         <groupId>org.eclipse.persistence</groupId>
                         <artifactId>org.eclipse.persistence.oracle</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1598,6 +1612,10 @@
                         <groupId>org.eclipse.persistence</groupId>
                         <artifactId>org.eclipse.persistence.oracle</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1618,6 +1636,10 @@
                         <groupId>org.apache.velocity</groupId>
                         <artifactId>velocity</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1625,12 +1647,24 @@
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-ksb-web</artifactId>
                 <version>${rice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-legacy-web</artifactId>
                 <version>${rice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -1869,10 +1903,10 @@
             <properties>
                 <build.spring.profiles.active>grm</build.spring.profiles.active>
 
-                <rsmart.cx.token.auth.version>1507.1</rsmart.cx.token.auth.version>
-                <rsmart.hr.rest.version>1708.0001</rsmart.hr.rest.version>
+                <rsmart.cx.token.auth.version>1509.0001</rsmart.cx.token.auth.version>
+                <rsmart.hr.rest.version>1708.0002</rsmart.hr.rest.version>
                 <kc-s3.version>1705.0001</kc-s3.version>
-                <kc-sql.version>1705.0001</kc-sql.version>
+                <kc-sql.version>1706.0001</kc-sql.version>
 
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>
@@ -1930,24 +1964,16 @@
                         <scope>runtime</scope>
                         <exclusions>
                             <exclusion>
-                                <groupId>log4j</groupId>
-                                <artifactId>log4j</artifactId>
+                                <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                                <artifactId>jackson-jaxrs-base</artifactId>
                             </exclusion>
                             <exclusion>
-                                <groupId>org.codehaus.jackson</groupId>
-                                <artifactId>jackson-core-asl</artifactId>
-                            </exclusion>
-                            <exclusion>
-                                <groupId>asm</groupId>
-                                <artifactId>asm</artifactId>
+                                <groupId>org.javassist</groupId>
+                                <artifactId>javassist</artifactId>
                             </exclusion>
                             <exclusion>
                                 <groupId>javax.ws.rs</groupId>
                                 <artifactId>jsr311-api</artifactId>
-                            </exclusion>
-                            <exclusion>
-                                <groupId>org.hibernate</groupId>
-                                <artifactId>hibernate-validator</artifactId>
                             </exclusion>
                         </exclusions>
                     </dependency>
@@ -2191,6 +2217,7 @@
                                                     <exclude>javax.xml.bind</exclude>
                                                     <exclude>org.apache.geronimo.specs:geronimo-jaxb_2.1_spec</exclude>
                                                     <exclude>org.apache.geronimo.specs:geronimo-jaxb_2.2_spec</exclude>
+                                                    <exclude>com.sun.xml.bind:jaxb-core</exclude>
                                                     <exclude>com.sun.xml.bind:jaxb-impl</exclude>
 
                                                     <!-- jaxws apis - in jdk 6 -->
@@ -2255,6 +2282,9 @@
                                                     <exclude>org.apache.ant</exclude>
                                                     <!-- only include cglib-nodep -->
                                                     <exclude>cglib:cglib</exclude>
+                                                    <exclude>xml-apis:xml-apis</exclude>
+                                                    <exclude>xerces:xercesImpl</exclude>
+                                                    <exclude>org.codehaus.jackson</exclude>
                                                 </excludes>
 
                                                 <includes>
@@ -2263,11 +2293,11 @@
                                                     <include>org.bouncycastle:bcpkix-jdk15on:${bouncycastle.version}</include>
                                                     <include>org.slf4j:*:${slf4j.version}</include>
                                                     <include>net.sf.ehcache:*:${ehcache.version}:jar:runtime</include>
-                                                    <include>com.sun.xml.bind:jaxb-impl:${jaxb-impl.version}</include>
+                                                    <include>com.sun.xml.bind:jaxb-core:${jaxb.version}</include>
+                                                    <include>com.sun.xml.bind:jaxb-impl:${jaxb.version}</include>
                                                     <include>commons-collections:commons-collections:${commons-collections.version}:jar:runtime</include>
                                                     <!-- some versions of commons-fileupload have security exploits... only allow a specific version -->
                                                     <include>commons-fileupload:commons-fileupload:${commons-fileupload.version}</include>
-                                                    <include>org.apache.ws.security:wss4j:${wss4j.version}</include>
 
                                                     <include>commons-collections:commons-collections:${commons-collections.version}</include>
 

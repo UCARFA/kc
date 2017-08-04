@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.sys.impl.mq.rest;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

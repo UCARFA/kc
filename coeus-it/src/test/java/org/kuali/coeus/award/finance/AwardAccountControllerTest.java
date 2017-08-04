@@ -20,7 +20,7 @@ package org.kuali.coeus.award.finance;
 
 import junit.framework.Assert;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.kuali.coeus.award.api.AwardController;
 import org.kuali.coeus.award.dto.AwardDto;
