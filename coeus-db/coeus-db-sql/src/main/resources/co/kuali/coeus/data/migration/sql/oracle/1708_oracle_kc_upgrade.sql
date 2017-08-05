@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1708_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1708_001__NIH_validation.sql
+@./kc/bootstrap/V1708_002__NIH_validation_fix.sql
 commit;
