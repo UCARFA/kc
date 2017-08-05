@@ -63,9 +63,11 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 	}
 
 	@Transactional @RequestMapping(params="methodToCall=populateBudgetSummary")
-    public ModelAndView populateBudgetSummary(@RequestParam("budgetId") Long budgetId,
-                                              @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-        super.save(form);
+    public ModelAndView populateBudgetSummary(@RequestParam("budgetId") Long budgetId, @RequestParam("viewOnly") boolean viewOnly,
+											  @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		if(!viewOnly) {
+			super.save(form);
+		}
         return getProposalBudgetSharedController().populateBudgetSummary(budgetId, form.getDevelopmentProposal().getBudgets(), form);
     }
 
@@ -116,10 +118,11 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 	}		
 
 	@Transactional @RequestMapping(params="methodToCall=populatePrintForms")
-    public ModelAndView populatePrintForms(@RequestParam("budgetId") Long budgetId,
-			@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)
-			throws Exception {
-		super.save(form);
+    public ModelAndView populatePrintForms(@RequestParam("budgetId") Long budgetId, @RequestParam("viewOnly") boolean viewOnly,
+										   @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		if(!viewOnly) {
+			super.save(form);
+		}
 		return getProposalBudgetSharedController().populatePrintForms(budgetId, form.getDevelopmentProposal().getBudgets(), form);
 	}
 	

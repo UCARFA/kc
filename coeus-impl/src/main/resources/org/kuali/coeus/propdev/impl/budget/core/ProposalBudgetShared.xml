@@ -120,12 +120,26 @@
 	<bean id="PropDev-BudgetVersions-GenericActions-parentBean" abstract="true" parent="Kc-Dropdown-Button">
 		<property name="listPrototype.items">
 			<list>
-				<bean parent="Uif-ActionLink" p:actionLabel="View Summary" p:methodToCall="populateBudgetSummary" p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-eye-open" p:order="10"/>
+				<bean parent="Uif-ActionLink" p:actionLabel="View Summary" p:methodToCall="populateBudgetSummary" p:iconClass="icon-eye-open" p:order="10">
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="budgetId" value="@{#line.budgetId}"/>
+							<entry key="viewOnly" value="@{#parent.readOnly}"/>
+						</map>
+					</property>
+				</bean>
 				<bean parent="Uif-ActionLink" p:actionLabel="Copy" p:iconClass="icon-copy" p:render="@{#view.editModes.containsKey(#budgetAuthConsts.ADD_BUDGET_EDIT_MODE) and !viewOnly and canEdit}"
 					p:actionScript="showDialog('PropDev-BudgetPage-CopyBudgetDialog', {showHandler: function(e) {Kc.PropDev.Budget.copyBudget(@{#line.budgetId}, e)}})"
 					p:order="20"/>
-				<bean parent="Uif-ActionLink" p:actionLabel="Print" p:methodToCall="populatePrintForms" p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-print" p:order="30" />
-                <bean parent="Uif-ActionLink" p:actionLabel="Complete Budget" p:methodToCall="markBudgetVersionComplete"
+				<bean parent="Uif-ActionLink" p:actionLabel="Print" p:methodToCall="populatePrintForms" p:iconClass="icon-print" p:order="30">
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="budgetId" value="@{#line.budgetId}"/>
+							<entry key="viewOnly" value="@{#parent.readOnly}"/>
+						</map>
+					</property>
+				</bean>
+				<bean parent="Uif-ActionLink" p:actionLabel="Complete Budget" p:methodToCall="markBudgetVersionComplete"
                       p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-check"
                       p:hidden="@{#lp.isBudgetComplete() or viewOnly or !canEdit}" p:order="35">
                     <property name="confirmationDialog">
