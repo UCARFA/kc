@@ -434,9 +434,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         if (subaward.getStartDate() != null){
             subcontractDetail.setStartDate(getDateTimeService().getCalendar(subaward.getStartDate()));
         }
-        if (subaward.getEndDate() != null){
-            subcontractDetail.setEndDate(getDateTimeService().getCalendar(subaward.getEndDate()));
-        }
+        getPeriodOfPerformanceEndDate(subaward).ifPresent(date -> subcontractDetail.setEndDate(getDateTimeService().getCalendar(date)));
+
         final List<SubAwardAmountInfo> allSubAwardAmountInfos = subaward.getAllSubAwardAmountInfos();
         if (allSubAwardAmountInfos != null && !allSubAwardAmountInfos.isEmpty()){
             final SubAwardAmountInfo lastSubAwardAmountInfo = allSubAwardAmountInfos.get(allSubAwardAmountInfos.size() - 1);
@@ -512,8 +511,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             if (lastSubAwardAmountInfo.getRate() != null) {
                 subContractAmountInfo.setRate(lastSubAwardAmountInfo.getRate().bigDecimalValue());
             }
-            if (lastSubAwardAmountInfo.getPeriodofPerformanceStartDate() != null){
-                subContractAmountInfo.setPerformanceStartDate(getDateTimeService().getCalendar(lastSubAwardAmountInfo.getPeriodofPerformanceStartDate()));
+            if (subaward.getStartDate()  != null){
+                subContractAmountInfo.setPerformanceStartDate(getDateTimeService().getCalendar(subaward.getStartDate()));
             }
 
             getPeriodOfPerformanceEndDate(subaward).ifPresent(date -> subContractAmountInfo.setPerformanceEndDate(getDateTimeService().getCalendar(date)));
