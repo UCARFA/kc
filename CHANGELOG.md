@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2380: Fixing Start and End Date - handling the condition that there aren't any Subaward Amount Info records.
+  * Travis Schneeberger on Mon, 7 Aug 2017 12:32:28 -0400 [View Commit](../../commit/54ddf30310143225138a55856254375d6070f673)
+* RESKC-2380: Fixing Start and End Date for FDP Agreement and FDP Amendment forms
+  * Travis Schneeberger on Mon, 7 Aug 2017 09:56:02 -0400 [View Commit](../../commit/cf4b1de8c9084dc982273dbb46676c763735c294)
+* RESKC-2435: adding option to FDP form 'From both PTE and Subrecipient'
+  * Travis Schneeberger on Mon, 7 Aug 2017 09:41:07 -0400 [View Commit](../../commit/2c043dbefe95d475496740cb63331a8541918eef)
+
+##coeus-1708.0009
 * Fix data (#2472)
 
   * Gayathri Athreya on Sat, 5 Aug 2017 12:54:14 -0700 [View Commit](../../commit/84167d193ef384fc40f0f173757728dde84ae740)
