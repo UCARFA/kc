@@ -24,7 +24,8 @@ import org.kuali.coeus.sys.api.model.Describable;
 public enum HumanDataExchangeAgreement implements org.kuali.rice.core.api.mo.common.Coded, Coded, Describable {
     NOT_APPLICABLE("NA", "Not Applicable"),
     SUBRECIPIENT_TO_PTE("SP", "From Subrecipient to PTE"),
-    PTE_TO_SUBRECIPIENT("PS", "From PTE to Subrecipient");
+    PTE_TO_SUBRECIPIENT("PS", "From PTE to Subrecipient"),
+    FROM_BOTH_PTE_AND_SUBRECIPIENT("BT", "From both PTE and Subrecipient");
 
     private final String code;
     private final String description;
