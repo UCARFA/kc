@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+* Groups push to sync units with core groups (#2370)
+
+* Groups push to sync units with core groups
+  * 
+* Updates and syncing role members
+  * 
+* Tests for groups sync
+  * 
+* Updates to core documentation
+  * 
+* Display status of push to user when complete
+  * Douglas Pace on Mon, 7 Aug 2017 13:12:10 -0600 [View Commit](../../commit/887d69db03cfa90037fae316ff0227a4139187c6)
+
+##coeus-1708.0010
 * RESKC-2380: Fixing Start and End Date - handling the condition that there aren't any Subaward Amount Info records.
   * Travis Schneeberger on Mon, 7 Aug 2017 12:32:28 -0400 [View Commit](../../commit/54ddf30310143225138a55856254375d6070f673)
 * RESKC-2380: Fixing Start and End Date for FDP Agreement and FDP Amendment forms
