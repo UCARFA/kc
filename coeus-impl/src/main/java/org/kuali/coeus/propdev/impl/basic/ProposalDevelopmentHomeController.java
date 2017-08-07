@@ -403,7 +403,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
             }
 
            if (propDevForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
-               ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(propDevForm);
+               ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(propDevForm, true);
                propDevForm.getView().setEntryPageId(ProposalDevelopmentConstants.KradConstants.SUBMIT_PAGE);
            }
 

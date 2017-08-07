@@ -191,7 +191,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
 
     protected ModelAndView updateHierarchySummaryIfNeeded(ProposalDevelopmentDocumentForm form) {
         if (StringUtils.equals(form.getPageId(),ProposalDevelopmentConstants.KradConstants.SUBMIT_PAGE)) {
-            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).prepareSummaryPage(form);
+            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).prepareSummaryPage(form, true);
         }
         return getModelAndViewService().getModelAndView(form);
     }

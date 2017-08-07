@@ -84,6 +84,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.QUESTIONNAIRE_PAGE_ID;
 
 @Controller
 public class ProposalDevelopmentSubmitController extends
@@ -234,7 +235,8 @@ public class ProposalDevelopmentSubmitController extends
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-SubmitPage"})
     public ModelAndView navigateToSubmit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(form);
+        Boolean shouldPopulateQuestionnaire = !StringUtils.equals(form.getPageId(), QUESTIONNAIRE_PAGE_ID);
+        ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(form, shouldPopulateQuestionnaire);
         return super.navigate(form, result, request, response);
     }
 
