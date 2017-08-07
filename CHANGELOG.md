@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Push users group to core (#2449)
+
+  * Douglas Pace on Mon, 7 Aug 2017 15:52:12 -0700 [View Commit](../../commit/365b659f58b1c7116813ad12ca181db5f5b412f1)
+
+##coeus-1708.0011
 * Groups push to sync units with core groups (#2370)
 
 * Groups push to sync units with core groups
