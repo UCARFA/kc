@@ -469,7 +469,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
 
     private Optional<Date> getPeriodOfPerformanceEndDate(SubAward subaward) {
         final List<SubAwardAmountInfo> allSubAwardAmountInfos = subaward.getAllSubAwardAmountInfos();
-        return Optional.ofNullable(allSubAwardAmountInfos.get(allSubAwardAmountInfos.size() - 1).getPeriodofPerformanceEndDate());
+        return allSubAwardAmountInfos.isEmpty() ? Optional.empty() : Optional.ofNullable(allSubAwardAmountInfos.get(allSubAwardAmountInfos.size() - 1).getPeriodofPerformanceEndDate());
     }
 
     private String toFlag(Boolean b) {
