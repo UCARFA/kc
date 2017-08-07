@@ -43,7 +43,7 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
 		return response;
 		
 	}
-	
+		
 	protected void traceRequest(HttpRequest request, byte[] body) {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("URI : " + request.getURI());

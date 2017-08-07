@@ -52,4 +52,5 @@
     <bean id="restPropertyEditors" parent="grlImporter" p:serviceName="restPropertyEditors" />
     <bean id="auditHelper" parent="grlImporter" p:serviceName="auditHelper"/>
     <bean id="restOperations" parent="grlImporter" p:serviceName="restOperations"/>
+    <bean id="authServiceRestUtilService" parent="grlImporter" p:serviceName="authServiceRestUtilService"/>
 </beans>

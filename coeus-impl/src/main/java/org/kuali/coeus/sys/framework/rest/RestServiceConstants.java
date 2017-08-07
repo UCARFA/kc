@@ -23,6 +23,8 @@ public class RestServiceConstants {
 	public final class Configuration {
 		public static final String AUTH_USERS_URL = "auth.users.url";
 		public static final String AUTH_BASE_URL = "auth.base.url";
+		public static final String CATEGORIES_URL = "core.categories.url";
+		public static final String GROUPS_URL = "core.groups.url";
 	}
 	
 	private RestServiceConstants() {

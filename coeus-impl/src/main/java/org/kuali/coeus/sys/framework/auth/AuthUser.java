@@ -60,6 +60,11 @@ public class AuthUser implements Serializable {
 		lastValidated = Instant.now();
 	}
 	
+	public AuthUser(String id) {
+		super();
+		this.id = id;
+	}
+	
 	@JsonProperty
 	public String getPassword() {
 		return password;
