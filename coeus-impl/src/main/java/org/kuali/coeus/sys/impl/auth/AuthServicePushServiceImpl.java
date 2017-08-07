@@ -33,6 +33,8 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.auth.AuthServicePushService;
 import org.kuali.coeus.sys.framework.auth.AuthServicePushStatus;
 import org.kuali.coeus.sys.framework.auth.AuthUser;
+import org.kuali.coeus.sys.framework.auth.CoreGroupsService;
+import org.kuali.coeus.sys.framework.auth.GroupDto;
 import org.kuali.coeus.sys.framework.rest.AuthServiceRestUtilService;
 import org.kuali.coeus.sys.framework.rest.RestServiceConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -91,6 +93,10 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	@Autowired
 	@Qualifier("groupService")
 	private GroupService groupService;
+	
+	@Autowired
+	@Qualifier("coreGroupsService")
+	private CoreGroupsService coreGroupsService;
 
 	@Value("#{{'kc', 'kr', 'guest'}}")
 	private List<String> ignoredUsers = new ArrayList<>();
@@ -99,11 +105,11 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 	public AuthServicePushStatus pushAllUsers() {
 		AuthServicePushStatus status = new AuthServicePushStatus();
 		final List<String> admins = getAdminUsers();
-		
+		Map<String, String> groupIdByUnitNumber = coreGroupsService.getAllGroups().stream().collect(Collectors.toMap(g -> coreGroupsService.getUnitNumberForGroup(g), GroupDto::getId));
 		List<AuthUser> peopleToSync = getAllKIMPeople().stream()
 				.filter(person -> { return !ignoredUsers.contains(person.getPrincipalName()); })
 				.map(person -> {
-					AuthUser authUser = generateAuthUserFromKimPerson(person);
+					AuthUser authUser = generateAuthUserFromKimPerson(person, groupIdByUnitNumber);
 					authUser.setRole(admins.contains(person.getPrincipalId()) ? ADMIN_ROLE : USER_ROLE);
 					return authUser;
 				}).collect(Collectors.toList());
@@ -173,7 +179,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 		return groupService.getMemberPrincipalIds(assignee.getGroupId());
 	}
 
-	protected AuthUser generateAuthUserFromKimPerson(Person person) {
+	protected AuthUser generateAuthUserFromKimPerson(Person person, Map<String, String> groupIdsByUnitNumber) {
 		AuthUser kimAuthUser = new AuthUser();
 		kimAuthUser.setUsername(person.getPrincipalName());
 		kimAuthUser.setSchoolId(person.getPrincipalId());
@@ -184,6 +190,7 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 		kimAuthUser.setPhone(person.getPhoneNumber());
 		kimAuthUser.setActive(person.isActive());
 		kimAuthUser.setRole(USER_ROLE);
+		kimAuthUser.setGroupId(groupIdsByUnitNumber.get(person.getPrimaryDepartmentCode()));
 		return kimAuthUser;
 	}
 
@@ -297,6 +304,14 @@ public class AuthServicePushServiceImpl implements AuthServicePushService {
 
 	public void setGroupService(GroupService groupService) {
 		this.groupService = groupService;
+	}
+
+	public CoreGroupsService getCoreGroupsService() {
+		return coreGroupsService;
+	}
+
+	public void setCoreGroupsService(CoreGroupsService coreGroupsService) {
+		this.coreGroupsService = coreGroupsService;
 	}
 
 }

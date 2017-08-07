@@ -1,5 +1,8 @@
 package org.kuali.coeus.common.impl.core.groups;
 
+import static org.kuali.coeus.sys.framework.auth.CoreGroupsService.ACTIVE_FIELD_ID;
+import static org.kuali.coeus.sys.framework.auth.CoreGroupsService.UNIT_NUMBER_FIELD_ID;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,8 +18,6 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.framework.core.groups.CategoryDto;
-import org.kuali.coeus.common.framework.core.groups.GroupDto;
 import org.kuali.coeus.common.framework.core.groups.GroupsPushService;
 import org.kuali.coeus.common.framework.core.groups.GroupsPushStatus;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -24,6 +25,9 @@ import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 import org.kuali.coeus.sys.framework.auth.AuthUser;
+import org.kuali.coeus.sys.framework.auth.CategoryDto;
+import org.kuali.coeus.sys.framework.auth.CoreGroupsService;
+import org.kuali.coeus.sys.framework.auth.GroupDto;
 import org.kuali.coeus.sys.framework.rest.AuthServiceRestUtilService;
 import org.kuali.coeus.sys.framework.rest.RestServiceConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -47,8 +51,6 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 	private static final String UNIT_NUMBER_FIELD_DESCRIPTION = "Unit Number";
 	private static final String CHECKBOX_FIELD_TYPE = "checkbox";
 	private static final String TEXT_FIELD_TYPE = "text";
-	public static final String ACTIVE_FIELD_ID = "ACTIVE";
-	public static final String UNIT_NUMBER_FIELD_ID = "UNIT_NUMBER";
 	private static final Log LOG = LogFactory.getLog(GroupsPushServiceImpl.class);
 	private static final Integer NUMBER_OF_USERS_LIMIT = 100000;
 	private static final String LIMIT_PARAM = "limit";
@@ -73,6 +75,10 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 	@Autowired
 	@Qualifier("dataObjectService")
 	private DataObjectService dataObjectService;
+	
+	@Autowired
+	@Qualifier("coreGroupsService")
+	private CoreGroupsService coreGroupsService;
 
 	@Override
 	public GroupsPushStatus pushAllGroups() {
@@ -241,7 +247,7 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 	}
 
 	protected List<CategoryDto> getAllCategories() {
-		String uri = UriComponentsBuilder.fromHttpUrl(getCategoriesApiUrl())
+		String uri = UriComponentsBuilder.fromHttpUrl(coreGroupsService.getCategoriesApiUrl())
 			.queryParam(LIMIT_PARAM, NUMBER_OF_USERS_LIMIT)
 			.build().encode().toString();
 		ResponseEntity<List<CategoryDto>> result = restOperations.exchange(uri, HttpMethod.GET,
@@ -256,21 +262,11 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 	}
 
 	protected List<GroupDto> getAllGroups() {
-		String uri = UriComponentsBuilder.fromHttpUrl(getGroupsApiUrl())
-			.queryParam(LIMIT_PARAM, NUMBER_OF_USERS_LIMIT)
-			.build().encode().toString();
-		ResponseEntity<List<GroupDto>> result = restOperations.exchange(uri, HttpMethod.GET,
-				new HttpEntity<String>(authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()),
-				new ParameterizedTypeReference<List<GroupDto>>() {
-				});
-		if (LOG.isInfoEnabled()) {
-			LOG.info("GET " + uri + " returned " + result.getBody().size() + " groups");
-		}		
-		return result.getBody();
+		return coreGroupsService.getAllGroups();
 	}
 	
 	protected GroupDto getOneGroup(String groupId) {
-		String uri = UriComponentsBuilder.fromHttpUrl(getGroupsApiUrl() + groupId)
+		String uri = UriComponentsBuilder.fromHttpUrl(coreGroupsService.getGroupsApiUrl() + groupId)
 			.build().encode().toString();
 		ResponseEntity<GroupDto> result = restOperations.exchange(uri, HttpMethod.GET,
 				new HttpEntity<String>(authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()),
@@ -281,9 +277,8 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 		return result.getBody();
 	}
 
-
 	protected CategoryDto addCategory(CategoryDto category) {
-		ResponseEntity<CategoryDto> result = restOperations.exchange(getCategoriesApiUrl(), HttpMethod.POST,
+		ResponseEntity<CategoryDto> result = restOperations.exchange(coreGroupsService.getCategoriesApiUrl(), HttpMethod.POST,
 				new HttpEntity<CategoryDto>(category,
 						authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()),
 				CategoryDto.class);
@@ -291,14 +286,14 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 			throw new RestClientException(result.toString());
 		} else {
 			if (LOG.isInfoEnabled()) {
-				LOG.info("POST " + getCategoriesApiUrl() + " returned " + result.getBody());
+				LOG.info("POST " + coreGroupsService.getCategoriesApiUrl() + " returned " + result.getBody());
 			}
 			return result.getBody();
 		}
 	}
 
 	protected void updateCategory(CategoryDto category) {
-		String uri = getCategoriesApiUrl() + category.getId();
+		String uri = coreGroupsService.getCategoriesApiUrl() + category.getId();
 		ResponseEntity<String> result = restOperations.exchange(uri,
 				HttpMethod.PUT, new HttpEntity<CategoryDto>(category,
 						authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()),
@@ -312,8 +307,8 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 	}
 
 	protected GroupDto addGroup(GroupDto group) {
-		String uri = getGroupsApiUrl();
-		ResponseEntity<GroupDto> result = restOperations.exchange(getGroupsApiUrl(), HttpMethod.POST,
+		String uri = coreGroupsService.getGroupsApiUrl();
+		ResponseEntity<GroupDto> result = restOperations.exchange(coreGroupsService.getGroupsApiUrl(), HttpMethod.POST,
 				new HttpEntity<GroupDto>(group, authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()),
 				GroupDto.class);
 		if (result.getStatusCode() != HttpStatus.CREATED) {
@@ -327,7 +322,7 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 	}
 
 	protected void updateGroup(GroupDto group) {
-		String uri = getGroupsApiUrl() + group.getId();
+		String uri = coreGroupsService.getGroupsApiUrl() + group.getId();
 		ResponseEntity<String> result = restOperations.exchange(uri, HttpMethod.PUT,
 				new HttpEntity<GroupDto>(group, authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()),
 				String.class);
@@ -337,14 +332,6 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 		if (result.getStatusCode() != HttpStatus.OK) {
 			throw new RestClientException(result.getBody());
 		}
-	}
-
-	protected String getCategoriesApiUrl() {
-		return configurationService.getPropertyValueAsString(RestServiceConstants.Configuration.CATEGORIES_URL) + "/";
-	}
-
-	protected String getGroupsApiUrl() {
-		return configurationService.getPropertyValueAsString(RestServiceConstants.Configuration.GROUPS_URL) + "/";
 	}
 	
 	protected String getUsersApiUrl() {
@@ -381,5 +368,21 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 
 	public void setUnitService(UnitService unitService) {
 		this.unitService = unitService;
+	}
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
+
+	public CoreGroupsService getCoreGroupsService() {
+		return coreGroupsService;
+	}
+
+	public void setCoreGroupsService(CoreGroupsService coreGroupsService) {
+		this.coreGroupsService = coreGroupsService;
 	}
 }

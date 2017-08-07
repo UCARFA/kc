@@ -45,6 +45,7 @@ public class AuthUser implements Serializable {
 	private String password;
 	private String impersonatedBy;
 	private String displayName;
+	private String groupId;
 	
 	@JsonIgnore
 	private String authToken;
@@ -168,7 +169,7 @@ public class AuthUser implements Serializable {
 			.append(role, rhs.role)
 			.append(firstName, rhs.firstName)
 			.append(lastName, rhs.lastName)
-			.append(impersonatedBy, rhs.impersonatedBy)
+			.append(groupId, rhs.groupId)
 			.isEquals();
 	}
 	
@@ -187,6 +188,7 @@ public class AuthUser implements Serializable {
 			.append(active)
 			.append(impersonatedBy)
 			.append(displayName)
+			.append(groupId)
 			.toString();
 	}
 
@@ -212,5 +214,13 @@ public class AuthUser implements Serializable {
 
 	public void setActualUser(String actualUser) {
 		this.actualUser = actualUser;
+	}
+
+	public String getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 }

@@ -19,10 +19,14 @@
 package org.kuali.coeus.sys.impl.auth;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,11 +34,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.auth.AuthServicePushStatus;
 import org.kuali.coeus.sys.framework.auth.AuthUser;
+import org.kuali.coeus.sys.framework.auth.CoreGroupsService;
+import org.kuali.coeus.sys.framework.auth.GroupDto;
 import org.kuali.rice.kim.api.common.assignee.Assignee;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
 
 public class AuthServicePushServiceTest {
+	
+	private static final String TOP_LEVEL_UNIT_NUMBER = "000001";
 	
 	private Person person1;
 	private Person person2;
@@ -42,6 +50,8 @@ public class AuthServicePushServiceTest {
 	
 	private List<AuthUser> addedUsers;
 	private List<AuthUser> updatedUsers;
+	
+	private Map<String, String> groupIds;
 	
 	@Before
 	public void setup() {
@@ -51,6 +61,8 @@ public class AuthServicePushServiceTest {
 		
 		addedUsers = new ArrayList<>();
 		updatedUsers = new ArrayList<>();
+		groupIds = new HashMap<>();
+		groupIds.put("000001", "univTopLevelGroupId");
 	}	
 	
 	@Test
@@ -68,9 +80,9 @@ public class AuthServicePushServiceTest {
 			@Override
 			protected List<AuthUser> getAllAuthServiceUsers() {
 				List<AuthUser> authServiceUserList = new ArrayList<AuthUser>();
-				authServiceUserList.add(this.generateAuthUserFromKimPerson(person1));
-				authServiceUserList.add(this.generateAuthUserFromKimPerson(person2));
-				authServiceUserList.add(this.generateAuthUserFromKimPerson(person3));
+				authServiceUserList.add(this.generateAuthUserFromKimPerson(person1, groupIds));
+				authServiceUserList.add(this.generateAuthUserFromKimPerson(person2, groupIds));
+				authServiceUserList.add(this.generateAuthUserFromKimPerson(person3, groupIds));
 				return authServiceUserList;
 			}
 			
@@ -84,6 +96,7 @@ public class AuthServicePushServiceTest {
 				return false;
 			}
 		};
+		service.setCoreGroupsService(buildMockCoreGroupsService());
 		AuthServicePushStatus status = service.pushAllUsers();
 		assertNotNull(status);
 		assertEquals(3, status.getNumberOfUsers());
@@ -107,8 +120,8 @@ public class AuthServicePushServiceTest {
 			@Override
 			protected List<AuthUser> getAllAuthServiceUsers() {
 				List<AuthUser> authServiceUserList = new ArrayList<AuthUser>();
-				authServiceUserList.add(this.generateAuthUserFromKimPerson(person1));
-				authServiceUserList.add(this.generateAuthUserFromKimPerson(person2));
+				authServiceUserList.add(this.generateAuthUserFromKimPerson(person1, groupIds));
+				authServiceUserList.add(this.generateAuthUserFromKimPerson(person2, groupIds));
 				authServiceUserList.get(1).setName("Testing Name Change");
 				return authServiceUserList;
 			}
@@ -129,6 +142,53 @@ public class AuthServicePushServiceTest {
 				return false;
 			}
 		};
+		service.setCoreGroupsService(buildMockCoreGroupsService());
+		AuthServicePushStatus status = service.pushAllUsers();
+		assertNotNull(status);
+		assertEquals(3, status.getNumberOfUsers());
+		assertEquals(1, status.getNumberSame());
+		assertEquals(1, status.getNumberAdded());
+		assertEquals(1, status.getNumberUpdated());
+	}
+	
+	@Test
+	public void testPushAllUsers_homeUnitChange() {
+		AuthServicePushServiceImpl service = new AuthServicePushServiceImpl() {
+			@Override
+			protected List<Person> getAllKIMPeople() {
+				List<Person> result = new ArrayList<>();
+				result.add(person1);
+				result.add(person2);
+				result.add(person3);
+				return result;
+			}
+			
+			@Override
+			protected List<AuthUser> getAllAuthServiceUsers() {
+				List<AuthUser> authServiceUserList = new ArrayList<AuthUser>();
+				authServiceUserList.add(this.generateAuthUserFromKimPerson(person1, groupIds));
+				authServiceUserList.add(this.generateAuthUserFromKimPerson(person2, groupIds));
+				authServiceUserList.get(1).setGroupId("notTopLevelUnit");
+				return authServiceUserList;
+			}
+			
+			@Override
+			protected void addUserToAuthService(AuthUser newUser, String userPassword) { }
+			
+			@Override
+			protected void updateUserInAuthService(AuthUser updatedUser, String userId) { }
+			
+			@Override
+			protected List<String> getAdminUsers() {
+				return new ArrayList<>(Collections.singleton(person3.getPrincipalId()));
+			}
+			
+			@Override
+			protected boolean useDevPassword() {
+				return false;
+			}
+		};
+		service.setCoreGroupsService(buildMockCoreGroupsService());
 		AuthServicePushStatus status = service.pushAllUsers();
 		assertNotNull(status);
 		assertEquals(3, status.getNumberOfUsers());
@@ -152,8 +212,8 @@ public class AuthServicePushServiceTest {
 			@Override
 			protected List<AuthUser> getAllAuthServiceUsers() {
 				List<AuthUser> authServiceUserList = new ArrayList<AuthUser>();
-				authServiceUserList.add(this.generateAuthUserFromKimPerson(person1));
-				authServiceUserList.add(this.generateAuthUserFromKimPerson(person2));
+				authServiceUserList.add(this.generateAuthUserFromKimPerson(person1, groupIds));
+				authServiceUserList.add(this.generateAuthUserFromKimPerson(person2, groupIds));
 				authServiceUserList.get(1).setName("Testing Name Change");
 				return authServiceUserList;
 			}
@@ -178,6 +238,7 @@ public class AuthServicePushServiceTest {
 				return false;
 			}
 		};
+		service.setCoreGroupsService(buildMockCoreGroupsService());
 		AuthServicePushStatus status = service.pushAllUsers();
 		assertNotNull(status);
 		assertEquals(3, status.getNumberOfUsers());
@@ -221,9 +282,10 @@ public class AuthServicePushServiceTest {
 		private String name;
 		private String emailAddress;
 		private String phoneNumber;
+		private String primaryDepartmentCode;
 		
 		public PersonMock(String principalId, String userName, String firstName, String lastName,
-				String name, String emailAddress, String phoneNumber) {
+				String name, String emailAddress, String phoneNumber, String primaryDepartmentCode) {
 			super();
 			this.principalId = principalId;
 			this.userName = userName;
@@ -232,13 +294,14 @@ public class AuthServicePushServiceTest {
 			this.name = name;
 			this.emailAddress = emailAddress;
 			this.phoneNumber = phoneNumber;
+			this.primaryDepartmentCode = primaryDepartmentCode;
 		}
 		
 		public PersonMock(String userName, String firstName, String lastName, String phoneNumber) {
 			this(userName, userName, firstName, lastName, 
 					firstName + " " + lastName, 
 					userName + "@kuali.dev", 
-					phoneNumber);
+					phoneNumber, TOP_LEVEL_UNIT_NUMBER);
 		}
 		
 		public PersonMock(String userName) {
@@ -284,9 +347,28 @@ public class AuthServicePushServiceTest {
         public String getPrincipalId() {
 			return principalId;
 		}
+		
+		@Override
+		public String getPrimaryDepartmentCode() {
+			return primaryDepartmentCode;
+		}
 
 		public void setPrincipalId(String principalId) {
 			this.principalId = principalId;
 		}
+	}
+	
+	CoreGroupsService buildMockCoreGroupsService() {
+		CoreGroupsService coreGroupsService = mock(CoreGroupsServiceImpl.class);
+		when(coreGroupsService.getAllGroups()).thenReturn(Arrays.asList(buildGroupDto(groupIds.get(TOP_LEVEL_UNIT_NUMBER), TOP_LEVEL_UNIT_NUMBER)));
+		when(coreGroupsService.getUnitNumberForGroup(any())).thenCallRealMethod();
+		return coreGroupsService;
+	}
+	
+	GroupDto buildGroupDto(String id, String unitNumber) {
+		GroupDto group = new GroupDto();
+		group.setId(id);
+		group.getFields().add(new GroupDto.GroupFields(CoreGroupsService.UNIT_NUMBER_FIELD_ID, unitNumber));
+		return group;
 	}
 }

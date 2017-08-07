@@ -1,4 +1,4 @@
-package org.kuali.coeus.common.framework.core.groups;
+package org.kuali.coeus.sys.framework.auth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +86,7 @@ public class GroupDto {
 				.toString();
 		}
 	}
-
+	
 	@JsonIgnore
 	public String getId() {
 		return id;

@@ -2,15 +2,17 @@ package org.kuali.coeus.common.impl.core.groups;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-import org.kuali.coeus.common.framework.core.groups.CategoryDto;
-import org.kuali.coeus.common.framework.core.groups.GroupDto;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 import org.kuali.coeus.sys.framework.auth.AuthUser;
+import org.kuali.coeus.sys.framework.auth.CategoryDto;
+import org.kuali.coeus.sys.framework.auth.CoreGroupsService;
+import org.kuali.coeus.sys.framework.auth.GroupDto;
 import org.kuali.coeus.sys.framework.rest.AuthServiceRestUtilService;
 import org.kuali.coeus.sys.framework.rest.RestServiceConstants;
+import org.kuali.coeus.sys.impl.auth.CoreGroupsServiceImpl;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -69,6 +71,11 @@ public class GroupsPushServiceImplTest {
 			.thenAnswer(new NewGroupAnswer("Office of VP for Research", "GroupBL-BL", "Level3Id", "BL-RUGS", true, "GroupRUGS", Collections.emptyMap()))
 			.thenAnswer(new NewGroupAnswer("University Purdue", "Group000001", "Level2Id", "IN-IN", true, "GroupIN", Collections.emptyMap()));
 		service.setRestOperations(restOperations);
+		CoreGroupsServiceImpl coreGroupsService = new CoreGroupsServiceImpl();
+		coreGroupsService.setAuthServiceRestUtilService(service.getAuthServiceRestUtilService());
+		coreGroupsService.setConfigurationService(service.getConfigurationService());
+		coreGroupsService.setRestOperations(restOperations);
+		service.setCoreGroupsService(coreGroupsService);
 		service.pushAllGroups();
 	}
 	
@@ -91,26 +98,26 @@ public class GroupsPushServiceImplTest {
 				buildCategoryDto("Level1Id", null, "Level 1", 
 					new ArrayList<>(Arrays.asList(new CategoryDto.RoleSchemaDto("IRB_ADMIN", "IRB Admin"), new CategoryDto.RoleSchemaDto("DEAN", "Dean"))),
 					new ArrayList<>(Arrays.asList(
-						new CategoryDto.FieldSchemaDto(GroupsPushServiceImpl.UNIT_NUMBER_FIELD_ID, "string", "Unit Number"),
-						new CategoryDto.FieldSchemaDto(GroupsPushServiceImpl.ACTIVE_FIELD_ID, "checkbox", "Active")
+						new CategoryDto.FieldSchemaDto(CoreGroupsService.UNIT_NUMBER_FIELD_ID, "string", "Unit Number"),
+						new CategoryDto.FieldSchemaDto(CoreGroupsService.ACTIVE_FIELD_ID, "checkbox", "Active")
 					))
 				),
 				buildCategoryDto("Level2Id", "Level1Id", "Level 2", 
 						new ArrayList<>(Arrays.asList(new CategoryDto.RoleSchemaDto("IRB_ADMIN", "IRB Admin"), new CategoryDto.RoleSchemaDto("DEAN", "Dean"))),
 						new ArrayList<>(Arrays.asList(
-							new CategoryDto.FieldSchemaDto(GroupsPushServiceImpl.UNIT_NUMBER_FIELD_ID, "string", "Unit Number"), 
-							new CategoryDto.FieldSchemaDto(GroupsPushServiceImpl.ACTIVE_FIELD_ID, "checkbox", "Active")
+							new CategoryDto.FieldSchemaDto(CoreGroupsService.UNIT_NUMBER_FIELD_ID, "string", "Unit Number"), 
+							new CategoryDto.FieldSchemaDto(CoreGroupsService.ACTIVE_FIELD_ID, "checkbox", "Active")
 						))
 					)
 			), Arrays.asList(
 				buildGroupDto("Group000001", null, "University", "Level1Id", new ArrayList<>(), new ArrayList<>(
-					Arrays.asList(new GroupDto.GroupFields(GroupsPushServiceImpl.UNIT_NUMBER_FIELD_ID, "000001"), new GroupDto.GroupFields(GroupsPushServiceImpl.ACTIVE_FIELD_ID, "false")))),
+					Arrays.asList(new GroupDto.GroupFields(CoreGroupsService.UNIT_NUMBER_FIELD_ID, "000001"), new GroupDto.GroupFields(CoreGroupsService.ACTIVE_FIELD_ID, "false")))),
 				buildGroupDto("GroupBL-BL", "NotGroup000001", "Not Bloomington Campus", "NotLevel2Id", new ArrayList<>(Arrays.asList(
 					new GroupDto.Role("IRB_ADMIN", Arrays.asList("333333")),
 					new GroupDto.Role("DEAN", Arrays.asList("55555"))
 				)), new ArrayList<>(Arrays.asList(
-					new GroupDto.GroupFields(GroupsPushServiceImpl.UNIT_NUMBER_FIELD_ID, "BL-BL"),
-					new GroupDto.GroupFields(GroupsPushServiceImpl.ACTIVE_FIELD_ID, "false")
+					new GroupDto.GroupFields(CoreGroupsService.UNIT_NUMBER_FIELD_ID, "BL-BL"),
+					new GroupDto.GroupFields(CoreGroupsService.ACTIVE_FIELD_ID, "false")
 				)))
 			));
 		
@@ -129,6 +136,11 @@ public class GroupsPushServiceImplTest {
 			.thenAnswer(new UpdatedGroupAnswer("Bloomington Campus", "Group000001", "Level2Id", "BL-BL", true, "GroupBL-BL", blRoleMembers));
 
 		service.setRestOperations(restOperations);
+		CoreGroupsServiceImpl coreGroupsService = new CoreGroupsServiceImpl();
+		coreGroupsService.setAuthServiceRestUtilService(service.getAuthServiceRestUtilService());
+		coreGroupsService.setConfigurationService(service.getConfigurationService());
+		coreGroupsService.setRestOperations(restOperations);
+		service.setCoreGroupsService(coreGroupsService);
 		service.pushAllGroups();
 	}
 		
@@ -145,8 +157,8 @@ public class GroupsPushServiceImplTest {
 			CategoryDto category = ((HttpEntity<CategoryDto>)inv.getArgument(2)).getBody();
 			assertEquals(name, category.getName());
 			assertEquals(parentId, category.getParentId());
-			assertNotNull(category.getFieldSchemas().stream().filter(s -> StringUtils.equals(s.getId(), GroupsPushServiceImpl.UNIT_NUMBER_FIELD_ID)).findFirst().orElse(null));
-			assertNotNull(category.getFieldSchemas().stream().filter(s -> StringUtils.equals(s.getId(), GroupsPushServiceImpl.ACTIVE_FIELD_ID)).findFirst().orElse(null));
+			assertNotNull(category.getFieldSchemas().stream().filter(s -> StringUtils.equals(s.getId(), CoreGroupsService.UNIT_NUMBER_FIELD_ID)).findFirst().orElse(null));
+			assertNotNull(category.getFieldSchemas().stream().filter(s -> StringUtils.equals(s.getId(), CoreGroupsService.ACTIVE_FIELD_ID)).findFirst().orElse(null));
 			assertEquals(5, category.getRoleSchemas().size());
 			CategoryDto newCategory = getCategoryClone(category);
 			newCategory.setId(newId);
@@ -180,10 +192,10 @@ public class GroupsPushServiceImplTest {
 			assertEquals(parentId, group.getParentId());
 			assertEquals(categoryId, group.getCategoryId());
 			assertEquals(unitNumber, group.getFields().stream()
-				.filter(s -> StringUtils.equals(s.getId(), GroupsPushServiceImpl.UNIT_NUMBER_FIELD_ID))
+				.filter(s -> StringUtils.equals(s.getId(), CoreGroupsService.UNIT_NUMBER_FIELD_ID))
 				.findFirst().map(f -> f.getValue()).orElse(null));
 			assertEquals(active.toString(), group.getFields().stream()
-				.filter(s -> StringUtils.equals(s.getId(), GroupsPushServiceImpl.ACTIVE_FIELD_ID))
+				.filter(s -> StringUtils.equals(s.getId(), CoreGroupsService.ACTIVE_FIELD_ID))
 				.findFirst().map(f -> f.getValue()).orElse(null));
 			assertEquals(roleMembers.size(), group.getRoles().size());
 			roleMembers.entrySet().stream()
@@ -212,8 +224,8 @@ public class GroupsPushServiceImplTest {
 			assertEquals(newId, category.getId());
 			assertEquals(name, category.getName());
 			assertEquals(parentId, category.getParentId());
-			assertNotNull(category.getFieldSchemas().stream().filter(s -> StringUtils.equals(s.getId(), GroupsPushServiceImpl.UNIT_NUMBER_FIELD_ID)).findFirst().orElse(null));
-			assertNotNull(category.getFieldSchemas().stream().filter(s -> StringUtils.equals(s.getId(), GroupsPushServiceImpl.ACTIVE_FIELD_ID)).findFirst().orElse(null));
+			assertNotNull(category.getFieldSchemas().stream().filter(s -> StringUtils.equals(s.getId(), CoreGroupsService.UNIT_NUMBER_FIELD_ID)).findFirst().orElse(null));
+			assertNotNull(category.getFieldSchemas().stream().filter(s -> StringUtils.equals(s.getId(), CoreGroupsService.ACTIVE_FIELD_ID)).findFirst().orElse(null));
 			assertEquals(5, category.getRoleSchemas().size());
 			return new ResponseEntity<String>("updated", HttpStatus.OK);
 		}
@@ -246,10 +258,10 @@ public class GroupsPushServiceImplTest {
 			assertEquals(parentId, group.getParentId());
 			assertEquals(categoryId, group.getCategoryId());
 			assertEquals(unitNumber, group.getFields().stream()
-				.filter(s -> StringUtils.equals(s.getId(), GroupsPushServiceImpl.UNIT_NUMBER_FIELD_ID))
+				.filter(s -> StringUtils.equals(s.getId(), CoreGroupsService.UNIT_NUMBER_FIELD_ID))
 				.findFirst().map(f -> f.getValue()).orElse(null));
 			assertEquals(active.toString(), group.getFields().stream()
-				.filter(s -> StringUtils.equals(s.getId(), GroupsPushServiceImpl.ACTIVE_FIELD_ID))
+				.filter(s -> StringUtils.equals(s.getId(), CoreGroupsService.ACTIVE_FIELD_ID))
 				.findFirst().map(f -> f.getValue()).orElse(null));
 			assertEquals(roleMembers.size(), group.getRoles().size());
 			roleMembers.entrySet().stream()
