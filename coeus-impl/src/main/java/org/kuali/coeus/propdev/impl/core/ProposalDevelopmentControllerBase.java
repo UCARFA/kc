@@ -88,6 +88,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
+import static org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.AuthConstants.CAN_SAVE_CERTIFICATION;
+import static org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.AuthConstants.MODIFY_S2S;
+import static org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.AuthConstants.OVERRIDE_PD_COMPLIANCE_ENTRY;
+
 public abstract class ProposalDevelopmentControllerBase {
 
     protected static final String PROPDEV_DEFAULT_VIEW_ID = "PropDev-DefaultView";
@@ -427,7 +431,7 @@ public abstract class ProposalDevelopmentControllerBase {
                  getGlobalVariableService().getMessageMap().putInfo(ProposalDevelopmentConstants.KradConstants.DELIVERY_INFO_PAGE, KeyConstants.DELIVERY_INFO_NOT_NEEDED);
              }
          }
-         if (form.isCanEditView()) {
+         if (form.isCanEditView() || form.getEditModes().get(CAN_SAVE_CERTIFICATION) || form.getEditModes().get(MODIFY_S2S) || form.getEditModes().get(OVERRIDE_PD_COMPLIANCE_ENTRY)) {
              return save(form);
          } else {
              return getNavigationControllerService().navigate(form);
