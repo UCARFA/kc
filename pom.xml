@@ -2368,6 +2368,17 @@
     </profiles>
 
     <repositories>
+	<repository>
+            <id>ucar-libs</id>
+            <name>UCAR Kuali Repository</name>
+            <url>http://fateam:8081/artifactory/libs-release</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
         <repository>
             <id>kualico.nexus</id>
             <name>KualiCo Nexus Group</name>
