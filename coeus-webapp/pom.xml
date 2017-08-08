@@ -511,7 +511,7 @@
 		<profile>
 			<id>kcnonprod7</id>
 			<properties>
-				<!-- ADFS/SAML test-->
+				<!-- ADFS/SAML -->
 				<!-- Enable ADFS
                 <web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
                 <adfs.enabled>true</adfs.enabled>
