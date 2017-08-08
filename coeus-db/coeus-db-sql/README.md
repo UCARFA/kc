@@ -45,3 +45,102 @@ src/main/java/co/kuali/coeus/data/migration/custom/coeus/V600_084__PropAwardPers
 /src/main/java/co/kuali/coeus/data/migration/custom/coeus/V600_085__ProposalRoleConversion.java
 ```
 And as you can see those are similar version numbers and also compete with the existing SQL version numbers. So be aware of that if you get an error about a version you can't find amongst the sql files.
+
+# SQL Standards
+
+The Kuali Research team should be mindful of declared SQL standards when manipulating data.  These standards help with 
+consistency, data integrity, and the stability of our database process.
+
+## Primary Keys
+  When creating a new SQL record, we should follow a process to determine how to assign primary keys values.
+  
+  If the primary key for a table does not use a sequence and is a part of a code table, pick a value that is not likely
+  to conflict with customer instances.  
+  
+  If the primary key for a table uses a sequence do not use the sequence unless there is no other choice.
+  If the primary key column is a varchar type, hardcode the primary key in the following format RESBOOTxxx where xxx is 
+  some unique number.  If the primary key is a numeric type, see if we have a reserved range in use already or if you can
+  reserve a new range.  For example: in some cases we use negative numbers to avoid collisions with customer data.  
+  If it is impossible to hardcode a value for a primary key, then use the sequence for the table.
+  
+  Note: that when choosing a negative value make sure negatives are supported within our application in places such as 
+  DataDictionary and validation rules.
+
+## References
+  When referring to an existing record in a SQL script, always use a primary key when hardcoded.  If this is not possible
+  then refer to some other unique criteria keeping in mind that these records could have been updated in customer instances.
+  Also, be sure to refer to an entire primary key in the case of compound primary keys.
+
+## Constraints
+  When creating new tables, always add constraints to a table.  This includes FK, PK, non-null and unique constraints.  
+  Exceptions to this rule include FK constraints across modules.  
+
+## Questionnaire:
+
+  When adding new Question or Questionnaire records, use the proper sequences for each record; however, it is important to hardcode 
+  Question ID/Questionnaire ID numbers. We have reserved a negative range for our bootstrap data for Question ID/Questionnaire ID
+  for new records.  Be aware that older bootstrap question and questionnaire records are not using negative IDs. 
+  When referring to existing bootstrap Question/Questionnaire records, always refer to the hardcoded Question ID/Questionnaire ID 
+  and the max(sequence_number).  Do not assume that the sequence number used in the bootstrap data is the max(sequence_number) in
+  a customer environment.  In other words, the Question ID/Questionnaire ID and max(sequence_number) provides
+  a unique combination that can be used safely in SQL scripts.
+  
+  The following is an example referencing a question and questionnaire using Question ID/Questionnaire ID columns and max(sequence_number):
+```  
+INSERT INTO QUESTIONNAIRE_QUESTIONS (QUESTIONNAIRE_QUESTIONS_ID,QUESTIONNAIRE_REF_ID_FK,QUESTION_REF_ID_FK,QUESTION_NUMBER,PARENT_QUESTION_NUMBER,QUESTION_SEQ_NUMBER,CONDITION_FLAG,CONDITION_TYPE,CONDITION_VALUE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR,RULE_ID)
+VALUES (SEQ_QUESTIONNAIRE_REF_ID.nextval,
+  (SELECT QUESTIONNAIRE_REF_ID FROM QUESTIONNAIRE WHERE QUESTIONNAIRE_ID = 5 AND SEQUENCE_NUMBER = 
+    (select max(SEQUENCE_NUMBER) from QUESTIONNAIRE WHERE QUESTIONNAIRE_ID = 5)),
+  (SELECT QUESTION_REF_ID FROM QUESTION WHERE QUESTION_ID = 100 AND SEQUENCE_NUMBER = 
+    (select max(SEQUENCE_NUMBER) from QUESTION WHERE QUESTION_ID = 100)),
+  295,0,1,'N',null,null,'admin',sysdate,SYS_GUID(),1,'KC152');
+```
+
+## Parameters:
+
+When adding new Parameters, use the format Foo_Bar_Baz as the parameter name.  Be sure to have a good description that
+will make sense to technical administrators.
+
+For boolean values, please use true/false rather than 0/1 or On/Off.
+
+For new parameters, choose a sensible default value.
+
+For updating existing parameters with a new value, keep in mind that a customer may have already updated the parameter.
+Take this into consideration when developing the update statement so as to not change the customer's preferred configuration.
+
+For a parameter that signifies a list of values, use semi-colon delimited values. 
+See ParameterRepositoryService.getParameterValuesAsString() for more information.
+
+For a parameter that contains a list of sub parameters, use semi-colon delimited sub parameter values. 
+See ParameterRepositoryService.getSubParameterValueAsString() for more information.
+
+## NIH Validation Mapping
+
+For NIH Validation Mapping records, we may provide bootstrap records but customers may also add their own records.  In
+order to safely add records to this table, we need to ensure that a record with the unique RULE_NUMBER does not already exist.
+This will require a unique solution per DB platform.
+
+For mysql:
+
+```
+insert into SEQ_NIH_VALIDATION values (null);
+insert ignore into NIH_VALIDATION_MAPPING (ID, RULE_NUMBER, CUSTOM_MSG, FORCE_ERROR, APPEND_TO_ORIGINAL, PAGE_ID,
+SECTION_ID, ACTIVE, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID) values
+((select max(ID) from SEQ_NIH_VALIDATION), '001.16.1', 'A custom Message.',
+'0', '1', '', '', '1', 'admin', NOW(), '1', UUID());
+
+```
+
+For oracle:
+
+```
+BEGIN
+  insert into NIH_VALIDATION_MAPPING (ID, RULE_NUMBER, CUSTOM_MSG, FORCE_ERROR, APPEND_TO_ORIGINAL, PAGE_ID,
+  SECTION_ID, ACTIVE, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID) values
+  (SEQ_NIH_VALIDATION.nextval, '001.16.1', 'A custom Message.', '0', '1', '', '', '1', 'admin', SYSDATE, '1', SYS_GUID());
+EXCEPTION
+  WHEN DUP_VAL_ON_INDEX THEN
+    DBMS_OUTPUT.PUT_LINE('Ignore insert for RULE_NUMBER 001.16.1');
+END;
+/
+```
