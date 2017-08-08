@@ -540,6 +540,37 @@
 		</profile>
     	
     	<profile>
+    		<id>kcnonprod7</id>
+    		<properties>
+    			<!-- ADFS/SAML -->
+    			<!-- Enable ADFS
+    			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
+    			<adfs.enabled>true</adfs.enabled>  	
+    			-->
+    			<!-- Disable ADFS -->
+    			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
+    			<adfs.enabled>false</adfs.enabled>    			
+    			<metadataSp.filename>kcnonprod7fandaucaredu_sp.xml</metadataSp.filename>
+    			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+    			<!-- Kuali -->
+    			<kcserver.fqdn>kcnonprod7.fanda.ucar.edu</kcserver.fqdn>
+    			<kualiAppPort>443</kualiAppPort>
+    			<kualiAppProtocol>https</kualiAppProtocol>
+    			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppName>ra</kualiAppName>
+    			<kualiRest.user>apiuser</kualiRest.user>
+    			<kualiRest.password>BlueOrchid05</kualiRest.password>
+    			<!-- JDBC -->
+    			<jdbcKualiMySQL.url>jdbc:mysql://kcnonprod7_mysql:3306/coeus</jdbcKualiMySQL.url>
+    			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
+    			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
+    			<!--  Tomcat deployment url -->
+				<tomcat.deployUrl>https://kcnonprod7.fanda.ucar.edu:7443/manager/text</tomcat.deployUrl>
+				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
+    		</properties>
+    	</profile>
+    	
+    	<profile>
     		<id>build-jsfrontend-node</id>
     		<activation>
     			<property>
