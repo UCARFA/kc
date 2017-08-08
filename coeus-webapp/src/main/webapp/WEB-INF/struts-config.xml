@@ -717,6 +717,11 @@
             <forward name="basic" path="/WEB-INF/jsp/sys/AuthServicePush.jsp"/>
         </action>
         
+        <action path="/addressBookToCorePush" name="KualiForm" type="org.kuali.coeus.common.impl.core.rolodex.RolodexToCorePushAction">
+            <forward name="basic" path="/WEB-INF/jsp/common/AddressBookToCorePush.jsp"/>
+        </action>
+        
+        
         <action path="/groupServicePush" name="KualiForm" type="org.kuali.coeus.common.impl.core.groups.GroupsPushAction">
             <forward name="basic" path="/WEB-INF/jsp/common/GroupServicePush.jsp"/>
         </action>

@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class AuthServicePushStatus {
+public class CoreUsersPushStatus {
 
 	private int numberOfUsers;
 	private int numberAdded;

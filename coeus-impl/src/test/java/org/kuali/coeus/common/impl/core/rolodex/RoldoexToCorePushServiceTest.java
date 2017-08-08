@@ -16,37 +16,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.sys.impl.auth;
+package org.kuali.coeus.common.impl.core.rolodex;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.auth.CoreUsersPushStatus;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.sys.framework.auth.AuthUser;
 import org.kuali.coeus.sys.framework.auth.CoreGroupsService;
 import org.kuali.coeus.sys.framework.auth.GroupDto;
-import org.kuali.rice.kim.api.common.assignee.Assignee;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.impl.identity.PersonImpl;
+import org.kuali.coeus.sys.impl.auth.CoreGroupsServiceImpl;
 
-public class AuthServicePushServiceTest {
+public class RoldoexToCorePushServiceTest {
 	
 	private static final String TOP_LEVEL_UNIT_NUMBER = "000001";
 	
-	private Person person1;
-	private Person person2;
-	private Person person3;
+	private Rolodex person1;
+	private Rolodex person2;
+	private Rolodex person3;
 	
 	private List<AuthUser> addedUsers;
 	private List<AuthUser> updatedUsers;
@@ -55,9 +52,9 @@ public class AuthServicePushServiceTest {
 	
 	@Before
 	public void setup() {
-		person1 = new PersonMock("test1");
-		person2 = new PersonMock("test2");
-		person3 = new PersonMock("test3");
+		person1 = new PersonMock(1, "test1");
+		person2 = new PersonMock(2, "test2");
+		person3 = new PersonMock(3, "test3");
 		
 		addedUsers = new ArrayList<>();
 		updatedUsers = new ArrayList<>();
@@ -67,10 +64,10 @@ public class AuthServicePushServiceTest {
 	
 	@Test
 	public void testPushAllUsersSame() {
-		AuthServicePushServiceImpl service = new AuthServicePushServiceImpl() {
+		RolodexToCorePushServiceImpl service = new RolodexToCorePushServiceImpl() {
 			@Override
-			protected List<Person> getAllPeople() {
-				List<Person> result = new ArrayList<>();
+			protected List<Rolodex> getAllPeople() {
+				List<Rolodex> result = new ArrayList<>();
 				result.add(person1);
 				result.add(person2);
 				result.add(person3);
@@ -84,11 +81,6 @@ public class AuthServicePushServiceTest {
 				authServiceUserList.add(this.generateAuthUserFromPerson(person2, groupIds));
 				authServiceUserList.add(this.generateAuthUserFromPerson(person3, groupIds));
 				return authServiceUserList;
-			}
-			
-			@Override
-			protected List<String> getAdminUsers() {
-				return new ArrayList<>(Collections.emptyList());
 			}
 			
 			@Override
@@ -107,10 +99,10 @@ public class AuthServicePushServiceTest {
 	
 	@Test
 	public void testPushAllUsers() {
-		AuthServicePushServiceImpl service = new AuthServicePushServiceImpl() {
+		RolodexToCorePushServiceImpl service = new RolodexToCorePushServiceImpl() {
 			@Override
-			protected List<Person> getAllPeople() {
-				List<Person> result = new ArrayList<>();
+			protected List<Rolodex> getAllPeople() {
+				List<Rolodex> result = new ArrayList<>();
 				result.add(person1);
 				result.add(person2);
 				result.add(person3);
@@ -133,11 +125,6 @@ public class AuthServicePushServiceTest {
 			protected void updateUserInAuthService(AuthUser updatedUser, String userId) { }
 			
 			@Override
-			protected List<String> getAdminUsers() {
-				return new ArrayList<>(Collections.singleton(person3.getPrincipalId()));
-			}
-			
-			@Override
 			protected boolean useDevPassword() {
 				return false;
 			}
@@ -153,10 +140,10 @@ public class AuthServicePushServiceTest {
 	
 	@Test
 	public void testPushAllUsers_homeUnitChange() {
-		AuthServicePushServiceImpl service = new AuthServicePushServiceImpl() {
+		RolodexToCorePushServiceImpl service = new RolodexToCorePushServiceImpl() {
 			@Override
-			protected List<Person> getAllPeople() {
-				List<Person> result = new ArrayList<>();
+			protected List<Rolodex> getAllPeople() {
+				List<Rolodex> result = new ArrayList<>();
 				result.add(person1);
 				result.add(person2);
 				result.add(person3);
@@ -179,11 +166,6 @@ public class AuthServicePushServiceTest {
 			protected void updateUserInAuthService(AuthUser updatedUser, String userId) { }
 			
 			@Override
-			protected List<String> getAdminUsers() {
-				return new ArrayList<>(Collections.singleton(person3.getPrincipalId()));
-			}
-			
-			@Override
 			protected boolean useDevPassword() {
 				return false;
 			}
@@ -198,11 +180,11 @@ public class AuthServicePushServiceTest {
 	}
 	
 	@Test
-	public void testPushAllUsers_oneAdmin() {
-		AuthServicePushServiceImpl service = new AuthServicePushServiceImpl() {
+	public void testPushAllUsers_updatedName() {
+		RolodexToCorePushServiceImpl service = new RolodexToCorePushServiceImpl() {
 			@Override
-			protected List<Person> getAllPeople() {
-				List<Person> result = new ArrayList<>();
+			protected List<Rolodex> getAllPeople() {
+				List<Rolodex> result = new ArrayList<>();
 				result.add(person1);
 				result.add(person2);
 				result.add(person3);
@@ -229,11 +211,6 @@ public class AuthServicePushServiceTest {
 			}
 			
 			@Override
-			protected List<String> getAdminUsers() {
-				return new ArrayList<>(Collections.singleton(person3.getPrincipalId()));
-			}
-			
-			@Override
 			protected boolean useDevPassword() {
 				return false;
 			}
@@ -246,71 +223,46 @@ public class AuthServicePushServiceTest {
 		assertEquals(1, status.getNumberAdded());
 		assertEquals(1, status.getNumberUpdated());
 		assertEquals(1, addedUsers.size());
-		assertEquals("admin", addedUsers.get(0).getRole());
 		assertEquals(0L, updatedUsers.stream().filter(user -> user.getRole().equals("admin")).collect(Collectors.counting()).longValue());
 	
-	}	
-	
-	@Test
-	public void testGetAdminUsers() {
-		AuthServicePushServiceImpl service = new AuthServicePushServiceImpl() {
-			@Override
-			protected List<Assignee> getAdminAssignees() {
-				return Stream.of(Assignee.Builder.create("1", null, Collections.emptyList()).build(),
-						Assignee.Builder.create(null, "2", Collections.emptyList()).build()).collect(Collectors.toList());
-			}
-			
-			@Override
-			protected List<String> getGroupMembers(Assignee assignee) {
-				return Stream.of("3", "4").collect(Collectors.toList());
-			}
-		};
-		
-		List<String> adminUsers = service.getAdminUsers();
-		assertEquals(3, adminUsers.size());
-		assertTrue(adminUsers.contains("1"));
-		assertTrue(adminUsers.contains("3"));
-		assertTrue(adminUsers.contains("4"));
 	}
 	
-	final class PersonMock extends PersonImpl {
+	final class PersonMock extends Rolodex {
 
-		private String principalId;
-		private String userName;
+		private Integer rolodexId;
 		private String firstName;
 		private String lastName;
 		private String name;
 		private String emailAddress;
 		private String phoneNumber;
-		private String primaryDepartmentCode;
+		private String ownedByUnit;
 		
-		public PersonMock(String principalId, String userName, String firstName, String lastName,
-				String name, String emailAddress, String phoneNumber, String primaryDepartmentCode) {
+		public PersonMock(Integer rolodexId, String firstName, String lastName,
+				String name, String emailAddress, String phoneNumber, String ownedByUnit) {
 			super();
-			this.principalId = principalId;
-			this.userName = userName;
 			this.firstName = firstName;
 			this.lastName = lastName;
 			this.name = name;
 			this.emailAddress = emailAddress;
 			this.phoneNumber = phoneNumber;
-			this.primaryDepartmentCode = primaryDepartmentCode;
+			this.ownedByUnit = ownedByUnit;
+			this.rolodexId = rolodexId;
 		}
 		
-		public PersonMock(String userName, String firstName, String lastName, String phoneNumber) {
-			this(userName, userName, firstName, lastName, 
+		public PersonMock(Integer rolodexId, String emailAddress, String firstName, String lastName, String phoneNumber) {
+			this(rolodexId, firstName, lastName, 
 					firstName + " " + lastName, 
-					userName + "@kuali.dev", 
+					emailAddress, 
 					phoneNumber, TOP_LEVEL_UNIT_NUMBER);
 		}
 		
-		public PersonMock(String userName) {
-			this(userName, userName, userName, "555-555-5555");
+		public PersonMock(Integer rolodexId, String firstName) {
+			this(rolodexId, firstName + "@kuali.dev", firstName, firstName, "555-555-5555");
 		}
 		
 		@Override
-		public String getPrincipalName() {
-			return userName;
+		public String getFullName() {
+			return name;
 		}
 
 		@Override
@@ -321,11 +273,6 @@ public class AuthServicePushServiceTest {
 		@Override
 		public String getLastName() {
 			return lastName;
-		}
-
-		@Override
-		public String getName() {
-			return name;
 		}
 
 		@Override
@@ -344,17 +291,13 @@ public class AuthServicePushServiceTest {
 		}
 
 		@Override
-        public String getPrincipalId() {
-			return principalId;
+        public Integer getRolodexId() {
+			return rolodexId;
 		}
 		
 		@Override
-		public String getPrimaryDepartmentCode() {
-			return primaryDepartmentCode;
-		}
-
-		public void setPrincipalId(String principalId) {
-			this.principalId = principalId;
+		public String getOwnedByUnit() {
+			return ownedByUnit;
 		}
 	}
 	
