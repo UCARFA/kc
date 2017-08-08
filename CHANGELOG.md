@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Push Rolodex Users to Core (#2450)
+
+* Refactor user push to make abstract to support rolodex
+  * 
+* Push Rolodex users to Core
+  * Douglas Pace on Mon, 7 Aug 2017 17:18:23 -0700 [View Commit](../../commit/ae689067649765fdaa2513bd797ffaad356be3c5)
+
+##coeus-1708.0012
 * Push users group to core (#2449)
 
   * Douglas Pace on Mon, 7 Aug 2017 15:52:12 -0700 [View Commit](../../commit/365b659f58b1c7116813ad12ca181db5f5b412f1)
