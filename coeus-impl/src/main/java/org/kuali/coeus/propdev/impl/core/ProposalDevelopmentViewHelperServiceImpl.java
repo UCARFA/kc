@@ -857,9 +857,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
                         getGlobalVariableService().getUserSession().getPerson().getPrincipalId(), person.getPersonId());
     }
 
-    public void prepareSummaryPage(ProposalDevelopmentDocumentForm form) {
+    public void prepareSummaryPage(ProposalDevelopmentDocumentForm form, Boolean forcePopulateQuestionnaire) {
       populateCreditSplits(form);
-        populateQuestionnaires(form);
+      if (forcePopulateQuestionnaire) {
+          populateQuestionnaires(form);
+      }
         getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship(DEADLINE_TYPE_REF);
         ProposalDevelopmentNotificationRenderer renderer = new ProposalDevelopmentNotificationRenderer(form.getDevelopmentProposal());
         ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getDevelopmentProposal(), null, AD_HOC_NOTIFICATION, renderer);
