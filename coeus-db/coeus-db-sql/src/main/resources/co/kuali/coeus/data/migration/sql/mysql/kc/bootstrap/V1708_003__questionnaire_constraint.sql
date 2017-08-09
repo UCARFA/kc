@@ -17,7 +17,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-insert into SEQ_QUESTION_ID values((select max(question_id) from question));
+insert ignore into SEQ_QUESTION_ID values((select max(question_id) from question));
 
 ALTER TABLE QUESTION
   ADD CONSTRAINT UC1_QUESTION UNIQUE (QUESTION_ID, SEQUENCE_NUMBER);
