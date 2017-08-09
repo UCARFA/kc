@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2404: fixing constraint name
+  * Travis Schneeberger on Wed, 9 Aug 2017 14:27:45 -0400 [View Commit](../../commit/7a3dec0dd60aae4466b6fb10851a7d70b3483998)
+
+##coeus-1708.0018
 * RESKC-2112: Navigating to summary/submit from questionnaire should now properly save the questionnaire.
   * jeremiah on Mon, 7 Aug 2017 12:40:52 -0500 [View Commit](../../commit/870341bf92d6bae42c222cfaa191fa7a7d935a72)
 
