@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2112: Navigating to summary/submit from questionnaire should now properly save the questionnaire.
+  * jeremiah on Mon, 7 Aug 2017 12:40:52 -0500 [View Commit](../../commit/870341bf92d6bae42c222cfaa191fa7a7d935a72)
+
+##coeus-1708.0017
 * No Changes
 
 
