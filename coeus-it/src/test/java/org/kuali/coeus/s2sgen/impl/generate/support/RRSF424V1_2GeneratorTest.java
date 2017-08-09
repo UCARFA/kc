@@ -122,7 +122,7 @@ public class RRSF424V1_2GeneratorTest extends
 		Question question = new Question();
 		question.setId(131L);
 		question.setQuestionSeqId(131);
-		question.setSequenceNumber(1);
+		question.setSequenceNumber(2);
 		question.setSequenceStatus("C");
 		question.setQuestion("If No: Is the program not selected for review or not covered by  E.O. 12372? Select a response.");
 		question.setStatus("A");
