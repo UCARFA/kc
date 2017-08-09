@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1708.0016
 * RESKC-2404: adding missing constraints to questionnaire table to help ensure data integrity, making sure SEQ_QUESTION_ID is set correctly
   * Travis Schneeberger on Mon, 31 Jul 2017 17:43:16 -0400 [View Commit](../../commit/3610ac4ffc8da83bc591a32230a221b08650ae28)
 
