@@ -20,4 +20,5 @@
 
 \. ./kc/bootstrap/V1708_001__NIH_validation.sql
 \. ./kc/bootstrap/V1708_002__NIH_validation_fix.sql
+\. ./kc/bootstrap/V1708_003__questionnaire_constraint.sql
 commit;

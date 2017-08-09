@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2404: adding missing constraints to questionnaire table to help ensure data integrity, making sure SEQ_QUESTION_ID is set correctly
+  * Travis Schneeberger on Mon, 31 Jul 2017 17:43:16 -0400 [View Commit](../../commit/3610ac4ffc8da83bc591a32230a221b08650ae28)
+
+##coeus-1708.0015
 * RESKC-2406: Adding SQL docs
   * Travis Schneeberger on Tue, 8 Aug 2017 11:12:29 -0400 [View Commit](../../commit/f602c25fb518424c9e3651c72c4db92026e6dfce)
 * RESKC-2095: Certification should now properly save when navigating away.
