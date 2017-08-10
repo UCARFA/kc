@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1708.0019
 * RESKC-2404: fixing constraint name
   * Travis Schneeberger on Wed, 9 Aug 2017 14:27:45 -0400 [View Commit](../../commit/7a3dec0dd60aae4466b6fb10851a7d70b3483998)
 
