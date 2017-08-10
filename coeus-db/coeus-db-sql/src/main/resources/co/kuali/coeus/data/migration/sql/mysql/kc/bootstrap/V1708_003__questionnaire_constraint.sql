@@ -39,17 +39,10 @@ ALTER TABLE question_types
   ADD CONSTRAINT UC1_question_types UNIQUE (OBJ_ID);
 
 ALTER TABLE questionnaire
-  ADD CONSTRAINT UC1_questionnaire UNIQUE (QUESTIONNAIRE_ID, SEQUENCE_NUMBER);
-
-ALTER TABLE questionnaire
   ADD CONSTRAINT UC2_questionnaire UNIQUE (OBJ_ID);
 
 ALTER TABLE questionnaire_answer
   ADD CONSTRAINT UC1_questionnaire_answer UNIQUE (OBJ_ID);
-
-ALTER TABLE questionnaire_answer
-  ADD CONSTRAINT FK_ANSWER_QUESTIONNAIRE_QUESTIONS
-FOREIGN KEY (QUESTIONNAIRE_QUESTIONS_ID_FK) REFERENCES questionnaire_questions(QUESTIONNAIRE_QUESTIONS_ID);
 
 ALTER TABLE questionnaire_answer_header
   ADD CONSTRAINT UC1_questionnaire_ah UNIQUE (OBJ_ID);
