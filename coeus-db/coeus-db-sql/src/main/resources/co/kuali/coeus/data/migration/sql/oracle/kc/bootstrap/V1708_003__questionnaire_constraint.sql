@@ -65,7 +65,3 @@ ALTER TABLE questionnaire_questions
 
 ALTER TABLE questionnaire_usage
   ADD CONSTRAINT UC1_questionnaire_usage UNIQUE (OBJ_ID);
-
-ALTER TABLE questionnaire_usage
-  ADD CONSTRAINT FK_qu_module_code
-FOREIGN KEY (MODULE_ITEM_CODE) REFERENCES coeus_module(module_code);
