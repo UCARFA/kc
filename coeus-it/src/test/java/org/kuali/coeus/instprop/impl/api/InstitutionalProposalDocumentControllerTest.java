@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.instprop.impl.api;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.api.document.service.CommonApiService;

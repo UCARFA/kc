@@ -19,10 +19,9 @@
 
 package org.kuali.coeus.instprop.impl.api.customSerializers;
 
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -31,7 +30,7 @@ import java.text.SimpleDateFormat;
 
 public class CustomSqlDateSerializer extends JsonDeserializer<Date> {
     @Override
-    public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         SimpleDateFormat source = new SimpleDateFormat("MM/dd/yyyy");
 
         String dateText = jp.getText();

@@ -26,12 +26,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLog;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerDao;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -100,7 +98,7 @@ public class RestAuditLoggerDaoImpl implements RestAuditLoggerDao {
 	}
 
 	protected String transformMapToJson(final List<Map<String, Object>> changes)
-			throws IOException, JsonGenerationException, JsonMappingException {
+			throws IOException {
 		if (changes == null || changes.size() == 0) {
 			return null;
 		} else {

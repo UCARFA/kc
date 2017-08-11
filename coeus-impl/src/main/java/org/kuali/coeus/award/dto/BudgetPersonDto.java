@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.award.dto;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import java.sql.Date;

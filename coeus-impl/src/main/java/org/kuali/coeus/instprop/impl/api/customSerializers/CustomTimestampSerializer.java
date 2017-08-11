@@ -19,17 +19,16 @@
 
 package org.kuali.coeus.instprop.impl.api.customSerializers;
 
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 
 public class CustomTimestampSerializer extends JsonDeserializer<Timestamp> {
     @Override
-    public Timestamp deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Timestamp deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         String timestampText = jp.getText();
         return Timestamp.valueOf(timestampText);
     }

@@ -33,7 +33,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -104,7 +105,7 @@ public abstract class RestController implements HandlerExceptionResolver, Ordere
 
 	protected ModelAndView createJsonModelAndView(int status, Object model, HttpServletResponse response) {
 		response.setStatus(status);
-		final MappingJacksonJsonView view = new MappingJacksonJsonView();
+		final MappingJackson2JsonView view = new MappingJackson2JsonView();
 		return new ModelAndView(view, "Error", model);
 	}
 

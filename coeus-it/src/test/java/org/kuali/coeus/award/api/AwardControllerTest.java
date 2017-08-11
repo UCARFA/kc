@@ -19,7 +19,7 @@
 package org.kuali.coeus.award.api;
 
 import junit.framework.Assert;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.kuali.coeus.award.dto.AwardDto;
 import org.kuali.coeus.award.dto.AwardPersonDto;

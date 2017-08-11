@@ -1,6 +1,6 @@
 package org.kuali.coeus.irb.api;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.irb.api.dto.IrbProtocolActionDto;

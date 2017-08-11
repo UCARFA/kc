@@ -21,7 +21,7 @@ package org.kuali.coeus.instprop.impl.api.dto;
 
 import com.codiform.moo.annotation.Ignore;
 import com.codiform.moo.annotation.Property;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
 import org.kuali.coeus.instprop.impl.api.customSerializers.CustomTimestampSerializer;
 

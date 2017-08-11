@@ -51,7 +51,7 @@
                 <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
-                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
 			</list>
@@ -856,9 +856,10 @@
     
     <!-- Quartz configuration for CFDA batch job-->
     <!-- Use JobDetail here since the MethodInvokingJobDetailFactoryBean does not support persistent storage-->
-    <bean id="cfdaBatchJobDetail" class="org.quartz.JobDetail" >
+    <bean id="cfdaBatchJobDetail" class="org.quartz.impl.JobDetailImpl" >
         <property name="jobClass" value="org.kuali.kra.external.Cfda.CfdaBatchJob" />
         <property name="name" value="cfdaBatchJobDetail" />
+        <property name="durability" value="true" />
     </bean>
     
     <bean id="cfdaTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
@@ -876,8 +877,8 @@
         <property name="exposeSchedulerInRepository" value="true" />
         <property name="triggers">
             <list>
-                <ref local="cfdaTrigger"/>
-				<ref local="reportTrackingNotificationTrigger"/>
+                <ref bean="cfdaTrigger"/>
+				<ref bean="reportTrackingNotificationTrigger"/>
             </list>
         </property>
         <!-- 
@@ -1163,9 +1164,10 @@
 		<property name="xmlStream" ref="reportTrackingXmlStream" />
 	</bean>
     
-	<bean id="reportTrackingNotificationJobDetail" class="org.quartz.JobDetail" >
+	<bean id="reportTrackingNotificationJobDetail" class="org.quartz.impl.JobDetailImpl" >
 		<property name="jobClass" value="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationJobDetail" />
 		<property name="name" value="reportTrackingNotificationJobDetail" />
+        <property name="durability" value="true" />
 	</bean>
 	
 	<bean id="reportTrackingNotificationTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
@@ -1385,7 +1387,7 @@
                 <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
-                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
             </list>
