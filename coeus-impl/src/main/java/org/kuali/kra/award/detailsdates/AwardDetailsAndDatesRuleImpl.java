@@ -19,6 +19,7 @@
 package org.kuali.kra.award.detailsdates;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -36,6 +37,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Default implementation of AwardDetailsAndDatesRule
@@ -53,7 +56,8 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
     private static final String AWARD_FIN_CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME = "financialChartOfAccountsCode";
     private ParameterService parameterService;
     AccountCreationClient accountCreationClient;
-    
+    private static final String REGEX_TITLE_SPECIAL_CHARACTER_PATTERN = "([^\\x00-\\x7F])";
+
     /**
      * @see org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processAddAwardTransferringSponsorEvent
      * (org.kuali.kra.award.rule.event.AddAwardTransferringSponsorEvent)
@@ -156,17 +160,16 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
      *  it checks if the combination of account number and chart code is valid.
      *  Only if the financial system integration parameter is on,
      *  use the financial system service to verify if the account number is valid.
-     * @param award
+     * @param awardDocument
      * @return
      */
     protected boolean isValidAccountNumber(AwardDocument awardDocument) {
         boolean isValid = true;
-        //Susan Wang: temproraly comment out for MVP
-     /*   Award award = awardDocument.getAward();
+      Award award = awardDocument.getAward();
       
         String accountNumber = award.getAccountNumber();
         String financialDocNbr = award.getFinancialAccountDocumentNumber();
-        String chartOfAccountsCode = award.getFinancialChartOfAccountsCode();*/
+        String chartOfAccountsCode = award.getFinancialChartOfAccountsCode();
 
         /* Only check if financial doc number is absent.
          * If the financial doc nbr is present, it means the account number 
@@ -198,6 +201,24 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
                 }
             }   
         } */
+     //swang:  custom validation to make sure 6 digit chart of account and 8 digit contract ID
+        if (isIntegrationParameterOn() && StringUtils.isEmpty(financialDocNbr) && validationRequired(award)) {
+
+            if (ObjectUtils.isNotNull(accountNumber) && accountNumber.length() != 8) {
+                    reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME,
+                            KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID,
+                            award.getAccountNumber(), award.getFinancialChartOfAccountsCode());
+                    isValid = false;
+
+            }
+            if (ObjectUtils.isNotNull(chartOfAccountsCode) && (!NumberUtils.isDigits(chartOfAccountsCode) || chartOfAccountsCode.length() != 4)) {
+                reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME,
+                        KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID,
+                        award.getAccountNumber(), award.getFinancialChartOfAccountsCode());
+                isValid = false;
+
+            }
+        }
         return isValid;
     }
     
