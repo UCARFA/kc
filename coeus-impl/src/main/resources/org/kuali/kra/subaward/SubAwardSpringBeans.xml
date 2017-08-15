@@ -235,6 +235,7 @@
             <map>
                 <entry key="FDP_AFOSR" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
                 <entry key="FDP_AMRMC" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
+                <entry key="FDP_AMRAA" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
                 <entry key="FDP_ARO" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
                 <entry key="FDP_DOE" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
                 <entry key="FDP_EPA" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />

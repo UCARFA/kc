@@ -76,6 +76,7 @@ public class SubAwardPrintingServiceImplTest extends KcIntegrationTestBase {
         agreement.setFundingSource("1");
         agreement.setAfosrSponsor(true);
         agreement.setAmrmcSponsor(true);
+        agreement.setAmraaSponsor(true);
         agreement.setAroSponsor(true);
         agreement.setAttachment3A(true);
         agreement.setAttachment3B(true);
