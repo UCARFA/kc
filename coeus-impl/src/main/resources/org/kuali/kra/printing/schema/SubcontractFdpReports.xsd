@@ -334,6 +334,42 @@
                             <xs:element name="FdpOnrInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FdpOnrAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FdpOnrFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpAroPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAroGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAroInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAroAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAroFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpAfosrPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAfosrGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAfosrInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAfosrAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAfosrFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpEpaPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpEpaGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpEpaInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpEpaAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpEpaFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpAmrmcPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmrmcGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmrmcInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmrmcAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmrmcFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpAmraaPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmraaGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmraaInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmraaAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmraaFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpUsdaPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpUsdaGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpUsdaInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpUsdaAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpUsdaFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
