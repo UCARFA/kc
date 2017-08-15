@@ -211,7 +211,7 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
                     isValid = false;
 
             }
-            if (ObjectUtils.isNotNull(chartOfAccountsCode) && (!NumberUtils.isDigits(chartOfAccountsCode) || chartOfAccountsCode.length() != 4)) {
+            if (ObjectUtils.isNotNull(chartOfAccountsCode) && (!NumberUtils.isDigits(chartOfAccountsCode) || chartOfAccountsCode.length() != 6)) {
                 reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME,
                         KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID,
                         award.getAccountNumber(), award.getFinancialChartOfAccountsCode());
