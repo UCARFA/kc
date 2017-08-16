@@ -26,6 +26,7 @@ public class UcarAwardDetailAndDatesRuleImpl extends AwardDetailsAndDatesRuleImp
     private ParameterService parameterService;
     AccountCreationClient accountCreationClient;
     private static final String REGEX_TITLE_SPECIAL_CHARACTER_PATTERN = "([^\\x00-\\x7F])";
+    @Override
     public boolean processSaveAwardDetailsAndDates(AwardDetailsAndDatesSaveEvent awardDetailsAndDatesSaveEvent) {
         boolean valid = true;
         Award award = awardDetailsAndDatesSaveEvent.getAward();
@@ -83,14 +84,14 @@ public class UcarAwardDetailAndDatesRuleImpl extends AwardDetailsAndDatesRuleImp
         //swang:  custom validation to make sure 6 digit chart of account and 8 digit contract ID
         if (isIntegrationParameterOn() && StringUtils.isEmpty(financialDocNbr) && validationRequired(award)) {
 
-            if (ObjectUtils.isNotNull(accountNumber) && accountNumber.length() != 8) {
+            if (ObjectUtils.isNotNull(accountNumber) && (!NumberUtils.isDigits(chartOfAccountsCode) || accountNumber.length() > 10)) {
                 reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME,
                         KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID,
                         award.getAccountNumber(), award.getFinancialChartOfAccountsCode());
                 isValid = false;
 
             }
-            if (ObjectUtils.isNotNull(chartOfAccountsCode) && (!NumberUtils.isDigits(chartOfAccountsCode) || chartOfAccountsCode.length() != 6)) {
+            if (ObjectUtils.isNotNull(chartOfAccountsCode) && chartOfAccountsCode.length() >8 ) {
                 reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME,
                         KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID,
                         award.getAccountNumber(), award.getFinancialChartOfAccountsCode());
