@@ -19,6 +19,8 @@
 package edu.ucar.fanda.kuali.rules;
 
 import org.kuali.kra.award.AwardDocumentRule;
+//import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
+import edu.ucar.fanda.kuali.rules.UcarAwardDetailAndDatesRuleImpl;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesSaveEvent;
 import org.kuali.kra.award.document.AwardDocument;
@@ -69,9 +71,14 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 	        valid &= processUcarSaveActicipatedTotalValid(event);
 	        // add additional rules to run here
 	        // valid &= processUcarNewRule(event)
-	        
-	        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+		 valid &= new UcarAwardDetailAndDatesRuleImpl().processSaveAwardDetailsAndDates(event);
+
+		 errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
 	        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+
+
+
+
 	        return valid;
 	    }
 	 
@@ -130,6 +137,10 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 	 private boolean skipRuleProcessing(Document document) {
 	        return AwardDocument.PLACEHOLDER_DOC_DESCRIPTION.equals(document.getDocumentHeader().getDocumentDescription());
 	 }
-	
-	
+
+	@Override
+	public boolean processSaveAwardDetailsAndDates(AwardDetailsAndDatesSaveEvent awardDetailsAndDatesSaveEvent) {
+		return new UcarAwardDetailAndDatesRuleImpl().processSaveAwardDetailsAndDates(awardDetailsAndDatesSaveEvent);
+	}
+
 }

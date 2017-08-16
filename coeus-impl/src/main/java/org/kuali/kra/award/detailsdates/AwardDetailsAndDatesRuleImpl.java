@@ -178,7 +178,7 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
          * At this point if the account doc in KFS is only being saved and not routed then this will return
          * false (which is incorrect behavior) because the account does not *exist* yet on KFS.*/
         //Susan Wang: temproraly comment out for MVP
-     /*   if (isIntegrationParameterOn() && StringUtils.isEmpty(financialDocNbr) && validationRequired(award)) {
+        if (isIntegrationParameterOn() && StringUtils.isEmpty(financialDocNbr) && validationRequired(award)) {
             if (ObjectUtils.isNotNull(accountNumber) || ObjectUtils.isNotNull(chartOfAccountsCode)) {               
                 AccountCreationClient client = getAccountCreationClientService();            
                 if (ObjectUtils.isNull(chartOfAccountsCode) || ObjectUtils.isNull(accountNumber)) {
@@ -200,24 +200,6 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
                     }
                 }
             }   
-        } */
-     //swang:  custom validation to make sure 6 digit chart of account and 8 digit contract ID
-        if (isIntegrationParameterOn() && StringUtils.isEmpty(financialDocNbr) && validationRequired(award)) {
-
-            if (ObjectUtils.isNotNull(accountNumber) && accountNumber.length() != 8) {
-                    reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME,
-                            KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID,
-                            award.getAccountNumber(), award.getFinancialChartOfAccountsCode());
-                    isValid = false;
-
-            }
-            if (ObjectUtils.isNotNull(chartOfAccountsCode) && (!NumberUtils.isDigits(chartOfAccountsCode) || chartOfAccountsCode.length() != 6)) {
-                reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME,
-                        KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID,
-                        award.getAccountNumber(), award.getFinancialChartOfAccountsCode());
-                isValid = false;
-
-            }
         }
         return isValid;
     }
