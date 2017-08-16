@@ -17,11 +17,10 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+set define off
+set sqlblanklines on
 
-\. ./kc/bootstrap/V1708_001__NIH_validation.sql
-\. ./kc/bootstrap/V1708_002__NIH_validation_fix.sql
-\. ./kc/bootstrap/V1708_003__questionnaire_constraint.sql
-\. ./kc/bootstrap/V1708_004__quartz_update.sql
-\. ./kc/bootstrap/V1708_005__quartz_update_kc.sql
-\. ./kc/bootstrap/V1708_008__fdp_amraa.sql
+spool 1708_oracle_kc_rice_server_upgrade.sql.log
+@./rice/bootstrap/V1708_006__more_fdp_parameters.sql
+@./rice/bootstrap/V1708_007__force_xsl_param.sql
 commit;
