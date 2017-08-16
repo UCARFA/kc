@@ -556,10 +556,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             organisation.setDunsNumber(subaward.getOrganization().getDunsNumber());
             organisation.setCongressionalDistrict(subaward.getOrganization().getCongressionalDistrict());
         }
-        if (subaward.getStartDate() != null){
-            subcontractDetail.setStartDate(getDateTimeService().getCalendar(subaward.getStartDate()));
-        }
-        getPeriodOfPerformanceEndDate(subaward).ifPresent(date -> subcontractDetail.setEndDate(getDateTimeService().getCalendar(date)));
+
+        getPeriodOfPerformanceStartDate(subaward).ifPresent(date -> subcontractDetail.setStartDate(getDateTimeService().getCalendar(date)));
+        subcontractDetail.setEndDate(getDateTimeService().getCalendar(subaward.getEndDate()));
 
         final List<SubAwardAmountInfo> allSubAwardAmountInfos = subaward.getAllSubAwardAmountInfos();
         if (allSubAwardAmountInfos != null && !allSubAwardAmountInfos.isEmpty()){
@@ -595,6 +594,11 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private Optional<Date> getPeriodOfPerformanceEndDate(SubAward subaward) {
         final List<SubAwardAmountInfo> allSubAwardAmountInfos = subaward.getAllSubAwardAmountInfos();
         return allSubAwardAmountInfos.isEmpty() ? Optional.empty() : Optional.ofNullable(allSubAwardAmountInfos.get(allSubAwardAmountInfos.size() - 1).getPeriodofPerformanceEndDate());
+    }
+
+    private Optional<Date> getPeriodOfPerformanceStartDate(SubAward subaward) {
+        final List<SubAwardAmountInfo> allSubAwardAmountInfos = subaward.getAllSubAwardAmountInfos();
+        return allSubAwardAmountInfos.isEmpty() ? Optional.empty() : Optional.ofNullable(allSubAwardAmountInfos.get(allSubAwardAmountInfos.size() - 1).getPeriodofPerformanceStartDate());
     }
 
     private String toFlag(Boolean b) {
