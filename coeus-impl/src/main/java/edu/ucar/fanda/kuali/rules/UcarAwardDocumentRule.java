@@ -68,7 +68,7 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 	        errorMap.addToErrorPath(AWARD_ERROR_PATH);
 	        AwardDetailsAndDatesSaveEvent event = new AwardDetailsAndDatesSaveEvent(awardDocument, awardDocument.getAward());
 	        // run the rule
-	        valid &= processUcarSaveActicipatedTotalValid(event);
+//	        valid &= processUcarSaveActicipatedTotalValid(event);
 	        // add additional rules to run here
 	        // valid &= processUcarNewRule(event)
 		 valid &= new UcarAwardDetailAndDatesRuleImpl().processSaveAwardDetailsAndDates(event);
