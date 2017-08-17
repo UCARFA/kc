@@ -91,6 +91,7 @@ public class UcarAwardDetailAndDatesRuleImpl extends AwardDetailsAndDatesRuleImp
                 isValid = false;
 
             }
+
             if (ObjectUtils.isNotNull(chartOfAccountsCode) && chartOfAccountsCode.length() >8 ) {
                 reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME,
                         KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID,
