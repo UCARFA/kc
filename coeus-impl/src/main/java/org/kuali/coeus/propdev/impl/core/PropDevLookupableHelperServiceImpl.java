@@ -26,6 +26,7 @@ import org.kuali.coeus.common.framework.auth.docperm.DocumentAccess;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
@@ -72,12 +73,14 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
     private static final String INITIATOR = "initiator";
     private static final String PRINCIPAL_INVESTIGATOR_NAME = "principalInvestigatorName";
+    private static final String HIERARCHY_STATUS = "hierarchyStatus";
     private static final String PROPOSAL_PERSON = "proposalPerson";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final String AGGREGATOR = "aggregator";
     private static final String PARTICIPANT = "participant";
 
     private static final String PROPOSAL_DOCUMENT_DOCUMENT_NUMBER = "proposalDocument.documentNumber";
+    private static final String STATUS_CODE = "proposalStateTypeCode";
     private static final String LAST_NAME = "lastName";
     private static final String PERSON_ID = "personId";
     private static final String USER_NAME = "userName";
@@ -192,7 +195,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
         QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(DevelopmentProposal.class, modifiedSearchCriteria,
                 wildcardAsLiteralSearchCriteria, getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(DevelopmentProposal.class, modifiedSearchCriteria));
         if (searchResultsLimit != null) {
-            query.setMaxResults(searchResultsLimit);
+            query.setMaxResults(searchResultsLimit * 2);
         }
 
         if ((StringUtils.isBlank(proposalNumberCriteria) || proposalNumberWildcarded)
@@ -208,7 +211,20 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
         final java.util.function.Predicate<DevelopmentProposal> statusCodePredicate = ((java.util.function.Predicate<DevelopmentProposal>) proposal -> StringUtils.isBlank(hierarchyAwareProposalStatusCode))
                 .or(proposal -> proposal.getHierarchyAwareProposalStatus().getCode().equals(hierarchyAwareProposalStatusCode));
-        
+
+        if (!StringUtils.isBlank(hierarchyAwareProposalStatusCode)) {
+            final Predicate queryPredicate = PredicateFactory.or(
+                    PredicateFactory.and(
+                            PredicateFactory.equal(STATUS_CODE, hierarchyAwareProposalStatusCode),
+                            PredicateFactory.notEqual(HIERARCHY_STATUS, HierarchyStatusConstants.Child.code()
+                            )
+                    ),
+                    PredicateFactory.equal(HIERARCHY_STATUS, HierarchyStatusConstants.Child.code())
+            );
+
+            addPredicate(queryPredicate, query);
+        }
+
         modifyCriteria(query);
 
         final List<DevelopmentProposal> proposals = getDataObjectService().findMatching(DevelopmentProposal.class, query.build()).getResults().stream()
@@ -223,8 +239,18 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             doNotFilter = canAccessAllProposals();
         }
 
-        return doNotFilter ? proposals : filterPermissions(proposals);
+        if (doNotFilter) {
+            if (searchResultsLimit != null && proposals.size() > searchResultsLimit) {
+                return proposals.subList(0, searchResultsLimit - 1);
+            }
+            return proposals;
+        }
 
+        Collection<DevelopmentProposal> filterProposals = filterPermissions(proposals);
+        if (searchResultsLimit != null && filterProposals.size() > searchResultsLimit) {
+            return (((ArrayList<DevelopmentProposal>)filterProposals).subList(0, searchResultsLimit - 1));
+        }
+        return filterProposals;
     }
 
 	protected void addPredicate(final Predicate predicate, QueryByCriteria.Builder query) {
