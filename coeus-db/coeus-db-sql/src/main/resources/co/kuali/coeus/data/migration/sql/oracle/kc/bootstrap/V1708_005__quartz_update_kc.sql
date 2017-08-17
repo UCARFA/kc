@@ -17,8 +17,10 @@
 -- along with this program.  If not, see <http:www.gnu.orglicenses>.
 --
 
-alter table kc_qrtz_job_listeners drop constraint   KC_QUARTZ_JOB_LISTENERS_TR1;
-alter table kc_qrtz_trigger_listeners drop constraint   KC_QRTZ_TRIGGER_LISTENE_TR1;
+ALTER TABLE kc_qrtz_job_listeners
+  DROP CONSTRAINT KC_QUARTZ_JOB_LISTENERS_TR1 DROP INDEX;
+ALTER TABLE kc_qrtz_trigger_listeners
+  DROP CONSTRAINT KC_QRTZ_TRIGGER_LISTENE_TR1 DROP INDEX
 
 --
 -- drop columns that are no longer used
@@ -59,14 +61,22 @@ alter table kc_qrtz_triggers add sched_name varchar(120) DEFAULT 'kcScheduler' n
 --
 -- drop all primary and foreign key constraints, so that we can define new ones
 --
-alter table kc_qrtz_blob_triggers drop primary key;
-alter table kc_qrtz_blob_triggers drop constraint FK_KC_QRTZ_BLOB_TRIGGERS;
-alter table kc_qrtz_simple_triggers drop primary key;
-alter table kc_qrtz_simple_triggers drop constraint FK_KC_QRTZ_SIMPLE_TRIGGERS;
-alter table kc_qrtz_cron_triggers drop primary key;
-alter table kc_qrtz_cron_triggers drop constraint FK_KC_QRTZ_CRON_TRIGGERS;
-alter table kc_qrtz_job_details drop primary key;
-alter table kc_qrtz_triggers drop primary key;
+ALTER TABLE kc_qrtz_blob_triggers
+  DROP PRIMARY KEY DROP INDEX;
+ALTER TABLE kc_qrtz_blob_triggers
+  DROP CONSTRAINT FK_KC_QRTZ_BLOB_TRIGGERS DROP INDEX;
+ALTER TABLE kc_qrtz_simple_triggers
+  DROP PRIMARY KEY DROP INDEX;
+ALTER TABLE kc_qrtz_simple_triggers
+  DROP CONSTRAINT FK_KC_QRTZ_SIMPLE_TRIGGERS DROP INDEX;
+ALTER TABLE kc_qrtz_cron_triggers
+  DROP PRIMARY KEY DROP INDEX;
+ALTER TABLE kc_qrtz_cron_triggers
+  DROP CONSTRAINT FK_KC_QRTZ_CRON_TRIGGERS DROP INDEX;
+ALTER TABLE kc_qrtz_job_details
+  DROP PRIMARY KEY DROP INDEX;
+ALTER TABLE kc_qrtz_triggers
+  DROP PRIMARY KEY DROP INDEX;
 
 --
 --
@@ -81,15 +91,20 @@ alter table kc_qrtz_cron_triggers add constraint KC_QRTZ_CRON_TRIGGERSP1 primary
 alter table kc_qrtz_cron_triggers add constraint KC_QRTZ_CRON_TRIGGERS_TR1 foreign key (trigger_name, trigger_group, sched_name) references kc_qrtz_triggers(trigger_name, trigger_group, sched_name);
 alter table kc_qrtz_simple_triggers add constraint KC_QRTZ_SIMPLE_TRIGGERSP1 primary key (trigger_name, trigger_group, sched_name);
 alter table kc_qrtz_simple_triggers add constraint KC_QRTZ_SIMPLE_TRIGGERS_TR1 foreign key (trigger_name, trigger_group, sched_name) references kc_qrtz_triggers(trigger_name, trigger_group, sched_name);
-alter table kc_qrtz_fired_triggers drop constraint KC_QRTZ_FIRED_TRIGGERSP1;
+ALTER TABLE kc_qrtz_fired_triggers
+  DROP CONSTRAINT KC_QRTZ_FIRED_TRIGGERSP1 DROP INDEX;
 alter table kc_qrtz_fired_triggers add constraint KC_QRTZ_FIRED_TRIGGERSP1 primary key (entry_id, sched_name);
-alter table kc_qrtz_calendars drop constraint KC_QRTZ_CALENDARSP1;
+ALTER TABLE kc_qrtz_calendars
+  DROP CONSTRAINT KC_QRTZ_CALENDARSP1 DROP INDEX;
 alter table kc_qrtz_calendars add constraint KC_QRTZ_CALENDARSP1 primary key (calendar_name, sched_name);
-alter table kc_qrtz_locks drop constraint KC_QRTZ_LOCKSP1;
+ALTER TABLE kc_qrtz_locks
+  DROP CONSTRAINT KC_QRTZ_LOCKSP1 DROP INDEX;
 alter table kc_qrtz_locks add constraint KC_QRTZ_LOCKSP1 primary key (lock_name, sched_name);
-alter table kc_qrtz_paused_trigger_grps drop constraint KC_QRTZ_PAUSED_TRIGGER_GRP1;
+ALTER TABLE kc_qrtz_paused_trigger_grps
+  DROP CONSTRAINT KC_QRTZ_PAUSED_TRIGGER_GRP1 DROP INDEX;
 alter table kc_qrtz_paused_trigger_grps add constraint KC_QRTZ_PAUSED_TRIGGER_GRP1 primary key (trigger_group, sched_name);
-alter table kc_qrtz_scheduler_state drop constraint KC_QRTZ_SCHEDULER_STATEP1;
+ALTER TABLE kc_qrtz_scheduler_state
+  DROP CONSTRAINT KC_QRTZ_SCHEDULER_STATEP1 DROP INDEX;
 alter table kc_qrtz_scheduler_state add constraint KC_QRTZ_SCHEDULER_STATEP1 primary key (instance_name, sched_name);
 
 --
