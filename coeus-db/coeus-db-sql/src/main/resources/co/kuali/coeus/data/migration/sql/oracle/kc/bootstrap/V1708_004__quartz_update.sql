@@ -17,8 +17,10 @@
 -- along with this program.  If not, see <http:www.gnu.orglicenses>.
 --
 
-alter table krsb_qrtz_job_listeners drop constraint   KRSB_QUARTZ_JOB_LISTENERS_TR1;
-alter table krsb_qrtz_trigger_listeners drop constraint   KRSB_QRTZ_TRIGGER_LISTENE_TR1;
+ALTER TABLE krsb_qrtz_job_listeners
+  DROP CONSTRAINT KRSB_QUARTZ_JOB_LISTENERS_TR1 DROP INDEX;
+ALTER TABLE krsb_qrtz_trigger_listeners
+  DROP CONSTRAINT KRSB_QRTZ_TRIGGER_LISTENE_TR1 DROP INDEX;
 
 --
 -- drop columns that are no longer used
@@ -59,14 +61,22 @@ alter table krsb_qrtz_triggers add sched_name varchar(120) DEFAULT 'KrTestSchedu
 --
 -- drop all primary and foreign key constraints, so that we can define new ones
 --
-alter table krsb_qrtz_blob_triggers drop constraint KRSB_QRTZ_BLOB_TRIGGERSP1;
-alter table krsb_qrtz_blob_triggers drop constraint KRSB_QRTZ_BLOB_TRIGGERS_TR1;
-alter table krsb_qrtz_simple_triggers drop constraint KRSB_QRTZ_SIMPLE_TRIGGERSP1;
-alter table krsb_qrtz_simple_triggers drop constraint KRSB_QRTZ_SIMPLE_TRIGGERS_TR1;
-alter table krsb_qrtz_cron_triggers drop constraint KRSB_QRTZ_CRON_TRIGGERSP1;
-alter table krsb_qrtz_cron_triggers drop constraint KRSB_QRTZ_CRON_TRIGGERS_TR1;
-alter table krsb_qrtz_job_details drop constraint KRSB_QRTZ_JOB_DETAILSP1;
-alter table krsb_qrtz_triggers drop constraint KRSB_QRTZ_TRIGGERSP1;
+ALTER TABLE krsb_qrtz_blob_triggers
+  DROP CONSTRAINT KRSB_QRTZ_BLOB_TRIGGERSP1 DROP INDEX;
+ALTER TABLE krsb_qrtz_blob_triggers
+  DROP CONSTRAINT KRSB_QRTZ_BLOB_TRIGGERS_TR1 DROP INDEX;
+ALTER TABLE krsb_qrtz_simple_triggers
+  DROP CONSTRAINT KRSB_QRTZ_SIMPLE_TRIGGERSP1 DROP INDEX;
+ALTER TABLE krsb_qrtz_simple_triggers
+  DROP CONSTRAINT KRSB_QRTZ_SIMPLE_TRIGGERS_TR1 DROP INDEX;
+ALTER TABLE krsb_qrtz_cron_triggers
+  DROP CONSTRAINT KRSB_QRTZ_CRON_TRIGGERSP1 DROP INDEX;
+ALTER TABLE krsb_qrtz_cron_triggers
+  DROP CONSTRAINT KRSB_QRTZ_CRON_TRIGGERS_TR1 DROP INDEX;
+ALTER TABLE krsb_qrtz_job_details
+  DROP CONSTRAINT KRSB_QRTZ_JOB_DETAILSP1 DROP INDEX;
+ALTER TABLE krsb_qrtz_triggers
+  DROP CONSTRAINT KRSB_QRTZ_TRIGGERSP1 DROP INDEX;
 
 --
 --
@@ -81,15 +91,20 @@ alter table krsb_qrtz_cron_triggers add constraint KRSB_QRTZ_CRON_TRIGGERSP1 pri
 alter table krsb_qrtz_cron_triggers add constraint KRSB_QRTZ_CRON_TRIGGERS_TR1 foreign key (trigger_name, trigger_group, sched_name) references krsb_qrtz_triggers(trigger_name, trigger_group, sched_name);
 alter table krsb_qrtz_simple_triggers add constraint KRSB_QRTZ_SIMPLE_TRIGGERSP1 primary key (trigger_name, trigger_group, sched_name);
 alter table krsb_qrtz_simple_triggers add constraint KRSB_QRTZ_SIMPLE_TRIGGERS_TR1 foreign key (trigger_name, trigger_group, sched_name) references krsb_qrtz_triggers(trigger_name, trigger_group, sched_name);
-alter table krsb_qrtz_fired_triggers drop constraint KRSB_QRTZ_FIRED_TRIGGERSP1;
+ALTER TABLE krsb_qrtz_fired_triggers
+  DROP CONSTRAINT KRSB_QRTZ_FIRED_TRIGGERSP1 DROP INDEX;
 alter table krsb_qrtz_fired_triggers add constraint KRSB_QRTZ_FIRED_TRIGGERSP1 primary key (entry_id, sched_name);
-alter table krsb_qrtz_calendars drop constraint KRSB_QRTZ_CALENDARSP1;
+ALTER TABLE krsb_qrtz_calendars
+  DROP CONSTRAINT KRSB_QRTZ_CALENDARSP1 DROP INDEX;
 alter table krsb_qrtz_calendars add constraint KRSB_QRTZ_CALENDARSP1 primary key (calendar_name, sched_name);
-alter table krsb_qrtz_locks drop constraint KRSB_QRTZ_LOCKSP1;
+ALTER TABLE krsb_qrtz_locks
+  DROP CONSTRAINT KRSB_QRTZ_LOCKSP1 DROP INDEX;
 alter table krsb_qrtz_locks add constraint KRSB_QRTZ_LOCKSP1 primary key (lock_name, sched_name);
-alter table krsb_qrtz_paused_trigger_grps drop constraint KRSB_QRTZ_PAUSED_TRIGGER_GRP1;
+ALTER TABLE krsb_qrtz_paused_trigger_grps
+  DROP CONSTRAINT KRSB_QRTZ_PAUSED_TRIGGER_GRP1 DROP INDEX;
 alter table krsb_qrtz_paused_trigger_grps add constraint KRSB_QRTZ_PAUSED_TRIGGER_GRP1 primary key (trigger_group, sched_name);
-alter table krsb_qrtz_scheduler_state drop constraint KRSB_QRTZ_SCHEDULER_STATEP1;
+ALTER TABLE krsb_qrtz_scheduler_state
+  DROP CONSTRAINT KRSB_QRTZ_SCHEDULER_STATEP1 DROP INDEX;
 alter table krsb_qrtz_scheduler_state add constraint KRSB_QRTZ_SCHEDULER_STATEP1 primary key (instance_name, sched_name);
 
 --
