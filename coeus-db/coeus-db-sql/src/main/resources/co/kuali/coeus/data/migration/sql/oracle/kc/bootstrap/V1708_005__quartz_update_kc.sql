@@ -56,19 +56,20 @@ alter table kc_qrtz_triggers add sched_name varchar(120) DEFAULT 'kcScheduler' n
 --
 -- drop all primary and foreign key constraints, so that we can define new ones
 --
-ALTER TABLE kc_qrtz_blob_triggers
-  DROP PRIMARY KEY DROP INDEX;
+
 ALTER TABLE kc_qrtz_blob_triggers
   DROP CONSTRAINT FK_KC_QRTZ_BLOB_TRIGGERS DROP INDEX;
 ALTER TABLE kc_qrtz_simple_triggers
-  DROP PRIMARY KEY DROP INDEX;
-ALTER TABLE kc_qrtz_simple_triggers
   DROP CONSTRAINT FK_KC_QRTZ_SIMPLE_TRIGGERS DROP INDEX;
 ALTER TABLE kc_qrtz_cron_triggers
-  DROP PRIMARY KEY DROP INDEX;
-ALTER TABLE kc_qrtz_cron_triggers
   DROP CONSTRAINT FK_KC_QRTZ_CRON_TRIGGERS DROP INDEX;
+ALTER TABLE kc_qrtz_cron_triggers
+  DROP PRIMARY KEY DROP INDEX;
+ALTER TABLE kc_qrtz_simple_triggers
+  DROP PRIMARY KEY DROP INDEX;
 ALTER TABLE kc_qrtz_job_details
+  DROP PRIMARY KEY DROP INDEX;
+ALTER TABLE kc_qrtz_blob_triggers
   DROP PRIMARY KEY DROP INDEX;
 ALTER TABLE kc_qrtz_triggers
   DROP PRIMARY KEY DROP INDEX;
