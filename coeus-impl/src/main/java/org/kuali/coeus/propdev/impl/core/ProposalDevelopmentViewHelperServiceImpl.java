@@ -128,10 +128,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     private NoteService noteService;
 
     @Autowired
-	@Qualifier("parameterService")
-	private ParameterService parameterService;
-
-    @Autowired
     @Qualifier("personService")
     private PersonService personService;
 
@@ -553,12 +549,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-    protected ParameterService getParameterService (){
-    	return parameterService;
-    }
 
     public boolean isCreditSplitEnabled(){
     	return getKeyPersonnelService().isCreditSplitEnabled();
@@ -647,11 +637,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public boolean isPersonnelCreditSplitOptInFeatureEnabled() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                 CreditSplitConstants.ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY);
-    }
-
-    public boolean isDataValidationSectionEnabled() {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
-                Constants.SHOW_SECTION_IN_DATA_VALIDATION);
     }
 
     public void populateCreditSplits(ProposalDevelopmentDocumentForm form) {

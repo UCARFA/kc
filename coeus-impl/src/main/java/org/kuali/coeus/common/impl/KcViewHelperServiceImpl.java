@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
@@ -35,6 +36,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
@@ -69,6 +75,14 @@ public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
         return dataValidationItems;
     }
 
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    protected ParameterService getParameterService () {
+        return parameterService;
+    }
+
     public String getErrorCssClass(String severity) {
         if (severity.endsWith(Constants.AUDIT_ERRORS)) {
             return "label-danger";
@@ -93,4 +107,8 @@ public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
 		this.globalVariableService = globalVariableService;
 	}
 
+    public boolean isDataValidationSectionEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                Constants.SHOW_SECTION_IN_DATA_VALIDATION);
+    }
 }
