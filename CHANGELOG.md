@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2470: Fixing STE (#2491)
+
+  * org.springframework.expression.spel.SpelEvaluationException: EL1004E: Method call: Method isDataValidationSectionEnabled() cannot be found on org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetViewHelperServiceImpl type at  * Gayathri Athreya on Thu, 17 Aug 2017 09:45:03 -0700 [View Commit](../../commit/2ba6bbae63695e15ee7502fef0664054b4e1f122)
+
+##coeus-1708.0026
 * Update changelog api (#2481)
 
   * Douglas Pace on Wed, 16 Aug 2017 10:44:26 -0700 [View Commit](../../commit/7e2d24f17bec4a7252cf8b568015f289ff76ee9e)
