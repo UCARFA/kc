@@ -3,7 +3,7 @@
 --
 -- Copyright 2005-2016 Kuali, Inc.
 --
--- This program is free software: you can redistribute it andor modify
+-- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU Affero General Public License as
 -- published by the Free Software Foundation, either version 3 of the
 -- License, or (at your option) any later version.
@@ -14,13 +14,8 @@
 -- GNU Affero General Public License for more details.
 --
 -- You should have received a copy of the GNU Affero General Public License
--- along with this program.  If not, see <http:www.gnu.orglicenses>.
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
-
-ALTER TABLE kc_qrtz_job_listeners
-  DROP CONSTRAINT KC_QUARTZ_JOB_LISTENERS_TR1 DROP INDEX;
-ALTER TABLE kc_qrtz_trigger_listeners
-  DROP CONSTRAINT KC_QRTZ_TRIGGER_LISTENE_TR1 DROP INDEX
 
 --
 -- drop columns that are no longer used
