@@ -20,4 +20,5 @@
 
 \. ./rice/bootstrap/V1708_006__more_fdp_parameters.sql
 \. ./rice/bootstrap/V1708_007__force_xsl_param.sql
+\. ./rice/bootstrap/V1708_011__file_loc_nullable.sql
 commit;

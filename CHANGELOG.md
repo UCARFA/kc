@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* RESKC-2450: fixing start and end dates for fdp agreement documents - fixing test
+  * Travis Schneeberger on Fri, 18 Aug 2017 17:06:41 -0400 [View Commit](../../commit/48bc4b18b040017224baef39a150792f61a1fb7e)
+* RESKC-2246: creating migration for rice filesystem attachments
+  * Travis Schneeberger on Fri, 14 Jul 2017 12:54:17 -0400 [View Commit](../../commit/69de63db71f969753c5ab26e0b7df76acc4062e7)
+* RESKC-2098: When assigning the closing or opening date to an S2S opportunity, the time is set to the last second of the day to prevent timezone corrections pushing the date into the previous day.
+  * jeremiah on Tue, 1 Aug 2017 12:12:19 -0500 [View Commit](../../commit/99f23d9903254dde1c49afe16d0eef95961b3ad9)
+* RESKC-2450: fixing start and end dates for fdp agreement documents
+  * Travis Schneeberger on Wed, 16 Aug 2017 14:42:17 -0400 [View Commit](../../commit/46f47b56ea6993176abe2131339cc6e0666cd1cb)
+
+##coeus-1708.0028
 * No Changes
 
 
