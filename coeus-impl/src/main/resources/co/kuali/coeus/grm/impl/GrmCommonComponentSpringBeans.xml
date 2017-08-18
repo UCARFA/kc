@@ -36,6 +36,8 @@
     <tx:annotation-driven transaction-manager="transactionManager" />
     <context:annotation-config />
 
+    <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+
     <bean id="kcAttachmentDataAmazonClient" class="co.kuali.coeus.s3.api.EncryptedS3FileServiceFactoryBean">
         <property name="bucketName" value="${s3.bucket.name}" />
         <property name="region" value="${s3.region}" />
@@ -76,11 +78,35 @@
         <property name="parameterComponent" value="All" />
     </bean>
 
+    <bean id="riceNoteAttachmentDataToS3ConversionJobDetail" parent="grlImporter" p:serviceName="riceNoteAttachmentDataToS3ConversionJobDetail" />
+    <bean id="riceNoteAttachmentDataToS3ConversionCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="riceNoteAttachmentDataToS3ConversionJobDetail" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="cronExpressionParameterName" value="riceNoteAttachmentDataToS3Conversion.cronExpression" />
+        <property name="triggerEnabledParameterName" value="riceNoteAttachmentDataToS3Conversion.enabled" />
+        <property name="parameterNamespace" value="KR-SYS" />
+        <property name="parameterComponent" value="All" />
+    </bean>
+
+    <bean id="riceKradAttachmentDataToS3ConversionJobDetail" parent="grlImporter" p:serviceName="riceKradAttachmentDataToS3ConversionJobDetail" />
+    <bean id="riceKradAttachmentDataToS3ConversionCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="riceKradAttachmentDataToS3ConversionJobDetail" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="cronExpressionParameterName" value="riceKradAttachmentDataToS3Conversion.cronExpression" />
+        <property name="triggerEnabledParameterName" value="riceKradAttachmentDataToS3Conversion.enabled" />
+        <property name="parameterNamespace" value="KR-SYS" />
+        <property name="parameterComponent" value="All" />
+    </bean>
+
     <bean id="kcCommonQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="exposeSchedulerInRepository" value="true" />
         <property name="triggers">
             <list merge="true">
                 <ref bean="kcAttachmentDataToS3ConversionCronTrigger" />
+                <ref bean="riceNoteAttachmentDataToS3ConversionCronTrigger" />
+                <ref bean="riceKradAttachmentDataToS3ConversionCronTrigger" />
                 <ref bean="fileAttachmentConversionCronTrigger" />
                 <ref bean="citiCronTrigger" />
             </list>

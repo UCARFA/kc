@@ -366,7 +366,7 @@
 	<param name="s3.region">us-east-1</param>
 	<param name="s3.access.key">access_key</param>
 	<param name="s3.secret.key">secret_key</param>
-	<param name="s3.encryption.key.file">classpath:dummy.s3.key</param>
+	<param name="s3.encryption.key.file"></param>
 
 	<param name="rice.s3.bucket.name">${s3.bucket.name}</param>
 	<param name="rice.s3.region">${s3.region}</param>
