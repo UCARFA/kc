@@ -108,6 +108,36 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private static final String FDP_ONR_INTERIM_RESEARCH_TERMS = "FDP_ONR_Interim_Research_Terms";
     private static final String FDP_ONR_AGENCY_REQUIREMENTS = "FDP_ONR_Agency_Requirements";
     private static final String FDP_ONR_FCOI_GUIDANCE = "FDP_ONR_FCOI_Guidance";
+    private static final String FDP_ARO_POLICY = "FDP_ARO_Policy";
+    private static final String FDP_ARO_GRANTS_POLICY_STATEMENT = "FDP_ARO_Grants_Policy_Statement";
+    private static final String FDP_ARO_INTERIM_RESEARCH_TERMS = "FDP_ARO_Interim_Research_Terms";
+    private static final String FDP_ARO_AGENCY_REQUIREMENTS = "FDP_ARO_Agency_Requirements";
+    private static final String FDP_ARO_FCOI_GUIDANCE = "FDP_ARO_FCOI_Guidance";
+    private static final String FDP_AFOSR_POLICY = "FDP_AFOSR_Policy";
+    private static final String FDP_AFOSR_GRANTS_POLICY_STATEMENT = "FDP_AFOSR_Grants_Policy_Statement";
+    private static final String FDP_AFOSR_INTERIM_RESEARCH_TERMS = "FDP_AFOSR_Interim_Research_Terms";
+    private static final String FDP_AFOSR_AGENCY_REQUIREMENTS = "FDP_AFOSR_Agency_Requirements";
+    private static final String FDP_AFOSR_FCOI_GUIDANCE = "FDP_AFOSR_FCOI_Guidance";
+    private static final String FDP_EPA_POLICY = "FDP_EPA_Policy";
+    private static final String FDP_EPA_GRANTS_POLICY_STATEMENT = "FDP_EPA_Grants_Policy_Statement";
+    private static final String FDP_EPA_INTERIM_RESEARCH_TERMS = "FDP_EPA_Interim_Research_Terms";
+    private static final String FDP_EPA_AGENCY_REQUIREMENTS = "FDP_EPA_Agency_Requirements";
+    private static final String FDP_EPA_FCOI_GUIDANCE = "FDP_EPA_FCOI_Guidance";
+    private static final String FDP_AMRMC_POLICY = "FDP_AMRAA_Policy";
+    private static final String FDP_AMRMC_GRANTS_POLICY_STATEMENT = "FDP_AMRMC_Grants_Policy_Statement";
+    private static final String FDP_AMRMC_INTERIM_RESEARCH_TERMS = "FDP_AMRMC_Interim_Research_Terms";
+    private static final String FDP_AMRMC_AGENCY_REQUIREMENTS = "FDP_AMRMC_Agency_Requirements";
+    private static final String FDP_AMRMC_FCOI_GUIDANCE = "FDP_AMRMC_FCOI_Guidance";
+    private static final String FDP_AMRAA_POLICY = "FDP_AMRMC_Policy";
+    private static final String FDP_AMRAA_GRANTS_POLICY_STATEMENT = "FDP_AMRAA_Grants_Policy_Statement";
+    private static final String FDP_AMRAA_INTERIM_RESEARCH_TERMS = "FDP_AMRAA_Interim_Research_Terms";
+    private static final String FDP_AMRAA_AGENCY_REQUIREMENTS = "FDP_AMRAA_Agency_Requirements";
+    private static final String FDP_AMRAA_FCOI_GUIDANCE = "FDP_AMRAA_FCOI_Guidance";
+    private static final String FDP_USDA_POLICY = "FDP_USDA_Policy";
+    private static final String FDP_USDA_GRANTS_POLICY_STATEMENT = "FDP_USDA_Grants_Policy_Statement";
+    private static final String FDP_USDA_INTERIM_RESEARCH_TERMS = "FDP_USDA_Interim_Research_Terms";
+    private static final String FDP_USDA_AGENCY_REQUIREMENTS = "FDP_USDA_Agency_Requirements";
+    private static final String FDP_USDA_FCOI_GUIDANCE = "FDP_USDA_FCOI_Guidance";
 
     private BusinessObjectService businessObjectService;
     private CountryService countryService;
@@ -258,6 +288,101 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 ParameterConstants.DOCUMENT_COMPONENT,
                 FDP_ONR_FCOI_GUIDANCE));
 
+        otherConfigInfo.setFdpAroPolicy(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_ARO_POLICY));
+        otherConfigInfo.setFdpAroGrantsPolicyStatement(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_ARO_GRANTS_POLICY_STATEMENT));
+        otherConfigInfo.setFdpAroInterimResearchTerms(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_ARO_INTERIM_RESEARCH_TERMS));
+        otherConfigInfo.setFdpAroAgencyRequirements(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_ARO_AGENCY_REQUIREMENTS));
+        otherConfigInfo.setFdpAroFCoiGuidance(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_ARO_FCOI_GUIDANCE));
+
+        otherConfigInfo.setFdpAfosrPolicy(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AFOSR_POLICY));
+        otherConfigInfo.setFdpAfosrGrantsPolicyStatement(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AFOSR_GRANTS_POLICY_STATEMENT));
+        otherConfigInfo.setFdpAfosrInterimResearchTerms(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AFOSR_INTERIM_RESEARCH_TERMS));
+        otherConfigInfo.setFdpAfosrAgencyRequirements(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AFOSR_AGENCY_REQUIREMENTS));
+        otherConfigInfo.setFdpAfosrFCoiGuidance(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AFOSR_FCOI_GUIDANCE));
+
+        otherConfigInfo.setFdpEpaPolicy(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_EPA_POLICY));
+        otherConfigInfo.setFdpEpaGrantsPolicyStatement(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_EPA_GRANTS_POLICY_STATEMENT));
+        otherConfigInfo.setFdpEpaInterimResearchTerms(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_EPA_INTERIM_RESEARCH_TERMS));
+        otherConfigInfo.setFdpEpaAgencyRequirements(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_EPA_AGENCY_REQUIREMENTS));
+        otherConfigInfo.setFdpEpaFCoiGuidance(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_EPA_FCOI_GUIDANCE));
+
+        otherConfigInfo.setFdpAmrmcPolicy(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AMRMC_POLICY));
+        otherConfigInfo.setFdpAmrmcGrantsPolicyStatement(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AMRMC_GRANTS_POLICY_STATEMENT));
+        otherConfigInfo.setFdpAmrmcInterimResearchTerms(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AMRMC_INTERIM_RESEARCH_TERMS));
+        otherConfigInfo.setFdpAmrmcAgencyRequirements(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AMRMC_AGENCY_REQUIREMENTS));
+        otherConfigInfo.setFdpAmrmcFCoiGuidance(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AMRMC_FCOI_GUIDANCE));
+
+        otherConfigInfo.setFdpAmraaPolicy(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AMRAA_POLICY));
+        otherConfigInfo.setFdpAmraaGrantsPolicyStatement(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AMRAA_GRANTS_POLICY_STATEMENT));
+        otherConfigInfo.setFdpAmraaInterimResearchTerms(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AMRAA_INTERIM_RESEARCH_TERMS));
+        otherConfigInfo.setFdpAmraaAgencyRequirements(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AMRAA_AGENCY_REQUIREMENTS));
+        otherConfigInfo.setFdpAmraaFCoiGuidance(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_AMRAA_FCOI_GUIDANCE));
+
+        otherConfigInfo.setFdpUsdaPolicy(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_USDA_POLICY));
+        otherConfigInfo.setFdpUsdaGrantsPolicyStatement(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_USDA_GRANTS_POLICY_STATEMENT));
+        otherConfigInfo.setFdpUsdaInterimResearchTerms(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_USDA_INTERIM_RESEARCH_TERMS));
+        otherConfigInfo.setFdpUsdaAgencyRequirements(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_USDA_AGENCY_REQUIREMENTS));
+        otherConfigInfo.setFdpUsdaFCoiGuidance(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_USDA_FCOI_GUIDANCE));
         otherConfigInfoList.add(otherConfigInfo);
         subContractData.setOtherConfigInfoArray(otherConfigInfoList.toArray(new OtherConfigInfo[0]));
     }

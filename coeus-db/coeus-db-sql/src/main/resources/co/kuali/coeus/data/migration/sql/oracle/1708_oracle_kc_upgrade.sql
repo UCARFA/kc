@@ -26,4 +26,5 @@ spool 1708_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1708_003__questionnaire_constraint.sql
 @./kc/bootstrap/V1708_004__quartz_update.sql
 @./kc/bootstrap/V1708_005__quartz_update_kc.sql
+@./kc/bootstrap/V1708_008__fdp_amraa.sql
 commit;

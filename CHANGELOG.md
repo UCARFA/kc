@@ -4,6 +4,24 @@
 * No Changes
 
 
+##coeus-1708.0027
+* RESKC-2470: Fixing STE (#2491)
+
+  * org.springframework.expression.spel.SpelEvaluationException: EL1004E: Method call: Method isDataValidationSectionEnabled() cannot be found on org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetViewHelperServiceImpl type at  * Gayathri Athreya on Thu, 17 Aug 2017 09:45:03 -0700 [View Commit](../../commit/2ba6bbae63695e15ee7502fef0664054b4e1f122)
+
+##coeus-1708.0026
+* Update changelog api (#2481)
+
+  * Douglas Pace on Wed, 16 Aug 2017 10:44:26 -0700 [View Commit](../../commit/7e2d24f17bec4a7252cf8b568015f289ff76ee9e)
+
+##coeus-1708.0025
+* RESKC-1910, RESKC-2281, RESKC-1909, RESKC-2285, RESKC-1913, RESKC-2282, RESKC-1905, RESKC-2279, RESKC-1912, RESKC-2283: adding support for more fdp attachment types
+  * Travis Schneeberger on Tue, 15 Aug 2017 14:27:40 -0400 [View Commit](../../commit/9a3881f62e414b8d9ab5e78a0fd15a9b5a9b0383)
+
+##coeus-1708.0024
+* No Changes
+
+
 ##coeus-1708.0023
 * No Changes
 
