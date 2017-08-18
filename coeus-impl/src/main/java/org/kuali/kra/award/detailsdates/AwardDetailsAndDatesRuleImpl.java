@@ -19,7 +19,6 @@
 package org.kuali.kra.award.detailsdates;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -37,8 +36,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Default implementation of AwardDetailsAndDatesRule
@@ -160,12 +157,12 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
      *  it checks if the combination of account number and chart code is valid.
      *  Only if the financial system integration parameter is on,
      *  use the financial system service to verify if the account number is valid.
-     * @param awardDocument
+     * @param award
      * @return
      */
     protected boolean isValidAccountNumber(AwardDocument awardDocument) {
         boolean isValid = true;
-      Award award = awardDocument.getAward();
+        Award award = awardDocument.getAward();
       
         String accountNumber = award.getAccountNumber();
         String financialDocNbr = award.getFinancialAccountDocumentNumber();
@@ -177,7 +174,6 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
          * Need not check for valid account number or chart in this case because KFS returned these values. 
          * At this point if the account doc in KFS is only being saved and not routed then this will return
          * false (which is incorrect behavior) because the account does not *exist* yet on KFS.*/
-        //Susan Wang: temproraly comment out for MVP
         if (isIntegrationParameterOn() && StringUtils.isEmpty(financialDocNbr) && validationRequired(award)) {
             if (ObjectUtils.isNotNull(accountNumber) || ObjectUtils.isNotNull(chartOfAccountsCode)) {               
                 AccountCreationClient client = getAccountCreationClientService();            
@@ -212,7 +208,7 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
      * @param award
      * @return
      */
-    protected boolean validationRequired (Award award) {
+    protected boolean validationRequired(Award award) {
         boolean isRequired = true;
         // If awardId is null, new award is being created, so validation required
         if (ObjectUtils.isNotNull(award.getAwardId())) {
