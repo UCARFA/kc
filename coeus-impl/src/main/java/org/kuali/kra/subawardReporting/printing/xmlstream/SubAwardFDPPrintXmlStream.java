@@ -558,8 +558,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         }
 
         getPeriodOfPerformanceStartDate(subaward).ifPresent(date -> subcontractDetail.setStartDate(getDateTimeService().getCalendar(date)));
-        subcontractDetail.setEndDate(getDateTimeService().getCalendar(subaward.getEndDate()));
-
+        if (subaward.getEndDate() != null) {
+            subcontractDetail.setEndDate(getDateTimeService().getCalendar(subaward.getEndDate()));
+        }
         final List<SubAwardAmountInfo> allSubAwardAmountInfos = subaward.getAllSubAwardAmountInfos();
         if (allSubAwardAmountInfos != null && !allSubAwardAmountInfos.isEmpty()){
             final SubAwardAmountInfo lastSubAwardAmountInfo = allSubAwardAmountInfos.get(allSubAwardAmountInfos.size() - 1);
