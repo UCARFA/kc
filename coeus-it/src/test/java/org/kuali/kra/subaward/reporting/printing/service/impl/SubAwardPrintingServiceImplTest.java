@@ -108,6 +108,8 @@ public class SubAwardPrintingServiceImplTest extends KcIntegrationTestBase {
         subAward.setTotalAvailableAmount(ScaleTwoDecimal.ZERO);
         subAward.setTotalObligatedAmount(ScaleTwoDecimal.ZERO);
         subAward.setFfataRequired(Boolean.TRUE);
+        subAward.setStartDate(new Date(System.currentTimeMillis()));
+        subAward.setEndDate(new Date(System.currentTimeMillis()));
 
         final SubAwardAmountInfo subAwardAmountInfo = new SubAwardAmountInfo();
         subAwardAmountInfo.setEffectiveDate(new Date(System.currentTimeMillis()));
