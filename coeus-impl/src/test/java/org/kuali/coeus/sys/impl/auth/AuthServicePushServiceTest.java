@@ -360,7 +360,10 @@ public class AuthServicePushServiceTest {
 	
 	CoreGroupsService buildMockCoreGroupsService() {
 		CoreGroupsService coreGroupsService = mock(CoreGroupsServiceImpl.class);
-		when(coreGroupsService.getAllGroups()).thenReturn(Arrays.asList(buildGroupDto(groupIds.get(TOP_LEVEL_UNIT_NUMBER), TOP_LEVEL_UNIT_NUMBER)));
+		when(coreGroupsService.getAllGroups()).thenReturn(Arrays.asList(
+			buildGroupDto(groupIds.get(TOP_LEVEL_UNIT_NUMBER), TOP_LEVEL_UNIT_NUMBER),
+			buildGroupDto("NotAManagedGroup", null),
+			buildGroupDto("NotAManagedGroup2", null)));
 		when(coreGroupsService.getUnitNumberForGroup(any())).thenCallRealMethod();
 		return coreGroupsService;
 	}
@@ -368,7 +371,9 @@ public class AuthServicePushServiceTest {
 	GroupDto buildGroupDto(String id, String unitNumber) {
 		GroupDto group = new GroupDto();
 		group.setId(id);
-		group.getFields().add(new GroupDto.GroupFields(CoreGroupsService.UNIT_NUMBER_FIELD_ID, unitNumber));
+		if (unitNumber != null) {
+			group.getFields().add(new GroupDto.GroupFields(CoreGroupsService.UNIT_NUMBER_FIELD_ID, unitNumber));
+		}
 		return group;
 	}
 }
