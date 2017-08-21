@@ -779,6 +779,11 @@
             <artifactId>jose4j</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.owasp.esapi</groupId>
+            <artifactId>esapi</artifactId>
+        </dependency>
+
     </dependencies>
 
     <profiles>
