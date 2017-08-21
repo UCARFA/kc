@@ -64,7 +64,7 @@
         <cas-client-core.version>3.4.1</cas-client-core.version>
         <cglib.version>3.2.5</cglib.version>
         <coeus-api-all.version>1706.0001</coeus-api-all.version>
-        <coeus-s2sgen.version>1708.0002</coeus-s2sgen.version>
+        <coeus-s2sgen.version>1708.0003</coeus-s2sgen.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -115,7 +115,6 @@
         <mysql.version>5.1.40</mysql.version>
         <mvel.version>2.2.4.Final</mvel.version>
         <objenesis.version>2.5.1</objenesis.version>
-        <opensaml.version>2.6.4</opensaml.version>
         <oracle.groupId>com.oracle</oracle.groupId>
         <oracle.artifactId>ojdbc7</oracle.artifactId>
         <oracle.version>12.1.0.2</oracle.version>
@@ -138,7 +137,7 @@
         <velocity.version>1.7</velocity.version>
         <xalan.version>2.7.2</xalan.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
-        <xmlsec.version>1.5.8</xmlsec.version>
+        <xmlsec.version>2.0.8</xmlsec.version>
         <xstream.version>1.2.2</xstream.version>
 
         <!-- plugin versions -->
@@ -959,16 +958,11 @@
                 </exclusions>
             </dependency>
 
+            <!-- to resolve dependency convergence between opensaml & xmlsec -->
             <dependency>
                 <groupId>org.apache.santuario</groupId>
                 <artifactId>xmlsec</artifactId>
                 <version>${xmlsec.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
@@ -1688,26 +1682,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.opensaml</groupId>
-                <artifactId>opensaml</artifactId>
-                <version>${opensaml.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>xerces</groupId>
-                        <artifactId>xercesImpl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.bouncycastle</groupId>
-                        <artifactId>bcprov-jdk15</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>xalan</groupId>
-                        <artifactId>serializer</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz</artifactId>
                 <version>${quartz.version}</version>
@@ -2285,6 +2259,7 @@
                                                     <exclude>xml-apis:xml-apis</exclude>
                                                     <exclude>xerces:xercesImpl</exclude>
                                                     <exclude>org.codehaus.jackson</exclude>
+                                                    <exclude>org.opensaml:opensaml</exclude>
                                                 </excludes>
 
                                                 <includes>
