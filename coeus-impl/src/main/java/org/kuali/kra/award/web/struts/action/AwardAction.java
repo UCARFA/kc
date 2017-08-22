@@ -609,7 +609,7 @@ public class AwardAction extends BudgetParentActionBase {
             getBusinessObjectService().delete(award.getAwardDirectFandADistributions());
             
             Boolean autoGenerate = getParameterService().getParameterValueAsBoolean(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, 
-                                                                                    KeyConstants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS); 
+                                                                                    Constants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS);
             if (autoGenerate) {
                 AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
                 award.setAwardDirectFandADistributions(awardDirectFandADistributionService.
