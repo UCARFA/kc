@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* RESKC-2410: making test a little more complete, making AddBusgetDto Serializable
+  * Travis Schneeberger on Tue, 22 Aug 2017 14:12:31 -0400 [View Commit](../../commit/734d5a781748851a16bf5a688c09e3a84987b643)
+* RESKC-2462: Parametrizing no cost extension. (#2500)
+
+  * Gayathri Athreya on Tue, 22 Aug 2017 11:04:59 -0700 [View Commit](../../commit/a1d6fa4b49c51a269da0b5245d9062c7904cf805)
+
+##coeus-1708.0030
 * Fix users sync when other groups exist and fix group sync message (#2496)
 
   * Douglas Pace on Mon, 21 Aug 2017 15:57:20 -0700 [View Commit](../../commit/eba93d7fcc294687ad0124c8b9599c0ccd2c6f80)
