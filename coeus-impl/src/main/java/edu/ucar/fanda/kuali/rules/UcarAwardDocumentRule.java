@@ -110,9 +110,10 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 	 * NOTE:  Add custom validation rules here!
 	 */
 	protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-		// call all Kuali Research rules for Award
-		LOG.info("Starting UCAR custom save business rules");
-		boolean retVal = super.processCustomSaveDocumentBusinessRules(document);
+		// call all Kuali Research rules for Award, commented out by Susan for now 8-22-2017
+//		LOG.info("Starting UCAR custom save business rules");
+		boolean retVal = true;
+	/*	boolean retVal = super.processCustomSaveDocumentBusinessRules(document);
 		// call UCAR custom rules
 		 if(skipRuleProcessing(document)) {
 	            return true;
@@ -124,12 +125,12 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 	        }
 	        
 	        AwardDocument awardDocument = (AwardDocument) document;
-
+*/
 	        // execute save rules
 	        retVal &= processUcarAwardDetailsAndDatesSaveRules(document);
 	       
 	        
-	        LOG.info("UCAR custom save business rules return value: " + retVal );
+//	        LOG.info("UCAR custom save business rules return value: " + retVal );
 		
 		return retVal;
 	}
