@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* Fix users sync when other groups exist and fix group sync message (#2496)
+
+  * Douglas Pace on Mon, 21 Aug 2017 15:57:20 -0700 [View Commit](../../commit/eba93d7fcc294687ad0124c8b9599c0ccd2c6f80)
+* Attempt to fix test
+  * Gayathri Athreya on Mon, 21 Aug 2017 14:30:31 -0700 [View Commit](../../commit/26bc7c8e15bf1dfe86cd179fba1acb95364989d2)
+
+##coeus-1708.0029
 * RESKC-2450: fixing start and end dates for fdp agreement documents - fixing test
   * Travis Schneeberger on Fri, 18 Aug 2017 17:06:41 -0400 [View Commit](../../commit/48bc4b18b040017224baef39a150792f61a1fb7e)
 * RESKC-2246: creating migration for rice filesystem attachments

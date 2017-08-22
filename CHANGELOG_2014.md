@@ -20004,3 +20004,1432 @@
 
 ##coeus-6.0.0-s5
 * No Changes
+
+
+##coeus-6.0.0-s12
+* KRACOEUS-8614: sprint 12
+  * Travis Schneberger on Mon, 29 Dec 2014 12:48:00 -0500 [View Commit](../../commit/d119b377a6000b5cdfed745418a27084f14afee0)
+* KRACOEUS-8482 & KRACOEUS-8587 the indicator setting needs to do it all the time
+  * Jay Hulslander on Sun, 28 Dec 2014 09:14:05 -0500 [View Commit](../../commit/8bfc35e7241d69b7ec65f2159906f93efac3422a)
+* KRACOEUS-8578
+  * Display rates grouped by rate class
+  * rmancher on Fri, 26 Dec 2014 14:09:52 -0500 [View Commit](../../commit/421f9d731ee43d2a2d664ac276edde9382e42154)
+* KRACOEUS-8607
+  * Fix issue related to Employee and non-employee search
+  * rmancher on Fri, 26 Dec 2014 10:25:57 -0500 [View Commit](../../commit/e34eea49182a1f3c96e3fe6558fa4ff4adc880b3)
+* [KRACOEUS-8476] Fix for potential duplicate ids for dynamically requested/generated dialogs within the View
+  * bsmith83 on Tue, 23 Dec 2014 17:00:59 -0800 [View Commit](../../commit/a889d180c7f738235f053d50542017864afe1e91)
+* KRACOEUS-8570
+  * Add budget validation missing requirement
+  * Display audit rules once validation is turned on
+  * Validation budget complete - if audit rule exists, do not allow to complete budget
+  * rmancher on Tue, 23 Dec 2014 14:35:08 -0500 [View Commit](../../commit/1b1d6faad6f732c6f0c51ef75b48e6b6bb18c00b)
+* KRACOEUS-8482 and KRACOEUS-8587 verifying indicator fields before trying to route
+  * Jay Hulslander on Tue, 23 Dec 2014 08:39:39 -0500 [View Commit](../../commit/f45e64b78d403e268b08c122f54cd0cf938d5510)
+* KRACOEUS-8606: fixing bugs from field rename
+  * Travis Schneberger on Tue, 23 Dec 2014 13:04:08 -0500 [View Commit](../../commit/0ae28d87f7cfe08bd0d1182733d5e234bf4d411f)
+* KRACOEUS-8604: handling the usecase for adding a new budget period when there isn't any existing periods to base period id from and compare dates
+  * Travis Schneberger on Mon, 22 Dec 2014 17:03:04 -0500 [View Commit](../../commit/c5034a28eb6a4f71fe25b953a746a1149e1c5a05)
+* [KRAFDBCK-11079] Read only style fixes
+  * bsmith83 on Mon, 22 Dec 2014 13:44:52 -0800 [View Commit](../../commit/7d3bc97a06e5665832880519cfbaaaf802b16b33)
+* KRACOEUS-8482 adding degug logging.  The associated Jira only happens on servers
+  * Jay Hulslander on Mon, 22 Dec 2014 16:15:22 -0500 [View Commit](../../commit/242f8c8f41eacc1d5e8d77a05a54c04be16b315a)
+* KRACOEUS-8599: sending information to lookupable about whether the lookup is for IP
+  * Travis Schneberger on Mon, 22 Dec 2014 12:09:58 -0500 [View Commit](../../commit/91bf89bdcefdda5ca041f824a712bb162eda708c)
+* fixing non-destructive NPE
+  * Jay Hulslander on Mon, 22 Dec 2014 10:43:29 -0500 [View Commit](../../commit/86a2c49413c2a767336cf217ad201bb06a61eec9)
+* KRACOEUS-8598: rice upgrade
+  * Travis Schneberger on Mon, 22 Dec 2014 10:21:36 -0500 [View Commit](../../commit/0a5cbf956da78ecbf94e8a35a0ded8d89716d950)
+* KRACOEUS-8597 showInactiveLine is not a valid param
+  * Jay Hulslander on Mon, 22 Dec 2014 09:20:41 -0500 [View Commit](../../commit/2d1ec290fdedf1df7a92a7e2ef0889ff88e257f6)
+* [KRAFDBCK-11252] Added missing inquiries for organizations and sites
+  * bsmith83 on Fri, 19 Dec 2014 17:28:54 -0800 [View Commit](../../commit/894b78c89d509b32feb4e512300f428a78a59b28)
+* KRACOEUS-8581 Award Budget: Rejections create STE
+  * Shoj on Fri, 19 Dec 2014 16:44:00 -0500 [View Commit](../../commit/15f2e6ec94210bff4ec03509e29cfb61d9f7c811)
+* KRACOEUS-8580: Close only pess locks owned by current user
+  * Chuck Tharp on Fri, 19 Dec 2014 10:17:07 -0500 [View Commit](../../commit/29163e978d790f58ed8d69d9b50c9a60e352b069)
+* KRACOEUS-8569
+  * Fix unable to update personnel summary line item
+  * Also fix additional issue found while testing calculate.
+  * Enable validation.
+  * rmancher on Fri, 19 Dec 2014 11:04:43 -0500 [View Commit](../../commit/3ee71fa81987611706d0cc0507a60869592840ee)
+* KRACOEUS-8534: added logic to check for permissions on child before adding to hierarchy in parent
+  * Joe Williams on Fri, 19 Dec 2014 09:58:47 -0600 [View Commit](../../commit/51b21388192485031409bedef234fa69a9d3448b)
+* KRACOEUS-8589: make internal attachment type editable on collection, so that required fields are caught client side
+  * Joe Williams on Fri, 19 Dec 2014 09:10:48 -0600 [View Commit](../../commit/4f6294e429be531e0bc56706bb4fbc8a9536187e)
+* KRACOEUS-8550: removing explicit member from derived role
+  * Travis Schneberger on Fri, 19 Dec 2014 09:56:44 -0500 [View Commit](../../commit/11f7d31a577fad8d8e52668648a9c132865cc18a)
+* KRACOUES-8573:fixed NPE on adding personnel attachment
+  * Joe Williams on Fri, 19 Dec 2014 08:20:33 -0600 [View Commit](../../commit/9c77b2ee02b3901d78fd0b37eb8d149a520bb7ea)
+* KRACOEUS-8575:added validation to check if parent is locked before allowing syncing from child proposal
+  * Joe Williams on Thu, 18 Dec 2014 15:36:10 -0600 [View Commit](../../commit/a25d8ae33339f6b9ad07c4c6e23a0f49384a791a)
+* KRACOEUS-8584: creating a modular budget doesn't create the period modular budget
+  * Travis Schneberger on Thu, 18 Dec 2014 12:53:27 -0500 [View Commit](../../commit/d4e7de932177e5cb8bf573fa0a7ce4bbbb0a95c0)
+* KRACOEUS-8452: Fixing missing properties.
+  * jamey-rsmart on Thu, 18 Dec 2014 17:43:32 -0700 [View Commit](../../commit/a0b8d5cb753c1f84fd3b709efd8d9a89787044f9)
+* [KRACOEUS-8519] pom fixes
+  * bsmith83 on Thu, 18 Dec 2014 11:10:37 -0800 [View Commit](../../commit/9c05da75771960b47de1fbab330a8012ea1a8d14)
+* KRACOEUS-8573:fix to display person names on personnel attachment in parent proposals
+  * Joe Williams on Thu, 18 Dec 2014 12:58:54 -0600 [View Commit](../../commit/37bbdfd03bd70dcd732f4084136ea8cbd8195bd1)
+* KRACOEUS-8507
+  * “SravanVed” on Wed, 17 Dec 2014 11:05:42 -0500 [View Commit](../../commit/4ced1f5df7956ae341682fad26144294bda8ce30)
+* KRACOEUS-7696 : Create Budget Versions Print Action  * sasipolus on Thu, 18 Dec 2014 15:24:51 +0530 [View Commit](../../commit/9af3142d8f155fc32148010b600814ed00a467cf)
+* [KRACOEUS-8577] Remove more workaround code that now has fixes from rice
+  * bsmith83 on Wed, 17 Dec 2014 16:53:13 -0800 [View Commit](../../commit/ce465268fab121722feb4ec005f61809e39877b7)
+* KRACOEUS-8561 STE when submitting proposal s2s with compliance
+  * Shoj on Wed, 17 Dec 2014 18:53:15 -0500 [View Commit](../../commit/597d0cc2c0f2a350aae57bb632e665d0f44f5011)
+* KULRICE-14084 Improvements for Key Personnel Search Rendering. Changed to use lighttable
+  * Sona Sona on Wed, 17 Dec 2014 14:58:32 -0800 [View Commit](../../commit/d4099ca5e91a9780858cc67376f27520c80ba0fa)
+* KRACOEUS-8859:budget pessimistic locking
+  * Joe Williams on Wed, 17 Dec 2014 09:24:58 -0600 [View Commit](../../commit/f2c58c07a5dd299db8c604eddf3b3c06189b1d1f)
+* KRACOEUS-8524
+  * Fix for person biography attachment
+  * rmancher on Wed, 17 Dec 2014 16:57:16 -0500 [View Commit](../../commit/60f9c8e88fd250e7269d64080c269cef138440d7)
+* KRACOEUS-8308: Adding links in Medusa.  Adding ability to navigate to PD's Notes tab in the Attachments Page.
+  * jamey-rsmart on Mon, 24 Nov 2014 09:41:33 -0700 [View Commit](../../commit/b747c65b8e7b629571d16591b24be004913cdb9f)
+* [KRACOEUS-8543] Ad hoc dialog and ad hoc service fixes
+  * bsmith83 on Wed, 17 Dec 2014 10:15:32 -0800 [View Commit](../../commit/5312c6f2e204941e6b587773e49795e32a0f597f)
+* KRACOEUS-8567: fixing rolodex constraint violation
+  * Travis Schneberger on Wed, 17 Dec 2014 10:11:28 -0500 [View Commit](../../commit/113fbc6373d1600c05c0815aa71c7c4e37e0bfd9)
+* KRACOEUS-8502:fixed concurrent mod exception on copy
+  * Joe Williams on Wed, 17 Dec 2014 08:05:23 -0600 [View Commit](../../commit/bac045b123eb684afa6183af0f8ea244ae7e6201)
+* KRACOEUS-8536: Formatting the menu.
+  * jamey-rsmart on Tue, 16 Dec 2014 21:21:57 -0700 [View Commit](../../commit/b506fb7a75ca8472f2c08723fc016fb9fda6dad2)
+* KRACOEUS-8332 : Use returnByScript for subaward org quickfinder
+  * blackcathacker on Tue, 16 Dec 2014 18:30:15 -0800 [View Commit](../../commit/be3402f624af0cc7954641ca10b31e8ead712dd2)
+* KRACOEUS-8325
+  * Fix for Cost Limit alerts are not appearing in the Personnel and Non-Personnel
+  * rmancher on Thu, 11 Dec 2014 11:01:50 -0500 [View Commit](../../commit/181fc01e13d9bf84af31928ae5ca823152895204)
+* KRACOEUS-8524
+  * Fix for proposal hierarchy view attachment file in parent.
+  * rmancher on Tue, 16 Dec 2014 17:37:59 -0500 [View Commit](../../commit/b7c893378376bd8629087360eda80a971e8ab059)
+* KRACOEUS-8521 : Clear direct cost when copying only first period
+
+  * Additionally use ScaleTwoDecimal.ZERO instead of new ScaleTwoDecimal(0.0)
+  * blackcathacker on Tue, 16 Dec 2014 16:26:21 -0800 [View Commit](../../commit/c498755a3b0a640e0f7495aa0af3bcb89aecc5b6)
+* KRACOEUS-8552 : Make some setting fields editable for parent budgets
+  * blackcathacker on Tue, 16 Dec 2014 16:18:46 -0800 [View Commit](../../commit/1f753d1a0ccac50b80972e199e17c385b8058e12)
+* KRACOEUS-7536:allow concurrent modification to persist without optimistic locking
+  * Joe Williams on Mon, 8 Dec 2014 16:25:31 -0600 [View Commit](../../commit/4e3c6a9c40b4c5b3580f22a5ac81395b94386746)
+* KRACOEUS-8566 cleaning up question
+  * Jay Hulslander on Tue, 16 Dec 2014 15:43:37 -0500 [View Commit](../../commit/d569635d714ef58e6e12517dec13700b15e3f646)
+* KRACOEUS-8553 Protocol number not saved on ADD of Human Subjects or Animals Compliance when linking not enabled
+  * Shoj on Tue, 16 Dec 2014 14:29:02 -0500 [View Commit](../../commit/adda086e00759cd7e0578b29a90d06e6c7d3bfcd)
+* KRACOEUS-8541:only deletes budget periods if they have lineitems from child budgets
+  * Joe Williams on Tue, 16 Dec 2014 10:30:12 -0600 [View Commit](../../commit/299d4c8d5a6bb2666c94fe46080798f1e6325b68)
+* KRACOEUS-8257
+  * Validate budget period add row after add line dialog fix and
+  * update error messages
+  * rmancher on Mon, 15 Dec 2014 12:29:34 -0500 [View Commit](../../commit/1aace45af4778281a8bc9240808b0385d534d3a3)
+* KRACOEUS-8563
+  * Add confirmation dialog and apply rules
+  * for delete project personnel
+  * rmancher on Tue, 16 Dec 2014 11:15:12 -0500 [View Commit](../../commit/a00b24e8ea8149191b02c14503535b887a3f978e)
+* KRACOEUS-8531:filter f&a rate collection base on f&a rate class of budget
+  * Joe Williams on Tue, 16 Dec 2014 10:47:25 -0600 [View Commit](../../commit/4ac3fac56575cd255a47f571a622a7ce43c84a92)
+* KRACOEUS-8502:fix duplicate pk error on copy
+  * Joe Williams on Thu, 11 Dec 2014 09:50:10 -0600 [View Commit](../../commit/da12cda372d99f750f4026eaa3b34f62ec9177fd)
+* KRACOEUS-8542: STE upon clicking Calculate Current Period
+  * Chuck Tharp on Tue, 16 Dec 2014 11:30:10 -0500 [View Commit](../../commit/3102b84dbd6908dd0deb6e85178c9a73e4e0be91)
+* Update KC_DML_01_KRACOEUS-8454_B000.sql  * Travis Schneeberger on Tue, 16 Dec 2014 09:48:08 -0500 [View Commit](../../commit/5392267db7e5b80b1dcbd042d7d82979ccab58c6)
+* KRACOEUS-8552 : Use budget type code when creating hierarchy
+  * blackcathacker on Mon, 15 Dec 2014 23:10:50 -0800 [View Commit](../../commit/aa617615307dfa58f5db9ba46cfa4215f5a5a0ee)
+* Update KC_DML_01_KRACOEUS-8454_B000.sql  * Travis Schneeberger on Mon, 15 Dec 2014 20:47:58 -0500 [View Commit](../../commit/87731e8459abce2049caeb0d8ed6e866d7ccab62)
+* KRACOEUS-8546
+  * Fix Assign personnel duplicate error message in edit mode
+  * rmancher on Mon, 15 Dec 2014 16:33:52 -0500 [View Commit](../../commit/85d513358c5695c5bd6202cd58b070e82fa78b25)
+* KRACOEUS-8535: speeding up PD search in order to address hierarchy issues.
+  * Travis Schneberger on Mon, 15 Dec 2014 17:49:50 -0500 [View Commit](../../commit/58501f1200f26f0540b56d3629c35335aab4cd0a)
+* KRACOEUS-8541:allow child proposals with different budget dates
+  * Joe Williams on Mon, 15 Dec 2014 16:45:23 -0600 [View Commit](../../commit/0975a42b9356d9aa2daf3b10ebe55d667cb6be1c)
+* KRACOEUS-8454 Notifications are not being sent when prompt user = N and modal doesn't appear
+  * Shoj on Mon, 15 Dec 2014 17:18:30 -0500 [View Commit](../../commit/cd3930d64801dc67d226b702d093a0e33efc9aa9)
+* KRACOEUS-8539 - Change name of transactionManager import from Rice
+  * Added transaction handler interceptor
+  * Upgrade Rice to 2.5.2-r49339
+  * jkneal on Mon, 15 Dec 2014 10:12:16 -0500 [View Commit](../../commit/105c32169e9700ae6dd0781da3b206eadeb733f2)
+* [KRAFDBCK-11969][KRACOEUS-8519] Fixed portal that is returned to for krad portal links
+  * bsmith83 on Fri, 12 Dec 2014 18:24:26 -0800 [View Commit](../../commit/b986060fc7a68476380e821c07b04302371a1cd3)
+* KRACOEUS-8478 : Adding non numerical amount to Modular F&A modal
+  * yyuan1 on Fri, 12 Dec 2014 13:29:36 -0500 [View Commit](../../commit/7e5fffd92141f9eb2f2080b162dfabb309c76281)
+
+##coeus-6.0.0-s11
+* KRACOEUS-8557: sprint 11
+  * Travis Schneberger on Mon, 15 Dec 2014 21:00:22 -0500 [View Commit](../../commit/7b1f79b79f69c4cb4d0487c57f36ff1acc4d50d0)
+* KRACOEUS-8547 removing bad space
+  * Jay Hulslander on Mon, 15 Dec 2014 12:59:33 -0500 [View Commit](../../commit/6f0c8b083c241985c97daf2ec85d19861b36d9a5)
+* KRACOEUS-8395: Allows PD to link to IRB from IRB page.
+  * jamey-rsmart on Wed, 26 Nov 2014 16:33:38 -0700 [View Commit](../../commit/24e788d0d2254ab5f819a5b091c29b8657a045fd)
+* KRACOEUS-8522: ProposalBudgetForm now implements Auditable.
+  * jamey-rsmart on Fri, 12 Dec 2014 13:34:34 -0700 [View Commit](../../commit/75e80312d9983993242486b2cd21ad878b1348ae)
+* KRACOEUS-8534:added validation to check if user is aggregator on parent before linking a child to a parent
+  * Joe Williams on Fri, 12 Dec 2014 14:33:16 -0600 [View Commit](../../commit/06d927a179289bef5d5687db3412cb055f36d3ac)
+* KRACOEUS-8538:fixed duplicate keywords created on sync
+  * Joe Williams on Fri, 12 Dec 2014 13:18:26 -0600 [View Commit](../../commit/d1bc9cdaf9d05cdbc126ab3eea7a06ae22911099)
+* KRACOEUS-8489 S2S Opportunity: 'Create PDF' or print prompts user to confirm that they want to leave page or stay on page
+  * Shoj on Fri, 12 Dec 2014 13:55:59 -0500 [View Commit](../../commit/f0919e6c5e4a171fe9240a176afcdc60150b088a)
+* KRACOEUS-8304
+  * Non personnel cost - adjust on off flag based on budget settings
+  * rmancher on Fri, 12 Dec 2014 13:04:34 -0500 [View Commit](../../commit/e6758df68731459e34a5709464c52739daf5c37a)
+* KRACOEUS-8485 PD UXI: Have to select 'Leave Page' to get form to print from Print in Proposal Tool Bar
+  * Shoj on Fri, 12 Dec 2014 12:48:52 -0500 [View Commit](../../commit/20791666d5fd0d99e38748d945f202d9c6a7c9d9)
+* KRACOEUS-8540: moving controller methods to the proper place
+  * Travis Schneberger on Fri, 12 Dec 2014 12:48:10 -0500 [View Commit](../../commit/6abdc117bf218d358f403a96c871ac661e63372c)
+* KRACOEUS-8537:makes budgets of parent proposals read only
+  * Joe Williams on Fri, 12 Dec 2014 08:45:15 -0600 [View Commit](../../commit/a25eedb9593d04f89c759ccad8acab3a00d9e7b8)
+* KRACOEUS-8454: reverting PR #1254 to fix the db export job
+  * Travis Schneberger on Fri, 12 Dec 2014 07:49:59 -0500 [View Commit](../../commit/09b7b6ac7736b08bee328bce9e445e7e9ce7cb84)
+* KRACOEUS-8534:remove hierarchy actions if user doesn't have permission
+  * Joe Williams on Thu, 11 Dec 2014 16:55:50 -0600 [View Commit](../../commit/3239fbac6cee245c75c02a1518826d6aec2dfec9)
+* Update KC_DML_01_KRACOEUS-8454_B000.sql  * Travis Schneeberger on Thu, 11 Dec 2014 17:53:33 -0500 [View Commit](../../commit/2c441f7513cc8b8bc150e32b8ec245a29a6e54ed)
+* Update KC_DML_01_KRACOEUS-8454_B000.sql  * Travis Schneeberger on Thu, 11 Dec 2014 17:52:44 -0500 [View Commit](../../commit/335035a65f1ede2dfa0008016b3fc3d7d9f31d4c)
+* KRACOEUS-8533:added missing info to proposal budget summary
+  * Joe Williams on Thu, 11 Dec 2014 16:03:45 -0600 [View Commit](../../commit/ae18506476c2f61d68bd2de24d4050c60916c5c0)
+* KRACOEUS-8532:changed activity type field label in hierarchy summary
+  * Joe Williams on Thu, 11 Dec 2014 15:12:03 -0600 [View Commit](../../commit/cf70533343a79ed9d06431417c99bd9c983325bf)
+* KRACOEUS-8531:added F&A rates to proposal budget summary
+  * Joe Williams on Thu, 11 Dec 2014 14:50:50 -0600 [View Commit](../../commit/fec138398f1df4dcaf04b3ea6b2845f5e0f94edc)
+* KRACOEUS-8324: restoring rule logic that was broken from KRACOEUS-7937
+  * Travis Schneberger on Thu, 11 Dec 2014 15:42:46 -0500 [View Commit](../../commit/c3e1890196336e45360c2433609b039a734bb788)
+* KRACOEUS-8458 cleaning up inactivation flag.  This should improve consistency, and maybe perf.
+  * Jay Hulslander on Thu, 11 Dec 2014 14:08:48 -0500 [View Commit](../../commit/66da280803623724aef30e02d5165ade1ffebfc7)
+* [KRACOEUS-8530][KRACOEUS-8374] Override and fixes for add line dialog fixes, also reversion of attachment fix to be in line with the fix in rice, correct file returned for subaward
+  * bsmith83 on Thu, 11 Dec 2014 10:03:54 -0800 [View Commit](../../commit/fbff6621ce1e0bdc4199d368e88bc33f0161e1cf)
+* KRACOEUS-8526: fixing role initialization
+  * Travis Schneberger on Thu, 11 Dec 2014 13:45:10 -0500 [View Commit](../../commit/da0d8854476d5e6a5c62b5df4b1cebf822ed1b3c)
+* KRACOEUS-8173
+  * Delete personnel line item fix
+  * rmancher on Thu, 11 Dec 2014 13:28:52 -0500 [View Commit](../../commit/c5241027a3b4cafac256dad215dc3151044c4ff3)
+* KRACOEUS-8527:fixed ftl error on creditsplits for manually added units
+  * Joe Williams on Thu, 11 Dec 2014 11:50:53 -0600 [View Commit](../../commit/58678f5b2dce0d10a9ce7a4ee228cfa5458654af)
+* KRACOEUS-8529:budget summary panel will only display if parameter is set
+  * Joe Williams on Thu, 11 Dec 2014 10:29:26 -0600 [View Commit](../../commit/b7c5b612c35fcc519d682744a322110c631c9a1f)
+* KRACOEUS-8508: PD Cert can be completed as child in hierarchy
+  * Chuck Tharp on Thu, 11 Dec 2014 11:53:54 -0500 [View Commit](../../commit/44ce4da4aa8a81bd7b3c2e50bb032f74819c23a9)
+* KRACOEUS-6727 BudgetCategoryServiceImpl.lookupBudgetCategories() looks incorrect
+  * Shoj on Thu, 11 Dec 2014 10:01:17 -0500 [View Commit](../../commit/5c7d3ea802e8c80135bb5db88290c5247f85acda)
+* KRACOEUS-8507
+  * “SravanVed” on Wed, 10 Dec 2014 21:55:24 -0500 [View Commit](../../commit/1c0eae715dd74484f57cab6ba1a7464bfd28a6cb)
+* KRACOEUS-8448
+  * Fix QuestionnairePrintingServiceTest  * greeshma on Thu, 11 Dec 2014 14:10:29 +0530 [View Commit](../../commit/1448e8200a24a4d1b71461f38d1cfe0414e2de41)
+* KRACOEUS-8391: removing line that nulls out budgetPerson
+  * Travis Schneberger on Wed, 10 Dec 2014 20:10:39 -0500 [View Commit](../../commit/83944e68962eba927c7a878e72392b2f849c55fb)
+* KRACOEUS-8067:removed sync links from hierarchy summary
+  * Joe Williams on Wed, 10 Dec 2014 16:54:40 -0600 [View Commit](../../commit/c72fbfa91881c46a4d054c32d5354253318735aa)
+* KRACOEUS-8504:display latest budget version in budget summary if no final budget is selected
+  * Joe Williams on Wed, 10 Dec 2014 16:40:48 -0600 [View Commit](../../commit/9d415dfaea9f4e17d2bb2b395a86663848445882)
+* KRACOEUS-8357 fixing new bug that is associated with award budget personnel
+  * Jay Hulslander on Wed, 10 Dec 2014 15:46:18 -0500 [View Commit](../../commit/d66b592df14dd341d229c5d270c5ac8223c19f32)
+* KRACOEUS-8520: Trimming the value before it goes into UifBooleanEditor.setAsText method. This should fix the trailing space issue.
+  * jamey-rsmart on Wed, 10 Dec 2014 11:36:24 -0700 [View Commit](../../commit/1b8ca766152b99834adbea9d3061707495ee4c7f)
+* KRACOEUS-8486
+  * “SravanVed” on Tue, 9 Dec 2014 22:48:05 -0500 [View Commit](../../commit/ab814c73c0236ac17bc8928496cef6aab562a42b)
+* KRACOEUS-8510 : project income save button STE
+  * yyuan1 on Tue, 9 Dec 2014 22:07:14 -0500 [View Commit](../../commit/8ef0fbf1d72b76a57d408290b6a0225c77e58f29)
+* KRACOEUS-8487: Added the ability to keep audit activated between Prop dev and Prop Budget forms.
+  * jamey-rsmart on Tue, 9 Dec 2014 13:20:30 -0700 [View Commit](../../commit/683aab5324a686ee678b367a543bd5a2e6fe5244)
+* KRACOEUS-8484: Put notifications in correct page.
+  * jamey-rsmart on Tue, 9 Dec 2014 17:01:08 -0700 [View Commit](../../commit/089f194e7764c37d1d02f061590e22bba1f99528)
+* KRACOEUS-8474: removing bad annotation
+  * Travis Schneberger on Tue, 9 Dec 2014 18:02:49 -0500 [View Commit](../../commit/52f98f17ef0fabdd30b95f37b9150f469bdb3ef4)
+* KRACOEUS-8397:fixed issue of attachment file not being copied on proposal copy action
+  * Joe Williams on Tue, 9 Dec 2014 10:01:59 -0600 [View Commit](../../commit/39ce70225e06b475ce6b9033b121c6187bcc990c)
+* KRACOEUS-8515: fixing relationship of sponsor to rolodex.  Improving suggest query
+  * Travis Schneberger on Tue, 9 Dec 2014 16:34:49 -0500 [View Commit](../../commit/5da60f42550cba92063589bdca7b1b9e768059b8)
+* KRACOEUS-8502:temp fix for proposal copy
+  * Joe Williams on Tue, 9 Dec 2014 15:36:32 -0600 [View Commit](../../commit/0151b2fb79c1f9adaba1406bbc0349c43a25ffba)
+* KRACOEUS-8483
+  * “SravanVed” on Tue, 9 Dec 2014 10:25:28 -0500 [View Commit](../../commit/dfcafc4a8a59daee153cc5c72ec59df4b55bd5e1)
+* KRACOEUS-8454 Notifications are not being sent when prompt user = N and modal doesn't appear
+  * Shoj on Tue, 9 Dec 2014 14:45:40 -0500 [View Commit](../../commit/af79504fcdfd6c11890a1ea40bd8c994bc966bd6)
+* KRACOEUS-8447  Fix ProposalHierarchyServiceImplTest  * anithapolus on Thu, 4 Dec 2014 16:38:18 +0530 [View Commit](../../commit/9275e2e709a844f74e4d43219a2037298a11d910)
+* KRACOEUS-8474
+  * Budget project personnel validation.
+  * Verify project personnel and summary personnel
+  * Enable duplicate person validation.
+  * rmancher on Fri, 5 Dec 2014 15:46:50 -0500 [View Commit](../../commit/337a721ce85be487e4668ba7ae3ffdd9574e5dd8)
+* KRACOEUS-8427: fixing embedded mode for the route log
+  * Travis Schneberger on Tue, 9 Dec 2014 10:37:30 -0500 [View Commit](../../commit/887051bdb39c10919fdc995ffd5803069b25c9c7)
+* KRACOEUS-8490: better exception handling, other minor cleanup
+  * Travis Schneberger on Tue, 9 Dec 2014 10:25:49 -0500 [View Commit](../../commit/2cd995b3c4b31c49f06cb9a5be86bf063b20a5db)
+* KRACOEUS-8493
+  * Compliance are editable when Proposal is in View mode
+  * rmancher on Mon, 8 Dec 2014 18:05:38 -0500 [View Commit](../../commit/4436806acf76b565da920bc2f895209f7387b80c)
+* KRACOEUS-8425: Adding the ability to link IACUC funding sources so they show up in Medusa.
+  * jamey-rsmart on Fri, 5 Dec 2014 16:20:11 -0700 [View Commit](../../commit/c496d8f8ae1b3c81adeb6bf74672fb96c5903c63)
+* KRACOEUS-8484: Adding message sayingg the notification was sent.
+  * jamey-rsmart on Mon, 8 Dec 2014 13:07:18 -0700 [View Commit](../../commit/2425735eed42480f32a52a1db5d0ded351f9519a)
+* KRACOEUS-8411
+  * “SravanVed” on Mon, 8 Dec 2014 15:37:59 -0500 [View Commit](../../commit/046f5deddc5a7429fe7cd1891f701e0b4101b88b)
+* KRACOEUS-7572
+  * “SravanVed” on Fri, 5 Dec 2014 10:35:06 -0500 [View Commit](../../commit/74fea8d97a5ef2be0e5308566ed9b0c116945fbe)
+* KRACOEUS-8067:added budget summary to submit page
+
+  * changes
+  * Joe Williams on Fri, 5 Dec 2014 15:46:27 -0600 [View Commit](../../commit/7d68a1c1e7d46f22d29d1667f36440432621750b)
+* KRACOEUS-8482 fixing logic to determine if resubmission page should be displayed
+  * Jay Hulslander on Mon, 8 Dec 2014 10:18:39 -0500 [View Commit](../../commit/ed6370646d26f8467084f6697ea55b1e26da9b87)
+* KRACOEUS-7669 : Copy all or only first budget period
+  * blackcathacker on Sun, 7 Dec 2014 20:40:40 -0800 [View Commit](../../commit/49fac28d1835089e325f7b1a0b890117ca21d1fb)
+* [KRACOEUS-8479] Convert non-full date to full date on loss of focus in js
+  * bsmith83 on Fri, 5 Dec 2014 16:34:28 -0800 [View Commit](../../commit/7d68d53d3ad32b8c1e6a301a8c5a038e0d0f89f6)
+* KRACOEUS-8452: Added missing IP properties in Medusa.
+  * jamey-rsmart on Fri, 5 Dec 2014 15:46:20 -0700 [View Commit](../../commit/dcd37f0e1b1fb01e5caff8f7cb33c3d49d88317c)
+* KRACOEUS-8443: documentation
+  * Travis Schneberger on Fri, 5 Dec 2014 16:07:51 -0500 [View Commit](../../commit/0f217580cb3446e39cfeaa28b2a0a588d5899223)
+* KRACOEUS-8443: adding transactions to controllers, fiing pessimistic lock service for jpa
+  * Travis Schneberger on Fri, 5 Dec 2014 14:43:47 -0500 [View Commit](../../commit/bfd85eae5e244d28e3c1be7b1852f2419e11a070)
+* KRACOEUS-8357 fixing various problems with budget personnel and cleaning the services up
+  * Jay Hulslander on Thu, 4 Dec 2014 07:54:07 -0500 [View Commit](../../commit/8f75cd443649cbeb1e7224221c45a6dcf3ef2da5)
+* [KRACOEUS-8477] Reverse workarounds that are now fixed by Rice
+  * bsmith83 on Fri, 5 Dec 2014 10:17:45 -0800 [View Commit](../../commit/23ac1ca43261271416d8fdfaa773db4494012439)
+* KRACOEUS-8364 : Fix unit test
+  * blackcathacker on Fri, 5 Dec 2014 10:17:13 -0800 [View Commit](../../commit/3ed5eb21c7ef65bcc0d445ca1360996a8c31cee9)
+* changes
+  * Joe Williams on Fri, 5 Dec 2014 10:57:40 -0600 [View Commit](../../commit/ceb16a7a0e278843242c7a6e0136ed2684845374)
+* KRACOEUS-5730: Rearranging comments not persisted in reviews
+  * Chuck Tharp on Fri, 5 Dec 2014 10:32:06 -0500 [View Commit](../../commit/838d6b7f5105ffebdedae3f68923a3b9cedfef2a)
+* KRACOEUS-7536:fixes issues with pessimistic locks not being honored
+  * Joe Williams on Thu, 4 Dec 2014 16:24:09 -0600 [View Commit](../../commit/93a4f65470911a25e0fb7ad5f1cfc27f877b5bec)
+* KRACOEUS-8411 Added the missing DELIMITER
+  * “SravanVed” on Fri, 5 Dec 2014 10:57:53 -0500 [View Commit](../../commit/58c2d15368afde4aba0d6dfc35fb8d1643245ed7)
+* KRACOEUS-8364 : Clear the line item cost when calc subaward
+  * blackcathacker on Thu, 4 Dec 2014 22:56:04 -0800 [View Commit](../../commit/f8629c1d71310f1352fc9e549820a4285ee42f04)
+* KRACOEUS-8394 : Change budget dropdown to display 'For Submission Version'
+  * blackcathacker on Thu, 4 Dec 2014 22:39:57 -0800 [View Commit](../../commit/fed933d809081579753e006e52757508a96afc5a)
+* KRACOEUS-8252 : Save the current doc before creating new budgets
+
+  * Also make sure the add budget dialogs appear ontop of the budget versions dialog.
+  * blackcathacker on Thu, 4 Dec 2014 21:50:24 -0800 [View Commit](../../commit/11557cbd18145c8a061165940e5d6d062765c83a)
+* [KRACOEUS-8312] Compliance date fixes when linked
+  * bsmith83 on Thu, 4 Dec 2014 17:10:53 -0800 [View Commit](../../commit/741f1a72397f2254d5840e8f3aea9ce061596d36)
+* KRACOEUS-8342
+  * Sync cost limit - fix incorrect event mapping and
+  * cost limit validation
+  * rmancher on Thu, 4 Dec 2014 19:48:02 -0500 [View Commit](../../commit/45cf6197244ea33b23c897909589721ec5ec2489)
+* KRACOEUS-8475: rice upgrade and "i before e except after c"
+  * Travis Schneberger on Thu, 4 Dec 2014 17:07:45 -0500 [View Commit](../../commit/60075ad19728bad15a49758bdc75baa3fcba1680)
+* KRACOEUS-7865
+  * Budget period business rules - update for line edit and save.
+  * rmancher on Thu, 4 Dec 2014 16:33:33 -0500 [View Commit](../../commit/4a40dab396fc6b60f3504f7dfbdd5c7defa732eb)
+* KRACOEUS-8370: Fixed messages not showing up on cancel.
+  * jamey-rsmart on Thu, 4 Dec 2014 12:30:55 -0700 [View Commit](../../commit/5a1903569eec6d2432af31869f8abc85b1a78a54)
+* KRACOEUS-8443: avoiding the creation of datasources & pools per spring context.
+  * Travis Schneberger on Thu, 4 Dec 2014 13:50:46 -0500 [View Commit](../../commit/584792adb24b2a89bf45d94047da45671eb428ef)
+* KRACOEUS-8330:budget summary is recreated when autocalculate periods is ran
+  * Joe Williams on Thu, 4 Dec 2014 11:44:36 -0600 [View Commit](../../commit/49f480fda403ee8313368de6c8b56293cdebe643)
+* KRACOEUS-8411_current_mysql
+  * “SravanVed” on Wed, 3 Dec 2014 16:20:59 -0500 [View Commit](../../commit/08a8b35917c2d20db0462b2b88df53dc711276b7)
+* KRACOEUS-8120
+  * Fix for dialog refresh issue.
+  * Adding dialog to page
+  * rmancher on Wed, 3 Dec 2014 20:35:48 -0500 [View Commit](../../commit/fc460e8b69d2fbe83a1715d6bda592b55576e3b4)
+* KRACOEUS-8413
+  * Budget data validation
+  * rmancher on Wed, 3 Dec 2014 17:35:38 -0500 [View Commit](../../commit/d5b82da8ad643b269fafb118e4207893ba90457b)
+* KRACOEUS-8461
+  * Fix NPE budget project personnel rule.
+  * rmancher on Wed, 3 Dec 2014 19:33:25 -0500 [View Commit](../../commit/60286b6a8eb6f8390ab872dd207234ed9b28c05b)
+* KRACOEUS-8362 : Budget UXI: Cost Share amount
+  * yyuan1 on Wed, 3 Dec 2014 19:13:30 -0500 [View Commit](../../commit/db24e08852b8f031287daad328cc688f1d8910f7)
+* KRACOEUS-8457: sprint 10, chaging version
+  * Travis Schneberger on Wed, 3 Dec 2014 17:13:22 -0500 [View Commit](../../commit/1ea035525c439ff4285d47f54d8c39375e9c904d)
+* KRACOEUS-8342
+  * Sync to Limits - direct cost, period total fix
+  * validation and sync cost.
+  * rmancher on Mon, 24 Nov 2014 15:24:32 -0500 [View Commit](../../commit/a6b05ba7b20317245332a1c779f472c6d3812574)
+* KRACOEUS-8411
+  * “SravanVed” on Wed, 3 Dec 2014 16:20:59 -0500 [View Commit](../../commit/e04c1e774a12b7f999f9702a1108b11ff84c3c81)
+* KRACOEUS-8459:fixed office phone search on key personnel
+  * Joe Williams on Wed, 3 Dec 2014 14:44:51 -0600 [View Commit](../../commit/a97922359bc05f116255ec5cf98aeb7c2c3c9eaf)
+* KRACOEUS-8233: Fix user attached forms when copied
+  * Gayathri on Wed, 3 Dec 2014 12:51:05 -0700 [View Commit](../../commit/ca61ba797dac2ffdab19c1c6fa60ecb2cbc3e8ee)
+* KRACOEUS-8064: Personnel can be duplicated when protocol amendment is approved
+  * Chuck Tharp on Mon, 20 Oct 2014 15:07:47 -0400 [View Commit](../../commit/3597639028d7e01ef1e91818c36864ff0b343620)
+* KRACOEUS-8299 : budget summary modal --change shortcut map
+  * yyuan1 on Fri, 21 Nov 2014 23:43:00 -0500 [View Commit](../../commit/9a33b4ad832775db941e4a1f867116ece9988e38)
+* KRACOEUS-8159:added create_user and create_date to budget db
+  * Joe Williams on Wed, 3 Dec 2014 09:52:38 -0600 [View Commit](../../commit/fa4ecfde432259e84fce2cfe6576bc3d6d2a9b83)
+* KRACOEUS-8159: updates to budget header
+  * Joe Williams on Wed, 3 Dec 2014 10:31:31 -0600 [View Commit](../../commit/4599cc6e0b6a428be1346f81eec3aa8acbde1496)
+* KRACOEUS-8299 : budget summary modal
+  * yyuan1 on Fri, 14 Nov 2014 22:29:01 -0500 [View Commit](../../commit/5badc99fe82420daa4e686fe82baa72dbc6f915f)
+* KRACOEUS-8422 Personnel: Some data editable in View mode
+  * Shoj on Tue, 2 Dec 2014 18:22:22 -0500 [View Commit](../../commit/d79e5b23a94ad11be8d038ec1c0160b3050fb1fb)
+* KRACOEUS-8207:added save button to detail & rates modal
+  * Joe Williams on Wed, 3 Dec 2014 09:10:15 -0600 [View Commit](../../commit/d7a408af4c682b79dda4aded9338bab5fd38ae1b)
+* KRACOEUS-8110: Fix IACUC Assign To Agenda Unavailable authorizer
+  * Chuck Tharp on Wed, 3 Dec 2014 08:45:03 -0500 [View Commit](../../commit/25bb7fd53dace8deda2a88471ba1cd3af533f321)
+* KRACOEUS-8434: Fixing create protocol button
+  * Gayathri on Tue, 2 Dec 2014 18:17:36 -0700 [View Commit](../../commit/f7c8cc03da36c6e486017b73b3ca8638510a028d)
+* KRACOEUS-8264:updated budget footer to align with prop dev footer
+  * Joe Williams on Tue, 2 Dec 2014 13:30:26 -0600 [View Commit](../../commit/09e5bc554f98f0a3f5908bc17a5f2620b19825d8)
+* KRACOEUS-8402:allow personnel budget lines for same person/object/group combo if date range is different
+  * Joe Williams on Tue, 2 Dec 2014 12:19:42 -0600 [View Commit](../../commit/62363ff7ce6e9664b027b3e00b04458f5337d793)
+* KRACOEUS-8383:allow narrative writers to replace narratives in workflow
+  * Joe Williams on Tue, 2 Dec 2014 11:13:55 -0600 [View Commit](../../commit/3b899cb65428dbc1dbf9f3ef9bb995c0f82df0cb)
+* KRACOEUS-8444: removing mock screens
+  * Travis Schneberger on Tue, 2 Dec 2014 09:43:31 -0500 [View Commit](../../commit/57b4fbe7db488b9603b5e4918a5ded11592242cc)
+* KRACOEUS-8423:fixed issue with krms warnings
+  * Joe Williams on Mon, 1 Dec 2014 08:37:15 -0600 [View Commit](../../commit/39ce6ab0bf73290e72b4b35959aa3cc182f6f34a)
+* KRACOEUS-8412
+  * “SravanVed” on Tue, 25 Nov 2014 16:18:53 -0500 [View Commit](../../commit/8a0034564a6a88ff578acea0627c992dc10cfd7d)
+
+##coeus-6.0.0-s10
+* KRACOEUS-8457: sprint 10
+  * Travis Schneberger on Wed, 3 Dec 2014 01:09:18 -0500 [View Commit](../../commit/2c1f1a40769418557461a24049eeb1b2b099a1f6)
+* KRACOEUS-8409: Adding award and subaward links.
+  * Gayathri on Tue, 2 Dec 2014 17:06:38 -0700 [View Commit](../../commit/595ef44e93c21ae677b6629ed80be6cabae6a945)
+* KRACOEUS-8443: Reverting changes
+  * Gayathri on Tue, 2 Dec 2014 14:15:08 -0700 [View Commit](../../commit/8a9d74bb8c07f2f0ec1c4031b5a317b0e2def634)
+* [KRACOEUS-8445] File input workaround for dialogs
+  * bsmith83 on Tue, 2 Dec 2014 12:37:45 -0800 [View Commit](../../commit/dacdac515a862bdb57dd1173e4ace39c2b8b9b12)
+* [KRACOEUS-8449] Incident report blank fix
+  * bsmith83 on Tue, 2 Dec 2014 12:21:31 -0800 [View Commit](../../commit/dacbb1db196382f6a29bb3553ead3ab0abad68e0)
+* KRACOEUS-8257
+  * Include missing Add row functionality for budget periods
+  * rmancher on Wed, 26 Nov 2014 19:29:36 -0500 [View Commit](../../commit/6fcc9339118deb12c57e437ee65c4fe07cb3a60c)
+* KRACOEUS-8393:fixed budget personnel period rule
+  * Joe Williams on Tue, 2 Dec 2014 08:25:30 -0600 [View Commit](../../commit/1d2783df09b3147209db3e97055a3b2105154f77)
+* KRACOEUS-8417:made KcPerson id readOnly
+  * Joe Williams on Tue, 2 Dec 2014 09:50:49 -0600 [View Commit](../../commit/aac6d65917969f9895251b5e0ddf7ab053b76917)
+* KRACOEUS-8435 added award lookup and creat links
+  * Jay Hulslander on Tue, 2 Dec 2014 09:01:02 -0500 [View Commit](../../commit/ea9af71d86e4cecc33d63e0ea4215779a51d0bdd)
+* [KRACOEUS-8421] workaround fix for attachment upload
+  * bsmith83 on Mon, 1 Dec 2014 17:35:26 -0800 [View Commit](../../commit/6bdda67930bbc9837727f2031993d8ece0cc90b9)
+* [KRACOEUS-7754]  Session timeout for kc
+  * bsmith83 on Mon, 1 Dec 2014 16:38:38 -0800 [View Commit](../../commit/0730d1f4d776e915cdffa58b607b92d48fba84ba)
+* KRACOEUS-8443: add transactions to controllers
+  * Travis Schneberger on Mon, 1 Dec 2014 18:49:35 -0500 [View Commit](../../commit/c717e820069fe1cf88f28c08f8f3e69da31c8cd2)
+* KRACOEUS-8345 added budgetSubAward to ignore list
+  * Jay Hulslander on Mon, 1 Dec 2014 16:09:30 -0500 [View Commit](../../commit/6ac7ea08796d02acaa3def2ebe85a9e1c54c34cc)
+* [KRACOEUS-8420][KRACOEUS-8114][KRACOEUS-8275][KRACOEUS-8424]  Workaround fixes to fix/re-fix these jiras
+  * bsmith83 on Mon, 1 Dec 2014 10:11:11 -0800 [View Commit](../../commit/0e145a3f5a252126b81cec43eada92215bc9ae6c)
+* KRACOEUS-8334: Portal changes
+  * Gayathri on Fri, 28 Nov 2014 10:18:17 -0700 [View Commit](../../commit/b1a01bdc3491e5e99ec888dcf36be4ed3218dc22)
+* KRACOEUS-8429:removed updates available button when proposal is read only
+  * Joe Williams on Mon, 1 Dec 2014 10:32:52 -0600 [View Commit](../../commit/d434949caf10c069c2d613683703c5e2a1f5bc8a)
+* KRACOEUS-8246: null pointer fix
+  * Gayathri on Fri, 28 Nov 2014 11:30:18 -0700 [View Commit](../../commit/18d0b4738dcdec4a2248a0da8ef9a7c3dea617c1)
+* KRACOEUS-8224: Fixing copy
+  * Gayathri on Wed, 26 Nov 2014 17:28:18 -0700 [View Commit](../../commit/0b0431722e40f28f8b214db4a08133b789a53c11)
+* KRACOEUS-8370: Allow the system to display a message with the IP number in it.
+  * jamey-rsmart on Wed, 26 Nov 2014 10:29:01 -0700 [View Commit](../../commit/24da4d82b89ecc7654545daac62602ad3afd49d1)
+* KRACOEUS-8404: Adding missing rice scripts.
+  * Gayathri on Wed, 26 Nov 2014 15:22:32 -0700 [View Commit](../../commit/6c947040bc4a3d7fceb36fdb43e9ed1197fcbf19)
+* KRACOEUS-8246: Fixing hierarchy issues.
+  * Gayathri on Sat, 18 Oct 2014 16:27:18 -0700 [View Commit](../../commit/7a1e727a6e91f8d47aaca3be4cecc22c339be271)
+* KRACOEUS-8406: rice and spring upgrade
+  * Travis Schneberger on Wed, 26 Nov 2014 16:28:29 -0500 [View Commit](../../commit/67c44d69ed8529e5f6031f0ae630735a19e0e083)
+* KRACOEUS-8120
+  * Add Missing Requirements for Budget Personnel Details Job Code
+  * rmancher on Wed, 26 Nov 2014 14:42:43 -0500 [View Commit](../../commit/cec7259622bc67a9d96ae99c72404820818d6082)
+* KRACOEUS-8377 Budget UXI: Budget Category Missing from Line Item Details
+  * Shoj on Wed, 26 Nov 2014 13:24:33 -0500 [View Commit](../../commit/d04e152bd09cac7cb9003e2bea7619687f7bf190)
+* KRACOEUS-8418: Fixing null pointers
+  * Gayathri on Tue, 25 Nov 2014 22:19:49 -0700 [View Commit](../../commit/6753ce0e01d888fbd51f9ae46be9abd88b191407)
+* KRACOEUS-8249 : Fix Integration Tests
+  * blackcathacker on Tue, 25 Nov 2014 11:24:46 -0800 [View Commit](../../commit/c6bcf88e5ace9b34c1c3bd6eea1270ff71cd88b8)
+* KRACOEUS-8417:added extended attributes to person editable fields
+  * Joe Williams on Tue, 25 Nov 2014 13:40:35 -0600 [View Commit](../../commit/ded2a2efc6f320355900d6c2f2db583bf3e557c2)
+* KRACOEUS-8175:fixed continue and back links on budget
+  * Joe Williams on Tue, 25 Nov 2014 11:45:20 -0600 [View Commit](../../commit/6ed81445fce7544f962f11025265ca321b974fea)
+* KRACOEUS-7973
+  * “SravanVed” on Tue, 25 Nov 2014 09:01:57 -0500 [View Commit](../../commit/d2b381a40bcf92350f0aba058220ec5a9d147157)
+* KRACOEUS-8221 : Proposal Copy Budget
+  * blackcathacker on Sun, 9 Nov 2014 21:06:57 -0800 [View Commit](../../commit/2c34290160930d608f41e0c3033260d5f67ab480)
+* KRACOEUS-8406: rice and spring upgrade
+  * Travis Schneberger on Mon, 24 Nov 2014 18:29:47 -0500 [View Commit](../../commit/6a424684b3c55a379ed6891d0c52b8f4f8afc8f1)
+* KRACOEUS-7976 setting excludeSubmitRestriction for questionniare lookups
+  * Jay Hulslander on Mon, 24 Nov 2014 16:11:41 -0500 [View Commit](../../commit/0459880edba8dd798b0cdc7151c54f35e5002000)
+* KRACOEUS-7652 The Sponsor Address Flag is not displaying when you do an Addressbook Inquiry
+  * Shoj on Mon, 24 Nov 2014 15:11:35 -0500 [View Commit](../../commit/5d682a9b1ded0ab0de21467ab95a22a48deb37ba)
+* KRACOEUS-8397:fixed personnel attachment file type validation
+  * Joe Williams on Mon, 24 Nov 2014 11:17:59 -0600 [View Commit](../../commit/c5af2fd3e3ddf5f9cb93296f877b4673336b32fb)
+* KRACOEUS-8234:update proposal status and progress bar on routing changes
+  * Joe Williams on Thu, 20 Nov 2014 15:06:15 -0600 [View Commit](../../commit/2d920e7e5c77956189d6b73468699db996f36bb4)
+* KRACOEUS-8391: fixing NPE
+  * Travis Schneberger on Mon, 24 Nov 2014 09:30:00 -0500 [View Commit](../../commit/880a36a7e79b6786e0314c4a328fc55f1ab24f42)
+* KRACOEUS-5730: Cannot rearrange meeting minutes
+  * Chuck Tharp on Fri, 21 Nov 2014 14:46:59 -0500 [View Commit](../../commit/cc051e27303084771dc9d359dfc13b312ec3435f)
+* KRACOEUS-8389
+  * “SravanVed” on Fri, 21 Nov 2014 14:55:56 -0500 [View Commit](../../commit/eaa93bc514195447b80b2a24860f38c919a5d97e)
+* KRACOEUS-8280: allows alphanumeric values in congressional district.
+  * jamey-rsmart on Fri, 21 Nov 2014 12:45:28 -0700 [View Commit](../../commit/1307ae2ca8babb0f23786b5f217156a372d209a6)
+* KRACOEUS-8371: Fixing PR comments
+  * Geo Thomas on Fri, 21 Nov 2014 14:42:26 -0500 [View Commit](../../commit/f8c5fd3b52de6318586cb22d67ac161b179020bc)
+* Fixing PR comments
+  * Geo Thomas on Fri, 21 Nov 2014 14:38:59 -0500 [View Commit](../../commit/e03f89dc264c2cf1d0c293a80d7c8b1dae77d8c2)
+* Fixing PR comments
+  * Geo Thomas on Fri, 21 Nov 2014 14:37:28 -0500 [View Commit](../../commit/5d1876de1fc50724ce49f1087cf0954a92d622e9)
+* KRACOEUS-8306: Addressing issue of changing sponsor code from NIH and certain roles.
+  * jamey-rsmart on Wed, 19 Nov 2014 09:24:46 -0700 [View Commit](../../commit/9bc8dca414975cfcf06cd640d97943c029466bb7)
+* KRACOEUS-8348: Meeting Minute edits are not saved
+  * Chuck Tharp on Thu, 13 Nov 2014 10:52:49 -0500 [View Commit](../../commit/9a552479d0bb6c555a1efd8a1d7bd7dc02ed5ee2)
+* KRACOEUS-7014:fixed some issues with certify notifications
+  * Joe Williams on Fri, 21 Nov 2014 08:15:34 -0600 [View Commit](../../commit/4ff98c6f6da8a7b731bea5641c07bf06d0894a4b)
+* KRACOEUS-8351 fixing questionniare field mapping parameter names to be consistent accross KC, cleaned up some variable names to make sense, and fixed the general questionnaire lookup
+  * Jay Hulslander on Fri, 14 Nov 2014 14:07:33 -0500 [View Commit](../../commit/256791b3a4d61da69ee5c79c8b256673de85df98)
+* KRACOEUS-6626: adding start and end dates
+  * Travis Schneberger on Thu, 20 Nov 2014 18:11:19 -0500 [View Commit](../../commit/a258114674a5fb3247dff40ff3b5e91271312088)
+* KRACOEUS-8323
+  * Change in budget settings rate type - applied to line items
+  * once confirmed.
+  * rmancher on Thu, 20 Nov 2014 16:47:30 -0500 [View Commit](../../commit/414bd159293d6a73b2b1c4b11214b0dea03fe443)
+* KRACOEUS-8339: Changed validation to AnyCharacterValidation for proposalState.description
+  * jamey-rsmart on Thu, 20 Nov 2014 13:45:49 -0700 [View Commit](../../commit/2b9a00626adfc321c6e07a6446b28279e26ce3a5)
+* KRACOEUS-8249 : Budget Copy Fixes
+  * blackcathacker on Thu, 30 Oct 2014 13:43:29 -0700 [View Commit](../../commit/b7bda6d9812d99c4b66aa226fdf5b54ac7ff586f)
+* KRACOEUS-7014:send person certification notifcation code changes
+  * Joe Williams on Wed, 5 Nov 2014 10:47:50 -0600 [View Commit](../../commit/3b11c86e43c07812ecf647e6fa5bb486e5c3c86f)
+* KRACOEUS-7527 Standardizing how ProposalType is accessed
+  * Shoj on Thu, 20 Nov 2014 10:38:02 -0500 [View Commit](../../commit/1477815ffa9d3c5f90c504c34599d3114876e669)
+* KRACOEUS-8380:fixed questionnaire agenda to work for all units
+  * Joe Williams on Thu, 20 Nov 2014 08:51:33 -0600 [View Commit](../../commit/8a7a12b2399037b6f23144853938b2383ac42a2b)
+* KRACOEUS-7492 New System parameter for S2S
+  * mrudulpolus on Mon, 10 Nov 2014 16:18:21 +0530 [View Commit](../../commit/63eab5d6ee3aa672ebb6cbf5ae4cd11ad16ecb00)
+* KRACOEUS-8012 Non-employees are appearing as PD/PI on S2S forms
+  * mrudulpolus on Mon, 10 Nov 2014 15:32:52 +0530 [View Commit](../../commit/27c9cfdd6d38f4c465d45b778cea72acd546d653)
+* KRACOEUS-8010: fixing another copy bug
+  * Travis Schneberger on Wed, 19 Nov 2014 15:58:30 -0500 [View Commit](../../commit/876f715f513f64da7971ba4e09389bc2f4daaa33)
+* KRACOEUS-8341 Field name of UnitAgendaTypeServiceImpl.java didn't match the name in KRMS_ATTR_DEFN_T
+  * cniesen on Wed, 19 Nov 2014 13:42:06 -0600 [View Commit](../../commit/3063c6a360dd792268d6eddfa90e93b415c4b0f7)
+* KRACOEUS-8235:make user attached forms viewable before s2s connection
+  * Joe Williams on Wed, 19 Nov 2014 12:52:19 -0600 [View Commit](../../commit/b2e7ea0c3bfb9ac5c846877501ed768e9a3eb336)
+* KRACOEUS-8010: fixing another copy bug
+  * Travis Schneberger on Wed, 19 Nov 2014 13:19:21 -0500 [View Commit](../../commit/55650cb14ca5a3674cd7994dbf5a4ee589370d4b)
+* KRACOEUS-8010: fixing more bugs
+  * Travis Schneberger on Wed, 19 Nov 2014 11:22:19 -0500 [View Commit](../../commit/83c4820fb919a433bf2d2f6bee6210129ec9811a)
+* KRACOEUS-8382:removing pessimistic lock message on submit
+  * Joe Williams on Wed, 19 Nov 2014 10:03:25 -0600 [View Commit](../../commit/c43db0ad46c50d378ca21e745816d37c804821f6)
+* [KRACOEUS-8275][KRACOEUS-8114][KRACOEUS-8312] various compliance page fixes with refreshes, fields, and protocols
+  * bsmith83 on Thu, 6 Nov 2014 12:05:32 -0800 [View Commit](../../commit/166548110eca245fcd69cae11f4d8d476c9241f3)
+* KRACOEUS-8373 - different budget summary issues
+  * Geo Thomas on Tue, 18 Nov 2014 19:01:06 -0500 [View Commit](../../commit/fa78a0f3a35bea1d665360cd8f857c45ad5550d9)
+* KRACOEUS-8372 : Save custom data with arg value lookups
+  * Geo Thomas on Tue, 18 Nov 2014 18:26:59 -0500 [View Commit](../../commit/71777ad734ffb4b8b5bab7528e1ae5cb35a4909f)
+* KRACOEUS-8371 - Changing DOB format error to warning so that application wont fail even if the masking is on for not displaying DOB
+  * Geo Thomas on Tue, 18 Nov 2014 17:45:22 -0500 [View Commit](../../commit/3397625273da9b06709d8ce4d69dd1a1f278d4bf)
+* KRACOEUS-8367:added permissions validation on save
+  * Joe Williams on Tue, 18 Nov 2014 15:23:43 -0600 [View Commit](../../commit/dc2ed6aa2acfb6ff5526438e8a247e83bf495ebd)
+* KRACOEUS-7672
+  * Set Budget Salary parameter
+  * rmancher on Tue, 18 Nov 2014 15:51:31 -0500 [View Commit](../../commit/6b06a7d172209aa64a76f2f539830884f00cb80b)
+* KRACOEUS-7014:fixing sql scripts
+  * Joe Williams on Tue, 18 Nov 2014 13:22:27 -0600 [View Commit](../../commit/38454fb4633c2ff0218cfebed51d4c3115d102f6)
+* [KRACOEUS-8273] fix for add rate button placement
+  * bsmith83 on Tue, 18 Nov 2014 11:09:09 -0800 [View Commit](../../commit/ae5eadfd70f054c93a3e2de4d3aec4f53abfac15)
+* KRACOEUS-8201
+  * Add missing personnel period validation
+  * Adjust personnel line item calculation
+  * rmancher on Wed, 12 Nov 2014 15:56:02 -0500 [View Commit](../../commit/07d137799399275b2bf8a03022a67c86b0bfabb9)
+* Adding introduction to README  * mztaylor on Tue, 18 Nov 2014 12:53:44 -0500 [View Commit](../../commit/6a932f9c011c92bfaf6ed841c7f53bea0fc46c20)
+* KRACOEUS-8356:added lock description to pessmistic locks
+  * Joe Williams on Tue, 18 Nov 2014 11:49:33 -0600 [View Commit](../../commit/581645d6a3e8e5f4b6a8f28307509aaa45614799)
+* KRACOEUS-7598: code review comments
+  * Travis Schneberger on Tue, 18 Nov 2014 11:41:18 -0500 [View Commit](../../commit/a9b14fef4c751c1d59190afc72e7286a48e1572f)
+* KCINFR-868: updating plugins
+  * Travis Schneberger on Tue, 18 Nov 2014 11:13:45 -0500 [View Commit](../../commit/64d625b42f942a24cfcf88b9fddcf42d0233291d)
+* KRACOEUS-7598: adding warning
+  * Travis Schneberger on Tue, 18 Nov 2014 10:45:15 -0500 [View Commit](../../commit/91645a605422c9b484c901930538bc477795f2e7)
+* KRACOEUS-6294:updating scripts from BSTD to B000
+  * Joe Williams on Tue, 18 Nov 2014 08:50:31 -0600 [View Commit](../../commit/fa3dae6df757103b230622c4c4709592b6148a7b)
+* KRACOEUS-8352: Personnel changes not reflected in Permissions page
+  * Chuck Tharp on Fri, 14 Nov 2014 13:33:24 -0500 [View Commit](../../commit/db22eedb7efce04e1404c8e4e37811c5005b8829)
+* Revert "KRACOEUS-8285: tagging release"
+  * Travis Schneeberger on Mon, 17 Nov 2014 21:12:36 -0500 [View Commit](../../commit/2aff6649937974e81ed172464b029164501ebca0)
+* KRACOEUS-8333:fixed issues with data types on data override controller
+  * Joe Williams on Fri, 7 Nov 2014 11:28:42 -0600 [View Commit](../../commit/31d482cd903431512911853d772ad056adf0c908)
+* KRACOEUS-7798 lack of depth param in deepcopy call breaks IntellectualPropertyReiview.
+  * Jay Hulslander on Fri, 7 Nov 2014 16:07:20 -0500 [View Commit](../../commit/b65cbcf96eb77abb62f620077d183271a58fd869)
+* KRACOEUS-8338:fixes issue with custom data not being passed to institutional proposals
+  * Joe Williams on Tue, 11 Nov 2014 10:16:37 -0500 [View Commit](../../commit/163260b61948f58cf95268aa7908148fa281254c)
+
+##coeus-6.0.0-s9
+* KRACOEUS-8285: tagging release
+  * Travis Schneberger on Mon, 17 Nov 2014 21:03:22 -0500 [View Commit](../../commit/4c7d6cd8f355aaa1d1d434ab97fbb774d5a7ebf1)
+* KRACOEUS-7959: fixing compilation error
+  * Travis Schneberger on Mon, 17 Nov 2014 19:41:39 -0500 [View Commit](../../commit/a4dbe269c3fc2b043a60d4031b3eef82107d86bb)
+* KRACOEUS-8010: fixing bean name
+  * Travis Schneberger on Mon, 17 Nov 2014 15:49:28 -0500 [View Commit](../../commit/16684e7887dd0c4662c0643f41d059bd3853d417)
+* KRACOEUS-8278:fixed multiple issues with proposal search
+  * Joe Williams on Mon, 17 Nov 2014 13:59:17 -0600 [View Commit](../../commit/d18e49e757019a1a40f8b920ff16800e35764b80)
+* KRACOEUS-8144
+  * Jay Hulslander on Mon, 17 Nov 2014 14:17:04 -0500 [View Commit](../../commit/60b0402eda494c4d1d3f81b956767e656bb09347)
+* KRACOEUS-8300:fixed issues with personnel attachments generated from extend attributes
+  * Joe Williams on Mon, 17 Nov 2014 13:06:06 -0600 [View Commit](../../commit/e62df7ab73e5f4d9f0a70cb4b072fc71e5e1f0ff)
+* [KRACOEUS-8317] fix for duplicate submit to sponsors, old notification data
+  * bsmith83 on Mon, 17 Nov 2014 09:59:57 -0800 [View Commit](../../commit/5d2d01b3ef6fe5bd8e83af2ee2db2cc82dbcdce1)
+* KRACOEUS-8345 added getParentBudget to allow searching
+  * Jay Hulslander on Wed, 12 Nov 2014 15:25:13 -0500 [View Commit](../../commit/85daae26eac9f675a7ebedd2b5986b4bbf706619)
+* KRACOEUS-8272 Save/Save and Continue should not render when a proposal is in read only mode
+  * Shoj on Mon, 17 Nov 2014 11:38:03 -0500 [View Commit](../../commit/631fc75c18518831c93e56edd704abdc44daf884)
+* KRACOEUS-8316:when validations warnings are present on submit, data validation modal gets displayed with option to submit with warnings
+  * Joe Williams on Fri, 7 Nov 2014 09:06:59 -0600 [View Commit](../../commit/c543677a323d1b0fa0efe769b7194a2f7823532e)
+* KRACOEUS-8195
+  * “SravanVed” on Wed, 22 Oct 2014 08:50:53 -0400 [View Commit](../../commit/2e7ac783b8bc8bab1fb4fa47125aa2e1d288ff77)
+* KRACOEUS-7901:fixed issues with non employee search on add personnel wizard
+  * Joe Williams on Thu, 6 Nov 2014 11:09:39 -0600 [View Commit](../../commit/90bea5e353d56723e5099e3eb91e2ba7182c1781)
+* KRACOEUS-7014:send key person certification notification database changes
+  * Joe Williams on Wed, 5 Nov 2014 11:11:32 -0600 [View Commit](../../commit/f90d0efd7990d6c4e8b63ad6c730bb9c963d5e84)
+* KRACOEUS-8144 fixing award budget OJB caching issues
+  * Jay Hulslander on Fri, 14 Nov 2014 09:53:08 -0500 [View Commit](../../commit/65ade3f1acd3c749f1bcc476a44e310e9ef470b8)
+* KRACOEUS-8127 fix fop errors in:
+  * ProposalDevelopmentPrintingServiceImplTest  * sasipolus on Mon, 17 Nov 2014 15:43:24 +0530 [View Commit](../../commit/94bda13f2117162e30fe043b8c37241d4147ac1f)
+* KRACOEUS-7599: Adds Updated By and updated timestamp to uploads.
+  * jamey-rsmart on Fri, 31 Oct 2014 15:07:40 -0700 [View Commit](../../commit/8a5d8d3e0e0c021d4e2dbbee4acff3046096490d)
+* KRACOEUS-8331 : Cost Share percentage validation
+  * yyuan1 on Mon, 10 Nov 2014 18:08:24 -0500 [View Commit](../../commit/4d6fa003d3c631b39c7156d191eb01326fff0a90)
+* KRACOEUS-8350 fixing query params to use correct field
+  * Jay Hulslander on Fri, 14 Nov 2014 11:55:24 -0500 [View Commit](../../commit/923427a9c6710543cd5b50bea83e3cacb597724a)
+* KRACOEUS-8291 fix:
+  * org.kuali.kra.test.OjbRepositoryMappingTest.verifyTablesPdXml  * sasipolus on Fri, 14 Nov 2014 15:11:52 +0530 [View Commit](../../commit/4238eb2a0fa7660210264ee100b43943fc470ab6)
+* KRACOEUS-8219:fixed issues with change tracking
+  * Joe Williams on Wed, 12 Nov 2014 15:15:51 -0500 [View Commit](../../commit/c4a04ec8673633e08f75e0517f31e1ded3b28571)
+* KRACOEUS-7516: Added firstName, middleName, lastName to editable fields.  Fixed the editable fields issue.
+  * jamey-rsmart on Tue, 11 Nov 2014 17:30:02 -0700 [View Commit](../../commit/aff906416d9975d158b969583b8457f7b6e2f25e)
+* KRACOEUS-8287 : modular budget question --when add budget from budget versions
+  * yyuan1 on Tue, 11 Nov 2014 15:17:44 -0500 [View Commit](../../commit/bd9e69a350c4d8682a38aa9c95f430b7b4ed019a)
+* KRACOEUS-8341:fixed gg tracking validation
+  * Joe Williams on Tue, 11 Nov 2014 12:17:19 -0500 [View Commit](../../commit/0056d13df37e365a1e546b730e354d17c9f467df)
+* KRACOEUS-8336:clear lock on close
+  * Joe Williams on Fri, 7 Nov 2014 14:54:13 -0600 [View Commit](../../commit/b3d0e4eb86eb2e689e24b5d6a0432da540ed7f0b)
+* KRACOEUS-7805 Proposal Hierarchy Tests  * sasipolus on Tue, 11 Nov 2014 19:40:37 +0530 [View Commit](../../commit/a3645a2bccdbe46b98ca3917c73f5e935ea17789)
+* KRACOEUS-8293	
+  * fix: RRSubAwardBudget5_30V1_2GeneratorTest  * mrudulpolus on Tue, 11 Nov 2014 17:02:57 +0530 [View Commit](../../commit/9e96810ec619963085f1fd0073d8755e9e0454a2)
+* KRACOEUS-8292
+  * fix: RRSubAwardBudget10_30_1_3V1_3GeneratorTest  * mrudulpolus on Tue, 11 Nov 2014 16:38:32 +0530 [View Commit](../../commit/cf3a4f567dfdd42d4596c5f959db96a05addfd20)
+* KRACOEUS-8322
+  * Fix for Change of Dates to allow reset default and autocalculate.
+  * rmancher on Mon, 10 Nov 2014 14:28:15 -0500 [View Commit](../../commit/806b015f213a5c11b5886f1c7b49d2e8ab68a3cd)
+* KRACOEUS-8290
+  * fix: ProposalDevelopmentPersonnelAttachmentRuleTest  * boneypolus on Mon, 10 Nov 2014 15:44:51 +0530 [View Commit](../../commit/71d94ea88651d1f8dfcc8d771e260f668e8ae683)
+* KRACOEUS-8315 Fixing notification to display correct page
+  * Shoj on Fri, 7 Nov 2014 17:02:50 -0500 [View Commit](../../commit/dcdccacfb89b4dd50e3228ece1582935ed11469b)
+* KRACOEUS-8335: Correspondence generated during Return for SMR is on wrong action
+  * Chuck Tharp on Fri, 7 Nov 2014 13:54:56 -0500 [View Commit](../../commit/3408f45de683170ecd4b404b43f618a6a3f9e57e)
+* KRACOEUS-8318
+  * Budget Summary screen issue when budget is marked Complete
+  * rmancher on Fri, 7 Nov 2014 11:30:25 -0500 [View Commit](../../commit/df41388f1e36b764f18917eb7b097bc433272ba9)
+* KRACOEUS-7687
+  * Period Assign Summary Personnel Button Interaction
+  * Verify and update required changes in budget summary.
+  * rmancher on Fri, 7 Nov 2014 10:45:32 -0500 [View Commit](../../commit/61b4f4d691bc75615ff26777ce2ec3a1d2265ede)
+* KRACOEUS-8310:allow s2s forms to be printed after submission
+  * Joe Williams on Thu, 6 Nov 2014 10:26:28 -0600 [View Commit](../../commit/b5f2d0bab7b52a241d9afe9ed8a24f88b64a1a41)
+* KRACOEUS-8289
+  * fix: ProposalDevelopmentPermissionsRuleTest  * boneypolus on Thu, 6 Nov 2014 20:16:41 +0530 [View Commit](../../commit/9c3a2c56919b9b2e8d33d067080f16f4446aafb9)
+* KRACOEUS-8294  * sasipolus on Thu, 6 Nov 2014 17:40:52 +0530 [View Commit](../../commit/08079743ec1bbd07dc5b2d554268c7a9416df505)
+* KRACOEUS-8266:update all references before printing s2s forms
+  * Joe Williams on Mon, 3 Nov 2014 11:28:49 -0600 [View Commit](../../commit/f238f01cea3ec48a1f87a0607930d9ffd665bc7b)
+* KRACOEUS-8302:fixed STE on navigate with data validation turned on due to narrative type references
+  * Joe Williams on Wed, 5 Nov 2014 16:17:07 -0600 [View Commit](../../commit/58a6196652b7df63d95b73522e269bd8d6d0cc0b)
+* KRACOEUS-8287 : Modular Budget Question should only appear if the Sponsor is in the NIH Sponsor Hierarchy-fix
+  * yyuan1 on Tue, 4 Nov 2014 13:01:17 -0500 [View Commit](../../commit/b30b9548ce53b33d2bde734b6e5c8bf1aff077a6)
+* KRACOEUS-8010: retrieving Budget for award, fixing error message
+  * Travis Schneberger on Wed, 5 Nov 2014 14:12:47 -0500 [View Commit](../../commit/23e2a2b007646c98935ad56d646491a1f819118a)
+* KRACOEUS-8199 : project income total n/a
+  * yyuan1 on Wed, 5 Nov 2014 09:29:53 -0500 [View Commit](../../commit/c14348f6a60612f686ff33e66edb66e8e4c9a109)
+* KRACOEUS-8262: Changed DevelopmentProposal search to use the traditional lookup approach with the added functionality.
+  * jamey-rsmart on Wed, 5 Nov 2014 10:23:15 -0700 [View Commit](../../commit/63d2059ec5c5fe3020f2a2c0410c062b6dfc75f8)
+* KRACOEUS-8059 fixed bug with spaces in the full document type code
+  * Jay Hulslander on Wed, 5 Nov 2014 09:16:43 -0500 [View Commit](../../commit/6a15ee7fc4eff34457314f7377658d07ab702b4f)
+* KRACOEUS-8295 fix: QuestionnairePrintingServiceTest  * anithapolus on Wed, 5 Nov 2014 18:57:39 +0530 [View Commit](../../commit/5564f3acb7e89867a2d193ecd1357c08870f1b5d)
+* KRACOEUS-8272 Save/Save and Continue should not render when a proposal is in read only mode
+  * Shoj on Tue, 4 Nov 2014 23:28:01 -0500 [View Commit](../../commit/87dd8c17c9f4d9a88aa838558d14f45ae3378bec)
+* KRACOEUS-8297: STE fix while populating proposal persons with degree info attached
+  * Geo Thomas on Tue, 4 Nov 2014 13:31:54 -0500 [View Commit](../../commit/132fa5580ee4592dbcdfd5cda4ae930fc56cfdfc)
+* KRACOEUS-8254
+  * Add Personnel - problem with modal behavior for Employee/Non-Employee
+  * rmancher on Tue, 4 Nov 2014 15:56:49 -0500 [View Commit](../../commit/9f68973ae039e019a04c6736156a437a965cce96)
+* KRACOEUS-8199 : project income total N/A
+  * yyuan1 on Tue, 4 Nov 2014 16:11:55 -0500 [View Commit](../../commit/ea0bec2aab9a9603005addb36282ab6f24e26a22)
+* KRACOEUS-8252 : Save before navigating to budget
+  * blackcathacker on Fri, 31 Oct 2014 09:58:13 -0700 [View Commit](../../commit/99c11d71e4419cc661f21782250a5cd2ea60f3a7)
+* KRACOEUS-7953: fixing proposal lookup in embedded mode
+  * Travis Schneberger on Tue, 4 Nov 2014 14:22:20 -0500 [View Commit](../../commit/e3fb1c8b80c2a916a07a9c6cc848755e8bcaaf5c)
+* KRACOEUS-8223: fixing links
+  * Travis Schneberger on Tue, 4 Nov 2014 10:49:34 -0500 [View Commit](../../commit/5b40f5f5e61c89b4a1baff0376700bd4d0f1dcbe)
+* KRACOEUS-7861 allow search with active flag on the maintenance form, every other place don't show it.
+  * Jay Hulslander on Fri, 31 Oct 2014 15:47:50 -0400 [View Commit](../../commit/ca7d9712ad81cb760789ac2884ea832604a6d0ff)
+* KRACOEUS-7320:fixed permissions on proposal search
+  * Joe Williams on Tue, 4 Nov 2014 08:29:57 -0600 [View Commit](../../commit/c1811295ad00d1ab5c4c0abf48f1467bddba213e)
+* KRACOEUS-8267:remove user attach form edittable line on save
+  * Joe Williams on Mon, 3 Nov 2014 11:53:07 -0600 [View Commit](../../commit/367e64d552d18551290ba8b668f894ef38e1b6ae)
+* KRACOEUS-8059 fixing custom attrib document inquiry
+  * Jay Hulslander on Thu, 30 Oct 2014 12:28:56 -0400 [View Commit](../../commit/76d91558c7dc575a8c073533f55dcb7bef6b029b)
+* KRACOEUS-7961
+  * Proposal Protocol Service Integration tests  * mrudulpolus on Wed, 24 Sep 2014 17:05:44 +0530 [View Commit](../../commit/d0d321eaf17fa434750b22a9d916e1ab38f07207)
+* Revert "KRACOEUS-8285: tagging release"
+  * Travis Schneeberger on Mon, 3 Nov 2014 22:20:55 -0500 [View Commit](../../commit/7d6850bec2ef0c1f0bd90c567fc398faf2d95241)
+* KRAFDBCK-11138 : Modular Budget Question should only appear if the Sponsor is in the NIH Sponsor Hierarchy
+  * yyuan1 on Mon, 3 Nov 2014 22:17:48 -0500 [View Commit](../../commit/b2a065f71b414641d18aaac1841265c674373b89)
+*  KRACOEUS-8284: removing unused imports
+  * Travis Schneberger on Mon, 3 Nov 2014 19:37:41 -0500 [View Commit](../../commit/05a74c8c11e213d7309d5247d9aaf681ea32e365)
+* KRACOEUS-7683
+  * Budget Summary Modal View
+  * KRACOEUS-7682
+  * Budget Summary Table View Fix
+  * rmancher on Mon, 3 Nov 2014 15:18:47 -0500 [View Commit](../../commit/81a3ab56dec068130960170e88b91f07bad7967f)
+* KRACOEUS-8199 : PD Budget UXI: Project Income View Summary: Totals are N/A
+  * yyuan1 on Mon, 3 Nov 2014 15:03:15 -0500 [View Commit](../../commit/f8fa033b776c3c59197d9996d6529b94db4f3d0b)
+* KRACOEUS-8105:changed order so that scripts are ran after KRACOEUS-6294 scripts
+  * Joe Williams on Thu, 30 Oct 2014 15:21:22 -0500 [View Commit](../../commit/afaa2b8ffdf59b224a64ae5b2072a0e722e2e1e6)
+* KRACOEUS-7959
+  * Proposal KRMS Rule Service tests  * boneypolus on Fri, 24 Oct 2014 17:17:29 +0530 [View Commit](../../commit/85de4f75bf7eebd3e7932dcf19030c1914f985dc)
+
+##coeus-6.0.0-s8
+* KRACOEUS-8285: tagging release
+  * Travis Schneberger on Mon, 3 Nov 2014 20:04:45 -0500 [View Commit](../../commit/cd2f10d8aa1a69f70afb3d5d2492da985e013b57)
+* KRACOEUS-8198 : Fixes for budget dialogs
+  * blackcathacker on Mon, 3 Nov 2014 16:10:45 -0800 [View Commit](../../commit/154b9ba9d419f3931d77bcd12f8865e9cfa21d5e)
+* KRACOEUS-8242: Adds toggle button to add/remove questions when key personnel is of have certificationRequired set to true.
+  * jamey-rsmart on Thu, 30 Oct 2014 13:06:54 -0700 [View Commit](../../commit/7f33fd1fa6777c6e4739f9d1bc77e88333aea1b4)
+* KRACOEUS-8277:fixed refresh s2s submission detail
+  * Joe Williams on Mon, 3 Nov 2014 14:16:45 -0600 [View Commit](../../commit/53cce54b501c40cbe34308e65ed7e9f4971d5cb6)
+* KRACOEUS-8021 taining stipend table now editable
+  * Jay Hulslander on Mon, 3 Nov 2014 11:50:49 -0500 [View Commit](../../commit/749d836babc55b98ec22abdfc1811d8aff595350)
+* KRACOEUS-8106:make person readonly if it has already been save to db on personnel attachments
+  * Joe Williams on Mon, 3 Nov 2014 08:08:54 -0600 [View Commit](../../commit/195924a9bba0f35d28908265a4fbd57be8d46ab4)
+* KRACOEUS-7766,KRAFDBCK-9487 - This fix has got unit lookup for Agenda and ordering Agendas depedning on the unit hierarchy : fixing PR comments
+  * Geo Thomas on Fri, 31 Oct 2014 16:57:59 -0400 [View Commit](../../commit/03c60c661c46bd9ba45f6caf84cb024d021e5292)
+* KRACOEUS-8250
+  * Reset to period defaults
+  * KRACOEUS-7821
+  * Salary by Period for new extended periods
+  * rmancher on Fri, 31 Oct 2014 16:55:44 -0400 [View Commit](../../commit/174dc52ed65758349e270b72915af51c77f67aff)
+* KRACOEUS-7766,KRAFDBCK-9487 - This fix has got unit lookup for Agenda and ordering Agendas depedning on the unit hierarchy : fixing PR comments
+  * Geo Thomas on Fri, 31 Oct 2014 16:54:48 -0400 [View Commit](../../commit/28b4200787348a3dd75658be883a353f6840c6a6)
+* KRACOEUS-7766,KRAFDBCK-9487 - This fix has got unit lookup for Agenda and ordering Agendas depedning on the unit hierarchy : fixing PR comments
+  * Geo Thomas on Fri, 31 Oct 2014 16:44:55 -0400 [View Commit](../../commit/2f4c943cdae1a12a6971fedc42e78f8f885caed4)
+* KRACOEUS-8133 Submit to Sponsor - Notification
+  * Shoj on Fri, 31 Oct 2014 16:24:19 -0400 [View Commit](../../commit/7e3c45077336f6d99e52ded1f74635d65caba27c)
+* KRACOEUS-7766,KRAFDBCK-9487 - This fix has got unit lookup for Agenda and ordering Agendas depedning on the unit hierarchy
+  * Geo Thomas on Fri, 31 Oct 2014 16:21:09 -0400 [View Commit](../../commit/0d5488ddd70820c59b41331791254d5721a0efb3)
+* KRACOEUS-8271: fixing permission page and perm rules
+  * Travis Schneberger on Fri, 31 Oct 2014 14:15:27 -0400 [View Commit](../../commit/62d7cfd4810b09d6db495445776a6d3c30a1e20c)
+* KRACOEUS-8065 : Fix for subawards and person calculations in hierarchy
+  * blackcathacker on Wed, 29 Oct 2014 23:38:19 -0700 [View Commit](../../commit/c1c1fc23da887e1f9a129bf5986f4ea786c54a2b)
+* KRACOEUS-8220:fixed issue with certification audit errors blocking navigation
+  * Joe Williams on Fri, 31 Oct 2014 10:52:06 -0500 [View Commit](../../commit/29b023f7e5cecaba7f752df9127f6290d704f609)
+* KRACOEUS-7268: New maint doc for PropAwardPersonRole.
+  * jamey-rsmart on Wed, 29 Oct 2014 10:47:57 -0700 [View Commit](../../commit/c7b07c772f9de14d6774162b30cc882b28561af8)
+* KRACOEUS-7320:proposal search view link makes document readOnly
+  * Joe Williams on Fri, 31 Oct 2014 08:21:52 -0500 [View Commit](../../commit/e1692c23d67ed6124f300b6e1e91d90e4e2a6cf2)
+* KRACOEUS-8267:fixed save user attached forms
+  * Joe Williams on Fri, 31 Oct 2014 08:45:24 -0500 [View Commit](../../commit/e4e4cb95fa936055b37bf4649d66134849f3ab18)
+* KRACOEUS-8260: Saving protocol results in multiple Special Reviews
+  * Chuck Tharp on Thu, 30 Oct 2014 21:26:17 -0400 [View Commit](../../commit/1d6044d559a9efc7f80d66fd9a34990afe8d0c48)
+* KRACOEUS-8038 : Budget Complete Status
+  * blackcathacker on Thu, 30 Oct 2014 17:01:55 -0700 [View Commit](../../commit/0a0420eaeb6fef3cb16eaf389b7b3e1526b3d685)
+* KRACOEUS-8261 : Fix budget final/complete validation
+  * blackcathacker on Thu, 30 Oct 2014 15:45:28 -0700 [View Commit](../../commit/af985b73e008903bcbe013f0eb7f8542c1f342c5)
+* KRACOEUS-8189
+  * Apply to later periods fix
+  * Refactor personnel and non-personnel cost
+  * rmancher on Wed, 29 Oct 2014 11:05:43 -0400 [View Commit](../../commit/9331b4fa1f5ddc92e7331cf7d217086b4a39e3e6)
+* KRACOEUS-8239:fixed STE when key person is added with degree in the person_degree table
+  * Joe Williams on Thu, 30 Oct 2014 14:36:21 -0500 [View Commit](../../commit/b90248fdd79d2430b76d01e836e01e9da9fe5033)
+* KRACOEUS-8170
+  * Autocalculate periods fix.
+  * Also apply rules and adjust recalculate message.
+  * rmancher on Thu, 30 Oct 2014 15:02:23 -0400 [View Commit](../../commit/354bffeddc2417979008d234124807bc620d7d07)
+* KRACOEUS-8181: code review comments
+  * Travis Schneberger on Thu, 30 Oct 2014 14:36:39 -0400 [View Commit](../../commit/e32a98d742d338118b0397db51d3375cc64320f3)
+* KRACOEUS-6956: Removing whitespace
+  * Gayathri on Thu, 30 Oct 2014 08:55:53 -0700 [View Commit](../../commit/05a91488262d4751692e6d9696dea7cc6d6d14f6)
+* KRACOEUS-8236: JPA maPPing fix
+  * Joe Williams on Wed, 29 Oct 2014 16:36:59 -0500 [View Commit](../../commit/e044d592b2df6185402a5a16526ecc329aa6c0fb)
+* KRACOEUS-8065 Fixing alter statement
+  * Shoj on Thu, 30 Oct 2014 09:58:44 -0400 [View Commit](../../commit/f26edf821b8ad05791097e750e647ffe1f6af98e)
+* KRACOEUS-8160: fixing test
+  * Travis Schneberger on Mon, 27 Oct 2014 19:24:31 -0400 [View Commit](../../commit/862bf416e1293d1cdc2b054543178439f4671cbf)
+* KRACOEUS-8106:additional fixes to personnel attachment validation
+  * Joe Williams on Thu, 30 Oct 2014 08:01:37 -0500 [View Commit](../../commit/7a7fd2414447776de053eca14d9df20252a6838b)
+* KRACOEUS-8188
+  * Recalculate Salary by Period in Project Personnel
+  * rmancher on Wed, 29 Oct 2014 20:33:15 -0400 [View Commit](../../commit/bc48a06c7cdf535a98168ed7d44185f506c26bc0)
+* KRACOEUS-7595: Extra logic added to assist in avoiding the null document number issue.
+  * jamey-rsmart on Wed, 29 Oct 2014 12:16:29 -0700 [View Commit](../../commit/714067198923638a6e712728e3909526d39588d3)
+* KRACOEUS-8163:fixed credit split field level errors
+  * Joe Williams on Wed, 29 Oct 2014 14:02:38 -0500 [View Commit](../../commit/77d17f0697b87e4203f1b8e8977982a35f5b4de6)
+* KRACOEUS-7700 : Modular Budget Add Rates Modal
+  * yyuan1 on Wed, 29 Oct 2014 14:15:59 -0400 [View Commit](../../commit/767ad6fbf22e0e6f74d1e24c9fdefc1ce9f54b51)
+* KRACOEUS-8241 budget summary table fixes
+  * bsmith83 on Wed, 29 Oct 2014 11:03:15 -0700 [View Commit](../../commit/63c68f387b1db5ebbe35d6a25d3081e30632687d)
+* KRACOEUS-8226 using the correct lookupable helpepr service
+  * Jay Hulslander on Wed, 29 Oct 2014 14:02:58 -0400 [View Commit](../../commit/a555258817c3042c5ef17e36923d22e8c2082d0d)
+* KRACOEUS-8222: fixing links
+  * Travis Schneberger on Wed, 29 Oct 2014 13:50:46 -0400 [View Commit](../../commit/8ffa95d24c730d8872a129a011b9d6ea7a718556)
+* KRACOEUS-8238:fixed STE on navigate to supplemental info
+  * Joe Williams on Wed, 29 Oct 2014 10:32:03 -0500 [View Commit](../../commit/cb45a730d16e3bb797263b2cb9c503fd0f3e6c88)
+* KRACOEUS-8065: Proposal Budget Hierarchy creation
+  * blackcathacker on Thu, 23 Oct 2014 19:51:14 -0400 [View Commit](../../commit/e6eae4acbe94b30cc453a4f5f0e22ba232c60551)
+* KRACOEUS-7864 : Build Modular Budget Synced
+  * yyuan1 on Tue, 28 Oct 2014 23:51:42 -0400 [View Commit](../../commit/33da650a344a30c05efbfc53ea20d0cf0aab3f20)
+* KRACOEUS-8203: Rice upgrade. Apparently the previous did not fix the dialog issues it was supposed to fix.
+  * Gayathri on Tue, 28 Oct 2014 18:08:18 -0700 [View Commit](../../commit/c18fc639a9778fb16f8cda4dd6d68824a4d1b63e)
+* KRACOEUS-8075
+  * once individual line items are added to a budget period only the Start Date, End Date, Cost limit and Direct Cost limit should remain editable for that budget period
+  * rmancher on Tue, 28 Oct 2014 20:38:50 -0400 [View Commit](../../commit/6279a2a22205eb96f0c3f27bf8c86baed2153a99)
+* KRACOEUS-8215 budget dialog overlap fix
+  * bsmith83 on Tue, 28 Oct 2014 17:15:38 -0700 [View Commit](../../commit/a0872b5b9bc0dd3f43695aea4b8c202f9f380b28)
+* KRACOEUS-8095
+  * Unrecovered F&A in Details read only
+  * KRACOEUS-8183
+  * Retain total cost if amount is not entered in direct cost or indirect cost
+  * Also fix dialog reset issue
+  * rmancher on Tue, 28 Oct 2014 19:46:52 -0400 [View Commit](../../commit/93e5b08cad93972eb82b9fb8b0521387fdb03e56)
+* KRACOEUS-8233: copying user attached forms
+  * Gayathri on Tue, 28 Oct 2014 16:24:53 -0700 [View Commit](../../commit/952ef2e4a8fb139c0ad39d99424452e197320184)
+* KRACOEUS-8043 Close button added for wizards, repositioned buttons for wizards, modals do not close when clicking out now
+  * bsmith83 on Tue, 28 Oct 2014 12:43:59 -0700 [View Commit](../../commit/36bce9436752a913422bcfe0f31fa9cefc0abe74)
+* KRACOEUS-8219:added compliance summary section
+  * Joe Williams on Tue, 28 Oct 2014 15:41:57 -0500 [View Commit](../../commit/be94bf8e1f3fd53cd4c67ce19fecbc7375ff47ca)
+* KRACOEUS-8217:removed editable credit splits from summary
+  * Joe Williams on Tue, 28 Oct 2014 14:55:59 -0500 [View Commit](../../commit/cb4d8c74fa077a8a2cc2bd7ba56630915519254d)
+* KRACOEUS-8164, Fixing deep in NarrativeEvent
+  * Shoj on Tue, 28 Oct 2014 15:13:53 -0400 [View Commit](../../commit/e45413464763112e9729a7206d847db8ba091205)
+* KRACOEUS-8141:fixed broken tests
+  * Joe Williams on Tue, 28 Oct 2014 14:10:33 -0500 [View Commit](../../commit/4e72edacfc363110d89ab89c822e8a9d721cb6ac)
+* KRACOEUS-8231: removing reflection
+  * Travis Schneberger on Tue, 28 Oct 2014 15:01:34 -0400 [View Commit](../../commit/d6530893976106e3be4a69f1b7a66ebe2f0f6f64)
+* KRACOEUS-8224: setting the proposal state.
+  * Gayathri on Tue, 28 Oct 2014 11:48:49 -0700 [View Commit](../../commit/4b20664339a9a6c81822fad40f397e6d480a289c)
+* KRACOEUS-7595: Adding in the ability to add ad hoc recipients after do is submitted.
+  * jamey-rsmart on Tue, 28 Oct 2014 11:23:32 -0700 [View Commit](../../commit/2ba72033ff4dbd869faf0add516779d65ea93e0a)
+* KRACOEUS-8213:set employee as default search type for personnel modal
+  * Joe Williams on Tue, 28 Oct 2014 10:16:55 -0500 [View Commit](../../commit/87ad08a3055ffe02afa259773a2149f69d8ba96b)
+* KRACOEUS-7806: More fixes for proposal hierarchy attachments
+  * Gayathri on Tue, 28 Oct 2014 07:33:24 -0700 [View Commit](../../commit/91ddcba10070e5c2b6e985b129625f205d9df474)
+* KRACOEUS-8140:fixed STE when calling data validation due to references not being refreshed
+  * Joe Williams on Tue, 28 Oct 2014 09:12:21 -0500 [View Commit](../../commit/22e64bc7e874a56aef2ed56357881ec4cefad92c)
+* KRACOEUS-7699 : Modular Budget Summary Modal -- showing total
+  * yyuan1 on Tue, 28 Oct 2014 00:59:23 -0400 [View Commit](../../commit/1a3f8d0fb7566498902d89b77acbbb9ff4513d57)
+* KRACOEUS-7698 : Build General Modular Budget Panel Render from real budget -- save/reculate then display
+  * yyuan1 on Tue, 28 Oct 2014 00:52:05 -0400 [View Commit](../../commit/47ef63fc8cd1e5c436c93ea3b18beddc578acfcc)
+* KRACOEUS-8183
+  * Calculating summary budget Total Sponsor Cost
+  * rmancher on Mon, 27 Oct 2014 17:11:19 -0400 [View Commit](../../commit/a5c38fd97d069ca024e261f03d22f65d17c327ec)
+* KRACOEUS-6956 : rename KC_DML_01_KRACOEUS-6956_BSTD.sql to KC_DML_01_KRACOEUS-6956_B000.sql
+  * yyuan1 on Mon, 27 Oct 2014 19:42:33 -0400 [View Commit](../../commit/9aedc2840229e51b9ff5a3d798c71f3dfd4ae729)
+* KRACOEUS-8147 Copy button client validation on
+  * bsmith83 on Mon, 27 Oct 2014 16:13:05 -0700 [View Commit](../../commit/8ff8a199bfb960fdec18eb0c6d5dbe1e14b001ee)
+* KRACOEUS-8197 Changed visibility and relaxed permissions of copy link, added canCopy editMode
+  * bsmith83 on Fri, 24 Oct 2014 18:32:57 -0700 [View Commit](../../commit/903273f516efc903ca7e65487c1f608729c4ba60)
+* KRACOEUS-7851: fixing links to work in embedded mode
+  * Travis Schneberger on Mon, 27 Oct 2014 17:28:41 -0400 [View Commit](../../commit/ace07e53a0d8a3d511f751ea4a04171c2e64922f)
+* KRACOEUS-8141:added server side validation for proposal attachments
+  * Joe Williams on Tue, 21 Oct 2014 14:00:20 -0500 [View Commit](../../commit/e909154630ed323d51ab70aef6099681345b830b)
+* KRACOEUS-8097:fixed issue with loading screen closing before page is rendered
+  * Joe Williams on Mon, 27 Oct 2014 14:38:00 -0500 [View Commit](../../commit/a17a552c1901edf5de1beae0c29206d7f6bb1902)
+* KRACOEUS-7968:added auto submit to sponsor
+  * Joe Williams on Mon, 27 Oct 2014 12:58:24 -0500 [View Commit](../../commit/12164374e4a54f7aadde48f127e5b905ab7ec350)
+* KRACOEUS-7699 : Modular Budget Summary Modal
+  * yyuan1 on Mon, 27 Oct 2014 13:21:39 -0400 [View Commit](../../commit/3ab9bf79bb022a6e89f90f2eadff28cd075283be)
+* KRACOEUS-7873 fixing IP printing
+  * Jay Hulslander on Mon, 27 Oct 2014 11:41:14 -0400 [View Commit](../../commit/71b1256c55a5a77480bac38b454c4afe0baea595)
+* KRACOEUS-8202: fixing math & formatting problem
+  * Travis Schneberger on Mon, 27 Oct 2014 11:23:14 -0400 [View Commit](../../commit/f46129b4bab213aacc423a6d990de8a02517dfec)
+* KRACOEUS-8191:fixed STE when continuedFrom IPdoesn't haven't a s2s_submission associated with it
+  * Joe Williams on Mon, 27 Oct 2014 09:41:00 -0500 [View Commit](../../commit/49816e4c18cf56454f36d4d5e48be03b48f56c83)
+* KRACOEUS-8161
+  * org.kuali.kra.award.printing.service.impl.AwardPrintingServiceImplTest  * anithapolus on Mon, 27 Oct 2014 19:58:05 +0530 [View Commit](../../commit/f965ea864de542a4cd1e3cd702eaac9e7652e12a)
+* KRACOEUS-7698 : Build General Modular Budget Panel Render from real budget -display project total requested cost
+  * yyuan1 on Sat, 25 Oct 2014 16:09:11 -0400 [View Commit](../../commit/54d6bf35246bd93e60ed6334acf58a9c2274ca45)
+* KRAFDBCK-11554
+  * “SravanVed” on Thu, 23 Oct 2014 15:57:38 -0400 [View Commit](../../commit/b244b1aa122e90c0759a379d2f932efec62330a5)
+* KRACOEUS-8137: Stack overflow fix
+  * Gayathri on Fri, 24 Oct 2014 19:21:50 -0700 [View Commit](../../commit/3a6c0971111610826229f943b029acb48f9eb6ec)
+* KRACOEUS-8203: rice upgrade
+  * Gayathri on Fri, 24 Oct 2014 15:14:00 -0700 [View Commit](../../commit/6b20fe23635ce27ef450085f7dc42ce3039e5b8d)
+* KRACOEUS-8191:added previous gg tracking id and agency routing id to sponsor info
+  * Joe Williams on Fri, 24 Oct 2014 14:03:13 -0500 [View Commit](../../commit/52b805ab8a4d8be9793339ce4a1b9d8c3024d614)
+* KRACOEUS-7789 action list summary view fix
+  * bsmith83 on Fri, 24 Oct 2014 13:33:49 -0700 [View Commit](../../commit/24fc1c11b5027326bdbf55b4b53a2eb6655fbd98)
+* KRACOEUS-7671
+  * Enable validation for personnel and non-personnel cost.
+  * KRACOEUS-8072
+  * Fix date issue
+  * Fix JPA issue.
+  * rmancher on Thu, 23 Oct 2014 17:56:17 -0400 [View Commit](../../commit/0e823850a44e0a73abcdc7168b4b07a0a87d08dd)
+* KRACOEUS-8178
+  * Remove period type search
+  * rmancher on Fri, 24 Oct 2014 17:04:55 -0400 [View Commit](../../commit/b2c22e08ed523084470687b69114bdab65fc8bad)
+* KRACOEUS-8194:added approval disclaimer when approve button is rendered
+  * Joe Williams on Fri, 24 Oct 2014 15:27:41 -0500 [View Commit](../../commit/ec84e456e5a40d484fd52004c687c2b31b6f8ffd)
+* KRACOEUS-8193:fixed typo
+  * Joe Williams on Fri, 24 Oct 2014 14:41:01 -0500 [View Commit](../../commit/e6fd497a99a0fd7ef82a50dd63ec7db3e75543b1)
+* KRACOEUS-8192: adding to the answer api
+  * Travis Schneberger on Fri, 24 Oct 2014 15:02:09 -0400 [View Commit](../../commit/4833ec2803dd578621f2ce5087476dc809f8476b)
+* KRACOEUS-8181: convenient way to clear pessimistic locks to make it easier for testing.
+  * Travis Schneberger on Fri, 24 Oct 2014 13:46:16 -0400 [View Commit](../../commit/bfc97c246f6b844bdc9f1eb6c6de2fe7c201b087)
+* KRACOEUS-8186
+  * Removing warning message for recalculate
+  * rmancher on Fri, 24 Oct 2014 12:34:15 -0400 [View Commit](../../commit/6a796842a8feaeac0ed478b56192180cc90b3960)
+* KRACOEUS-8097:fixed budget fix it links
+  * Joe Williams on Fri, 24 Oct 2014 11:29:39 -0500 [View Commit](../../commit/fb26da540fc506a6df01478b3bdac1d0b761b7d0)
+* KRACOEUS-8190:fixed user attached form validation to check for duplicates before saving
+  * Joe Williams on Fri, 24 Oct 2014 11:08:02 -0500 [View Commit](../../commit/6dadb31f18b88969a4b92a72a8ea3aa83347ff2f)
+* KRACOEUS-7735:added print all certification on summary page
+  * Joe Williams on Fri, 24 Oct 2014 10:43:02 -0500 [View Commit](../../commit/8d02f9dfdfb80cde65988d9770752bee72e7f9bf)
+* KRACOEUS-8184
+  * Remove Cost Sharing Percent
+  * rmancher on Fri, 24 Oct 2014 11:28:13 -0400 [View Commit](../../commit/42071a9fbf25869c9916cae45c06030218e0d6ff)
+* KRACOEUS-8091
+  * org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentPermissionsRuleTest
+  * :fix  * boneypolus on Thu, 23 Oct 2014 14:20:58 +0530 [View Commit](../../commit/16109da0bf7648618d4753fad755076339bf1e7a)
+* KRACOEUS-8163:fixed validation of credit splits, added client side validation to navigation links
+  * Joe Williams on Thu, 23 Oct 2014 11:09:10 -0500 [View Commit](../../commit/710cf799149b88e44b8f9be298ae50f2bd70dba4)
+* KRACOUES-7597:more data override fixes
+  * Joe Williams on Thu, 23 Oct 2014 16:53:22 -0500 [View Commit](../../commit/8d3b5161441d0100d297ec44a1231f6ed2492c0b)
+* KRACOEUS-7864 : Build Modular Budget Synced - 2
+  * yyuan1 on Thu, 23 Oct 2014 01:15:40 -0400 [View Commit](../../commit/953e4fa2962859e0010a9e628c05925b9c6a8953)
+* KRACOEUS-8164
+  * Shoj on Thu, 23 Oct 2014 16:29:57 -0400 [View Commit](../../commit/df1ee3f6887d00b2531a387f9c93344fc0266712)
+* KRACOEUS-7922:added environment child questions to gg questionnaire
+  * Joe Williams on Thu, 23 Oct 2014 14:47:42 -0500 [View Commit](../../commit/46b4b0871aee3076e60af145480a4488a7572f1f)
+* KRACOEUS-8165:research.gov errors stop submission
+  * Joe Williams on Thu, 23 Oct 2014 12:53:30 -0500 [View Commit](../../commit/fa3c0076d1972e3feed4d00f0c82fa366a3da37e)
+* KRACOEUS-7747: fixing conditional rendering of perm elements
+  * Travis Schneberger on Thu, 23 Oct 2014 11:04:03 -0400 [View Commit](../../commit/37dca62bde5376928bac54272c920d492c88fe2f)
+* KRACOEUS-7860:fix proposal lookup in hierarchy modal
+  * Joe Williams on Thu, 23 Oct 2014 09:17:15 -0500 [View Commit](../../commit/9b3db54f2aa4bcd5845e009892a7fcb8c6b0a1ac)
+* KRACOEUS-8160 fixing custom data validation
+  * Jay Hulslander on Thu, 23 Oct 2014 09:41:38 -0400 [View Commit](../../commit/3a9a80723837d29fc59bf99c936cceb1ddcd5aff)
+* KRACOEUS-7747: fixing conditional rendering of copy
+  * Travis Schneberger on Thu, 23 Oct 2014 09:16:01 -0400 [View Commit](../../commit/3222d9e4bc9b8fca5672f36477a867c6112f0dfb)
+* KRACOEUS-8152 fix for concurrency issues in file upload
+  * bsmith83 on Wed, 22 Oct 2014 16:56:57 -0700 [View Commit](../../commit/2172124ed9e691820f27c2ed75ea90b955d5cd66)
+* KRACOEUS-7747: adding some permission logic for print, hierarchy, and budget
+  * Travis Schneberger on Wed, 22 Oct 2014 14:02:10 -0400 [View Commit](../../commit/025334d0af058bc9438d2e4171121d990bffc0a2)
+* KRACOEUS-7699 : Modular Budget Summary Modal
+  * yyuan1 on Wed, 22 Oct 2014 12:52:58 -0400 [View Commit](../../commit/e39ba6e597ce843362a7045afbf02545e3048ea7)
+* KRACOEUS-7873 creating very basic award  print service test
+  * Jay Hulslander on Tue, 21 Oct 2014 15:43:17 -0400 [View Commit](../../commit/e83cf64d25873012c430a53febba562c7ec62471)
+* KRACOEUS-8151 radio/checkbox left workaround for add personnel wizards
+  * bsmith83 on Tue, 21 Oct 2014 18:41:26 -0700 [View Commit](../../commit/a548fc1267cd93c43848330900af6374a744fbab)
+* KRACOEUS-8097:fixing broken tests
+  * Joe Williams on Tue, 21 Oct 2014 16:49:44 -0500 [View Commit](../../commit/1e0e05804ce5a2731431ca48ce9b2b695e12890e)
+* KRACOEUS-7847 - Fixing s2s submission
+  * Shoj on Tue, 21 Oct 2014 18:23:20 -0400 [View Commit](../../commit/d1e01132483f7eac8096b24aa6cc6b07246b498d)
+* KRACOEUS-8061 more loading indicator fixes
+  * bsmith83 on Tue, 21 Oct 2014 15:14:11 -0700 [View Commit](../../commit/f931ddc4f6555809a54358ccf09a8cb4964117bf)
+* KRACOEUS-7682
+  * Proposal Budget Summary View
+
+  * KRACOEUS-7684
+  * Build budget summary
+  * rmancher on Tue, 14 Oct 2014 11:17:11 -0400 [View Commit](../../commit/f94e9659c7b504bb925e8e26de0f90528f4f99de)
+* KRACOEUS-8150:removing audit rule limiting NIH proposal titles to 81 characters
+  * Joe Williams on Tue, 21 Oct 2014 15:29:37 -0500 [View Commit](../../commit/07c7cd1306d283cd3bf7b7631358201a31a54a3f)
+* KRACOEUS-8097:addition audit error fixes
+  * Joe Williams on Thu, 16 Oct 2014 16:56:13 -0500 [View Commit](../../commit/51094e0930c9a1fcaafc28f92c31456c7324f418)
+* KRACOUES-8097:fixed data validation dialog and fix it links for personnel and credit allocation
+  * Joe Williams on Tue, 14 Oct 2014 09:17:45 -0500 [View Commit](../../commit/c1d2304d828f313738d9d3b6ac28ea55ed7c8f92)
+* KRACOEUS-7864 : Build Modular Budget Synced
+  * yyuan1 on Fri, 17 Oct 2014 00:58:32 -0400 [View Commit](../../commit/987125bc1c9f8e09d29c3335bef18681c9fac691)
+* KRACOEUS-7698 : Build General Modular Budget Panel Render from real budget
+  * yyuan1 on Mon, 13 Oct 2014 13:20:15 -0400 [View Commit](../../commit/961829e40799ef0f97bbb1ce9a82b787049bc6fc)
+* KRACOEUS-8094: special review copy issue
+  * Gayathri on Tue, 21 Oct 2014 09:59:29 -0700 [View Commit](../../commit/dd8f91cc352d25b2f800955fafb53ed5b1003b57)
+* KRACOEUS-8127 fix fop errors
+  * in:ProposalDevelopmentPrintingServiceImplTest  * sasipolus on Tue, 21 Oct 2014 15:22:57 +0530 [View Commit](../../commit/b560400a57f8653e64ae519775b4315ae63d2a44)
+* KRACOEUS-8138
+  * “SravanVed” on Sat, 18 Oct 2014 13:05:07 -0400 [View Commit](../../commit/654b0d135a78e65c4167bc83dd6f9334b5ec1c5b)
+* KRACOEUS-8136
+  * “SravanVed” on Sat, 18 Oct 2014 12:46:12 -0400 [View Commit](../../commit/b2ac9fcff35352e2426f9d0697291a3198f77889)
+* KRACOEUS-7698 : Build General Modular Budget Panel Render from real budget
+  * yyuan1 on Mon, 13 Oct 2014 13:20:15 -0400 [View Commit](../../commit/48f606649c01afbdcdf2393c1ec307bcc3fa8e1c)
+* KRACOEUS-8101
+  * “SravanVed” on Tue, 14 Oct 2014 13:29:16 -0400 [View Commit](../../commit/72f5e8f3b1faa02013da9618f2ef1ce5bb852d76)
+* KRACOEUS-8106:added personnel attachment validation
+  * Joe Williams on Wed, 15 Oct 2014 12:53:56 -0500 [View Commit](../../commit/d97d8e177000234ca44df2554a75a3e65c89a7a0)
+* KRACOEUS-7615 : Budget Subawards Edit Modal
+  * blackcathacker on Wed, 8 Oct 2014 14:02:57 -0700 [View Commit](../../commit/d6715ca43006d1d6a09b2bfc988f744a667c7eae)
+* KRACOEUS-8035: Attempting to print COI questionnaire generates STE
+  * Chuck Tharp on Mon, 13 Oct 2014 13:39:56 -0400 [View Commit](../../commit/6dd52a3d2a092de0bfd8d1f99892ea9e28cfc76a)
+
+##coeus-6.0.0-s7
+* KRAFDBCK-11529 budget dialog loading indicator workaround
+  * bsmith83 on Mon, 20 Oct 2014 16:57:57 -0700 [View Commit](../../commit/69d9a3300edac791e35d35ec0123d35b53803ee0)
+* KRAFDBCK-11332 close button for lookup modal fix
+  * bsmith83 on Mon, 20 Oct 2014 16:52:16 -0700 [View Commit](../../commit/fb6053bbe097ab176ff669888f65ae3637b87d24)
+* KRACOEUS-8146: Fixing proposal copy button. This is a temp fix.
+  * Gayathri on Mon, 20 Oct 2014 15:27:35 -0700 [View Commit](../../commit/44ec9bfa65dbb994042309f80f6bf18b927603cd)
+* KRACOEUS-8096:fixing issue where narrative  references aren't being refreshed so display is rendering code and not the discripiton
+  * Joe Williams on Mon, 20 Oct 2014 14:20:35 -0500 [View Commit](../../commit/88f884a39a04f90cc91112a96979192d6c33118a)
+* KRACOEUS-7597:fixing data override display values and fix on change js to always be ran
+  * Joe Williams on Fri, 17 Oct 2014 13:20:39 -0500 [View Commit](../../commit/6713f0287613c2a9a17114acdf102a716396c153)
+* KRACOEUS-8139: Removing Access dialog as functionality has been switched to side navigation link.
+  * Jamey Decker on Mon, 20 Oct 2014 08:32:09 -0700 [View Commit](../../commit/4277277db317c57ac5810a13fe78e2d4e680375c)
+* KRACOEUS-8135 AwardBudgetLineItemExt are not mapped with JPA, so they need to use legacy data adapter to refresh objects
+  * Jay Hulslander on Mon, 20 Oct 2014 10:25:25 -0400 [View Commit](../../commit/1365f8d25df1fd5620e0c4d9c3608d3a82939253)
+* KRACOEUS-7860: Attachments sync work
+  * Gayathri on Fri, 17 Oct 2014 12:49:56 -0700 [View Commit](../../commit/57e4c796bff82895d5ec79d5eee3c2c8b0068555)
+* KRACOEUS-7595: Adding in Ad Hoc Recipient functionality.
+  * Jamey Decker on Fri, 17 Oct 2014 15:49:31 -0700 [View Commit](../../commit/e9a9353f6a50b723f0042fbddf7a001d55133859)
+* KRACOEUS-8122 Fixed several problems adding and deleting ProposalSite collection elements, and congressional districts
+  * bsmith83 on Fri, 17 Oct 2014 13:24:08 -0700 [View Commit](../../commit/e36a0947d1b191a6b6ab7b20cb8d905495e2417d)
+* KRACOEUS-8081: fixing proposal delete with a budget with periods
+  * Travis Schneberger on Fri, 17 Oct 2014 14:08:53 -0400 [View Commit](../../commit/60258e0cff275f7bc54da8b183b8a22cc6de10d9)
+* KRACOEUS-8125 fixing protocols so they route when add hoc approvers are added
+  * Jay Hulslander on Fri, 17 Oct 2014 14:32:28 -0400 [View Commit](../../commit/8b6556de0d9a10c881d3781dbe645e62ecf803df)
+* KRACOEUS-7282 - No IP Generated
+  * Shoj on Fri, 17 Oct 2014 13:45:27 -0400 [View Commit](../../commit/e17771036169738acf22b60dcb53d9658c292d16)
+* KRACOEUS-8084
+  * org.kuali.kra.s2s.generator.impl.RRSubAwardBudget5_30V1_2GeneratorTest
+  * fix  * anithapolus on Fri, 17 Oct 2014 16:46:31 +0530 [View Commit](../../commit/7b59a2001dcb2d01f3fac37f5192d821ebcc47d2)
+* KRACOEUS-8085 fix:
+  * org.kuali.kra.s2s.rrbudget.RRBudget10V1_3GeneratorTest  * sasipolus on Fri, 17 Oct 2014 15:05:34 +0530 [View Commit](../../commit/346f59604c64f29f8f9ad54ef38fc268e3c38030)
+* KRACOEUS-8083
+  * org.kuali.kra.s2s.generator.impl.RRSubAwardBudget10_30_1_3V1_3GeneratorTest
+  * fix  * anithapolus on Fri, 17 Oct 2014 14:48:04 +0530 [View Commit](../../commit/004a11f3a540d084640502796a21a629e5c86050)
+* KRACOEUS-7847 and KRACOEUS-7282
+  * Shoj on Thu, 16 Oct 2014 14:59:20 -0400 [View Commit](../../commit/084b037e8197c704cb1a36c6facbfe9043448e15)
+* KRACOEUS-7860: Fixing Proposal hierarchy proposal parts
+  * Gayathri on Tue, 14 Oct 2014 18:08:10 -0700 [View Commit](../../commit/29dbcb638c9e12667765b719e5d32ab0b707c04c)
+* KRACOEUS-8124 fixed award link to not auto search
+  * Jay Hulslander on Thu, 16 Oct 2014 16:12:48 -0400 [View Commit](../../commit/ba063d1e3784a43f1ab7829e69a5806baa78593f)
+* KRACOEUS-8123 adding protocol type maintenence doc XML into CoreSpringBeans
+  * Jay Hulslander on Thu, 16 Oct 2014 15:24:40 -0400 [View Commit](../../commit/445250f4b5de56af46e92215a9b309e253dd1be0)
+* KCINFR-982: removing @Ignore, fixing test
+  * Travis Schneberger on Thu, 16 Oct 2014 14:29:53 -0400 [View Commit](../../commit/4d473bb8ba9b4b00118123de877d102d513f3f52)
+* KCINFR-981: removing @Ignore
+  * Travis Schneberger on Thu, 16 Oct 2014 13:47:25 -0400 [View Commit](../../commit/2b52d3658f25c6c489a40973d58461ee778cf6bd)
+* KRACOEUS-8121 added in needed attributes reference for AttachmentFile
+  * Jay Hulslander on Thu, 16 Oct 2014 13:22:25 -0400 [View Commit](../../commit/41a43d5fd9fe37a5008190eee2c1e4c065a7101e)
+* KCINFR-982: removing @Ignore
+  * Travis Schneberger on Thu, 16 Oct 2014 12:55:43 -0400 [View Commit](../../commit/13b223c3d7b528725f71faef1d8cbd74bdea0093)
+* KCINFR-983: removing @Ignore
+  * Travis Schneberger on Thu, 16 Oct 2014 12:52:14 -0400 [View Commit](../../commit/971be7ad2d5a295aedae1a8f97c2d2bc5a031c4f)
+* KRACOEUS-7183:fixed issues with attachment notes
+  * Joe Williams on Thu, 16 Oct 2014 09:36:25 -0500 [View Commit](../../commit/e5cbda18f1e35293858d5d9edae722febf18ae6d)
+* KRACOEUS-7200:added print reports
+  * Joe Williams on Wed, 15 Oct 2014 13:52:03 -0500 [View Commit](../../commit/e5ab26791ff0ec2f7e428a37b767c338d1ac7d69)
+* KRACOEUS-8086 fix: org.kuali.kra.s2s.rrbudget.RRBudgetV1_3GeneratorTest  * boneypolus on Thu, 16 Oct 2014 18:57:39 +0530 [View Commit](../../commit/e5de56fbd3e4e1161d3361f509e25c95e9e88331)
+* KRACOEUS-8089 org.kuali.kra.s2s.rrsf424.RRSF424V1_2GeneratorTest fix  * mrudulpolus on Thu, 16 Oct 2014 17:44:42 +0530 [View Commit](../../commit/4fb90bbf446b5fef03d3bb4149b364a20f0583a6)
+* KRACOEUS-8090 org.kuali.kra.s2s.rrsf424.RRSF424_2_0_V2GeneratorTest fix  * mrudulpolus on Thu, 16 Oct 2014 16:46:00 +0530 [View Commit](../../commit/29659e4d5504c0232c9e91cf226f528eae6f9adc)
+* KRACOEUS-8088 fix:
+  * org.kuali.kra.s2s.rrfednonfedbudget.RRFedNonFedBudgetV1_1GeneratorTest  * sasipolus on Thu, 16 Oct 2014 15:25:43 +0530 [View Commit](../../commit/49d34e3f090e1f956d14167018be2a84c6ff5531)
+* KRACOEUS-8087 fix:
+  * org.kuali.kra.s2s.rrfednonfedbudget.RRFedNonFedBudget10V1_1GeneratorTest  * sasipolus on Thu, 16 Oct 2014 14:20:08 +0530 [View Commit](../../commit/cc3ceaf5186f5c6f8380cfbb90d8fcb857d4950a)
+* KRACOEUS-8116 : Use dataObjectService for PD
+  * blackcathacker on Wed, 15 Oct 2014 19:40:33 -0700 [View Commit](../../commit/29142a9a1373f691445359e66b094737222a18a8)
+* KRACOEUS-8115 : Budget permissions
+  * blackcathacker on Thu, 9 Oct 2014 12:51:10 -0700 [View Commit](../../commit/8a3c4ef38bb327424991379d364d85e97c80a100)
+* KRACOEUS-8105:removing invalid document level roles
+  * Joe Williams on Wed, 15 Oct 2014 10:44:24 -0500 [View Commit](../../commit/a4da0db1575c5312d55e0fcb6346ea0ad40e4b98)
+* KRACOEUS-8099:only update file name on the s2s form not on attachments page
+  * Joe Williams on Tue, 14 Oct 2014 10:32:18 -0500 [View Commit](../../commit/e4476186acb888e65baad5c8b20a1f38086ec6ad)
+* KRACOEUS-8082
+  * org.kuali.kra.s2s.generator.impl.PHS398ModularBudgetV1_2GeneratorTest
+  * fix  * mrudulpolus on Wed, 15 Oct 2014 17:05:32 +0530 [View Commit](../../commit/220bc661c831af5888a86739e441fa9534539da3)
+* KRACOEUS-8108 : Fix budget rates and lower memory/db usage of toString
+  * blackcathacker on Tue, 14 Oct 2014 21:21:11 -0700 [View Commit](../../commit/1974deace0678c66d7e961e7db6b69f4e474d8ff)
+* KRACOEUS-7884 medusa and copy links/views for lookup proposal view
+  * bsmith83 on Mon, 13 Oct 2014 12:21:36 -0700 [View Commit](../../commit/e2b6652b14b832658004ea9b3f3f5abc2a13e282)
+* KRACOEUS-7579
+  * “SravanVed” on Tue, 14 Oct 2014 12:53:49 -0400 [View Commit](../../commit/74616611f881202bbda9aff01ef51452b1644353)
+* KRACOEUS-8104: fixing tests
+  * Travis Schneberger on Tue, 14 Oct 2014 12:10:31 -0400 [View Commit](../../commit/cab425bf046dc0254401639fb7b89bab41201f68)
+* KRACOEUS-8104: fix build
+  * Gayathri on Tue, 14 Oct 2014 07:52:44 -0700 [View Commit](../../commit/345c40c4280ad78ada830d5e5a59be8336d418ee)
+* KRACOEUS-8063: establishing a common proposal module, setting up autowiring correctly.
+  * Travis Schneberger on Tue, 14 Oct 2014 10:49:40 -0400 [View Commit](../../commit/79783966d18391c4eb06610b855ba575e7741593)
+* KRACOEUS-8070
+  * Budget person sort order - set to same as proposal person
+  * Also changes to grouping personnel included.
+  * rmancher on Mon, 13 Oct 2014 12:33:16 -0400 [View Commit](../../commit/d98bd55b7c3bb0aafabc3af91cc254128fd2f175)
+* KRACOEUS-8076
+  * “SravanVed” on Thu, 9 Oct 2014 14:44:02 -0400 [View Commit](../../commit/d09761ed7e861d488b6af13a557fcbc9e4e8a629)
+* KRACOEUS-8079:created proposal hierarchy summary
+  * Joe Williams on Fri, 10 Oct 2014 07:46:53 -0500 [View Commit](../../commit/206b5390a8e4d75613cb9f28a2d370f7f5f9b1e2)
+* KRACOEUS-8104: properly initializing PD doc
+  * Travis Schneberger on Tue, 14 Oct 2014 08:52:48 -0400 [View Commit](../../commit/24b35c7217d36558087ecb43a2630051fdb26b8b)
+* KRACOEUS-8102: add newlines
+  * Travis Schneberger on Tue, 14 Oct 2014 07:56:57 -0400 [View Commit](../../commit/3522c578b8d2a6154087576c457ca86566144dd5)
+* KRACOEUS-7905 	budget header overlap fix
+  * bsmith83 on Mon, 13 Oct 2014 17:46:00 -0700 [View Commit](../../commit/f8e9cb2f7e385575340bdf356cf4f6c448f7aa94)
+* KRACOEUS-7996 fixed character validation for the description fields
+  * Jay Hulslander on Mon, 13 Oct 2014 15:27:44 -0400 [View Commit](../../commit/6739ef5b7ce3085ae157aaf838128b5f7a7ab779)
+* KRACOEUS-8033
+  * Multiple dialogs refresh issue - Moving dialogs to page level
+  * rmancher on Mon, 13 Oct 2014 14:51:58 -0400 [View Commit](../../commit/fb5d1243785866a7d6a97bfc2a00eaac6ca42e98)
+* KRACOEUS-8098:removing sorting on add for key personnel
+  * Joe Williams on Mon, 13 Oct 2014 12:57:09 -0500 [View Commit](../../commit/0b5bce66adb8f78c2ec5cb0a9e7e1e114b253fa3)
+* KRACOEUS-8096:fixed issue with narrative type ref not updating on save of institute attachmetns
+  * Joe Williams on Mon, 13 Oct 2014 11:03:52 -0500 [View Commit](../../commit/5944892d319f558fa6220f6d3be3c33b6bc97107)
+* KRACOEUS-7597:fixing data override
+  * Joe Williams on Mon, 13 Oct 2014 10:17:09 -0500 [View Commit](../../commit/ed7145012afb9c95c9f63e4bc7e52e9ee7b413a4)
+* KRACOEUS-8058 fixed OJB mapping and added an award budget work around
+  * Jay Hulslander on Thu, 9 Oct 2014 16:13:21 -0400 [View Commit](../../commit/ffc777b6e2bb3ac7fa1043ba6ac0f89ef73afcae)
+* KRACOEUS-8093: correct changes to awardtype
+  * Travis Schneberger on Fri, 10 Oct 2014 13:26:55 -0400 [View Commit](../../commit/c0540b052ab76b4a1069314b86d60708c1027ee4)
+* KRACOEUS-8072
+  * Fix default period update
+  * KRACOEUS-8073
+  * Calculate salary once line item is updated
+  * KRACOEUS-8071
+  * Fix for personnel period save - memory issue
+  * Adjusting JPA mapping and removing some debugs
+  * rmancher on Fri, 10 Oct 2014 11:50:31 -0400 [View Commit](../../commit/d2dbf7dedc2ae50973806ec1d106e4542cf74f7a)
+* KCINFR-979: add missing component
+  * Travis Schneberger on Fri, 10 Oct 2014 10:25:04 -0400 [View Commit](../../commit/770312f73aaf238ade450d9147c6b0f455e075a1)
+* KRACOEUS-7109: fix mysql script
+  * Travis Schneberger on Fri, 10 Oct 2014 10:24:39 -0400 [View Commit](../../commit/70634541688ff30830ef96c5c86c7a68d35eea57)
+* KRACOEUS-6294: fix mysql script
+  * Travis Schneberger on Fri, 10 Oct 2014 10:24:25 -0400 [View Commit](../../commit/421e1371b3059bc94bd13d1c4b0d3708079b7ba6)
+* KRACOEUS-6954: fix mysql script
+  * Travis Schneberger on Fri, 10 Oct 2014 10:21:06 -0400 [View Commit](../../commit/0318d50de48b5644f76e3b4f3f966f58a54df201)
+* KRACOEUS-7120: fix mysql script
+  * Travis Schneberger on Fri, 10 Oct 2014 10:20:52 -0400 [View Commit](../../commit/c3125d17a118296de24bda51ba5aa1d537530359)
+* KRACOEUS-8092 : Rice upgrade
+  * blackcathacker on Wed, 8 Oct 2014 14:04:13 -0700 [View Commit](../../commit/5c8ec59cfb5f04682bf57a95c3314e6d9aac6b1b)
+* KRACOEUS-8068: fix SpringBeanConfigurationTest
+  * Travis Schneberger on Thu, 9 Oct 2014 16:55:07 -0400 [View Commit](../../commit/960bc3a155be7f5864eda51f19bd3d700164b60f)
+* KRACOEUS-8062:fixed issue with rrsf424 validation errors
+  * Joe Williams on Thu, 9 Oct 2014 15:37:33 -0500 [View Commit](../../commit/6ab18ecb53f9c83dcf300b592823d486a1cec22f)
+* KRACOEUS-8068: improving the performance of the document rejection service.
+  * Travis Schneberger on Thu, 9 Oct 2014 16:27:37 -0400 [View Commit](../../commit/2718f02d8f694869b03bd5053b5edf7fbde469b1)
+* KRACOEUS-8074
+  * Fix Non-Personnel out years message
+  * KRACOEUS-8069
+  * Fix STE out of period 1
+  * rmancher on Thu, 9 Oct 2014 12:27:41 -0400 [View Commit](../../commit/2e53681e50366e5eb744545fc78b65c2ea3f8aa0)
+* KRACOEUS-8068: removing a couple imports
+  * Travis Schneberger on Thu, 9 Oct 2014 11:02:32 -0400 [View Commit](../../commit/2aa5b6dd026d680e0c4333b40ee58767306341cf)
+* KRACOEUS-8068: adding missing sql script & mapping change for previous jpa change
+  * Travis Schneberger on Thu, 9 Oct 2014 10:05:51 -0400 [View Commit](../../commit/418df3978e7d8222ad562eef9c9c3ac9d9bd5e86)
+* KRACOEUS-8068: fix SpringBeanConfigurationTest
+  * Travis Schneberger on Thu, 9 Oct 2014 09:43:54 -0400 [View Commit](../../commit/b58fe028a1f338e82bc0946c62c3befcd75d2600)
+* KRACOEUS-8036: Unit Hierarchy exception on copy
+  * Chuck Tharp on Wed, 8 Oct 2014 19:09:04 -0400 [View Commit](../../commit/104049ed5ed632e5d0cc9a70233f098c9719d2fc)
+* KRACOEUS:added questionnaire update dialog
+  * Joe Williams on Tue, 7 Oct 2014 16:36:15 -0500 [View Commit](../../commit/b4d0451ba3fbabc05414054dac1c166ce20abdf2)
+* KRACOEUS-7940
+  * “SravanVed” on Mon, 29 Sep 2014 13:21:07 -0400 [View Commit](../../commit/36c81a40dcd702d7ae67eda358502c1cf9f1bd94)
+* KRACOEUS-7756: fixing compiler error
+  * Travis Schneberger on Tue, 7 Oct 2014 15:47:26 -0400 [View Commit](../../commit/ad4e142a8467619cc10e949fd96b783f860e82ae)
+* KRACOEUS-8057:removed runtime exception for missing section names
+  * Joe Williams on Tue, 7 Oct 2014 14:10:25 -0500 [View Commit](../../commit/57151ab410b847fcc9cfab0405d479f4c662b63c)
+* KRACOEUS-7894:fixed issues with rendering child questions on load
+  * Joe Williams on Tue, 7 Oct 2014 14:02:55 -0500 [View Commit](../../commit/6ec8c92bc7cd9751bd1055ceb9b0a5455d0689e4)
+* KRACOEUS-7200:added print gov forms and print sponsor forms
+  * Joe Williams on Tue, 7 Oct 2014 08:41:25 -0500 [View Commit](../../commit/cfbc1a4c13fcfe74432b88e9f96d8f5f4c5d57be)
+* KRACOEUS-8033
+  * Fix Proposal budget non-personnel cost - dialog refresh issue
+  * rmancher on Tue, 7 Oct 2014 11:38:33 -0400 [View Commit](../../commit/e5a256d81b5ace1c6360e567eb7fab55ac1857f3)
+* KRACOEUS-8044 persisting budgetperiods, and working around awards not being autowired
+  * Jay Hulslander on Tue, 7 Oct 2014 11:29:40 -0400 [View Commit](../../commit/c1af874c2eb8a78abbf94cb230abc86b68c7c2cd)
+* KRACOEUS-8057:making section name a none required field on kc validation action
+  * Joe Williams on Tue, 7 Oct 2014 09:18:29 -0500 [View Commit](../../commit/e11f37b68e703a582f4966a7dc31028d45886390)
+* KRACOEUS-7618 : Budget Notes/Consolidate Expense Justifications
+  * yyuan1 on Wed, 1 Oct 2014 16:35:46 -0400 [View Commit](../../commit/e1245ce1db052ed0b053af6e51acccdfed9094c6)
+* KRACOEUS-8040: Fixing s2s submission copy
+  * Gayathri on Mon, 6 Oct 2014 18:07:08 -0700 [View Commit](../../commit/01c1753762adf4c553b04201cf41f8f743e04c4c)
+* KRACOEUS-7893: Remove method accessible annotation in PD
+  * Gayathri on Mon, 6 Oct 2014 18:19:01 -0700 [View Commit](../../commit/118c2e6dd41383166c7421f47a275b9187696508)
+* KRACOEUS-8055
+  * Delete line items from database when delete action is performed.
+  * rmancher on Mon, 6 Oct 2014 17:01:01 -0400 [View Commit](../../commit/410f391540affa1e02a87527ce1faef40e8de108)
+* KRACOEUS-7779:added row numbers to attachment collections
+  * Joe Williams on Mon, 6 Oct 2014 14:03:36 -0500 [View Commit](../../commit/57ce493e54cc6693a187199fcbbf2cb26496cd53)
+* KRACOEUS-8010: fixing several award bugs
+  * Travis Schneberger on Mon, 6 Oct 2014 09:57:48 -0400 [View Commit](../../commit/cec2abd7b9d8e67a27e818581eec215b137f9f8e)
+* KRACOEUS-8031 added unit validation to award person
+  * Jay Hulslander on Fri, 3 Oct 2014 13:56:58 -0400 [View Commit](../../commit/3e0457a680ef5d4d6a5f9e38c77aca5560c0e9ff)
+* KRACOEUS-8026: Reviewer assignments are not accepted by IACUC
+  * Chuck Tharp on Fri, 3 Oct 2014 13:01:05 -0400 [View Commit](../../commit/af58c3cbe45ee83c5725f96be436c292cd9c57ff)
+* KRACOEUS-7721
+  * “SravanVed” on Wed, 1 Oct 2014 09:43:12 -0400 [View Commit](../../commit/1ab21eb8290cb13b69d8631f2393a7588ec87df1)
+* KRACOEUS-8009 : Convert Unrecovered F&A panel to Button-less Edit
+  * yyuan1 on Mon, 29 Sep 2014 00:10:28 -0400 [View Commit](../../commit/1f6c1596e5a3644a2272689a74f2a7ca0b2c3769)
+* KRACOEUS-7998: Unmask CSS file spec in config to allow inclusion of fancybox CSS
+  * Chuck Tharp on Tue, 30 Sep 2014 13:33:28 -0400 [View Commit](../../commit/0708fc6f3c7fd77fe4ed2fd2f9f98e2494691574)
+* KRACOEUS-7999: Stack trace when trying to view undisclosed events
+  * Chuck Tharp on Thu, 25 Sep 2014 21:03:09 -0400 [View Commit](../../commit/ef1a6fb8f911a243bbad9b10006dd4349f6b735b)
+* KRACOEUS-7757 Proposal Budget Services tests   * anithapolus on Mon, 25 Aug 2014 15:42:35 +0530 [View Commit](../../commit/033a1eace85d4c94293e5f7f73a91f905755873b)
+* KRACOEUS-7756 Proposal Person Services tests 
+  * anithapolus on Thu, 4 Sep 2014 18:14:06 +0530 [View Commit](../../commit/ea86a53ea657ee980cdbed231f9685197e0df667)
+* KRACOEUS-7960
+  * Proposal Person Mass Change Service tests  * anithapolus on Fri, 26 Sep 2014 17:55:04 +0530 [View Commit](../../commit/a079189edfb0ed475cfa56ffe621fb044c476efa)
+* KRACOEUS-7758
+  * Proposal Printing Services tests  * boneypolus on Wed, 24 Sep 2014 19:30:17 +0530 [View Commit](../../commit/622baebc082952ef3a60a48c31ca3924ec523cd0)
+* KRACOEUS-7760	
+  * Proposal Special Review Service test  * mrudulpolus on Thu, 4 Sep 2014 17:25:29 +0530 [View Commit](../../commit/e2709a58ee3658c15890ff0649f8138581d71525)
+* KRACOEUS-7759 Proposal Person S2S Questionnaire Service test  * sasipolus on Tue, 26 Aug 2014 20:55:10 +0530 [View Commit](../../commit/384899ddbe1d3969f4e1de55d6728994da4a311c)
+
+##coeus-6.0.0-s6
+* KRACOEUS-8039:Fixing proposal tests
+  * Gayathri on Fri, 3 Oct 2014 17:05:24 -0700 [View Commit](../../commit/0c8af1046279b602b5a22e91fa8cdf46abd246d4)
+* KRACOEUS-8034:fix questionnaire sequence number
+  * Joe Williams on Fri, 3 Oct 2014 16:09:21 -0500 [View Commit](../../commit/e320497ceac6272a90dedc706445f98308397ac2)
+* KRACOEUS-7876: Fixing delete. Making sure proposal gets deletd and user cannot view deleted proposal anymore.
+  * Gayathri on Fri, 3 Oct 2014 10:52:52 -0700 [View Commit](../../commit/251706b5301f7b5b0055ed2553d4d43ba659ae9d)
+* KRACOEUS-7644
+  * Fix for Add person TBN collection
+  * rmancher on Fri, 3 Oct 2014 15:12:59 -0400 [View Commit](../../commit/ab644ca8c130582cfb16e516c51f9749c44d83bb)
+* KRACOEUS-7613, KRACOEUS-7614 : Code review changes
+  * blackcathacker on Fri, 3 Oct 2014 11:53:10 -0700 [View Commit](../../commit/5d3faee4aa3134c4f680aaa9503ffbf85794204e)
+* KRACOEUS-8037: Fixing TM single node transactions issue
+  * Gayathri on Fri, 3 Oct 2014 11:32:48 -0700 [View Commit](../../commit/1a6755faa1145f62a24bcd0b3f6d163622e8ae71)
+* KRACOEUS-7779:attachment count refreshes on aadding an attachment
+  * Joe Williams on Fri, 3 Oct 2014 10:20:59 -0500 [View Commit](../../commit/002efb6da3ddde70e9634251ebebfa6862210fe4)
+* KRACOEUS-8029 setting activity_number length to 3 in DD per actual database field size
+  * Jay Hulslander on Thu, 2 Oct 2014 15:02:25 -0400 [View Commit](../../commit/8a246d2fc8b1c132a57454802a3e7d8135586b5f)
+* KRACOEUS-7613, KRACOEUS-7614 : Budget Subawards
+  * blackcathacker on Thu, 28 Aug 2014 09:31:32 -0700 [View Commit](../../commit/d195ffd5999a93a0514d3abca8f3ea30cdef2bb9)
+* KRACOEUS-7689
+  * Rendering of Non-Personnel costs panel
+  * KRACOEUS-7690
+  * Add assign non-personnel costs
+  * rmancher on Wed, 1 Oct 2014 22:41:14 -0400 [View Commit](../../commit/e31b8c210857efca2a04e02fc5ac4c2661906363)
+* KRACOEUS-8032 Fix to binding editors for prop science keyword and compliance, compliance binding fix also fixes save issues described in KRACOEUS-8008
+  * bsmith83 on Thu, 2 Oct 2014 15:09:14 -0700 [View Commit](../../commit/4e8b46a779341899281ddc876e4a083c33a24c24)
+* KRACOEUS-7842:fixed issues with add wizard
+  * Joe Williams on Thu, 2 Oct 2014 17:04:14 -0500 [View Commit](../../commit/52b77e2a2d7dd6e927e98b2aa273daf3bb1d591f)
+* KRACOEUS-7982:fixed s2s revision code other description
+  * Joe Williams on Thu, 2 Oct 2014 13:09:59 -0500 [View Commit](../../commit/c6b0cda27c943d4281e771f49546a645d2ce4153)
+* KRACOEUS-8025 fixing questionnaire lookup
+  * Jay Hulslander on Wed, 1 Oct 2014 14:56:42 -0400 [View Commit](../../commit/cbc2b884ecfe90a25790d28f22ade14129c998fb)
+* KRACOEUS-8001: Rename SQL files so they run under Rice schema instead of KC
+  * Chuck Tharp on Thu, 2 Oct 2014 10:35:45 -0400 [View Commit](../../commit/321186322c48565a6345acaa18650f99d30a1817)
+* KRACOEUS-7921:recall action should not render when proposal state is revision requested
+  * Joe Williams on Thu, 2 Oct 2014 09:20:26 -0500 [View Commit](../../commit/b7b4c558ad3f5f6f32a00ceea7e5b11ef1854bc0)
+* KRACOEUS-7589:removing enableSummaryDataValidationPanel parameter
+  * Joe Williams on Thu, 2 Oct 2014 08:13:46 -0500 [View Commit](../../commit/00b56cce7a827c5f45b2df483374a5a00f77df61)
+* KRACOEUS-7984 fixed duplicate ids causing duplicate error messages, reduced number of message summary blocks by 1
+  * bsmith83 on Wed, 1 Oct 2014 17:50:21 -0700 [View Commit](../../commit/ee3b872013f3c774c04a5daf7f5ef37bccaa83b3)
+* KRACOEUS-7592:added reject action
+  * Joe Williams on Wed, 1 Oct 2014 15:24:48 -0500 [View Commit](../../commit/84d0995d2336a62b5e30ae8273c25589c3e0b715)
+* KRACOEUS-7932 fixing ProposalLogStatusValuesFinder
+  * Jay Hulslander on Wed, 1 Oct 2014 13:30:17 -0400 [View Commit](../../commit/7476b27b4bfb36ad73ca80430369d7cb6244be87)
+* KRACOEUS-8022 fixed various issues with ProposalLogLookupableHelperServiceImpl
+  * Jay Hulslander on Tue, 30 Sep 2014 15:14:47 -0400 [View Commit](../../commit/1c7be0bdf590572ef238ecc6997769a4fc25458e)
+* KRACOEUS-7926
+  * “SravanVed” on Tue, 30 Sep 2014 10:10:58 -0400 [View Commit](../../commit/5caa9a9fefcbc3c277776a2a260e38cafbf14233)
+* KRACOEUS-8027: Increase length of Negotiation Agreement Type
+  * Chuck Tharp on Tue, 30 Sep 2014 23:28:19 -0400 [View Commit](../../commit/52ee59d318469ecb41aad53592adc3585ad488e1)
+* KRACOEUS-7428 user preference link in user menu
+  * bsmith83 on Tue, 30 Sep 2014 17:03:51 -0700 [View Commit](../../commit/8c2a6078e3dbca00ecd00f99d195ce235d6c1773)
+* KRACOEUS-7410 Logout and current user header fix
+  * bsmith83 on Tue, 30 Sep 2014 16:13:26 -0700 [View Commit](../../commit/2255ccde8937f94e49a05c55efbf9d3ca4d6678f)
+* KRACOEUS-8001: Remove Parameter proposaldevelopment.approver.view.title
+  * Chuck Tharp on Mon, 29 Sep 2014 12:41:47 -0400 [View Commit](../../commit/438645bc25fe337a115aa4a3597adc0887410e25)
+* KRACOEUS-8008 fix for additional dialog fields causing stack trace
+  * bsmith83 on Tue, 30 Sep 2014 11:08:34 -0700 [View Commit](../../commit/ba303ad3c5ca0df24fb28af00d2b0faccb6ac653)
+* KRACOEUS-7116:added submission details
+  * Joe Williams on Tue, 30 Sep 2014 11:05:04 -0500 [View Commit](../../commit/7bda15bf5bad5a008a3979a744875c71832d18da)
+* KRACOEUS-8020 fixed object path in JSP so links work
+  * Jay Hulslander on Tue, 30 Sep 2014 11:19:14 -0400 [View Commit](../../commit/5b5d1ac3c32981d788379bbc577b1b138ba472db)
+* KRACOEUS-8019 fixed NPE when PI does not have a home unit
+  * Jay Hulslander on Tue, 30 Sep 2014 10:58:47 -0400 [View Commit](../../commit/ee0e37364b2be0f9c7dc623b42c93456883ec90a)
+* KRACOEUS-8015 switching arg values lookup search to use business object service
+  * Jay Hulslander on Tue, 30 Sep 2014 09:53:56 -0400 [View Commit](../../commit/2a09d13c5e256494e265c27982ce2e7790156544)
+* KRACOEUS-7910:owned by unit of new rolodex defaults to users home unit
+  * Joe Williams on Tue, 30 Sep 2014 09:08:46 -0500 [View Commit](../../commit/43bfcbe36e78bc240bd3e2cbded8e611048aa26b)
+* KRACOEUS-7674
+  * Set sort order for budget periods
+  * rmancher on Mon, 29 Sep 2014 20:53:31 -0400 [View Commit](../../commit/a660140854b9869ffdf477370165d749f73f80da)
+* KRACOEUS-7617 : Integrate basic view page for Budget Notes
+  * yyuan1 on Fri, 26 Sep 2014 14:57:57 -0400 [View Commit](../../commit/cb76f62dce97952165a23224964afe618ee97502)
+* KRACOEUS-7854: Fixing non-employee issues
+  * Gayathri on Mon, 29 Sep 2014 12:35:27 -0700 [View Commit](../../commit/6e0773f3c6b0fba28a896f040f816fa2ce6c3a98)
+* KRACOEUS-7745:clear congressional district if organziation doesn't have a default
+  * Joe Williams on Mon, 29 Sep 2014 14:27:16 -0500 [View Commit](../../commit/f4a35d255500881db4855adfa0ab16e400e56a3a)
+* KRACOEUS-7831:added future requests dialog to submit action
+  * Joe Williams on Mon, 29 Sep 2014 14:02:37 -0500 [View Commit](../../commit/71a5ff426eb3207d8be3791f7aa0ab2362d8a9e7)
+* KRACOEUS-7910: added add address book feature
+  * Joe Williams on Fri, 26 Sep 2014 15:13:05 -0500 [View Commit](../../commit/4efaa383508d8e506beb6c3516d6b4225221abdc)
+* KRACOEUS-7522:converted attachments to use edit with modals
+  * Joe Williams on Thu, 25 Sep 2014 10:03:44 -0500 [View Commit](../../commit/1fff98f4c84cc2c6bc93daf9633e55798ca7bf99)
+* KRACOEUS-7522:added view/edit rights to attachments
+  * Joe Williams on Tue, 23 Sep 2014 16:04:39 -0500 [View Commit](../../commit/dd3e1244c1c6d90c3532e1f95353360b9d28aa39)
+* KRACOEUS-7982:fixed s2s revision description
+  * Joe Williams on Mon, 29 Sep 2014 10:09:38 -0500 [View Commit](../../commit/498ee0e1c0d8cd9f4bcc205f3539afbef4751085)
+* KRACOEUS-8002 fixing protcol schedule attachments
+  * Jay Hulslander on Thu, 25 Sep 2014 15:55:23 -0400 [View Commit](../../commit/53b02db4f4f567f77c65fa2a8af90ff3a55256e2)
+* KRACOEUS-7674
+  * Integrate Budget Personnel Period Mockview
+  * KRACOEUS-7676
+  * Period Assign Personnel Button Interaction
+  * KRACOEUS-7675
+  * Personnel Period calculation
+  * KRACOEUS-7677
+  * Edit Personnel Interaction
+  * KRACOEUS-7677
+  * Add details and rates interaction.
+  * rmancher on Wed, 17 Sep 2014 14:46:08 -0400 [View Commit](../../commit/0091221fdf3d8bdd6012065f481d825a65df103e)
+* KRAFDBCK-11199 ie nav overlap fix
+  * bsmith83 on Fri, 26 Sep 2014 16:09:20 -0700 [View Commit](../../commit/e5bac84608c1593b6dbffb7e95f9861be71c54a9)
+* KRACOEUS-7516: Implementing PersonEditableFields functionality Key Personnel.
+  * Jamey Decker on Thu, 25 Sep 2014 18:49:09 -0700 [View Commit](../../commit/53545c53fb322f3af76181352231055291acdf9f)
+* KRACOEUS-7905 document header styling fixes for page change
+  * bsmith83 on Fri, 26 Sep 2014 16:00:24 -0700 [View Commit](../../commit/a409d1eac913b47b40fe0a1906dc6e0d8387121e)
+* KRACOEUS-7894:fixes questionnaire js issues
+  * Joe Williams on Fri, 26 Sep 2014 17:00:59 -0500 [View Commit](../../commit/a5aaf9ceafb07085862ba3579289274180c96496)
+* KRACOEUS-7870: STE after adding Proposal as a Protocol funding source
+  * Chuck Tharp on Thu, 25 Sep 2014 10:44:03 -0400 [View Commit](../../commit/bafa4cef6ecda4d4fae1778750282d4f9ee88def)
+* KRACOEUS-7991 : Code review changes
+  * blackcathacker on Fri, 26 Sep 2014 10:14:38 -0700 [View Commit](../../commit/ae587e1fb2eb1b916c56f0b4fd4b8e5570a23771)
+* KRACOEUS-7982:added s2s revision type other description field
+  * Joe Williams on Thu, 25 Sep 2014 11:22:04 -0500 [View Commit](../../commit/20da66790f346c88235abfc1ec51fa8dbaf08799)
+* KRACOEUS-7539:set multipart file max upload size to MAX_FILE_SIZE_DEFAULT_UPLOAD parameter value
+  * Joe Williams on Thu, 25 Sep 2014 13:32:01 -0500 [View Commit](../../commit/b7d5a5fe1afa41df4940e5f5243df3535e7a6914)
+* KRACOEUS-8005:fixed issue with credit split saving
+  * Joe Williams on Fri, 26 Sep 2014 09:12:27 -0500 [View Commit](../../commit/0f51ec82689d191c6e5f30552feec3b3b93e48a0)
+* KRACOEUS-7991 : Futher fixes to award budget
+  * blackcathacker on Thu, 25 Sep 2014 21:33:19 -0700 [View Commit](../../commit/3cdcbd6ab9c6e25a95bc194c1160c2815b3c7ed6)
+* KRACOEUS-7905 document header styling fixes
+  * bsmith83 on Thu, 25 Sep 2014 13:20:18 -0700 [View Commit](../../commit/b9b7a1c2843439e2dc92f9899c349b275cb2f9af)
+* KRACOEUS-7996 fixing NPEs on error handling
+  * Jay Hulslander on Thu, 25 Sep 2014 10:08:48 -0400 [View Commit](../../commit/97ec83b687a223eeb8a9b7dbe409f7d38ef3f11a)
+* KRACOEUS-7994 fixed NPEs
+  * Jay Hulslander on Thu, 25 Sep 2014 08:37:42 -0400 [View Commit](../../commit/8c3a121b0bef5421cc1d3435d6c0a3a625b9874c)
+* KRACOEUS-7644
+  * Remove refresh on cancel
+  * rmancher on Wed, 24 Sep 2014 20:21:27 -0400 [View Commit](../../commit/8eb738fb05c96c3386470c1876ad0b0e7e0dbf23)
+* KRACOEUS-7991 : Rename hackedDocumentNextValue and remove hack
+  * blackcathacker on Wed, 24 Sep 2014 16:05:34 -0700 [View Commit](../../commit/a12cda46d1a2f0b62e56530d071dd6df357cd513)
+* KRACOEUS-7991 : Remove proposalBudgetFlag and other code review comments
+  * blackcathacker on Wed, 24 Sep 2014 13:55:56 -0700 [View Commit](../../commit/d1ef9d7ea9f1a55352473e395e26c4fead7e6954)
+* KRACOEUS-7983: Added check icons to questionaire to indicate completion.
+  * Jamey Decker on Wed, 24 Sep 2014 12:23:25 -0700 [View Commit](../../commit/ebbb8902726d5391bdf35a347731a57515fd34c0)
+* KRACOEUS-7913 nav menu fix for all screen sizes, css cleanup
+  * bsmith83 on Wed, 24 Sep 2014 14:53:07 -0700 [View Commit](../../commit/e1cfc9b4628e941379cbd4b7f1d6fc6282c7880c)
+* KRACOEUS-7991 : Fix tag and ojb mapping errors
+  * blackcathacker on Tue, 23 Sep 2014 18:05:45 -0700 [View Commit](../../commit/8bd29c78c452c3d749ef6234043e514d1da162f2)
+* KRACOEUS-7991 : Struts actions must be in a single package for wildcarding
+  * blackcathacker on Tue, 23 Sep 2014 13:24:20 -0700 [View Commit](../../commit/a353e0c2906d84bc2a53394e67270f183916cb9f)
+* KRACOEUS-7309 : Remove BudgetDocument and replace with AwardBudgetDocument
+  * blackcathacker on Mon, 22 Sep 2014 17:54:33 -0700 [View Commit](../../commit/d73650836f95223e55e189749aa92e2c2f319935)
+* KRACOEUS-7991 : Fixing AwardBudget
+  * blackcathacker on Mon, 22 Sep 2014 15:14:30 -0700 [View Commit](../../commit/62fe9c1e6f3a506e1f93d47320b3e7331799c7b3)
+* KRACOEUS-7747: code review comments
+  * Travis Schneberger on Wed, 24 Sep 2014 16:52:36 -0400 [View Commit](../../commit/56599f8d248bef7ba2cbd5b6033ed154abf466c4)
+* KRACOEUS-7809: Fixing proposal persons routing
+  * Gayathri on Wed, 24 Sep 2014 13:52:32 -0700 [View Commit](../../commit/1390ab06ba2fc31d2fc4902758e242cc83b07ec7)
+* KRACOEUS-7747: code review comments
+  * Travis Schneberger on Wed, 24 Sep 2014 14:33:03 -0400 [View Commit](../../commit/4bf11621c1a762c184de16baf46481c0c36e5a6d)
+* KRACOEUS-7993 fixed OJB mapping
+  * Jay Hulslander on Wed, 24 Sep 2014 13:03:43 -0400 [View Commit](../../commit/48ec506e3b34d0b4df0a5d677dad8401c8cba71c)
+* KRACOEUS-7378:updated to development proposal search
+  * Joe Williams on Mon, 22 Sep 2014 11:36:13 -0500 [View Commit](../../commit/04c85ec0972e47c8ab510fc39326161a405aaaca)
+* KRACOEUS-7827
+  * “SravanVed” on Thu, 18 Sep 2014 21:19:09 -0400 [View Commit](../../commit/7dec429d8464f5689959c65e1887ad0e5c81e384)
+* KRACOEUS-7988 RolesValueFinder should not return null as it causes problems in the optionFinder DD param
+  * Jay Hulslander on Wed, 24 Sep 2014 08:55:41 -0400 [View Commit](../../commit/264d4d043d09741d351ee73bc7ef002ec0ea476a)
+* KRACOEUS-7990: Fixing proposal attachments
+  * Gayathri on Tue, 23 Sep 2014 16:27:10 -0700 [View Commit](../../commit/ccc48a553f3418baa95068715d55878a7ded0731)
+* KRACOEUS-7705 : Unrecovered F&A Panel -Display total
+  * yyuan1 on Tue, 23 Sep 2014 18:39:37 -0400 [View Commit](../../commit/576615e8a09edcf2dba70228cc99b8fdfd818aae)
+* KRACOEUS-7702 : Cost Sharing Panel -- display total
+  * yyuan1 on Tue, 23 Sep 2014 16:21:28 -0400 [View Commit](../../commit/47a4ce69f2b8343889da44e109e2fe921360defe)
+* KRACOEUS-7987: When questions are created, it will exclude date fields from having a maxLength set.
+  * Jamey Decker on Tue, 23 Sep 2014 12:40:08 -0700 [View Commit](../../commit/cc2b73eb74b5c69d9949800054a0c311ceb81168)
+* KRACOEUS-7250
+  * “SravanVed” on Tue, 16 Sep 2014 10:29:42 -0400 [View Commit](../../commit/681328ceb80e6f4b5f3033ce7c5c660618fb92fe)
+* KRACOEUS-7978 : Cost Sharing Reset & Recalculate actions
+  * yyuan1 on Tue, 23 Sep 2014 13:36:26 -0400 [View Commit](../../commit/d0d54a3bec4280958cb4cb14b098af4cf5667856)
+* KRACOEUS-7747: moving Replace Narrative Authorization code away from task authorizer framework, general cleanup
+  * Travis Schneberger on Tue, 23 Sep 2014 12:23:04 -0400 [View Commit](../../commit/354c68a72f872a6f04797b09535f2b333b4fdc76)
+* KRACOEUS-7654: Cannot specify any part of investigator name in Funding Source lookup
+  * Chuck Tharp on Thu, 7 Aug 2014 12:10:01 -0400 [View Commit](../../commit/daae6c487cd767492e9c680c07b4e1c8acf8fd85)
+* KRACOEUS-7747: moving Modify Narrative Status Authorization code away from task authorizer framework
+  * Travis Schneberger on Tue, 23 Sep 2014 11:58:58 -0400 [View Commit](../../commit/350973c392fc2632b529c93864a67e17fb9aa169)
+* KRACOEUS-7747: moving Delete Narrative code away from task authorizer framework
+  * Travis Schneberger on Tue, 23 Sep 2014 11:56:24 -0400 [View Commit](../../commit/2cb00764a52b9e72908c4dd970707a0e5c7ab71c)
+* KRACOEUS-7747: moving Read Narrative code away from task authorizer framework
+  * Travis Schneberger on Tue, 23 Sep 2014 11:51:14 -0400 [View Commit](../../commit/43a0a8ad948eb014e6f94134e789a62e1667990d)
+* KRACOEUS-7747: moving Modify Narrative code away from task authorizer framework
+  * Travis Schneberger on Tue, 23 Sep 2014 11:43:41 -0400 [View Commit](../../commit/2567ac83359bf3426941007a849cc993d3703d43)
+* KRACOEUS-7747: moving budget authorizer code to award, general cleanup
+  * Travis Schneberger on Tue, 23 Sep 2014 11:29:45 -0400 [View Commit](../../commit/c41bd87a198abece2859c67d3558cd16db26f8a6)
+* KRACOEUS-7747: moving Create IRB/IACUC From Proposal Authorization code away from task authorizer framework
+  * Travis Schneberger on Tue, 23 Sep 2014 11:13:37 -0400 [View Commit](../../commit/2cd3eb7f1577eef234567ed5a0d4e4e66778f10e)
+* KRACOEUS-7747: removing award specific authorization
+  * Travis Schneberger on Tue, 23 Sep 2014 10:40:11 -0400 [View Commit](../../commit/a171adffe44aa6a886638e85b7ef4a614119c28c)
+* KRACOEUS-7747: moving Modify Budget Rates code away from task authorizer framework
+  * Travis Schneberger on Tue, 23 Sep 2014 10:36:00 -0400 [View Commit](../../commit/de7c62aa2ce2e7a72299abbe3a430dd8c2251b83)
+* KRACOEUS-7747: moving View Budget code away from task authorizer framework
+  * Travis Schneberger on Tue, 23 Sep 2014 10:27:37 -0400 [View Commit](../../commit/4c33f53a3dd9615cdc98878fd4b04181b24a58f6)
+* KRACOEUS-7747: moving Modify Budget code away from task authorizer framework
+  * Travis Schneberger on Tue, 23 Sep 2014 10:17:02 -0400 [View Commit](../../commit/3a7a1e6cf86049b5d374857f650953956663bfdd)
+* KRACOEUS-7747: moving Open Budget code away from task authorizer framework
+  * Travis Schneberger on Tue, 23 Sep 2014 09:48:23 -0400 [View Commit](../../commit/89b75de3802f2811bc7bcf17bf0d220eb732f3fd)
+* KRACOEUS-7747: moving Add Budget code away from task authorizer framework
+  * Travis Schneberger on Tue, 23 Sep 2014 09:42:20 -0400 [View Commit](../../commit/c88c5932b6bb0fe4e38ef0b80541482fbd5bdc61)
+* KRACOEUS-7747: moving Add Narrative code away from task authorizer framework
+  * Travis Schneberger on Tue, 23 Sep 2014 09:30:28 -0400 [View Commit](../../commit/728923422ba0f63903c51f83eb0eef6ff4efd5a0)
+* KRACOEUS-7747: moving Certify Authorization code away from task authorizer framework
+  * Travis Schneberger on Tue, 23 Sep 2014 09:28:33 -0400 [View Commit](../../commit/3cdd16e4152e2aded1eede639a922f5fdc92ea02)
+*  KRACOEUS-7702 : Cost Sharing Panel - Continue
+  * yyuan1 on Thu, 18 Sep 2014 00:36:38 -0400 [View Commit](../../commit/cf605fa3faa79d58cd24c3e66a96bde0942e8cb9)
+* KRACOEUS-7702 : Cost Sharing Panel -- init
+  * yyuan1 on Tue, 16 Sep 2014 15:48:28 -0400 [View Commit](../../commit/48ae913bc345d460508eb63dad6bca2425cdb81f)
+* KRACOEUS-7786 : Finish moving final flag off of Budget
+  * blackcathacker on Thu, 18 Sep 2014 10:37:36 -0700 [View Commit](../../commit/0dafbd37bdd2f1364c3ed2e16ca583daffd1f094)
+* KRACOEUS-7985: Transient property proposalPersonQuestionnaireHelper will be loaded with questions and answers upon certain condition, allowing Proposal Person Certification to be shown.
+  * Jamey Decker on Mon, 22 Sep 2014 14:25:07 -0700 [View Commit](../../commit/e928454b0c5abdc32bf461487b707eb6195bae0b)
+* KRACOEUS-7896:fixed save of s2s questionnaires
+  * Joe Williams on Mon, 22 Sep 2014 15:47:30 -0500 [View Commit](../../commit/26740031047e5d6d900d62bc318dff0d0d704b10)
+* KRACOEUS-7747: moving Replace Personnel Attachment Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 16:21:00 -0400 [View Commit](../../commit/a744490afbbf97cf642ff02c79e08c9f33cbc790)
+* KRACOEUS-7747: moving Answer Proposal Questionnaire Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 16:14:02 -0400 [View Commit](../../commit/b390d8f9deb1817275d91dcd4093a3c23d2a6e63)
+* KRACOEUS-7747: moving Add Note Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 16:06:18 -0400 [View Commit](../../commit/441e003c6c5c774644311c3e8174aa2c6e427336)
+* KRACOEUS-7979 fixed ojb mapping to comply with object changes made in custom attribute
+  * Jay Hulslander on Mon, 22 Sep 2014 16:03:24 -0400 [View Commit](../../commit/95db41e24d89fd54932ddf87ef4cb8e63c046060)
+* KRACOEUS-7582: code review comments
+  * Travis Schneberger on Mon, 22 Sep 2014 15:38:58 -0400 [View Commit](../../commit/95ccc67142a3a57ed51df150ff92f9f3706c78a5)
+* KRACOEUS-7916: Creating a toggle to allow the attachment file name to be shown and updated.
+  * Jamey Decker on Sat, 20 Sep 2014 21:39:01 -0700 [View Commit](../../commit/731c337ffc2855781d1e59f604b4a8ece4a40c76)
+* KRACOEUS-7977 removed un used and invalid variables from disclosureReviewerActios.tag
+  * Jay Hulslander on Mon, 22 Sep 2014 15:25:37 -0400 [View Commit](../../commit/9482657e1865e591fa75df79646100ecda39076c)
+* KRACOEUS-7747: code review comments
+  * Travis Schneberger on Mon, 22 Sep 2014 13:16:06 -0400 [View Commit](../../commit/3f09db962676a85be16493cb40fbfe2a57740a72)
+* KRACOEUS-7747: moving Recall Proposal Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 13:09:58 -0400 [View Commit](../../commit/22969d8c1e47115d642f037cb8ce3ff5ac2ebcc4)
+* KRACOEUS-7747: moving Delete Proposal Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 13:06:37 -0400 [View Commit](../../commit/b2a1219f16dacfc4f61ba188fa71172c32ae8b32)
+* KRACOEUS-7747: moving Reject Proposal Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 13:02:12 -0400 [View Commit](../../commit/0ca1d9aab8a9c007564f8de8f2da0b852e7751a3)
+* KRACOEUS-7747: moving Submit To Workflow Action Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 12:52:19 -0400 [View Commit](../../commit/c83f0db69ab57884a99c639d4ca63891609125fb)
+* KRACOEUS-7747: moving Hierarchy Child Workflow Action &  Hierarchy Child Ack Workflow Action Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 12:45:15 -0400 [View Commit](../../commit/3e18461f680a4dede3558269d22488c5d3280111)
+* KRACOEUS-7747: moving Maintain Proposal Hierarchy Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 12:27:37 -0400 [View Commit](../../commit/fb287efa4fa57ef55deccb813d3d7f2d24f50780)
+* KRACOEUS-7747: moving Show Alter Proposal Data and Alter Proposal Data Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 11:48:50 -0400 [View Commit](../../commit/23812f3d89b0211d73b902b18888a37079747ccd)
+* KRACOEUS-7581
+  * “SravanVed” on Mon, 22 Sep 2014 11:28:49 -0400 [View Commit](../../commit/fc7a3953979fb21836af269f273b506853048aa4)
+* KRACOEUS-7747: moving Modify Proposal Permissions Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 11:29:58 -0400 [View Commit](../../commit/e10a8772e01aeb2084e389affbc001538578b6f6)
+* KRACOEUS-7747: moving Create Proposal Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 11:15:35 -0400 [View Commit](../../commit/d51e3bab4a0c90c1c3224745decf4b02858b1467)
+* KRACOEUS-7703 : Cost Sharing Summary
+  * yyuan1 on Mon, 22 Sep 2014 10:39:44 -0400 [View Commit](../../commit/dd0cc094a27907287667bcc1cf0acfffa80f840b)
+* KRACOEUS-7747: moving Submit Proposal To Sponsor Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 10:14:52 -0400 [View Commit](../../commit/95c1436efe0aaf33ada5c9e89e6d166a8f1dd7e6)
+* KRACOEUS-7747: moving Print Proposal Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 10:06:48 -0400 [View Commit](../../commit/f8a3f728618ab873c7ece970af006f3d5995ba34)
+* KRACOEUS-7747: moving View Proposal Authorization code away from task authorizer framework
+  * Travis Schneberger on Mon, 22 Sep 2014 09:41:48 -0400 [View Commit](../../commit/55a2c1a8080b9a06a250f142a36f5a91c254f167)
+* KRACOEUS-7747: moving Modify Proposal Authorization code away from task authorizer framework
+  * Travis Schneberger on Fri, 19 Sep 2014 17:49:38 -0400 [View Commit](../../commit/df21d80175786cbe917c697d0af6c7cb54c43ac0)
+* KRACOEUS-7427:fixed institutional proposal lookup
+  * Joe Williams on Mon, 22 Sep 2014 08:05:18 -0500 [View Commit](../../commit/922db66264672e66b48feae22e5cfc94f10256ee)
+* KRACOEUS-7828
+  * “SravanVed” on Thu, 18 Sep 2014 11:35:12 -0400 [View Commit](../../commit/6fb0d08651e69dc0a49345196a30c6b2f49f838e)
+* KRACOEUS-7747: some cleanup and initial work
+  * Travis Schneberger on Thu, 18 Sep 2014 11:50:01 -0400 [View Commit](../../commit/be00672473332ac205a8bb299a8c66795d6c4b61)
+* KRACOEUS-7725: fixing NPE
+  * Travis Schneberger on Fri, 19 Sep 2014 09:17:29 -0400 [View Commit](../../commit/bb90c7e3b8bc8405be8b28b426570e6045bff8eb)
+* KRACOEUS-7582: removing document level role
+  * Travis Schneberger on Wed, 17 Sep 2014 14:09:59 -0400 [View Commit](../../commit/6bdf5941dfab6bd789f41a7dfcfa77057f4cd67a)
+
+##coeus-6.0.0-s5
+* No Changes
