@@ -3,31 +3,21 @@ package org.kuali.coeus.sys.impl.session.ser;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.core.type.filter.TypeFilter;
 
-
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SerializationTest extends KcIntegrationTestBase {
-
-    private static final List<String> BROKEN_VIEWS = Stream.of(
-            ProposalBudgetForm.class.getName(),
-            ProposalDevelopmentDocumentForm.class.getName()
-    ).collect(Collectors.toList());
-
 
     /**
      * This test finds all KRAD views (forms) on the classpath, it executes all getters, call all setters & init methods (hopefully triggering any lazy loading)
@@ -48,11 +38,53 @@ public class SerializationTest extends KcIntegrationTestBase {
                             //this forces lazy loading
                             final Object o = PropertyUtils.getProperty(view, name);
                             if (o == null){
-                                //if no value is set then set it.  Since Object type is generic and unknown just give it a placeholder
-                                final Object newValue = descriptor.getPropertyType().equals(Object.class) ? SerPlaceHolder.INSTANCE : descriptor.getPropertyType().newInstance();
+                                final Object newValue;
+                                if (descriptor.getPropertyType().equals(Object.class)) {
+                                    newValue = SerPlaceHolder.INSTANCE;
+                                } else if (descriptor.getPropertyType().isInterface() && !descriptor.getPropertyType().isArray()) {
+                                    if ((Collection.class.isAssignableFrom(descriptor.getPropertyType()) || List.class.isAssignableFrom(descriptor.getPropertyType())) && !Set.class.isAssignableFrom(descriptor.getPropertyType())) {
+                                        final List<Object> list = new ArrayList<>();
+                                        final Type returnType = descriptor.getReadMethod().getGenericReturnType();
+                                        if (returnType instanceof ParameterizedType) {
+                                            String clazz = ((ParameterizedType) returnType).getActualTypeArguments()[0].getTypeName();
+                                            list.add(Class.forName(clazz).newInstance());
+                                        }
+                                        newValue = list;
+                                    } else if (Set.class.isAssignableFrom(descriptor.getPropertyType())) {
+                                        final List<Object> set = new ArrayList<>();
+                                        final Type returnType = descriptor.getReadMethod().getGenericReturnType();
+                                        if (returnType instanceof ParameterizedType) {
+                                            String clazz = ((ParameterizedType) returnType).getActualTypeArguments()[0].getTypeName();
+                                            set.add(Class.forName(clazz).newInstance());
+                                        }
+                                        newValue = set;
+                                    } else if (Map.class.isAssignableFrom(descriptor.getPropertyType())) {
+                                        final Map<Object, Object> map = new HashMap<>();
+                                        final Type returnType = descriptor.getReadMethod().getGenericReturnType();
+                                        if (returnType instanceof ParameterizedType) {
+                                            String keyClazz = ((ParameterizedType) returnType).getActualTypeArguments()[0].getTypeName();
+                                            String valueClazz = ((ParameterizedType) returnType).getActualTypeArguments()[1].getTypeName();
+                                            map.put(Class.forName(keyClazz).newInstance(), Class.forName(valueClazz).equals(Object.class) ? SerPlaceHolder.INSTANCE : Class.forName(valueClazz).newInstance());
+                                        }
+                                        newValue = map;
+                                    } else {
+                                        newValue = Mockito.mock(descriptor.getPropertyType(), Mockito.withSettings().serializable());
+                                    }
+                                } else if (Modifier.isAbstract(descriptor.getPropertyType().getModifiers()) && !descriptor.getPropertyType().isArray()) {
+                                    newValue = Mockito.mock(descriptor.getPropertyType(), Mockito.withSettings().serializable());
+                                } else if (descriptor.getPropertyType().isArray()) {
+                                    final Object array = Array.newInstance(descriptor.getPropertyType().getComponentType(), 1);
+                                    Array.set(array, 0, descriptor.getPropertyType().getComponentType().newInstance());
+                                    newValue = array;
+                                } else if (descriptor.getPropertyType().isEnum()) {
+                                    newValue = descriptor.getPropertyType().getEnumConstants()[0];
+                                } else {
+                                    newValue = descriptor.getPropertyType().newInstance();
+                                }
+
                                 PropertyUtils.setProperty(view, name, newValue);
                             }
-                        } catch (IllegalAccessException|InvocationTargetException|NoSuchMethodException|InstantiationException e) {
+                        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException | ClassNotFoundException e) {
                             //ignore if fails
                         }
                     }
@@ -82,8 +114,7 @@ public class SerializationTest extends KcIntegrationTestBase {
 
         final TypeFilter testableFilter = (metadataReader, metadataReaderFactory) ->
                 new AssignableTypeFilter(ViewModel.class).match(metadataReader, metadataReaderFactory)
-                && !metadataReader.getClassMetadata().isAbstract()
-                && !BROKEN_VIEWS.contains(metadataReader.getClassMetadata().getClassName());
+                        && !metadataReader.getClassMetadata().isAbstract();
 
         provider.addIncludeFilter(testableFilter);
         provider.setResourceLoader(new PathMatchingResourcePatternResolver(this.getClass().getClassLoader()));

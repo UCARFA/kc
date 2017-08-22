@@ -18,7 +18,9 @@
  */
 package org.kuali.coeus.propdev.impl.budget.core;
 
-public class AddBudgetDto {
+import java.io.Serializable;
+
+public class AddBudgetDto implements Serializable {
 
 	private String budgetName;
 	private Boolean summaryBudget;
