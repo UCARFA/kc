@@ -1315,8 +1315,10 @@ Subaward No.:
                                                                                             </xsl:for-each>
                                                                                             <xsl:text> - </xsl:text>
                                                                                             <xsl:for-each select="subcontract:SubContractData">
-                                                                                                <xsl:for-each select="subcontract:SubcontractDetail">
-                                                                                                    <xsl:for-each select="subcontract:EndDate">
+                                                                                                <xsl:for-each
+                                                                                                        select="subcontract:SubcontractAmountInfo">
+                                                                                                    <xsl:for-each
+                                                                                                            select="subcontract:PerformanceEndDate">
                                                                                                         <fo:inline>
                                                                                                             <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), '00')"/>
                                                                                                             <xsl:text>/</xsl:text>
