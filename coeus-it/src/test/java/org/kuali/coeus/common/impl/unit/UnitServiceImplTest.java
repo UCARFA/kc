@@ -43,12 +43,6 @@ public class UnitServiceImplTest extends KcIntegrationTestBase {
     }
 
     @Test
-    public void testGetUnits() {
-        Collection<Unit> units = KcServiceLocator.getService(UnitService.class).getUnits();
-        assertEquals(13, units.size());
-    }
-    
-    @Test
     public void testGetUnitCaseInsensitive() {
         Unit unit1 = KcServiceLocator.getService(UnitService.class).getUnitCaseInsensitive(BLOOMINGTON_UNIT_NUMBER_CASE_CHANGED);
         Unit unit2 = KcServiceLocator.getService(UnitService.class).getUnitCaseInsensitive(BLOOMINGTON_UNIT_NUMBER_PROPER_CASE);
@@ -79,18 +73,6 @@ public class UnitServiceImplTest extends KcIntegrationTestBase {
     public void testGetTopUnit() {
         Unit unit = KcServiceLocator.getService(UnitService.class).getTopUnit();
         assertEquals(UNIVERSITY_UNIT_NUMBER, unit.getUnitNumber());
-    }
-
-    @Test
-    public void testGetInitialUnitsForUnitHierarchy() {
-        String tree = KcServiceLocator.getService(UnitService.class).getInitialUnitsForUnitHierarchy();
-        assertTrue(tree.contains(UNIVERSITY_UNIT_NUMBER));
-    }
-
-    @Test
-    public void testGetInitialUnitsForUnitHierarchyInt() {
-        String tree = KcServiceLocator.getService(UnitService.class).getInitialUnitsForUnitHierarchy(3);
-        assertTrue(tree.contains(UNIVERSITY_UNIT_NUMBER));
     }
 
     @Test

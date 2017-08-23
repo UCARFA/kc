@@ -25,13 +25,18 @@ import org.junit.Test;
 import org.kuali.coeus.common.framework.unit.Unit;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class UnitServiceImplTest {
 
+    public static final String UNITVERSITY_UNIT_NUMBER = "000001";
     private List<Unit> allUnits;
     private Unit one;
     private Unit two;
@@ -77,7 +82,7 @@ public class UnitServiceImplTest {
     @Before
     public void buildAllDemoUnits() {
         university = new Unit();
-        university.setUnitNumber("000001");
+        university.setUnitNumber(UNITVERSITY_UNIT_NUMBER);
         university.setUnitName("University");
 
         universityLevel = new Unit();
@@ -171,7 +176,12 @@ public class UnitServiceImplTest {
 
     @Before
     public void buildServiceToTest() {
-        unitService = new UnitServiceImpl();
+        unitService = new UnitServiceImpl() {
+            @Override
+            public List<Unit> getUnits() {
+                return allDemoUnits;
+            }
+        };
     }
 
     @Before
@@ -309,6 +319,24 @@ public class UnitServiceImplTest {
                 cardiologyRechargeCenter).collect(Collectors.toList());
         List<Unit> units = unitService.sortUnits(alreadysortedUnits);
         Assert.assertEquals(alreadysortedUnits, units);
+    }
+
+    @Test
+    public void testGetInitialUnitsForUnitHierarchyInt() {
+        String tree = unitService.getInitialUnitsForUnitHierarchy(3);
+        assertTrue(tree.contains(UNITVERSITY_UNIT_NUMBER));
+    }
+
+    @Test
+    public void testGetInitialUnitsForUnitHierarchy() {
+        String tree = unitService.getInitialUnitsForUnitHierarchy();
+        assertTrue(tree.contains(UNITVERSITY_UNIT_NUMBER));
+    }
+
+    @Test
+    public void testGetUnits() {
+        Collection<Unit> units = unitService.getUnits();
+        assertEquals(13, units.size());
     }
 
     @Test
