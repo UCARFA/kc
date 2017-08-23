@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Moving intg tests to unit tests (#2503)
+
+  * Gayathri Athreya on Wed, 23 Aug 2017 11:33:38 -0700 [View Commit](../../commit/6b9f70afc097532ab1011e572fdfada9d552c66f)
+
+##coeus-1708.0031
 * RESKC-2410: making test a little more complete, making AddBusgetDto Serializable
   * Travis Schneeberger on Tue, 22 Aug 2017 14:12:31 -0400 [View Commit](../../commit/734d5a781748851a16bf5a688c09e3a84987b643)
 * RESKC-2462: Parametrizing no cost extension. (#2500)
