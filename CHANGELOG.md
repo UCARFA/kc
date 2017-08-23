@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2383: fixing end dates for fdp agreement modification document
+  * Travis Schneeberger on Wed, 23 Aug 2017 17:11:42 -0400 [View Commit](../../commit/bff38532bc994a8e434f29900cb8429a2c40b8cb)
+
+##coeus-1708.0032
 * Moving intg tests to unit tests (#2503)
 
   * Gayathri Athreya on Wed, 23 Aug 2017 11:33:38 -0700 [View Commit](../../commit/6b9f70afc097532ab1011e572fdfada9d552c66f)

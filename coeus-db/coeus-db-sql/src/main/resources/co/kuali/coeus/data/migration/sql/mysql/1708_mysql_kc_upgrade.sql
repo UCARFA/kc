@@ -25,4 +25,5 @@
 \. ./kc/bootstrap/V1708_005__quartz_update_kc.sql
 \. ./kc/bootstrap/V1708_008__fdp_amraa.sql
 \. ./kc/bootstrap/V1708_009__fdp_modification_update.sql
+\. ./kc/bootstrap/V1708_013__fdp_modification_update.sql
 commit;
