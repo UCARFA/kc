@@ -38,6 +38,7 @@ public class MultipartFileValidationServiceImplTest {
         mp.validateMultipartFile(" ", new MockMultipartFile("foo.txt", new byte[] {}));
     }
 
+    @Test
     public void test_validate_null_file() {
         final MultipartFileValidationServiceImpl mp = new MultipartFileValidationServiceImpl();
         Assert.assertTrue(mp.validateMultipartFile("a_prop", null).containsMessageKey(KeyConstants.ERROR_ATTACHMENT_FILE_REQURIED));

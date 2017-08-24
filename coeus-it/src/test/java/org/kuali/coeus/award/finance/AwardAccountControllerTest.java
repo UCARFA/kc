@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.award.finance;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;

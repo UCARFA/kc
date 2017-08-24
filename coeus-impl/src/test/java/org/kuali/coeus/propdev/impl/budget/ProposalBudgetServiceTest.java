@@ -21,7 +21,7 @@ package org.kuali.coeus.propdev.impl.budget;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.core.Account;
 import org.kuali.coeus.common.budget.framework.core.CostShare;

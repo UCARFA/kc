@@ -1,7 +1,7 @@
 package org.kuali.kra.institutionalproposal.printing.service.impl;
 
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;

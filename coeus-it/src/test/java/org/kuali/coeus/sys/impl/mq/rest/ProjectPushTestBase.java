@@ -7,7 +7,7 @@ import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import junit.framework.Assert;
+import org.junit.Assert;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.kuali.coeus.coi.framework.Project;

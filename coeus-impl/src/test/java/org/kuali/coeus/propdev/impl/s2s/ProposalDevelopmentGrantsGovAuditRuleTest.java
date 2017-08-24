@@ -19,7 +19,7 @@
 package org.kuali.coeus.propdev.impl.s2s;
 
 import gov.nih.era.svs.types.ValidationMessage;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.s2s.nih.NihValidationMapping;
