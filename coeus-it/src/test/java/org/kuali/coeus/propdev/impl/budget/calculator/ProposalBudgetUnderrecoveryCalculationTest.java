@@ -18,8 +18,9 @@
  */
 package org.kuali.coeus.propdev.impl.budget.calculator;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -98,9 +99,6 @@ public class ProposalBudgetUnderrecoveryCalculationTest extends KcIntegrationTes
         protected boolean isProposalBudget() {
             return true;
         }
-        protected BudgetCalculationService getBudgetCalculationService() {
-            return new BudgetCalculationServiceImplMock();
-        }
     }
 
     class BudgetCalculationServiceImplMock extends BudgetCalculationServiceImpl {
@@ -123,12 +121,12 @@ public class ProposalBudgetUnderrecoveryCalculationTest extends KcIntegrationTes
     public void testUnderrecoveryScenarioOverheadMTDCunderrecoveryTDC() {
         budget.setOhRateClassCode(MTDC_RATE_CLASS_CODE);
         budget.setUrRateClassCode(TDC_RATE_CLASS_CODE);
-        Calendar cal = Calendar.getInstance();
-        final java.sql.Date july2014 = getDate(2014, cal.JULY, 1);
+
+        final java.sql.Date july2014 = getDate(2014, Calendar.JULY, 1);
         Long applicableRate = 10L;
-        QueryList lineItemPropRates = new QueryList<>();
+        QueryList<BudgetRate> lineItemPropRates = new QueryList<>();
         BudgetRate lineItemPropRate1 = getLineItemPropRate(TDC_RATE_CLASS_CODE, ACTIVITY_TYPE_CODE_RESEARCH, FISCAL_YEAR_2015, RATE_TYPE_CODE_1, july2014, applicableRate);
-        BudgetRate lineItemPropRate2 = getLineItemPropRate(MTDC_RATE_CLASS_CODE, ACTIVITY_TYPE_CODE_RESEARCH, FISCAL_YEAR_2015, RATE_TYPE_CODE_1, getDate(2015, cal.JANUARY, 1), 56L);
+        BudgetRate lineItemPropRate2 = getLineItemPropRate(MTDC_RATE_CLASS_CODE, ACTIVITY_TYPE_CODE_RESEARCH, FISCAL_YEAR_2015, RATE_TYPE_CODE_1, getDate(2015, Calendar.JANUARY, 1), 56L);
         lineItemPropRates.add(lineItemPropRate1);
         lineItemPropRates.add(lineItemPropRate2);
         budget.setBudgetRates(lineItemPropRates);
@@ -147,11 +145,9 @@ public class ProposalBudgetUnderrecoveryCalculationTest extends KcIntegrationTes
     public void testUnderrecoveryScenarioOverheadMTDCunderrecoveryMTDC() {
         budget.setOhRateClassCode(MTDC_RATE_CLASS_CODE);
         budget.setUrRateClassCode(MTDC_RATE_CLASS_CODE);
-        Calendar cal = Calendar.getInstance();
-        final java.sql.Date july2014 = getDate(2014, cal.JULY, 1);
-        Long applicableRate = 10L;
-        QueryList lineItemPropRates = new QueryList<>();
-        BudgetRate lineItemPropRate2 = getLineItemPropRate(MTDC_RATE_CLASS_CODE, ACTIVITY_TYPE_CODE_RESEARCH, FISCAL_YEAR_2015, RATE_TYPE_CODE_1, getDate(2015, cal.JANUARY, 1), 56L);
+
+        QueryList<BudgetRate> lineItemPropRates = new QueryList<>();
+        BudgetRate lineItemPropRate2 = getLineItemPropRate(MTDC_RATE_CLASS_CODE, ACTIVITY_TYPE_CODE_RESEARCH, FISCAL_YEAR_2015, RATE_TYPE_CODE_1, getDate(2015, Calendar.JANUARY, 1), 56L);
         lineItemPropRates.add(lineItemPropRate2);
         budget.setBudgetRates(lineItemPropRates);
         new LineItemCalculatorMock(budget,budget.getBudgetLineItems().get(0)).calculate();
@@ -169,12 +165,12 @@ public class ProposalBudgetUnderrecoveryCalculationTest extends KcIntegrationTes
     public void testUnderrecoveryScenarioOverheadTDCunderrecoveryMTDC() {
         budget.setOhRateClassCode(TDC_RATE_CLASS_CODE);
         budget.setUrRateClassCode(MTDC_RATE_CLASS_CODE);
-        Calendar cal = Calendar.getInstance();
-        final java.sql.Date july2014 = getDate(2014, cal.JULY, 1);
+
+        final java.sql.Date july2014 = getDate(2014, Calendar.JULY, 1);
         Long applicableRate = 10L;
-        QueryList lineItemPropRates = new QueryList<>();
+        QueryList<BudgetRate> lineItemPropRates = new QueryList<>();
         BudgetRate lineItemPropRate1 = getLineItemPropRate(TDC_RATE_CLASS_CODE, ACTIVITY_TYPE_CODE_RESEARCH, FISCAL_YEAR_2015, RATE_TYPE_CODE_1, july2014, applicableRate);
-        BudgetRate lineItemPropRate2 = getLineItemPropRate(MTDC_RATE_CLASS_CODE, ACTIVITY_TYPE_CODE_RESEARCH, FISCAL_YEAR_2015, RATE_TYPE_CODE_1, getDate(2015, cal.JANUARY, 1), 56L);
+        BudgetRate lineItemPropRate2 = getLineItemPropRate(MTDC_RATE_CLASS_CODE, ACTIVITY_TYPE_CODE_RESEARCH, FISCAL_YEAR_2015, RATE_TYPE_CODE_1, getDate(2015, Calendar.JANUARY, 1), 56L);
         lineItemPropRates.add(lineItemPropRate1);
         lineItemPropRates.add(lineItemPropRate2);
         budget.setBudgetRates(lineItemPropRates);
@@ -189,25 +185,23 @@ public class ProposalBudgetUnderrecoveryCalculationTest extends KcIntegrationTes
 
     }
 
+    @Test
+    @Ignore
     public void testUnderrecoveryScenarioOverheadFUNSNunderrecoveryTDC() {
         budget.setOhRateClassCode(FUNSN_RATE_CLASS_CODE);
         budget.setUrRateClassCode(TDC_RATE_CLASS_CODE);
-        Calendar cal = Calendar.getInstance();
-        final java.sql.Date july2014 = getDate(2014, cal.JULY, 1);
-        QueryList lineItemPropRates = new QueryList<>();
+
+        final java.sql.Date july2014 = getDate(2014, Calendar.JULY, 1);
+        QueryList<BudgetRate> lineItemPropRates = new QueryList<>();
         BudgetRate lineItemPropRate1 = getLineItemPropRate(FUNSN_RATE_CLASS_CODE, ACTIVITY_TYPE_CODE_RESEARCH, FISCAL_YEAR_2015, RATE_TYPE_CODE_1, july2014, 56L);
-        BudgetRate lineItemPropRate2 = getLineItemPropRate(TDC_RATE_CLASS_CODE, ACTIVITY_TYPE_CODE_RESEARCH, FISCAL_YEAR_2015, RATE_TYPE_CODE_1, getDate(2015, cal.JANUARY, 1), 5L);
+        BudgetRate lineItemPropRate2 = getLineItemPropRate(TDC_RATE_CLASS_CODE, ACTIVITY_TYPE_CODE_RESEARCH, FISCAL_YEAR_2015, RATE_TYPE_CODE_1, getDate(2015, Calendar.JANUARY, 1), 5L);
         BudgetRate lineItemPropRate3 = getLineItemPropRate(FUNSN_RATE_CLASS_CODE, ACTIVITY_TYPE_CODE_RESEARCH, FISCAL_YEAR_2015, RATE_TYPE_CODE_2, july2014, 10L);
         lineItemPropRates.add(lineItemPropRate1);
         lineItemPropRates.add(lineItemPropRate2);
         lineItemPropRates.add(lineItemPropRate3);
         budget.setBudgetRates(lineItemPropRates);
-        //new LineItemCalculatorMock(budget,budget.getBudgetLineItems().get(0)).calculate();
-        //Assert.assertTrue(budget.getBudgetLineItems().get(0).getUnderrecoveryAmount().equals(new ScaleTwoDecimal(-500L)));
         budget.getBudgetPeriods().get(0).getBudgetLineItems().clear();
         addTravelLineItem(budget);
-        //new LineItemCalculatorMock(budget,budget.getBudgetLineItems().get(1)).calculate();
-        //Assert.assertTrue(budget.getBudgetLineItems().get(1).getUnderrecoveryAmount().equals(new ScaleTwoDecimal(-500L)));
         budget.getBudgetPeriods().get(0).getBudgetLineItems().clear();
         addPersonnelLineItem(budget);
         new LineItemCalculatorMock(budget,budget.getBudgetLineItems().get(0)).calculate();
@@ -233,13 +227,13 @@ public class ProposalBudgetUnderrecoveryCalculationTest extends KcIntegrationTes
 
     private java.sql.Date getDate(Integer year, Integer month, Integer day) {
         Calendar cal = Calendar.getInstance();
-        cal.set(cal.YEAR, year);
-        cal.set(cal.MONTH, month);
-        cal.set(cal.DATE, day);
-        cal.set(cal.HOUR_OF_DAY, 0);
-        cal.set(cal.MINUTE, 0);
-        cal.set(cal.SECOND, 0);
-        cal.set(cal.MILLISECOND, 0);
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DATE, day);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
         return new java.sql.Date(cal.getTime().getTime());
     }
 

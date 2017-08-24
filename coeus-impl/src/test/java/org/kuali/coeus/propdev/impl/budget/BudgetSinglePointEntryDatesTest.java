@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;

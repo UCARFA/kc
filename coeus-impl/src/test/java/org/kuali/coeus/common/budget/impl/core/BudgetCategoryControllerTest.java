@@ -306,7 +306,8 @@ public class BudgetCategoryControllerTest {
 		update.setBudgetCategoryTypeCode(budgetCat1.getBudgetCategoryTypeCode());
 		controller.add(update);
 	}
-	
+
+	@Test
 	public void testBudgetCategory_deleteExisting() {
 		SimpleCrudDtoRestController<BudgetCategory, BudgetCategoryDto> controller = new BudgetCategoryController() {
 			{
@@ -334,7 +335,13 @@ public class BudgetCategoryControllerTest {
 			}
 
 			@Override
-			protected void validateBusinessObject(BudgetCategory budgetCategory) { }
+			protected void validateDeleteDataObject(BudgetCategory budgetCategory) {
+			}
+
+			@Override
+			protected RestAuditLogger getAuditLogger() {
+				return getTestRestAuditLogger();
+			}
 		};
 		
 		controller.delete(budgetCat1.getCode());

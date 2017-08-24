@@ -1,7 +1,7 @@
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.ruleengine.KcEventResult;

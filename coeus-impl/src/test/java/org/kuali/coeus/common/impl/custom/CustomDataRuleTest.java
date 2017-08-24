@@ -18,14 +18,13 @@
  */
 package org.kuali.coeus.common.impl.custom;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 
 import java.util.*;
 

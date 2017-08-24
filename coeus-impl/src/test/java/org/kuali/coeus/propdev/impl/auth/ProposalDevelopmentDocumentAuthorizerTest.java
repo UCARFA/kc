@@ -18,7 +18,7 @@ package org.kuali.coeus.propdev.impl.auth;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;

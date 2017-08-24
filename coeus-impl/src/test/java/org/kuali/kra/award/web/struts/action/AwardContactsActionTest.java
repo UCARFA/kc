@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;

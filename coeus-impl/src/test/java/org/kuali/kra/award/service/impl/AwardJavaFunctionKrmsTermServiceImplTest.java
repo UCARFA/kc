@@ -19,7 +19,7 @@
 package org.kuali.kra.award.service.impl;
 
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
