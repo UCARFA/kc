@@ -62,9 +62,11 @@ public class UcarAwardDetailAndDatesRuleImpl extends AwardDetailsAndDatesRuleImp
                 reportError(OBLIGATION_EXPIRATION_DATE_PROPERTY_NAME, KeyConstants.ERROR_OBLIGATION_EXPIRATION_DATE);
             }
         }
-        if (!this.isValidAccountNumber((AwardDocument) awardDetailsAndDatesSaveEvent.getDocument())) {
+        //susan wang:  TODO uncemment the following code after award import completed and contract ID moved to the designated place.
+        // The following code is making award API not working properly because account number is used as a temrary place for contract ID and has letters.
+/*        if (!this.isValidAccountNumber((AwardDocument) awardDetailsAndDatesSaveEvent.getDocument())) {
             valid &= false;
-        }
+        }*/
 
         if (!isValidCfdaNumber(award)) {
             valid &= false;
