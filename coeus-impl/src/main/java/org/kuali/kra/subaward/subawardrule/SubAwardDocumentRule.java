@@ -86,6 +86,7 @@ SubAwardFfataReportingRule {
     private static final String NEW_ATTACHMENT_NEW_FILE = "subAwardAttachmentFormBean.newAttachment.newFile";
     private static final String NEW_ATTACHMENT_DESCRIPTION = "subAwardAttachmentFormBean.newAttachment.description";
     private static final String CARRY_FORWARD_REQUESTS_SENT_TO = "document.subAwardList[0].subAwardTemplateInfo[0].carryForwardRequestsSentTo";
+    private static final String EMAIL_DIFF = "document.subAwardList[0].subAwardTemplateInfo[0].invoiceEmailDifferent";
     private static final String MPI_LEADERSHIP_PLAN = "document.subAwardList[0].subAwardTemplateInfo[0].mpiLeadershipPlan";
 
     private static final Log LOG = LogFactory.getLog(SubAwardDocumentRule.class);
@@ -424,6 +425,13 @@ SubAwardFfataReportingRule {
 
         final boolean fdpEnabled = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SUBAWARD, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.ENABLE_SUBAWARD_FDP);
         for (SubAwardTemplateInfo subAwardTemplateInfo : subAward.getSubAwardTemplateInfo()) {
+            if (subAwardTemplateInfo.getInvoicesEmailed() != null && !subAwardTemplateInfo.getInvoicesEmailed()) {
+                if (subAwardTemplateInfo.getInvoiceEmailDifferent() != null && subAwardTemplateInfo.getInvoiceEmailDifferent()) {
+                    rulePassed = false;
+                    reportError(EMAIL_DIFF, ERROR_SUBAWARD_EMAIL_DIFF_YES);
+                }
+            }
+
             if (fdpEnabled && "N".equalsIgnoreCase(subAwardTemplateInfo.getAutomaticCarryForward())) {
                 if (subAwardTemplateInfo.getCarryForwardRequestsSentTo()==null) {
                     rulePassed = false;

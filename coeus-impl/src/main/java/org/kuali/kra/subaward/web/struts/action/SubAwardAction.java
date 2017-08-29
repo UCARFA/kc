@@ -66,6 +66,8 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
     public static final String DISABLE_ATTACHMENT_REMOVAL = "disableAttachmentRemoval";
     private transient SubAwardService subAwardService;
     private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
+    private static final String FDP_PTE_INVOICE_EMAIL = "FDP_PTE_Invoice_email";
+    private static final String FDP_PTE_INVOICE_ADDRESS = "FDP_PTE_Invoice_address";
 
     @Override
     public ActionForward execute(ActionMapping mapping,
@@ -239,6 +241,9 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
            ((SubAwardForm) form).getSubAward().getSubAwardTemplateInfo().add(new SubAwardTemplateInfo());
        }
 
+       final String fdpPteInvoiceEmail = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, FDP_PTE_INVOICE_EMAIL);
+       final String fdpPteInvoiceAddress = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, FDP_PTE_INVOICE_ADDRESS);
+
        ((SubAwardForm) form).getSubAward().getSubAwardTemplateInfo().forEach(info -> {
            if (info.getFcio() == null &&
                    ((SubAwardForm) form).getSubAward().getSubAwardFundingSourceList().stream()
@@ -249,6 +254,20 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
                            .anyMatch(sponsorCode -> getSponsorHierarchyService().isSponsorInHierarchy(sponsorCode, hierarchyName))) {
 
                info.setFcio(true);
+           }
+
+           if (StringUtils.isNotBlank(fdpPteInvoiceEmail)) {
+               if (info.getInvoiceEmailDifferent() == null) {
+                   info.setInvoiceEmailDifferent(true);
+               }
+
+               if (info.getInvoicesEmailed() == null) {
+                   info.setInvoicesEmailed(true);
+               }
+           }
+
+           if (StringUtils.isNotBlank(fdpPteInvoiceAddress) && info.getInvoiceAddressDifferent() == null) {
+               info.setInvoiceAddressDifferent(true);
            }
        });
 
