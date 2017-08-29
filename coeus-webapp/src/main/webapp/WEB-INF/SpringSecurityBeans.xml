@@ -255,8 +255,6 @@
 
     <!-- SAML 2.0 WebSSO Assertion Consumer -->
     <bean id="webSSOprofileConsumer" class="org.springframework.security.saml.websso.WebSSOProfileConsumerImpl">
-        <!-- SJW - Add responseSkew due to clock differences on container systems (container is GMT) -->
-        <!-- responseSkew in seconds, past+future.  25200 seconds = 7 hours.  50400 = 14 hours -->
         <property name="responseSkew" value="${websso.responseskew}"/>
     </bean>
 

@@ -369,6 +369,8 @@
     			-->
     			<metadataSp.filename>kcnonprod1fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+				<!-- SJW - Add responseSkew due to clock differences on container systems (container is GMT) -->
+				<!-- responseSkew in seconds, past+future.  25200 seconds = 7 hours.  50400 = 14 hours -->
 				<websso.responseskew>50400</websso.responseskew>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod1.fanda.ucar.edu</kcserver.fqdn>
