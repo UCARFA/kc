@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.budget.impl.rate;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.common.budget.impl.rate.UnitFormulatedCost;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -58,7 +58,7 @@ public class UnitFormulatedCostRule extends KcMaintenanceDocumentRuleBase {
         values.put("unitNumber", newCost.getUnitNumber());
         Collection<UnitFormulatedCost> costs = businessObjectService.findMatching(UnitFormulatedCost.class, values);
         for (UnitFormulatedCost cost : costs) {
-            if (!ObjectUtils.equals(newCost.getUnitFormulatedCostId(), cost.getUnitFormulatedCostId())) {
+            if (!Objects.equals(newCost.getUnitFormulatedCostId(), cost.getUnitFormulatedCostId())) {
                 ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
                 errorReporter.reportError("document.newMaintainableObject.formulatedTypeCode",
                         KeyConstants.ERROR_FORUMLATED_COST_DUPLICATE);

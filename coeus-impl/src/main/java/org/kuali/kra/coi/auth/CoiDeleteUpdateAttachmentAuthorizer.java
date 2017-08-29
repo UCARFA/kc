@@ -19,7 +19,7 @@
 package org.kuali.kra.coi.auth;
 
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -34,8 +34,8 @@ public class CoiDeleteUpdateAttachmentAuthorizer extends CoiDeleteUpdateNotesAtt
         CoiDisclosureDeleteUpdateAttachmentTask deleteUpdateTask = (CoiDisclosureDeleteUpdateAttachmentTask) task;
         CoiDisclosureAttachment attachment = deleteUpdateTask.getAttachment();      
         String attachmentCreator = attachment.getUpdateUser();
-        if (attachment.getOriginalCoiDisclosureId() != null 
-                && !ObjectUtils.equals(attachment.getOriginalCoiDisclosureId(), task.getCoiDisclosure().getCoiDisclosureId())) {
+        if (attachment.getOriginalCoiDisclosureId() != null
+                && !Objects.equals(attachment.getOriginalCoiDisclosureId(), task.getCoiDisclosure().getCoiDisclosureId())) {
             return false;
         } else {
             return isAuthorized(userId, task, attachmentCreator);

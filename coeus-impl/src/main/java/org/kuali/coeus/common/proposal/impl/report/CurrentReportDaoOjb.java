@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.proposal.impl.report;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -57,7 +57,7 @@ public class CurrentReportDaoOjb extends BaseReportDaoOjb implements CurrentRepo
         CurrentReportBean bean = null;
         if(shouldDataBeIncluded(award.getAwardDocument())
                 && award.isActiveVersion()
-                && ObjectUtils.equals(getActiveAwardVersionSequenceNumber(award.getAwardNumber()), award.getSequenceNumber())) {
+                && Objects.equals(getActiveAwardVersionSequenceNumber(award.getAwardNumber()), award.getSequenceNumber())) {
             bean = new CurrentReportBean(awardPerson);
         }
         return bean;

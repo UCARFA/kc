@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.questionnaire.framework.question;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.api.question.QuestionContract;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
@@ -378,7 +378,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
      */
     @Override
     public int compareTo(Question argQuestion) {
-        if (ObjectUtils.equals(this.getQuestionSeqId(), argQuestion.getQuestionSeqId())) {
+        if (Objects.equals(this.getQuestionSeqId(), argQuestion.getQuestionSeqId())) {
             return this.getSequenceNumber().compareTo(argQuestion.getSequenceNumber());
         } else {
             return this.getQuestionSeqId().compareTo(argQuestion.getQuestionSeqId());

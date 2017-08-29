@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.person.masschange;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -154,7 +154,7 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl extends MassPersonCh
                         getPersonEditableService().populateContactFieldsFromPersonId(person);
                         
                         for (ProposalPersonBiography biography : developmentProposal.getPropPersonBios()) {
-                            if (ObjectUtils.equals(biography.getProposalPersonNumber(), person.getProposalPersonNumber())) {
+                            if (Objects.equals(biography.getProposalPersonNumber(), person.getProposalPersonNumber())) {
                                 biography.setPersonId(personMassChange.getReplacerPersonId());
                                 biography.setRolodexId(null);
                                 
@@ -167,7 +167,7 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl extends MassPersonCh
                         getPersonEditableService().populateContactFieldsFromRolodexId(person);
                         
                         for (ProposalPersonBiography biography : developmentProposal.getPropPersonBios()) {
-                            if (ObjectUtils.equals(biography.getProposalPersonNumber(), person.getProposalPersonNumber())) {
+                            if (Objects.equals(biography.getProposalPersonNumber(), person.getProposalPersonNumber())) {
                                 biography.setPersonId(null);
                                 biography.setRolodexId(personMassChange.getReplacerRolodexId());
                             

@@ -19,7 +19,8 @@
 package org.kuali.coeus.common.questionnaire.impl.question;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
+
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -417,7 +418,7 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
     private boolean validateLookupClass(Question question) {
         // Force a reload the lookupReturn dropdown list when the lookupClass changes 
         String prevLookupClass = (String) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME);
-        if (ObjectUtils.equals(question.getLookupClass(), prevLookupClass)) {
+        if (Objects.equals(question.getLookupClass(), prevLookupClass)) {
             GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_RETURN_FIELDS);
         }
         

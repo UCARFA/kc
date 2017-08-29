@@ -19,7 +19,8 @@
 package org.kuali.coeus.common.budget.impl.summary;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
+
+import java.util.Objects;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -322,7 +323,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             Iterator<BudgetSubAwardPeriodDetail> iter = subAward.getBudgetSubAwardPeriodDetails().iterator();
             while (iter.hasNext()) {
                 BudgetSubAwardPeriodDetail detail = iter.next();
-                if (ObjectUtils.equals(detail.getBudgetPeriod(), deletedPeriod.getBudgetPeriod())) {
+                if (Objects.equals(detail.getBudgetPeriod(), deletedPeriod.getBudgetPeriod())) {
                     iter.remove();
                 }
             }

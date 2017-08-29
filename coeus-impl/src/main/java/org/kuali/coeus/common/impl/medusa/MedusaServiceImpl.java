@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.impl.medusa;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
@@ -464,37 +464,37 @@ public class MedusaServiceImpl implements MedusaService {
     protected boolean areBusinessObjectsEqual(Object bo1, Object bo2) {
         if (bo1 instanceof DevelopmentProposal
                 && bo2 instanceof DevelopmentProposal) {
-            if (ObjectUtils.equals(((DevelopmentProposal)bo1).getProposalNumber(),
+            if (Objects.equals(((DevelopmentProposal) bo1).getProposalNumber(),
                     ((DevelopmentProposal)bo2).getProposalNumber())) {
                 return true;
             }
         } else if (bo1 instanceof InstitutionalProposal
                 && bo2 instanceof InstitutionalProposal) {
-            if (ObjectUtils.equals(((InstitutionalProposal)bo1).getProposalId(),
+            if (Objects.equals(((InstitutionalProposal) bo1).getProposalId(),
                     ((InstitutionalProposal)bo2).getProposalId())) {
                 return true;
             }
         } else if (bo1 instanceof Award && bo2 instanceof Award) {
-            if (ObjectUtils.equals(((Award)bo1).getAwardId(),
+            if (Objects.equals(((Award) bo1).getAwardId(),
                     ((Award)bo2).getAwardId())) {
                 return true;
             }
         } else if (bo1 instanceof Negotiation && bo2 instanceof Negotiation) {
-            if (ObjectUtils.equals(((Negotiation) bo1).getNegotiationId(),
+            if (Objects.equals(((Negotiation) bo1).getNegotiationId(),
                     ((Negotiation) bo2).getNegotiationId())) {
                 return true;
             }
         } else if (bo1 instanceof SubAward && bo2 instanceof SubAward) {
-            if (ObjectUtils.equals(((SubAward) bo1).getSubAwardId(),
+            if (Objects.equals(((SubAward) bo1).getSubAwardId(),
                     ((SubAward) bo2).getSubAwardId())) {
                 return true;
             }
         } else if (bo1 instanceof Protocol && bo2 instanceof Protocol) {
-            if (ObjectUtils.equals(((Protocol) bo1).getProtocolId(),
+            if (Objects.equals(((Protocol) bo1).getProtocolId(),
                     ((Protocol) bo2).getProtocolId()))
                 return true;
         } else if (bo1 instanceof IacucProtocol && bo2 instanceof IacucProtocol) {
-            if (ObjectUtils.equals(((IacucProtocol) bo1).getProtocolId(),
+            if (Objects.equals(((IacucProtocol) bo1).getProtocolId(),
                     ((IacucProtocol) bo2).getProtocolId()))
                 return true;
         }

@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.protocol.actions.print;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 
 import java.util.Comparator;
 
@@ -34,8 +34,8 @@ public class QuestionnairePrintOptionComparator implements Comparator<Questionna
         int retval = 0;
         retval = q1.getQuestionnaireSeqId().compareTo(q2.getQuestionnaireSeqId());
         if (retval == 0) {
-            if (ObjectUtils.equals(q1.getItemKey(), q2.getItemKey())) {
-                if (ObjectUtils.equals(q1.getSubItemCode(), q2.getSubItemCode())) {
+            if (Objects.equals(q1.getItemKey(), q2.getItemKey())) {
+                if (Objects.equals(q1.getSubItemCode(), q2.getSubItemCode())) {
                     retval = q1.getSubItemKey().compareTo(q2.getSubItemKey());
                 }
                 else {

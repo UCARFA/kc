@@ -21,7 +21,7 @@ package org.kuali.coeus.common.budget.framework.rate;
 import java.io.Serializable;
 
 import javax.persistence.*;
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -126,7 +126,7 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
 
     public void setApplicableRate(ScaleTwoDecimal applicableRate) {
         setOldApplicableRate(this.applicableRate);
-        if (!ObjectUtils.equals(this.applicableRate, applicableRate)) {
+        if (!Objects.equals(this.applicableRate, applicableRate)) {
             setRateChanged(true);
         }
         this.applicableRate = applicableRate;

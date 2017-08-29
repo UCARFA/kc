@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.committee.impl.bo;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 
 import java.sql.Date;
 
@@ -110,7 +110,7 @@ public class CommitteeMembershipRole extends CommitteeSequenceAssociateBase {
             return false;
         }
         CommitteeMembershipRole committeeMembershipRole = (CommitteeMembershipRole) obj;
-        if (ObjectUtils.equals(this.committeeMembershipIdFk, committeeMembershipRole.committeeMembershipIdFk) && ObjectUtils.equals(this.membershipRoleCode, committeeMembershipRole.membershipRoleCode) && ObjectUtils.equals(this.startDate, committeeMembershipRole.startDate) && ObjectUtils.equals(this.endDate, committeeMembershipRole.endDate)) {
+        if (Objects.equals(this.committeeMembershipIdFk, committeeMembershipRole.committeeMembershipIdFk) && Objects.equals(this.membershipRoleCode, committeeMembershipRole.membershipRoleCode) && Objects.equals(this.startDate, committeeMembershipRole.startDate) && Objects.equals(this.endDate, committeeMembershipRole.endDate)) {
             return true;
         } else {
             return false;

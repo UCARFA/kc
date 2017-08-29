@@ -27,7 +27,7 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleEvent;
@@ -191,7 +191,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 	@Override
     public ProposalDevelopmentBudgetExt getSelectedBudget(Long budgetId, List<ProposalDevelopmentBudgetExt> budgets) {
         for (ProposalDevelopmentBudgetExt curBudget : budgets) {
-            if (ObjectUtils.equals(budgetId, curBudget.getBudgetId())) {
+            if (Objects.equals(budgetId, curBudget.getBudgetId())) {
                 return curBudget;
             }
         }
@@ -221,7 +221,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
         ProposalDevelopmentBudgetExt selectedBudget = null;
         if (budgets != null) {
             for (ProposalDevelopmentBudgetExt curBudget : budgets) {
-                if (ObjectUtils.equals(budgetId, curBudget.getBudgetId())) {
+                if (Objects.equals(budgetId, curBudget.getBudgetId())) {
                     selectedBudget = curBudget;
                 }
             }

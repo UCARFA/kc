@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.institutionalproposal.rules;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -176,9 +176,9 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
         for (InstitutionalProposalUnrecoveredFandA a : institutionalProposalUnrecoveredFandAs) {
             if ((a != institutionalProposalUnrecoveredFandA) &&
                     StringUtils.equals(a.getFiscalYear(), institutionalProposalUnrecoveredFandA.getFiscalYear()) &&
-                    ObjectUtils.equals(a.getIndirectcostRateTypeCode(), institutionalProposalUnrecoveredFandA.getIndirectcostRateTypeCode()) &&
-                    ObjectUtils.equals(a.getApplicableIndirectcostRate(), institutionalProposalUnrecoveredFandA.getApplicableIndirectcostRate()) &&
-                    ObjectUtils.equals(a.getOnCampusFlag(), institutionalProposalUnrecoveredFandA.getOnCampusFlag()) &&
+                    Objects.equals(a.getIndirectcostRateTypeCode(), institutionalProposalUnrecoveredFandA.getIndirectcostRateTypeCode()) &&
+                    Objects.equals(a.getApplicableIndirectcostRate(), institutionalProposalUnrecoveredFandA.getApplicableIndirectcostRate()) &&
+                    Objects.equals(a.getOnCampusFlag(), institutionalProposalUnrecoveredFandA.getOnCampusFlag()) &&
                     StringUtils.equals(a.getSourceAccount(), institutionalProposalUnrecoveredFandA.getSourceAccount()) ) {
                 noDuplicates = false;
                 this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + FISCAL_YEAR_PROP, KeyConstants.ERROR_PROPOSAL_UFNA_DUPLICATE_ROW);

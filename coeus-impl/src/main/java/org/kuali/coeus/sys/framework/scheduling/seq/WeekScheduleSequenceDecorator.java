@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.sys.framework.scheduling.seq;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -99,8 +99,8 @@ public class WeekScheduleSequenceDecorator extends ScheduleSequenceDecorator {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        WeekScheduleSequenceDecorator other = (WeekScheduleSequenceDecorator) obj;        
-        return ObjectUtils.equals(dayCount, other.dayCount) &&
-        ObjectUtils.equals(frequency, other.frequency);
+        WeekScheduleSequenceDecorator other = (WeekScheduleSequenceDecorator) obj;
+        return Objects.equals(dayCount, other.dayCount) &&
+                Objects.equals(frequency, other.frequency);
     }
 }

@@ -19,7 +19,8 @@
 package org.kuali.kra.award.web.struts.action;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.ObjectUtils;
+
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -224,8 +225,8 @@ public class AwardAction extends BudgetParentActionBase {
             Award currentAward = null;
             for(Award award : awardDocument.getAwardList()) {
                 currentAwardIndex++;
-                if(ObjectUtils.equals(award.getAwardId(), awardId)) {
-                	currentAward = award;
+                if (Objects.equals(award.getAwardId(), awardId)) {
+                    currentAward = award;
                     break;
                 }
             }

@@ -22,7 +22,7 @@ import java.util.Objects;
 
 import javax.persistence.*;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardPeriodDetailContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -106,7 +106,7 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
     }
 
     public void setDirectCost(ScaleTwoDecimal directCost) {
-        if (!ObjectUtils.equals(this.directCost, directCost)) {
+        if (!Objects.equals(this.directCost, directCost)) {
             amountsModified = true;
         }
         this.directCost = directCost;
@@ -119,7 +119,7 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
     }
 
     public void setIndirectCost(ScaleTwoDecimal indirectCost) {
-        if (!ObjectUtils.equals(this.indirectCost, indirectCost)) {
+        if (!Objects.equals(this.indirectCost, indirectCost)) {
             amountsModified = true;
         }
         this.indirectCost = indirectCost;
@@ -132,7 +132,7 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
     }
 
     public void setCostShare(ScaleTwoDecimal costShare) {
-        if (!ObjectUtils.equals(this.costShare, costShare)) {
+        if (!Objects.equals(this.costShare, costShare)) {
             amountsModified = true;
         }
         this.costShare = costShare;
