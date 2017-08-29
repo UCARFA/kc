@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.impl.custom.attr;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
@@ -223,8 +223,8 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 	{
 		Map<String, CustomAttributeDocument> map = getDefaultCustomAttributeDocuments(dataTypeCode, customDataList );
 		for(Map.Entry<String, CustomAttributeDocument> document: map.entrySet()) {
-			if( document.getValue()!=null && document.getValue().getCustomAttribute()!=null && ObjectUtils.equals(document.getValue().getCustomAttribute().getId(),attr.getId()))
-				return document.getValue().isRequired();
+            if (document.getValue() != null && document.getValue().getCustomAttribute() != null && Objects.equals(document.getValue().getCustomAttribute().getId(), attr.getId()))
+                return document.getValue().isRequired();
 		}
 		return false;
 	}

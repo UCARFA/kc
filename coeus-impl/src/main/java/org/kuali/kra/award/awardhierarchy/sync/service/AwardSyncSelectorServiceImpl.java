@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncDescendantValues;
@@ -97,7 +97,7 @@ public class AwardSyncSelectorServiceImpl implements AwardSyncSelectorService {
     @Override
     public boolean isFabricatedAccount(Award award) {
         String typeCode = getParameterService().getParameterValueAsString(AwardDocument.class, Constants.AWARD_FABRICATED_EQUPIMENT_PARM);
-        return ObjectUtils.equals(award.getAccountTypeCode(), Integer.valueOf(typeCode));
+        return Objects.equals(award.getAccountTypeCode(), Integer.valueOf(typeCode));
     }    
     
     public void setParameterService(ParameterService parameterService) {

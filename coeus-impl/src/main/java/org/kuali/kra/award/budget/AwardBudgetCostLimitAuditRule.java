@@ -35,6 +35,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.kuali.rice.krad.util.GlobalVariables.getAuditErrorMap;
 
@@ -142,8 +143,8 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
         
         for (AwardBudgetLimit limit : awardLimits) {
             AwardBudgetLimit budgetLimit = getBudgetLimit(limit.getLimitType(), budgetLimits);
-            if (budgetLimit == null 
-                    || !org.apache.commons.lang3.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
+            if (budgetLimit == null
+                    || !Objects.equals(limit.getLimit(), budgetLimit.getLimit())) {
                getAuditWarnings().add(new AuditError("document.budget.awardBudgetLimits",
                         KeyConstants.AUDIT_ERROR_SPECIFIC_COST_LIMITS_CHANGED,
                         Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals",

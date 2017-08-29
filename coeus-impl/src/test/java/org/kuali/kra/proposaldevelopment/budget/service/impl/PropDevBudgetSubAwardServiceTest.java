@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.service.impl;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -349,7 +349,7 @@ public class PropDevBudgetSubAwardServiceTest {
     protected List<BudgetLineItem> findLineItemsByCostElement(List<BudgetLineItem> lineItems, String costElement) {
         List<BudgetLineItem> lineItemsFound = new ArrayList<>();
         for (BudgetLineItem lineItem : lineItems) {
-            if (StringUtils.equals(lineItem.getCostElement(), costElement) && ObjectUtils.equals(lineItem.getSubAwardNumber(), subAward.getSubAwardNumber())) {
+            if (StringUtils.equals(lineItem.getCostElement(), costElement) && Objects.equals(lineItem.getSubAwardNumber(), subAward.getSubAwardNumber())) {
                 lineItemsFound.add(lineItem);
             }
         }

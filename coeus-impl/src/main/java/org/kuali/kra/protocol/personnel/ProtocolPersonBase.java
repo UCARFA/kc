@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.coi.framework.DisclosureStatusRetrievalService;
 import org.kuali.coeus.common.framework.person.editable.PersonEditable;
@@ -269,7 +269,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     // is different from the existing one.
     public void setAffiliationTypeCode(Integer newAffiliationTypeCode) {
         boolean changed = true;
-        if(ObjectUtils.equals(this.affiliationTypeCode, newAffiliationTypeCode)) {
+        if (Objects.equals(this.affiliationTypeCode, newAffiliationTypeCode)) {
             changed = false;
         }
         this.affiliationTypeCode = newAffiliationTypeCode;

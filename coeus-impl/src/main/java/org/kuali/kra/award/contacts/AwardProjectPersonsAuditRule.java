@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
@@ -186,7 +186,7 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
             for (DevelopmentProposal proposal : devProposals) {
                 for (ProposalPerson propPerson : proposal.getProposalPersons()) {
                     if ((person != null && StringUtils.equals(person.getPersonId(), propPerson.getPersonId()))
-                            || (person.getRolodexId() != null && ObjectUtils.equals(person.getRolodexId(), propPerson.getRolodexId()))) {
+                            || (person.getRolodexId() != null && Objects.equals(person.getRolodexId(), propPerson.getRolodexId()))) {
                         if (StringUtils.equals(propPerson.getProposalPersonRoleId(), Constants.CO_INVESTIGATOR_ROLE)
                                 || StringUtils.equals(propPerson.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                                 || propPerson.getOptInCertificationStatus()) {

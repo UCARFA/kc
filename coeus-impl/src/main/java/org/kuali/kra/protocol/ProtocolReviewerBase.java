@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.protocol;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -145,7 +145,7 @@ public class ProtocolReviewerBase extends KcPersistableBusinessObjectBase {
         boolean isMatched = false;
         if (!getNonEmployeeFlag() && StringUtils.equals(member.getPersonId(), getPersonId())) {
             isMatched = true;
-        } else if (getNonEmployeeFlag() && ObjectUtils.equals(member.getRolodexId(), getRolodexId())) {
+        } else if (getNonEmployeeFlag() && Objects.equals(member.getRolodexId(), getRolodexId())) {
             isMatched = true;
         }
         return isMatched;

@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
@@ -98,7 +98,7 @@ public class AwardSyncCreationServiceImpl implements AwardSyncCreationService {
      */
     protected boolean sameObject(AwardSyncXmlExport change1, AwardSyncXmlExport change2) {
         if (StringUtils.equals(change1.getClassName(), change2.getClassName())
-                && ObjectUtils.equals(change1.getKeys(), change2.getKeys())) {
+                && Objects.equals(change1.getKeys(), change2.getKeys())) {
             boolean result = true;
             for (Map.Entry<String, Object> entry : change1.getValues().entrySet()) {
                 if (entry.getValue() instanceof AwardSyncXmlExport

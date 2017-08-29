@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AbstractProjectPerson;
@@ -62,8 +62,8 @@ public abstract class MassPersonChangeServiceBase {
         for (AbstractProjectPerson person : persons) {
             if ((personMassChange.getReplacerPersonId() != null 
                         && StringUtils.equals(personMassChange.getReplacerPersonId(), person.getPersonId()))
-                    || (personMassChange.getReplacerRolodexId() != null 
-                        && ObjectUtils.equals(personMassChange.getReplacerRolodexId(), person.getRolodexId()))) {
+                    || (personMassChange.getReplacerRolodexId() != null
+                    && Objects.equals(personMassChange.getReplacerRolodexId(), person.getRolodexId()))) {
                 reportReplacerExists(person);
                 isValid = false;
             }

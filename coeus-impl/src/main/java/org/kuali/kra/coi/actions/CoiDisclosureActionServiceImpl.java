@@ -623,7 +623,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
                 }
                 for (CoiDisclProject project: disclosure.getCoiDisclProjects()) {
                     for (CoiDiscDetail detail: project.getCoiDiscDetails()) {
-                        if (org.apache.commons.lang3.ObjectUtils.equals(detail.getOldEntityDispositionCode(), detail.getEntityDispositionCode())) {
+                        if (Objects.equals(detail.getOldEntityDispositionCode(), detail.getEntityDispositionCode())) {
                             detail.setUpdateUser(GlobalVariables.getUserSession().getPerson().getPrincipalName());
                             businessObjectService.save(detail);
                             detail.setOldEntityDispositionCode();

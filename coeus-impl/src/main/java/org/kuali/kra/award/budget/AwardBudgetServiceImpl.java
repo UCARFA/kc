@@ -19,7 +19,7 @@
 package org.kuali.kra.award.budget;
 
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -326,7 +326,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
         for (AwardBudgetLimit limit : awardLimits) {
             AwardBudgetLimit budgetLimit = getBudgetLimit(limit.getLimitType(), budgetLimits);
-            if (!org.apache.commons.lang3.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
+            if (!Objects.equals(limit.getLimit(), budgetLimit.getLimit())) {
                 return false;
             }
         }
@@ -1039,14 +1039,14 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     public void populateBudgetLimitSummary(BudgetLimitSummaryHelper summary, Award award) {
         
         AwardBudgetExt currentBudget = getCurrentBudget(award);
-        if (summary.getCurrentBudget() == null 
-                || !ObjectUtils.equals(summary.getCurrentBudget(), currentBudget)) {
+        if (summary.getCurrentBudget() == null
+                || !Objects.equals(summary.getCurrentBudget(), currentBudget)) {
             getAwardBudgetCalculationService().calculateBudgetSummaryTotals(currentBudget, false);
             summary.setCurrentBudget(currentBudget);
         }
         AwardBudgetExt prevBudget = getPreviousBudget(award);
         if (summary.getPreviousBudget() == null
-                || !ObjectUtils.equals(summary.getPreviousBudget(), prevBudget)) {
+                || !Objects.equals(summary.getPreviousBudget(), prevBudget)) {
             getAwardBudgetCalculationService().calculateBudgetSummaryTotals(prevBudget, true);
             summary.setPreviousBudget(prevBudget);
         }

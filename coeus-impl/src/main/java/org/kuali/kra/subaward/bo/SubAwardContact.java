@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.award.home.ContactType;
 
@@ -189,8 +189,8 @@ public class SubAwardContact extends SubAwardAssociate {
 	 * @return Returns the rolodex.
 	 */
     public Rolodex getRolodex() {
-        if (rolodex == null || !ObjectUtils.equals(rolodex.getRolodexId(), rolodexId)
-                && rolodexId != null) {
+		if (rolodex == null || !Objects.equals(rolodex.getRolodexId(), rolodexId)
+				&& rolodexId != null) {
             refreshRolodex();
         }
         return rolodex;

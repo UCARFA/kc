@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.award.home;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.paymentreports.Frequency;
@@ -398,7 +398,7 @@ public class AwardTemplateReportTerm extends KcPersistableBusinessObjectBase imp
             isEqual = false;
         } else if (!StringUtils.equals(getOspDistributionCode(), otherReportTerm.getOspDistributionCode())) {
             isEqual = false;
-        } else if (!ObjectUtils.equals(getDueDate(), otherReportTerm.getDueDate())) {
+        } else if (!Objects.equals(getDueDate(), otherReportTerm.getDueDate())) {
             isEqual = false;
         }
         return isEqual;

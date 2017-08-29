@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.AwardTemplateSyncScope;
@@ -174,7 +174,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
                 StringUtils.equals(getReportCode(), other.getReportCode()) &&
                 StringUtils.equals(getFrequencyCode(), other.getFrequencyCode()) &&
                 StringUtils.equals(getOspDistributionCode(), other.getOspDistributionCode()) &&
-                ObjectUtils.equals(getDueDate(), other.getDueDate());
+                Objects.equals(getDueDate(), other.getDueDate());
     }
 
     /**
@@ -198,7 +198,7 @@ public class AwardReportTerm extends AwardAssociate implements GenericAwardRepor
             isEqual = false;
         } else if (!StringUtils.equals(getOspDistributionCode(), otherReportTerm.getOspDistributionCode())) {
             isEqual = false;
-        } else if (!ObjectUtils.equals(getDueDate(), otherReportTerm.getDueDate())) {
+        } else if (!Objects.equals(getDueDate(), otherReportTerm.getDueDate())) {
             isEqual = false;
         }
         return isEqual;

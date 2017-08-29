@@ -237,7 +237,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             Iterator<BudgetLineItem> iter = period.getBudgetLineItems().iterator();
             while (iter.hasNext()) {
                 BudgetLineItem item = iter.next();
-                if (org.apache.commons.lang3.ObjectUtils.equals(subAward.getSubAwardNumber(), item.getSubAwardNumber())) {
+                if (Objects.equals(subAward.getSubAwardNumber(), item.getSubAwardNumber())) {
                     iter.remove();
                 }
             }

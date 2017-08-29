@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.notification.impl.rules;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.notification.impl.bo.NotificationType;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
@@ -97,7 +97,7 @@ public class NotificationTypeMaintenanceDocumentRule extends KcMaintenanceDocume
         Collection<NotificationType> matchingNotificationTypes = getBusinessObjectService().findMatching(NotificationType.class, fieldValues);
         
         for (NotificationType matchingNotificationType : matchingNotificationTypes) {
-            if (!ObjectUtils.equals(newNotificationType.getNotificationTypeId(), matchingNotificationType.getNotificationTypeId())) {
+            if (!Objects.equals(newNotificationType.getNotificationTypeId(), matchingNotificationType.getNotificationTypeId())) {
                 isValid = false;
                 putFieldError(ACTION_CODE_FIELD_NAME, KeyConstants.ERROR_NOTIFICATION_MODULE_CODE_ACTION_CODE_COMBINATION_EXISTS, 
                     new String[] {moduleCode, actionCode});

@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.questionnaire.framework.core;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.questionnaire.api.core.QuestionnaireContract;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
@@ -226,7 +226,7 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
 
     @Override
     public int compareTo(Questionnaire argQuestionnaire) {
-        if (ObjectUtils.equals(this.getId(), argQuestionnaire.getId())) {
+        if (Objects.equals(this.getId(), argQuestionnaire.getId())) {
             return this.getSequenceNumber().compareTo(argQuestionnaire.getSequenceNumber());
         } else {
             return this.getQuestionnaireSeqIdAsInteger().compareTo(argQuestionnaire.getQuestionnaireSeqIdAsInteger());

@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.questionnaire.impl.question;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -91,7 +91,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) questionMaintenanceForm.getDocument();
 
         boolean readOnly = !KcServiceLocator.getService(QuestionAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTION)
-                || ObjectUtils.equals(request.getParameter("readOnly"), "true");
+                || Objects.equals(request.getParameter("readOnly"), "true");
                 
         if (StringUtils.equals(questionMaintenanceForm.getMethodToCall(), "edit")) {
             if (readOnly) {

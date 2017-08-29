@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.questionnaire.framework.core;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.common.questionnaire.api.core.QuestionnaireUsageContract;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
@@ -173,8 +173,8 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
 
     @Override
     public int compareTo(QuestionnaireUsage argQuestionnaireUsage) {
-        if (ObjectUtils.equals(this.getQuestionnaire().getQuestionnaireSeqId(), argQuestionnaireUsage.getQuestionnaire().getQuestionnaireSeqId())) {
-            if (ObjectUtils.equals(this.getQuestionnaireId(), argQuestionnaireUsage.getQuestionnaireId())) {
+        if (Objects.equals(this.getQuestionnaire().getQuestionnaireSeqId(), argQuestionnaireUsage.getQuestionnaire().getQuestionnaireSeqId())) {
+            if (Objects.equals(this.getQuestionnaireId(), argQuestionnaireUsage.getQuestionnaireId())) {
                 return argQuestionnaireUsage.getQuestionnaireSequenceNumber().compareTo(this.getQuestionnaireSequenceNumber());
             } else {
                 // compare refid is not good : 1. it's a string now, so '753' > '1001'. 2. the proposalpersonqn has high refid 6111.

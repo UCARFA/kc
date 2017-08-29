@@ -19,7 +19,8 @@
 package org.kuali.kra.protocol.actions.reviewcomments;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
+
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
@@ -281,7 +282,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         for (ListIterator<CommitteeScheduleMinuteBase> iterator = reviewComments.listIterator(currentIndex); iterator.hasPrevious();) {
             int iteratorIndex = iterator.previousIndex();
             CommitteeScheduleMinuteBase currentReviewComment = iterator.previous();
-            if (ObjectUtils.equals(currentReviewComment.getProtocolId(), protocol.getProtocolId())) {
+            if (Objects.equals(currentReviewComment.getProtocolId(), protocol.getProtocolId())) {
                 previousIndex = iteratorIndex;
                 break;
             }
@@ -319,7 +320,6 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
      * 
      * In addition if the comment is not associated with an online review then it automatically returns true.
      * 
-     * @param CommitteeScheduleMinuteBase minute
      * @return whether the current user can view this comment
      */
     @Override
@@ -392,7 +392,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         for (ListIterator<CommitteeScheduleMinuteBase> iterator = reviewComments.listIterator(currentIndex + 1); iterator.hasNext();) {
             int iteratorIndex = iterator.nextIndex();
             CommitteeScheduleMinuteBase currentReviewComment = iterator.next();
-            if (ObjectUtils.equals(currentReviewComment.getProtocolId(), protocol.getProtocolId())) {
+            if (Objects.equals(currentReviewComment.getProtocolId(), protocol.getProtocolId())) {
                 nextIndex = iteratorIndex;
                 break;
             }
