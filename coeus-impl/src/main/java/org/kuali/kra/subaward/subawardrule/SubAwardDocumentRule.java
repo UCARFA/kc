@@ -18,8 +18,6 @@
  */
 package org.kuali.kra.subaward.subawardrule;
 
-
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,6 +39,7 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.kra.subaward.subawardrule.events.AddSubAwardAttachmentEvent;
 
 import java.util.Collections;
+import java.util.Objects;
 
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 
@@ -273,8 +272,8 @@ SubAwardFfataReportingRule {
                     , KeyConstants.ERROR_REQUIRED_SUBAWARD_CONTACT_TYPE_CODE);
         }  
         for(SubAwardContact contact : subAward.getSubAwardContactsList()){
-            if(ObjectUtils.equals(contact.getRolodexId(), subAwardContact.getRolodexId())
-                    && ObjectUtils.equals(contact.getContactTypeCode(), subAwardContact.getContactTypeCode())) {
+            if (subAwardContact != null && Objects.equals(contact.getRolodexId(), subAwardContact.getRolodexId())
+                    && Objects.equals(contact.getContactTypeCode(), subAwardContact.getContactTypeCode())) {
                 rulePassed = false;              
                 String contactName = contact.getRolodex().getFullName();
 
@@ -349,8 +348,6 @@ SubAwardFfataReportingRule {
         retval &= new SubAwardFinancialAuditRule().processRunAuditBusinessRules(document);
         return retval;
     }
-    
-    
     
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
