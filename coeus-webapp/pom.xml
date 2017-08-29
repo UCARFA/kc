@@ -245,6 +245,7 @@
     			<adfs.enabled>false</adfs.enabled>			
     			<metadataSp.filename>kc-sbfandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+				<websso.responseskew>60</websso.responseskew>
     			<!-- Kuali -->
     			<kcserver.fqdn>kc-sb.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>8080</kualiAppPort>
@@ -271,6 +272,7 @@
     			<adfs.enabled>false</adfs.enabled>
     			<metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+				<websso.responseskew>60</websso.responseskew>
     			<!-- Kuali -->
     			<kcserver.fqdn>localhost</kcserver.fqdn>
     			<kualiAppPort>8080</kualiAppPort>
@@ -293,15 +295,16 @@
     		<id>faswmbpro</id>
     		<properties>   			
     			<!-- ADFS/SAML -->  
-    			<!-- Enable ADFS
+    			<!-- Enable ADFS -->
     			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
-    			<adfs.enabled>true</adfs.enabled>  	
-    			-->
-    			<!-- Disable ADFS -->
+    			<adfs.enabled>true</adfs.enabled>
+    			<!-- Disable ADFS
     			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
     			<adfs.enabled>false</adfs.enabled>
+    			-->
     			<metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+				<websso.responseskew>60</websso.responseskew>
     			<!-- Kuali -->
     	<!--  		<kcserver.fqdn>faswmbpro.fanda.ucar.edu</kcserver.fqdn> -->
     			<kcserver.fqdn>faswmbpro.fanda.ucar.edu</kcserver.fqdn>
@@ -334,6 +337,7 @@
   				<adfs.enabled>false</adfs.enabled>	
                 <metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
                 <metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+				<websso.responseskew>60</websso.responseskew>
                 <!-- Kuali -->
                 <kcserver.fqdn>localhost</kcserver.fqdn>
                 <kualiAppPort>8080</kualiAppPort>
@@ -356,20 +360,21 @@
     		<id>kcnonprod1</id>
     		<properties>
     			<!-- ADFS/SAML -->    	
-    			<!-- Enable ADFS 
+    			<!-- Enable ADFS -->
     			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
     			<adfs.enabled>true</adfs.enabled>
-			-->
-    			<!-- Disable ADFS -->
+    			<!-- Disable ADFS
     			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
     			<adfs.enabled>false</adfs.enabled>
+    			-->
     			<metadataSp.filename>kcnonprod1fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+				<websso.responseskew>50400</websso.responseskew>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod1.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
     			<kualiAppProtocol>https</kualiAppProtocol>
-    			<kualiAppVersion>PRE-PROD:coeus-webapp:1609.0056</kualiAppVersion>
+    			<kualiAppVersion>INTEGRATION:coeus-webapp:1609.0056</kualiAppVersion>
     			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password>BlueOrchid05</kualiRest.password>
@@ -396,6 +401,7 @@
     			<adfs.enabled>false</adfs.enabled> 			
     			<metadataSp.filename>kcnonprod2fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+				<websso.responseskew>60</websso.responseskew>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod2.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
@@ -427,6 +433,7 @@
     			<adfs.enabled>false</adfs.enabled>			
     			<metadataSp.filename>kcnonprod3fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+				<websso.responseskew>60</websso.responseskew>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod3.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
@@ -459,6 +466,7 @@
     			<maven.war.webxml>src/main/webapp/WEB-INF/web-noadfs.xml</maven.war.webxml> 			
     			<metadataSp.filename>kcnonprod4fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+				<websso.responseskew>60</websso.responseskew>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod4.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
@@ -490,6 +498,7 @@
     			<adfs.enabled>false</adfs.enabled>    			
     			<metadataSp.filename>kcnonprod5fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+				<websso.responseskew>60</websso.responseskew>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod5.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
@@ -521,6 +530,7 @@
     			<adfs.enabled>false</adfs.enabled>    			
     			<metadataSp.filename>kcnonprod7fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+				<websso.responseskew>60</websso.responseskew>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod7.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
