@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2363: making sure all fdp forms are displayed under the print tab for subaward
+  * Travis Schneeberger on Wed, 30 Aug 2017 09:50:39 -0400 [View Commit](../../commit/c7a20b6e5e9e605a134ef9c8da21e72851c2d8ef)
+
+##coeus-1708.0038
 * RESKC-2263: adding subaward fdp validation and default values for different email and different address
   * Travis Schneeberger on Tue, 29 Aug 2017 08:38:33 -0400 [View Commit](../../commit/45049f6c0c696b37c54368c2f1f04e3a713f9948)
 
