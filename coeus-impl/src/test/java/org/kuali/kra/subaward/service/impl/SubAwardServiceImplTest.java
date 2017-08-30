@@ -19,7 +19,7 @@
 
 package org.kuali.kra.subaward.service.impl;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.subaward.bo.SubAward;

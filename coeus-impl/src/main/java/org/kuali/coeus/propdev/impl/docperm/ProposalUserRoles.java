@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.propdev.impl.docperm;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -174,12 +173,12 @@ public class ProposalUserRoles implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + ObjectUtils.hashCode(fullname);
-        hash = 31 * hash + ObjectUtils.hashCode(unitName);
-        hash = 31 * hash + ObjectUtils.hashCode(unitNumber);
-        hash = 31 * hash + ObjectUtils.hashCode(username);
+        hash = 31 * hash + Objects.hashCode(fullname);
+        hash = 31 * hash + Objects.hashCode(unitName);
+        hash = 31 * hash + Objects.hashCode(unitNumber);
+        hash = 31 * hash + Objects.hashCode(username);
         for (String roleName : roleNames) {
-            hash = 31 * hash + ObjectUtils.hashCode(roleName);
+            hash = 31 * hash + Objects.hashCode(roleName);
         }
         return hash;
     }

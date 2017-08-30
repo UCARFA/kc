@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.custom.CustomDataContainer;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.org.Organization;
@@ -57,6 +58,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     private static final long serialVersionUID = 1L;
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
     public static final String NOTIFICATION_TYPE_SUBMIT = "501";
+    private static final int FDP_SPONSOR_ATTACHMENT_TYPE = 2;
  
     private Long subAwardId;
     private String subAwardCode;
@@ -161,8 +163,8 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     private List<SubAwardReports> subAwardReportList;
     private List<SubAwardTemplateInfo> subAwardTemplateInfo;
     private List<SubAwardPrintAgreement> subAwardPrintAgreement;
-    private List<SubAwardForms> subAwardForms;
-	private List<SubAwardFundingSource> subAwardFundingSourceList;
+    private transient List<SubAwardForms> subAwardForms;
+    private List<SubAwardFundingSource> subAwardFundingSourceList;
     private List<SubAwardAmountInfo> subAwardAmountInfoList;
     private List<SubAwardAmountInfo> allSubAwardAmountInfos;
     private List<SubAwardContact> subAwardContactsList;
@@ -175,17 +177,15 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 
     private VersionHistorySearchBo versionHistory;
 
-    public List<SubAwardForms> getSubAwardForms() {
-        return subAwardForms;
-    }
+    private transient BusinessObjectService businessObjectService;
 
-    public void setSubAwardForms(List<SubAwardForms> subAwardForms) {
-        this.subAwardForms = subAwardForms;
-    }
-    
-    public void addForms(SubAwardForms subAwardForms) {
-        this.getSubAwardForms().add(subAwardForms);
-       
+    public List<SubAwardForms> getSubAwardForms() {
+        if (CollectionUtils.isEmpty(subAwardForms)) {
+            subAwardForms = (List<SubAwardForms>) getBusinessObjectService().findMatching(SubAwardForms.class,
+                    Collections.singletonMap("templateTypeCode", FDP_SPONSOR_ATTACHMENT_TYPE));
+        }
+
+        return subAwardForms;
     }
 
     public List<SubAwardPrintAgreement> getSubAwardPrintAgreement() {
@@ -563,9 +563,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 
 	public Integer getSiteInvestigator() {
         if (siteInvestigator != null) {
-            BusinessObjectService businessObjectService = KcServiceLocator.
-            getService(BusinessObjectService.class);
-            this.rolodex = businessObjectService.
+            this.rolodex = getBusinessObjectService().
             findByPrimaryKey(Rolodex.class,
             getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
             this.siteInvestigatorId = rolodex.getRolodexId().toString();
@@ -577,9 +575,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 
     public void setSiteInvestigator(Integer siteInvestigator) {
         if (siteInvestigator != null) {
-            BusinessObjectService businessObjectService = KcServiceLocator.
-            getService(BusinessObjectService.class);
-            this.rolodex = businessObjectService.
+            this.rolodex = getBusinessObjectService().
             findByPrimaryKey(NonOrganizationalRolodex.class,
             getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
             this.siteInvestigatorId = rolodex.getRolodexId().toString();
@@ -639,7 +635,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 	}
 
     public Collection<SubAwardAmountReleased> getCreatedDate(Map<String, Object> values) {
-        return KcServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false);
+        return getBusinessObjectService().findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false);
     }
 
     public void setSubAwardAmountReleasedList(List<SubAwardAmountReleased> subAwardAmountReleasedList) {
@@ -1169,5 +1165,17 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     @Override
     public List<? extends DocumentCustomData> getCustomDataList() {
         return getSubAwardCustomDataList();
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

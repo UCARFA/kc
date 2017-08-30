@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -77,7 +77,7 @@ public class FinEntitiesDataGroupMaintenanceDocumentRule  extends KcMaintenanceD
         Collection<FinEntitiesDataGroup> matchingDataGroups = getBusinessObjectService().findMatching(FinEntitiesDataGroup.class, fieldValues);
         
         for (FinEntitiesDataGroup dataGroup : matchingDataGroups) {
-            if (!ObjectUtils.equals(dataGroup.getDataGroupId(), newFinEntitiesDataGroup.getDataGroupId())) {
+            if (!Objects.equals(dataGroup.getDataGroupId(), newFinEntitiesDataGroup.getDataGroupId())) {
                 isValid = false;
                 putFieldError(GROUP_SORT_ID_FIELD_NAME, KeyConstants.ERROR_DUPLICATE_PROPERTY, 
                     new String[] {"Group Sort Id"});
@@ -103,7 +103,7 @@ public class FinEntitiesDataGroupMaintenanceDocumentRule  extends KcMaintenanceD
         Collection<FinEntitiesDataGroup> matchingDataGroups = getBusinessObjectService().findMatching(FinEntitiesDataGroup.class, fieldValues);
         
         for (FinEntitiesDataGroup dataGroup : matchingDataGroups) {
-            if (!ObjectUtils.equals(dataGroup.getDataGroupId(), newFinEntitiesDataGroup.getDataGroupId())) {
+            if (!Objects.equals(dataGroup.getDataGroupId(), newFinEntitiesDataGroup.getDataGroupId())) {
                 isValid = false;
                 putFieldError(GROUP_NAME_FIELD_NAME, KeyConstants.ERROR_DUPLICATE_PROPERTY, 
                     new String[] {"Group Name"});

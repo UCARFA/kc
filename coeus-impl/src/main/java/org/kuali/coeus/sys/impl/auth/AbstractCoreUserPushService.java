@@ -8,6 +8,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.kuali.coeus.sys.framework.auth.CoreUserPushService;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.auth.CoreUsersPushStatus;
@@ -70,7 +71,9 @@ public abstract class AbstractCoreUserPushService<T> implements CoreUserPushServ
 	public CoreUsersPushStatus pushAllUsers() {
 		CoreUsersPushStatus status = new CoreUsersPushStatus();
 		final List<String> admins = getAdminUsers();
-		Map<String, String> groupIdByUnitNumber = coreGroupsService.getAllGroups().stream().collect(Collectors.toMap(g -> coreGroupsService.getUnitNumberForGroup(g), GroupDto::getId));
+		Map<String, String> groupIdByUnitNumber = coreGroupsService.getAllGroups().stream()
+				.filter(g -> StringUtils.isNotBlank(coreGroupsService.getUnitNumberForGroup(g)))
+				.collect(Collectors.toMap(g -> coreGroupsService.getUnitNumberForGroup(g), GroupDto::getId));
 		List<AuthUser> peopleToSync = getAllPeople().stream()
 				.filter(this::validUserToPush)
 				.map(person -> {

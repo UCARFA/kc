@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.award.printing.xmlstream;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -192,8 +192,8 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
 	    if (transactionId != null) {
     	    org.kuali.kra.award.home.AwardAmountInfo prevAwardAmount = award.getAwardAmountInfos().get(0);
     	    for (org.kuali.kra.award.home.AwardAmountInfo curInfo : award.getAwardAmountInfos()) {
-    	        if (ObjectUtils.equals(curInfo.getTransactionId(), transactionId)) {
-    	            break;
+				if (Objects.equals(curInfo.getTransactionId(), transactionId)) {
+					break;
     	        }
     	        if (curInfo.getTransactionId() != null) {
     	            prevAwardAmount = curInfo;

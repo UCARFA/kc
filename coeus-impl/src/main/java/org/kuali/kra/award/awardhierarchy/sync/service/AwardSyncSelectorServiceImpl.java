@@ -18,13 +18,13 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncDescendantValues;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.List;
@@ -76,7 +76,7 @@ public class AwardSyncSelectorServiceImpl implements AwardSyncSelectorService {
     
     @Override
     public boolean isAwardActive(Award award) {
-        String activeParm = getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.AWARD_ACTIVE_STATUS_CODES_PARM);
+        String activeParm = getParameterService().getParameterValueAsString(AwardDocument.class, Constants.AWARD_ACTIVE_STATUS_CODES_PARM);
         for (String activeCode : activeParm.split(",")) {
             if (StringUtils.equals(award.getAwardStatus().getStatusCode(), activeCode)) {
                 return true;
@@ -87,7 +87,7 @@ public class AwardSyncSelectorServiceImpl implements AwardSyncSelectorService {
 
     @Override
     public boolean isCostShareAccount(Award award) {
-        String sponsorCode = getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.AWARD_COST_SHARING_PARM);
+        String sponsorCode = getParameterService().getParameterValueAsString(AwardDocument.class, Constants.AWARD_COST_SHARING_PARM);
         return StringUtils.equals(award.getSponsorCode(), sponsorCode);
     }
 
@@ -96,8 +96,8 @@ public class AwardSyncSelectorServiceImpl implements AwardSyncSelectorService {
      */
     @Override
     public boolean isFabricatedAccount(Award award) {
-        String typeCode = getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.AWARD_FABRICATED_EQUPIMENT_PARM);
-        return ObjectUtils.equals(award.getAccountTypeCode(), Integer.valueOf(typeCode));
+        String typeCode = getParameterService().getParameterValueAsString(AwardDocument.class, Constants.AWARD_FABRICATED_EQUPIMENT_PARM);
+        return Objects.equals(award.getAccountTypeCode(), Integer.valueOf(typeCode));
     }    
     
     public void setParameterService(ParameterService parameterService) {

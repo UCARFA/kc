@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.award.budget;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -53,10 +53,7 @@ public class AwardBudgetLimit extends AwardAssociate {
     }
 
     /**
-     * 
-     * Constructs a AwardBudgetLimit.java by copying relevant info from the AwardBudgetLimit (limitTypeCode and limit)
-     * @param budget
-     * @param budgetLimit
+     * Constructs a AwardBudgetLimit.java by copying relevant info from the AwardBudgetLimit (limitTypeCode and limit).
      */
     public AwardBudgetLimit(AwardBudgetLimit budgetLimit) {
         limitTypeCode = budgetLimit.getLimitTypeCode();
@@ -174,7 +171,7 @@ public class AwardBudgetLimit extends AwardAssociate {
             return false;
         }
         AwardBudgetLimit l = (AwardBudgetLimit) o;
-        if (!ObjectUtils.equals(this.getBudgetLimitId(), l.getBudgetLimitId())) {
+        if (!Objects.equals(this.getBudgetLimitId(), l.getBudgetLimitId())) {
             return false;
         }
         return true;

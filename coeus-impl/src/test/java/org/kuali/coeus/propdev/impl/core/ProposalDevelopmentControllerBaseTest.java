@@ -19,7 +19,7 @@
 
 package org.kuali.coeus.propdev.impl.core;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;

@@ -55,7 +55,6 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +65,8 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
     public static final String DISABLE_ATTACHMENT_REMOVAL = "disableAttachmentRemoval";
     private transient SubAwardService subAwardService;
     private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
+    private static final String FDP_PTE_INVOICE_EMAIL = "FDP_PTE_Invoice_email";
+    private static final String FDP_PTE_INVOICE_ADDRESS = "FDP_PTE_Invoice_address";
 
     @Override
     public ActionForward execute(ActionMapping mapping,
@@ -114,8 +115,7 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
     }
 
     protected List<String> getUnitRulesMessages(SubAwardDocument subAwardDocument) {
-        KrmsRulesExecutionService rulesService = KcServiceLocator.getService(KrmsRulesExecutionService.class);
-        return rulesService.processUnitValidations(subAwardDocument.getSubAward().getRequisitionerUnit(), subAwardDocument);
+        return getKrmsRulesExecutionService().processUnitValidations(subAwardDocument.getSubAward().getRequisitionerUnit(), subAwardDocument);
     }
 
     @Override
@@ -184,7 +184,7 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
     protected void loadDocument(KualiDocumentFormBase kualiForm)
     throws WorkflowException {
         super.loadDocument(kualiForm);
-        SubAward subAward = ((SubAwardForm) kualiForm).
+        ((SubAwardForm) kualiForm).
         getSubAwardDocument().getSubAward();
     }
 
@@ -239,6 +239,9 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
            ((SubAwardForm) form).getSubAward().getSubAwardTemplateInfo().add(new SubAwardTemplateInfo());
        }
 
+       final String fdpPteInvoiceEmail = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, FDP_PTE_INVOICE_EMAIL);
+       final String fdpPteInvoiceAddress = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, FDP_PTE_INVOICE_ADDRESS);
+
        ((SubAwardForm) form).getSubAward().getSubAwardTemplateInfo().forEach(info -> {
            if (info.getFcio() == null &&
                    ((SubAwardForm) form).getSubAward().getSubAwardFundingSourceList().stream()
@@ -249,6 +252,20 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
                            .anyMatch(sponsorCode -> getSponsorHierarchyService().isSponsorInHierarchy(sponsorCode, hierarchyName))) {
 
                info.setFcio(true);
+           }
+
+           if (StringUtils.isNotBlank(fdpPteInvoiceEmail)) {
+               if (info.getInvoiceEmailDifferent() == null) {
+                   info.setInvoiceEmailDifferent(true);
+               }
+
+               if (info.getInvoicesEmailed() == null) {
+                   info.setInvoicesEmailed(true);
+               }
+           }
+
+           if (StringUtils.isNotBlank(fdpPteInvoiceAddress) && info.getInvoiceAddressDifferent() == null) {
+               info.setInvoiceAddressDifferent(true);
            }
        });
 
@@ -292,21 +309,6 @@ public ActionForward subAwardActions(ActionMapping mapping,
 ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
     return mapping.findForward(Constants.MAPPING_SUBAWARD_ACTION_PAGE);
-}
-
-protected VersionHistoryService getVersionHistoryService() {
-    return KcServiceLocator.getService(VersionHistoryService.class);
-}
-
-public SubAwardService getSubAwardService() {
-    if (subAwardService == null) {
-        subAwardService = KcServiceLocator.getService(SubAwardService.class);
-    }
-    return subAwardService;
-}
-
-public void setSubAwardService(SubAwardService subAwardService) {
-    this.subAwardService = subAwardService;
 }
 
 /**
@@ -431,7 +433,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
    * @return true if success; false if there was a validation error
    */
   protected final boolean applyRules(DocumentEvent event) {
-      return KcServiceLocator.getService(KualiRuleService.class).applyRules(event);
+      return getKualiRuleService().applyRules(event);
   }
 
   public ActionForward sendNotification(ActionMapping mapping, SubAwardForm subAwardForm, 
@@ -447,14 +449,18 @@ public ActionForward blanketApprove(ActionMapping mapping,
       }
   }
 
-  protected KcNotificationService getNotificationService() {
-      return KcServiceLocator.getService(KcNotificationService.class);
-  }
-
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SubAwardForm subAwardForm = (SubAwardForm) form;
         streamToResponse(getSubAwardPrintingService().printSubAwardFDPReport(subAwardForm.getSubAwardPrintAgreement(), subAwardForm.getSubAwardDocument().getSubAward()), response);
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    protected KrmsRulesExecutionService getKrmsRulesExecutionService() {
+        return KcServiceLocator.getService(KrmsRulesExecutionService.class);
+    }
+
+    protected KcNotificationService getNotificationService() {
+        return KcServiceLocator.getService(KcNotificationService.class);
     }
 
     protected SponsorHierarchyService getSponsorHierarchyService() {
@@ -467,6 +473,21 @@ public ActionForward blanketApprove(ActionMapping mapping,
 
     protected AuditHelper getAuditHelper() {
         return KcServiceLocator.getService(AuditHelper.class);
+    }
+
+    protected VersionHistoryService getVersionHistoryService() {
+        return KcServiceLocator.getService(VersionHistoryService.class);
+    }
+
+    public SubAwardService getSubAwardService() {
+        if (subAwardService == null) {
+            subAwardService = KcServiceLocator.getService(SubAwardService.class);
+        }
+        return subAwardService;
+    }
+
+    public void setSubAwardService(SubAwardService subAwardService) {
+        this.subAwardService = subAwardService;
     }
 
 }

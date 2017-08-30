@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.questionnaire.framework.question;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.common.questionnaire.api.question.QuestionExplanationContract;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -85,7 +85,7 @@ public class QuestionExplanation extends KcPersistableBusinessObjectBase impleme
             return false;
         }
         QuestionExplanation questionExplanation = (QuestionExplanation) obj;
-        if (ObjectUtils.equals(this.questionId, questionExplanation.questionId) && ObjectUtils.equals(this.explanationType, questionExplanation.explanationType)) {
+        if (Objects.equals(this.questionId, questionExplanation.questionId) && Objects.equals(this.explanationType, questionExplanation.explanationType)) {
             return true;
         } else {
             return false;

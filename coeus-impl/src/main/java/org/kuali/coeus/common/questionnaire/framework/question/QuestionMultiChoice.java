@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.questionnaire.framework.question;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
@@ -74,7 +74,7 @@ public class QuestionMultiChoice extends KcPersistableBusinessObjectBase impleme
             return false;
         }
         QuestionMultiChoice questionMultiChoice = (QuestionMultiChoice) obj;
-        if (ObjectUtils.equals(this.questionId, questionMultiChoice.questionId) && ObjectUtils.equals(this.prompt, questionMultiChoice.prompt) && ObjectUtils.equals(this.description, questionMultiChoice.description)) {
+        if (Objects.equals(this.questionId, questionMultiChoice.questionId) && Objects.equals(this.prompt, questionMultiChoice.prompt) && Objects.equals(this.description, questionMultiChoice.description)) {
             return true;
         } else {
             return false;

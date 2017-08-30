@@ -21,7 +21,7 @@ package org.kuali.kra.protocol;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.irb.IrbJavaFunctionKrmsTermServiceImpl;
 import org.kuali.kra.irb.protocol.participant.ParticipantType;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;

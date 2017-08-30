@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.copy;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

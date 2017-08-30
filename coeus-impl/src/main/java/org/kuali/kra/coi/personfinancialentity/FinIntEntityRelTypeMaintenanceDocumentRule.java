@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -75,7 +75,7 @@ public class FinIntEntityRelTypeMaintenanceDocumentRule  extends KcMaintenanceDo
         Collection<FinIntEntityRelType> matchingRelTypes = getBusinessObjectService().findMatching(FinIntEntityRelType.class, fieldValues);
         
         for (FinIntEntityRelType relType : matchingRelTypes) {
-            if (!ObjectUtils.equals(relType.getRelationshipTypeCode(), newFinIntEntityRelType.getRelationshipTypeCode())) {
+            if (!Objects.equals(relType.getRelationshipTypeCode(), newFinIntEntityRelType.getRelationshipTypeCode())) {
                 isValid = false;
                 putFieldError(REL_TYPE_SORT_ID_FIELD_NAME, KeyConstants.ERROR_DUPLICATE_PROPERTY, 
                     new String[] {"Sort Id"});
@@ -100,7 +100,7 @@ public class FinIntEntityRelTypeMaintenanceDocumentRule  extends KcMaintenanceDo
         Collection<FinIntEntityRelType> matchingRelTypes = getBusinessObjectService().findMatching(FinIntEntityRelType.class, fieldValues);
         
         for (FinIntEntityRelType relType : matchingRelTypes) {
-            if (!ObjectUtils.equals(relType.getRelationshipTypeCode(), newFinIntEntityRelType.getRelationshipTypeCode())) {
+            if (!Objects.equals(relType.getRelationshipTypeCode(), newFinIntEntityRelType.getRelationshipTypeCode())) {
                 isValid = false;
                 putFieldError(DESCRIPTION_FIELD_NAME, KeyConstants.ERROR_DUPLICATE_PROPERTY, 
                     new String[] {"Description"});

@@ -113,6 +113,7 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 		} else {
 			category = currentCategory.get();
 		}
+		status.setNumberOfUnits(status.getNumberOfUnits() + units.size());
 		units.stream().forEach(unit -> {
 			GroupDto group = groups.stream()
 					.filter(g -> StringUtils.equals(unit.getUnitNumber(), getField(g, UNIT_NUMBER_FIELD_ID).getValue()))

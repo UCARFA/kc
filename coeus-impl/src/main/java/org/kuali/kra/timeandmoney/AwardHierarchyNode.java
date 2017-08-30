@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.timeandmoney;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
@@ -409,28 +409,28 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @param other
      * @return
      */
-    public boolean equals(AwardHierarchyNode other) {  
-        boolean retVal = other != null && ObjectUtils.equals(getCurrentFundEffectiveDate(), other.getCurrentFundEffectiveDate()) 
-            && ObjectUtils.equals(obligationExpirationDate, other.getObligationExpirationDate())
-            && ObjectUtils.equals(finalExpirationDate, other.getFinalExpirationDate())
-            && ObjectUtils.equals(projectStartDate, other.getProjectStartDate())
-            && ObjectUtils.equals(anticipatedTotalAmount, other.getAnticipatedTotalAmount())
-            && ObjectUtils.equals(anticipatedTotalIndirect, other.getAnticipatedTotalIndirect())
-            && ObjectUtils.equals(anticipatedTotalDirect, other.getAnticipatedTotalDirect())
-            && ObjectUtils.equals(antDistributableAmount, other.getAntDistributableAmount())
-            && ObjectUtils.equals(amountObligatedToDate, other.getAmountObligatedToDate())
-            && ObjectUtils.equals(obligatedTotalDirect, other.getObligatedTotalDirect())
-            && ObjectUtils.equals(obligatedTotalIndirect, other.getObligatedTotalIndirect())
-            && ObjectUtils.equals(obliDistributableAmount, other.getObliDistributableAmount())
-            && ObjectUtils.equals(leadUnitName, other.getLeadUnitName())
-            && ObjectUtils.equals(principalInvestigatorName, other.getPrincipalInvestigatorName())
-            && ObjectUtils.equals(accountNumber, other.getAccountNumber())
-            && ObjectUtils.equals(awardStatusCode, other.getAwardStatusCode())
-            && ObjectUtils.equals(title, other.getTitle())
-            && ObjectUtils.equals(awardId, other.getAwardId())
-            && ObjectUtils.equals(awardDocumentFinalStatus, other.isAwardDocumentFinalStatus())
-            && ObjectUtils.equals(awardDocumentNumber, other.getAwardDocumentNumber())
-            && ObjectUtils.equals(getHasChildren(), other.getHasChildren());
+    public boolean equals(AwardHierarchyNode other) {
+        boolean retVal = other != null && Objects.equals(getCurrentFundEffectiveDate(), other.getCurrentFundEffectiveDate())
+                && Objects.equals(obligationExpirationDate, other.getObligationExpirationDate())
+                && Objects.equals(finalExpirationDate, other.getFinalExpirationDate())
+                && Objects.equals(projectStartDate, other.getProjectStartDate())
+                && Objects.equals(anticipatedTotalAmount, other.getAnticipatedTotalAmount())
+                && Objects.equals(anticipatedTotalIndirect, other.getAnticipatedTotalIndirect())
+                && Objects.equals(anticipatedTotalDirect, other.getAnticipatedTotalDirect())
+                && Objects.equals(antDistributableAmount, other.getAntDistributableAmount())
+                && Objects.equals(amountObligatedToDate, other.getAmountObligatedToDate())
+                && Objects.equals(obligatedTotalDirect, other.getObligatedTotalDirect())
+                && Objects.equals(obligatedTotalIndirect, other.getObligatedTotalIndirect())
+                && Objects.equals(obliDistributableAmount, other.getObliDistributableAmount())
+                && Objects.equals(leadUnitName, other.getLeadUnitName())
+                && Objects.equals(principalInvestigatorName, other.getPrincipalInvestigatorName())
+                && Objects.equals(accountNumber, other.getAccountNumber())
+                && Objects.equals(awardStatusCode, other.getAwardStatusCode())
+                && Objects.equals(title, other.getTitle())
+                && Objects.equals(awardId, other.getAwardId())
+                && Objects.equals(awardDocumentFinalStatus, other.isAwardDocumentFinalStatus())
+                && Objects.equals(awardDocumentNumber, other.getAwardDocumentNumber())
+                && Objects.equals(getHasChildren(), other.getHasChildren());
         return retVal;
     }
 

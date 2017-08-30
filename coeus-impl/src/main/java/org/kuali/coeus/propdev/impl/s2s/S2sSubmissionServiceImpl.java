@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
+import com.ibm.icu.impl.Grego;
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailResponse;
 import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesResponse;
@@ -411,15 +412,15 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         s2Opportunity.setCfdaNumber(oppInfo.getCFDANumber());
         s2Opportunity
                 .setClosingDate(oppInfo.getClosingDate() == null ? null
-                        : oppInfo.getClosingDate()
-                        .toGregorianCalendar());
+                        : endOfDay(oppInfo.getClosingDate()
+                        .toGregorianCalendar()));
 
         s2Opportunity.setCompetetionId(oppInfo.getCompetitionID());
         s2Opportunity.setInstructionUrl(oppInfo.getInstructionsURL());
         s2Opportunity
                 .setOpeningDate(oppInfo.getOpeningDate() == null ? null
-                        : oppInfo.getOpeningDate()
-                        .toGregorianCalendar());
+                        : endOfDay(oppInfo.getOpeningDate()
+                        .toGregorianCalendar()));
 
         s2Opportunity.setOpportunityId(oppInfo.getFundingOpportunityNumber());
         s2Opportunity.setOpportunityTitle(oppInfo.getFundingOpportunityTitle());
@@ -431,6 +432,17 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         s2Opportunity.setMultiProject(oppInfo.isIsMultiProject());
 
         return s2Opportunity;
+    }
+
+    /**
+     * Returns the given date at the last second of the day.
+     * @return GregorianCalendar with the time set to the last second of the day.
+     */
+    private GregorianCalendar endOfDay(GregorianCalendar date) {
+        date.set(date.HOUR_OF_DAY, 23);
+        date.set(date.MINUTE, 59);
+        date.set(date.SECOND, 59);
+        return date;
     }
 
     /**

@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.coeus</groupId>
     <artifactId>coeus</artifactId>
-    <version>1708.0029-SNAPSHOT</version>
+    <version>1708.0040-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Kuali Coeus</name>
     <description>
@@ -64,7 +64,7 @@
         <cas-client-core.version>3.4.1</cas-client-core.version>
         <cglib.version>3.2.5</cglib.version>
         <coeus-api-all.version>1706.0001</coeus-api-all.version>
-        <coeus-s2sgen.version>1708.0002</coeus-s2sgen.version>
+        <coeus-s2sgen.version>1708.0003</coeus-s2sgen.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -86,6 +86,7 @@
         <ecj.version>4.6.1</ecj.version>
         <ehcache.version>2.6.11</ehcache.version>
         <el.version>2.2.1</el.version>
+        <esapi.version>2.1.0</esapi.version>
         <fop.version>1.1</fop.version>
         <guava.version>21.0</guava.version>
         <hamcrest.version>1.3</hamcrest.version>
@@ -115,7 +116,6 @@
         <mysql.version>5.1.40</mysql.version>
         <mvel.version>2.2.4.Final</mvel.version>
         <objenesis.version>2.5.1</objenesis.version>
-        <opensaml.version>2.6.4</opensaml.version>
         <oracle.groupId>com.oracle</oracle.groupId>
         <oracle.artifactId>ojdbc7</oracle.artifactId>
         <oracle.version>12.1.0.2</oracle.version>
@@ -126,7 +126,7 @@
         <pdfbox.version>2.0.6</pdfbox.version>
         <quartz.version>2.3.0</quartz.version>
         <schemaspy.version>1611.0001</schemaspy.version>
-        <rice.version>2.5.3.1708.0002-kualico</rice.version>
+        <rice.version>2.5.3.1708.0003-kualico</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.25</slf4j.version>
         <spring.version>4.3.10.RELEASE</spring.version>
@@ -138,7 +138,7 @@
         <velocity.version>1.7</velocity.version>
         <xalan.version>2.7.2</xalan.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
-        <xmlsec.version>1.5.8</xmlsec.version>
+        <xmlsec.version>2.0.8</xmlsec.version>
         <xstream.version>1.2.2</xstream.version>
 
         <!-- plugin versions -->
@@ -959,16 +959,11 @@
                 </exclusions>
             </dependency>
 
+            <!-- to resolve dependency convergence between opensaml & xmlsec -->
             <dependency>
                 <groupId>org.apache.santuario</groupId>
                 <artifactId>xmlsec</artifactId>
                 <version>${xmlsec.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
@@ -1130,6 +1125,43 @@
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcpkix-jdk15on</artifactId>
                 <version>${bouncycastle.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.owasp.esapi</groupId>
+                <artifactId>esapi</artifactId>
+                <version>${esapi.version}</version>
+                <!-- exclude as much as we can from esapi transitive dependencies so we don't get a bunch of junk -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-digester</groupId>
+                        <artifactId>commons-digester</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-beanutils</groupId>
+                        <artifactId>commons-beanutils-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xom</groupId>
+                        <artifactId>xom</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.beanshell</groupId>
+                        <artifactId>bsh-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.owasp.antisamy</groupId>
+                        <artifactId>antisamy</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.xmlgraphics</groupId>
+                        <artifactId>batik-css</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -1688,26 +1720,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.opensaml</groupId>
-                <artifactId>opensaml</artifactId>
-                <version>${opensaml.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>xerces</groupId>
-                        <artifactId>xercesImpl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.bouncycastle</groupId>
-                        <artifactId>bcprov-jdk15</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>xalan</groupId>
-                        <artifactId>serializer</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz</artifactId>
                 <version>${quartz.version}</version>
@@ -1904,8 +1916,8 @@
                 <build.spring.profiles.active>grm</build.spring.profiles.active>
 
                 <rsmart.cx.token.auth.version>1509.0001</rsmart.cx.token.auth.version>
-                <rsmart.hr.rest.version>1708.0003</rsmart.hr.rest.version>
-                <kc-s3.version>1705.0001</kc-s3.version>
+                <rsmart.hr.rest.version>1708.0005</rsmart.hr.rest.version>
+                <kc-s3.version>1708.0003</kc-s3.version>
                 <kc-sql.version>1706.0001</kc-sql.version>
 
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
@@ -2285,6 +2297,7 @@
                                                     <exclude>xml-apis:xml-apis</exclude>
                                                     <exclude>xerces:xercesImpl</exclude>
                                                     <exclude>org.codehaus.jackson</exclude>
+                                                    <exclude>org.opensaml:opensaml</exclude>
                                                 </excludes>
 
                                                 <includes>
@@ -2382,7 +2395,7 @@
             </activation>
 
             <properties>
-                <error_prone_core.version>2.0.21</error_prone_core.version>
+                <error_prone_core.version>2.1.0</error_prone_core.version>
                 <plexus-compiler-javac.version>2.8.1</plexus-compiler-javac.version>
                 <plexus-compiler-javac-errorprone.version>2.8.1</plexus-compiler-javac-errorprone.version>
             </properties>

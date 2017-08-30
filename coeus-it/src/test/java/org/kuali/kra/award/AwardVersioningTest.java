@@ -20,6 +20,7 @@ package org.kuali.kra.award;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
@@ -85,6 +86,7 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
        saveDocument(originalDocument);
     }
 
+    @After
     public void tearDown() throws Exception {
     }
 

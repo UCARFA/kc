@@ -19,7 +19,8 @@
 package org.kuali.kra.award.web.struts.action;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.ObjectUtils;
+
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -224,8 +225,8 @@ public class AwardAction extends BudgetParentActionBase {
             Award currentAward = null;
             for(Award award : awardDocument.getAwardList()) {
                 currentAwardIndex++;
-                if(ObjectUtils.equals(award.getAwardId(), awardId)) {
-                	currentAward = award;
+                if (Objects.equals(award.getAwardId(), awardId)) {
+                    currentAward = award;
                     break;
                 }
             }
@@ -609,7 +610,7 @@ public class AwardAction extends BudgetParentActionBase {
             getBusinessObjectService().delete(award.getAwardDirectFandADistributions());
             
             Boolean autoGenerate = getParameterService().getParameterValueAsBoolean(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, 
-                                                                                    KeyConstants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS); 
+                                                                                    Constants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS);
             if (autoGenerate) {
                 AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
                 award.setAwardDirectFandADistributions(awardDirectFandADistributionService.

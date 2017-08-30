@@ -25,7 +25,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonContract;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -401,7 +401,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
      * @return boolean
      */
     public boolean isDuplicatePerson(BudgetPerson budgetPerson) {
-        if (!StringUtils.equals(this.getJobCode(), budgetPerson.getJobCode()) || !ObjectUtils.equals(this.getEffectiveDate(), budgetPerson.getEffectiveDate())) {
+        if (!StringUtils.equals(this.getJobCode(), budgetPerson.getJobCode()) || !Objects.equals(this.getEffectiveDate(), budgetPerson.getEffectiveDate())) {
             return false;
         }
         if (this.getNonEmployeeFlag() != null && this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag() != null && budgetPerson.getNonEmployeeFlag()) {

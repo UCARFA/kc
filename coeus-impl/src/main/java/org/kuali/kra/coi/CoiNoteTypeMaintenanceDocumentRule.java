@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.coi;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -75,7 +75,7 @@ public class CoiNoteTypeMaintenanceDocumentRule  extends KcMaintenanceDocumentRu
         Collection<CoiNoteType> matchingRelTypes = getBusinessObjectService().findMatching(CoiNoteType.class, fieldValues);
         
         for (CoiNoteType noteType : matchingRelTypes) {
-            if (!ObjectUtils.equals(noteType.getNoteTypeCode(), newCoiNoteType.getNoteTypeCode())) {
+            if (!Objects.equals(noteType.getNoteTypeCode(), newCoiNoteType.getNoteTypeCode())) {
                 isValid = false;
                 putFieldError(COI_NOTE_TYPE_SORT_ID_FIELD_NAME, KeyConstants.ERROR_DUPLICATE_PROPERTY, 
                     new String[] {"Sort Id"});
@@ -100,7 +100,7 @@ public class CoiNoteTypeMaintenanceDocumentRule  extends KcMaintenanceDocumentRu
         Collection<CoiNoteType> matchingRelTypes = getBusinessObjectService().findMatching(CoiNoteType.class, fieldValues);
         
         for (CoiNoteType noteType : matchingRelTypes) {
-            if (!ObjectUtils.equals(noteType.getNoteTypeCode(), newFinIntEntityRelType.getNoteTypeCode())) {
+            if (!Objects.equals(noteType.getNoteTypeCode(), newFinIntEntityRelType.getNoteTypeCode())) {
                 isValid = false;
                 putFieldError(DESCRIPTION_FIELD_NAME, KeyConstants.ERROR_DUPLICATE_PROPERTY, 
                     new String[] {"Description"});

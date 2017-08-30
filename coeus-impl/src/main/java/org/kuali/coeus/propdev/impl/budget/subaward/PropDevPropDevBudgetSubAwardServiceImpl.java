@@ -21,7 +21,7 @@ package org.kuali.coeus.propdev.impl.budget.subaward;
 
 import com.lowagie.text.pdf.*;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -174,7 +174,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             for (BudgetPeriod period : budget.getBudgetPeriods()) {
                 BudgetSubAwardPeriodDetail detail = null;
                 for (BudgetSubAwardPeriodDetail curDetail : subAward.getBudgetSubAwardPeriodDetails()) {
-                    if (ObjectUtils.equals(curDetail.getBudgetPeriod(), period.getBudgetPeriod())) {
+                    if (Objects.equals(curDetail.getBudgetPeriod(), period.getBudgetPeriod())) {
                         detail = curDetail;
                         break;
                     }
@@ -277,7 +277,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
 
     protected BudgetPeriod findBudgetPeriod(BudgetSubAwardPeriodDetail detail, Budget budget) {
         for (BudgetPeriod period : budget.getBudgetPeriods()) {
-            if (ObjectUtils.equals(detail.getBudgetPeriod(), period.getBudgetPeriod())) {
+            if (Objects.equals(detail.getBudgetPeriod(), period.getBudgetPeriod())) {
                 return period;
             }
         }
@@ -328,7 +328,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         List<BudgetLineItem> lineItems = new ArrayList<>();
         if (budgetPeriod.getBudgetLineItems() != null) {
             lineItems.addAll(budgetPeriod.getBudgetLineItems().stream()
-                    .filter(item -> item.getBudgetSubAward() != null && ObjectUtils.equals(item.getBudgetSubAward().getSubAwardNumber(), subAwardNumber))
+                    .filter(item -> item.getBudgetSubAward() != null && Objects.equals(item.getBudgetSubAward().getSubAwardNumber(), subAwardNumber))
                     .collect(Collectors.toList()));
         }
         return lineItems;
@@ -471,7 +471,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         if (matchingPeriod != null) {
 
             for (BudgetSubAwardPeriodDetail detail : budgetSubAward.getBudgetSubAwardPeriodDetails()) {
-                if (ObjectUtils.equals(detail.getBudgetPeriod(), matchingPeriod.getBudgetPeriod())) {
+                if (Objects.equals(detail.getBudgetPeriod(), matchingPeriod.getBudgetPeriod())) {
                     matchingDetail = detail;
                     break;
                 }

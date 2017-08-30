@@ -534,11 +534,7 @@ public final class KeyConstants {
     public static final String CLOSE_OUT_REPORT_TYPE_PATENT = "closeoutReportTypePatent";
     public static final String CLOSE_OUT_REPORT_TYPE_PROPERTY = "closeoutReportTypeProperty";
     public static final String CLOSE_OUT_REPORT_TYPE_INVOICE = "closeoutReportTypeInvoice";
-    public static final String AWARD_ACTIVE_STATUS_CODES_PARM = "AWARD_ACTIVE_STATUS_CODES";
-    public static final String AWARD_COST_SHARING_PARM = "AWARD_COST_SHARING";
-    public static final String AWARD_FABRICATED_EQUPIMENT_PARM = "AWARD_FABRICATED_EQUIPMENT";
-    public static final String AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS = "AUTO_GENERATE_TIME_AND_MONEY_FUNDS_DIST_PERIODS";
-    
+
     //Award Validation Error Messages
     public static final String INDIRECT_COST_RATE_NOT_IN_PAIR = "indirectCostRate.not.in.pair";
     public static final String INVALID_REPORT_CODE_FOR_REPORT_CLASS = "error.invalid.type.for.reportClass";
@@ -1015,6 +1011,7 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER= "error.required.subaward.funding.source.award.number";
     public static final String ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST= "error.subAwardSponsorContact.person.exists";
     public static final String ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO= "error.required.subaward.templateinfo.carryForwardRequestsSentTo";
+    public static final String ERROR_SUBAWARD_EMAIL_DIFF_YES = "error.subaward.invoiceEmailDifferent.yes";
     public static final String ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_MPI_LEADERSHIP_PLAN= "error.required.subaward.templateinfo.mpiLeadershipPlan";
     public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE= "error.required.subaward.funding.source.award.number.duplicate";
     public static final String SUBAWARD_ERROR_END_DATE_GREATER_THAN_START = "subaward.error.end.date.greater.than.start";

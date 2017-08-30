@@ -1,6 +1,63 @@
 
 
 ##CURRENT
+* RESKC-2363: making sure all fdp forms are displayed under the print tab for subaward
+  * Travis Schneeberger on Wed, 30 Aug 2017 09:50:39 -0400 [View Commit](../../commit/c7a20b6e5e9e605a134ef9c8da21e72851c2d8ef)
+
+##coeus-1708.0038
+* RESKC-2263: adding subaward fdp validation and default values for different email and different address
+  * Travis Schneeberger on Tue, 29 Aug 2017 08:38:33 -0400 [View Commit](../../commit/45049f6c0c696b37c54368c2f1f04e3a713f9948)
+
+##coeus-1708.0037
+* No Changes
+
+
+##coeus-1708.0036
+* No Changes
+
+
+##coeus-1708.0035
+* RESKC-2383: fixing start dates for fdp agreement modification document where type is NCE
+  * Travis Schneeberger on Mon, 28 Aug 2017 12:26:07 -0400 [View Commit](../../commit/6f0bc8f97a5856807129b5ebde344f1dfe3439d2)
+
+##coeus-1708.0034
+* No Changes
+
+
+##coeus-1708.0033
+* RESKC-2383: fixing end dates for fdp agreement modification document
+  * Travis Schneeberger on Wed, 23 Aug 2017 17:11:42 -0400 [View Commit](../../commit/bff38532bc994a8e434f29900cb8429a2c40b8cb)
+
+##coeus-1708.0032
+* Moving intg tests to unit tests (#2503)
+
+  * Gayathri Athreya on Wed, 23 Aug 2017 11:33:38 -0700 [View Commit](../../commit/6b9f70afc097532ab1011e572fdfada9d552c66f)
+
+##coeus-1708.0031
+* RESKC-2410: making test a little more complete, making AddBusgetDto Serializable
+  * Travis Schneeberger on Tue, 22 Aug 2017 14:12:31 -0400 [View Commit](../../commit/734d5a781748851a16bf5a688c09e3a84987b643)
+* RESKC-2462: Parametrizing no cost extension. (#2500)
+
+  * Gayathri Athreya on Tue, 22 Aug 2017 11:04:59 -0700 [View Commit](../../commit/a1d6fa4b49c51a269da0b5245d9062c7904cf805)
+
+##coeus-1708.0030
+* Fix users sync when other groups exist and fix group sync message (#2496)
+
+  * Douglas Pace on Mon, 21 Aug 2017 15:57:20 -0700 [View Commit](../../commit/eba93d7fcc294687ad0124c8b9599c0ccd2c6f80)
+* Attempt to fix test
+  * Gayathri Athreya on Mon, 21 Aug 2017 14:30:31 -0700 [View Commit](../../commit/26bc7c8e15bf1dfe86cd179fba1acb95364989d2)
+
+##coeus-1708.0029
+* RESKC-2450: fixing start and end dates for fdp agreement documents - fixing test
+  * Travis Schneeberger on Fri, 18 Aug 2017 17:06:41 -0400 [View Commit](../../commit/48bc4b18b040017224baef39a150792f61a1fb7e)
+* RESKC-2246: creating migration for rice filesystem attachments
+  * Travis Schneeberger on Fri, 14 Jul 2017 12:54:17 -0400 [View Commit](../../commit/69de63db71f969753c5ab26e0b7df76acc4062e7)
+* RESKC-2098: When assigning the closing or opening date to an S2S opportunity, the time is set to the last second of the day to prevent timezone corrections pushing the date into the previous day.
+  * jeremiah on Tue, 1 Aug 2017 12:12:19 -0500 [View Commit](../../commit/99f23d9903254dde1c49afe16d0eef95961b3ad9)
+* RESKC-2450: fixing start and end dates for fdp agreement documents
+  * Travis Schneeberger on Wed, 16 Aug 2017 14:42:17 -0400 [View Commit](../../commit/46f47b56ea6993176abe2131339cc6e0666cd1cb)
+
+##coeus-1708.0028
 * No Changes
 
 

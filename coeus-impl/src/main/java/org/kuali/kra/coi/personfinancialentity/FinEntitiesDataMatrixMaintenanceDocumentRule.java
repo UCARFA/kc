@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -76,8 +76,8 @@ public class FinEntitiesDataMatrixMaintenanceDocumentRule   extends KcMaintenanc
         Collection<FinEntitiesDataMatrix> matchingDataMatrixs = getBusinessObjectService().findMatching(FinEntitiesDataMatrix.class, fieldValues);
         
         for (FinEntitiesDataMatrix dataMatrix : matchingDataMatrixs) {
-            if (!ObjectUtils.equals(dataMatrix.getColumnName(), newFinEntitiesDataMatrix.getColumnName())
-                    && ObjectUtils.equals(dataMatrix.getDataGroupId(), newFinEntitiesDataMatrix.getDataGroupId())) {
+            if (!Objects.equals(dataMatrix.getColumnName(), newFinEntitiesDataMatrix.getColumnName())
+                    && Objects.equals(dataMatrix.getDataGroupId(), newFinEntitiesDataMatrix.getDataGroupId())) {
                 isValid = false;
                 putFieldError(COLUMN_SORT_ID_FIELD_NAME, KeyConstants.ERROR_DUPLICATE_PROPERTY, 
                     new String[] {"Column Sort Id"});

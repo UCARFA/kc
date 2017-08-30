@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.coi.questionnaire;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -84,7 +84,7 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
             //the questionnaire is on the disclosure, not the project, but if this project is not from this
             //disclosure then this is likely an annual or update and the questionnaire will be attached
             //to the project and will need to be validated.
-            if (project.getOriginalCoiDisclosureId() != null && !ObjectUtils.equals(project.getOriginalCoiDisclosureId(), coiDisclosure.getCoiDisclosureId())) {            
+            if (project.getOriginalCoiDisclosureId() != null && !Objects.equals(project.getOriginalCoiDisclosureId(), coiDisclosure.getCoiDisclosureId())) {
                 CoiDisclosureProjectBean projectBean = new CoiDisclosureProjectBean();
                 projectBean.setCoiDisclProject(project);
                 projectBean.populateAnswers(coiDisclosure);

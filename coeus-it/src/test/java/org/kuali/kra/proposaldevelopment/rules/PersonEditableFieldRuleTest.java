@@ -32,9 +32,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import static org.junit.Assert.*;
 
-/**
- * Contains tests for <code>{@link org.kuali.coeus.propdev.impl.editable.PersonEditableFieldRule}</code>
- */
 public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
 
     private static final Log LOG = LogFactory.getLog(PersonEditableFieldRuleTest.class);
@@ -53,10 +50,9 @@ public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
     }
 
     /**
-     * Case for if a <code>{@link PersonEditableField}</code> already exists
-     * 
-     * @throws Exception
+     * Case for if a <code>{@link PersonEditableField}</code> already exists.
      */
+    @Test
     public void processCustomRouteDocumentBusinessRules_ExistingField() throws Exception {
         PersonEditableField editableField = ADDRESS_LINE1_FIELD.getInstance();
         MaintenanceDocument editableFieldDocument = newMaintDoc(editableField);
@@ -66,9 +62,7 @@ public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
     }
 
     /**
-     * Valid case where there are no persisted <code>{@link PersonEditableField}</code> already
-     * 
-     * @throws Exception
+     * Valid case where there are no persisted <code>{@link PersonEditableField}</code> already.
      */
     @Test
     public void processCustomRouteDocumentBusinessRules_Normal() throws Exception {
@@ -85,46 +79,36 @@ public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
  * arbitrary <code>{@link PersonEditableField}</code> instances. This is useful for creating fixtures as they are arbitrary in nature.
  */
 enum PersonEditableFieldFixture {
-    BLANK_FIELD(""),
     ADDRESS_LINE1_FIELD("addressLine1"),
     ADDRESS_LINE2_FIELD("addressLine2");
     
     private PersonEditableField field;
     
     /**
-     * Create a <code>{@link PersonEditableField}</code> instance, and set active status from a parameter
-     * 
-     * @param fieldName
-     * @param active
+     * Create a <code>{@link PersonEditableField}</code> instance, and set active status from a parameter.
      */
-    private PersonEditableFieldFixture(String fieldName, boolean active) {
+    PersonEditableFieldFixture(String fieldName, boolean active) {
         setInstance(new PersonEditableField());
         getInstance().setFieldName(fieldName);
         getInstance().setActive(active);
     }
 
     /**
-     * Create a <code>{@link PersonEditableField}</code> instance and default to activated
-     * 
-     * @param fieldName
+     * Create a <code>{@link PersonEditableField}</code> instance and default to activated.
      */
-    private PersonEditableFieldFixture(String fieldName) {
+    PersonEditableFieldFixture(String fieldName) {
         this(fieldName, true);
     }
 
     /**
      * Read access to the enclosed <code>{@link PersonEditableField}</code> instance.
-     * 
-     * @return PersonEditableField
      */
     public PersonEditableField getInstance() {
         return field;
     }
 
     /**
-     * Write access to the enclosed <code>{@link PersonEditableField}</code> instance.
-     * 
-     * @param field
+     * Write access to the enclosed <code>{@link PersonEditableField}</code> instance..
      */ 
     public void setInstance(PersonEditableField field) {
         this.field = field;

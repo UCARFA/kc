@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.api.training;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.api.document.impl.CommonApiServiceImpl;
 import org.kuali.coeus.common.api.training.dto.PersonTrainingDto;

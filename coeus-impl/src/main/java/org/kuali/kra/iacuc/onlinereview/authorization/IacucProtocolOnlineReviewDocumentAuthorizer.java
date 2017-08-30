@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.iacuc.onlinereview.authorization;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
@@ -85,7 +85,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
         for (IacucCommitteeScheduleMinute minute : this.getCommitteeScheduleService().getMinutesByProtocol(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolId())) {
             Long minuteOnlineReviewId =  minute.getProtocolOnlineReviewIdFk();
             Long onlineReviewId = protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolOnlineReviewId();
-            if (ObjectUtils.equals(minuteOnlineReviewId, onlineReviewId)) {
+            if (Objects.equals(minuteOnlineReviewId, onlineReviewId)) {
                 boolean isCreator = StringUtils.equalsIgnoreCase(minute.getCreateUser(), GlobalVariables.getUserSession().getPrincipalName());
                 minute.setReadOnly(!(editModes.contains(CAN_SAVE) && (canAdministerCommitteeScheduleMinutes || isCreator)));
             }
@@ -98,7 +98,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     
     /**
      * Does the user have permission to execute the given task for a Iacuc Protocol?
-     * @param username the user's username
+     * @param userId the user's userId
      * @param doc the Iacuc Protocol document
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
@@ -138,7 +138,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     
     /**
      * Does the user have permission to execute the given task for a protocol?
-     * @param username the user's username
+     * @param userId the user's userId
      * @param doc the protocol document
      * @param taskName the name of the task
      * @return true if has permission; otherwise false

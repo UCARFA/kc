@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.common.questionnaire.impl.answer;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
@@ -40,17 +40,17 @@ public class AnswerComparator implements Comparator<Answer>  {
     public int compare(Answer ans1, Answer argAnswer) {
 
         int retVal = 0;
-       if (ObjectUtils.equals(ans1.getQuestionNumber(), argAnswer.getQuestionNumber())) {
+        if (Objects.equals(ans1.getQuestionNumber(), argAnswer.getQuestionNumber())) {
            // question with multiple answers.  then compare answer number
            retVal =  ans1.getAnswerNumber().compareTo(argAnswer.getAnswerNumber());
-        } else if (ObjectUtils.equals(ans1.getQuestionnaireQuestion().getParentQuestionNumber(), argAnswer.getQuestionnaireQuestion()
+        } else if (Objects.equals(ans1.getQuestionnaireQuestion().getParentQuestionNumber(), argAnswer.getQuestionnaireQuestion()
                 .getParentQuestionNumber())) {
             // questions with same parent
             retVal = ans1.getQuestionnaireQuestion().getQuestionSeqNumber().compareTo(argAnswer.getQuestionnaireQuestion().getQuestionSeqNumber());
-        } else if (ObjectUtils.equals(ans1.getQuestionnaireQuestion().getParentQuestionNumber(), argAnswer.getQuestionNumber())) {
+        } else if (Objects.equals(ans1.getQuestionnaireQuestion().getParentQuestionNumber(), argAnswer.getQuestionNumber())) {
             // argAnswer is the parent question of ans1
             retVal = 1;
-        } else if (ObjectUtils.equals(ans1.getQuestionNumber(), argAnswer.getQuestionnaireQuestion().getParentQuestionNumber())) {
+        } else if (Objects.equals(ans1.getQuestionNumber(), argAnswer.getQuestionnaireQuestion().getParentQuestionNumber())) {
             // ans1 is the parent question of argAnswer
             retVal = -1;
         } else if (ans1.getQuestionnaireQuestion().getParentQuestionNumber() == 0
@@ -72,7 +72,7 @@ public class AnswerComparator implements Comparator<Answer>  {
         } else if (ans1.getQuestionnaireQuestion().getParentQuestionNumber() != 0
                 && argAnswer.getQuestionnaireQuestion().getParentQuestionNumber() != 0) {
             // both are not root question
-            if (ObjectUtils.equals(getRootAnswer(ans1).getQuestionNumber(), getRootAnswer(argAnswer).getQuestionNumber())) {
+            if (Objects.equals(getRootAnswer(ans1).getQuestionNumber(), getRootAnswer(argAnswer).getQuestionNumber())) {
                 // both has the same root question
                 retVal = compareAtSameDepth(ans1, argAnswer);
             } else {
@@ -114,7 +114,7 @@ public class AnswerComparator implements Comparator<Answer>  {
             retVal = -1;
             for (int i = 0; i < ancestors1.size(); i++) {
 
-                if (!ObjectUtils.equals(ancestors1.get(i).getQuestionNumber(), ancestors2.get(i).getQuestionNumber())) {
+                if (!Objects.equals(ancestors1.get(i).getQuestionNumber(), ancestors2.get(i).getQuestionNumber())) {
                     retVal = ancestors1.get(i).getQuestionnaireQuestion().getQuestionSeqNumber().compareTo(
                             ancestors2.get(i).getQuestionnaireQuestion().getQuestionSeqNumber());
                     break;
@@ -127,7 +127,7 @@ public class AnswerComparator implements Comparator<Answer>  {
             for (int i = 0; i < ancestors2.size(); i++) {
                 retVal = 1;
 
-                if (!ObjectUtils.equals(ancestors2.get(i).getQuestionNumber(), ancestors1.get(i).getQuestionNumber())) {
+                if (!Objects.equals(ancestors2.get(i).getQuestionNumber(), ancestors1.get(i).getQuestionNumber())) {
                     retVal = ancestors1.get(i).getQuestionnaireQuestion().getQuestionSeqNumber().compareTo(
                             ancestors2.get(i).getQuestionnaireQuestion().getQuestionSeqNumber());
                     break;

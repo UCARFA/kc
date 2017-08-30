@@ -19,7 +19,8 @@
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.ObjectUtils;
+
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.validation.ErrorHandlingUtilService;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncLog;
@@ -146,7 +147,7 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
                 if (StringUtils.equals(propDescriptor.getName(), entry.getKey())) {
                     Method getter = propDescriptor.getReadMethod();
                     Object value = getter.invoke(object);
-                    if (ObjectUtils.equals(value, entry.getValue())) {
+                    if (Objects.equals(value, entry.getValue())) {
                         matches = true;
                     }
                 }
@@ -202,7 +203,7 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
     /**
      * Copied from org.kuali.rice.kew.routelog.web.RouteLogAction.
      * This method creates ActionRequestValue objects from the DocumentDetail output from 
-     * {@link WorkflowUtility#routingReport(ReportCriteriaDTO)}Report()
+     *
      * 
      * @param documentDetail contains the DTOs from which the ActionRequestValues are reconstituted
      * @return the ActionRequestValueS that have been created

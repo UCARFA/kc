@@ -20,7 +20,7 @@ package org.kuali.coeus.common.budget.impl.print;
 
 import static org.mockito.Mockito.*;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Test;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
@@ -672,7 +672,7 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         List<ReportType> reportList = new ArrayList<>();
         stream.setReportTypeForBudgetSalarySummary(reportList);
         Assert.assertEquals(1, reportList.size());
-        Assert.assertEquals(new ScaleTwoDecimal(40L).doubleValue(), reportList.get(0).getFringe());
+        Assert.assertEquals(new ScaleTwoDecimal(40L), new ScaleTwoDecimal(reportList.get(0).getFringe()));
     }
     
     @Test
@@ -711,7 +711,7 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         List<ReportType> reportList = new ArrayList<>();
         stream.setReportTypeForBudgetSalarySummary(reportList);
         Assert.assertEquals(1, reportList.size());
-        Assert.assertEquals(new ScaleTwoDecimal(40L).doubleValue(), reportList.get(0).getFringe());
+        Assert.assertEquals(new ScaleTwoDecimal(40L), new ScaleTwoDecimal(reportList.get(0).getFringe()));
     }
     
     @Test
@@ -766,8 +766,8 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         List<ReportType> reportList = new ArrayList<>();
         stream.setReportTypeForBudgetSalarySummary(reportList);
         Assert.assertEquals(2, reportList.size());
-        Assert.assertEquals(new ScaleTwoDecimal(40L).doubleValue(), reportList.get(0).getFringe());
-        Assert.assertEquals(new ScaleTwoDecimal(80L).doubleValue(), reportList.get(1).getFringe());
+        Assert.assertEquals(new ScaleTwoDecimal(40L), new ScaleTwoDecimal(reportList.get(0).getFringe()));
+        Assert.assertEquals(new ScaleTwoDecimal(80L), new ScaleTwoDecimal(reportList.get(1).getFringe()));
     }    
     
     protected BudgetLineItem getSummaryPersonnelLineItem(BudgetPeriod budgetPeriod, Date startDate, Date endDate) {
