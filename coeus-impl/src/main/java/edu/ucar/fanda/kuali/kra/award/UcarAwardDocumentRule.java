@@ -16,21 +16,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.ucar.fanda.kuali.rules;
+package edu.ucar.fanda.kuali.kra.award;
 
+import edu.ucar.fanda.kuali.kra.award.detailsdates.UcarAwardDetailsAndDatesRuleImpl;
 import org.kuali.kra.award.AwardDocumentRule;
 //import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
-import edu.ucar.fanda.kuali.rules.UcarAwardDetailAndDatesRuleImpl;
-import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesSaveEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
-import edu.ucar.fanda.kuali.infrastructure.UcarKeyConstants;
+import edu.ucar.fanda.kuali.kra.infrastructure.UcarKeyConstants;
 
 
 
@@ -40,7 +38,7 @@ import edu.ucar.fanda.kuali.infrastructure.UcarKeyConstants;
  * ADD UCAR custom validation Rules
  *
  */
-public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwardRule{
+public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwardRule {
 
 	// NOTE: Properties to validate on awardAmountInfos 
     private static final String OBLIGATED_AMOUNT_PROPERTY_NAME = "awardAmountInfos[0].amountObligatedToDate";
@@ -71,7 +69,7 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 //	        valid &= processUcarSaveActicipatedTotalValid(event);
 	        // add additional rules to run here
 	        // valid &= processUcarNewRule(event)
-		 valid &= new UcarAwardDetailAndDatesRuleImpl().processSaveAwardDetailsAndDates(event);
+		 valid &= new UcarAwardDetailsAndDatesRuleImpl().processSaveAwardDetailsAndDates(event);
 
 		 errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
 	        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
@@ -141,7 +139,7 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 
 	@Override
 	public boolean processSaveAwardDetailsAndDates(AwardDetailsAndDatesSaveEvent awardDetailsAndDatesSaveEvent) {
-		return new UcarAwardDetailAndDatesRuleImpl().processSaveAwardDetailsAndDates(awardDetailsAndDatesSaveEvent);
+		return new UcarAwardDetailsAndDatesRuleImpl().processSaveAwardDetailsAndDates(awardDetailsAndDatesSaveEvent);
 	}
 
 }

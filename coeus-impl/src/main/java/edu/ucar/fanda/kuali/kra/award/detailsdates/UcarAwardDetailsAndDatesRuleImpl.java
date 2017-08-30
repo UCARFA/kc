@@ -1,4 +1,4 @@
-package edu.ucar.fanda.kuali.rules;
+package edu.ucar.fanda.kuali.kra.award.detailsdates;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -15,7 +15,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 //Swang  Override superclass method
 
-public class UcarAwardDetailAndDatesRuleImpl extends AwardDetailsAndDatesRuleImpl{
+public class UcarAwardDetailsAndDatesRuleImpl extends AwardDetailsAndDatesRuleImpl{
     private static final String SPONSOR_CODE_PROPERTY_NAME = "detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode";
     private static final String ANTICIPATED_AMOUNT_PROPERTY_NAME = "awardAmountInfos[0].anticipatedTotalAmount";
     private static final String OBLIGATED_AMOUNT_PROPERTY_NAME = "awardAmountInfos[0].amountObligatedToDate";
