@@ -53,7 +53,8 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
     private static final String AWARD_FIN_CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME = "financialChartOfAccountsCode";
     private ParameterService parameterService;
     AccountCreationClient accountCreationClient;
-    
+    private static final String REGEX_TITLE_SPECIAL_CHARACTER_PATTERN = "([^\\x00-\\x7F])";
+
     /**
      * @see org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processAddAwardTransferringSponsorEvent
      * (org.kuali.kra.award.rule.event.AddAwardTransferringSponsorEvent)
@@ -173,7 +174,7 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
          * Need not check for valid account number or chart in this case because KFS returned these values. 
          * At this point if the account doc in KFS is only being saved and not routed then this will return
          * false (which is incorrect behavior) because the account does not *exist* yet on KFS.*/
-        if (isIntegrationParameterOn() && StringUtils.isEmpty(financialDocNbr) && validationRequired(award)) { 
+        if (isIntegrationParameterOn() && StringUtils.isEmpty(financialDocNbr) && validationRequired(award)) {
             if (ObjectUtils.isNotNull(accountNumber) || ObjectUtils.isNotNull(chartOfAccountsCode)) {               
                 AccountCreationClient client = getAccountCreationClientService();            
                 if (ObjectUtils.isNull(chartOfAccountsCode) || ObjectUtils.isNull(accountNumber)) {
@@ -195,7 +196,7 @@ public class AwardDetailsAndDatesRuleImpl extends KcTransactionalDocumentRuleBas
                     }
                 }
             }   
-        } 
+        }
         return isValid;
     }
     

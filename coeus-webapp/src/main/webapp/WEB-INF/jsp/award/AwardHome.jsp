@@ -36,6 +36,7 @@
    <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
    <kul:help documentTypeName="AwardDocument" pageName="Award" />
 </div>
+<!--	  <h1>TEST TEST</h1> -->
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-a:awardFundingProposals />
 <kra-a:awardDetailsDates />

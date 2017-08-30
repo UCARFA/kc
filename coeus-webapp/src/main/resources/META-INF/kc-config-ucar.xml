@@ -45,8 +45,8 @@
         <param name="print.logging.enable">true</param>
 
         <!-- Mail server configuration -->
-        <param name="mail.smtp.host">localhost</param>
-        <param name="mail.smtp.port">2555</param>
+        <param name="mail.smtp.host">corona.fanda.ucar.edu</param>
+        <param name="mail.smtp.port">25</param>
         <param name="mail.transport.protocol">smtp</param>
 
         <!-- SchemaSpy -->
