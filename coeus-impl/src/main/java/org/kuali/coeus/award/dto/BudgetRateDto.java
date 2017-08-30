@@ -21,9 +21,12 @@ package org.kuali.coeus.award.dto;
 
 
 import com.codiform.moo.annotation.Property;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.json.JsonFormats;
+
 import java.sql.Date;
 
 public class BudgetRateDto {
@@ -39,6 +42,7 @@ public class BudgetRateDto {
     @JsonIgnore
     @Property(translate = true)
     private RateTypeDto rateType;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date startDate;
     private ScaleTwoDecimal instituteRate;
 

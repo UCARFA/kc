@@ -18,6 +18,9 @@
  */
 package org.kuali.coeus.award.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.kuali.coeus.sys.framework.json.JsonFormats;
+
 import java.sql.Date;
 
 public class AwardCloseoutDto {
@@ -25,8 +28,10 @@ public class AwardCloseoutDto {
 
     private Long awardCloseoutId;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date finalSubmissionDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date dueDate;
 
     private String closeoutReportCode;

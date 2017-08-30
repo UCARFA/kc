@@ -18,7 +18,10 @@
  */
 package org.kuali.coeus.award.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.json.JsonFormats;
+
 import java.sql.Date;
 
 public class BudgetPersonnelDetailsDto {
@@ -27,7 +30,9 @@ public class BudgetPersonnelDetailsDto {
     private Long budgetLineItemId;
     private Integer lineItemNumber;
     private Boolean onOffCampusFlag;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date endDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date startDate;
     private String budgetJustification;
     private ScaleTwoDecimal costSharingAmount;

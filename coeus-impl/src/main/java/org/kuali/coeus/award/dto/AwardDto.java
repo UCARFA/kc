@@ -20,6 +20,7 @@ package org.kuali.coeus.award.dto;
 
 import com.codiform.moo.annotation.CollectionProperty;
 import com.codiform.moo.annotation.Property;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.kuali.coeus.award.finance.*;
@@ -27,6 +28,7 @@ import org.kuali.coeus.common.framework.sponsor.SponsorDto;
 import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
 import org.kuali.coeus.instprop.impl.api.customSerializers.ScaleTwoDecimalSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.json.JsonFormats;
 import org.kuali.kra.award.home.*;
 
 import java.sql.Date;
@@ -47,14 +49,19 @@ public class AwardDto {
     private Integer statusCode;
     private String accountNumber;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date awardEffectiveDate;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date awardExecutionDate;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date beginDate;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date obligationStartDate;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date projectEndDate;
     private String costSharingIndicator;
     private String indirectCostIndicator;
@@ -75,6 +82,7 @@ public class AwardDto {
     private String basisOfPaymentCode;
     private Integer awardTransactionTypeCode;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date noticeDate;
     private String leadUnitNumber;
     private String awardSequenceStatus;
@@ -99,11 +107,14 @@ public class AwardDto {
     private String documentFundingId;
     private ScaleTwoDecimal preAwardAuthorizedAmount;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date preAwardEffectiveDate;
     private ScaleTwoDecimal preAwardInstitutionalAuthorizedAmount;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date obligationEndDate;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date preAwardInstitutionalEffectiveDate;
     private String procurementPriorityCode;
     private ScaleTwoDecimal specialEbRateOffCampus;
@@ -120,6 +131,7 @@ public class AwardDto {
     private String subPlanFlag;
     private String archiveLocation;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date closeoutDate;
     private String currentActionComments;
     private String awardSequenceStatusResult;
@@ -197,6 +209,7 @@ public class AwardDto {
 
     private String fainId;
     private Integer fedAwardYear;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date fedAwardDate;
     private Boolean posted;
 
