@@ -563,9 +563,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 
 	public Integer getSiteInvestigator() {
         if (siteInvestigator != null) {
-            BusinessObjectService businessObjectService = KcServiceLocator.
-            getService(BusinessObjectService.class);
-            this.rolodex = businessObjectService.
+            this.rolodex = getBusinessObjectService().
             findByPrimaryKey(Rolodex.class,
             getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
             this.siteInvestigatorId = rolodex.getRolodexId().toString();
@@ -577,9 +575,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 
     public void setSiteInvestigator(Integer siteInvestigator) {
         if (siteInvestigator != null) {
-            BusinessObjectService businessObjectService = KcServiceLocator.
-            getService(BusinessObjectService.class);
-            this.rolodex = businessObjectService.
+            this.rolodex = getBusinessObjectService().
             findByPrimaryKey(NonOrganizationalRolodex.class,
             getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
             this.siteInvestigatorId = rolodex.getRolodexId().toString();
@@ -639,7 +635,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 	}
 
     public Collection<SubAwardAmountReleased> getCreatedDate(Map<String, Object> values) {
-        return KcServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false);
+        return getBusinessObjectService().findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false);
     }
 
     public void setSubAwardAmountReleasedList(List<SubAwardAmountReleased> subAwardAmountReleasedList) {
