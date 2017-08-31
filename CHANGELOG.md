@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2487: fixing award-posts api to have an explicit date format for java.sql.Date types
+  * Travis Schneeberger on Wed, 30 Aug 2017 19:59:56 -0400 [View Commit](../../commit/f899037a6c0eb67839a001a7d2e41883d7ad8ed2)
+
+##coeus-1708.0039
 * RESKC-2363: making sure all fdp forms are displayed under the print tab for subaward
   * Travis Schneeberger on Wed, 30 Aug 2017 09:50:39 -0400 [View Commit](../../commit/c7a20b6e5e9e605a134ef9c8da21e72851c2d8ef)
 
