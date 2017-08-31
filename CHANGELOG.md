@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1708.0040
 * RESKC-2487: fixing award-posts api to have an explicit date format for java.sql.Date types
   * Travis Schneeberger on Wed, 30 Aug 2017 19:59:56 -0400 [View Commit](../../commit/f899037a6c0eb67839a001a7d2e41883d7ad8ed2)
 
