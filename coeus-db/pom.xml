@@ -42,4 +42,22 @@
     <properties>
         <copy.javaagent.off>true</copy.javaagent.off>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>grm</id>
+            <!-- comment out activation section to turn this profile off permanently-->
+            <activation>
+                <property>
+                    <name>!grm.off</name>
+                </property>
+            </activation>
+            <modules>
+                <module>coeus-db-data-conv</module>
+                <module>coeus-db-sql</module>
+                <module>coeus-db-xml</module>
+                <module>coeus-db-aws-lambda</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
