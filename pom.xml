@@ -1790,8 +1790,8 @@
                 <version>${spring.version}</version>
                 <exclusions>
                     <exclusion>
-                        <artifactId>commons-logging</artifactId>
                         <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -1914,11 +1914,14 @@
 
             <properties>
                 <build.spring.profiles.active>grm</build.spring.profiles.active>
-
+                <commons-dbcp2.version>2.1.1</commons-dbcp2.version>
                 <rsmart.cx.token.auth.version>1509.0001</rsmart.cx.token.auth.version>
                 <rsmart.hr.rest.version>1708.0006</rsmart.hr.rest.version>
                 <kc-s3.version>1708.0003</kc-s3.version>
                 <kc-sql.version>1706.0001</kc-sql.version>
+
+                <aws-lambda-java-core.version>1.1.0</aws-lambda-java-core.version>
+                <aws-lambda-java-log4j.version>1.0.0</aws-lambda-java-log4j.version>
 
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>
@@ -1970,6 +1973,20 @@
                     </dependency>
 
                     <dependency>
+                        <groupId>com.amazonaws</groupId>
+                        <artifactId>aws-lambda-java-core</artifactId>
+                        <version>${aws-lambda-java-core.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>com.amazonaws</groupId>
+                        <artifactId>aws-lambda-java-log4j</artifactId>
+                        <version>${aws-lambda-java-log4j.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+
+                    <dependency>
                         <groupId>com.rsmart.kuali</groupId>
                         <artifactId>kc_hr_rest</artifactId>
                         <version>${rsmart.hr.rest.version}</version>
@@ -1986,6 +2003,18 @@
                             <exclusion>
                                 <groupId>javax.ws.rs</groupId>
                                 <artifactId>jsr311-api</artifactId>
+                            </exclusion>
+                        </exclusions>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.commons</groupId>
+                        <artifactId>commons-dbcp2</artifactId>
+                        <version>${commons-dbcp2.version}</version>
+                        <scope>runtime</scope>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>commons-logging</groupId>
+                                <artifactId>commons-logging</artifactId>
                             </exclusion>
                         </exclusions>
                     </dependency>

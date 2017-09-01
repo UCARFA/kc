@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses />.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.kuali.coeus</groupId>
+        <artifactId>coeus-db</artifactId>
+        <version>1708.0042-SNAPSHOT</version>
+    </parent>
+    <artifactId>coeus-db-aws-lambda</artifactId>
+    <packaging>jar</packaging>
+    <name>Kuali Coeus Database AWS Lambda</name>
+    <description>
+        For internal use only.
+    </description>
+
+    <properties>
+        <copy.javaagent.off>true</copy.javaagent.off>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>grm</id>
+            <!-- comment out activation section to turn this profile off permanently-->
+            <activation>
+                <property>
+                    <name>!grm.off</name>
+                </property>
+            </activation>
+            <properties>
+                <maven-shade-plugin.version>3.1.0</maven-shade-plugin.version>
+                <lambda-maven-plugin.version>2.2.2</lambda-maven-plugin.version>
+                <lambda.publish>false</lambda.publish>
+                <lambda.force.update>false</lambda.force.update>
+                <lambda.functions.json>
+                    [{
+                    "functionName": "kc-flyway-apply",
+                    "description": "KC Flyway apply",
+                    "handler": "co.kuali.coeus.db.lambda.FlywayLambda::apply",
+                    "timeout": 300
+                    }]
+                </lambda.functions.json>
+                <lambda.publish.role.arn></lambda.publish.role.arn>
+                <lambda.publish.accessKey></lambda.publish.accessKey>
+                <lambda.publish.secretKey></lambda.publish.secretKey>
+                <lambda.publish.s3.bucket></lambda.publish.s3.bucket>
+                <lambda.publish.region></lambda.publish.region>
+            </properties>
+
+            <dependencies>
+
+                <dependency>
+                    <groupId>co.kuali</groupId>
+                    <artifactId>kc-sql</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>com.amazonaws</groupId>
+                    <artifactId>aws-lambda-java-core</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>com.amazonaws</groupId>
+                    <artifactId>aws-lambda-java-log4j</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>${mysql.groupId}</groupId>
+                    <artifactId>${mysql.artifactId}</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>${oracle.groupId}</groupId>
+                    <artifactId>${oracle.artifactId}</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-dbcp2</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.kuali.coeus</groupId>
+                    <artifactId>coeus-db-data-conv</artifactId>
+                    <version>${project.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.kuali.coeus</groupId>
+                    <artifactId>coeus-db-sql</artifactId>
+                    <version>${project.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jul-to-slf4j</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.seanroy</groupId>
+                        <artifactId>lambda-maven-plugin</artifactId>
+                        <version>${lambda-maven-plugin.version}</version>
+                        <configuration>
+                            <publish>${lambda.publish}</publish>
+                            <forceUpdate>${lambda.force.update}</forceUpdate>
+                            <functionCode>${project.build.directory}/${project.build.finalName}.jar</functionCode>
+                            <version>${project.version}</version>
+                            <accessKey>${lambda.publish.accessKey}</accessKey>
+                            <secretKey>${lambda.publish.secretKey}</secretKey>
+                            <s3Bucket>${lambda.publish.s3.bucket}</s3Bucket>
+                            <region>${lambda.publish.region}</region>
+                            <lambdaRoleArn>${lambda.publish.role.arn}</lambdaRoleArn>
+                            <lambdaFunctionsJSON>${lambda.functions.json}</lambdaFunctionsJSON>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>${maven-shade-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
