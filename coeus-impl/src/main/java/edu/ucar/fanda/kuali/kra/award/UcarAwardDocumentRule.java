@@ -16,17 +16,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.ucar.fanda.kuali.rules;
+package edu.ucar.fanda.kuali.kra.award;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.AwardDateRulesHelper;
 import org.kuali.kra.award.AwardDocumentRule;
-//import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
-import edu.ucar.fanda.kuali.rules.UcarAwardDetailAndDatesRuleImpl;
+import edu.ucar.fanda.kuali.kra.award.detailsdates.UcarAwardDetailsAndDatesRuleImpl;
 import org.kuali.kra.award.commitments.*;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImpl;
 import org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent;
-import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesSaveEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -40,7 +38,6 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Equi
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleImpl;
-import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -53,7 +50,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
-import edu.ucar.fanda.kuali.infrastructure.UcarKeyConstants;
+import edu.ucar.fanda.kuali.kra.infrastructure.UcarKeyConstants;
 
 import java.sql.Date;
 import java.util.List;
@@ -97,7 +94,7 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 //	        valid &= processUcarSaveActicipatedTotalValid(event);
 	        // add additional rules to run here
 	        // valid &= processUcarNewRule(event)
-		 valid &= new UcarAwardDetailAndDatesRuleImpl().processSaveAwardDetailsAndDates(event);
+		 valid &= new UcarAwardDetailsAndDatesRuleImpl().processSaveAwardDetailsAndDates(event);
 
 		 errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
 	        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
@@ -173,7 +170,7 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 
 	@Override
 	public boolean processSaveAwardDetailsAndDates(AwardDetailsAndDatesSaveEvent awardDetailsAndDatesSaveEvent) {
-		return new UcarAwardDetailAndDatesRuleImpl().processSaveAwardDetailsAndDates(awardDetailsAndDatesSaveEvent);
+		return new UcarAwardDetailsAndDatesRuleImpl().processSaveAwardDetailsAndDates(awardDetailsAndDatesSaveEvent);
 	}
 	private boolean skipRuleProcessing(Document document) {
 		return AwardDocument.PLACEHOLDER_DOC_DESCRIPTION.equals(document.getDocumentHeader().getDocumentDescription());
