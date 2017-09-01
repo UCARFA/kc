@@ -58,7 +58,8 @@ public class BudgetConstants {
         SPE_LINEITEM_COSTS ("speCostErrors", "speCostWarnings", "Budget Lineitem Costs", "PropBudget-SinglePointEntryPage"),
         PERSONNEL_COSTS ("personnelCostErrors", "personnelCostWarnings", "Assign Personnel to Periods", "PropBudget-AssignPersonnelToPeriodsPage"),
         COST_SHARING ("costSharingErrors", "costSharingWarnings", "Cost Sharing", "PropBudget-CostSharingPage"),
-        UNRECOVERED_FA ("unrecoveredFAErrors", "unrecoveredFAWarnings", "Unrecovered F&A", "PropBudget-UnrecoveredFandAPage");
+        UNRECOVERED_FA ("unrecoveredFAErrors", "unrecoveredFAWarnings", "Unrecovered F&A", "PropBudget-UnrecoveredFandAPage"),
+        MODULAR_BUDGET ("modularBudgetErrors", "modularBudgetWarnings", "Modular Budget", "PropBudget-ModularPage");
         
         private final String errorKey;   
         private final String warningKey; 

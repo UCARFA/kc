@@ -256,7 +256,6 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 				new ParameterizedTypeReference<List<CategoryDto>>() {
 				});
 		if (LOG.isInfoEnabled()) {
-			System.out.println(result);
 			LOG.info("GET " + uri + " returned " + result.getBody().size() + " categories");
 		}
 		return result.getBody();

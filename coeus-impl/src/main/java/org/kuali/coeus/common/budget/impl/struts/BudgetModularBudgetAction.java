@@ -124,7 +124,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
             BudgetModularService budgetModularService = KcServiceLocator.getService(BudgetModularService.class);
             BudgetForm budgetForm = (BudgetForm) form;
             Budget budget = budgetForm.getBudgetDocument().getBudget();        
-            budgetModularService.synchModularBudget(budget);
+            budgetModularService.synchModularBudget(budget, false);
             budgetForm.setBudgetModularSummary(budgetModularService.processModularSummary(budget,false));
         }
         

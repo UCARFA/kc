@@ -1163,6 +1163,7 @@ public final class KeyConstants {
     public static final String QUESTION_DELETE_FNA = "document.question.deleteFandA.text";
 
     public static final String XML_REORDER_WARNING = "info.grantsgov.form.xml.reorder";
+    public static final String ERROR_MODULARBUDGET_NOT_SYNCED = "error.modularBudget.not.synced";
 
     /**
      * private utility class ctor.

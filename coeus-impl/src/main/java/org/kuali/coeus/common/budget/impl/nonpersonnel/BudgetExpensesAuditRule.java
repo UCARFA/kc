@@ -47,6 +47,7 @@ import java.util.List;
 public class BudgetExpensesAuditRule extends BudgetAuditRuleBase {
 
     private static final String WARN_NEGATIVE_UNRECOVERED_F_AND_A_PARM = "WARN_NEGATIVE_UNRECOVERED_F_AND_A";
+    public static final String BUDGET_MODULAR_KEY = "budget.modular";
     @Autowired
 	@Qualifier("budgetExpenseService")
 	private BudgetExpenseService budgetExpenseService;
@@ -179,6 +180,9 @@ public class BudgetExpensesAuditRule extends BudgetAuditRuleBase {
         for (BudgetPersonnelDetails budgetPersonnelDetails : budget.getBudgetPersonnelDetails()) {
         	auditRulePassed &= verifyPersonnelDetails(budgetPersonnelDetails);
         }
+        
+        auditRulePassed &= verifyModularBudgetStatus(budget);
+        
         return auditRulePassed;
     }
 
@@ -238,6 +242,32 @@ public class BudgetExpensesAuditRule extends BudgetAuditRuleBase {
         }
         return passed;
 	}
+	
+
+    protected boolean verifyModularBudgetStatus(Budget budget) {
+        boolean validBudgetCompletion = true;
+        if (budget.getModularBudgetFlag() == true) {
+            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                if (budgetPeriod != null) {
+                    if (budgetPeriod.getBudgetModular() == null || budgetPeriod.getBudgetModular().getTotalDirectCost() == null) {
+                        validBudgetCompletion = false;
+                    }
+                    else if ((budgetPeriod.getBudgetModular().getTotalDirectCost().equals(ScaleTwoDecimal.ZERO))
+                            && budgetPeriod.getTotalDirectCost().isGreaterThan(ScaleTwoDecimal.ZERO)) {
+                        validBudgetCompletion = false;
+                    }
+                    if (!validBudgetCompletion) {
+                        final BudgetConstants.BudgetAuditRules budgetModularRule = BudgetConstants.BudgetAuditRules.MODULAR_BUDGET;
+                        List<AuditError> auditErrors = getAuditErrors(budgetModularRule, true);
+                        auditErrors.add(new AuditError(BUDGET_MODULAR_KEY, KeyConstants.ERROR_MODULARBUDGET_NOT_SYNCED,
+                                budgetModularRule.getPageId()));
+                        break;
+                    }
+                }
+            }
+        }
+        return validBudgetCompletion;
+    }	
 	
 	protected BudgetExpenseService getBudgetExpenseService() {
 		return budgetExpenseService;

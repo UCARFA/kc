@@ -945,7 +945,6 @@ public interface Constants {
     String BEARER_TOKEN = "Bearer ";
     String SUB_AWARD_CODE = "subAwardCode";
     String CORRECTION_MODE = "correctionMode";
-    String ALL_SPONSOR_HIERARCHY_AS_NIH = "ALL_SPONSOR_HIERARCHY_AS_NIH";
     String KC_SYS = "KC-SYS";
     String PENDING = "PENDING";
     String ENABLE_COST_SHARE_ACCOUNT_VALIDATION = "ENABLE_COST_SHARE_ACCOUNT_VALIDATION";
@@ -987,12 +986,16 @@ public interface Constants {
     String PROP_DEV_CREDIT_ALLOCATION_PAGE = "PropDev-CreditAllocationPage";
     String PROP_DEV_SUPPLEMENTAL_SECTION = "PropDev-Supplemental-Section";
     String PROP_DEV_SUPPLEMENTAL_PAGE = "PropDev-SupplementalPage";
+    
+    String DISPLAY_UNROUNDED_MODULAR_FNA = "Display_Unrounded_Modular_FNA";
     String SHOW_SECTION_IN_DATA_VALIDATION = "Show_Section_In_Data_Validation";
+    String ALL_SPONSOR_HIERARCHY_AS_NIH = "ALL_SPONSOR_HIERARCHY_AS_NIH";
 
     String NO_COST_EXTENSION_CODE = "No_Cost_Extension_Transaction_Type_Code";
     String AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS = "AUTO_GENERATE_TIME_AND_MONEY_FUNDS_DIST_PERIODS";
     String AWARD_COST_SHARING_PARM = "AWARD_COST_SHARING";
     String AWARD_ACTIVE_STATUS_CODES_PARM = "AWARD_ACTIVE_STATUS_CODES";
     String AWARD_FABRICATED_EQUPIMENT_PARM = "AWARD_FABRICATED_EQUIPMENT";
+    String ROUND_F_AND_A_BASE = "ModularBudget_Round_F_and_A_Base";
 }
 
