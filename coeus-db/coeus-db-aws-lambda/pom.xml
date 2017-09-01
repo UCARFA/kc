@@ -17,15 +17,14 @@
    - You should have received a copy of the GNU Affero General Public License
    - along with this program.  If not, see <http://www.gnu.org/licenses />.
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus-db</artifactId>
-        <version>1708.0042-SNAPSHOT</version>
+        <version>1709.0001</version>
     </parent>
     <artifactId>coeus-db-aws-lambda</artifactId>
     <packaging>jar</packaging>
@@ -60,11 +59,11 @@
                     "timeout": 300
                     }]
                 </lambda.functions.json>
-                <lambda.publish.role.arn></lambda.publish.role.arn>
-                <lambda.publish.accessKey></lambda.publish.accessKey>
-                <lambda.publish.secretKey></lambda.publish.secretKey>
-                <lambda.publish.s3.bucket></lambda.publish.s3.bucket>
-                <lambda.publish.region></lambda.publish.region>
+                <lambda.publish.role.arn />
+                <lambda.publish.accessKey />
+                <lambda.publish.secretKey />
+                <lambda.publish.s3.bucket />
+                <lambda.publish.region />
             </properties>
 
             <dependencies>
