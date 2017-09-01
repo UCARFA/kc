@@ -426,7 +426,7 @@
     <bean id="awardInvestigatorsRoleTypeService" class="org.kuali.kra.award.AwardInvestigatorDerivedRoleTypeServiceImpl">
         <property name="awardService" ref="awardService"/>
     </bean>
-    
+
     <bean id="awardInvestigatorsRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="awardInvestigatorsRoleTypeService" p:localServiceName="awardInvestigatorsRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>

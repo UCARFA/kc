@@ -3,15 +3,22 @@ package edu.ucar.fanda.kuali.kra.award.detailsdates;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesSaveEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotification;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationDetails;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationService;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceImpl;
 import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.List;
 
 //Swang  Override superclass method
 
@@ -67,7 +74,10 @@ public class UcarAwardDetailsAndDatesRuleImpl extends AwardDetailsAndDatesRuleIm
 /*        if (!this.isValidAccountNumber((AwardDocument) awardDetailsAndDatesSaveEvent.getDocument())) {
             valid &= false;
         }*/
-
+/*        ReportTrackingNotificationServiceImpl service;
+        service = (ReportTrackingNotificationServiceImpl) KcServiceLocator.getService(ReportTrackingNotificationService.class);
+        List<ReportTrackingNotificationDetails> details = service.runReportTrackingNotifications();
+*/
         if (!isValidCfdaNumber(award)) {
             valid &= false;
             reportError(Constants.CFDA_NUMBER, KeyConstants.ERROR_INVALID_CFDA, award.getCfdaNumber());

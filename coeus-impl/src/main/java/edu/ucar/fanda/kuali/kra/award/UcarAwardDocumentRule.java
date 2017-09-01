@@ -16,20 +16,47 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.ucar.fanda.kuali.kra.award;
+package edu.ucar.fanda.kuali.rules;
 
-import edu.ucar.fanda.kuali.kra.award.detailsdates.UcarAwardDetailsAndDatesRuleImpl;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.kra.award.AwardDateRulesHelper;
 import org.kuali.kra.award.AwardDocumentRule;
 //import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
+import edu.ucar.fanda.kuali.rules.UcarAwardDetailAndDatesRuleImpl;
+import org.kuali.kra.award.commitments.*;
+import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImpl;
+import org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent;
+import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesSaveEvent;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
+import org.kuali.kra.award.paymentreports.paymentschedule.AddAwardPaymentScheduleRuleEvent;
+import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleImpl;
+import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent;
+import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleImpl;
+import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.EquipmentCapitalizationMinimumLoader;
+import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule;
+import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent;
+import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleImpl;
+import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
+import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
+import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
+import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
-import edu.ucar.fanda.kuali.kra.infrastructure.UcarKeyConstants;
+import edu.ucar.fanda.kuali.infrastructure.UcarKeyConstants;
 
+import java.sql.Date;
+import java.util.List;
 
 
 /**
@@ -38,7 +65,7 @@ import edu.ucar.fanda.kuali.kra.infrastructure.UcarKeyConstants;
  * ADD UCAR custom validation Rules
  *
  */
-public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwardRule {
+public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwardRule{
 
 	// NOTE: Properties to validate on awardAmountInfos 
     private static final String OBLIGATED_AMOUNT_PROPERTY_NAME = "awardAmountInfos[0].amountObligatedToDate";
@@ -51,8 +78,9 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 	// ADD OTHER PROPERTIES TO VALIDATE AS NEEDED
     // Logger
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(UcarAwardDocumentRule.class);
-    
-	
+
+	private static final String AWARD_ERROR_PATH_PREFIX = "document.awardList[0].";
+
     /**
 	 * Function to execute UCAR Custom rules  - Award Details and Dates Save Rules
 	 * @param document
@@ -69,7 +97,7 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 //	        valid &= processUcarSaveActicipatedTotalValid(event);
 	        // add additional rules to run here
 	        // valid &= processUcarNewRule(event)
-		 valid &= new UcarAwardDetailsAndDatesRuleImpl().processSaveAwardDetailsAndDates(event);
+		 valid &= new UcarAwardDetailAndDatesRuleImpl().processSaveAwardDetailsAndDates(event);
 
 		 errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
 	        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
@@ -110,36 +138,265 @@ public class UcarAwardDocumentRule extends AwardDocumentRule implements UcarAwar
 	protected boolean processCustomSaveDocumentBusinessRules(Document document) {
 		// call all Kuali Research rules for Award, commented out by Susan for now 8-22-2017
 //		LOG.info("Starting UCAR custom save business rules");
-		boolean retVal = true;
-	/*	boolean retVal = super.processCustomSaveDocumentBusinessRules(document);
-		// call UCAR custom rules
-		 if(skipRuleProcessing(document)) {
-	            return true;
-	        }
-	 
-	        MessageMap errorMap = GlobalVariables.getMessageMap();
-	        if (!(document instanceof AwardDocument)) {
-	            return false;
-	        }
-	        
-	        AwardDocument awardDocument = (AwardDocument) document;
-*/
-	        // execute save rules
-	        retVal &= processUcarAwardDetailsAndDatesSaveRules(document);
+		if(skipRuleProcessing(document)) {
+			return true;
+		}
+
+		boolean retval = true;
+		MessageMap errorMap = GlobalVariables.getMessageMap();
+		if (!(document instanceof AwardDocument)) {
+			return false;
+		}
+
+		AwardDocument awardDocument = (AwardDocument) document;
+
+		retval &= processUnitNumberBusinessRule(errorMap, awardDocument);
+		retval &= processCostShareBusinessRules(document);
+		retval &= processBenefitsRatesBusinessRules(document);
+		retval &= processApprovedSubawardBusinessRules(document);
+		retval &= processApprovedEquipmentBusinessRules(errorMap, awardDocument);
+		retval &= processApprovedForeignTravelBusinessRules(errorMap, awardDocument);
+		retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
+		retval &= processAwardCommentsBusinessRules(awardDocument);
+//		retval &= processAwardDetailsAndDatesSaveRules(document);
+		retval &= processDateBusinessRule(errorMap, awardDocument);
+		retval &=processKeywordBusinessRule(awardDocument);
+		retval &=processAwardAttachmentBusinessRule(awardDocument);
+		retval &= processUcarAwardDetailsAndDatesSaveRules(document);
 	       
 	        
 //	        LOG.info("UCAR custom save business rules return value: " + retVal );
 		
-		return retVal;
+		return retval;
 	}
 	
-	 private boolean skipRuleProcessing(Document document) {
-	        return AwardDocument.PLACEHOLDER_DOC_DESCRIPTION.equals(document.getDocumentHeader().getDocumentDescription());
-	 }
 
 	@Override
 	public boolean processSaveAwardDetailsAndDates(AwardDetailsAndDatesSaveEvent awardDetailsAndDatesSaveEvent) {
-		return new UcarAwardDetailsAndDatesRuleImpl().processSaveAwardDetailsAndDates(awardDetailsAndDatesSaveEvent);
+		return new UcarAwardDetailAndDatesRuleImpl().processSaveAwardDetailsAndDates(awardDetailsAndDatesSaveEvent);
+	}
+	private boolean skipRuleProcessing(Document document) {
+		return AwardDocument.PLACEHOLDER_DOC_DESCRIPTION.equals(document.getDocumentHeader().getDocumentDescription());
+	}
+
+	private boolean processApprovedEquipmentBusinessRules(MessageMap errorMap, AwardDocument awardDocument) {
+		boolean success = true;
+		errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+		errorMap.addToErrorPath(AWARD_ERROR_PATH);
+		Award award = awardDocument.getAward();
+		EquipmentCapitalizationMinimumLoader helper = new EquipmentCapitalizationMinimumLoader();
+		AwardApprovedEquipmentRuleImpl rule = new AwardApprovedEquipmentRuleImpl();
+		if (award.getApprovedEquipmentItems() != null) {
+			int count = award.getApprovedEquipmentItems().size();
+			for (int i = 0; i < count; i++) {
+				String errorPath = String.format("approvedEquipmentItems[%d]", i);
+				errorMap.addToErrorPath(errorPath);
+				String errorKey = AWARD_ERROR_PATH_PREFIX + errorPath;
+				AwardApprovedEquipmentRuleEvent event = new AwardApprovedEquipmentRuleEvent(errorKey, awardDocument, awardDocument.getAward(),
+						award.getApprovedEquipmentItems().get(i),
+						helper.getMinimumCapitalization());
+				success &= rule.processAwardApprovedEquipmentBusinessRules(event);
+				errorMap.removeFromErrorPath(errorPath);
+			}
+		}
+		errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+		errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+
+		return success;
+	}
+
+	private boolean processPaymentScheduleBusinessRules(MessageMap errorMap, AwardDocument awardDocument) {
+		errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+		errorMap.addToErrorPath(AWARD_ERROR_PATH);
+
+		boolean success = true;
+		errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+		errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+		return success;
+	}
+
+	private boolean processAwardAttachmentBusinessRule(AwardDocument awardDocument) {
+		boolean valid=true;
+		List<AwardAttachment> awardAttachments= awardDocument.getAwardList().get(0).getAwardAttachments();
+		for ( AwardAttachment awardAttachment : awardAttachments ) {
+			if (awardAttachment.getTypeCode() == null) {
+				valid = false;
+			}
+		}
+		if(valid) {
+			for (AwardAttachment awardattachment : awardAttachments) {
+				awardattachment.setModifyAttachment(false);
+			}
+		}
+		return valid;
+	}
+
+	private boolean processKeywordBusinessRule(AwardDocument awardDocument) {
+
+		List<AwardScienceKeyword> keywords= awardDocument.getAward().getKeywords();
+
+		for ( AwardScienceKeyword keyword : keywords ) {
+			for ( AwardScienceKeyword keyword2 : keywords ) {
+				if ( keyword == keyword2 ) {
+					continue;
+				} else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeywordCode(), keyword2.getScienceKeywordCode()) ) {
+					GlobalVariables.getMessageMap().putError("document.awardList[0].keywords", "error.proposalKeywords.duplicate");
+
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private boolean processAddPaymentScheduleBusinessRules(MessageMap errorMap, AddAwardPaymentScheduleRuleEvent event) {
+		boolean success = new AwardPaymentScheduleRuleImpl().processAddAwardPaymentScheduleBusinessRules(event);
+		return success;
+	}
+
+	private boolean processCostShareBusinessRules(Document document) {
+		boolean valid = true;
+		MessageMap errorMap = GlobalVariables.getMessageMap();
+		AwardDocument awardDocument = (AwardDocument) document;
+		int i = 0;
+		List<AwardCostShare> awardCostShares = awardDocument.getAward().getAwardCostShares();
+		errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+		errorMap.addToErrorPath(AWARD_ERROR_PATH);
+		for (AwardCostShare awardCostShare : awardCostShares) {
+			String errorPath = "awardCostShares[" + i + Constants.RIGHT_SQUARE_BRACKET;
+			errorMap.addToErrorPath(errorPath);
+			AwardCostShareRuleEvent event = new AwardCostShareRuleEvent(errorPath,
+					awardDocument,
+					awardCostShare);
+			valid &= new AwardCostShareRuleImpl().processCostShareBusinessRules(event, i);
+			errorMap.removeFromErrorPath(errorPath);
+			i++;
+		}
+		errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+		errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+		return valid;
+	}
+	private boolean processAwardCommentsBusinessRules(AwardDocument awardDocument) {
+		AwardCommentsRuleEvent ruleEvent = new AwardCommentsRuleEvent(DOCUMENT_ERROR_PATH + "." + AWARD_ERROR_PATH, awardDocument);
+		return processAwardCommentsBusinessRules(ruleEvent);
+	}
+
+
+	private boolean processBenefitsRatesBusinessRules(Document document) {
+		boolean valid = true;
+		MessageMap errorMap = GlobalVariables.getMessageMap();
+		AwardDocument awardDocument = (AwardDocument) document;
+		Award award = awardDocument.getAward();
+		errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+		errorMap.addToErrorPath(AWARD_ERROR_PATH);
+		if(StringUtils.equalsIgnoreCase(
+				getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD,
+						ParameterConstants.DOCUMENT_COMPONENT,
+						KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
+				KeyConstants.ENABLED_PARAMETER_VALUE_ONE) ||
+				StringUtils.equalsIgnoreCase(
+						getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD,
+								ParameterConstants.DOCUMENT_COMPONENT,
+								KeyConstants.ENABLE_AWARD_FNA_VALIDATION),
+						KeyConstants.ENABLED_PARAMETER_VALUE_TWO)){
+			String errorPath = "benefitsRates.rates";
+			errorMap.addToErrorPath(errorPath);
+			AwardBenefitsRatesRuleEvent event = new AwardBenefitsRatesRuleEvent(errorPath,
+					award,
+					awardDocument);
+			valid &= new AwardBenefitsRatesRuleImpl().processBenefitsRatesBusinessRules(event);
+			errorMap.removeFromErrorPath(errorPath);
+		}
+
+		errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+		errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+		return valid;
+	}
+	private boolean processUnitNumberBusinessRule(MessageMap errorMap, AwardDocument awardDocument) {
+		Award award = awardDocument.getAward();
+		errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+		errorMap.addToErrorPath(AWARD_ERROR_PATH);
+
+		boolean success = award.getUnitNumber() != null && award.getUnit() != null;
+		if(!success) {
+			errorMap.putError("unitNumber", "error.award.unitNumber", award.getUnitNumber());
+		}
+
+		errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+		errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+		return success;
+	}
+	private boolean processApprovedForeignTravelBusinessRules(MessageMap errorMap, AwardDocument awardDocument) {
+		boolean success = true;
+		errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+		errorMap.addToErrorPath(AWARD_ERROR_PATH);
+		Award award = awardDocument.getAward();
+		AwardApprovedForeignTravelRule rule = new AwardApprovedForeignTravelRuleImpl();
+		int count = award.getApprovedForeignTravelTrips().size();
+		for (int i = 0; i < count; i++) {
+			String errorPath = String.format("approvedForeignTravelTrips[%d]", i);
+			errorMap.addToErrorPath(errorPath);
+			String errorKey = AWARD_ERROR_PATH_PREFIX + errorPath;
+			AwardApprovedForeignTravelRuleEvent event = new AwardApprovedForeignTravelRuleEvent(errorKey, awardDocument, awardDocument.getAward(),
+					award.getApprovedForeignTravelTrips().get(i));
+			success &= rule.processAwardApprovedForeignTravelBusinessRules(event);
+			errorMap.removeFromErrorPath(errorPath);
+		}
+		errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+		errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+
+		return success;
+	}
+	private boolean processSaveAwardProjectPersonsBusinessRules(MessageMap errorMap, AwardDocument document) {
+		errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+		errorMap.addToErrorPath(AWARD_ERROR_PATH);
+		SaveAwardProjectPersonsRuleEvent event = new SaveAwardProjectPersonsRuleEvent("Project Persons", "projectPersons", document);
+		boolean success = new AwardProjectPersonsSaveRuleImpl().processSaveAwardProjectPersonsBusinessRules(event);
+		errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+		errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+
+		return success;
+	}
+	private boolean processDateBusinessRule(MessageMap errorMap, AwardDocument awardDocument) {
+
+		boolean isTimeAndMoneyDocument = KNSGlobalVariables.getKualiForm() instanceof TimeAndMoneyForm;
+
+		if (isTimeAndMoneyDocument) {
+			TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) KNSGlobalVariables.getKualiForm();
+			TimeAndMoneyAwardDateSaveEvent event = new TimeAndMoneyAwardDateSaveEvent("", timeAndMoneyForm.getTimeAndMoneyDocument());
+			TimeAndMoneyAwardDateSaveRuleImpl rule = new TimeAndMoneyAwardDateSaveRuleImpl();
+			boolean result = rule.processSaveAwardDatesBusinessRules(event);
+			return result;
+
+		} else {
+			Award award = awardDocument.getAward();
+			errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+			errorMap.addToErrorPath(AWARD_ERROR_PATH);
+
+			boolean success = true;
+			int lastIndex = award.getIndexOfLastAwardAmountInfo();
+			// make sure start dates are before end dates
+			Date effStartDate = award.getAwardEffectiveDate();
+			Date effEndDate = award.getAwardAmountInfos().get(lastIndex).getFinalExpirationDate();
+			String awardId = award.getAwardNumber();
+
+
+			Date oblStartDate = award.getAwardAmountInfos().get(lastIndex).getCurrentFundEffectiveDate();
+			Date oblEndDate = award.getAwardAmountInfos().get(lastIndex).getObligationExpirationDate();
+
+			String fieldStarter = "awardAmountInfos["+lastIndex;
+			//String fieldStarter = "awardHierarchyNodeItems["+(lastIndex-1);
+			success = AwardDateRulesHelper.validateProjectStartBeforeProjectEnd(errorMap, effStartDate, effEndDate, fieldStarter+"].finalExpirationDate", awardId) && success;
+			success = AwardDateRulesHelper.validateObligationStartBeforeObligationEnd(errorMap, oblStartDate, oblEndDate, fieldStarter+"].currentFundEffectiveDate", awardId) && success;
+			success = AwardDateRulesHelper.validateProjectStartBeforeObligationStart(errorMap, effStartDate, oblStartDate, fieldStarter+"].currentFundEffectiveDate", awardId) && success;
+			success = AwardDateRulesHelper.validateProjectStartBeforeObligationEnd(errorMap, effStartDate, oblEndDate, fieldStarter+"].obligationExpirationDate", awardId) && success;
+			success = AwardDateRulesHelper.validateObligationStartBeforeProjectEnd(errorMap, oblStartDate, effEndDate, fieldStarter+"].currentFundEffectiveDate", awardId) && success;
+			success = AwardDateRulesHelper.validateObligationEndBeforeProjectEnd(errorMap, oblEndDate, effEndDate, fieldStarter+"].obligationExpirationDate", awardId) && success;
+
+			errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+			errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+			return success;
+		}
 	}
 
 }
