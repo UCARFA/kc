@@ -18,5 +18,5 @@
 --
 
 
-\. ./kc/bootstrap/V1709_002_modular_budget.sql
+\. ./kc/bootstrap/V1709_002__modular_budget.sql
 commit;

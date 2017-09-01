@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* fix (#2512)
+
+  * Gayathri Athreya on Fri, 1 Sep 2017 14:09:46 -0700 [View Commit](../../commit/78cf5c874df2ba8da92fbf4c7b20c19be14c1fc1)
+
+##coeus-1709.0001
 * Modular pr (#2495)
 
 * RESKC-2401: Tufts modular budget calculation customization and tests

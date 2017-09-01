@@ -21,5 +21,5 @@ set define off
 set sqlblanklines on
 
 spool 1709_oracle_kc_rice_server_upgrade.sql.log
-@./rice/bootstrap/V1709_001_modular_budget_params.sql
+@./rice/bootstrap/V1709_001__modular_budget_params.sql
 commit;
