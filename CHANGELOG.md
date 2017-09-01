@@ -1,6 +1,24 @@
 
 
 ##CURRENT
+* Modular pr (#2495)
+
+* RESKC-2401: Tufts modular budget calculation customization and tests
+  * 
+* RESKC-2401: More refactor and tests
+  * 
+* RESKC-2401: Adding SQL
+  * 
+* RESKC-2401: Add feature flag and more clean up
+  * 
+* renamed
+  * Gayathri Athreya on Fri, 1 Sep 2017 13:03:48 -0700 [View Commit](../../commit/12b90ad50bedf7fc11384ee7581e89924f3187d6)
+* RESKC-2318: flyway lambda
+  * Travis Schneeberger on Thu, 31 Aug 2017 17:23:43 -0400 [View Commit](../../commit/4b18bb41d02229627d8d95421b665036b092b42a)
+* RESKC-2186: Updated search criteria and doubled query range to hopefully include some relevant results in most cases.
+  * jeremiah on Thu, 17 Aug 2017 15:10:52 -0500 [View Commit](../../commit/bcaf97de6f351e7e1210385c410fa9053f8b43e8)
+
+##coeus-1708.0041
 * No Changes
 
 
