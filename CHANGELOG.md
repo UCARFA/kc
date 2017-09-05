@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2344: Removed some optimizations in the search function. They aren't currently possible to get the correct results while taking into account permissions and roles.
+  * jeremiah on Tue, 5 Sep 2017 09:50:54 -0500 [View Commit](../../commit/2002ba04ed246402d7588a17b9ccb2ea90fbf197)
+
+##coeus-1709.0003
 * No Changes
 
 
