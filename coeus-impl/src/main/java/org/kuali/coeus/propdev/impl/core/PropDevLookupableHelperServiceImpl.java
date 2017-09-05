@@ -19,7 +19,6 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.docperm.DocumentAccess;
@@ -44,7 +43,6 @@ import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.service.impl.LookupCriteriaGenerator;
@@ -287,33 +285,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     }
 
     protected boolean canAccessAllProposals() {
-        return hasPermissionWithNoUnit() || hasPermissionTopUnitWithDescends() || hasPermissionWithWildcardUnit();
-    }
-
-    protected boolean hasPermissionWithNoUnit() {
-        return permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.MODIFY_PROPOSAL, Collections.emptyMap())
-                || permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.VIEW_PROPOSAL, Collections.emptyMap());
-    }
-
-    protected boolean hasPermissionWithWildcardUnit() {
-        final Map<String, String> qualifiers = new HashedMap<>();
-        qualifiers.put(KcKimAttributes.UNIT_NUMBER, "*");
-        return containsWildcardAttribute(permissionService.getAuthorizedPermissions(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.MODIFY_PROPOSAL, qualifiers), KcKimAttributes.UNIT_NUMBER)
-                || containsWildcardAttribute(permissionService.getAuthorizedPermissions(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.VIEW_PROPOSAL, qualifiers), KcKimAttributes.UNIT_NUMBER);
-    }
-
-    private boolean containsWildcardAttribute(Collection<Permission> perms, String attrName) {
-        if (CollectionUtils.isNotEmpty(perms)) {
-            for (Permission perm : perms) {
-                if (MapUtils.isNotEmpty(perm.getAttributes())) {
-                    final String attrVal = perm.getAttributes().get(attrName);
-                    if ("*".equals(attrVal)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return hasPermissionTopUnitWithDescends();
     }
 
     protected boolean hasPermissionTopUnitWithDescends() {
