@@ -53,6 +53,7 @@ public class AwardInvestigatorDerivedRoleTypeServiceImpl extends AbstractProject
         }
     }
     // KTW - add unit contacts to list
+    /*
     @Override
     protected List<? extends AwardUnitContact> getProjectUnitContacts(Map<String, String> qualification) {
         String awardIdStr = qualification.get(KcKimAttributes.AWARD);
@@ -66,6 +67,7 @@ public class AwardInvestigatorDerivedRoleTypeServiceImpl extends AbstractProject
             return new ArrayList<AwardUnitContact>();
         }
     }
+    */
 
     protected AwardService getAwardService() {
         return awardService;
