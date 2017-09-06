@@ -35,7 +35,7 @@ public abstract class AbstractProjectPersonDerivedRoleTypeServiceImpl extends De
     
     protected abstract List<? extends AbstractProjectPerson> getProjectPersons(Map<String, String> qualification);
     // KTW - Add unit contacts
- //   protected abstract List<? extends AwardUnitContact> getProjectUnitContacts(Map<String, String> qualification);
+    protected abstract List<? extends AwardUnitContact> getProjectUnitContacts(Map<String, String> qualification);
     
     /**
      * Filter the list of negotiation persons by their role. Typically the role name
@@ -63,7 +63,7 @@ public abstract class AbstractProjectPersonDerivedRoleTypeServiceImpl extends De
         List<RoleMembership> members = new ArrayList<RoleMembership>();
         List<? extends AbstractProjectPerson> projectPersons = getProjectPersons(qualification);
         // KTW - Add unit contacts also
-     //   List<? extends AwardUnitContact> projectUnitContacts = getProjectUnitContacts(qualification);
+        List<? extends AwardUnitContact> projectUnitContacts = getProjectUnitContacts(qualification);
 
 
         String subQualification = qualification.get(KcKimAttributes.SUB_QUALIFIER);
@@ -83,13 +83,11 @@ public abstract class AbstractProjectPersonDerivedRoleTypeServiceImpl extends De
                 }
             }
             // KTW - add unit contacts to role
-            /*
             for (AwardUnitContact unitContact : projectUnitContacts) {
                 if (unitContact.getPerson() != null) {
                     members.add( RoleMembership.Builder.create(null, null, unitContact.getPerson().getPersonId(), MemberType.PRINCIPAL, null).build() );
                 }
             }
-            */
         }
             
         return members;
