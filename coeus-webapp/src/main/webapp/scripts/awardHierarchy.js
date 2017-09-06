@@ -122,13 +122,11 @@ function openSelectedAward(requestTracker) {
         }else if(awardStatus == 3){
         	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"Pending\" title=\"Pending\" />";
         }else if(awardStatus == 4){
-        	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"In Closeout\" title=\"Incloseout\" />";
+        	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Terminated\" title=\"Terminated\" />";
         }else if(awardStatus == 5){
         	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Closed\" title=\"Closed\" />";
         }else if(awardStatus == 6){
         	var txtImage = "<img src=\"static/images/award_holding.gif\" alt=\"Hold\" title=\"Hold\" />";
-        }else if(awardStatus == 7){
-            var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"WRAP\" title=\"WRAP\" />";
         }
         
         var index = awardNumber.indexOf("-");
