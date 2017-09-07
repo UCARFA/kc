@@ -251,7 +251,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     
     public void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients) {
         sendNotification(contextName, subject, message, notificationRecipients, null);
-        sendEmailNotification(subject, message, notificationRecipients, null);
     }
 
     public void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients, String docTypeName) {
