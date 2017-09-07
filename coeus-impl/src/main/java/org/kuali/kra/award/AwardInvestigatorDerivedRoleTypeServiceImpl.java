@@ -19,7 +19,6 @@
 package org.kuali.kra.award;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.AbstractProjectPerson;
@@ -46,24 +45,9 @@ public class AwardInvestigatorDerivedRoleTypeServiceImpl extends AbstractProject
         if (StringUtils.isNotBlank(awardIdStr) && awardIdStr.matches("\\d+")) {
             Long awardId = Long.valueOf(awardIdStr);
             Award award = getAwardService().getAward(awardId);
-
             return award.getProjectPersons();
         } else {
             return new ArrayList<AbstractProjectPerson>();
-        }
-    }
-    // KTW - add unit contacts to list
-    @Override
-    protected List<? extends AwardUnitContact> getProjectUnitContacts(Map<String, String> qualification) {
-        String awardIdStr = qualification.get(KcKimAttributes.AWARD);
-
-        if (StringUtils.isNotBlank(awardIdStr) && awardIdStr.matches("\\d+")) {
-            Long awardId = Long.valueOf(awardIdStr);
-            Award award = getAwardService().getAward(awardId);
-
-            return award.getAwardUnitContacts();
-        } else {
-            return new ArrayList<AwardUnitContact>();
         }
     }
 

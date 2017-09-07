@@ -422,8 +422,13 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="awardHierarchyService" ref="awardHierarchyService" />
     </bean>
-    
+    <!-- SJW
     <bean id="awardInvestigatorsRoleTypeService" class="org.kuali.kra.award.AwardInvestigatorDerivedRoleTypeServiceImpl">
+        <property name="awardService" ref="awardService"/>
+    </bean>
+    -->
+    <!-- SJW -->
+    <bean id="awardInvestigatorsRoleTypeService" class="edu.ucar.fanda.kuali.kra.award.UcarAwardInvestigatorDerivedRoleTypeServiceImpl">
         <property name="awardService" ref="awardService"/>
     </bean>
 
