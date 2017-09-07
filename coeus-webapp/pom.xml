@@ -347,7 +347,7 @@
                 <kualiRest.user>admin</kualiRest.user>
                 <kualiRest.password>restapipassword</kualiRest.password>
                 <!-- JDBC -->
-                <jdbcKualiMySQL.url>jdbc:mysql://kcnonprod3.fanda.ucar.edu:33306/coeus</jdbcKualiMySQL.url>
+                <jdbcKualiMySQL.url>jdbc:mysql://localhost:3306/coeus</jdbcKualiMySQL.url>
                 <jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
                 <jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
                 <!--  Tomcat deployment url -->
