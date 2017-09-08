@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Increase build performance for budget rates maintenance
+
+  * Travis Schneeberger on Fri, 8 Sep 2017 15:07:22 -0400 [View Commit](../../commit/f4081dfed02bac53df3fd3716a390d6872430e95)
+
+##coeus-1709.0005
 * No Changes
 
 
