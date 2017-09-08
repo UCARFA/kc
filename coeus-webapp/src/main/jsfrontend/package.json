@@ -17,7 +17,7 @@
     "gulp-aglio": "0.0.10",
     "gulp-rename": "1.2.2",
     "gulp-util": "3.0.7",
-    "webpack": "1.12.14",
+    "webpack": "1.15.0",
     "webpack-dev-server": "1.14.1",
     "markdown-it-anchor": "2.1.0"
   },

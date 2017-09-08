@@ -33,8 +33,8 @@ module.exports = {
 	},
 	module: {
 		loaders: [
-			{test: /\.js/, loader: 'babel-loader'},
-			{test: /\.jsx/, loader: 'babel-loader'}
+			{test: /\.js/, loader: 'babel-loader', 'exclude': /node_modules/},
+			{test: /\.jsx/, loader: 'babel-loader', 'exclude': /node_modules/}
 		]
 	}
 };
