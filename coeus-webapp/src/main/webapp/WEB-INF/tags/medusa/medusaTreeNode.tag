@@ -53,8 +53,8 @@
               <c:set var="statusNm" value="Pending"/>
           </c:when>
           <c:when test="${node.bo.awardStatus.statusCode == 4}">
-              <c:set var="statusImg" value="static/images/award_inactive.gif"/>
-              <c:set var="statusNm" value="Terminated"/>
+              <c:set var="statusImg" value="static/images/award_pending.gif"/>
+              <c:set var="statusNm" value="In Closeout"/>
           </c:when>
           <c:when test="${node.bo.awardStatus.statusCode == 5}">
               <c:set var="statusImg" value="static/images/award_inactive.gif"/>
@@ -63,6 +63,10 @@
           <c:when test="${node.bo.awardStatus.statusCode == 6}">
               <c:set var="statusImg" value="static/images/award_holding.gif"/>
               <c:set var="statusNm" value="Hold"/>
+          </c:when>
+          <c:when test="${node.bo.awardStatus.statusCode == 7}">
+              <c:set var="statusImg" value="static/images/award_pending.gif"/>
+              <c:set var="statusNm" value="WRAP"/>
           </c:when>
           <c:otherwise><c:set var="statusImg" value="static/images/award_inactive.gif"/></c:otherwise>
       </c:choose>
