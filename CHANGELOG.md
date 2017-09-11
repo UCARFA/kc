@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Fixing modular budget base calculation (#2519)
+
+  * Gayathri Athreya on Mon, 11 Sep 2017 14:08:37 -0700 [View Commit](../../commit/94e6feff8c2ecf421a30d7a52fa9a8b88d38fbc1)
+
+##coeus-1709.0006
 * Increase build performance for budget rates maintenance
 
   * Travis Schneeberger on Fri, 8 Sep 2017 15:07:22 -0400 [View Commit](../../commit/f4081dfed02bac53df3fd3716a390d6872430e95)
