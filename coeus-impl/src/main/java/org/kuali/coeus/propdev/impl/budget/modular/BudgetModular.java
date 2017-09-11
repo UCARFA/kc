@@ -203,15 +203,41 @@ public class BudgetModular extends KcPersistableBusinessObjectBase implements Bu
         this.setTotalRequestedCost(requestedCost);
     }
 
-    public void addNewBudgetModularIdc(BudgetModularIdc budgetModularIdc) {
+    public void addNewBudgetModularIdcBaseUnrounded(BudgetModularIdc budgetModularIdc) {
+        budgetModularIdc.setBudgetId(this.getBudgetId());
+        budgetModularIdc.setBudgetPeriod(this.getBudgetPeriod());
+        /*if List <budgetModularIdc> contains the budgetModularIdc being passed with same rate and description, then add its idcBase to that budgetModularIdc.
+         * otherwise add it to the list.
+         */
+        for (BudgetModularIdc currentModularIdc : this.getBudgetModularIdcs()) {
+            if (currentModularIdc.getIdcRate().equals(budgetModularIdc.getIdcRate()) &&
+                    currentModularIdc.getDescription().equals(budgetModularIdc.getDescription())) {
 
+                if (currentModularIdc.getIdcBase() == null) {
+                    currentModularIdc.setIdcBase(budgetModularIdc.getIdcBase());
+                } else {
+                    currentModularIdc.setIdcBase(currentModularIdc.getIdcBase().add(budgetModularIdc.getIdcBase()));
+                }
+                if (currentModularIdc.getFundsRequested() == null) {
+                    currentModularIdc.setFundsRequested(budgetModularIdc.getFundsRequested());
+                } else {
+                    currentModularIdc.setFundsRequested(currentModularIdc.getFundsRequested().add(budgetModularIdc.getFundsRequested()));
+                }
+                return;
+            }
+        }
+        this.getBudgetModularIdcs().add(budgetModularIdc);
+    }
+
+    public void addNewBudgetModularIdcBaseRounded(BudgetModularIdc budgetModularIdc) {
         budgetModularIdc.setBudgetId(getBudgetId());
         budgetModularIdc.setBudgetPeriod(getBudgetPeriod());
         /*if List <budgetModularIdc> contains the budgetModularIdc being passed with same rate and description, then add its idcBase to that budgetModularIdc.
          * otherwise add it to the list.
          */
         for (BudgetModularIdc currentModularIdc : getBudgetModularIdcs()) {
-            if (currentModularIdc.getIdcRate().equals(budgetModularIdc.getIdcRate()) && currentModularIdc.getDescription().equals(budgetModularIdc.getDescription())) {
+            if (currentModularIdc.getIdcRate().equals(budgetModularIdc.getIdcRate()) &&
+                    currentModularIdc.getDescription().equals(budgetModularIdc.getDescription())) {
                 // Just set the IDC base equal to the new value; it's going to get recalculated anyway
                 currentModularIdc.setIdcBase(budgetModularIdc.getIdcBase());
                 if (budgetModularIdc.getStartDate() != null && budgetModularIdc.getStartDate().before(currentModularIdc.getStartDate())) {

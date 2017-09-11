@@ -218,7 +218,11 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                     }
                 }
                 budgetModularIdc.setBudgetModular(budgetModular);
-                budgetModular.addNewBudgetModularIdc(budgetModularIdc);
+                if (roundFandABase) {
+                    budgetModular.addNewBudgetModularIdcBaseRounded(budgetModularIdc);
+                } else {
+                    budgetModular.addNewBudgetModularIdcBaseUnrounded(budgetModularIdc);
+                }
             }
         }
     }
