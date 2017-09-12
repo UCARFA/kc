@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Config changes for quartz clustering (#2518)
+
+* RESKC-2327: Config changes for quartz clustering.
+  * 
+* Making quartz jobs persistable
+  * Gayathri Athreya on Tue, 12 Sep 2017 15:20:23 -0700 [View Commit](../../commit/ae1b10d3c51922981b1c57daf7b975ec303f8e55)
+
+##coeus-1709.0007
 * Fixing modular budget base calculation (#2519)
 
   * Gayathri Athreya on Mon, 11 Sep 2017 14:08:37 -0700 [View Commit](../../commit/94e6feff8c2ecf421a30d7a52fa9a8b88d38fbc1)
