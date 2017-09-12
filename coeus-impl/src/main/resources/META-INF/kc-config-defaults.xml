@@ -145,11 +145,14 @@
 	<!-- End of Exception Incident handling and reporting -->
 
 	<!-- Turn off KEW use of quartz db to avoid db clear issues -->
-	<param name="useQuartzDatabase">false</param>
+	<param name="useQuartzDatabase">true</param>
 
 	<!-- KC quartz table prefix -->
 	<param name="kcQuartzDatabasePrefix">KC_QRTZ_</param>
-	<!-- User the kc batch jobs run as -->
+    <param name="kc.org.quartz.jobStore.isClustered">false</param>
+    <param name="kc.org.quartz.scheduler.instanceId">AUTO</param>
+
+    <!-- User the kc batch jobs run as -->
 	<param name="batchJobUserName">kc</param>
 	
 	<!-- Notification mail properties-->

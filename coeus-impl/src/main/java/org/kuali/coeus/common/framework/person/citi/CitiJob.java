@@ -18,7 +18,10 @@
  */
 package org.kuali.coeus.common.framework.person.citi;
 
-public interface CitiJob {
 
-    void execute();
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+
+public interface CitiJob {
+    void executeInternal(JobExecutionContext context) throws JobExecutionException;
 }

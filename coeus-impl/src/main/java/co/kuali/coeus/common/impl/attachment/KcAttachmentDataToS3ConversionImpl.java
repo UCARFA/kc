@@ -25,6 +25,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import javax.sql.DataSource;
 import java.io.BufferedInputStream;
@@ -39,7 +42,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3Conversion {
+public class KcAttachmentDataToS3ConversionImpl extends QuartzJobBean implements KcAttachmentDataToS3Conversion {
 
     private static final Log LOG = LogFactory.getLog(KcAttachmentDataToS3ConversionImpl.class);
     private static final String QUERY_SQL = "select id, data from file_data where data is not null";
@@ -52,7 +55,7 @@ public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3C
     private DataSource dataSource;
 
     @Override
-    public void execute() {
+    public void executeInternal(JobExecutionContext context) throws JobExecutionException {
         LOG.info("Starting attachment conversion job for file_data to S3");
         boolean hasResults = true;
         while (hasResults) {
@@ -200,4 +203,5 @@ public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3C
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
 }

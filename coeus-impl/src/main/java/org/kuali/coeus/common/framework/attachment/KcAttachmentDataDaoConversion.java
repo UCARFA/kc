@@ -1,6 +1,8 @@
 package org.kuali.coeus.common.framework.attachment;
 
-public interface KcAttachmentDataDaoConversion {
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
-	void execute();
+public interface KcAttachmentDataDaoConversion {
+    void executeInternal(JobExecutionContext context) throws JobExecutionException;
 }

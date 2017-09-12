@@ -11,16 +11,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDaoConversion;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
-public class KcAttachmentDataDaoConversionImpl implements KcAttachmentDataDaoConversion, InitializingBean {
+public class KcAttachmentDataDaoConversionImpl extends QuartzJobBean implements KcAttachmentDataDaoConversion {
 	
 	private static final Log LOG = LogFactory.getLog(KcAttachmentDataDaoConversionImpl.class);
-	
-	@Autowired
-	@Qualifier("kcAttachmentDataDao")
+
 	private KcAttachmentDataDao kcAttachmentDataDao;
 	
 	private String tableName;
@@ -40,12 +41,21 @@ public class KcAttachmentDataDaoConversionImpl implements KcAttachmentDataDaoCon
 	 */
 	private String updateSql;
 
-	@Override
-	public void execute() {
+    @Override
+    public void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		LOG.info("Starting attachment conversion job for " + tableName);
+
+        if (querySql == null) {
+            querySql = "select " + primaryKeyColumn + ", " + blobColumn + " from " + tableName + " where " + blobColumn + " is not null";
+        }
+        if (updateSql == null) {
+            updateSql = "update " + tableName + " set " + fileDataIdColumn + " = ?, " + blobColumn + " = null where " + primaryKeyColumn + " = ?";
+        }
+
 		boolean hasResults = true;
 		while (hasResults) {
 			try (Connection conn = dataSource.getConnection();
+
 				PreparedStatement queryStmt = conn.prepareStatement(querySql);
 				PreparedStatement updateStmt = conn.prepareStatement(updateSql);) {
 				conn.setAutoCommit(false);
@@ -82,16 +92,6 @@ public class KcAttachmentDataDaoConversionImpl implements KcAttachmentDataDaoCon
 		}
 		LOG.info("Finishing attachment conversion job for " + tableName);
 	}
-	
-    @Override
-    public void afterPropertiesSet() throws Exception {
-    	if (querySql == null) {
-    		querySql = "select " + primaryKeyColumn + ", " + blobColumn + " from " + tableName + " where " + blobColumn + " is not null";
-    	}
-    	if (updateSql == null) {
-    		updateSql = "update " + tableName + " set " + fileDataIdColumn + " = ?, " + blobColumn + " = null where " + primaryKeyColumn + " = ?";
-    	}
-    }
 
 	public KcAttachmentDataDao getKcAttachmentDataDao() {
 		return kcAttachmentDataDao;
@@ -164,5 +164,6 @@ public class KcAttachmentDataDaoConversionImpl implements KcAttachmentDataDaoCon
 	public void setFetchSize(Integer fetchSize) {
 		this.fetchSize = fetchSize;
 	}
+
 
 }
