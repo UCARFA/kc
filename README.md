@@ -239,8 +239,8 @@ This section contains some useful information about configuring the Kuali Resear
   [3]: https://tomcat.apache.org/download-70.cgi
   [4]: http://dev.mysql.com/downloads/mysql/
   [5]: http://git-scm.com/downloads
-  [6]: http://mvnrepository.com/artifact/org.springframework/spring-instrument-tomcat/3.2.13.RELEASE
-  [7]: http://mvnrepository.com/artifact/org.springframework/spring-instrument/3.2.13.RELEASE
+  [6]: http://mvnrepository.com/artifact/org.springframework/spring-instrument-tomcat/4.3.10.RELEASE
+  [7]: http://mvnrepository.com/artifact/org.springframework/spring-instrument/4.3.10.RELEASE
   [8]: http://www.graphviz.org/Download..php
   [9]: https://github.com/google/error-prone
   [10]: https://github.com/apiaryio/drafter/wiki/Building-on-Windows

@@ -160,8 +160,6 @@
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>2.20</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.1.0</maven-war-plugin.version>
-        <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
-        <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
         <xmlbeans-maven-plugin.version>2.3.3</xmlbeans-maven-plugin.version>
 
         <db.groupId>${mysql.groupId}</db.groupId>
@@ -421,12 +419,6 @@
                             </manifestEntries>
                         </archive>
                     </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.tomcat.maven</groupId>
-                    <artifactId>tomcat7-maven-plugin</artifactId>
-                    <version>${tomcat7-maven-plugin.version}</version>
                 </plugin>
 
                 <plugin>
