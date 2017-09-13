@@ -35,9 +35,6 @@
 
     <properties>
 
-        <!-- tomcat properties -->
-        <kc.context.path>/kc-${build.environment}</kc.context.path>
-        <kc.port>8080</kc.port>
 		<jsfrontend.sources>src/main/jsfrontend</jsfrontend.sources>
         <generated.web.sources>${project.build.directory}/generated-web-sources</generated.web.sources>
         <help.web.sources>${project.build.directory}/generated-web-sources/help-web-sources</help.web.sources>
@@ -168,31 +165,6 @@
                             <directory>${rice.web.sources}</directory>
                         </resource>
                     </webResources>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>${db.groupId}</groupId>
-                        <artifactId>${db.artifactId}</artifactId>
-                        <version>${db.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-instrument-tomcat</artifactId>
-                        <version>${spring.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <classLoaderClass>org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader</classLoaderClass>
-                    <port>${kc.port}</port>
-                    <path>${kc.context.path}</path>
-                    <addWarDependenciesInClassloader>false</addWarDependenciesInClassloader>
                 </configuration>
             </plugin>
         </plugins>
