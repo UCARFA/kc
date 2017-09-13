@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2505: Remove tomcat7 plugin, updating docs to reflect dependency changes
+  * Travis Schneeberger on Wed, 13 Sep 2017 10:03:02 -0400 [View Commit](../../commit/00a3f9b06b47877d8c5d9c521b010078a37bb739)
+
+##coeus-1709.0008
 * Config changes for quartz clustering (#2518)
 
 * RESKC-2327: Config changes for quartz clustering.
