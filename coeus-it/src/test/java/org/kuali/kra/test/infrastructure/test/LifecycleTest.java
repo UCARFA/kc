@@ -56,4 +56,26 @@ public class LifecycleTest extends KcIntegrationTestBase {
         Thread.sleep(3000);
     }
 
+
+    @Test
+    public void testServerHelpPage() throws Throwable {
+        URL url = new URL(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + KcIntegrationTestBaseLifecycle.getPort() + "/" + PORTAL_ADDRESS + "/static/help/KC%206-index.htm");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        int responseCode = connection.getResponseCode();
+        connection.disconnect();
+        assertTrue("Help artifacts not loaded", responseCode == 200);
+        //wait for a little while before shutting down the server
+        Thread.sleep(3000);
+    }
+
+    @Test
+    public void testServerRicePage() throws Throwable {
+        URL url = new URL(BROWSER_PROTOCOL + "://" + BROWSER_ADDRESS + ":" + KcIntegrationTestBaseLifecycle.getPort() + "/" + PORTAL_ADDRESS + "/kim/index.jsp");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        int responseCode = connection.getResponseCode();
+        connection.disconnect();
+        assertTrue("Rice artifacts not loaded", responseCode == 200);
+        //wait for a little while before shutting down the server
+        Thread.sleep(3000);
+    }
 }

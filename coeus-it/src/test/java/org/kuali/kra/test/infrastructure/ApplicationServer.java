@@ -21,16 +21,16 @@ package org.kuali.kra.test.infrastructure;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.LifecycleState;
+import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.webresources.StandardRoot;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.naming.resources.VirtualDirContext;
+import org.apache.tomcat.util.scan.StandardJarScanner;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
-
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class ApplicationServer implements Lifecycle {
 
@@ -70,23 +70,24 @@ public class ApplicationServer implements Lifecycle {
 
         final String webappRoot = System.getProperty(BASEDIR) + File.separator + relativeWebappRoot;
         context = server.addWebapp(contextName, webappRoot);
-
-        final String extraPaths = relativeExtraResourceDirs.stream().map(root -> System.getProperty(BASEDIR) + File.separator + root).collect(Collectors.joining(","));
-        final VirtualDirContext resources = new VirtualDirContext();
-        resources.setExtraResourcePaths(extraPaths);
-        resources.setDocBase(webappRoot);
+        final StandardRoot resources = new StandardRoot(context);
+        relativeExtraResourceDirs.stream()
+                .map(root -> System.getProperty(BASEDIR) + File.separator + root)
+                .forEach(dir -> resources.createWebResourceSet(WebResourceRoot.ResourceSetType.POST, "/", dir, null, "/"));
         context.setResources(resources);
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                try {
-                    server.stop();
-                } catch (LifecycleException e) {
-                    throw new RuntimeException("Unable to stop tomcat");
-                }
+        StandardJarScanner jarScanner = new StandardJarScanner();
+        jarScanner.setScanManifest(false);
+        context.setJarScanner(jarScanner);
+        context.setAddWebinfClassesResources(true);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                server.stop();
+            } catch (LifecycleException e) {
+                throw new RuntimeException("Unable to stop tomcat");
             }
-        });
+        }));
 
         server.start();
 	}

@@ -153,9 +153,9 @@ mvn clean install -Dgrm.off=true -Poracle
 mvn clean install -Dgrm.off=true -Pitests
 ```
 
-> **Precompile jsps:** This precompiles the Kuali Research jsps for Tomcat 7.  This is useful to verify the absence of compile errors in jsps while the Kuali Research Application is being built.  Precompilation also helps the initial page load time for all jsps.
+> **Precompile jsps:** This precompiles the Kuali Research jsps for Tomcat 8.  This is useful to verify the absence of compile errors in jsps while the Kuali Research Application is being built.  Precompilation also helps the initial page load time for all jsps.
 ```
-mvn clean install -Dgrm.off=true -Pprecompile-jsp-tomcat-7
+mvn clean install -Dgrm.off=true -Pprecompile-jsp-tomcat-8
 ```
 
 > **Include Mysql Driver:** This adds the mysql driver to the classpath and is on by default.  This profile can be turned off by sending the following system parameter grm.off on the command line.

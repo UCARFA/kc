@@ -81,4 +81,6 @@
         </property>
     </bean>
 
+    <bean class="co.kuali.coeus.sys.impl.shutdown.GrmGracefulShutdown"/>
+
 </beans>
