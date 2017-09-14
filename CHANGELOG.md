@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1709.0012
 * RESKC-2367: making sure the quartz job can only execute once
   * Travis Schneeberger on Thu, 14 Sep 2017 15:28:22 -0400 [View Commit](../../commit/2db7a240c666b470e5bbddfc9c470972ec2bc31e)
 * RESKC-2525: making our logging a bit more quiet
