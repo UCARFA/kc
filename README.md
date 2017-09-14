@@ -5,11 +5,11 @@ Kuali Research (KC) for Research Administration is a comprehensive system to man
 ----------
 ##**Installation**
 **Prerequisites**
-[Maven 3.3.x][1]
+[Maven 3.5.x][1]
 [Java 1.8.x][2]
-[Tomcat 7.x][3]
+[Tomcat 8.5][3]
 [MySQL 5.6.x][4]
-[Git 2.4.x][5]
+[Git 2.13.x][5]
 
 **Instructions**
 The Kuali Research application uses Apache Maven as it's build tool.  Inside of Kuali Research's Maven configuration is a list of dependencies.  Some of these dependencies may not be available in a publicly available Maven repository.  At the very least you will need to install the following projects into your maven repo.  These projects may have more than one submodule.
@@ -153,9 +153,9 @@ mvn clean install -Dgrm.off=true -Poracle
 mvn clean install -Dgrm.off=true -Pitests
 ```
 
-> **Precompile jsps:** This precompiles the Kuali Research jsps for Tomcat 7.  This is useful to verify the absence of compile errors in jsps while the Kuali Research Application is being built.  Precompilation also helps the initial page load time for all jsps.
+> **Precompile jsps:** This precompiles the Kuali Research jsps for Tomcat 8.  This is useful to verify the absence of compile errors in jsps while the Kuali Research Application is being built.  Precompilation also helps the initial page load time for all jsps.
 ```
-mvn clean install -Dgrm.off=true -Pprecompile-jsp-tomcat-7
+mvn clean install -Dgrm.off=true -Pprecompile-jsp-tomcat-8
 ```
 
 > **Include Mysql Driver:** This adds the mysql driver to the classpath and is on by default.  This profile can be turned off by sending the following system parameter grm.off on the command line.
@@ -183,10 +183,14 @@ For example, we currently have a dependency on a node project called drafter tha
 
 **Step 8: Install Spring Instrumentation**
 
-***For Tomcat***: 
+***For Tomcat 8 and Tomcat 8.5***: 
+
+    Nothing to do.
+
+***For Tomcat 7***: 
 	[Download][6] and install tomcat spring instrumentation in the tomcat lib directory
     Configure the tomcat spring instrumenting classloader in the tomcat context.xml file
-    
+
 ```
 <Context>
     <!-- ...snip... -->
@@ -236,7 +240,7 @@ This section contains some useful information about configuring the Kuali Resear
 
   [1]: http://maven.apache.org/download.cgi
   [2]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
-  [3]: https://tomcat.apache.org/download-70.cgi
+  [3]: https://tomcat.apache.org/download-80.cgi
   [4]: http://dev.mysql.com/downloads/mysql/
   [5]: http://git-scm.com/downloads
   [6]: http://mvnrepository.com/artifact/org.springframework/spring-instrument-tomcat/4.3.10.RELEASE

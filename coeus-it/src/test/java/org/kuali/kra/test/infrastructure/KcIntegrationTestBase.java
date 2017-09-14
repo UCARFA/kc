@@ -66,7 +66,7 @@ public class KcIntegrationTestBase implements KcIntegrationTestMethodAware {
         logBeforeRun();
         LIFECYCLE.startPerTest(true);
         GlobalVariables.setMessageMap(new MessageMap());
-        GlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
+        GlobalVariables.setAuditErrorMap(new HashMap<>());
         final UserSession userSession = new UserSession(DEFAULT_USER);
         userSession.setKualiSessionId(UUID.randomUUID().toString());
         GlobalVariables.setUserSession(userSession);
@@ -79,7 +79,7 @@ public class KcIntegrationTestBase implements KcIntegrationTestMethodAware {
     @After
     public final void baseAfterTest() {
         GlobalVariables.setMessageMap(new MessageMap());
-        GlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
+        GlobalVariables.setAuditErrorMap(new HashMap<>());
         GlobalVariables.setUserSession(null);
         LIFECYCLE.stopPerTest();
         logAfterRun();
