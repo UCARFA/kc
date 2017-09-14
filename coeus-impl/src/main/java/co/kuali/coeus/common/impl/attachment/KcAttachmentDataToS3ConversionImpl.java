@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -42,6 +43,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
+@DisallowConcurrentExecution
 public class KcAttachmentDataToS3ConversionImpl extends QuartzJobBean implements KcAttachmentDataToS3Conversion {
 
     private static final Log LOG = LogFactory.getLog(KcAttachmentDataToS3ConversionImpl.class);
