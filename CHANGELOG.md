@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-2367: making sure the quartz job can only execute once
+  * Travis Schneeberger on Thu, 14 Sep 2017 15:28:22 -0400 [View Commit](../../commit/2db7a240c666b470e5bbddfc9c470972ec2bc31e)
+* RESKC-2525: making our logging a bit more quiet
+  * Travis Schneeberger on Thu, 14 Sep 2017 14:49:33 -0400 [View Commit](../../commit/61271a0f51c11a890b95939a1952f77072a97223)
+
+##coeus-1709.0011
 * RESKC-2505: update config verifier and README.md to reflect Tomcat 8 support
   * Travis Schneeberger on Thu, 14 Sep 2017 10:34:53 -0400 [View Commit](../../commit/a5916b97788a171790796170ec2511ae800005f3)
 * RESKC-2505: switch precompile profile to use tomcat 8 compiler, switch integration tests to use tomcat 8
