@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-2505: update config verifier and README.md to reflect Tomcat 8 support
+  * Travis Schneeberger on Thu, 14 Sep 2017 10:34:53 -0400 [View Commit](../../commit/a5916b97788a171790796170ec2511ae800005f3)
+* RESKC-2505: switch precompile profile to use tomcat 8 compiler, switch integration tests to use tomcat 8
+  * Travis Schneeberger on Thu, 14 Sep 2017 08:54:08 -0400 [View Commit](../../commit/22409f8806f4e1fa51be18c7140fb38831adf714)
+
+##coeus-1709.0009
 * RESKC-2505: Remove tomcat7 plugin, updating docs to reflect dependency changes
   * Travis Schneeberger on Wed, 13 Sep 2017 10:03:02 -0400 [View Commit](../../commit/00a3f9b06b47877d8c5d9c521b010078a37bb739)
 
