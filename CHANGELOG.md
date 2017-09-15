@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2524: adding oracle-only function index for principal name
+  * Travis Schneeberger on Fri, 15 Sep 2017 13:39:25 -0400 [View Commit](../../commit/1398373c24c3de82ead9bf8b8b2cfff83130bcb7)
+
+##coeus-1709.0016
 * RESKC-2524: add missing attachment indexes
   * Travis Schneeberger on Fri, 15 Sep 2017 12:19:26 -0400 [View Commit](../../commit/149fe616e25de7a3bd70681c2e03b33c6b9a0d91)
 
