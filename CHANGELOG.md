@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1709.0017
 * RESKC-2524: adding oracle-only function index for principal name
   * Travis Schneeberger on Fri, 15 Sep 2017 13:39:25 -0400 [View Commit](../../commit/1398373c24c3de82ead9bf8b8b2cfff83130bcb7)
 
