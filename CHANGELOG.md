@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2524: add missing attachment indexes
+  * Travis Schneeberger on Fri, 15 Sep 2017 12:19:26 -0400 [View Commit](../../commit/149fe616e25de7a3bd70681c2e03b33c6b9a0d91)
+
+##coeus-1709.0015
 * No Changes
 
 
