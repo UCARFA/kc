@@ -396,6 +396,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
             if (StringUtils.equals(proposalPerson.getPersonId(),selectedPersonId)) {
                 proposalPerson.setQuestionnaireHelper(form.getProposalPersonQuestionnaireHelper());
+                proposalPerson.setCertifiedBy(getGlobalVariableService().getUserSession().getPrincipalId());
+                proposalPerson.setCertifiedTime(getDateTimeService().getCurrentTimestamp());
             }
         }
         final ModelAndView modelAndView = super.save(form);
