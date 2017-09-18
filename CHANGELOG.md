@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2513: adding certification message
+  * Travis Schneeberger on Mon, 18 Sep 2017 16:48:26 -0400 [View Commit](../../commit/5d8a056e0d9f76b8edb0955ab1b64a405584a506)
+
+##coeus-1709.0018
 * No Changes
 
 
