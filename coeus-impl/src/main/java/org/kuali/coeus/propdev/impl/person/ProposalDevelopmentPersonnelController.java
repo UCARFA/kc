@@ -38,6 +38,7 @@ import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public static final String CERTIFY_NOTIFICATION = "Certify Notification";
     public static final String PERSON_ROLE = "personRole";
 	public static final String CERTIFICATION_ACTION_TYPE_COI = "107";
+    private static final String INFO_PROPOSAL_CERTIFIED = "info.proposal.certified";
+
     @Autowired
     @Qualifier("wizardControllerService")
     private WizardControllerService wizardControllerService;
@@ -395,7 +398,13 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
                 proposalPerson.setQuestionnaireHelper(form.getProposalPersonQuestionnaireHelper());
             }
         }
-        return super.save(form);
+        final ModelAndView modelAndView = super.save(form);
+
+        if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
+            getGlobalVariableService().getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, INFO_PROPOSAL_CERTIFIED);
+        }
+
+        return modelAndView;
     }
 
     private enum MoveOperationEnum {
