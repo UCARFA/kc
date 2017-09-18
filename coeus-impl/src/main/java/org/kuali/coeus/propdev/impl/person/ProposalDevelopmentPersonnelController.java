@@ -145,16 +145,14 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-PersonnelPage"})
     public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, 
     		HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-    	ModelAndView mv = super.save(form);
-    	return mv;
+        return super.save(form);
     }
 
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performPersonnelSearch")
    public ModelAndView performPersonnelSearch(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        form.getAddKeyPersonHelper().getResults().clear();
-       List<Object> results = new ArrayList<Object>();
+       List<Object> results = new ArrayList<>();
 
        for (Object object : getWizardControllerService().performWizardSearch(form.getAddKeyPersonHelper().getLookupFieldValues(),form.getAddKeyPersonHelper().getLineType())) {
            WizardResultsDto wizardResult = (WizardResultsDto) object;
@@ -174,7 +172,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        ProposalPerson newProposalPerson = new ProposalPerson();
        for (Object object : form.getAddKeyPersonHelper().getResults()) {
            WizardResultsDto wizardResult = (WizardResultsDto) object;
-           if (wizardResult.isSelected() == true) {
+           if (wizardResult.isSelected()) {
                if (wizardResult.getKcPerson() != null) {
                    newProposalPerson.setPersonId(wizardResult.getKcPerson().getPersonId());
                    newProposalPerson.setFullName(wizardResult.getKcPerson().getFullName());
@@ -197,7 +195,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
            return reportKeyPersonError(form);
        }
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
-       Collections.sort(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons(), new ProposalPersonRoleComparator());
+       form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons().sort(ProposalPersonRoleComparator.INSTANCE);
        form.getAddKeyPersonHelper().reset();
        form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATEPAGE.getKey());
        super.save(form);
@@ -266,8 +264,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 		   }
 	   }
 	   saveAnswerHeaders(pdForm,request.getParameter(UifParameters.PAGE_ID));
-	   ModelAndView mv = this.save(pdForm, result, request, response);
-	   return mv;
+        return this.save(pdForm, result, request, response);
    }
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certificationToggle")
     public ModelAndView certificationToggle(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
@@ -415,12 +412,12 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 
         private int offset;
 
-        private MoveOperationEnum(int offset) {
+        MoveOperationEnum(int offset) {
             this.offset = offset;
         }
 
         public int getOffset() { return offset; }
-    };
+    }
 
     private void swapAdjacentPersonnel(List<ProposalPerson> keyPersonnel, int index1, MoveOperationEnum op) {
         ProposalPerson movingPerson = keyPersonnel.get(index1);
@@ -458,8 +455,11 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     }
 
 	public static class ProposalPersonRoleComparator implements Comparator<ProposalPerson> {
-		@Override
-		public int compare(ProposalPerson person1, ProposalPerson person2) {
+
+        private static final Comparator<ProposalPerson> INSTANCE = new ProposalPersonRoleComparator();
+
+        @Override
+        public int compare(ProposalPerson person1, ProposalPerson person2) {
 			int retval = 0;
 			if (person1.isInvestigator() || person2.isInvestigator()) {
 				if (person1.isPrincipalInvestigator() || person2.isPrincipalInvestigator()) {
