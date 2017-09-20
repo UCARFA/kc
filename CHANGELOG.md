@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* RESKC-2532: Fix full award hierarchy view as opened from Award Actions -> Award hierarchy -> Open Document link (#2532)
+
+  * Upon opening page will throw a partial page with a 500 status code and the following exception will appear in the logs.
+  * 
+  * org.apache.jasper.el.JspPropertyNotFoundException: /WEB-INF/jsp/award/AwardHierarchyFullView.jsp(78,1) '${KualiForm.awardHierarchyBean.hierarchy}' Property 'hierarchy' not found on type org.kuali.kra.award.awardhierarchy.AwardHierarchyBean  * Douglas Pace on Wed, 20 Sep 2017 10:46:02 -0700 [View Commit](../../commit/b666644fa98c9409efcf8d5a1b1a4aa56b1ea181)
+* RESKC-2523: adding create date to lookups & results
+  * Travis Schneeberger on Wed, 20 Sep 2017 13:44:25 -0400 [View Commit](../../commit/9688bc7669e36a1855527278aaf8fcc2253f6986)
+
+##coeus-1709.0021
 * RESKC-2513: adding certification message only when cert is complete
   * Travis Schneeberger on Wed, 20 Sep 2017 11:35:30 -0400 [View Commit](../../commit/75ecc0886fb1d1508debd65adc7aa517fc3567c0)
 
