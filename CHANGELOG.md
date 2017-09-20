@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2523: adding create date to lookups & results
+  * Travis Schneeberger on Wed, 20 Sep 2017 15:02:34 -0400 [View Commit](../../commit/7bc1d150bd9ba0d760df446d3626d4d750511560)
+
+##coeus-1709.0022
 * RESKC-2532: Fix full award hierarchy view as opened from Award Actions -> Award hierarchy -> Open Document link (#2532)
 
   * Upon opening page will throw a partial page with a 500 status code and the following exception will appear in the logs.
