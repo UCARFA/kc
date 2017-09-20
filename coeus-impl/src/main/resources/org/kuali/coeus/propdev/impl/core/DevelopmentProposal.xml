@@ -77,6 +77,7 @@
 				<ref bean="DevelopmentProposal-opportunityIdForGG" />
 				<ref bean="DevelopmentProposal-agencyRoutingIdentifier" />
 				<ref bean="DevelopmentProposal-prevGrantsGovTrackingID" />
+				<ref bean="DevelopmentProposal-createTimestamp"/>
 			</list>
 		</property>
 		<property name="collections">
@@ -1116,6 +1117,20 @@
     <property name="description" value="Prev Grants.Gov Tracking ID "/>
 	</bean>
 
+	<bean id="DevelopmentProposal-createTimestamp" parent="DevelopmentProposal-createTimestamp-parentBean"/>
+	<bean id="DevelopmentProposal-createTimestamp-parentBean" abstract="true"
+		  parent="AttributeReferenceDummy-genericDate">
+		<property name="name" value="createTimestamp"/>
+		<property name="label" value="Proposal Create Date"/>
+		<property name="shortLabel" value="Proposal Create Date"/>
+		<property name="controlField">
+			<bean parent="Uif-DateControl" p:size="12"/>
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+		<property name="summary" value="Proposal Create Date"/>
+		<property name="description" value="Proposal Create Date"/>
+	</bean>
+
 	<!-- Business Object Lookup Definition -->
 	<bean id="DevelopmentProposal-lookupDefinition" parent="DevelopmentProposal-lookupDefinition-parentBean" />
   <bean id="DevelopmentProposal-LookupView" parent="DevelopmentProposal-LookupView-parentBean"/>
@@ -1145,6 +1160,7 @@
 				<bean parent="FieldDefinition" p:attributeName="opportunityIdForGG" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatus" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -1167,6 +1183,7 @@
 				<bean parent="FieldDefinition" p:attributeName="opportunityIdForGG" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatusName" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
 			</list>
 		</property>
 	</bean>
@@ -1272,6 +1289,7 @@
         <bean p:propertyName="currentAwardNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="programAnnouncementNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="hierarchyStatus" parent="Uif-LookupCriteriaInputField"/>
+		  <bean p:propertyName="createTimestamp" parent="Uif-LookupCriteriaInputField" p:ranged="true"/>
       </list>
     </property>
     <property name="resultFields">
@@ -1318,6 +1336,7 @@
         <bean p:propertyName="deadlineDate" parent="Uif-DataField"/>
         <bean p:propertyName="programAnnouncementNumber" parent="Uif-DataField"/>
         <bean p:propertyName="hierarchyStatusName" parent="Uif-DataField"/>
+		  <bean p:propertyName="createTimestamp" parent="Uif-DataField"/>
       </list>
     </property>
 	  <property name="resultsGroup.useServerPaging" value="true"/>
@@ -1385,6 +1404,7 @@
         <bean p:propertyName="opportunityIdForGG" parent="Uif-LookupCriteriaInputField" p:order="100"/>
         <bean p:propertyName="hierarchyStatus" parent="Uif-LookupCriteriaInputField" p:order="110"/>
         <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-LookupCriteriaInputField" p:order="120"/>
+		  <bean p:propertyName="createTimestamp" parent="Uif-LookupCriteriaInputField" p:ranged="true" p:order="130"/>
       </list>
   </property>
        </bean>  
