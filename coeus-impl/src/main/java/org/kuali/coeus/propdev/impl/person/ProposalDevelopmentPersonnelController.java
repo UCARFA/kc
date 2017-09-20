@@ -32,6 +32,7 @@ import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotification
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.person.PersonTypeConstants;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -390,20 +391,30 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @MethodAccessible @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certifyAnswers")
     public ModelAndView certifyAnswers(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         String selectedPersonId = form.getProposalPersonQuestionnaireHelper().getProposalPerson().getPersonId();
+        ProposalPersonQuestionnaireHelper helper = null;
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
             if (StringUtils.equals(proposalPerson.getPersonId(),selectedPersonId)) {
+                helper = proposalPerson.getQuestionnaireHelper();
                 proposalPerson.setQuestionnaireHelper(form.getProposalPersonQuestionnaireHelper());
-                proposalPerson.setCertifiedBy(getGlobalVariableService().getUserSession().getPrincipalId());
-                proposalPerson.setCertifiedTime(getDateTimeService().getCurrentTimestamp());
             }
         }
         final ModelAndView modelAndView = super.save(form);
 
-        if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
+        if (isQuestionnairesCompleted(helper) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
             getGlobalVariableService().getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, INFO_PROPOSAL_CERTIFIED);
         }
 
         return modelAndView;
+    }
+
+    public boolean isQuestionnairesCompleted(ProposalPersonQuestionnaireHelper helper) {
+        boolean retVal = true;
+        if (helper != null && helper.getAnswerHeaders() != null) {
+            for (AnswerHeader ah : helper.getAnswerHeaders()) {
+                retVal &= ah.isCompleted();
+            }
+        }
+        return retVal;
     }
 
     private enum MoveOperationEnum {
