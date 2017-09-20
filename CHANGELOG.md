@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2513: adding certification message only when cert is complete
+  * Travis Schneeberger on Wed, 20 Sep 2017 11:35:30 -0400 [View Commit](../../commit/75ecc0886fb1d1508debd65adc7aa517fc3567c0)
+
+##coeus-1709.0020
 * RESKC-2513: adding certification details from certification notification
   * Travis Schneeberger on Mon, 18 Sep 2017 17:06:47 -0400 [View Commit](../../commit/bb678079291a5aaf59169a603bfd98c4ee07bedf)
 
