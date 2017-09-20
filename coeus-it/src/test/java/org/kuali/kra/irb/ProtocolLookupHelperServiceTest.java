@@ -53,7 +53,7 @@ public class ProtocolLookupHelperServiceTest extends ProtocolLookupHelperService
     /**
      * Count of all lookup rows, including one row for all hidden non-lookup fields
      */
-    private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 23;
+    private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 25;
 
     ProtocolLookupableHelperServiceImpl protocolLookupableHelperServiceImpl;
     
