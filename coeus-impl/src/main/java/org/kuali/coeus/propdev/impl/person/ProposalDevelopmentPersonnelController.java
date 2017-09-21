@@ -67,6 +67,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public static final String PERSON_ROLE = "personRole";
 	public static final String CERTIFICATION_ACTION_TYPE_COI = "107";
     private static final String INFO_PROPOSAL_CERTIFIED = "info.proposal.certified";
+    private static final String WARN_PROPOSAL_CERTIFIED = "warn.proposal.not.certified";
 
     @Autowired
     @Qualifier("wizardControllerService")
@@ -345,20 +346,12 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public ModelAndView sendAllCertificationNotifications(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         int index = 0;
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
-            if (proposalPerson.isSelectedPerson() && !isCertificationComplete(proposalPerson) ) {
+            if (proposalPerson.isSelectedPerson() && !isQuestionnairesCompleted(proposalPerson.getQuestionnaireHelper())) {
                     sendPersonNotification(form, String.valueOf(index));
             }
             index++;
         }
         return super.save(form);
-    }
-
-    protected boolean isCertificationComplete(ProposalPerson proposalPerson) {
-        boolean certificationComplete = true;
-        for (AnswerHeader answerHeader : proposalPerson.getQuestionnaireHelper().getAnswerHeaders()) {
-            certificationComplete &= answerHeader.isCompleted();
-        }
-        return certificationComplete;
     }
 
     public void sendPersonNotification(ProposalDevelopmentDocumentForm form, String selectedLine) throws Exception {
@@ -402,6 +395,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 
         if (isQuestionnairesCompleted(helper) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
             getGlobalVariableService().getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, INFO_PROPOSAL_CERTIFIED);
+        } else if (!isQuestionnairesCompleted(helper)) {
+            getGlobalVariableService().getMessageMap().putWarning(KRADConstants.GLOBAL_MESSAGES, WARN_PROPOSAL_CERTIFIED);
         }
 
         return modelAndView;
