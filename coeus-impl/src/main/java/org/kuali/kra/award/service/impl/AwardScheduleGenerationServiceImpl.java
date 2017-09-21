@@ -93,7 +93,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         int index = 0;
         for(AwardReportTerm awardReportTerm: awardReportTerms){
             if(canGenerateSchedules(awardReportTerm, isThisNotPaymentPanel)){                
-                dates.addAll(getDates(awardReportTerm, mapOfDates, index));
+                dates.addAll(getDatesWithForward(awardReportTerm, mapOfDates, index));
             }
             index++;
         }
@@ -141,10 +141,11 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
                 if (endDate.before(startDate)) {
                     endDate = startDate;
                 }
-                ScheduleSequence scheduleSequence = new XMonthlyScheduleSequenceDecorator(
+                     ScheduleSequence scheduleSequence = new XMonthlyScheduleSequenceDecorator(
                     new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()), awardReportTerm.getFrequency()
                             .getNumberOfMonths());
-                dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt(ZERO_HOURS), scheduleSequence,
+
+                    dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt(ZERO_HOURS), scheduleSequence,
                         calendar.get(Calendar.DAY_OF_MONTH));
             }
             else {
@@ -154,6 +155,77 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         
         return dates;
     }
+
+    /**
+     * This is a helper method. This method calls evaluates the frequency and frequency base and generates dates either by calling the scheduling service or
+     * without that.
+     *
+     * @param awardReportTerm
+     * @param index TODO
+     * @return
+     * @throws ParseException
+     */
+    protected List<Date> getDatesWithForward(AwardReportTerm awardReportTerm, Map<String, java.util.Date> mapOfDates, int index) throws ParseException {
+        List<Date> dates = new ArrayList<Date>();
+        java.util.Date startDate;
+        java.util.Date endDate = null;
+        Calendar calendar = new GregorianCalendar();
+        final String SF_269_EXPENDITURE_REPORT_CODE = "33";
+        final String FREQUENCY_ANNUAL = "Annual";
+        if (awardReportTerm.getReportCode().equalsIgnoreCase(SF_269_EXPENDITURE_REPORT_CODE)
+                && awardReportTerm.getFrequencyBaseCode().equalsIgnoreCase(
+                FrequencyBaseConstants.AWARD_EXPIRATION_DATE_OF_OBLIGATION.getfrequencyBase())
+                && awardReportTerm.getFrequency().getDescription().equalsIgnoreCase(FREQUENCY_ANNUAL)
+                && (mapOfDates.get(FrequencyBaseConstants.AWARD_EXPIRATION_DATE_OF_OBLIGATION.getfrequencyBase()) != null)) {
+            calendar.setTime(mapOfDates.get(FrequencyBaseConstants.AWARD_EXPIRATION_DATE_OF_OBLIGATION.getfrequencyBase()));
+            startDate = calendar.getTime();
+        }
+        else {
+            startDate = getStartDate(awardReportTerm, mapOfDates);
+        }
+        if (StringUtils.isNotBlank(awardReportTerm.getFrequencyBaseCode())) {
+            endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate, mapOfDates);
+        }
+
+        if (startDate != null && endDate != null) {
+            calendar.setTime(startDate);
+            if (awardReportTerm.getFrequency().getRepeatFlag()
+                    && awardReportTerm.getFrequency().getNumberOfMonths() != null) {
+                //if the end date is before the start date, set the end date to the start date
+                //so the schedule generation doesn't error and creates a single date.
+                if (endDate.before(startDate)) {
+                    endDate = startDate;
+                }
+                // KTW - Add additional period to end date when schedule is recurring
+                Calendar modifedEndCalendar = Calendar.getInstance();
+                modifedEndCalendar.setTime(endDate);
+                Date modifedEndDate = getStartDateFromTheBaseDate(modifedEndCalendar, awardReportTerm.getFrequency());
+                System.out.println("------MODIFED DATE IS--------: " + modifedEndDate.toString());
+                System.out.println("------END DATE IS--------: " + endDate.toString());
+
+                ScheduleSequence scheduleSequence = new XMonthlyScheduleSequenceDecorator(
+                        new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()), awardReportTerm.getFrequency()
+                        .getNumberOfMonths());
+                // KTW - use modified end date which adds time to the end date
+                // AS required dates
+                if (awardReportTerm.getFrequencyBase().getFrequencyBaseCode().equals("6")) {
+                    dates = scheduleService.getScheduledDates(startDate, modifedEndDate, new Time24HrFmt(ZERO_HOURS), scheduleSequence,
+                            calendar.get(Calendar.DAY_OF_MONTH));
+                } else {
+                     dates = scheduleService.getScheduledDates(startDate, endDate, new Time24HrFmt(ZERO_HOURS), scheduleSequence,
+                             calendar.get(Calendar.DAY_OF_MONTH));
+                }
+
+
+            }
+            else {
+                dates.add(startDate);
+            }
+        }
+
+        return dates;
+    }
+
     /*
     protected void reportError(String errorKey) {
         KcServiceLocator.getService(ErrorReporter.class).reportSoftError(errorKey, KeyConstants.ERROR_SCHEDULE_START_DATE_PRECEDES_END_DATE);
@@ -206,7 +278,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * 
      * This is a helper method that updates the base date based on frequency if required to get the start date.
      * 
-     * @param startDate
+     * @param calendar
      * @param frequency
      * @return
      */
@@ -364,3 +436,4 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
 }
 
     
+
