@@ -23,4 +23,5 @@ set sqlblanklines on
 spool 1709_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1709_002__modular_budget.sql
 @./kc/bootstrap/V1709_003__file_data_indexes.sql
+@./kc/bootstrap/V1709_005__subaward_template_fields.sql
 commit;

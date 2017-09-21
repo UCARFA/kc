@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1709_002__modular_budget.sql
+\. ./kc/bootstrap/V1709_005__subaward_template_fields.sql
 commit;
