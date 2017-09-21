@@ -308,6 +308,9 @@
                             <xs:element name="HumanDataExchangeTermsCd" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="MpiAward" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="MpiLeadershipPlan" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="AdditionalTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="TreatmentOfIncome" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="DataSharingAttachment" type="xs:string" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

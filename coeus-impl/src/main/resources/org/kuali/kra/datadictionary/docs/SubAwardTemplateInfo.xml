@@ -70,6 +70,9 @@
                 <ref bean="SubAwardTemplateInfo-humanDataExchangeTermsCd" />
                 <ref bean="SubAwardTemplateInfo-mpiAward" />
                 <ref bean="SubAwardTemplateInfo-mpiLeadershipPlan" />
+                  <ref bean="SubAwardTemplateInfo-additionalTerms"/>
+                  <ref bean="SubAwardTemplateInfo-treatmentOfIncome"/>
+                  <ref bean="SubAwardTemplateInfo-dataSharingAttachment"/>
 
               </list>
 		     </property>
@@ -701,6 +704,59 @@
         <property name="description" value="Human Subjects PTE will set forth the terms of exchange of human subjects data" />
     </bean>
 
+    <bean id="SubAwardTemplateInfo-additionalTerms" parent="SubAwardTemplateInfo-additionalTerms-parentBean"/>
+    <bean id="SubAwardTemplateInfo-additionalTerms-parentBean" abstract="true"
+          parent="AttributeReferenceDummy-extendedTextArea">
+        <property name="name" value="additionalTerms"/>
+        <property name="label" value="Additional Terms"/>
+        <property name="shortLabel" value="Additional Terms"/>
+        <property name="maxLength" value="4000"/>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:cols="400" p:rows="10"/>
+        </property>
+        <property name="summary" value="Additional Terms"/>
+        <property name="description" value="Additional Terms"/>
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-treatmentOfIncome" parent="SubAwardTemplateInfo-treatmentOfIncome-parentBean"/>
+    <bean id="SubAwardTemplateInfo-treatmentOfIncome-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="treatmentOfIncome"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Treatment of Income"/>
+        <property name="shortLabel" value="Treatment of Income"/>
+        <property name="maxLength" value="60"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"
+                  p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"
+                  p:size="65"/>
+        </property>
+        <property name="summary" value="Treatment of Income"/>
+        <property name="description" value="Treatment of Income"/>
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-dataSharingAttachment"
+          parent="SubAwardTemplateInfo-dataSharingAttachment-parentBean"/>
+    <bean id="SubAwardTemplateInfo-dataSharingAttachment-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="dataSharingAttachment"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Data Sharing Attachment"/>
+        <property name="shortLabel" value="Data Sharing Attachment"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"
+                  p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"
+                  p:size="15"/>
+        </property>
+        <property name="summary" value="Data Sharing Attachment"/>
+        <property name="description" value="Data Sharing Attachment"/>
+    </bean>
+
     <!-- Business Object Inquiry Definition -->
  <bean id="SubAwardTemplateInfo-inquiryDefinition" parent="SubAwardTemplateInfo-inquiryDefinition-parentBean" />
 
@@ -773,6 +829,9 @@
             <bean p:attributeName="humanDataExchangeTermsCd"   parent="FieldDefinition"/>
             <bean p:attributeName="mpiAward"   parent="FieldDefinition"/>
             <bean p:attributeName="mpiLeadershipPlan"   parent="FieldDefinition"/>
+          <bean p:attributeName="additionalTerms" parent="FieldDefinition"/>
+          <bean p:attributeName="treatmentOfIncome" parent="FieldDefinition"/>
+          <bean p:attributeName="dataSharingAttachment" parent="FieldDefinition"/>
 
       </list>
     </property>
@@ -816,6 +875,9 @@
             <bean p:attributeName="humanDataExchangeTermsCd"   parent="FieldDefinition"/>
             <bean p:attributeName="mpiAward"   parent="FieldDefinition"/>
             <bean p:attributeName="mpiLeadershipPlan"   parent="FieldDefinition"/>
+          <bean p:attributeName="additionalTerms" parent="FieldDefinition"/>
+          <bean p:attributeName="treatmentOfIncome" parent="FieldDefinition"/>
+          <bean p:attributeName="dataSharingAttachment" parent="FieldDefinition"/>
       </list>
     </property>
   </bean> 
