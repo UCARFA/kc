@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1709.0023
 * RESKC-2523: adding create date to lookups & results
   * Travis Schneeberger on Wed, 20 Sep 2017 15:02:34 -0400 [View Commit](../../commit/7bc1d150bd9ba0d760df446d3626d4d750511560)
 
