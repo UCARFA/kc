@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* RESKC-2534: Fix mod budget f and a rate issue. (#2538)
+
+  * Gayathri Athreya on Thu, 21 Sep 2017 11:26:39 -0700 [View Commit](../../commit/0f8d4bc10d83f5bf2369a22fb42af5f394d393fd)
+* RESKC-2513: adding certification message only when cert is not complete
+  * Travis Schneeberger on Thu, 21 Sep 2017 13:33:56 -0400 [View Commit](../../commit/d15ef82cffe6c9284136956ab6a1fdcb116f1b2f)
+
+##coeus-1709.0024
 * No Changes
 
 
