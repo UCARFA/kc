@@ -452,6 +452,9 @@
         <field-descriptor name="humanPteNrCd" column="HUMAN_PTE_NR_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="humanDataExchangeAgreeCd" column="HUMAN_DATA_EXCHANGE_AGREE_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="humanDataExchangeTermsCd" column="HUMAN_DATA_EXCHANGE_TERMS_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="additionalTerms" column="ADDITIONAL_TERMS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="treatmentOfIncome" column="TREATMENT_OF_INCOME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="dataSharingAttachment" column="DATA_SHARING_ATTACHMENT" jdbc-type="VARCHAR"/>
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
     </class-descriptor>
