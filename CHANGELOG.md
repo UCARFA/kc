@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2475: add additional mapping to FDP forms - changing a few minor things
+  * Travis Schneeberger on Fri, 22 Sep 2017 09:40:00 -0400 [View Commit](../../commit/d3f74deb5df80e9928ecf57bae9d4e278e77ea6d)
+
+##coeus-1709.0027
 * RESKC-2475: add additional mapping to FDP forms
   * Travis Schneeberger on Thu, 21 Sep 2017 17:16:13 -0400 [View Commit](../../commit/83bf18775867ade7e6eeee9ac6a4e7785c46ca0d)
 
