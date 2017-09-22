@@ -28,8 +28,7 @@
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegsDate*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].mpiLeadershipPlan*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].additionalTerms*,
-                                                                document.subAwardList[0].subAwardTemplateInfo[0].treatmentOfIncome*,
-                                                                document.subAwardList[0].subAwardTemplateInfo[0].dataSharingAttachment*">
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].treatmentOfIncome*">
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Terms and Conditions</span>
@@ -58,14 +57,10 @@
                     <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].automaticCarryForward" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.automaticCarryForward}"  />
                 </td>
                 <th>
-                    <div align="right"><kul:htmlAttributeLabel
-                            attributeEntry="${subAwardTemplateInfoAttributes.dataSharingAttachment}"/></div>
+                    <div align="right">&nbsp;</div>
                 </th>
                 <td>
-                    <kul:htmlControlAttribute
-                            property="document.subAwardList[0].subAwardTemplateInfo[0].dataSharingAttachment"
-                            readOnly="${readOnly}"
-                            attributeEntry="${subAwardTemplateInfoAttributes.dataSharingAttachment}"/>
+                    &nbsp;
                 </td>
             </tr>
             <tr>

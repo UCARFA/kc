@@ -136,6 +136,7 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
                     setAnimalPteVerification(document, templateInfo);
                     setHumanSubjectsDataExchange(document, templateInfo);
                     setHumanSubjectsDataExchangeTerms(document, templateInfo);
+                    setAdditionalTerms(document, templateInfo);
                     setPromotingObjectivityFcio(document, templateInfo, configInfo, type);
                     setDataSharingPubAccessPolicy(document, templateInfo);
                 }
@@ -224,10 +225,12 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
                 HumanDataExchangeAgreement.FROM_BOTH_PTE_AND_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()))) {
             setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_IN_ADD_TERMS.getfName(), HumanDataExchangeTerms.ADDITIONAL_TERMS.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
             setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_SEP_AGREEMENT.getfName(), HumanDataExchangeTerms.SEPARATE_AGREEMENT.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
+        }
+    }
 
-            if (HumanDataExchangeTerms.ADDITIONAL_TERMS.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()) && StringUtils.isNotBlank(templateInfo.getAdditionalTerms())) {
-                setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_ADD_TERMS_TEXT.getfName(), templateInfo.getAdditionalTerms());
-            }
+    private void setAdditionalTerms(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
+        if (StringUtils.isNotBlank(templateInfo.getAdditionalTerms())) {
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_ADD_TERMS_TEXT.getfName(), templateInfo.getAdditionalTerms());
         }
     }
 
