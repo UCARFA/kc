@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.impl.costshare;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.impl.unit.UnitAgendaTypeServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
@@ -42,6 +43,8 @@ import java.util.Set;
 @Component("costShareAgendaTypeService")
 public class CostShareAgendaTypeServiceImpl extends UnitAgendaTypeServiceImpl {
 
+	public static final String TYPE_ID = "typeId";
+	
     @Autowired
     @Qualifier("repositoryToEngineTranslator")
     private RepositoryToEngineTranslator repositoryToEngineTranslator;
@@ -80,6 +83,13 @@ public class CostShareAgendaTypeServiceImpl extends UnitAgendaTypeServiceImpl {
             if (!isActive){
                 return false;
             }
+            
+            String environmentId = environment.getSelectionCriteria().getAgendaQualifiers().get(TYPE_ID);
+            String agendaId = this.qualifiers.get(TYPE_ID);
+            if (environmentId != null && !StringUtils.equals(environmentId,agendaId)) {
+            	return false;
+            }
+            
             return environment.getSelectionCriteria().getAgendaQualifiers().containsKey(Constants.COST_SHARE_AGENDA_UNITS) &&
                     appliesToUnit(environment.getSelectionCriteria().getAgendaQualifiers().entrySet());
 
