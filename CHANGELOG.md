@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2541:only run questionnaire agendas
+  * blackcathacker on Fri, 22 Sep 2017 18:52:55 -0700 [View Commit](../../commit/d640b2d78155769db3ad1f49babdd678257a8ae0)
+
+##coeus-1709.0028
 * RESKC-2475: add additional mapping to FDP forms - changing a few minor things
   * Travis Schneeberger on Fri, 22 Sep 2017 09:40:00 -0400 [View Commit](../../commit/d3f74deb5df80e9928ecf57bae9d4e278e77ea6d)
 
