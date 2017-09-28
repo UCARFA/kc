@@ -22,10 +22,14 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.coi.framework.Project;
+import org.kuali.coeus.coi.framework.ProjectPublisher;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
@@ -85,6 +89,12 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     @Autowired
     @Qualifier("proposalTypeService")
     private ProposalTypeService proposalTypeService;
+
+    @Autowired
+    @Qualifier("propDevProjectRetrievalService")
+    private ProjectRetrievalService projectRetrievalService;
+
+    private ProjectPublisher projectPublisher;
 
     /**
      * This method gets called from the "save" action. It initializes the applicant org. on the first save; it also sets the
@@ -173,8 +183,17 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 && StringUtils.equals(devProposal.getSponsor().getSponsorTypeCode(), federalSponsorTypeCode);
     }
 
+
+    private void handleProjectPush(String sourceIdentifier) {
+        Project project = projectRetrievalService.retrieveProject(sourceIdentifier);
+        project.setActive(false);
+        getProjectPublisher().publishProject(project);
+    }
+
     @Override
     public ProposalDevelopmentDocument deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
+
+        handleProjectPush(proposalDocument.getDevelopmentProposal().getProposalNumber());
 
         dataObjectService.delete(proposalDocument.getDevelopmentProposal());
         proposalDocument.setDevelopmentProposal(null);
@@ -346,5 +365,26 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public void setProposalTypeService(ProposalTypeService proposalTypeService) {
         this.proposalTypeService = proposalTypeService;
+    }
+
+    public ProjectRetrievalService getProjectRetrievalService() {
+        return projectRetrievalService;
+    }
+
+    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
+        this.projectRetrievalService = projectRetrievalService;
+    }
+
+    public ProjectPublisher getProjectPublisher() {
+        //since COI is loaded last and @Lazy does not work, we have to use the ServiceLocator
+        if (projectPublisher == null) {
+            projectPublisher = KcServiceLocator.getService(ProjectPublisher.class);
+        }
+
+        return projectPublisher;
+    }
+
+    public void setProjectPublisher(ProjectPublisher projectPublisher) {
+        this.projectPublisher = projectPublisher;
     }
 }
