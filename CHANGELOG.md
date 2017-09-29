@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2013: message fix and validation fix (#2548)
+
+  * Gayathri Athreya on Fri, 29 Sep 2017 10:38:57 -0700 [View Commit](../../commit/dafc8c9a2d7c5df82ade9ee4b1db84e6a4402e30)
+
+##coeus-1709.0035
 * make project push handle deleted proposals
   * Joe Williams on Thu, 28 Sep 2017 10:55:01 -0500 [View Commit](../../commit/2202d84da4fa4aac2b3111e7033297a6acbc0712)
 
