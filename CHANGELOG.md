@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2475: Having template errors only execute when saving from the template tab.  This avoids new template validation from blocking navigation within the subaward
+  * Travis Schneeberger on Fri, 29 Sep 2017 10:04:49 -0400 [View Commit](../../commit/4fb79527d952a58efeb565b2d5b39df4bacbc176)
+* date format to 4 digit years  * Noah on Wed, 27 Sep 2017 12:27:27 -0700 [View Commit](../../commit/ce02412d165711734ae5e5bce0fd508528ee02f5)
+
+##coeus-1709.0033
 * RESKC-2013: Save only the person's answer headers while saving the responses. (#2546)
 
   * Complete Key Person Certifications are still showing as incomplete on the headers for individuals on the Personell tab in Proposal Development.
