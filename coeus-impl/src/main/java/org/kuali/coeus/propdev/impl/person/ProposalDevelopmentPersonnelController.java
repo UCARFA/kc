@@ -410,7 +410,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        oldAnswerHeaders.stream().forEach(oldAnswerHeader-> {
             AnswerHeader matchedNewAnswerHeader = newAnswerHeaders.stream().filter(newAnswerHeader ->
                     Objects.equals(oldAnswerHeader.getId(), newAnswerHeader.getId())).findAny().orElse(null);
-
+            oldAnswerHeader.setCompleted(matchedNewAnswerHeader.isCompleted());
             oldAnswerHeader.getAnswers().stream().forEach(oldAnswer -> {
                 Answer matchedNewAnswer = matchedNewAnswerHeader.getAnswers().stream().filter(newAnswer ->
                         Objects.equals(newAnswer.getId(), oldAnswer.getId())).findAny().orElse(null);

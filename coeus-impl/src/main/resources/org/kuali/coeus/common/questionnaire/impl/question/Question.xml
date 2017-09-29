@@ -67,16 +67,18 @@
         <property name="shortLabel" value="Question Ref Id" />
         <property name="maxLength" value="12" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
+            <bean parent="AlphaNumericValidationPattern" p:allowDash="true"/>
         </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint">
+                <property name="allowDash" value="true"/>
+            </bean>
+        </property>
         <property name="control" >
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="12" parent="Uif-TextControl"/>
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="12" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Question Ref Id" />
         <property name="description" value="Question Ref Id" />
@@ -113,16 +115,18 @@
         <property name="shortLabel" value="Question Id" />
         <property name="maxLength" value="6" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
+            <bean parent="AlphaNumericValidationPattern" p:allowDash="true"/>
         </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint">
+                <property name="allowDash" value="true"/>
+            </bean>
+        </property>
         <property name="control" >
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="6" parent="Uif-TextControl"/>
+            <bean parent="TextControlDefinition" p:size="6"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="6" parent="Uif-TextControl"/>
         </property>
         <property name="summary" value="Question Id" />
         <property name="description" value="Question Id" />
