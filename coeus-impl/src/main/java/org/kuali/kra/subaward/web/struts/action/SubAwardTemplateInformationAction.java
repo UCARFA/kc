@@ -79,6 +79,11 @@ public class SubAwardTemplateInformationAction extends SubAwardAction {
     }
 
     @Override
+    protected boolean executeSaveRules(SubAward subAward) {
+        return new SubAwardDocumentRule().processAddSubAwardBusinessRules(subAward) && new SubAwardDocumentRule().processAddSubAwardTemplateInfoBusinessRules(subAward);
+    }
+
+    @Override
     protected KualiRuleService getKualiRuleService() {
         return KcServiceLocator.getService(KualiRuleService.class);
     }
