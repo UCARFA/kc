@@ -200,7 +200,7 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
         if (subAward.getSubAwardId() == null) {
             getVersionHistoryService().updateVersionHistory(subAward, VersionStatus.PENDING, userId);
         }
-        if (new SubAwardDocumentRule().processAddSubAwardBusinessRules(subAward) && new SubAwardDocumentRule().processAddSubAwardTemplateInfoBusinessRules(subAward)) {
+        if (executeSaveRules(subAward)) {
             ActionForward forward = super.save(mapping, form, request, response);
             if (subAward.getSubAwardId() == null) {
                 getSubAwardService().updateSubAwardSequenceStatus(subAward, VersionStatus.PENDING);
@@ -209,6 +209,10 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
         } else {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
+    }
+
+    protected boolean executeSaveRules(SubAward subAward) {
+        return new SubAwardDocumentRule().processAddSubAwardBusinessRules(subAward);
     }
 
    public ActionForward subAward(ActionMapping mapping,
