@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+* RESKC-2013: Save only the person's answer headers while saving the responses. (#2546)
+
+  * Complete Key Person Certifications are still showing as incomplete on the headers for individuals on the Personell tab in Proposal Development.
+  * 
+*Steps to Reproduce:*
+  * 1. Created Proposal
+  * 2. Add PI and Co-I
+  * 3. Send the notification to both of them
+  * 4. PI (kat as kszulc) and Co-I (kaci as admin)
+  * 5. PI and Co-I accessed the certification via the link at about the same time
+  * 6. PI and Co-I both completed the certification questions and clicked the [Certify] button at about the same time
+  * 
+  * Actual Result: Depending on who clicked the button first, the second person got the message that their answers were updated by another user. The second person needed to re-answer the questionnaire and click the certify button again  * Gayathri Athreya on Thu, 28 Sep 2017 17:18:17 -0700 [View Commit](../../commit/ea85b6f7937c213f636d17b3e22f7e292f4291ad)
+
+##coeus-1709.0032
 * No Changes
 
 
