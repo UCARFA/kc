@@ -55,6 +55,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.stream.Stream;
 
 
 @Controller
@@ -384,22 +385,39 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @MethodAccessible @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certifyAnswers")
     public ModelAndView certifyAnswers(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         String selectedPersonId = form.getProposalPersonQuestionnaireHelper().getProposalPerson().getPersonId();
-        ProposalPersonQuestionnaireHelper helper = null;
+        ProposalPersonQuestionnaireHelper proposalPersonQuestionnaireHelper = null;
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
             if (StringUtils.equals(proposalPerson.getPersonId(),selectedPersonId)) {
-                helper = proposalPerson.getQuestionnaireHelper();
-                proposalPerson.setQuestionnaireHelper(form.getProposalPersonQuestionnaireHelper());
+                proposalPersonQuestionnaireHelper = proposalPerson.getQuestionnaireHelper();
+                List<AnswerHeader> oldAnswerHeaders = proposalPersonQuestionnaireHelper.getAnswerHeaders();
+                List<AnswerHeader> newAnswerHeaders = form.getProposalPersonQuestionnaireHelper().getAnswerHeaders();
+                copyAnswers(oldAnswerHeaders, newAnswerHeaders);
+                proposalPerson.setCertifiedBy(getGlobalVariableService().getUserSession().getPrincipalId());
+                proposalPerson.setCertifiedTime(getDateTimeService().getCurrentTimestamp());
+                getDataObjectService().save(proposalPerson);
             }
         }
-        final ModelAndView modelAndView = super.save(form);
 
-        if (isQuestionnairesCompleted(helper) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
+        if (isQuestionnairesCompleted(proposalPersonQuestionnaireHelper) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
             getGlobalVariableService().getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, INFO_PROPOSAL_CERTIFIED);
-        } else if (!isQuestionnairesCompleted(helper)) {
+        } else if (!isQuestionnairesCompleted(proposalPersonQuestionnaireHelper)) {
             getGlobalVariableService().getMessageMap().putWarning(KRADConstants.GLOBAL_MESSAGES, WARN_PROPOSAL_CERTIFIED);
         }
+        return getModelAndViewService().getModelAndView(form);
+    }
 
-        return modelAndView;
+    public void copyAnswers(List<AnswerHeader> oldAnswerHeaders, List<AnswerHeader> newAnswerHeaders) {
+       oldAnswerHeaders.stream().forEach(oldAnswerHeader-> {
+            AnswerHeader matchedNewAnswerHeader = newAnswerHeaders.stream().filter(newAnswerHeader ->
+                    oldAnswerHeader.getId() == newAnswerHeader.getId()).findAny().orElse(null);
+
+            oldAnswerHeader.getAnswers().stream().forEach(oldAnswer -> {
+                Answer matchedNewAnswer = matchedNewAnswerHeader.getAnswers().stream().filter(newAnswer ->
+                        newAnswer.getId() == oldAnswer.getId()).findAny().orElse(null);
+                oldAnswer.setAnswer(matchedNewAnswer.getAnswer());
+                getBusinessObjectService().save(oldAnswer);
+            });
+        });
     }
 
     public boolean isQuestionnairesCompleted(ProposalPersonQuestionnaireHelper helper) {
