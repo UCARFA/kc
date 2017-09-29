@@ -71,6 +71,8 @@ public class Project implements Serializable, ProjectMetadata {
 
     private Date endDate;
 
+    private boolean active = true;
+
     public String getTitle() {
         return title;
     }
@@ -173,6 +175,15 @@ public class Project implements Serializable, ProjectMetadata {
         this.metadata = metadata;
     }
 
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
@@ -183,11 +194,12 @@ public class Project implements Serializable, ProjectMetadata {
                 ", sourceStatus='" + sourceStatus + '\'' +
                 ", persons=" + persons +
                 ", sponsors=" + sponsors +
+                ", metadata=" + metadata +
                 ", sponsorCode='" + sponsorCode + '\'' +
                 ", sponsorName='" + sponsorName + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", metadata=" + metadata +
+                ", active=" + active +
                 '}';
     }
 }
