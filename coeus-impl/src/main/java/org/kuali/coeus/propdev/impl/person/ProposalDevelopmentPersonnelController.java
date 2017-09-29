@@ -409,11 +409,11 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public void copyAnswers(List<AnswerHeader> oldAnswerHeaders, List<AnswerHeader> newAnswerHeaders) {
        oldAnswerHeaders.stream().forEach(oldAnswerHeader-> {
             AnswerHeader matchedNewAnswerHeader = newAnswerHeaders.stream().filter(newAnswerHeader ->
-                    oldAnswerHeader.getId() == newAnswerHeader.getId()).findAny().orElse(null);
+                    Objects.equals(oldAnswerHeader.getId(), newAnswerHeader.getId())).findAny().orElse(null);
 
             oldAnswerHeader.getAnswers().stream().forEach(oldAnswer -> {
                 Answer matchedNewAnswer = matchedNewAnswerHeader.getAnswers().stream().filter(newAnswer ->
-                        newAnswer.getId() == oldAnswer.getId()).findAny().orElse(null);
+                        Objects.equals(newAnswer.getId(), oldAnswer.getId())).findAny().orElse(null);
                 oldAnswer.setAnswer(matchedNewAnswer.getAnswer());
                 getBusinessObjectService().save(oldAnswer);
             });
