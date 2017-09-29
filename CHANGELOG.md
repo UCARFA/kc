@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* make project push handle deleted proposals
+  * Joe Williams on Thu, 28 Sep 2017 10:55:01 -0500 [View Commit](../../commit/2202d84da4fa4aac2b3111e7033297a6acbc0712)
+
+##coeus-1709.0034
 * RESKC-2475: Having template errors only execute when saving from the template tab.  This avoids new template validation from blocking navigation within the subaward
   * Travis Schneeberger on Fri, 29 Sep 2017 10:04:49 -0400 [View Commit](../../commit/4fb79527d952a58efeb565b2d5b39df4bacbc176)
 * date format to 4 digit years  * Noah on Wed, 27 Sep 2017 12:27:27 -0700 [View Commit](../../commit/ce02412d165711734ae5e5bce0fd508528ee02f5)
