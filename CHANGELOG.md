@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2013: Making sure answer header is correctly populated and refactored (#2549)
+
+  * Gayathri Athreya on Fri, 29 Sep 2017 17:18:36 -0700 [View Commit](../../commit/facee12a41e0d0eb904688124c14f5fab0b03a1f)
+
+##coeus-1709.0036
 * RESKC-2013: message fix and validation fix (#2548)
 
   * Gayathri Athreya on Fri, 29 Sep 2017 10:38:57 -0700 [View Commit](../../commit/dafc8c9a2d7c5df82ade9ee4b1db84e6a4402e30)
