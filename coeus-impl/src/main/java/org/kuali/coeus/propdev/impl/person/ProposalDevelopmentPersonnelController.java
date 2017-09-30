@@ -21,6 +21,7 @@ package org.kuali.coeus.propdev.impl.person;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
+import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.propdev.impl.coi.CoiConstants;
@@ -73,6 +74,10 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @Autowired
     @Qualifier("wizardControllerService")
     private WizardControllerService wizardControllerService;
+
+    @Autowired
+    @Qualifier("questionnaireAnswerService")
+    private QuestionnaireAnswerService questionnaireAnswerService;
 
     @Autowired
     @Qualifier("keyPersonnelService")
@@ -347,7 +352,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public ModelAndView sendAllCertificationNotifications(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         int index = 0;
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
-            if (proposalPerson.isSelectedPerson() && !isQuestionnairesCompleted(proposalPerson.getQuestionnaireHelper())) {
+            if (proposalPerson.isSelectedPerson() && !isQuestionnaireComplete(proposalPerson.getQuestionnaireHelper())) {
                     sendPersonNotification(form, String.valueOf(index));
             }
             index++;
@@ -386,45 +391,37 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public ModelAndView certifyAnswers(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         String selectedPersonId = form.getProposalPersonQuestionnaireHelper().getProposalPerson().getPersonId();
         ProposalPersonQuestionnaireHelper proposalPersonQuestionnaireHelper = null;
+        boolean complete = false;
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
             if (StringUtils.equals(proposalPerson.getPersonId(),selectedPersonId)) {
                 proposalPersonQuestionnaireHelper = proposalPerson.getQuestionnaireHelper();
-                List<AnswerHeader> oldAnswerHeaders = proposalPersonQuestionnaireHelper.getAnswerHeaders();
                 List<AnswerHeader> newAnswerHeaders = form.getProposalPersonQuestionnaireHelper().getAnswerHeaders();
-                copyAnswers(oldAnswerHeaders, newAnswerHeaders);
+
+                complete = isQuestionnaireComplete(form.getProposalPersonQuestionnaireHelper());
+                getBusinessObjectService().save(newAnswerHeaders);
+                proposalPersonQuestionnaireHelper.setAnswerHeaders(newAnswerHeaders);
+
                 proposalPerson.setCertifiedBy(getGlobalVariableService().getUserSession().getPrincipalId());
                 proposalPerson.setCertifiedTime(getDateTimeService().getCurrentTimestamp());
                 getDataObjectService().save(proposalPerson);
             }
         }
 
-        if (isQuestionnairesCompleted(proposalPersonQuestionnaireHelper) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
+        if (complete && getGlobalVariableService().getMessageMap().hasNoErrors()) {
             getGlobalVariableService().getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, INFO_PROPOSAL_CERTIFIED);
-        } else if (!isQuestionnairesCompleted(proposalPersonQuestionnaireHelper)) {
+        } else if (!complete) {
             getGlobalVariableService().getMessageMap().putWarning(KRADConstants.GLOBAL_MESSAGES, WARN_PROPOSAL_CERTIFIED);
         }
         return getModelAndViewService().getModelAndView(form);
     }
 
-    public void copyAnswers(List<AnswerHeader> oldAnswerHeaders, List<AnswerHeader> newAnswerHeaders) {
-       oldAnswerHeaders.stream().forEach(oldAnswerHeader-> {
-            AnswerHeader matchedNewAnswerHeader = newAnswerHeaders.stream().filter(newAnswerHeader ->
-                    Objects.equals(oldAnswerHeader.getId(), newAnswerHeader.getId())).findAny().orElse(null);
-            oldAnswerHeader.setCompleted(matchedNewAnswerHeader.isCompleted());
-            oldAnswerHeader.getAnswers().stream().forEach(oldAnswer -> {
-                Answer matchedNewAnswer = matchedNewAnswerHeader.getAnswers().stream().filter(newAnswer ->
-                        Objects.equals(newAnswer.getId(), oldAnswer.getId())).findAny().orElse(null);
-                oldAnswer.setAnswer(matchedNewAnswer.getAnswer());
-                getBusinessObjectService().save(oldAnswer);
-            });
-        });
-    }
-
-    public boolean isQuestionnairesCompleted(ProposalPersonQuestionnaireHelper helper) {
+    public boolean isQuestionnaireComplete(ProposalPersonQuestionnaireHelper helper) {
         boolean retVal = true;
         if (helper != null && helper.getAnswerHeaders() != null) {
             for (AnswerHeader ah : helper.getAnswerHeaders()) {
-                retVal &= ah.isCompleted();
+                boolean complete = questionnaireAnswerService.isQuestionnaireAnswerComplete(ah.getAnswers());
+                ah.setCompleted(complete);
+                retVal &= complete;
             }
         }
         return retVal;
