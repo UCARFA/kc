@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2076: supporting ResearchPlan 4.0
+  * Travis Schneeberger on Mon, 2 Oct 2017 17:40:43 -0400 [View Commit](../../commit/262645795ad6c639d0413b9092f7e5e80b12d874)
+
+##coeus-1709.0037
 * RESKC-2013: Making sure answer header is correctly populated and refactored (#2549)
 
   * Gayathri Athreya on Fri, 29 Sep 2017 17:18:36 -0700 [View Commit](../../commit/facee12a41e0d0eb904688124c14f5fab0b03a1f)
