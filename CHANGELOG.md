@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2076: supporting ResearchPlan 4.0 - official stylesheet
+  * Travis Schneeberger on Tue, 3 Oct 2017 12:24:04 -0400 [View Commit](../../commit/eac7c6500446254408bf417c359008a7e07bec3f)
+
+##coeus-1710.0002
 * RESKC-2563:Load PropDev Medusa View via ajax
   * blackcathacker on Mon, 2 Oct 2017 17:22:44 -0700 [View Commit](../../commit/f9625ec7adaa8ef86194c06831a9495a5cc43721)
 
