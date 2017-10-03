@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2039: upgrade and sql (#2553)
+
+* RESKC-2039: upgrade and sql
+  * 
+* Test
+  * Gayathri Athreya on Tue, 3 Oct 2017 13:58:56 -0700 [View Commit](../../commit/bd99a716d1191f706ba82436f5d4a802de4087f9)
+
+##coeus-1710.0003
 * RESKC-2076: supporting ResearchPlan 4.0 - official stylesheet
   * Travis Schneeberger on Tue, 3 Oct 2017 12:24:04 -0400 [View Commit](../../commit/eac7c6500446254408bf417c359008a7e07bec3f)
 

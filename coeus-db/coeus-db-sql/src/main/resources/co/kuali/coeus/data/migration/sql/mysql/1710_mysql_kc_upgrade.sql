@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1710_001__add_new_form.sql
+\. ./kc/bootstrap/V1710_002__add_new_form.sql
 commit;
