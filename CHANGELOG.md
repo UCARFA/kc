@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2563:Load PropDev Medusa View via ajax
+  * blackcathacker on Mon, 2 Oct 2017 17:22:44 -0700 [View Commit](../../commit/f9625ec7adaa8ef86194c06831a9495a5cc43721)
+
+##coeus-1710.0001
 * RESKC-2076: supporting ResearchPlan 4.0
   * Travis Schneeberger on Mon, 2 Oct 2017 17:40:43 -0400 [View Commit](../../commit/262645795ad6c639d0413b9092f7e5e80b12d874)
 
