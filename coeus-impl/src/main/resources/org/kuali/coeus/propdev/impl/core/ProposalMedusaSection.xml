@@ -27,7 +27,7 @@
 
     <bean id="PropDev-MedusaSection" parent="PropDev-MedusaSection-parentBean"/>
     <bean id="PropDev-MedusaSection-parentBean" abstract="true" parent="Uif-DialogBase" p:resetDataOnRefresh="true" p:dialogCssClass="modal-lg"
-    	p:retrieveViaAjax="true">
+    	p:retrieveViaAjax="@{#getParamAsBoolean('KC-PD','Document','Enable_Medusa_Dialog_Lazy_Loading') == null ? false : #getParamAsBoolean('KC-PD','Document','Enable_Medusa_Dialog_Lazy_Loading')}">
         <property name="header">
             <bean parent="Uif-DialogHeader" p:headerText="Medusa"/>
         </property>
