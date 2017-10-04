@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2564:Replace Sponsor with SponsorDto in Award endpoints
+  * blackcathacker on Tue, 3 Oct 2017 18:01:26 -0700 [View Commit](../../commit/54eeaad3188d2ae720add87c40197fb4ebfc1b33)
+
+##coeus-1710.0005
 * RESKC-2037: Training form addition (#2555)
 
   * Gayathri Athreya on Wed, 4 Oct 2017 08:20:57 -0700 [View Commit](../../commit/38a4cf0a1f052bd4a521c41dca278ff9ba07cfce)
