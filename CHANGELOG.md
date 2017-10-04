@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2037: Training form addition (#2555)
+
+  * Gayathri Athreya on Wed, 4 Oct 2017 08:20:57 -0700 [View Commit](../../commit/38a4cf0a1f052bd4a521c41dca278ff9ba07cfce)
+
+##coeus-1710.0004
 * RESKC-2039: upgrade and sql (#2553)
 
 * RESKC-2039: upgrade and sql
