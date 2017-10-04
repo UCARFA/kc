@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.framework.auth.perm;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -63,7 +64,15 @@ public interface KcAuthorizationService {
      */
     public boolean hasPermission(String userId, Permissionable permissionable, String permissionName);
 
-    
+    /**
+     * Takes a collection of Permissionables and returns only those for which a user has the given permission
+     * @param userId the user's userId
+     * @param permissionables a collection of Permissionables
+     * @param permissionName the name of the Permission
+     * @return the filtered collection of Permissionables for which the userId has the requested permission
+     */
+    public <P extends Permissionable> Collection<P> filterForPermission(String userId, Collection<P> permissionables, String permissionNamespace, String permissionName);
+
     /**
      * Get the list of principal ids in a specific role for a given permissionable.
      * @param roleName the name of the role

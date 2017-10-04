@@ -21,6 +21,7 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.framework.auth.docperm.DocumentAccess;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -274,14 +275,11 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     }
 
     private Collection<DevelopmentProposal> filterPermissions(Collection<DevelopmentProposal> results) {
-        Collection<DevelopmentProposal> filteredResults = new ArrayList<>();
-        for (DevelopmentProposal developmentProposal : results) {
-            if (getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(),
-                    developmentProposal.getDocument(),PermissionConstants.VIEW_PROPOSAL)){
-                filteredResults.add(developmentProposal);
-            }
-        }
-        return  filteredResults;
+        List<ProposalDevelopmentDocument> permissionables = results.stream().map(DevelopmentProposal::getProposalDocument).collect(Collectors.toList());
+        return getKcAuthorizationService().filterForPermission(getGlobalVariableService().getUserSession().getPrincipalId(),
+                permissionables, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.VIEW_PROPOSAL).stream()
+                .map(ProposalDevelopmentDocument::getDevelopmentProposal)
+                .collect(Collectors.toList());
     }
 
     protected boolean canAccessAllProposals() {
