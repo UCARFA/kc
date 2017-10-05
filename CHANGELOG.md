@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2567:Fix display of lazy loaded medusa tree
+  * blackcathacker on Wed, 4 Oct 2017 17:24:49 -0700 [View Commit](../../commit/d34fb3d27683e0a5270abff97e68a0721a9a4d05)
+
+##coeus-1710.0007
 * RESKC-2563:Add feature flag for lazy medusa loading due to odd behavior currently
   * blackcathacker on Wed, 4 Oct 2017 16:48:52 -0700 [View Commit](../../commit/3ac8abc44fc403297bef370c24efceb6a99a6054)
 
