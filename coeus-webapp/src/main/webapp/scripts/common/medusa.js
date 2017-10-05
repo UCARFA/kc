@@ -37,6 +37,10 @@ Kc.Medusa = Kc.Medusa || {};
 	}
 
     namespace.externalMedusaLoader = function() {
+    	namespace.lazyMedusaLoader();
+    }
+    
+    namespace.lazyMedusaLoader = function() {
         //minimizeMedusaTrees gets called before the jstree functionality.  set a timer to wait for it to be added.
         var timer = undefined;
 
