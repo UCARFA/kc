@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* RESKC-2563:Default PD medusa to lazy loading
+
+  * When using SPEL to conditionally make the dialog lazy loaded causes KRAD to still attempt to render the content during one part of the KRAD lifecycle so making it parameterized only slightly improves performance.
+  * By defaulting the ajax loading to true KRAD won't attempt to render the dialog until actually opened. So removing feature flag now that UI issues have been resolved.
+  * blackcathacker on Thu, 5 Oct 2017 13:26:51 -0700 [View Commit](../../commit/8d978401f5c4de3c5821d55a5ff5b2ffcf0b4dee)
+
+##coeus-1710.0009
 * No Changes
 
 
