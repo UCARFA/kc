@@ -52,7 +52,7 @@
                 </property>
             </bean>
         </property>
-        <property name="onShowDialogScript" value="Kc.Medusa.minimizeMedusaTrees();"/>
+        <property name="onShowDialogScript" value="@{#getParamAsBoolean('KC-PD','Document','Enable_Medusa_Dialog_Lazy_Loading') ? 'Kc.Medusa.lazyMedusaLoader();' : 'Kc.Medusa.minimizeMedusaTrees();'}"/>
     </bean>
 
     <bean id="PropDev-MedusaSection-TabGroup" parent="PropDev-MedusaSection-TabGroup-parentBean"/>
