@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2563:Add feature flag for lazy medusa loading due to odd behavior currently
+  * blackcathacker on Wed, 4 Oct 2017 16:48:52 -0700 [View Commit](../../commit/3ac8abc44fc403297bef370c24efceb6a99a6054)
+
+##coeus-1710.0006
 * RESKC-2564:Replace Sponsor with SponsorDto in Award endpoints
   * blackcathacker on Tue, 3 Oct 2017 18:01:26 -0700 [View Commit](../../commit/54eeaad3188d2ae720add87c40197fb4ebfc1b33)
 
