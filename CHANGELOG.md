@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* Minor working change (#2562)
+
+  * Gayathri Athreya on Fri, 6 Oct 2017 14:26:04 -0700 [View Commit](../../commit/ba581f7741daf4ea94d4a5918bf9efeea64aa58b)
+
+##coeus-1710.0011
 * RESKC-2560: Locking key cert when PI certifies. (#2560)
 
 * RESKC-2560: Locking key cert when PI certifies.
