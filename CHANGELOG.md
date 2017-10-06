@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* RESKC-2560: Locking key cert when PI certifies. (#2560)
+
+* RESKC-2560: Locking key cert when PI certifies.
+  * 
+* Renumber
+  * Gayathri Athreya on Fri, 6 Oct 2017 11:29:05 -0700 [View Commit](../../commit/db5f5616201da99c0bb5fbf2bca59fae47ccff69)
+
+##coeus-1710.0010
 * RESKC-2563:Default PD medusa to lazy loading
 
   * When using SPEL to conditionally make the dialog lazy loaded causes KRAD to still attempt to render the content during one part of the KRAD lifecycle so making it parameterized only slightly improves performance.

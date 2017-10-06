@@ -21,4 +21,5 @@
 \. ./kc/bootstrap/V1710_001__add_new_form.sql
 \. ./kc/bootstrap/V1710_002__add_new_form.sql
 \. ./kc/bootstrap/V1710_003__add_new_form.sql
+\. ./kc/bootstrap/V1710_006__cert_header.sql
 commit;
