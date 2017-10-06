@@ -217,9 +217,7 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 
 	protected void releaseLocksForLoggedInUser(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
 		if (form.getProposalDevelopmentDocument().getPessimisticLocks() != null) {
-			if (form.getProposalDevelopmentDocument().getPessimisticLocks() != null) {
 				getPessimisticLockService().releaseAllLocksForUser(form.getProposalDevelopmentDocument().getPessimisticLocks(), getGlobalVariableService().getUserSession().getPerson());
-			}
-		}
+        }
 	}
 }

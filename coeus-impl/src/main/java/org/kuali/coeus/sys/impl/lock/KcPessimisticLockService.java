@@ -31,5 +31,8 @@ public interface KcPessimisticLockService {
      * that older than a given amount of time, e.g. 24 hours.
      */
     void clearExpiredLocks();
+
+    boolean hasPersonnelLocks(String documentNumber);
+
     public boolean isPessimisticLockNeeded(ProposalDevelopmentDocument document, Person user, boolean canEdit, String customLockDescriptor);
 }

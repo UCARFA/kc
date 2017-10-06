@@ -26,6 +26,7 @@ import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,12 @@ public class KeyPersonnelServiceAdapter implements KeyPersonnelService {
     public void assignLeadUnit(ProposalPerson person, String unitNumber) {
         
     }
+
+    @Override
+    public void saveCertDetails(ProposalPerson person, String certifiedBy, Timestamp certifiedTime) {
+
+    }
+
     @Override
     public void addProposalPerson(ProposalPerson proposalPerson, ProposalDevelopmentDocument document) {
         

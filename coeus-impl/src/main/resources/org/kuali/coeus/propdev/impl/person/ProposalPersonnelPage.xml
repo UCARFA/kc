@@ -283,7 +283,8 @@
           p:layoutManager.summaryTitle="@{#lp.fullName}
 		                                (@{#lp.role != null ? #lp.role.description : #lp.proposalPersonRoleId}
                                             @{#lp.keyPerson eq true ? ': ' + #lp.projectRole : '' })
-                                                @{#lp.certifiedBy != null and #lp.isQuestionnairesCompleted() ? '(Certification Completed and Answered By '+ #lp.certifiedPersonName+' - ' + #lp.certifiedTimeStamp+')' : '(Certification Incomplete)'}"
+                                                @{#ViewHelper.getCertifiedBy(#line) != null and #lp.isQuestionnairesCompleted() ? '(Certification Completed and Answered By '+
+                                                #ViewHelper.getCertifiedPersonName(#line)+' - ' + #ViewHelper.getCertifiedTimeStamp(#line)+')' : '(Certification Incomplete)'}"
           p:renderAddLine="false"
           p:renderInactiveToggleButton="false">
         <property name="items">
@@ -658,7 +659,7 @@
     <bean id="PropDev-PersonnelPage-Questionnaire" parent="PropDev-PersonnelPage-Questionnaire-parentBean" />
     <bean id="PropDev-PersonnelPage-Questionnaire-parentBean"
           abstract="true" parent="Uif-CssGridSection" p:id="personnelQuestionnaire"
-          p:render="@{#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0}"
+          p:render="@{#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0 and !#ViewHelper.hasPersonnelLocks()}"
           p:refreshWhenChangedPropertyNames="document.developmentProposal.proposalPersons[@{#index}].proposalPersonRoleId"
           p:progressiveRenderAndRefresh="true"
           p:headerText="@{(#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0 and #line.questionnaireHelper.answerHeaders[0].label != null) ? #line.questionnaireHelper.answerHeaders[0].label : 'None'}">

@@ -262,6 +262,29 @@
         </property>
     </bean>
 
+    <bean id="PropDev-CertificationClose-Dialog" parent="PropDev-CertificationClose-Dialog-parentBean"/>
+    <bean id="PropDev-CertificationClose-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+          p:headerText="Please Select" p:promptText="@{#ViewHelper.certifyModalMessage()}">
+        <property name="footer">
+            <bean parent="Uif-DialogFooter">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
+                              p:methodToCall="closeCertWithSave" p:disableBlocking="true"
+                              p:dialogDismissOption="REQUEST"
+                              p:actionLabel="Save and exit" p:order="10"/>
+                        <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
+                              p:methodToCall="closeCertWithoutSave" p:disableBlocking="true"
+                              p:dialogDismissOption="REQUEST"
+                              p:actionLabel="Exit without save" p:order="20"/>
+                        <bean parent="Uif-SecondaryActionButton" p:dialogDismissOption="PRESUBMIT"
+                              p:actionLabel="Return To Questions" p:order="30"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
     <bean id="PropDev-CertificationHeader" parent="PropDev-CertificationHeader-parentBean" />
     <bean id="PropDev-CertificationHeader-parentBean" abstract="true"
           parent="Uif-ViewHeader" p:headerText="Certification for @{proposalPersonQuestionnaireHelper.proposalPerson.fullName}"

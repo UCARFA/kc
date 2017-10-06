@@ -869,12 +869,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
     }
     
-    private void clearProposalPersonNotificationDetails(ProposalDevelopmentDocument proposalDevelopmentDocument){
+    private void clearProposalPersonNotificationDetails(ProposalDevelopmentDocument proposalDevelopmentDocument) {
     	List<ProposalPerson> proposalPersons = new ArrayList<>();
-    	for(ProposalPerson proposalPerson : proposalDevelopmentDocument.getDevelopmentProposal().getProposalPersons()){
+    	for(ProposalPerson proposalPerson : proposalDevelopmentDocument.getDevelopmentProposal().getProposalPersons()) {
     		proposalPerson.setLastNotification(null);
-    		proposalPerson.setCertifiedBy(null);
-    		proposalPerson.setCertifiedTime(null);
+            if (proposalPerson.getCertificationDetails() != null) {
+                proposalPerson.getCertificationDetails().setCertifiedBy(null);
+                proposalPerson.getCertificationDetails().setCertifiedTime(null);
+            }
     		proposalPersons.add(proposalPerson);
     	}
     	 proposalDevelopmentDocument.getDevelopmentProposal().setProposalPersons(proposalPersons);

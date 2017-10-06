@@ -500,7 +500,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
                 if (cfg != null) {
                     s2sOppForm.setAvailable(s2sOppForm.getAvailable() && cfg.isActive());
                 }
-
                 if (s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()) {
                     missingMandatoryForms.add(s2sOppForm.getFormName());
                 }

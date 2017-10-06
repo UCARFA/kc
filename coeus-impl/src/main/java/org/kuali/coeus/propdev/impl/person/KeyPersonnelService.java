@@ -24,6 +24,7 @@ import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +103,9 @@ public interface KeyPersonnelService {
      */
     
     public void assignLeadUnit(ProposalPerson person, String unitNumber);
-    
+
+    void saveCertDetails(ProposalPerson person, String certifiedBy, Timestamp certifiedTime);
+
     public void addProposalPerson(ProposalPerson proposalPerson, ProposalDevelopmentDocument document);
 
 

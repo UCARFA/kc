@@ -176,6 +176,7 @@ public final class KeyConstants {
     public static final String QUESTION_TOTALCOSTLIMIT_CHANGED = "document.question.totalCostLimit.changed";
     public static final String ERROR_BUDGET_REJECT_NO_REASON = "error.budget.reject.noReason";
     public static final String ERROR_COMPLETE_BUDGET_LOCK = "error.completeBudget.locked";
+    public static final String KC_ERROR_PERSONNEL_LOCKED = "kc.warning.transactional.locked.personnel";
     public static final String ERROR_BUDGET_DATES_NOT_MATCH_PROPOSAL_DATES = "error.budget.dates.not.match.proposal.dates";
     //Budget Version warnings
     public static final String WARNING_BUDGET_VERSION_MODULAR_INVALID_TDC = "warning.budgetVersion.Modular.InvalidTotalDirectCost";

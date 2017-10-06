@@ -42,6 +42,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -154,6 +155,16 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             }
 
         }
+    }
+
+    @Override
+    public void saveCertDetails(ProposalPerson person, String certifiedBy, Timestamp certifiedTime) {
+        if (person.getCertificationDetails() == null) {
+            person.setCertificationDetails(new ProposalPersonCertificationDetails(person.getProposalPersonNumber(), person.getProposalNumber()));
+        }
+        person.getCertificationDetails().setCertifiedBy(certifiedBy);
+        person.getCertificationDetails().setCertifiedTime(certifiedTime);
+        getDataObjectService().save(person.getCertificationDetails());
     }
 
     @Override

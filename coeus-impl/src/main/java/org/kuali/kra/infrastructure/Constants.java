@@ -140,6 +140,7 @@ public interface Constants {
     String PROPOSAL_PAGE = "proposal";
     String CUSTOM_ATTRIBUTES_PAGE = "customData";
     String CERTIFICATION_PAGE = "PropDev-CertificationView-Page";
+    String CERTIFICATION_VIEW = "PropDev-CertificationView";
     String QUESTIONS_PAGE = "PropDev-QuestionnairePage";
     String PROP_DEV_PERMISSIONS_PAGE = "PropDev-PermissionsPage";
     String PERMISSIONS_PAGE = "permissions";

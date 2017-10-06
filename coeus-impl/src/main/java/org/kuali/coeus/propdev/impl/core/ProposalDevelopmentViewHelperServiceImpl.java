@@ -41,6 +41,7 @@ import org.kuali.coeus.common.framework.sponsor.SponsorSearchResult;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchService;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.kuali.coeus.propdev.impl.attachment.MultipartFileValidationService;
@@ -55,6 +56,7 @@ import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotification
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.*;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sRevisionTypeConstants;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
@@ -62,6 +64,7 @@ import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionn
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.controller.KcFileService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.sys.impl.lock.KcPessimisticLockService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -114,6 +117,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public static final String AD_HOC_NOTIFICATION = "Ad-Hoc Notification";
     public static final String PROPOSAL_PERSON_CANNOT_BE_RETRIEVED_FROM_DEVELOPMENT_PROPOSAL = "proposal person cannot be retrieved from development proposal";
     public static final String DOCUMENT_DEVELOPMENT_PROPOSAL_INSTITUTE_ATTACHMENTS = "document.developmentProposal.instituteAttachments";
+    private static final String INFO_PROPOSAL_CERTIFIED = "All questions answered.";
+    private static final String WARN_PROPOSAL_CERTIFIED = "Please answer all questions in order to certify proposal.";
 
     @Autowired
     @Qualifier("dateTimeService")
@@ -200,6 +205,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("rolodexService")
     private RolodexService rolodexService;
+
+    @Autowired
+    @Qualifier("kcPessimisticLockService")
+    private KcPessimisticLockService kcPessimisticLockService;
+
+    @Autowired
+    @Qualifier("questionnaireAnswerService")
+    private QuestionnaireAnswerService questionnaireAnswerService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -817,6 +830,46 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
                 .filter(projectStatus -> projectStatus.getUserId().equalsIgnoreCase(id))
                 .findFirst()
                 .orElse(new DisclosureProjectStatus());
+    }
+
+    public String getCertifiedBy(ProposalPerson person) {
+        return person.getCertificationDetails() == null ? "" : person.getCertificationDetails().getCertifiedBy();
+    }
+
+    public String getCertifiedPersonName(ProposalPerson person) {
+        return person.getCertificationDetails() == null ? "" : person.getCertificationDetails().getCertifiedPersonName();
+    }
+
+    public String getCertifiedTimeStamp(ProposalPerson person) {
+        return person.getCertificationDetails() == null ? "" : person.getCertificationDetails().getCertifiedTimeStamp();
+    }
+
+    public String certifyModalMessage() {
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm)ViewLifecycle.getModel();
+        boolean complete = isQuestionnaireComplete(form.getProposalPersonQuestionnaireHelper());
+
+        if (complete && getGlobalVariableService().getMessageMap().hasNoErrors()) {
+            return INFO_PROPOSAL_CERTIFIED;
+        } else {
+            return WARN_PROPOSAL_CERTIFIED;
+        }
+    }
+
+    public boolean hasPersonnelLocks() {
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm)ViewLifecycle.getModel();
+        return kcPessimisticLockService.hasPersonnelLocks(form.getDocument().getDocumentNumber());
+    }
+
+    public boolean isQuestionnaireComplete(ProposalPersonQuestionnaireHelper helper) {
+        boolean retVal = true;
+        if (helper != null && helper.getAnswerHeaders() != null) {
+            for (AnswerHeader ah : helper.getAnswerHeaders()) {
+                boolean complete = questionnaireAnswerService.isQuestionnaireAnswerComplete(ah.getAnswers());
+                ah.setCompleted(complete);
+                retVal &= complete;
+            }
+        }
+        return retVal;
     }
 
     public boolean isCoiDisclosureStatusEnabled() {

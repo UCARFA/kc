@@ -387,8 +387,9 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         return getRefreshControllerService().refresh(form);
     }
 
-    @MethodAccessible @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certifyAnswers")
-    public ModelAndView certifyAnswers(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+    @MethodAccessible @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=closeCertWithSave")
+    public ModelAndView closeCertWithSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+
         String selectedPersonId = form.getProposalPersonQuestionnaireHelper().getProposalPerson().getPersonId();
         ProposalPersonQuestionnaireHelper proposalPersonQuestionnaireHelper = null;
         boolean complete = false;
@@ -401,9 +402,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
                 getBusinessObjectService().save(newAnswerHeaders);
                 proposalPersonQuestionnaireHelper.setAnswerHeaders(newAnswerHeaders);
 
-                proposalPerson.setCertifiedBy(getGlobalVariableService().getUserSession().getPrincipalId());
-                proposalPerson.setCertifiedTime(getDateTimeService().getCurrentTimestamp());
-                getDataObjectService().save(proposalPerson);
+                keyPersonnelService.saveCertDetails(proposalPerson, getGlobalVariableService().getUserSession().getPrincipalId(), getDateTimeService().getCurrentTimestamp());
             }
         }
 
@@ -412,7 +411,28 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         } else if (!complete) {
             getGlobalVariableService().getMessageMap().putWarning(KRADConstants.GLOBAL_MESSAGES, WARN_PROPOSAL_CERTIFIED);
         }
-        return getModelAndViewService().getModelAndView(form);
+
+        releaseLocksForLoggedInUser(form);
+        return getNavigationControllerService().returnToHub(form);
+    }
+
+
+    @Transactional
+    @RequestMapping(value ="/proposalDevelopment",params = "methodToCall=closeCertWithoutSave")
+    public ModelAndView closeCertWithoutSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        releaseLocksForLoggedInUser(form);
+        return getNavigationControllerService().returnToHub(form);
+    }
+
+    protected void releaseLocksForLoggedInUser(ProposalDevelopmentDocumentForm form) {
+        if (form.getProposalDevelopmentDocument().getPessimisticLocks() != null) {
+                getPessimisticLockService().releaseAllLocksForUser(form.getProposalDevelopmentDocument().getPessimisticLocks(), getGlobalVariableService().getUserSession().getPerson());
+        }
+    }
+
+    @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=certifyAnswers")
+    public ModelAndView certifyAnswers(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_CERT_CLOSE_DIALOG, true, form);
     }
 
     public boolean isQuestionnaireComplete(ProposalPersonQuestionnaireHelper helper) {
