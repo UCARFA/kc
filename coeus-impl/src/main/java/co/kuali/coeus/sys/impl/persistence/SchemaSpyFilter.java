@@ -21,6 +21,7 @@ package co.kuali.coeus.sys.impl.persistence;
 import net.sourceforge.schemaspy.Config;
 import net.sourceforge.schemaspy.SchemaAnalyzer;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -38,14 +39,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * This filter generates html pages using schemaspy.  It only supports mysql and oracle.
@@ -54,8 +58,6 @@ public class SchemaSpyFilter implements Filter {
 
     private static final Log LOG = LogFactory.getLog(SchemaSpyFilter.class);
 
-    private static final Pattern MYSQL_DB_URL_PATTERN = Pattern.compile("(jdbc:mysql://)(.*)(:)(\\d*)(/)(.*)(\\?.*)");
-    private static final Pattern ORACLE_DB_URL_PATTERN = Pattern.compile("(jdbc:oracle.thin:@)(.*)(:)(\\d*)(:)(.*)");
     private static final String DB_TYPE_FLAG = "-t";
     private static final String MYSQL_DB_TYPE = "mysql";
     private static final String ORACLE_DB_TYPE = "ora";
@@ -87,11 +89,17 @@ public class SchemaSpyFilter implements Filter {
     private static final String ORACLE_9I_PLATFORM_NAME = "Oracle9i";
     private static final String ORACLE_THIN_CON_STR_FRAGMENT = "oracle:thin";
     private static final String SCHEMA_XML = "_schema.xml";
+    private static final String MYSQL_HOST = "HOST";
+    private static final String MYSQL_PORT = "PORT";
+    private static final String MYSQL_DBNAME = "DBNAME";
+    private static final String ORACLE_DATABASE = "database";
+    private static final String DB_SCHEMA_FLAG = "-s";
 
     private FilterConfig filterConfig;
     private PermissionService permissionService;
     private GlobalVariableService globalVariableService;
     private SchemaAnalyzer schemaAnalyzer;
+    private Config config;
     private boolean schemaSpyEnabled;
     private String datasourceUrl;
     private String dataSourceUsername;
@@ -108,9 +116,10 @@ public class SchemaSpyFilter implements Filter {
             initialized.set(false);
 
             deleteSchemaSpyContent();
+
             final List<String> argsList = createArgs();
             final String[] args = argsList.toArray(new String[argsList.size()]);
-            final Config config = new Config(args);
+            config = new Config(args);
             try {
                 getSchemaAnalyzer().analyze(config);
             } catch (SQLException|IOException e) {
@@ -175,23 +184,41 @@ public class SchemaSpyFilter implements Filter {
 
     private String getSchemaXmlLocation(StringBuffer url) {
         int index = url.indexOf(SCHEMA_XML);
-        return url.replace(index, index + SCHEMA_XML.length(), parseDatabase(getDatasourceUrl()) + (isOracle(getDatasourceUrl()) ? "." + getDataSourceUsername() : "") + ".xml").toString();
+        return url.replace(index, index + SCHEMA_XML.length(), config.getDb() + (!isMySql() ? "." + config.getSchema() : "") + ".xml").toString();
     }
 
     private List<String> createArgs() {
-        final List<String> args = new ArrayList<>();
 
+        final List<DriverPropertyInfo> properties;
+        try {
+            Driver driver = DriverManager.getDriver(getDatasourceUrl());
+            properties = Arrays.asList(driver.getPropertyInfo(getDatasourceUrl(), null));
+
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Database Properties: \n" + properties.stream().map(p -> p.name + "=" + p.value).collect(Collectors.joining("\n")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        final List<String> args = new ArrayList<>();
 
         args.add(DB_TYPE_FLAG);
         args.add(getDbType(getDatasourceUrl()));
         args.add(DB_HOST_FLAG);
-        args.add(parseHost(getDatasourceUrl()));
+        args.add(findHost(properties));
         args.add(DB_PORT_FLAG);
-        args.add(parsePort(getDatasourceUrl()));
+        args.add(findPort(properties));
         args.add(DP_DRIVER_LOCATION_FLAG);
         args.add(getDriverLocation());
         args.add(DB_NAME_FLAG);
-        args.add(parseDatabase(getDatasourceUrl()));
+        args.add(findDatabase(properties));
+
+        if (!isMySql()) {
+            args.add(DB_SCHEMA_FLAG);
+            args.add(StringUtils.upperCase(getDataSourceUsername()));
+        }
+
         args.add(DB_USER_FLAG);
         args.add(getDataSourceUsername());
         args.add(DB_PASSWORD_FLAG);
@@ -257,32 +284,47 @@ public class SchemaSpyFilter implements Filter {
         }
     }
 
-    private Pattern getUrlPattern() {
-        return isMySql() ? MYSQL_DB_URL_PATTERN : ORACLE_DB_URL_PATTERN;
+    private String findHost(List<DriverPropertyInfo> properties) {
+        return isMySql() ?
+                properties.stream()
+                        .filter(p -> MYSQL_HOST.equals(p.name))
+                        .map(p -> p.value)
+                        .findFirst()
+                        .orElse(null) :
+                properties.stream()
+                        .filter(p -> ORACLE_DATABASE.equals(p.name))
+                        .map(p -> p.value)
+                        .map(p -> p.split(":")[0])
+                        .findFirst()
+                        .orElse(null);
     }
 
-    private String parseHost(String url) {
-        Matcher m = getUrlPattern().matcher(url);
-        if (m.matches()) {
-            return m.group(2);
-        }
-        return null;
+    private String findPort(List<DriverPropertyInfo> properties) {
+        return isMySql() ? properties.stream()
+                .filter(p -> MYSQL_PORT.equals(p.name))
+                .map(p -> p.value)
+                .findFirst()
+                .orElse(null) :
+                properties.stream()
+                        .filter(p -> ORACLE_DATABASE.equals(p.name))
+                        .map(p -> p.value)
+                        .map(p -> p.split(":")[1])
+                        .findFirst()
+                        .orElse(null);
     }
 
-    private String parsePort(String url) {
-        Matcher m = getUrlPattern().matcher(url);
-        if (m.matches()) {
-            return m.group(4);
-        }
-        return null;
-    }
-
-    private String parseDatabase(String url) {
-        Matcher m = getUrlPattern().matcher(url);
-        if (m.matches()) {
-            return m.group(6);
-        }
-        return null;
+    private String findDatabase(List<DriverPropertyInfo> properties) {
+        return isMySql() ? properties.stream()
+                .filter(p -> MYSQL_DBNAME.equals(p.name))
+                .map(p -> p.value)
+                .findFirst()
+                .orElse(null) :
+                properties.stream()
+                        .filter(p -> ORACLE_DATABASE.equals(p.name))
+                        .map(p -> p.value)
+                        .map(p -> p.split(":")[2])
+                        .findFirst()
+                        .orElse(null);
     }
 
     private Path getSchemaSpyPath() {
