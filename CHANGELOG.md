@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2488, RESKC-2488: fix schemaspy by using jdbc properties instead of regex matching
+  * Travis Schneeberger on Mon, 9 Oct 2017 13:44:22 -0400 [View Commit](../../commit/54b5ec04e538397553892b071cf59822c8301d8c)
+
+##coeus-1710.0012
 * Minor working change (#2562)
 
   * Gayathri Athreya on Fri, 6 Oct 2017 14:26:04 -0700 [View Commit](../../commit/ba581f7741daf4ea94d4a5918bf9efeea64aa58b)
