@@ -2,6 +2,10 @@
 
 ##CURRENT
 * RESKC-2488, RESKC-2488: fix NPE in schemaspy
+  * Travis Schneeberger on Wed, 11 Oct 2017 15:59:07 -0400 [View Commit](../../commit/23f401bcdf0bb8184ea22403184479a7b63b9043)
+
+##coeus-1710.0014
+* RESKC-2488, RESKC-2488: fix NPE in schemaspy
   * Travis Schneeberger on Wed, 11 Oct 2017 13:42:47 -0400 [View Commit](../../commit/e48ec6f674159139e54e4977a0ee89530e3a85a3)
 
 ##coeus-1710.0013
