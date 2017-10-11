@@ -151,6 +151,9 @@
 	<param name="kcQuartzDatabasePrefix">KC_QRTZ_</param>
     <param name="kc.org.quartz.jobStore.isClustered">false</param>
     <param name="kc.org.quartz.scheduler.instanceId">AUTO</param>
+    <param name="kc.org.quartz.jobStore.misfireThreshold">300000</param>
+    <param name="kc.org.quartz.jobStore.clusterCheckinInterval">30000</param>
+    <param name="kc.org.quartz.jobStore.maxMisfiresToHandleAtATime">1</param>
 
     <!-- User the kc batch jobs run as -->
 	<param name="batchJobUserName">kc</param>
