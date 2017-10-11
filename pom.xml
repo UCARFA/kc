@@ -125,7 +125,7 @@
         <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
         <pdfbox.version>2.0.6</pdfbox.version>
         <quartz.version>2.3.0</quartz.version>
-        <schemaspy.version>1611.0001</schemaspy.version>
+        <schemaspy.version>1710.0001</schemaspy.version>
         <rice.version>2.5.3.1709.0005-kualico</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.25</slf4j.version>
