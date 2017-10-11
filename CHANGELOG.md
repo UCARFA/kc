@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-2488, RESKC-2488: fix NPE in schemaspy
+  * Travis Schneeberger on Wed, 11 Oct 2017 13:42:47 -0400 [View Commit](../../commit/e48ec6f674159139e54e4977a0ee89530e3a85a3)
+
+##coeus-1710.0013
 * RESKC-2488, RESKC-2488: fix schemaspy by using jdbc properties instead of regex matching
   * Travis Schneeberger on Mon, 9 Oct 2017 13:44:22 -0400 [View Commit](../../commit/54b5ec04e538397553892b071cf59822c8301d8c)
 
