@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* [#RESKC-2548] Improve Prop Dev lookup performance
+
+* Added new `KcAuthorizationService.filterForPermission` method that takes a full list of `Permissionable` search results and filters the list down based on whether or not the user has the requested permission for each result. This allows us to do broad unit-level checks across the entire result set up-front, while still falling back to individual document-based permission checks if necessary.
+  * Jeff Largent on Wed, 4 Oct 2017 17:49:55 -0400 [View Commit](../../commit/6c5305dc5ab06eb836c2f4b48469a5b4bc5d0094)
+
+##coeus-1710.0017
 * No Changes
 
 
