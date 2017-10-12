@@ -23,17 +23,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.person.editable.PersonEditable;
-import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
-import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
-import org.kuali.coeus.propdev.impl.person.creditsplit.NamedCreditSplitable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 import javax.persistence.*;
 import java.io.Serializable;

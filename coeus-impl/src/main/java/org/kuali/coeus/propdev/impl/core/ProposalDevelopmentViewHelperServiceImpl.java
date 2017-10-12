@@ -88,6 +88,7 @@ import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.file.FileMeta;
 import org.kuali.rice.krad.util.*;
 import org.kuali.rice.krad.bo.Note;
@@ -119,6 +120,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public static final String DOCUMENT_DEVELOPMENT_PROPOSAL_INSTITUTE_ATTACHMENTS = "document.developmentProposal.instituteAttachments";
     private static final String INFO_PROPOSAL_CERTIFIED = "All questions answered.";
     private static final String WARN_PROPOSAL_CERTIFIED = "Please answer all questions in order to certify proposal.";
+    public static final String CERTIFICATION_DETAILS = "certificationDetails";
 
     @Autowired
     @Qualifier("dateTimeService")
@@ -213,6 +215,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("questionnaireAnswerService")
     private QuestionnaireAnswerService questionnaireAnswerService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -833,15 +839,32 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public String getCertifiedBy(ProposalPerson person) {
+        if (person.getCertificationDetails() == null) {
+            refreshDetails(person);
+        }
         return person.getCertificationDetails() == null ? "" : person.getCertificationDetails().getCertifiedBy();
     }
 
     public String getCertifiedPersonName(ProposalPerson person) {
+        if (person.getCertificationDetails() == null) {
+            refreshDetails(person);
+        }
         return person.getCertificationDetails() == null ? "" : person.getCertificationDetails().getCertifiedPersonName();
     }
 
     public String getCertifiedTimeStamp(ProposalPerson person) {
+        if (person.getCertificationDetails() == null) {
+            refreshDetails(person);
+        }
         return person.getCertificationDetails() == null ? "" : person.getCertificationDetails().getCertifiedTimeStamp();
+    }
+
+    public void refreshDetails(ProposalPerson person) {
+        ProposalPersonCertificationDetails.ProposalPersonCertificationDetailsId id = new ProposalPersonCertificationDetails.ProposalPersonCertificationDetailsId();
+        id.setProposalNumber(person.getProposalNumber());
+        id.setProposalPersonNumber(person.getProposalPersonNumber());
+        ProposalPersonCertificationDetails details = dataObjectService.find(ProposalPersonCertificationDetails.class, id);
+        person.setCertificationDetails(details);
     }
 
     public String certifyModalMessage() {

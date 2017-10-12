@@ -34,6 +34,7 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.person.PersonTypeConstants;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -56,6 +57,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -234,9 +237,14 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
             Object deleteLine = ((List<Object>) collection).get(Integer.parseInt(selectedLine));
 
             deleteProposalPersonBios(form.getDevelopmentProposal(), (ProposalPerson) deleteLine);
+            deleteCertDetails((ProposalPerson) deleteLine);
         }
 
         return getCollectionControllerService().deleteLine(form);
+    }
+
+    private void deleteCertDetails(ProposalPerson person) {
+        getDataObjectService().delete(person.getCertificationDetails());
     }
 
     private void deleteProposalPersonBios(DevelopmentProposal proposal, ProposalPerson deleteLine) {
