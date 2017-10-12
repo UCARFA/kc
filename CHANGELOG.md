@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-2573: attempt to stablize quartz jobs
+
+seeing unexpected database deadlocks and quartz job misfires that appear to be related. This modifies the quartz properties to reduce the effect of possible misfires. Also cleanup old sched_name jobs
+  * blackcathacker on Wed, 11 Oct 2017 14:26:40 -0700 [View Commit](../../commit/094f8312fa5d492ab8dba353e1d53119a242d245)
+
+##coeus-1710.0015
 * RESKC-2488, RESKC-2488: fix NPE in schemaspy
   * Travis Schneeberger on Wed, 11 Oct 2017 15:59:07 -0400 [View Commit](../../commit/23f401bcdf0bb8184ea22403184479a7b63b9043)
 

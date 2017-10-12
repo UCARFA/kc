@@ -17,13 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-set define off
-set sqlblanklines on
 
-spool 1710_oracle_kc_upgrade.sql.log
-@./kc/bootstrap/V1710_001__add_new_form.sql
-@./kc/bootstrap/V1710_002__add_new_form.sql
-@./kc/bootstrap/V1710_003__add_new_form.sql
-@./kc/bootstrap/V1710_006__cert_header.sql
-@./kc/bootstrap/V1710_007__quartz_cleanup.sql
+\. ./rice/bootstrap/V1710_008__quartz_award_report_skip.sql
 commit;
