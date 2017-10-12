@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1710.0016
 * RESKC-2573: attempt to stablize quartz jobs
 
 seeing unexpected database deadlocks and quartz job misfires that appear to be related. This modifies the quartz properties to reduce the effect of possible misfires. Also cleanup old sched_name jobs
