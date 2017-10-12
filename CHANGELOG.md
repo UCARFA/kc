@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-2570: Various cert fixes (#2567)
+
+  * Gayathri Athreya on Thu, 12 Oct 2017 14:16:42 -0700 [View Commit](../../commit/c5201074a9bfe22fe579f00448bb41b18774b689)
+
+##coeus-1710.0018
 * [#RESKC-2548] Improve Prop Dev lookup performance
 
 * Added new `KcAuthorizationService.filterForPermission` method that takes a full list of `Permissionable` search results and filters the list down based on whether or not the user has the requested permission for each result. This allows us to do broad unit-level checks across the entire result set up-front, while still falling back to individual document-based permission checks if necessary.
