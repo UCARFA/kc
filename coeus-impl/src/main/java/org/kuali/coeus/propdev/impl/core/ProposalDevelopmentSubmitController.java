@@ -103,6 +103,7 @@ public class ProposalDevelopmentSubmitController extends
 
     private static final String AUTO_SUBMIT_TO_SPONSOR_ON_FINAL_APPROVAL = "autoSubmitToSponsorOnFinalApproval";
 	private static final String SUBMIT_TO_SPONSOR = "submitToSponsor";
+    private static final String PROPOSAL_APPROVAL_ATTACHMENT = "Proposal approval attachment.";
 
     @Autowired
     @Qualifier("kualiConfigurationService")
@@ -671,10 +672,18 @@ public class ProposalDevelopmentSubmitController extends
 			}
 		}
 
-        List<NotificationTypeRecipient> recipients = getRelatedApproversFromActionRequest(form.getProposalDevelopmentDocument().getDocumentNumber(), getGlobalVariableService().getUserSession().getPrincipalId()).stream()
+        List<NotificationTypeRecipient> recipients = getRelatedApproversFromActionRequest(form.getProposalDevelopmentDocument().getDocumentNumber(), getGlobalVariableService().getUserSession().getPrincipalId())
+                .stream()
                 .map(this::createRecipientFromPerson).collect(toList());
 
         getTransactionalDocumentControllerService().performWorkflowAction(form, UifConstants.WorkflowAction.APPROVE);
+
+        if (approvalComments) {
+            final String narrativeTypeCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.APPROVE_NARRATIVE_TYPE_CODE_PARAM);
+            final DevelopmentProposal pbo = getProposalHierarchyService().getDevelopmentProposal(form.getDevelopmentProposal().getProposalNumber());
+            final ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(pbo.getProposalDocument().getDocumentNumber());
+            getProposalHierarchyService().createAndSaveActionNarrative(form.getProposalDevelopmentApprovalBean().getActionReason(), PROPOSAL_APPROVAL_ATTACHMENT, form.getProposalDevelopmentApprovalBean().getActionFile(), narrativeTypeCode, pDoc);
+        }
 
         if (recipients.size() != 0) {
             sendAnotherUserApprovedNotification(form, recipients);
