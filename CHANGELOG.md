@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-1561: adding back in attachment support for approvals of proposal development documents
+  * Travis Schneeberger on Fri, 13 Oct 2017 13:44:11 -0400 [View Commit](../../commit/83a92caf29d58ecef7b6dc0ab633d8f592362549)
+
+##coeus-1710.0019
 * RESKC-2570: Various cert fixes (#2567)
 
   * Gayathri Athreya on Thu, 12 Oct 2017 14:16:42 -0700 [View Commit](../../commit/c5201074a9bfe22fe579f00448bb41b18774b689)
