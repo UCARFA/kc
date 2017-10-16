@@ -56,12 +56,6 @@
         <property name="parameterService" ref="parameterService" />
     </bean>
 
-    <bean id="kcAttachmentDataToS3ConversionJob" class="co.kuali.coeus.common.impl.attachment.KcAttachmentDataToS3ConversionImpl">
-        <property name="kcS3FileService" ref="kcS3FileService"/>
-        <property name="dataSource" ref="dataSource" />
-        <property name="parameterService" ref="parameterService" />
-    </bean>
-
     <bean id="kcAttachmentDataToS3ConversionJobDetail" class="org.quartz.impl.JobDetailImpl">
         <property name="jobClass" value="co.kuali.coeus.common.impl.attachment.KcAttachmentDataToS3ConversionImpl" />
         <property name="name" value="kcAttachmentDataToS3ConversionJobDetail" />
@@ -136,6 +130,9 @@
                 </entry>
                 <entry key="parameterService">
                     <ref bean="parameterService" />
+                </entry>
+                <entry key="configurationService">
+                    <ref bean="kualiConfigurationService"/>
                 </entry>
             </map>
         </property>
