@@ -1542,6 +1542,7 @@
                 <bean p:attributeName="awardNumber" parent="FieldDefinition"/>
                 <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition"/>
                 <bean p:attributeName="accountNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="awardTypeCode" parent="FieldDefinition"/>
                 <bean p:attributeName="statusCode" parent="FieldDefinition"/>
                 <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
                 <bean p:attributeName="title" parent="FieldDefinition"/>
@@ -1564,6 +1565,7 @@
                 <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
                 <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition"/>
                 <bean p:attributeName="accountNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="awardTypeCode" parent="FieldDefinition"/>
                 <bean p:attributeName="statusDescription" parent="FieldDefinition"/>
                 <bean p:attributeName="title" parent="FieldDefinition"/>
                 <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
