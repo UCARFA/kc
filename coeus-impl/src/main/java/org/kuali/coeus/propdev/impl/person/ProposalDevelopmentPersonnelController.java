@@ -244,7 +244,9 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     }
 
     private void deleteCertDetails(ProposalPerson person) {
-        getDataObjectService().delete(person.getCertificationDetails());
+        if (person.getCertificationDetails() != null) {
+            getDataObjectService().delete(person.getCertificationDetails());
+        }
     }
 
     private void deleteProposalPersonBios(DevelopmentProposal proposal, ProposalPerson deleteLine) {
