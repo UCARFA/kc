@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1710_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1710_008__quartz_award_report_skip.sql
+@./rice/bootstrap/V1710_010__Mandatory_questions.sql
 commit;

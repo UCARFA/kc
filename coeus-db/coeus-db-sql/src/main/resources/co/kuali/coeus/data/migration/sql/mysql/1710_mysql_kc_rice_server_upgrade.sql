@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1710_008__quartz_award_report_skip.sql
+\. ./rice/bootstrap/V1710_010__Mandatory_questions.sql
 commit;
