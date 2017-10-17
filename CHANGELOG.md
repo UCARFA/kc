@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1710.0024
 * RESKC-2579: Checking to see if object is null before deleting. (#2573)
 
   * Gayathri Athreya on Tue, 17 Oct 2017 10:59:01 -0700 [View Commit](../../commit/5c82b6b9549c40cc5ceddf7bf11703caef673aff)
