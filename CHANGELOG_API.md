@@ -15,3 +15,7 @@ version of that product required.
 ## 1708.0011
 
 - Adds syncing with Core Groups. Requires cor-main version 17.08.01
+
+## 1709.0035
+
+- Project push now pushes an updated project with an active field of false on development proposal deletion.  Requires research-coi version 17.09.057
