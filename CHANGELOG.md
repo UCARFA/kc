@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* update change log api
+  * Joe Williams on Tue, 17 Oct 2017 13:06:30 -0500 [View Commit](../../commit/f8d4f24282f0fa265edc84b1a215db7ab9984ce3)
+
+## coeus-1710.0025
 * No Changes
 
 
