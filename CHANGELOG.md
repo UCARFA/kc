@@ -1,6 +1,13 @@
 
 
 ## CURRENT
+* [#RESKC-2038] Support PHS Cover Page Supplement v4 (#2575)
+
+  * Jeff Largent on Wed, 18 Oct 2017 12:20:12 -0400 [View Commit](../../commit/0a17514e550d2bbd7217579a2ffdb3918be5de06)
+* RESKC-2036: disable select for print checkbox for UAF
+  * Travis Schneeberger on Wed, 18 Oct 2017 11:38:40 -0400 [View Commit](../../commit/3d4dfbfc90bf0c726c308e285c0c74b55c9aeed9)
+
+## coeus-1710.0026
 * update change log api
   * Joe Williams on Tue, 17 Oct 2017 13:06:30 -0500 [View Commit](../../commit/f8d4f24282f0fa265edc84b1a215db7ab9984ce3)
 
