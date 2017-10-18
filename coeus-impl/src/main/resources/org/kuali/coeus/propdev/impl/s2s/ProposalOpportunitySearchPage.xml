@@ -211,7 +211,8 @@
 				<bean parent="Uif-InputField" p:propertyName="selectToPrint"
 					p:fieldLabel.labelText="[0]" p:readOnly="false">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:disabled="@{!#line.available or !#editModes['printProposal']}" />
+                        <bean parent="Uif-CheckboxControl"
+                              p:disabled="@{!#line.available or !#editModes['printProposal'] or #lp.userAttachedForm}"/>
                     </property>
                     <property name="fieldLabel.inlineComponents">
                         <list>
