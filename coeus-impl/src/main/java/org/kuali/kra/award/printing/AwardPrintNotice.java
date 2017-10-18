@@ -53,23 +53,23 @@ public class AwardPrintNotice extends BusinessObjectBase {
 
 	public void setDefaults() {
 		terms = true;
-		specialReview = true;
-		equipment = true;
-		foreignTravel = true;
+		specialReview = false;
+		equipment = false;
+		foreignTravel = false;
 		subAward = true;
-		costShare = true;
-		faRates = true;
-		benefitsRates = true;
-		flowThru = true;
+		costShare = false;
+		faRates = false;
+		benefitsRates = false;
+		flowThru = false;
 		comments = true;
-		technicalReports = true;
-		reports = true;
-		payment = true;
-		closeout = true;
+		technicalReports = false;
+		reports = false;
+		payment = false;
+		closeout = false;
 		sponsorContacts = true;
 		otherData = true;
-		keywords = true;
-		fundingSummary = false;
+		keywords = false;
+		fundingSummary = true;
 		hierarchy = false;
 		requireSignature = false;
 	}
