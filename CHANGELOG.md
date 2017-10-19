@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1710.0029
 * RESKC-2568: support RR Other Project Info 1.4
   * Travis Schneeberger on Wed, 18 Oct 2017 15:33:44 -0400 [View Commit](../../commit/0f61cf50bad168031716c7fbbb3684b4cc25a2c5)
 
