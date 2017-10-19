@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* [#RESKC-2537] Allow anyone in the Prop Dev route log to print
+  * Jeff Largent on Thu, 19 Oct 2017 17:22:40 -0400 [View Commit](../../commit/f465300ef4895533bb0a83499fe3c6e0730547a2)
+
+## coeus-1710.0033
 * [#RESKC-2411] Pull in updated PHS Training Subaward Budget XSL
   * Jeff Largent on Thu, 19 Oct 2017 14:52:38 -0400 [View Commit](../../commit/11dd1aadfe65d73cb445b8c52d2bb7be50035346)
 
