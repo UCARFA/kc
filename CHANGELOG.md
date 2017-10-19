@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* [#RESKC-2411] Pull in updated PHS Training Subaward Budget XSL
+  * Jeff Largent on Thu, 19 Oct 2017 14:52:38 -0400 [View Commit](../../commit/11dd1aadfe65d73cb445b8c52d2bb7be50035346)
+
+## coeus-1710.0032
 * [#RESKC-2038] Fix Cover Page Supplement questionnaire script (#2578)
 
 * [#RESKC-2038] Fix Cover Page Supplement questionnaire script to protect against questions with incremented sequence numbers
