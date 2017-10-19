@@ -948,7 +948,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
     public boolean isAuthorizedToPrint(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
-        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.PRINT_PROPOSAL);
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.PRINT_PROPOSAL)
+                || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument);
     }
 
     protected boolean isAuthorizedToView(Document document, Person user) {
