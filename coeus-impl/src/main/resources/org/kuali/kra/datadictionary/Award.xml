@@ -1539,43 +1539,38 @@
         </property>
         <property name="lookupFields">
             <list>
-                <bean p:attributeName="awardNumber" parent="FieldDefinition"/>
-                <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition"/>
-                <bean p:attributeName="accountNumber" parent="FieldDefinition"/>
-                <bean p:attributeName="awardTypeCode" parent="FieldDefinition"/>
-                <bean p:attributeName="statusCode" parent="FieldDefinition"/>
-                <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
-                <bean p:attributeName="title" parent="FieldDefinition"/>
-                <bean p:attributeName="projectPersons.fullName" p:noDirectInquiry="true" parent="FieldDefinition"/>
-                <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
                 <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition"/>
-                <bean p:attributeName="financialChartOfAccountsCode" parent="FieldDefinition"/>
-                <bean p:attributeName="awardUnitContacts.awardContactId" parent="FieldDefinition" p:hidden="true"/>
+                <bean p:attributeName="projectPersons.fullName" p:noDirectInquiry="true" parent="FieldDefinition"/>
+                <bean p:attributeName="title" parent="FieldDefinition"/>
+                <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
+                <bean p:attributeName="accountNumber" parent="FieldDefinition"/> <!-- SJW - Account Key -->
+                <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="financialChartOfAccountsCode" parent="FieldDefinition"/> <!-- SJW - Contract ID -->
+                <bean p:attributeName="awardNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="statusCode" parent="FieldDefinition"/>
+                <bean p:attributeName="awardTypeCode" parent="FieldDefinition"/>
+                <bean p:attributeName="basisOfPaymentCode" parent="FieldDefinition"/>
                 <bean p:attributeName="archiveLocation" parent="FieldDefinition"/>
-                <bean p:attributeName="closeoutDate" parent="FieldDefinition"/>
-                <bean p:attributeName="projectPersons.awardContactId" parent="FieldDefinition" p:hidden="true"/>
-                <bean p:attributeName="subPlanFlag" parent="FieldDefinition" p:hidden="true"/>
                 <bean p:attributeName="awardSequenceStatus" parent="FieldDefinition" p:defaultValue="ACTIVE" />
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean p:attributeName="awardNumber" parent="FieldDefinition"/>
-                <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition"/>
-                <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
                 <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition"/>
-                <bean p:attributeName="accountNumber" parent="FieldDefinition"/>
-                <bean p:attributeName="awardTypeCode" parent="FieldDefinition"/>
-                <bean p:attributeName="statusDescription" parent="FieldDefinition"/>
+                <bean p:attributeName="principalInvestigatorName" parent="FieldDefinition"/>
                 <bean p:attributeName="title" parent="FieldDefinition"/>
                 <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
                 <bean p:attributeName="sponsorName" parent="FieldDefinition"/>
-                <bean p:attributeName="principalInvestigatorName" parent="FieldDefinition"/>
-                <bean p:attributeName="financialChartOfAccountsCode" parent="FieldDefinition"/>
+                <bean p:attributeName="accountNumber" parent="FieldDefinition"/> <!-- SJW - Account Key -->
+                <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="financialChartOfAccountsCode" parent="FieldDefinition"/> <!-- SJW - Contract ID -->
+                <bean p:attributeName="awardNumber" parent="FieldDefinition"/>
                 <bean p:attributeName="awardEffectiveDate" parent="FieldDefinition"/>
                 <bean p:attributeName="latestAwardAmountInfo.finalExpirationDate" parent="FieldDefinition"/>
+                <bean p:attributeName="statusDescription" parent="FieldDefinition"/>
+                <bean p:attributeName="awardTypeCode" parent="FieldDefinition"/>
+                <bean p:attributeName="basisOfPaymentCode" parent="FieldDefinition"/>
                 <bean p:attributeName="archiveLocation" parent="FieldDefinition"/>
-                <bean p:attributeName="closeoutDate" parent="FieldDefinition"/>
                 <bean p:attributeName="awardSequenceStatusResult" parent="FieldDefinition" />
                 </list>
             </property>
