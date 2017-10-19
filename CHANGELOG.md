@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* [#RESKC-2038] Fix Cover Page Supplement questionnaire script (#2578)
+
+* [#RESKC-2038] Fix Cover Page Supplement questionnaire script to protect against questions with incremented sequence numbers
+  * Jeff Largent on Thu, 19 Oct 2017 14:53:29 -0400 [View Commit](../../commit/b2d13b082afcfb9342c4bcad47b6705b3f2fc0ed)
+
+## coeus-1710.0031
 * No Changes
 
 

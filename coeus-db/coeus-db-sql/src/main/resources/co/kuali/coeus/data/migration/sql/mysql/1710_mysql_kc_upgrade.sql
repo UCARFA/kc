@@ -25,4 +25,5 @@
 \. ./kc/bootstrap/V1710_007__quartz_cleanup.sql
 \. ./kc/bootstrap/V1710_009__add_form.sql
 \. ./kc/bootstrap/V1710_011__PHS_CoverPageSupplement_V4.sql
+\. ./kc/bootstrap/V1710_013__PHS_CoverPageSupplement_V4_fix.sql
 commit;
