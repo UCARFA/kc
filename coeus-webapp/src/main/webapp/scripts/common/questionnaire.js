@@ -24,7 +24,7 @@ Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
 	namespace.answerIdRegex = /(.*)(\.answers\[)(\d+)(\])/;
 
     namespace.initQuestions = function(){
-		$(".uif-documentPage").find(".question").each(function(){
+		$(".uif-documentPage, .uif-formView").find(".question").each(function(){
 			$(this).on('change',function(e){
 			   namespace.answerChanged(this);
 			});
