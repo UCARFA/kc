@@ -18,35 +18,29 @@
  */
 package org.kuali.kra.award.notification;
 
-import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
+import org.kuali.kra.award.home.Award;
 
-import java.util.HashMap;
 import java.util.Map;
 
-public class AwardNoticeNotificationRenderer extends NotificationRendererBase {
+public class AwardNoticeNotificationRenderer extends AwardNotificationRenderer {
 
     private static final long serialVersionUID = -2831418548566311094L;
 
     private static final String DOCHANDLER_APP_URL_PROP = "application.url";
 
     private static final String AWARD_NOTICE_ID = "{AWARD_NOTICE_ID}";
-    private static final String AWARD_NUMBER = "{AWARD_NUMBER}";
-    private static final String DOCHANDLER_PREFIX = "{DOCUMENT_PREFIX}";
 
     protected Long awardNoticeId;
-    protected String awardNumber;
 
-    public AwardNoticeNotificationRenderer(Long awardNoticeId, String awardNumber) {
+    public AwardNoticeNotificationRenderer(Long awardNoticeId, Award award) {
+    	super(award);
         this.awardNoticeId = awardNoticeId;
-        this.awardNumber = awardNumber;
     }
 
     @Override
     public Map<String,String> getDefaultReplacementParameters() {
-        Map<String,String> replacementParams = new HashMap<String,String>();
+        Map<String,String> replacementParams = super.getDefaultReplacementParameters();
         replacementParams.put(AWARD_NOTICE_ID, awardNoticeId.toString());
-        replacementParams.put(AWARD_NUMBER, awardNumber);
-        replacementParams.put(DOCHANDLER_PREFIX, getDocumentLocation());
 
         return replacementParams;
     }

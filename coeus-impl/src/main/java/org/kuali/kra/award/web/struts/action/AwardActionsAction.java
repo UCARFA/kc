@@ -458,7 +458,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 
         AwardNoticePrintout awardPrintout = createAwardNoticePrintout(award, awardForm.getAwardPrintNotice());
 
-        AwardNoticeNotificationRenderer noticeRenderer = new AwardNoticeNotificationRenderer(awardPrintout.getAwardNoticeId(), award.getAwardNumber());
+        AwardNoticeNotificationRenderer noticeRenderer = new AwardNoticeNotificationRenderer(awardPrintout.getAwardNoticeId(), award);
         AwardNotificationContext noticeContext = new AwardNotificationContext(award, AWARD_NOTICE_ACTION_CODE,
                 AWARD_NOTICE, noticeRenderer, Constants.MAPPING_AWARD_ACTIONS_PAGE);
 
