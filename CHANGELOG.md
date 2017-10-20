@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* [#RESKC-2510] Setup questionnaire event handlers on form views as well as document pages
+  * Jeff Largent on Fri, 20 Oct 2017 09:50:20 -0400 [View Commit](../../commit/af92a4b05642e2cb22cb51dc774891f67c54ffb5)
+* RESKC-2589:Support all Award Notification tokens in Award Notice notification
+  * blackcathacker on Thu, 19 Oct 2017 18:38:49 -0700 [View Commit](../../commit/cce707942703cc9da5fec04e2a4e5481937bdcc1)
+
+## coeus-1710.0034
 * [#RESKC-2537] Allow anyone in the Prop Dev route log to print
   * Jeff Largent on Thu, 19 Oct 2017 17:22:40 -0400 [View Commit](../../commit/f465300ef4895533bb0a83499fe3c6e0730547a2)
 
