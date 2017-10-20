@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1710.0035
 * [#RESKC-2510] Setup questionnaire event handlers on form views as well as document pages
   * Jeff Largent on Fri, 20 Oct 2017 09:50:20 -0400 [View Commit](../../commit/af92a4b05642e2cb22cb51dc774891f67c54ffb5)
 * RESKC-2589:Support all Award Notification tokens in Award Notice notification
