@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-const React = require('react/addons');
+const React = require ('react');
+const ReactDOM = require('react-dom');
 const {Rates} = require('./components/Rates');
 
 class App extends React.Component {
@@ -37,4 +38,4 @@ class App extends React.Component {
 	}
 }
 
-React.render(<App/>, document.body);
+ReactDOM.render(<App/>, document.body);
