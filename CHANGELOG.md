@@ -1,6 +1,19 @@
 
 
 ## CURRENT
+* RESKC-2591: Added React Medusa UI
+
+  * This PR adds a new REST API at `/research-common/api/v1/medusa` for fetching Medusa tree and node information in JSON format, as well as a React-based UI for displaying and controlling that information. This PR also:
+
+* Updates the React version used in KC to `v16`
+* Updates the Babel build config to handle modern and future JS features better
+* Adds a somewhat general KRAD template / Uif bean configuration to pull in and render React resources
+* Adds an `Enable_Improved_Medusa_UI` Rice paramter to turn the new UI on and off
+  * Jeff Largent on Mon, 23 Oct 2017 13:18:08 -0400 [View Commit](../../commit/f2adb1871398de127f26141a5ff9bb691eeba1f8)
+* RESKC-2075: supporting fellowship supplemental 4.0
+  * Travis Schneeberger on Fri, 20 Oct 2017 16:35:41 -0400 [View Commit](../../commit/394baa5e1e27c7f4b7e1c17435fe5ea887eb3de6)
+
+## coeus-1710.0036
 * No Changes
 
 

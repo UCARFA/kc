@@ -26,4 +26,8 @@
 \. ./kc/bootstrap/V1710_009__add_form.sql
 \. ./kc/bootstrap/V1710_011__PHS_CoverPageSupplement_V4.sql
 \. ./kc/bootstrap/V1710_013__PHS_CoverPageSupplement_V4_fix.sql
+\. ./kc/bootstrap/V1710_014__add_configure_narr_for_form.sql
+\. ./kc/bootstrap/V1710_015__phs.sql
+\. ./kc/bootstrap/V1710_016__s2s_errors.sql
+\. ./kc/bootstrap/V1710_017__medusa_react_ui.sql
 commit;
