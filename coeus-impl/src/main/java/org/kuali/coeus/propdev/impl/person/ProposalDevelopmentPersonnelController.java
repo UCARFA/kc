@@ -281,8 +281,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 			   }
 		   }
 	   }
-	   saveAnswerHeaders(pdForm,request.getParameter(UifParameters.PAGE_ID));
-        return this.save(pdForm, result, request, response);
+	   saveUpdatePersonAnswerHeaders(pdForm.getDevelopmentProposal(), request.getParameter(UifParameters.PAGE_ID));
+	   return this.save(pdForm, result, request, response);
    }
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certificationToggle")
     public ModelAndView certificationToggle(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
