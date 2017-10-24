@@ -18,4 +18,4 @@
 --
 
 insert into krcr_parm_t (nmspc_cd, cmpnt_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, val, parm_desc_txt, eval_oprtr_cd, appl_id)
-values ('KC-PD', 'Document', 'Proposal_Search_Permissions_Filter', sys_guid(), 1, 'CONFG', 'false', 'If Proposal Search Permissions Filter is true then all search results will first be filtered out by if the user has permission to view the document. Both true/false values will maintain restricted access to the document itself. Note: true value may require user to input more search criteria to be able to find results.', 'A', 'KC');
+values ('KC-PD', 'Document', 'Proposal_Search_Permissions_Filter', sys_guid(), 1, 'CONFG', 'true', 'If Proposal Search Permissions Filter is true then all search results will first be filtered out by if the user has permission to view the document. Both true/false values will maintain restricted access to the document itself. Note: true value may require user to input more search criteria to be able to find results.', 'A', 'KC');
