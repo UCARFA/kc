@@ -1,6 +1,18 @@
 
 
 ## CURRENT
+* RESKC-2595: Ensure certification lock only blocks saving certification questionnaires
+
+  * RESKC-2595: Ensured that certification lock only blocks saving certification questionnaires
+  * Jeff Largent on Tue, 24 Oct 2017 14:24:04 -0400 [View Commit](../../commit/7f67cf77622e76008fa0c06c077ef89fd0ba1b9e)
+* RESKC-2594: Refresh after creating locks for certification page so they get cleaned up correctly
+  * Jeff Largent on Tue, 24 Oct 2017 13:43:05 -0400 [View Commit](../../commit/2e938946d9df8a7ff2762ef5567de6a109c9e7f3)
+* pull request template and contrib file updates
+  * blackcathacker on Mon, 23 Oct 2017 10:40:35 -0700 [View Commit](../../commit/be69663e4f3324062681514e552c891300fa51ed)
+* [#RESKC-2544] Added parameter that turns permissions filtering on/off completely
+  * Jeff Largent on Mon, 23 Oct 2017 09:15:16 -0400 [View Commit](../../commit/9b240ac5f7b05561b9a8876d8f48da71338a4f0b)
+
+## coeus-1710.0038
 * No Changes
 
 
