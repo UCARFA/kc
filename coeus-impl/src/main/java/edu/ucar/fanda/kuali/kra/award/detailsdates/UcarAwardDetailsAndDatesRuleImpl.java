@@ -71,9 +71,12 @@ public class UcarAwardDetailsAndDatesRuleImpl extends AwardDetailsAndDatesRuleIm
         }
         //susan wang:  TODO uncemment the following code after award import completed and contract ID moved to the designated place.
         // The following code is making award API not working properly because account number is used as a temrary place for contract ID and has letters.
-/*        if (!this.isValidAccountNumber((AwardDocument) awardDetailsAndDatesSaveEvent.getDocument())) {
+        if (!this.isValidAccountNumber((AwardDocument) awardDetailsAndDatesSaveEvent.getDocument())) {
             valid &= false;
-        }*/
+        }
+        if (!this.isValidContractIDNumber((AwardDocument) awardDetailsAndDatesSaveEvent.getDocument())) {
+            valid &= false;
+        }
 /*        ReportTrackingNotificationServiceImpl service;
         service = (ReportTrackingNotificationServiceImpl) KcServiceLocator.getService(ReportTrackingNotificationService.class);
         List<ReportTrackingNotificationDetails> details = service.runReportTrackingNotifications();
@@ -98,17 +101,31 @@ public class UcarAwardDetailsAndDatesRuleImpl extends AwardDetailsAndDatesRuleIm
 
             if (!StringUtils.isBlank(accountNumber) && (!NumberUtils.isDigits(accountNumber) || accountNumber.length() > 10)) {
                 reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME,
-                        KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID,
+                        KeyConstants.AWARD_CHART_OF_ACCOUNTS_NUMBER_NOT_VALID,
                         award.getAccountNumber(), award.getFinancialChartOfAccountsCode());
-                isValid = false;
+                isValid &= false;
 
             }
 
+        }
+        return isValid;
+    }
+    protected boolean isValidContractIDNumber(AwardDocument awardDocument) {
+        boolean isValid = true;
+        Award award = awardDocument.getAward();
+
+        String accountNumber = award.getAccountNumber();
+        String financialDocNbr = award.getFinancialAccountDocumentNumber();
+        String chartOfAccountsCode = award.getFinancialChartOfAccountsCode();
+
+        //swang:  custom validation to make sure 6 digit chart of account and 8 digit contract ID
+        if (isIntegrationParameterOn() && StringUtils.isEmpty(financialDocNbr) && validationRequired(award)) {
+
             if (!StringUtils.isBlank(chartOfAccountsCode) && chartOfAccountsCode.length() >8 ) {
-                reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME,
+                reportError(AWARD_FIN_CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME,
                         KeyConstants.AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID,
                         award.getAccountNumber(), award.getFinancialChartOfAccountsCode());
-                isValid = false;
+                isValid &= false;
 
             }
         }
