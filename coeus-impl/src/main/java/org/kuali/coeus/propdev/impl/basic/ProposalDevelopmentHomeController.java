@@ -247,6 +247,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
                 );
                 if (!lockAlreadyExists) {
                     pessimisticLockService.generateNewLock(document.getDocumentNumber(), document.getDocumentNumber() + "-" + KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL);
+                    document.refreshPessimisticLocks();
                 }
             }
 
