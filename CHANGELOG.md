@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1710.0040
 * RESKC-2595: Ensure certification lock only blocks saving certification questionnaires
 
   * RESKC-2595: Ensured that certification lock only blocks saving certification questionnaires
