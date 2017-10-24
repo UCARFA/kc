@@ -32,6 +32,4 @@ spool 1710_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1710_014__add_configure_narr_for_form.sql
 @./kc/bootstrap/V1710_015__phs.sql
 @./kc/bootstrap/V1710_016__s2s_errors.sql
-@./kc/bootstrap/V1710_017__medusa_react_ui.sql
-@./kc/bootstrap/V1710_018__turn_off_prop_dev_permission_filtering.sql
 commit;

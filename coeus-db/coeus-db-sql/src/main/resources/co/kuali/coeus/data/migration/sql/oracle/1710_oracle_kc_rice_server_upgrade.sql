@@ -24,4 +24,6 @@ spool 1710_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1710_008__quartz_award_report_skip.sql
 @./rice/bootstrap/V1710_010__Mandatory_questions.sql
 @./rice/bootstrap/V1710_012__Mandatory_questions.sql
+@./rice/bootstrap/V1710_017__medusa_react_ui.sql
+@./rice/bootstrap/V1710_018__turn_off_prop_dev_permission_filtering.sql
 commit;

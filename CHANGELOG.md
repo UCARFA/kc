@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2544: Fix Oracle checksum
+  * Jeff Largent on Tue, 24 Oct 2017 19:03:33 -0400 [View Commit](../../commit/89369bf7a4fdb7c581d6ed00c394a3843a132052)
+* RESKC-2544: Set default for PD permissions filtering to "true" (#2589)
+
+  * RESKC-2544: Set default for PD permissions filtering to "true"
+  * Jeff Largent on Tue, 24 Oct 2017 18:39:01 -0400 [View Commit](../../commit/595a39489b3398cc317ed6d01ac1fb5c214d18ca)
+
+## coeus-1710.0041
 * No Changes
 
 
