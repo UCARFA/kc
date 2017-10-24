@@ -21,6 +21,7 @@ module.exports = {
 	devtool : 'eval',
 	entry: {
 		instituteRatesClient: './instituteRates/client/index.jsx',
+		medusaClient: './medusa/index.js'
 	},
 	output: {
 		path: __dirname + '../../../target/generated-web-sources/jsfrontend-web-sources/client/assets/',

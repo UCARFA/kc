@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import React from 'react/addons';
-import ReactRouter from 'react-router';
+import React from 'react';
 import {assign} from 'lodash';
 import RateStore from '../stores/RateStore';
 import RateActions from '../stores/RateActions';
@@ -172,7 +171,7 @@ export class RateListing extends React.Component {
 					<div style={{width:'50%', display: 'inline-block'}}>
 					<div style={styles.headings}><span style={styles.headingLabels}>Rate Class Type:</span> <span style={styles.headingText}>{this.rateStore.getRateClassTypeFromCode(this.state.selectedRateClassType).description}</span></div>
 					<div style={styles.headings}><span style={styles.headingLabels}>Fiscal Years:</span> <span style={styles.headingText}>{this.state.startYear} - {this.state.endYear}</span></div>
-					{!this.state.editMode && <div><label><input type="checkbox" defaultChecked={this.state.hideEmptyRows} onChange={RateActions.toggleEmptyRows}>Hide All Empty Rows</input></label></div>}
+					{!this.state.editMode && <div><input id="hide-empty" type="checkbox" defaultChecked={this.state.hideEmptyRows} onChange={RateActions.toggleEmptyRows}/><label for="hide-empty">Hide All Empty Rows</label></div>}
 					</div>
 					<EditControls style={{width:'49%', display: 'inline-block'}} editMode={this.state.editMode} changeStartDates={this.state.changeStartDates}/>
 				</div>

@@ -359,16 +359,23 @@ public abstract class ProposalDevelopmentControllerBase {
      }
 
     public void saveAnswerHeaderIfNotLocked(ProposalDevelopmentDocumentForm form, ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        String pageId = form.getPageId();
         List<PessimisticLock> locks = pessimisticLockService.getPessimisticLocksForDocument(proposalDevelopmentDocument.getDocumentNumber());
         List<PessimisticLock> personnelLocks = locks.stream().filter(
                 lock -> StringUtils.countMatches(lock.getLockDescriptor(), KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL) > 0).collect(Collectors.toList());
-        if (personnelLocks.size() == 0) {
-            saveAnswerHeaders(form, form.getPageId());
-        } else {
-            personnelLocks.stream().forEach(personnelLock ->
-                    getGlobalVariableService().getMessageMap().putWarning(KRADConstants.GLOBAL_ERRORS,
-                                                                            KeyConstants.KC_ERROR_PERSONNEL_LOCKED,
-                                                                            personnelLock.getOwnedByUser().getName()));
+
+        if (StringUtils.equalsIgnoreCase(pageId, Constants.KEY_PERSONNEL_PAGE) || StringUtils.equalsIgnoreCase(pageId, Constants.CERTIFICATION_PAGE)) {
+            if (personnelLocks.size() == 0) {
+                saveUpdatePersonAnswerHeaders(form.getProposalDevelopmentDocument().getDevelopmentProposal(), pageId);
+            } else {
+                personnelLocks.forEach(personnelLock ->
+                        getGlobalVariableService().getMessageMap().putWarning(KRADConstants.GLOBAL_ERRORS,
+                                KeyConstants.KC_ERROR_PERSONNEL_LOCKED,
+                                personnelLock.getOwnedByUser().getName()));
+            }
+        } else if (StringUtils.equalsIgnoreCase(pageId, Constants.QUESTIONS_PAGE)) {
+            saveUpdateQuestionnaireAnswerHeaders(form.getQuestionnaireHelper(), pageId);
+            saveUpdateQuestionnaireAnswerHeaders(form.getS2sQuestionnaireHelper(), pageId);
         }
     }
 
@@ -548,17 +555,7 @@ public abstract class ProposalDevelopmentControllerBase {
         this.businessObjectService = businessObjectService;
     }
 
-    public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm, String pageId) {
-        if (StringUtils.equalsIgnoreCase(pageId, Constants.KEY_PERSONNEL_PAGE) ||
-                StringUtils.equalsIgnoreCase(pageId, Constants.CERTIFICATION_PAGE)) {
-            saveUpdatePersonAnswerHeaders(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal(), pageId);
-        } else if (StringUtils.equalsIgnoreCase(pageId, Constants.QUESTIONS_PAGE)) {
-            saveUpdateQuestionnaireAnswerHeaders(pdForm.getQuestionnaireHelper(), pageId);
-            saveUpdateQuestionnaireAnswerHeaders(pdForm.getS2sQuestionnaireHelper(), pageId);
-        }
-    }
-
-    private void saveUpdatePersonAnswerHeaders(DevelopmentProposal developmentProposal, String pageId) {
+    protected void saveUpdatePersonAnswerHeaders(DevelopmentProposal developmentProposal, String pageId) {
         boolean allCertificationsWereComplete = true;
         boolean allCertificationAreNowComplete = true;
 

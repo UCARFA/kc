@@ -21,7 +21,6 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.framework.auth.docperm.DocumentAccess;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -37,6 +36,8 @@ import org.kuali.rice.core.api.criteria.AndPredicate;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
@@ -94,7 +95,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     public static final String OSP_ADMIN_TYPE_CODE_PATH = "ownedByUnit.unitAdministrators.unitAdministratorTypeCode";
     public static final String OSP_ADMIN_TYPE_CODE_VALUE = "2";
 
-
+    public static final String SEARCH_RESULT_FILTERING_PARAMETER_NAME = "Proposal_Search_Permissions_Filter";
 
     @Autowired
     @Qualifier("kcAuthorizationService") 
@@ -119,6 +120,10 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Autowired
     @Qualifier("permissionService")
     private PermissionService permissionService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     @Autowired
     @Qualifier("unitService")
@@ -231,25 +236,18 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
                 .distinct()
                 .collect(Collectors.toList());
 
-        boolean doNotFilter = false;
-        if (CollectionUtils.isNotEmpty(proposals) && proposals.size() > SMALL_NUMBER_OF_RESULTS) {
+        boolean filterResults = isPermissionFilteringEnabled();
+        if (filterResults && CollectionUtils.isNotEmpty(proposals) && proposals.size() > SMALL_NUMBER_OF_RESULTS) {
             //if the proposal result list is more than a few proposals then attempt to figure out if a principal
             //has access to all proposals
-            doNotFilter = canAccessAllProposals();
+            filterResults = !canAccessAllProposals();
         }
+        final List<DevelopmentProposal> filteredProposals = filterResults ? filterPermissions(proposals) : proposals;
 
-        if (doNotFilter) {
-            if (searchResultsLimit != null && proposals.size() > searchResultsLimit) {
-                return proposals.subList(0, searchResultsLimit - 1);
-            }
-            return proposals;
+        if (searchResultsLimit != null && proposals.size() > searchResultsLimit) {
+            return filteredProposals.subList(0, searchResultsLimit - 1);
         }
-
-        Collection<DevelopmentProposal> filterProposals = filterPermissions(proposals);
-        if (searchResultsLimit != null && filterProposals.size() > searchResultsLimit) {
-            return (((ArrayList<DevelopmentProposal>)filterProposals).subList(0, searchResultsLimit - 1));
-        }
-        return filterProposals;
+        return filteredProposals;
     }
 
 	protected void addPredicate(final Predicate predicate, QueryByCriteria.Builder query) {
@@ -274,7 +272,12 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     	//noop default implementation
     }
 
-    private Collection<DevelopmentProposal> filterPermissions(Collection<DevelopmentProposal> results) {
+    protected boolean isPermissionFilteringEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.DOCUMENT_COMPONENT, SEARCH_RESULT_FILTERING_PARAMETER_NAME);
+    }
+
+    private List<DevelopmentProposal> filterPermissions(List<DevelopmentProposal> results) {
         List<ProposalDevelopmentDocument> permissionables = results.stream().map(DevelopmentProposal::getProposalDocument).collect(Collectors.toList());
         return getKcAuthorizationService().filterForPermission(getGlobalVariableService().getUserSession().getPrincipalId(),
                 permissionables, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.VIEW_PROPOSAL).stream()

@@ -247,13 +247,16 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
                 );
                 if (!lockAlreadyExists) {
                     pessimisticLockService.generateNewLock(document.getDocumentNumber(), document.getDocumentNumber() + "-" + KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL);
+                    document.refreshPessimisticLocks();
                 }
             }
 
             WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
             form.setDocTypeName(workflowDocument.getDocumentTypeName());
             form.setProposalCopyCriteria(new ProposalCopyCriteria(document));
-            ((ProposalDevelopmentViewHelperServiceImpl)form.getView().getViewHelperService()).populateQuestionnaires(form);
+            if (form.getView().getViewHelperService() instanceof ProposalDevelopmentViewHelperServiceImpl) {
+                ((ProposalDevelopmentViewHelperServiceImpl) form.getView().getViewHelperService()).populateQuestionnaires(form);
+            }
 
              if (!this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,
                         getGlobalVariableService().getUserSession().getPerson())) {
