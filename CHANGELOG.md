@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-1718: Made sure allFundingProposals are cleared as well on Award copy
+  * Jeff Largent on Thu, 26 Oct 2017 11:09:59 -0400 [View Commit](../../commit/2a25efe73b7dd634af1f9c8e0e2ff8129c19b5c1)
+
+## coeus-1710.0044
 * No Changes
 
 
