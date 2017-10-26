@@ -104,7 +104,9 @@ public class MedusaRestController {
         } else if (StringUtils.equals(node.getType(), Constants.SUBAWARD_MODULE)) {
             return Translate.to(MedusaSubAwardDto.class).from(node.getBo());
         } else if (StringUtils.equals(node.getType(), Constants.IRB_MODULE)) {
+            return Translate.to(MedusaIrbProtocolDto.class).from(node.getBo());
         } else if (StringUtils.equals(node.getType(), Constants.IACUC_MODULE)) {
+            return Translate.to(MedusaIacucProtocolDto.class).from(node.getBo());
         }
         return null;
     }

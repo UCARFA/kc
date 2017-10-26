@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Col, Collapse } from 'react-bootstrap';
+import { Col, Collapse, Row } from 'react-bootstrap';
 
 import AwardMedusaInfo from './modules/AwardMedusaInfo';
 import DevelopmentProposalMedusaInfo from './modules/DevelopmentProposalMedusaInfo';
@@ -79,16 +79,20 @@ class MedusaNode extends Component {
     render() {
         const expandedIconClass = this.state.expanded ? 'fa-caret-down' : 'fa-caret-right';
         let nodeComponents = [
-            <div key="1" className="medusa-node" onClick={this.toggle}>
-                <span className="medusa-indent" style={{ width: this.props.depth * 20 }}/>
-                <i style={{ width: '0.6em' }} className={`fa fa-lg ${expandedIconClass}`}></i>
-                <span>{this.props.description}</span>
-                { this.state.loadingState === LoadingStates.LOADING && <i className={'fa fa-spinner fa-pulse'}></i> }
-            </div>,
-            <Collapse key="2" in={this.state.expanded}>
-                <Col className="medusa-node-container" md={12}>
-                    { this.state.expanded && getComponentForModule(this.props.moduleCode, { ...this.state.documentState }) }
+            <Row key="1" className="medusa-node" onClick={this.toggle}>
+                <Col md={12}>
+                    <span className="medusa-indent" style={{ width: this.props.depth * 20 }}/>
+                    <i style={{ width: '0.6em' }} className={`fa fa-lg ${expandedIconClass}`}></i>
+                    <span>{this.props.description}</span>
+                    { this.state.loadingState === LoadingStates.LOADING && <i className={'fa fa-spinner fa-pulse'}></i> }
                 </Col>
+            </Row>,
+            <Collapse key="2" in={this.state.expanded}>
+                <Row>
+                    <Col className="medusa-node-container" md={12}>
+                        { this.state.expanded && getComponentForModule(this.props.moduleCode, { ...this.state.documentState }) }
+                    </Col>
+                </Row>
             </Collapse>
         ];
         if (this.props.renderChildren) {
