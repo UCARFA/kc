@@ -1367,10 +1367,8 @@
                   </property>
               </bean>
               <bean parent="Uif-ActionLink" p:actionLabel="medusa" p:order="40"
-                    p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=@{#getParamAsBoolean('KC-PD','Document','Enable_Improved_Medusa_UI') == null ? 'PropDev-MedusaView' : (#getParamAsBoolean('KC-PD','Document','Enable_Improved_Medusa_UI') ? 'PropDev-ReactMedusaView' : 'PropDev-MedusaView')}&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-MedusaDialog@{#lineSuffix}');"
+                    p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=@{#ViewHelper.isReactMedusaEnabled() ? 'PropDev-ReactMedusaView' : 'PropDev-MedusaView'}&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-MedusaDialog');"
                     p:render="@{!#view.renderReturnLink}"/>
-              <bean id="Development-Proposal-Lookup-MedusaDialog" parent="Uif-DialogGroup-Iframe-XL"
-                    p:headerText="Medusa" p:retrieveViaAjax="true"/>
               <bean parent="Uif-Lookup-MaintenanceReturnLink"/>
           </list>
       </property>
@@ -1380,6 +1378,10 @@
 		<property name="dialogCssClass" value="modal-xl"/>
 	</bean>
 
+	<bean id="Development-Proposal-MedusaDialog" parent="Uif-DialogGroup-Iframe-XL" p:order="50"
+		  p:headerText="@{#ViewHelper.isReactMedusaEnabled() ? null : 'Medusa'}"
+		  p:retrieveViaAjax="@{#ViewHelper.isReactMedusaEnabled() ? false : true}" />
+
   <bean id="AllDevelopmentProposals-LookupViewId" parent="AllDevelopmentProposals-lookupView-parentBean" />
    <bean id="AllDevelopmentProposals-lookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView" p:viewName="AllLookupableDevelopmentProposals-LookupViewName" 
 	p:headerText="All Proposal Development Document Lookup" >
@@ -1387,7 +1389,7 @@
 
 
 <bean id="EnrouteDevelopmentProposals-LookupViewId" parent="EnrouteDevelopmentProposals-lookupView-parentBean"/>    
-<bean id="EnrouteDevelopmentProposals-lookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView"     p:viewName="EnrouteLookupableDevelopmentProposals-LookupViewName" p:headerText="Enroute Development Proposals Lookup" 
+<bean id="EnrouteDevelopmentProposals-lookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView" p:viewName="EnrouteLookupableDevelopmentProposals-LookupViewName" p:headerText="Enroute Development Proposals Lookup"
      p:viewHelperService="#{#getService('enrouteDevelopmentProposalLookupable')}">
      <property name="criteriaFields">
       <list>
@@ -1453,7 +1455,6 @@
      </property>
 
  </bean>
-
 	<bean id="PropDev-S2SSubmissions-LookupView" parent="PropDev-S2SSubmissions-LookupView-parentBean" />
 	<bean id="PropDev-S2SSubmissions-LookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView" 
 		p:viewName="PropDev-S2SSubmissions-Lookup" p:headerText="View S2S Submission List" p:viewHelperService="#{#getService('s2sSubmissionProposalLookupable')}">
@@ -1528,10 +1529,8 @@
                     p:headerText="Submission Details" p:retrieveViaAjax="true" p:order="20"/>                    
               <bean parent="Development-Proposal-Lookup-result-ViewLink" p:order="30"/>
               <bean parent="Uif-ActionLink" p:actionLabel="medusa" p:order="40"
-                    p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-MedusaView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-MedusaDialog@{#lineSuffix}');"
+					p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=@{#ViewHelper.isReactMedusaEnabled() ? 'PropDev-ReactMedusaView' : 'PropDev-MedusaView'}&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-MedusaDialog');"
                     p:render="@{!#view.renderReturnLink}"/>
-              <bean id="Development-Proposal-Lookup-MedusaDialog" parent="Uif-DialogGroup-Iframe"
-                    p:headerText="Medusa" p:retrieveViaAjax="true" p:order="50"/>
               <bean parent="Uif-Lookup-MaintenanceReturnLink" p:order="60"/>
           </list>
       </property>		

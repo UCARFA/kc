@@ -123,6 +123,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     private static final String INFO_PROPOSAL_CERTIFIED = "All questions answered.";
     private static final String WARN_PROPOSAL_CERTIFIED = "Please answer all questions in order to certify proposal.";
     public static final String CERTIFICATION_DETAILS = "certificationDetails";
+    public static final String REACT_MEDUSA_ENABLED_PARAMETER = "Enable_Improved_Medusa_UI";
 
     @Autowired
     @Qualifier("dateTimeService")
@@ -1156,6 +1157,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     
     public boolean syncAllRequiresEndDateExtension(DevelopmentProposal hierarchyProposal) {
     	return getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal);
+    }
+
+    public boolean isReactMedusaEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.DOCUMENT_COMPONENT, REACT_MEDUSA_ENABLED_PARAMETER, false);
     }
 
     public SponsorSearchService getSponsorSearchService() {

@@ -60,6 +60,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl.REACT_MEDUSA_ENABLED_PARAMETER;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 
@@ -541,6 +542,11 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
         if (!canModifyProposal && !canModifyBudget) {
                 fieldGroup.setRender(false);
         }
+    }
+
+    public boolean isReactMedusaEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.DOCUMENT_COMPONENT, REACT_MEDUSA_ENABLED_PARAMETER, false);
     }
 
 	public KcAuthorizationService getKcAuthorizationService() {
