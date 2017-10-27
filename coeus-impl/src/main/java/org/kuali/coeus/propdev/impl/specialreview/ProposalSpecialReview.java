@@ -18,8 +18,6 @@
  */
 package org.kuali.coeus.propdev.impl.specialreview;
 
-import java.util.List;
-
 import org.kuali.coeus.common.framework.compliance.core.SpecialReview;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -28,6 +26,7 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Defines a Special Review for a Development Proposal.
@@ -57,8 +56,14 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
 
     @OneToMany(mappedBy="proposalSpecialReview", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalSpecialReviewExemption> specialReviewExemptions;
-    
-	public void setId(Long id) {
+
+    @OneToOne (cascade=CascadeType.ALL)
+    @JoinColumn(name="PROPOSAL_SPECIAL_REVIEW_ATT_ID", unique= true, nullable=true, insertable=true, updatable=true)
+    private ProposalSpecialReviewAttachment specialReviewAttachment;
+
+
+
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -93,6 +98,15 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         proposalSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
         proposalSpecialReviewExemption.setProposalSpecialReview(this);
         return proposalSpecialReviewExemption;
+    }
+
+    public ProposalSpecialReviewAttachment getSpecialReviewAttachment() {
+        return specialReviewAttachment;
+    }
+
+
+    public void setSpecialReviewAttachment(ProposalSpecialReviewAttachment specialReviewAttachment) {
+        this.specialReviewAttachment = specialReviewAttachment;
     }
 
     public int hierarchyHashCode() {

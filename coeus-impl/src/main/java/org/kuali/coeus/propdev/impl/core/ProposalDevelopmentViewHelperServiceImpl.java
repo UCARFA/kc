@@ -781,6 +781,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return false;
     }
 
+    public boolean hasSpecialReviewAttachment(ProposalSpecialReview proposalSpecialReview) {
+        return proposalSpecialReview.getSpecialReviewAttachment()!= null && proposalSpecialReview.getSpecialReviewAttachment().getFileDataId() != null;
+    }
+
+    public String showFileAttachmentName(ProposalSpecialReview proposalSpecialReview) {
+        return proposalSpecialReview.getSpecialReviewAttachment()!= null ? proposalSpecialReview.getSpecialReviewAttachment().getName() : "";
+    }
+
     public String displayFullName(String userName){
         if (ObjectUtils.isNull(userName)) {
             return "";

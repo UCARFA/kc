@@ -18,11 +18,31 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
+import com.lowagie.text.pdf.PdfReader;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.s2sgen.api.core.S2SException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.transform.TransformerException;
 
 public interface S2sUserAttachedFormService {
     List<S2sUserAttachedForm> extractNSaveUserAttachedForms(ProposalDevelopmentDocument developmentProposal, S2sUserAttachedForm s2sUserAttachedForm) throws Exception;
+
+    Map<Object, Object> extractAttachments(PdfReader reader)throws IOException;
+
+    Document node2Dom(org.w3c.dom.Node n) throws TransformerException;
+
+    void reorderXmlElements(Document doc);
+
+    void removeAllEmptyNodes(Document document, String xpath, int parentLevel) throws TransformerException;
+
+    String docToString(Document node) throws S2SException;
+
     void resetFormAvailability(ProposalDevelopmentDocument developmentProposal, String namespace);
-}
+
+    }

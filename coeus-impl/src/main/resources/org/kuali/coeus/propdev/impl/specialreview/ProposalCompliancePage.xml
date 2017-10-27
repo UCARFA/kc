@@ -94,7 +94,27 @@
                                 </bean>
                             </property>
                         </bean>
-			</list>
+
+                        <bean parent="PropDev-CompliancePage-AttachmentType" p:order="90" />
+                        <bean parent="PropDev-CompliancePage-ClinicalTrial" p:order="100" />
+
+                        <bean parent="Uif-InputField" p:propertyName="specialReviewAttachment.studyTitle" p:label="Study Title" p:order="120">
+                            <property name="control">
+                                <bean parent="Uif-TextAreaControl">
+                                    <property name="rows" value="2"/>
+                                    <property name="cols" value="120"/>
+                                </bean>
+                            </property>
+                        </bean>
+
+                        <bean parent="PropDev-CompliancePage-PropSpecialReviewAttachment" p:order="130" p:render="@{!#ViewHelper.hasSpecialReviewAttachment(#line)}"/>
+
+                        <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.showFileAttachmentName(#line)}"
+                            p:fieldLabel.labelText="Human Study Attachment"
+                            p:render="@{#ViewHelper.hasSpecialReviewAttachment(#line)}"
+                            p:order="140"/>
+
+            </list>
 		</property>
 
   		<property name="lineActions">
@@ -130,6 +150,23 @@
 		</property>
 	</bean>
 
+    <bean id="PropDev-CompliancePage-AttachmentType" parent="PropDev-CompliancePage-AttachmentType-parentBean"/>
+    <bean id="PropDev-CompliancePage-AttachmentType-parentBean" abstract="true" parent="Uif-InputField"
+          p:propertyName="specialReviewAttachment.isAttachmentDelayedOnset" p:label="Delayed Onset">
+            <property name="control">
+                <bean parent="Uif-CheckboxControl"/>
+            </property>
+    </bean>
+
+    <bean id="PropDev-CompliancePage-ClinicalTrial" parent="PropDev-CompliancePage-ClinicalTrial-parentBean"/>
+    <bean id="PropDev-CompliancePage-ClinicalTrial-parentBean" abstract="true" parent="Uif-InputField"
+          p:propertyName="specialReviewAttachment.clinicalTrial" p:label="Clinical Trial">
+        <property name="control">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
+
+
 	<bean id="PropDev-CompliancePage-CreateProtocolButton" parent="PropDev-CompliancePage-CreateProtocolButton-parentBean" />
 	<bean id="PropDev-CompliancePage-CreateProtocolButton-parentBean" abstract="true"
         p:actionScript="jQuery(this).data('presubmitcall', null); actionInvokeHandler(this);"
@@ -162,6 +199,15 @@
       		<bean class="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewTypeValuesFinder"/>
     	</property>
 	</bean>
+
+    <bean id="PropDev-CompliancePage-PropSpecialReviewAttachment" parent="PropDev-CompliancePage-PropSpecialReviewAttachment-parentBean" />
+    <bean id="PropDev-CompliancePage-PropSpecialReviewAttachment-parentBean" abstract="true" parent="Uif-InputField" p:propertyName="specialReviewAttachment.multipartFile"
+          p:readOnly="@{#ViewHelper.hasSpecialReviewAttachment(#line) || #lp.linkedToProtocol || #parent.readOnly}" p:label="Human Study Attachment">
+            <property name="control">
+                <bean parent="Uif-FileControl"/>
+            </property>
+    </bean>
+
 
 	<bean id="PropDev-CompliancePage-ApprovalTypeCode" parent="PropDev-CompliancePage-ApprovalTypeCode-parentBean" />
 	<bean id="PropDev-CompliancePage-ApprovalTypeCode-parentBean"

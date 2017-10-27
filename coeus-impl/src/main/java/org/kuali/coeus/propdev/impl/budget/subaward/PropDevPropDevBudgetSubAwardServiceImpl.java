@@ -344,7 +344,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     /**
      * extracts XML from PDF
      */
-    protected byte[] getXMLFromPDF(PdfReader reader)throws Exception {
+    public byte[] getXMLFromPDF(PdfReader reader) throws IOException, TransformerException {
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
         if (domDocument==null) {
@@ -362,7 +362,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         return XfaForm.serializeDoc(budgetElement);
     }
 
-    private Node getBudgetElement(Element xmlElement) throws Exception{
+    private Node getBudgetElement(Element xmlElement) throws TransformerException {
         Node budgetNode = xmlElement;
         NodeList budgetAttachments =  XPathAPI.selectNodeList(xmlElement,"//*[local-name(.) = 'BudgetAttachments']");
         if(budgetAttachments!=null && budgetAttachments.getLength()>0){

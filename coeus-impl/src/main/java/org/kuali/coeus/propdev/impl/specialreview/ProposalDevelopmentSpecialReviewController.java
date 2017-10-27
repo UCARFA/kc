@@ -181,7 +181,7 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
         ProposalSpecialReview proposalSpecialReview = ((ProposalSpecialReview)pdForm.getNewCollectionLines().get("document.developmentProposal.propSpecialReviews"));
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
 
-        if (!getKualiRuleService().applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(pdForm.getProposalDevelopmentDocument(),
+        if (!getKualiRuleService().applyRules(new AddSpecialReviewEvent<>(pdForm.getProposalDevelopmentDocument(),
                 proposalSpecialReview,pdForm.getDevelopmentProposal().getPropSpecialReviews(),
                 protocolNeedsToBeLinked(proposalSpecialReview.getSpecialReviewTypeCode()),
                 NEW_SPECIAL_REVIEW_PATH))) {
@@ -192,6 +192,11 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
 
         if (proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS) ||
                 proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.ANIMAL_USAGE)) {
+                ProposalSpecialReviewAttachment specialReviewAttachment = proposalSpecialReview.getSpecialReviewAttachment();
+            if (specialReviewAttachment.getMultipartFile() != null) {
+                specialReviewAttachment.init(specialReviewAttachment.getMultipartFile());
+                proposalSpecialReview.setSpecialReviewAttachment(specialReviewAttachment);
+            }
 
             proposalSpecialReview.setDevelopmentProposal(proposalDevelopmentDocument.getDevelopmentProposal());
             pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(proposalSpecialReview);
