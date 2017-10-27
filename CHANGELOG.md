@@ -1,6 +1,17 @@
 
 
 ## CURRENT
+* RESKC-2486: fix sql (#2594)
+
+  * Gayathri Athreya on Fri, 27 Oct 2017 07:13:42 -0700 [View Commit](../../commit/22e6af8688ab009d1ea1c2e40fe8bf662d02fa88)
+* RESKC-2486: PHS Human SUbjects form (#2593)
+
+* RESKC-2486: PHS Human SUbjects form
+  * 
+* RESKC-2486: refactored
+  * Gayathri Athreya on Thu, 26 Oct 2017 18:56:11 -0700 [View Commit](../../commit/e0b2dec4f602dcd9c03296b2e34dadfcb7c346b0)
+
+## coeus-1710.0045
 * RESKC-1718: Made sure allFundingProposals are cleared as well on Award copy
   * Jeff Largent on Thu, 26 Oct 2017 11:09:59 -0400 [View Commit](../../commit/2a25efe73b7dd634af1f9c8e0e2ff8129c19b5c1)
 
