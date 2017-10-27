@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import MedusaEntry from '../MedusaEntry';
+import MedusaHeading from '../MedusaHeading';
 import MedusaLinks from '../MedusaLinks';
 import MedusaRow from '../MedusaRow';
 import { concat } from '../../utils';
 
-const openNegotiationLinkFor = docId => `../negotiationNegotiation.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&docTypeName=NegotiationDocument`;
+const openNegotiationLinkFor = docId => `../negotiationNegotiation.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true`;
 
 const getNegotiationLinksFor = docId => [
     { text: 'Open Negotiation', href: openNegotiationLinkFor(docId) }
@@ -15,6 +16,7 @@ const getNegotiationLinksFor = docId => [
 const NegotiationMedusaInfo = (props) => (
     <div>
         <MedusaLinks links={getNegotiationLinksFor(props.documentNumber)} />
+        <MedusaHeading text="Summary" />
         <MedusaRow>
             <MedusaEntry label="Negotiation ID" value={props.negotiationId} striped />
             <MedusaEntry label="Negotiation Status" value={props.negotiationStatus} />
@@ -30,15 +32,15 @@ const NegotiationMedusaInfo = (props) => (
     </div>
 );
 
-SubAwardMedusaInfo.propTypes = {
+NegotiationMedusaInfo.propTypes = {
     documentNumber: PropTypes.string,
     negotiationId: PropTypes.number,
     negotiationStatus: PropTypes.string,
     negotiator: PropTypes.string,
     negotiationStartDate: PropTypes.string,
     negotiationEndDate: PropTypes.string,
-    agreementType: PropTypes.agreementType,
+    agreementType: PropTypes.string,
     negotiationAge: PropTypes.number
 };
 
-export default SubAwardMedusaInfo;
+export default NegotiationMedusaInfo;

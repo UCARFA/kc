@@ -5,10 +5,13 @@ import { Col, Collapse, Row } from 'react-bootstrap';
 import AwardMedusaInfo from './modules/AwardMedusaInfo';
 import DevelopmentProposalMedusaInfo from './modules/DevelopmentProposalMedusaInfo';
 import InstitutionalProposalMedusaInfo from './modules/InstitutionalProposalMedusaInfo';
+import NegotiationMedusaInfo from './modules/NegotiationMedusaInfo';
+import ProtocolMedusaInfo from './modules/ProtocolMedusaInfo';
 import SubAwardMedusaInfo from './modules/SubAwardMedusaInfo';
 import { authorizedFetch, LoadingStates } from '../utils';
 
 const getComponentForModule = (module, props) => {
+    console.log(module);
     if (module === 'DP') {
         return <DevelopmentProposalMedusaInfo {...props} />;
     } else if (module === 'award') {
@@ -17,8 +20,12 @@ const getComponentForModule = (module, props) => {
         return <InstitutionalProposalMedusaInfo {...props} />;
     } else if (module === 'subaward') {
         return <SubAwardMedusaInfo {...props} />;
-    } else {
-        return null;
+    } else if (module === 'neg') {
+        return <NegotiationMedusaInfo {...props} />;
+    } else if (module === 'irb') {
+        return <ProtocolMedusaInfo moduleName="IRB" {...props} />
+    } else if (module === 'iacuc') {
+        return <ProtocolMedusaInfo moduleName="IACUC" {...props} />
     }
 };
 

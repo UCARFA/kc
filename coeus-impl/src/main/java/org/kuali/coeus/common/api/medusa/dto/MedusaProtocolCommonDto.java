@@ -15,6 +15,8 @@ public abstract class MedusaProtocolCommonDto {
     private String protocolStatus;
     @Property(source = "mvel:?protocolType.?description")
     private String protocolType;
+    @Property(source = "mvel:?protocolSubmission.?submissionStatus.?description")
+    private String submissionStatus;
     private String title;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.DESERIALIZED_SQL_DATE_FORMAT)
     private Date approvalDate;
@@ -45,6 +47,10 @@ public abstract class MedusaProtocolCommonDto {
 
     public String getProtocolType() {
         return protocolType;
+    }
+
+    public String getSubmissionStatus() {
+        return submissionStatus;
     }
 
     public String getTitle() {
