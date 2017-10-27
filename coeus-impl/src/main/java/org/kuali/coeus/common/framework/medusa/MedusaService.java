@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.framework.medusa;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public interface MedusaService {
      * @param moduleIdentifier the primary key of the object to be looked up in the specified module
      * @return
      */
-    public List<MedusaNode> getMedusaByAward(String moduleName, Long moduleIdentifier);
+    List<MedusaNode> getMedusaByAward(String moduleName, Long moduleIdentifier);
     
     /**
      * 
@@ -47,7 +48,7 @@ public interface MedusaService {
      * @param moduleIdentifier the primary key of the object to be looked up in the specified module
      * @return
      */
-    public List<MedusaNode> getMedusaByProposal(String moduleName, Long moduleIdentifier);
+    List<MedusaNode> getMedusaByProposal(String moduleName, Long moduleIdentifier);
     
     /**
      * 
@@ -57,7 +58,18 @@ public interface MedusaService {
      * @param moduleIdentifier the primary key of the object to be looked up in the specified module
      * @return
      */
-    public MedusaNode getMedusaNode(String moduleName, Long moduleIdentifier);
-    
+    MedusaNode getMedusaNode(String moduleName, Long moduleIdentifier);
+
+    /**
+     * Determines which modules should have their document descriptions displayed in the Medusa view
+     * @return the {@link org.kuali.coeus.common.framework.module.CoeusModule} codes that should display descriptions
+     */
+    Collection<String> getDocumentDescriptionDisplayModules();
+
+    /**
+     * Returns whether the new React Medusa UI is enabled
+     * @return true if the new React UI should be displayed, false if the old KRAD/KNS UI should be used
+     */
+    boolean isReactMedusaEnabled();
  
 }

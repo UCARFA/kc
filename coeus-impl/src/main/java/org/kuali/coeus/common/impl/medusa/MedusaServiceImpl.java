@@ -18,38 +18,40 @@
  */
 package org.kuali.coeus.common.impl.medusa;
 
-import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReview;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
+import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
-import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
-import org.kuali.coeus.common.framework.compliance.core.SpecialReview;
+import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.FundingSourceType;
-import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
-import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.service.NegotiationService;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.service.SubAwardService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -67,6 +69,8 @@ import java.util.stream.Collectors;
 @Lazy
 public class MedusaServiceImpl implements MedusaService {
 
+    public static final String SHOW_MEDUSA_DOCUMENT_DESCRIPTIONS_PARAMETER = "Show_Document_Descriptions_In_Medusa";
+    public static final String REACT_MEDUSA_ENABLED_PARAMETER = "Enable_Improved_Medusa_UI";
     private static final int INST_PROPOSAL_STATUS_FUNDED = 2;
 
     @Autowired
@@ -667,6 +671,7 @@ public class MedusaServiceImpl implements MedusaService {
         MedusaNode node = new MedusaNode();
         node.setBo(award);
         node.setType(Constants.AWARD_MODULE);
+        setDocumentDescriptionIfEnabled(node, CoeusModule.AWARD_MODULE_CODE, award.getAwardDocument());
         node.setExtraInfo(awardAmountInfo);
         return node;
     }
@@ -675,6 +680,7 @@ public class MedusaServiceImpl implements MedusaService {
         MedusaNode node = new MedusaNode();
         node.setBo(proposal);
         node.setType(Constants.INSTITUTIONAL_PROPOSAL_MODULE);
+        setDocumentDescriptionIfEnabled(node, CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE, proposal.getInstitutionalProposalDocument());
         proposal.setNsfCodeBo(proposal.getNsfCodeBo());
         return node;
     }
@@ -683,6 +689,7 @@ public class MedusaServiceImpl implements MedusaService {
         MedusaNode node = new MedusaNode();
         node.setBo(proposal);
         node.setType(Constants.DEVELOPMENT_PROPOSAL_MODULE);
+        setDocumentDescriptionIfEnabled(node, CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, proposal.getProposalDocument());
         return node;
     }
     
@@ -690,24 +697,28 @@ public class MedusaServiceImpl implements MedusaService {
         MedusaNode node = new MedusaNode();
         node.setBo(negotiation);
         node.setType(Constants.NEGOTIATION_MODULE);
+        setDocumentDescriptionIfEnabled(node, CoeusModule.NEGOTIATIONS_MODULE_CODE, negotiation.getDocument());
         return node;
     }
     protected MedusaNode getNode(SubAward subAward) {
         MedusaNode node = new MedusaNode();
         node.setBo(subAward);
         node.setType(Constants.SUBAWARD_MODULE);
+        setDocumentDescriptionIfEnabled(node, CoeusModule.SUBCONTRACTS_MODULE_CODE, subAward.getSubAwardDocument());
         return node;
     }
     protected MedusaNode getNode(Protocol protocol) {
         MedusaNode node = new MedusaNode();
         node.setBo(protocol);
         node.setType(Constants.IRB_MODULE);
+        setDocumentDescriptionIfEnabled(node, CoeusModule.IRB_MODULE_CODE, protocol.getProtocolDocument());
         return node;
     }
     protected MedusaNode getNode(IacucProtocol protocol) {
         MedusaNode node = new MedusaNode();
         node.setBo(protocol);
         node.setType(Constants.IACUC_MODULE);
+        setDocumentDescriptionIfEnabled(node, CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocol.getProtocolDocument());
         return node;
     }
     
@@ -846,6 +857,24 @@ public class MedusaServiceImpl implements MedusaService {
     
     protected Collection<Negotiation> getNegotiations(BusinessObject bo) {
         return getNegotiationService().getAssociatedNegotiations(bo);
+    }
+
+    protected void setDocumentDescriptionIfEnabled(MedusaNode node, String coeusModule, Document document) {
+        if (getDocumentDescriptionDisplayModules().contains(coeusModule) || getDocumentDescriptionDisplayModules().contains("*")) {
+            String description = document != null && document.getDocumentHeader() != null ? document.getDocumentHeader().getDocumentDescription() : "";
+            description = description.length() <= 120 ? description : description.substring(0, 120).concat("...");
+            node.setDocumentDescription(description);
+        }
+    }
+
+    @Override
+    public Collection<String> getDocumentDescriptionDisplayModules() {
+        return getParameterService().getParameterValuesAsString(Constants.MODULE_NAMESPACE_GEN, ParameterConstants.ALL_COMPONENT, SHOW_MEDUSA_DOCUMENT_DESCRIPTIONS_PARAMETER);
+    }
+
+    @Override
+    public boolean isReactMedusaEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_GEN, ParameterConstants.ALL_COMPONENT, REACT_MEDUSA_ENABLED_PARAMETER, false);
     }
 
     /**

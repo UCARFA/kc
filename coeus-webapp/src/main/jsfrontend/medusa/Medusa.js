@@ -34,7 +34,8 @@ class Medusa extends Component {
         let nodesToCheck = [].concat(this.state.childNodes);
         while (nodesToCheck.length > 0) {
             const node = nodesToCheck.pop();
-            if (filterText.length === 0 || node.description.toLowerCase().includes(filterText.toLowerCase())) {
+            if (filterText.length === 0 || node.description.toLowerCase().includes(filterText.toLowerCase())
+                    || node.detailedDescription.toLowerCase().includes(filterText.toLowerCase())) {
                 filteredNodes.push(node);
             }
             nodesToCheck = nodesToCheck.concat(node.children);
@@ -74,7 +75,7 @@ class Medusa extends Component {
             this.state.filteredNodes.map((node, i) => <MedusaNode depth={0} key={`${node.description}-${i}`} renderChildren={this.state.isContextPreserved} {...node} />);
         const loadingIndicator = <h4><i className={'fa fa-spinner fa-pulse'}></i> Loading...</h4>;
         return (
-            <div className="container medusa">
+            <div className="container-fluid medusa">
                 <h2>Medusa</h2>
                 <MedusaControls filterText={this.state.filterText} onFilter={this.filter} isContextPreserved={this.state.isContextPreserved} setContextPreserved={this.preserveContext} preferredModule={this.state.preferredModule} setPreferredModule={this.preferModule} />
                 { this.state.loadingState === LoadingStates.LOADING ? loadingIndicator : filteredElements }

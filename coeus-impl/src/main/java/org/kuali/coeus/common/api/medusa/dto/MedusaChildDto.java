@@ -12,6 +12,7 @@ public class MedusaChildDto {
     private String moduleCode;
     private Long moduleId;
     private String description;
+    private String detailedDescription;
     private List<MedusaChildDto> children;
 
     public void addChild(MedusaChildDto child) {
@@ -41,6 +42,10 @@ public class MedusaChildDto {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getDetailedDescription() { return detailedDescription; }
+
+    public void setDetailedDescription(String detailedDescription) { this.detailedDescription = detailedDescription; }
 
     public List<MedusaChildDto> getChildren() {
         return children;

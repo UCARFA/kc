@@ -23,6 +23,7 @@ import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.docperm.DocumentAccess;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
@@ -60,7 +61,6 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl.REACT_MEDUSA_ENABLED_PARAMETER;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 
@@ -133,6 +133,10 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Autowired
     @Qualifier("personService")
     private PersonService personService;
+
+    @Autowired
+    @Qualifier("medusaService")
+    private MedusaService medusaService;
 
     @Override
     protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria,
@@ -545,8 +549,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     }
 
     public boolean isReactMedusaEnabled() {
-        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
-                ParameterConstants.DOCUMENT_COMPONENT, REACT_MEDUSA_ENABLED_PARAMETER, false);
+        return medusaService.isReactMedusaEnabled();
     }
 
 	public KcAuthorizationService getKcAuthorizationService() {

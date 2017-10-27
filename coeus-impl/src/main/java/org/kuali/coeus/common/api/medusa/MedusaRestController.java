@@ -82,6 +82,7 @@ public class MedusaRestController {
             translatedNode.setModuleId(protocol.getProtocolId());
         }
         translatedNode.setDescription(node.getNodeLabel());
+        translatedNode.setDetailedDescription(node.getDocumentDescription());
         return translatedNode;
     }
 

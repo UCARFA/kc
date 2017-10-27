@@ -81,10 +81,15 @@ class MedusaNode extends Component {
         let nodeComponents = [
             <Row key="1" className="medusa-node" onClick={this.toggle}>
                 <Col md={12}>
-                    <span className="medusa-indent" style={{ width: this.props.depth * 20 }}/>
-                    <i style={{ width: '0.6em' }} className={`fa fa-lg ${expandedIconClass}`}></i>
-                    <span>{this.props.description}</span>
-                    { this.state.loadingState === LoadingStates.LOADING && <i className={'fa fa-spinner fa-pulse'}></i> }
+                    <Row className="medusa-description-container">
+                        <Col className="medusa-description" md={4} sm={5} xs={12}>
+                            <span className="medusa-indent" style={{ width: this.props.depth * 20 }}/>
+                            <i style={{ width: '0.6em' }} className={`fa fa-lg ${expandedIconClass}`}></i>
+                            <span>{this.props.description}</span>
+                            { this.state.loadingState === LoadingStates.LOADING && <i className={'fa fa-spinner fa-pulse'}></i> }
+                        </Col>
+                        <Col className="medusa-extended-description" md={8} sm={7} xs={12}>{this.props.detailedDescription}</Col>
+                    </Row>
                 </Col>
             </Row>,
             <Collapse key="2" in={this.state.expanded}>
@@ -116,6 +121,7 @@ MedusaNode.propTypes = {
     depth: PropTypes.number.isRequired,
     moduleCode: PropTypes.string.isRequired,
     moduleId: PropTypes.number.isRequired,
+    detailedDescription: PropTypes.string,
     renderChildren: PropTypes.bool
 };
 
