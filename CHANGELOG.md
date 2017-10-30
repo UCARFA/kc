@@ -1,6 +1,15 @@
 
 
 ## CURRENT
+* RESKC-2603: Fixing STE (#2596)
+
+  * Gayathri Athreya on Mon, 30 Oct 2017 13:36:38 -0700 [View Commit](../../commit/84833e3ba59b4a1d96fcec60b541f2f5493bdd3d)
+* RESKC-2581: Support sending "All Proposal Persons certified" notification  (#2591)
+
+* RESKC-2581: Support sending "All Proposal Persons certified" notification from certification page
+  * Jeff Largent on Mon, 30 Oct 2017 16:36:16 -0400 [View Commit](../../commit/e5ae8a97528027268054dd8a2721906770c06176)
+
+## coeus-1710.0046
 * RESKC-2486: fix sql (#2594)
 
   * Gayathri Athreya on Fri, 27 Oct 2017 07:13:42 -0700 [View Commit](../../commit/22e6af8688ab009d1ea1c2e40fe8bf662d02fa88)
