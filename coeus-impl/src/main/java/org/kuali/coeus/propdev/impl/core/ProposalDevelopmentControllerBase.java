@@ -312,7 +312,12 @@ public abstract class ProposalDevelopmentControllerBase {
          }
 
          preSave(proposalDevelopmentDocument);
-
+         if (!proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews().isEmpty()) {
+             proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews()
+                     .stream()
+                     .filter(proposalSpecialReview -> proposalSpecialReview.getSpecialReviewAttachment() != null && proposalSpecialReview.getSpecialReviewAttachment().getMultipartFile() == null)
+                     .forEach(proposalSpecialReview -> proposalSpecialReview.setSpecialReviewAttachment(null));
+         }
          proposalDevelopmentService.initializeUnitOrganizationLocation(proposalDevelopmentDocument);
          proposalDevelopmentService.initializeProposalSiteNumbers(proposalDevelopmentDocument);
 
@@ -351,6 +356,8 @@ public abstract class ProposalDevelopmentControllerBase {
                      .filter(specialReview -> !specialReview.isLinkedToProtocol())
                      .forEach(specialReview -> form.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview));
          }
+
+
          final Project project = getPropDevProjectRetrievalService().retrieveProject(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber());
          if (project != null) {
              getProjectPublisher().publishProject(project);
