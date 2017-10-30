@@ -606,8 +606,14 @@ public abstract class ProposalDevelopmentControllerBase {
             }
         }
 
+        if (!allCertificationsWereComplete && allCertificationAreNowComplete) {
+            sendAllCertificationCompleteNotificationIfEnabled(developmentProposal);
+        }
+    }
+
+    protected void sendAllCertificationCompleteNotificationIfEnabled(DevelopmentProposal developmentProposal) {
         boolean allowsSendCertificationCompleteNotification = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, ProposalDevelopmentConstants.Parameters.NOTIFY_ALL_CERTIFICATIONS_COMPLETE);
-        if (!allCertificationsWereComplete && allCertificationAreNowComplete && allowsSendCertificationCompleteNotification) {
+        if (allowsSendCertificationCompleteNotification) {
             ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(developmentProposal, "105", "All Proposal Persons Certification Completed");
             ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(developmentProposal);
             getKcNotificationService().sendNotification(context);
@@ -696,7 +702,7 @@ public abstract class ProposalDevelopmentControllerBase {
         }
     }
 
-    private AnswerHeader retrieveCurrentAnswerHeader(Long id) {
+    protected AnswerHeader retrieveCurrentAnswerHeader(Long id) {
         if (id != null) {
             return getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, Collections.singletonMap("id", id));
         }

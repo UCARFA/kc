@@ -402,6 +402,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 
         String selectedPersonId = form.getProposalPersonQuestionnaireHelper().getProposalPerson().getPersonId();
         ProposalPersonQuestionnaireHelper proposalPersonQuestionnaireHelper = null;
+        Set<String> personIdsMissingCertification = getPersonIdsMissingCertification(form.getDevelopmentProposal().getProposalPersons(), selectedPersonId);
         boolean complete = false;
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
             if (StringUtils.equals(proposalPerson.getPersonId(),selectedPersonId)) {
@@ -416,6 +417,10 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
             }
         }
 
+        if (personIdsMissingCertification.size() == 1 && personIdsMissingCertification.contains(selectedPersonId) && complete) {
+            sendAllCertificationCompleteNotificationIfEnabled(form.getDevelopmentProposal());
+        }
+
         if (complete && getGlobalVariableService().getMessageMap().hasNoErrors()) {
             getGlobalVariableService().getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, INFO_PROPOSAL_CERTIFIED);
         } else if (!complete) {
@@ -426,6 +431,23 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         return getNavigationControllerService().returnToHub(form);
     }
 
+    protected Set<String> getPersonIdsMissingCertification(List<ProposalPerson> proposalPeople, String selectedPersonId) {
+	    return proposalPeople.stream().filter(person -> {
+            if (StringUtils.equals(person.getPersonId(), selectedPersonId)) {
+                // If this person is the one open in the certification view, then we need to retrieve their answers
+                // from the DB to determine if their certification is complete-- their new answers have already been
+                // populated into their questionnaire helper
+                return person.getQuestionnaireHelper().getAnswerHeaders().stream()
+                        .map(ah -> retrieveCurrentAnswerHeader(ah.getId()))
+                        .anyMatch(ah -> ah != null && !ah.isCompleted());
+            } else {
+                // We can get other peoples' certification answers directly from the questionnaire helper since they
+                // aren't being modified as part of the certification view request
+                return person.getQuestionnaireHelper().getAnswerHeaders().stream()
+                        .anyMatch(ah -> !ah.isCompleted());
+            }
+        }).map(ProposalPerson::getPersonId).collect(Collectors.toSet());
+    }
 
     @Transactional
     @RequestMapping(value ="/proposalDevelopment",params = "methodToCall=closeCertWithoutSave")
