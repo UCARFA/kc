@@ -26,8 +26,6 @@ import org.kuali.rice.krad.data.DataObjectService;
 
 public class UnitRole implements BusinessObject {
 
-    private static final String UNIT_HIERARCHY_TYPE = "10001";
-
     private String id;
     private String namespaceCode;
     private String name;
@@ -86,7 +84,7 @@ public class UnitRole implements BusinessObject {
     }
 
     public boolean isUnitHierarchy() {
-        return UNIT_HIERARCHY_TYPE.equals(getKimTypeId());
+        return UnitRoleConstants.UNIT_HIERARCHY_TYPE.equals(getKimTypeId());
     }
 
     @Override

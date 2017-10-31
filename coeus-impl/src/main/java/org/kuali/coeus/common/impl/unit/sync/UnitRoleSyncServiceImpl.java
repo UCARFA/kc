@@ -22,10 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.coeus.common.framework.unit.sync.SourceUnit;
-import org.kuali.coeus.common.framework.unit.sync.TargetRoleInfo;
-import org.kuali.coeus.common.framework.unit.sync.UnitRoleSync;
-import org.kuali.coeus.common.framework.unit.sync.UnitRoleSyncService;
+import org.kuali.coeus.common.framework.unit.sync.*;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.identity.IdentityService;
@@ -51,9 +49,6 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 @Component("unitRoleSyncService")
 public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
 
-    private static final String UNIT_HIERARCHY_TYPE = "10001";
-    private static final String UNIT_NUMBER = "unitNumber";
-    private static final String SUBUNITS = "subunits";
     private static final String Y = "Y";
     private static final String N = "N";
     private static final String ACTIVE = "active";
@@ -154,12 +149,12 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
                     final List<RoleMemberBo> roleMembers = findMatchingRoleMembers(role.getMembers(), personId, unitNumber);
                     if (roleMembers.isEmpty()) {
                         final Map<String, String> qualifications = isUnitHierarchyType(role.getKimTypeId()) ?
-                                createUnitHierarchnyQual(unitNumber, targetRole.isDescends()) : createUnitQual(unitNumber);
+                                createUnitHierarchyQual(unitNumber, targetRole.isDescends()) : createUnitQual(unitNumber);
                         roleService.assignPrincipalToRole(personId, role.getNamespaceCode(), role.getName(), qualifications);
                     } else if (overrideExisting) {
                         roleMembers.forEach(roleMember -> roleService.removePrincipalFromRole(personId, role.getNamespaceCode(), role.getName(), roleMember.getAttributes()));
                         final Map<String, String> qualifications = isUnitHierarchyType(role.getKimTypeId()) ?
-                                createUnitHierarchnyQual(unitNumber, targetRole.isDescends()) : createUnitQual(unitNumber);
+                                createUnitHierarchyQual(unitNumber, targetRole.isDescends()) : createUnitQual(unitNumber);
                         roleService.assignPrincipalToRole(personId, role.getNamespaceCode(), role.getName(), qualifications);
                     }
                 }));
@@ -172,24 +167,24 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
                 .stream()
                 .filter(member -> MemberType.PRINCIPAL.equals(member.getType()))
                 .filter(member -> member.getMemberId().equals(personId))
-                .filter(member -> StringUtils.equals(member.getAttributes().get(UNIT_NUMBER), unitNumber))
+                .filter(member -> StringUtils.equals(member.getAttributes().get(KcKimAttributes.UNIT_NUMBER), unitNumber))
                 .collect(Collectors.toList());
     }
 
     private boolean isUnitHierarchyType(String kimTypeId) {
-        return UNIT_HIERARCHY_TYPE.equals(kimTypeId);
+        return UnitRoleConstants.UNIT_HIERARCHY_TYPE.equals(kimTypeId);
     }
 
     private Map<String, String> createUnitQual(String unitNumber) {
         final Map<String, String> qualifications = new HashMap<>();
-        qualifications.put(UNIT_NUMBER, unitNumber);
+        qualifications.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
         return qualifications;
     }
 
-    private Map<String, String> createUnitHierarchnyQual(String unitNumber, boolean subunits) {
+    private Map<String, String> createUnitHierarchyQual(String unitNumber, boolean subunits) {
         final Map<String, String> qualifications = new HashMap<>();
-        qualifications.put(UNIT_NUMBER, unitNumber);
-        qualifications.put(SUBUNITS, subunits ? Y : N);
+        qualifications.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
+        qualifications.put(KcKimAttributes.SUBUNITS, subunits ? Y : N);
         return qualifications;
     }
 

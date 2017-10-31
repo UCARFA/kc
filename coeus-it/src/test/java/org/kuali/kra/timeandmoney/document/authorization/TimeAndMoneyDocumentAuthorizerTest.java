@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.unit.sync.UnitRoleConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -150,7 +151,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         attrData.setId("KCTEST3");
         attrData.setAttributeValue("000001");
         attrData.setKimAttributeId("10000");
-        attrData.setKimTypeId("10001");
+        attrData.setKimTypeId(UnitRoleConstants.UNIT_HIERARCHY_TYPE);
         attrData.setObjectId(UUID.randomUUID().toString());
         attrData.setVersionNumber(0L);
         attrData.setAssignedToId(roleMember.getId());
@@ -159,7 +160,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         attrDataTwo.setId("KCTEST4");
         attrDataTwo.setAttributeValue("Y");
         attrDataTwo.setKimAttributeId("10001");
-        attrDataTwo.setKimTypeId("10001");
+        attrDataTwo.setKimTypeId(UnitRoleConstants.UNIT_HIERARCHY_TYPE);
         attrDataTwo.setObjectId(UUID.randomUUID().toString());
         attrDataTwo.setVersionNumber(0L);
         attrDataTwo.setAssignedToId(roleMember.getId());

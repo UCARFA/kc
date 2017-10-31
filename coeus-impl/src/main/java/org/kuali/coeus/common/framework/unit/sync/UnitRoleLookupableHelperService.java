@@ -41,8 +41,6 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class UnitRoleLookupableHelperService extends KcKualiLookupableHelperServiceImpl {
 
-    private static final String UNIT_TYPE = "10000";
-    private static final String UNIT_HIERARCHY_TYPE = "10001";
     private static final String KIM_TYPE_ID = "kimTypeId";
     private static final String ACTIVE = "active";
     private static final String ID = "id";
@@ -86,11 +84,11 @@ public class UnitRoleLookupableHelperService extends KcKualiLookupableHelperServ
 
         final String unitHierarchy = fieldValues.get(UNIT_HIERARCHY);
         if (TRUE.equals(unitHierarchy)) {
-            andPredicates.add(equal(KIM_TYPE_ID, UNIT_HIERARCHY_TYPE));
+            andPredicates.add(equal(KIM_TYPE_ID, UnitRoleConstants.UNIT_HIERARCHY_TYPE));
         } else if (FALSE.equals(unitHierarchy)) {
-            andPredicates.add(equal(KIM_TYPE_ID, UNIT_TYPE));
+            andPredicates.add(equal(KIM_TYPE_ID, UnitRoleConstants.UNIT_TYPE));
         } else {
-            andPredicates.add(or(equal(KIM_TYPE_ID, UNIT_HIERARCHY_TYPE), equal(KIM_TYPE_ID, UNIT_TYPE)));
+            andPredicates.add(or(equal(KIM_TYPE_ID, UnitRoleConstants.UNIT_HIERARCHY_TYPE), equal(KIM_TYPE_ID, UnitRoleConstants.UNIT_TYPE)));
         }
 
         return getDataObjectService().findMatching(RoleBoLite.class, QueryByCriteria.Builder.fromPredicates(andPredicates)).getResults()
