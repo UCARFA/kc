@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1710.0049
 * RESKC-1777: looking up by entity id
   * Travis Schneeberger on Tue, 31 Oct 2017 17:07:43 -0400 [View Commit](../../commit/932bf7a328df9c9a867463967c7a6af96312167f)
 * RESKC-1777: Fixing caused by Entity Employment records that do not have any Principal records
