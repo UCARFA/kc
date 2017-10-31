@@ -131,11 +131,13 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
                 .stream()
                 .filter(emp -> StringUtils.isNotBlank(emp.getPrimaryDepartmentCode()))
                 .filter(emp -> activeUnits.contains(emp.getPrimaryDepartmentCode()))
-                .flatMap(emp -> identityService.getPrincipalsByEmployeeId(emp.getEntityId())
-                        .stream()
+                .flatMap(emp -> {
+                    final List<Principal> principals = identityService.getPrincipalsByEmployeeId(emp.getEntityId());
+                    return (principals != null ? principals.stream() : Stream.<Principal>empty())
                         .filter(Principal::isActive)
                         .map(Principal::getPrincipalId)
-                        .map(principalId -> entry(principalId, emp.getPrimaryDepartmentCode())))
+                            .map(principalId -> entry(principalId, emp.getPrimaryDepartmentCode()));
+                })
                 .collect(entriesToMapWithSet());
     }
 
