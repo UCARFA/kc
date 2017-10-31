@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   -
+   - Copyright 2005-2016 Kuali, Inc.
+   -
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   -
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   -
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="SourceUnit" parent="SourceUnit-parentBean"/>
+    <bean id="SourceUnit-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.sync.SourceUnitInfo"/>
+        <property name="objectLabel" value="Source Unit"/>
+        <property name="inquiryDefinition">
+            <ref bean="SourceUnit-inquiryDefinition"/>
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="SourceUnit-lookupDefinition"/>
+        </property>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+                <ref bean="SourceUnit-id"/>
+                <ref bean="SourceUnit-unitRoleSyncId"/>
+                <ref bean="SourceUnit-sourceUnitCode"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="SourceUnit-id" parent="SourceUnit-id-parentBean"/>
+    <bean id="SourceUnit-id-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="id"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Id"/>
+        <property name="shortLabel" value="Id"/>
+        <property name="maxLength" value="12"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"
+                  p:size="12"/>
+        </property>
+        <property name="summary" value="Id"/>
+        <property name="description" value="Id"/>
+    </bean>
+
+    <bean id="SourceUnit-unitRoleSyncId" parent="SourceUnit-unitRoleSyncId-parentBean"/>
+    <bean id="SourceUnit-unitRoleSyncId-parentBean" abstract="true" parent="UnitRoleSync-id">
+        <property name="name" value="unitRoleSyncId"/>
+        <property name="label" value="Unit Role Sync Id"/>
+        <property name="shortLabel" value="Unit Role Sync Id"/>
+        <property name="summary" value="Unit Role Sync Id"/>
+        <property name="description" value="Unit Role Sync Id"/>
+    </bean>
+
+    <bean id="SourceUnit-sourceUnitCode" parent="SourceUnit-sourceUnitCode-parentBean"/>
+    <bean id="SourceUnit-sourceUnitCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sourceUnitCode"/>
+        <property name="required" value="true"/>
+        <property name="maxLength" value="15"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.framework.unit.sync.SourceUnitValuesFinder"
+                  p:includeKeyInLabel="false"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.common.framework.unit.sync.SourceUnitValuesFinder"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="label" value="Source Unit Code"/>
+        <property name="shortLabel" value="Source Unit Code"/>
+        <property name="summary" value="Source Unit Code"/>
+        <property name="description" value="Source Unit Code"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="SourceUnit-inquiryDefinition" parent="SourceUnit-inquiryDefinition-parentBean"/>
+    <bean id="SourceUnit-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Source Unit"/>
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Source Unit"/>
+                    <property name="numberOfColumns" value="1"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="unitRoleSyncId" p:forceInquiry="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="sourceUnitCode"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="SourceUnit-lookupDefinition" parent="SourceUnit-lookupDefinition-parentBean"/>
+    <bean id="SourceUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Source Unit"/>
+        <property name="defaultSort">
+            <bean parent="SortDefinition"/>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id"/>
+                <bean parent="FieldDefinition" p:attributeName="unitRoleSyncId"/>
+                <bean parent="FieldDefinition" p:attributeName="sourceUnitCode"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="unitRoleSyncId" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="sourceUnitCode"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

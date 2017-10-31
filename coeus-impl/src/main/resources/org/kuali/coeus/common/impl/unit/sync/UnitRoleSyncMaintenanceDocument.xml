@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2016 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="UnitRoleSyncMaintenanceDocument" parent="UnitRoleSyncMaintenanceDocument-parentBean"/>
+    <bean id="UnitRoleSyncMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.sync.UnitRoleSync"/>
+        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+        <property name="maintainableSections">
+            <list>
+                <ref bean="UnitRoleSyncMaintenanceDocument-EditUnitRoleSync"/>
+                <ref bean="UnitRoleSyncMaintenanceDocument-EditSourceUnits"/>
+                <ref bean="UnitRoleSyncMaintenanceDocument-EditTargetRoles"/>
+            </list>
+        </property>
+        <property name="lockingKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="allowsRecordDeletion" value="true"/>
+
+        <property name="documentTypeName" value="UnitRoleSyncMaintenanceDocument"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.coeus.common.impl.unit.sync.UnitRoleSyncMaintenanceDocumentRule"/>
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+    <bean id="UnitRoleSyncMaintenanceDocument-EditUnitRoleSync" parent="UnitRoleSyncMaintenanceDocument-EditUnitRoleSync-parentBean"/>
+    <bean id="UnitRoleSyncMaintenanceDocument-EditUnitRoleSync-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Unit Role Sync"/>
+        <property name="title" value="Edit Unit Role Sync"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="overrideExisting" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="UnitRoleSyncMaintenanceDocument-EditSourceUnits" parent="UnitRoleSyncMaintenanceDocument-EditSourceUnits-parentBean"/>
+    <bean id="UnitRoleSyncMaintenanceDocument-EditSourceUnits-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Source Units"/>
+        <property name="title" value="Edit Source Units"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="sourceUnitInfos"/>
+                    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.sync.SourceUnitInfo"/>
+                    <property name="maintainableFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="sourceUnitCode" p:required="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="UnitRoleSyncMaintenanceDocument-EditTargetRoles" parent="UnitRoleSyncMaintenanceDocument-EditTargetRoles-parentBean"/>
+    <bean id="UnitRoleSyncMaintenanceDocument-EditTargetRoles-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Target Roles"/>
+        <property name="title" value="Edit Target Roles"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="targetRoleInfos"/>
+                    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.sync.TargetRoleInfo"/>
+                    <property name="maintainableFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="roleId" p:required="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="descends" p:required="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

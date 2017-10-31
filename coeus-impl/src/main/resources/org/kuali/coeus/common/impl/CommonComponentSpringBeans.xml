@@ -261,6 +261,22 @@
         <property name="parameterComponent" value="All" />
     </bean>
 
+    <bean id="unitRoleSyncJobDetail" class="org.quartz.impl.JobDetailImpl">
+        <property name="jobClass" value="org.kuali.coeus.common.impl.unit.sync.UnitRoleSyncJobImpl"/>
+        <property name="name" value="unitRoleSyncJobDetail"/>
+        <property name="durability" value="true"/>
+    </bean>
+
+    <bean id="unitRoleSyncCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="unitRoleSyncJobDetail"/>
+        <property name="parameterService" ref="parameterService"/>
+        <property name="dateTimeService" ref="dateTimeService"/>
+        <property name="cronExpressionParameterName" value="unitRoleSync.cronExpression"/>
+        <property name="triggerEnabledParameterName" value="unitRoleSync.enabled"/>
+        <property name="parameterNamespace" value="KC-SYS"/>
+        <property name="parameterComponent" value="All"/>
+    </bean>
+
     <bean id="citiJobDetail" class="org.quartz.impl.JobDetailImpl">
         <property name="jobClass" value="org.kuali.coeus.common.impl.person.citi.CitiJobImpl" />
         <property name="name" value="citiJobDetail" />
@@ -284,6 +300,7 @@
             <list merge="true">
                 <ref bean="citiCronTrigger" />
                 <ref bean="fileAttachmentConversionCronTrigger" />
+                <ref bean="unitRoleSyncCronTrigger"/>
             </list>
         </property>
         <!--
@@ -312,6 +329,9 @@
                 <entry key="citiDataLoadingService" >
                     <ref bean="citiDataLoadingService" />
                 </entry>
+                <entry key="unitRoleSyncService">
+                    <ref bean="unitRoleSyncService"/>
+                </entry>
             </map>
         </property>
 
@@ -338,6 +358,10 @@
     <util:map id="tableBlobsToWatch">
     	<entry key="attachment_file" value="file_data"/>
     </util:map>
+
+    <bean id="unitRoleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="unitRoleLookupableHelperService"/>
+    </bean>
 
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.answer.Answer" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader" />
