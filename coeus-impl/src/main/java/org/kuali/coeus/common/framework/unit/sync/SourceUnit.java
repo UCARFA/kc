@@ -21,10 +21,12 @@ package org.kuali.coeus.common.framework.unit.sync;
 import org.kuali.coeus.sys.api.model.Coded;
 import org.kuali.coeus.sys.api.model.Describable;
 
+import java.util.Arrays;
+
 public enum SourceUnit implements org.kuali.rice.core.api.mo.common.Coded, Coded, Describable {
     PERSON_APPOINTMENTS("RESBOOT1", "Person Appointments"),
     PERSON_PRIMARY_DEPARTMENTS("RESBOOT2", "Person Primary Departments"),
-    PERSON_SECONDARY_DEPARTMENTS("RESBOOT3", "Person Secondary Appointments");
+    PERSON_SECONDARY_DEPARTMENTS("RESBOOT3", "Person Secondary Departments");
     private final String code;
     private final String description;
 
@@ -41,5 +43,14 @@ public enum SourceUnit implements org.kuali.rice.core.api.mo.common.Coded, Coded
     @Override
     public String getDescription() {
         return description;
+    }
+
+    public static SourceUnit fromCode(String code) {
+        return Arrays.stream(values())
+                .filter(v -> v.getCode().equals(code))
+                .findFirst()
+                .<IllegalArgumentException>orElseThrow(() -> {
+                    throw new IllegalArgumentException("invalid code" + code);
+                });
     }
 }

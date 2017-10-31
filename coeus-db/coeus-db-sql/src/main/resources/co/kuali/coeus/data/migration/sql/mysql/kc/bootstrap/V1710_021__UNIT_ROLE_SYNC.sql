@@ -27,13 +27,13 @@ ALTER TABLE SEQ_UNIT_ROLE_SYNC_ID
   AUTO_INCREMENT = 1;
 
 CREATE TABLE UNIT_ROLE_SYNC (
-  ID                VARCHAR(25)             NOT NULL,
-  OVERRIDE_EXISTING CHAR(1)                 NOT NULL,
-  ACTIVE            CHAR(1)                 NOT NULL,
-  UPDATE_TIMESTAMP  DATETIME                NOT NULL,
-  UPDATE_USER       VARCHAR(60)             NOT NULL,
-  VER_NBR           DECIMAL(8, 0) DEFAULT 1 NOT NULL,
-  OBJ_ID            VARCHAR(36)             NOT NULL
+  ID                 VARCHAR(25)             NOT NULL,
+  SYNC_BEHAVIOR_CODE VARCHAR(15)             NOT NULL,
+  ACTIVE             CHAR(1)                 NOT NULL,
+  UPDATE_TIMESTAMP   DATETIME                NOT NULL,
+  UPDATE_USER        VARCHAR(60)             NOT NULL,
+  VER_NBR            DECIMAL(8, 0) DEFAULT 1 NOT NULL,
+  OBJ_ID             VARCHAR(36)             NOT NULL
 );
 
 ALTER TABLE UNIT_ROLE_SYNC

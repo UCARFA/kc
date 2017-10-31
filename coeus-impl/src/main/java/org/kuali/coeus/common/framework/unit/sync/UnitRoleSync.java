@@ -29,7 +29,7 @@ import java.util.List;
 public class UnitRoleSync extends KcPersistableBusinessObjectBase implements Identifiable, org.kuali.rice.core.api.mo.common.Identifiable, Inactivatable, MutableInactivatable {
 
     private String id;
-    private boolean overrideExisting;
+    private String syncBehaviorCode;
     private boolean active;
 
     private List<SourceUnitInfo> sourceUnitInfos = new ArrayList<>();
@@ -54,12 +54,12 @@ public class UnitRoleSync extends KcPersistableBusinessObjectBase implements Ide
         this.active = active;
     }
 
-    public boolean isOverrideExisting() {
-        return overrideExisting;
+    public String getSyncBehaviorCode() {
+        return syncBehaviorCode;
     }
 
-    public void setOverrideExisting(boolean overrideExisting) {
-        this.overrideExisting = overrideExisting;
+    public void setSyncBehaviorCode(String syncBehaviorCode) {
+        this.syncBehaviorCode = syncBehaviorCode;
     }
 
     public List<SourceUnitInfo> getSourceUnitInfos() {

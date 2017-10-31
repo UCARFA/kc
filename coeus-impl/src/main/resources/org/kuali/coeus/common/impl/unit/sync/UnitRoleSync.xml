@@ -34,7 +34,7 @@
         <property name="attributes">
             <list>
                 <ref bean="UnitRoleSync-id"/>
-                <ref bean="UnitRoleSync-overrideExisting"/>
+                <ref bean="UnitRoleSync-syncBehaviorCode"/>
                 <ref bean="UnitRoleSync-active"/>
             </list>
         </property>
@@ -61,14 +61,31 @@
         <property name="description" value="Id"/>
     </bean>
 
-    <bean id="UnitRoleSync-overrideExisting" parent="UnitRoleSync-overrideExisting-parentBean"/>
-    <bean id="UnitRoleSync-overrideExisting-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-        <property name="name" value="overrideExisting"/>
-        <property name="required" value="false"/>
-        <property name="label" value="Override Existing"/>
-        <property name="shortLabel" value="Override Existing"/>
-        <property name="summary" value="Override Existing"/>
-        <property name="description" value="Override Existing"/>
+    <bean id="UnitRoleSync-syncBehaviorCode" parent="UnitRoleSync-syncBehaviorCode-parentBean"/>
+    <bean id="UnitRoleSync-syncBehaviorCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="syncBehaviorCode"/>
+        <property name="required" value="true"/>
+        <property name="maxLength" value="15"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.framework.unit.sync.SyncBehaviorValuesFinder"
+                  p:includeKeyInLabel="false"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.common.framework.unit.sync.SyncBehaviorValuesFinder"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="label" value="Sync Behavior Code"/>
+        <property name="shortLabel" value="Sync Behavior Code"/>
+        <property name="summary" value="Sync Behavior Code"/>
+        <property name="description" value="Sync Behavior Code"/>
     </bean>
 
     <bean id="UnitRoleSync-active" parent="UnitRoleSync-active-parentBean"/>
@@ -93,7 +110,7 @@
                     <property name="inquiryFields">
                         <list>
                             <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
-                            <bean parent="FieldDefinition" p:attributeName="overrideExisting"/>
+                            <bean parent="FieldDefinition" p:attributeName="syncBehaviorCode"/>
                             <bean parent="FieldDefinition" p:attributeName="active"/>
                         </list>
                     </property>
@@ -152,14 +169,14 @@
         <property name="lookupFields">
             <list>
                 <bean parent="FieldDefinition" p:attributeName="id"/>
-                <bean parent="FieldDefinition" p:attributeName="overrideExisting"/>
+                <bean parent="FieldDefinition" p:attributeName="syncBehaviorCode"/>
                 <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
         </property>
         <property name="resultFields">
             <list>
                 <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
-                <bean parent="FieldDefinition" p:attributeName="overrideExisting"/>
+                <bean parent="FieldDefinition" p:attributeName="syncBehaviorCode"/>
                 <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
         </property>

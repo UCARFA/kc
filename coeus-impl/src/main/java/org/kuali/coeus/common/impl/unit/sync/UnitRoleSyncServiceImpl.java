@@ -94,21 +94,22 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
                 .forEach(unitRoleSync -> {
                     final Map<String, Set<String>> personUnits = unitRoleSync.getSourceUnitInfos()
                             .stream()
+                            .map(sourceUnit -> SourceUnit.fromCode(sourceUnit.getSourceUnitCode()))
                             .map(sourceUnit -> {
-                                if (SourceUnit.PERSON_APPOINTMENTS.getCode().equals(sourceUnit.getSourceUnitCode())) {
+                                if (SourceUnit.PERSON_APPOINTMENTS.equals(sourceUnit)) {
                                     return findPersonAppointmentUnits(activeUnits);
-                                } else if (SourceUnit.PERSON_PRIMARY_DEPARTMENTS.getCode().equals(sourceUnit.getSourceUnitCode())) {
+                                } else if (SourceUnit.PERSON_PRIMARY_DEPARTMENTS.equals(sourceUnit)) {
                                     return findPersonEmploymentUnits(activeUnits, true);
-                                } else if (SourceUnit.PERSON_SECONDARY_DEPARTMENTS.getCode().equals(sourceUnit.getSourceUnitCode())) {
+                                } else if (SourceUnit.PERSON_SECONDARY_DEPARTMENTS.equals(sourceUnit)) {
                                     return findPersonEmploymentUnits(activeUnits, false);
                                 } else {
-                                    throw new RuntimeException(sourceUnit.getSourceUnitCode() + " not supported");
+                                    throw new RuntimeException(sourceUnit + " not supported");
                                 }
                             })
                             .flatMap(map -> map.entrySet().stream())
                             .collect(entriesToMapWithMergedSet());
 
-                    createMemberships(personUnits, unitRoleSync.getTargetRoleInfos(), unitRoleSync.isOverrideExisting());
+                    createMemberships(personUnits, unitRoleSync.getTargetRoleInfos(), SyncBehavior.fromCode(unitRoleSync.getSyncBehaviorCode()));
                 });
     }
 
@@ -138,36 +139,56 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
                 .collect(entriesToMapWithSet());
     }
 
-    private void createMemberships(Map<String, Set<String>> personUnits, List<TargetRoleInfo> targetRoleInfos, boolean overrideExisting) {
+    private void createMemberships(Map<String, Set<String>> personUnits, List<TargetRoleInfo> targetRoleInfos, SyncBehavior syncBehavior) {
         targetRoleInfos.forEach(targetRole -> {
             final RoleBo role = dataObjectService.findUnique(RoleBo.class, QueryByCriteria.Builder.fromPredicates(
                     equal(ID, targetRole.getRoleId()),
                     equal(ACTIVE, true)));
 
             if (role != null) {
-                personUnits.forEach((personId, unitNumbers) -> unitNumbers.forEach(unitNumber -> {
-                    final List<RoleMemberBo> roleMembers = findMatchingRoleMembers(role.getMembers(), personId, unitNumber);
-                    if (roleMembers.isEmpty()) {
+                if (SyncBehavior.DELETE_ALL_ADD.equals(syncBehavior)) {
+                    final List<RoleMemberBo> roleMembers = findMatchingPrincipalRoleMembers(role.getMembers());
+                    roleMembers.forEach(roleMember -> roleService.removePrincipalFromRole(roleMember.getMemberId(), role.getNamespaceCode(), role.getName(), roleMember.getAttributes()));
+                    personUnits.forEach((personId, unitNumbers) -> unitNumbers.forEach(unitNumber -> {
                         final Map<String, String> qualifications = isUnitHierarchyType(role.getKimTypeId()) ?
                                 createUnitHierarchyQual(unitNumber, targetRole.isDescends()) : createUnitQual(unitNumber);
                         roleService.assignPrincipalToRole(personId, role.getNamespaceCode(), role.getName(), qualifications);
-                    } else if (overrideExisting) {
+                    }));
+                } else if (SyncBehavior.IGNORE_EXISTING.equals(syncBehavior)) {
+                    personUnits.forEach((personId, unitNumbers) -> unitNumbers.forEach(unitNumber -> {
+                        final List<RoleMemberBo> roleMembers = findMatchingPrincipalRoleMembers(role.getMembers(), unitNumber, personId);
+                        if (roleMembers.isEmpty()) {
+                            final Map<String, String> qualifications = isUnitHierarchyType(role.getKimTypeId()) ?
+                                    createUnitHierarchyQual(unitNumber, targetRole.isDescends()) : createUnitQual(unitNumber);
+                            roleService.assignPrincipalToRole(personId, role.getNamespaceCode(), role.getName(), qualifications);
+                        }
+                    }));
+                } else if (SyncBehavior.DELETE_READD.equals(syncBehavior)) {
+                    personUnits.forEach((personId, unitNumbers) -> unitNumbers.forEach(unitNumber -> {
+                        final List<RoleMemberBo> roleMembers = findMatchingPrincipalRoleMembers(role.getMembers(), unitNumber, personId);
                         roleMembers.forEach(roleMember -> roleService.removePrincipalFromRole(personId, role.getNamespaceCode(), role.getName(), roleMember.getAttributes()));
                         final Map<String, String> qualifications = isUnitHierarchyType(role.getKimTypeId()) ?
                                 createUnitHierarchyQual(unitNumber, targetRole.isDescends()) : createUnitQual(unitNumber);
                         roleService.assignPrincipalToRole(personId, role.getNamespaceCode(), role.getName(), qualifications);
-                    }
-                }));
+                    }));
+                }
             }
         });
     }
 
-    private List<RoleMemberBo> findMatchingRoleMembers(List<RoleMemberBo> roleMembers, String personId, String unitNumber) {
+    private List<RoleMemberBo> findMatchingPrincipalRoleMembers(List<RoleMemberBo> roleMembers, String unitNumber, String personId) {
         return roleMembers
                 .stream()
                 .filter(member -> MemberType.PRINCIPAL.equals(member.getType()))
                 .filter(member -> member.getMemberId().equals(personId))
                 .filter(member -> StringUtils.equals(member.getAttributes().get(KcKimAttributes.UNIT_NUMBER), unitNumber))
+                .collect(Collectors.toList());
+    }
+
+    private List<RoleMemberBo> findMatchingPrincipalRoleMembers(List<RoleMemberBo> roleMembers) {
+        return roleMembers
+                .stream()
+                .filter(member -> MemberType.PRINCIPAL.equals(member.getType()))
                 .collect(Collectors.toList());
     }
 

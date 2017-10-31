@@ -719,8 +719,7 @@
 
 	<class-descriptor class="org.kuali.coeus.common.framework.unit.sync.UnitRoleSync" table="UNIT_ROLE_SYNC">
 		<field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_UNIT_ROLE_SYNC_ID" autoincrement="true"/>
-		<field-descriptor name="overrideExisting" column="OVERRIDE_EXISTING" jdbc-type="CHAR"
-						  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="syncBehaviorCode" column="SYNC_BEHAVIOR_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="active" column="ACTIVE" jdbc-type="CHAR"
 						  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>

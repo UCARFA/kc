@@ -20,13 +20,13 @@
 CREATE SEQUENCE SEQ_UNIT_ROLE_SYNC_ID INCREMENT BY 1 START WITH 1 NOCACHE;
 
 CREATE TABLE UNIT_ROLE_SYNC (
-  ID                VARCHAR2(25)           NOT NULL,
-  OVERRIDE_EXISTING CHAR(1)                NOT NULL,
-  ACTIVE            CHAR(1)                NOT NULL,
-  UPDATE_TIMESTAMP  DATE                   NOT NULL,
-  UPDATE_USER       VARCHAR2(60)           NOT NULL,
-  VER_NBR           NUMBER(8, 0) DEFAULT 1 NOT NULL,
-  OBJ_ID            VARCHAR2(36)           NOT NULL
+  ID                 VARCHAR2(25)           NOT NULL,
+  SYNC_BEHAVIOR_CODE VARCHAR2(15)           NOT NULL,
+  ACTIVE             CHAR(1)                NOT NULL,
+  UPDATE_TIMESTAMP   DATE                   NOT NULL,
+  UPDATE_USER        VARCHAR2(60)           NOT NULL,
+  VER_NBR            NUMBER(8, 0) DEFAULT 1 NOT NULL,
+  OBJ_ID             VARCHAR2(36)           NOT NULL
 );
 
 ALTER TABLE UNIT_ROLE_SYNC
