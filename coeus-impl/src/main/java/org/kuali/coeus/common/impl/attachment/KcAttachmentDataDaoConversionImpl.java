@@ -1,3 +1,21 @@
+/*
+ * Kuali Coeus, a comprehensive research administration system for higher education.
+ *
+ * Copyright 2005-2016 Kuali, Inc.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.kuali.coeus.common.impl.attachment;
 
 import java.sql.Connection;
@@ -13,24 +31,21 @@ import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDaoConversion;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 public class KcAttachmentDataDaoConversionImpl extends QuartzJobBean implements KcAttachmentDataDaoConversion {
-	
+
 	private static final Log LOG = LogFactory.getLog(KcAttachmentDataDaoConversionImpl.class);
 
 	private KcAttachmentDataDao kcAttachmentDataDao;
-	
+
 	private String tableName;
 	private String blobColumn;
 	private String fileDataIdColumn;
 	private String primaryKeyColumn;
 	private Integer fetchSize = 5;
 	private DataSource dataSource;
-	
+
 	/**
 	 * defaults to select [primaryKeyColumn], [blobColumn] from [tableName] where [blobColumn] is not null;
 	 */
@@ -41,23 +56,23 @@ public class KcAttachmentDataDaoConversionImpl extends QuartzJobBean implements 
 	 */
 	private String updateSql;
 
-    @Override
-    public void executeInternal(JobExecutionContext context) throws JobExecutionException {
+	@Override
+	public void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		LOG.info("Starting attachment conversion job for " + tableName);
 
-        if (querySql == null) {
-            querySql = "select " + primaryKeyColumn + ", " + blobColumn + " from " + tableName + " where " + blobColumn + " is not null";
-        }
-        if (updateSql == null) {
-            updateSql = "update " + tableName + " set " + fileDataIdColumn + " = ?, " + blobColumn + " = null where " + primaryKeyColumn + " = ?";
-        }
+		if (querySql == null) {
+			querySql = "select " + primaryKeyColumn + ", " + blobColumn + " from " + tableName + " where " + blobColumn + " is not null";
+		}
+		if (updateSql == null) {
+			updateSql = "update " + tableName + " set " + fileDataIdColumn + " = ?, " + blobColumn + " = null where " + primaryKeyColumn + " = ?";
+		}
 
 		boolean hasResults = true;
 		while (hasResults) {
 			try (Connection conn = dataSource.getConnection();
 
-				PreparedStatement queryStmt = conn.prepareStatement(querySql);
-				PreparedStatement updateStmt = conn.prepareStatement(updateSql);) {
+				 PreparedStatement queryStmt = conn.prepareStatement(querySql);
+				 PreparedStatement updateStmt = conn.prepareStatement(updateSql);) {
 				conn.setAutoCommit(false);
 				hasResults = false;
 				queryStmt.setFetchSize(fetchSize);
@@ -66,7 +81,7 @@ public class KcAttachmentDataDaoConversionImpl extends QuartzJobBean implements 
 						String fileDataId = kcAttachmentDataDao.saveData(rs.getBytes(blobColumn), null);
 						updateStmt.setString(1, fileDataId);
 						updateStmt.setObject(2, rs.getObject(primaryKeyColumn));
-						int numUpdated = updateStmt.executeUpdate(); 
+						int numUpdated = updateStmt.executeUpdate();
 						if (numUpdated != 1) {
 							LOG.error("Expected to update a single row, but instead updated " + numUpdated + ". Job exiting.");
 							conn.rollback();
@@ -79,15 +94,15 @@ public class KcAttachmentDataDaoConversionImpl extends QuartzJobBean implements 
 					throw e;
 				}
 				conn.commit();
-				
+
 				Thread.sleep(500);
-				
+
 			} catch (SQLException e) {
 				LOG.error("Got sql exception in attachment conversion, job exiting.", e);
 				return;
 			} catch (InterruptedException e) {
-		        Thread.currentThread().interrupt();
-		        break;
+				Thread.currentThread().interrupt();
+				break;
 			}
 		}
 		LOG.info("Finishing attachment conversion job for " + tableName);

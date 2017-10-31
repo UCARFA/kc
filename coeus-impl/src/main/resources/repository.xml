@@ -716,7 +716,52 @@
 		<field-descriptor name="multiplesFlag" column="MULTIPLES_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 	</class-descriptor>
-  
+
+	<class-descriptor class="org.kuali.coeus.common.framework.unit.sync.UnitRoleSync" table="UNIT_ROLE_SYNC">
+		<field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_UNIT_ROLE_SYNC_ID" autoincrement="true"/>
+		<field-descriptor name="syncBehaviorCode" column="SYNC_BEHAVIOR_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="active" column="ACTIVE" jdbc-type="CHAR"
+						  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+
+		<collection-descriptor name="sourceUnitInfos" proxy="true" element-class-ref="org.kuali.coeus.common.framework.unit.sync.SourceUnitInfo"
+							   collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object"
+							   auto-delete="object">
+			<inverse-foreignkey field-ref="unitRoleSyncId"/>
+		</collection-descriptor>
+
+		<collection-descriptor name="targetRoleInfos" proxy="true" element-class-ref="org.kuali.coeus.common.framework.unit.sync.TargetRoleInfo"
+							   collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object"
+							   auto-delete="object">
+			<inverse-foreignkey field-ref="unitRoleSyncId"/>
+		</collection-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.coeus.common.framework.unit.sync.SourceUnitInfo" table="SOURCE_UNIT">
+		<field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_SOURCE_UNIT_ID" autoincrement="true"/>
+		<field-descriptor name="unitRoleSyncId" column="UNIT_ROLE_SYNC_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="sourceUnitCode" column="SOURCE_UNIT_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.coeus.common.framework.unit.sync.TargetRoleInfo" table="TARGET_ROLE">
+		<field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_TARGET_ROLE_ID" autoincrement="true"/>
+		<field-descriptor name="unitRoleSyncId" column="UNIT_ROLE_SYNC_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="roleId" column="ROLE_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="descends" column="DESCENDS" jdbc-type="CHAR"
+						  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+	</class-descriptor>
+
 	<!--  Narrative tables mapping -->
 	<class-descriptor class="org.kuali.coeus.propdev.impl.attachment.Narrative" table="NARRATIVE">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
