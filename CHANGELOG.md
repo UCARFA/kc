@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-1777: looking up by entity id
+  * Travis Schneeberger on Tue, 31 Oct 2017 17:07:43 -0400 [View Commit](../../commit/932bf7a328df9c9a867463967c7a6af96312167f)
+* RESKC-1777: Fixing caused by Entity Employment records that do not have any Principal records
+  * Travis Schneeberger on Tue, 31 Oct 2017 16:49:28 -0400 [View Commit](../../commit/af90ec4db1f50844dab3bb4a54cf3a20267cee07)
+
+## coeus-1710.0048
 * RESKC-1777: Support Delete All/Add
   * Travis Schneeberger on Tue, 31 Oct 2017 12:56:20 -0400 [View Commit](../../commit/aa5efe2e64308470bffd8c43ddb6d4e043e59202)
 * RESKC-1777: code review changes
