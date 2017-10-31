@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-1777: Support Delete All/Add
+  * Travis Schneeberger on Tue, 31 Oct 2017 12:56:20 -0400 [View Commit](../../commit/aa5efe2e64308470bffd8c43ddb6d4e043e59202)
+* RESKC-1777: code review changes
+  * Travis Schneeberger on Tue, 31 Oct 2017 11:11:28 -0400 [View Commit](../../commit/998119b572d367de0f5cd7e8ab4527725b0a1623)
+* RESKC-1777: creating process to sync person unit information to unit qualified role membership
+  * Travis Schneeberger on Tue, 31 Oct 2017 10:11:58 -0400 [View Commit](../../commit/c3119fcdadae8cce79c7ee6668deef073b6db7d2)
+
+## coeus-1710.0047
 * RESKC-2603: Fixing STE (#2596)
 
   * Gayathri Athreya on Mon, 30 Oct 2017 13:36:38 -0700 [View Commit](../../commit/84833e3ba59b4a1d96fcec60b541f2f5493bdd3d)

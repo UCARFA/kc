@@ -26,4 +26,5 @@ spool 1710_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1710_012__Mandatory_questions.sql
 @./rice/bootstrap/V1710_017__medusa_react_ui.sql
 @./rice/bootstrap/V1710_018__turn_off_prop_dev_permission_filtering.sql
+@./rice/bootstrap/V1710_022__unit_role_sync_job_Params.sql
 commit;
