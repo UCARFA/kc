@@ -1529,6 +1529,7 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
+    <!-- SJW - modified the lookup/results attributes and order for FAPA-1759 -->
     <bean id="Award-lookupDefinition" parent="Award-lookupDefinition-parentBean"/>
     <bean id="Award-LookupView" parent="Award-LookupView-parentBean"/>
     <bean id="Award-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
