@@ -1,5 +1,6 @@
 package edu.ucar.fanda.kuali.kra.award.detailsdates;
 
+import edu.ucar.fanda.kuali.kra.infrastructure.UcarKeyConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -101,7 +102,7 @@ public class UcarAwardDetailsAndDatesRuleImpl extends AwardDetailsAndDatesRuleIm
 
             if (!StringUtils.isBlank(accountNumber) && (!NumberUtils.isDigits(accountNumber) || accountNumber.length() > 10)) {
                 reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME,
-                        KeyConstants.AWARD_CHART_OF_ACCOUNTS_NUMBER_NOT_VALID,
+                        UcarKeyConstants.AWARD_CHART_OF_ACCOUNTS_NUMBER_NOT_VALID,
                         award.getAccountNumber(), award.getFinancialChartOfAccountsCode());
                 isValid &= false;
 

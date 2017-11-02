@@ -560,7 +560,6 @@ public final class KeyConstants {
     public static final String AWARD_ICR_RATE_TYPE_CODE_EMPTY = "error.award.createAccount.icr.rate.type.code.empty";
     public static final String AWARD_ICR_RATE_CODE_EMPTY = "error.award.createAccount.icr.rate.code.empty";
     public static final String ACCOUNT_ALREADY_CREATED = "error.award.createAccount.account.already.created";
-    public static final String AWARD_CHART_OF_ACCOUNTS_NUMBER_NOT_VALID = "error.award.chart.of.accounts.number.invalid";
     public static final String AWARD_CHART_OF_ACCOUNTS_CODE_NOT_VALID = "error.award.chart.of.accounts.code.invalid";
     public static final String BOTH_ACCOUNT_AND_CHART_REQUIRED = "error.award.account.number.and.chart.required";
     public static final String CANNOT_CONNECT_TO_SERVICE = "error.award.createAccount.cannotConnect";
