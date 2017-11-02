@@ -131,7 +131,7 @@
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div>
       	</th>
     	<td align="left" valign="middle">
-    		<kul:htmlControlAttribute property="document.awardList[0].accountNumber" attributeEntry="${awardAttributes.accountNumber}" />
+    		<kul:htmlControlAttribute property="document.awardList[0].accountNumber" attributeEntry="${awardAttributes.accountNumber}" readOnly="true" />
     	</td>
     	</kra:section>
     	<th>
