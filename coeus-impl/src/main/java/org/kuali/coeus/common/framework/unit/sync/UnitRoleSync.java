@@ -77,4 +77,8 @@ public class UnitRoleSync extends KcPersistableBusinessObjectBase implements Ide
     public void setTargetRoleInfos(List<TargetRoleInfo> targetRoleInfos) {
         this.targetRoleInfos = targetRoleInfos;
     }
+
+    public SyncBehavior getSyncBehavior() {
+        return SyncBehavior.fromCode(getSyncBehaviorCode());
+    }
 }

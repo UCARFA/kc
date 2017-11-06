@@ -176,7 +176,7 @@
         <property name="resultFields">
             <list>
                 <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
-                <bean parent="FieldDefinition" p:attributeName="syncBehaviorCode"/>
+                <bean parent="FieldDefinition" p:attributeName="syncBehaviorCode" p:alternateDisplayAttributeName="syncBehavior.description"/>
                 <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
         </property>
