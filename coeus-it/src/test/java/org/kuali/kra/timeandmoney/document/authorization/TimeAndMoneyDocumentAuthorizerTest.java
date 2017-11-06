@@ -150,7 +150,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         RoleMemberAttributeDataBo attrData = new RoleMemberAttributeDataBo();
         attrData.setId("KCTEST3");
         attrData.setAttributeValue("000001");
-        attrData.setKimAttributeId("10000");
+        attrData.setKimAttributeId(UnitRoleConstants.UNIT_ATTR_DEFINITION);
         attrData.setKimTypeId(UnitRoleConstants.UNIT_HIERARCHY_TYPE);
         attrData.setObjectId(UUID.randomUUID().toString());
         attrData.setVersionNumber(0L);
@@ -159,7 +159,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         RoleMemberAttributeDataBo attrDataTwo = new RoleMemberAttributeDataBo();
         attrDataTwo.setId("KCTEST4");
         attrDataTwo.setAttributeValue("Y");
-        attrDataTwo.setKimAttributeId("10001");
+        attrDataTwo.setKimAttributeId(UnitRoleConstants.SUBUNIT_ATTR_DEFINITION);
         attrDataTwo.setKimTypeId(UnitRoleConstants.UNIT_HIERARCHY_TYPE);
         attrDataTwo.setObjectId(UUID.randomUUID().toString());
         attrDataTwo.setVersionNumber(0L);

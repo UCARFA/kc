@@ -23,19 +23,30 @@ import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.sync.*;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.common.delegate.DelegateMember;
+import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.kim.api.responsibility.Responsibility;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleResponsibility;
 import org.kuali.rice.kim.impl.identity.employment.EntityEmploymentBo;
 import org.kuali.rice.kim.impl.role.RoleBo;
+import org.kuali.rice.kim.impl.role.RoleMemberAttributeDataBo;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -55,6 +66,9 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
     private static final String PRIMARY = "primary";
     private static final String PRIMARY_DEPARTMENT_CODE = "primaryDepartmentCode";
     private static final String ID = "id";
+    private static final Collection<String> KIM_CACHE_NAMES =
+            Stream.of(Role.Cache.NAME, Permission.Cache.NAME, Responsibility.Cache.NAME, RoleMembership.Cache.NAME, RoleMember.Cache.NAME, DelegateMember.Cache.NAME, RoleResponsibility.Cache.NAME, DelegateType.Cache.NAME)
+                    .collect(Collectors.toList());
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -65,8 +79,8 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
     private DataObjectService dataObjectService;
 
     @Autowired
-    @Qualifier("roleService")
-    private RoleService roleService;
+    @Qualifier("globalCacheManager")
+    private CacheManager globalCacheManager;
 
     @Autowired
     @Qualifier("identityService")
@@ -110,6 +124,7 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
                             .collect(entriesToMapWithMergedSet());
 
                     createMemberships(personUnits, unitRoleSync.getTargetRoleInfos(), SyncBehavior.fromCode(unitRoleSync.getSyncBehaviorCode()));
+                    clearKimCache();
                 });
     }
 
@@ -118,8 +133,7 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
                 .stream()
                 .filter(appt -> StringUtils.isNotBlank(appt.getUnitNumber()))
                 .filter(appt -> activeUnits.contains(appt.getUnitNumber()))
-                .map(appt -> entry(appt.getPersonId(), appt.getUnitNumber()))
-                .collect(entriesToMapWithSet());
+                .collect(Collectors.groupingBy(PersonAppointment::getPersonId, Collectors.mapping(PersonAppointment::getUnitNumber, Collectors.toSet())));
     }
 
 
@@ -138,7 +152,7 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
                         .map(Principal::getPrincipalId)
                             .map(principalId -> entry(principalId, emp.getPrimaryDepartmentCode()));
                 })
-                .collect(entriesToMapWithSet());
+                .collect(Collectors.groupingBy(Map.Entry::getKey, Collectors.mapping(Map.Entry::getValue, Collectors.toSet())));
     }
 
     private void createMemberships(Map<String, Set<String>> personUnits, List<TargetRoleInfo> targetRoleInfos, SyncBehavior syncBehavior) {
@@ -149,30 +163,23 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
 
             if (role != null) {
                 if (SyncBehavior.DELETE_ALL_ADD.equals(syncBehavior)) {
-                    final List<RoleMemberBo> roleMembers = findMatchingPrincipalRoleMembers(role.getMembers());
-                    roleMembers.forEach(roleMember -> roleService.removePrincipalFromRole(roleMember.getMemberId(), role.getNamespaceCode(), role.getName(), roleMember.getAttributes()));
+                    findMatchingPrincipalRoleMembers(role.getMembers()).forEach(dataObjectService::delete);
                     personUnits.forEach((personId, unitNumbers) -> unitNumbers.forEach(unitNumber -> {
-                        final Map<String, String> qualifications = isUnitHierarchyType(role.getKimTypeId()) ?
-                                createUnitHierarchyQual(unitNumber, targetRole.isDescends()) : createUnitQual(unitNumber);
-                        roleService.assignPrincipalToRole(personId, role.getNamespaceCode(), role.getName(), qualifications);
+                        dataObjectService.save(createRoleMember(role.getId(), role.getKimTypeId(), personId, unitNumber, targetRole.isDescends()));
                     }));
                 } else if (SyncBehavior.IGNORE_EXISTING.equals(syncBehavior)) {
                     personUnits.forEach((personId, unitNumbers) -> unitNumbers.forEach(unitNumber -> {
-                        final List<RoleMemberBo> roleMembers = findMatchingPrincipalRoleMembers(role.getMembers(), unitNumber, personId);
-                        if (roleMembers.isEmpty()) {
-                            final Map<String, String> qualifications = isUnitHierarchyType(role.getKimTypeId()) ?
-                                    createUnitHierarchyQual(unitNumber, targetRole.isDescends()) : createUnitQual(unitNumber);
-                            roleService.assignPrincipalToRole(personId, role.getNamespaceCode(), role.getName(), qualifications);
+                        if (findMatchingPrincipalRoleMembers(role.getMembers(), unitNumber, personId).isEmpty()) {
+                            dataObjectService.save(createRoleMember(role.getId(), role.getKimTypeId(), personId, unitNumber, targetRole.isDescends()));
                         }
                     }));
                 } else if (SyncBehavior.DELETE_READD.equals(syncBehavior)) {
                     personUnits.forEach((personId, unitNumbers) -> unitNumbers.forEach(unitNumber -> {
-                        final List<RoleMemberBo> roleMembers = findMatchingPrincipalRoleMembers(role.getMembers(), unitNumber, personId);
-                        roleMembers.forEach(roleMember -> roleService.removePrincipalFromRole(personId, role.getNamespaceCode(), role.getName(), roleMember.getAttributes()));
-                        final Map<String, String> qualifications = isUnitHierarchyType(role.getKimTypeId()) ?
-                                createUnitHierarchyQual(unitNumber, targetRole.isDescends()) : createUnitQual(unitNumber);
-                        roleService.assignPrincipalToRole(personId, role.getNamespaceCode(), role.getName(), qualifications);
+                        findMatchingPrincipalRoleMembers(role.getMembers(), unitNumber, personId).forEach(dataObjectService::delete);
+                        dataObjectService.save(createRoleMember(role.getId(), role.getKimTypeId(), personId, unitNumber, targetRole.isDescends()));
                     }));
+                } else {
+                    throw new RuntimeException(syncBehavior + " not supported");
                 }
             }
         });
@@ -194,26 +201,49 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
                 .collect(Collectors.toList());
     }
 
+    private RoleMemberBo createRoleMember(String roleId, String kimTypeId, String principalId, String unitNumber, boolean descends) {
+        final RoleMemberBo roleMember = new RoleMemberBo();
+
+        roleMember.setRoleId(roleId);
+        roleMember.setMemberId(principalId);
+        roleMember.setType(MemberType.PRINCIPAL);
+
+        roleMember.setAttributeDetails(isUnitHierarchyType(kimTypeId) ? createUnitHierarchyQual(unitNumber, descends) : createUnitQual(unitNumber));
+
+        return roleMember;
+    }
+
     private boolean isUnitHierarchyType(String kimTypeId) {
         return UnitRoleConstants.UNIT_HIERARCHY_TYPE.equals(kimTypeId);
     }
 
-    private Map<String, String> createUnitQual(String unitNumber) {
-        final Map<String, String> qualifications = new HashMap<>();
-        qualifications.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
-        return qualifications;
+    private List<RoleMemberAttributeDataBo> createUnitQual(String unitNumber) {
+        final RoleMemberAttributeDataBo unitQualifier = new RoleMemberAttributeDataBo();
+        unitQualifier.setKimTypeId(UnitRoleConstants.UNIT_TYPE);
+        unitQualifier.setKimAttributeId(UnitRoleConstants.UNIT_ATTR_DEFINITION);
+        unitQualifier.setAttributeValue(unitNumber);
+        return Stream.of(unitQualifier).collect(Collectors.toList());
     }
 
-    private Map<String, String> createUnitHierarchyQual(String unitNumber, boolean subunits) {
-        final Map<String, String> qualifications = new HashMap<>();
-        qualifications.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
-        qualifications.put(KcKimAttributes.SUBUNITS, subunits ? Y : N);
-        return qualifications;
+    private List<RoleMemberAttributeDataBo> createUnitHierarchyQual(String unitNumber, boolean subunits) {
+        final RoleMemberAttributeDataBo unitQualifier = new RoleMemberAttributeDataBo();
+        unitQualifier.setKimTypeId(UnitRoleConstants.UNIT_HIERARCHY_TYPE);
+        unitQualifier.setKimAttributeId(UnitRoleConstants.UNIT_ATTR_DEFINITION);
+        unitQualifier.setAttributeValue(unitNumber);
+
+        final RoleMemberAttributeDataBo subunitsQualifier = new RoleMemberAttributeDataBo();
+        subunitsQualifier.setKimTypeId(UnitRoleConstants.UNIT_HIERARCHY_TYPE);
+        subunitsQualifier.setKimAttributeId(UnitRoleConstants.SUBUNIT_ATTR_DEFINITION);
+        subunitsQualifier.setAttributeValue(subunits ? Constants.YES_FLAG : Constants.NO_FLAG);
+
+        return Stream.of(unitQualifier, subunitsQualifier).collect(Collectors.toList());
     }
 
-    public static <K, U> Collector<Map.Entry<K, U>, ?, Map<K, Set<U>>> entriesToMapWithSet() {
-        return Collectors.toMap(Map.Entry::getKey, entry -> Stream.of(entry.getValue()).collect(Collectors.toSet()),
-                (v1, v2) -> Stream.concat(v1.stream(), v2.stream()).collect(Collectors.toSet()), HashMap::new);
+    private void clearKimCache() {
+        KIM_CACHE_NAMES.stream()
+                .map(name -> getGlobalCacheManager().getCache(name))
+                .filter(Objects::nonNull)
+                .forEach(Cache::clear);
     }
 
     private Collector<Map.Entry<String, Set<String>>, ?, Map<String, Set<String>>> entriesToMapWithMergedSet() {
@@ -238,12 +268,12 @@ public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
         this.dataObjectService = dataObjectService;
     }
 
-    public RoleService getRoleService() {
-        return roleService;
+    public CacheManager getGlobalCacheManager() {
+        return globalCacheManager;
     }
 
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
+    public void setGlobalCacheManager(CacheManager globalCacheManager) {
+        this.globalCacheManager = globalCacheManager;
     }
 
     public IdentityService getIdentityService() {
