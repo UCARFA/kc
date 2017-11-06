@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-1777: UI improvement by displaying the sync behavior description
+  * Travis Schneeberger on Mon, 6 Nov 2017 10:54:06 -0500 [View Commit](../../commit/04ed6bc8d28262c735b0e391e6fdc7944d98b05d)
+* RESKC-1777: Performance improvements by directly saving and deleting role membership data
+  * Travis Schneeberger on Mon, 6 Nov 2017 10:53:26 -0500 [View Commit](../../commit/9f74ecf02d9ea2aea76a02803a83ff9a49ac9513)
+
+## coeus-1711.0005
 * No Changes
 
 
