@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2622: do not null out special review attachment on each save when the attachment is existing
+  * Travis Schneeberger on Tue, 7 Nov 2017 11:16:22 -0500 [View Commit](../../commit/e98292b92966a52a634cf205f9e59c66f5b9f77c)
+
+## coeus-1711.0008
 * No Changes
 
 
