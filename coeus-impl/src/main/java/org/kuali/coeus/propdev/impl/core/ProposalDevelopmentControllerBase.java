@@ -312,12 +312,12 @@ public abstract class ProposalDevelopmentControllerBase {
          }
 
          preSave(proposalDevelopmentDocument);
-         if (!proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews().isEmpty()) {
-             proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews()
-                     .stream()
-                     .filter(proposalSpecialReview -> proposalSpecialReview.getSpecialReviewAttachment() != null && proposalSpecialReview.getSpecialReviewAttachment().getMultipartFile() == null)
-                     .forEach(proposalSpecialReview -> proposalSpecialReview.setSpecialReviewAttachment(null));
-         }
+
+         proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews()
+                 .stream()
+                 .filter(proposalSpecialReview -> proposalSpecialReview.getSpecialReviewAttachment() != null && proposalSpecialReview.getSpecialReviewAttachment().getId() == null && proposalSpecialReview.getSpecialReviewAttachment().getMultipartFile() == null)
+                 .forEach(proposalSpecialReview -> proposalSpecialReview.setSpecialReviewAttachment(null));
+
          proposalDevelopmentService.initializeUnitOrganizationLocation(proposalDevelopmentDocument);
          proposalDevelopmentService.initializeProposalSiteNumbers(proposalDevelopmentDocument);
 
