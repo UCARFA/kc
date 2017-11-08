@@ -98,8 +98,9 @@
                         <bean parent="PropDev-CompliancePage-AttachmentType" p:order="90" />
                         <bean parent="PropDev-CompliancePage-ClinicalTrial" p:order="100" />
 
-                        <bean parent="Uif-InputField" p:propertyName="specialReviewAttachment.studyTitle" p:label="Study Title" p:order="120">
-                            <property name="control">
+                        <bean parent="Uif-InputField" p:propertyName="specialReviewAttachment.studyTitle" p:label="Study Title" p:order="120"
+							  p:progressiveRender="@{#fp.specialReviewAttachment?.isAttachmentDelayedOnset?:false?'':false == '' and #fp.specialReviewAttachment.isAttachmentDelayedOnset == 'on'}" >
+							<property name="control">
                                 <bean parent="Uif-TextAreaControl">
                                     <property name="rows" value="2"/>
                                     <property name="cols" value="120"/>
