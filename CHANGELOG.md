@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2578: Add missing Forms E S2S Error Messages
+  * Jeff Largent on Wed, 8 Nov 2017 14:57:25 -0500 [View Commit](../../commit/673357b62e954bc2b78149857b38ca0524e76660)
+* RESKC-2615, RESKC-2627: added study title length validation, update s2s
+  * Travis Schneeberger on Wed, 8 Nov 2017 13:38:16 -0500 [View Commit](../../commit/c6c3b34839b24a1ffb74ebdf854216a238b69614)
+* RESKC-2618: Only display study title when delayed onset is selected
+  * Jeff Largent on Tue, 7 Nov 2017 17:43:25 -0500 [View Commit](../../commit/5609ff1bce58f5a6ed0da8e084a9ca9b6e5a0e0a)
+
+## coeus-1711.0009
 * RESKC-2622: do not null out special review attachment on each save when the attachment is existing
   * Travis Schneeberger on Tue, 7 Nov 2017 11:16:22 -0500 [View Commit](../../commit/e98292b92966a52a634cf205f9e59c66f5b9f77c)
 
