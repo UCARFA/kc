@@ -3,11 +3,18 @@ package co.kuali.coeus.db.lambda;
 import co.kuali.coeus.data.migration.FlywayMigrator;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.sql.DataSource;
+
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -50,11 +57,27 @@ public class FlywayLambda {
     private static final String SQL_MIGRATION_PATH = "sqlMigrationPath";
     private static final String JAVA_MIGRATION_PATH = "javaMigrationPath";
     private static final String INIT_VERSION = "initVersion";
-
+    
     @SuppressWarnings("unchecked")
+    public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
+    	HashMap<String, Object> input = new ObjectMapper().readValue(System.in, HashMap.class);
+    	
+    	new FlywayLambda().apply(input, new LambdaLogger() {
+			@Override
+			public void log(String string) {
+				System.out.println(string);
+			}
+    	});
+    }
+
     public String apply(Map<String, Object> input, Context context) {
         LambdaLogger logger = context.getLogger();
-        logger.log("Stating Flyway Migrator with config: " + input);
+        return apply(input, logger);
+    }
+
+    @SuppressWarnings("unchecked")
+	protected String apply(Map<String, Object> input, LambdaLogger logger) {
+		logger.log("Stating Flyway Migrator with config: " + input);
 
         final Map<String, String> coeusDataSourceInput = (Map<String, String>) input.get(COEUS_DATASOURCE);
         final String coeusDriverName = coeusDataSourceInput.get(DRIVER_NAME);
@@ -97,7 +120,7 @@ public class FlywayLambda {
         } finally {
             logger.log("Ending Flyway Migrator with config: " + input);
         }
-    }
+	}
 
     private DataSource retrieveDataSource(String driverName, String url, String username, String password) {
         BasicDataSource dataSource = new BasicDataSource();
