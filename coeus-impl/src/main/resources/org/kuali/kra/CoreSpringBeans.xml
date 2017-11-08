@@ -507,6 +507,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalRoleTemplate.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/location/ProposalSite.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReview.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReviewAttachment.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReviewExemption.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/state/ProposalState.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/PropAwardPersonRole.xml</value>
