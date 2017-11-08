@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* allow running flyway through uber jar locally to bootstrap ebs envs for now
+  * blackcathacker on Tue, 7 Nov 2017 17:14:39 -0800 [View Commit](../../commit/19a06e12398808581105a9d813b2df6e73accda5)
+
+## coeus-1711.0011
 * RESKC-2578: Add missing Forms E S2S Error Messages
   * Jeff Largent on Wed, 8 Nov 2017 14:57:25 -0500 [View Commit](../../commit/673357b62e954bc2b78149857b38ca0524e76660)
 * RESKC-2615, RESKC-2627: added study title length validation, update s2s
