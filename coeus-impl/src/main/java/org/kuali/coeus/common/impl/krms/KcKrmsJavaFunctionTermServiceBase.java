@@ -39,6 +39,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -49,6 +50,7 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
 
     public static final String TRUE = "true";
     public static final String FALSE = "false";
+    public static final List<String> NULL_VALUES = Arrays.asList("null", "empty");
     public static final String[] restrictedElements = { " ", "`", "@", "#", "!", "$", "%", "^", "&", "*", "(", ")", "[", "]", "{",
             "}", "|", "\\", "/", "?", "<", ">", ",", ";", ":", "'", "\"", "`", "+" };
 
