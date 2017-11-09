@@ -24,6 +24,7 @@ import org.kuali.coeus.coi.framework.ProjectPublisher;
 import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
@@ -46,6 +47,8 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonCoiIntegrationService;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewAttachment;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.coeus.propdev.impl.sponsor.AddProposalSponsorAndProgramInformationEvent;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
@@ -315,8 +318,8 @@ public abstract class ProposalDevelopmentControllerBase {
 
          proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews()
                  .stream()
-                 .filter(proposalSpecialReview -> proposalSpecialReview.getSpecialReviewAttachment() != null && proposalSpecialReview.getSpecialReviewAttachment().getId() == null && proposalSpecialReview.getSpecialReviewAttachment().getMultipartFile() == null)
-                 .forEach(proposalSpecialReview -> proposalSpecialReview.setSpecialReviewAttachment(null));
+                 .filter(proposalSpecialReview -> proposalSpecialReview.getSpecialReviewAttachment() != null)
+                 .forEach(this::prepareSpecialReviewAttachmentForSave);
 
          proposalDevelopmentService.initializeUnitOrganizationLocation(proposalDevelopmentDocument);
          proposalDevelopmentService.initializeProposalSiteNumbers(proposalDevelopmentDocument);
@@ -363,6 +366,26 @@ public abstract class ProposalDevelopmentControllerBase {
              getProjectPublisher().publishProject(project);
          }
          return view;
+     }
+
+     protected void prepareSpecialReviewAttachmentForSave(ProposalSpecialReview specialReview) {
+          ProposalSpecialReviewAttachment specialReviewAttachment = specialReview.getSpecialReviewAttachment();
+          if (specialReviewAttachment.getMultipartFile() != null) {
+              try {
+                  specialReviewAttachment.init(specialReviewAttachment.getMultipartFile());
+              } catch (Exception e) {
+                  // Rethrow as unchecked exception so this method can be used in a lambda
+                  throw new RuntimeException(e);
+              }
+          }
+          // Don't try to save a new file to the database if no file data is present-- user did not attach a file to upload
+          if (specialReviewAttachment.getId() == null && specialReviewAttachment.getMultipartFile() == null) {
+              specialReview.setSpecialReviewAttachment(null);
+          }
+          // Remove attachment if compliance entry has change to something other than human subjects
+          if (specialReviewAttachment.getId() != null && !SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+              specialReview.setSpecialReviewAttachment(null);
+          }
      }
 
     public void saveAnswerHeaderIfNotLocked(ProposalDevelopmentDocumentForm form, ProposalDevelopmentDocument proposalDevelopmentDocument) {

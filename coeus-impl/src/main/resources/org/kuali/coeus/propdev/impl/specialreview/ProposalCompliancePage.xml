@@ -95,11 +95,12 @@
                             </property>
                         </bean>
 
-                        <bean parent="PropDev-CompliancePage-AttachmentType" p:order="90" />
-                        <bean parent="PropDev-CompliancePage-ClinicalTrial" p:order="100" />
+                        <bean parent="PropDev-CompliancePage-AttachmentType" p:order="90" p:render="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}" />
+                        <bean parent="PropDev-CompliancePage-ClinicalTrial" p:order="100" p:render="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}" />
 
                         <bean parent="Uif-InputField" p:propertyName="specialReviewAttachment.studyTitle" p:label="Study Title" p:order="120"
-							  p:progressiveRender="@{#fp.specialReviewAttachment?.isAttachmentDelayedOnset?:false?'':false == '' and #fp.specialReviewAttachment.isAttachmentDelayedOnset == 'on'}" >
+							  p:progressiveRender="@{#fp.specialReviewAttachment?.isAttachmentDelayedOnset?:false?'':false == '' and #fp.specialReviewAttachment.isAttachmentDelayedOnset == 'on'}"
+                              p:render="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}" >
 							<property name="control">
                                 <bean parent="Uif-TextAreaControl">
                                     <property name="rows" value="2"/>
@@ -108,11 +109,13 @@
                             </property>
                         </bean>
 
-                        <bean parent="PropDev-CompliancePage-PropSpecialReviewAttachment" p:order="130" p:render="@{!#ViewHelper.hasSpecialReviewAttachment(#line)}"/>
+                        <bean parent="PropDev-CompliancePage-PropSpecialReviewAttachment" p:order="130"
+							  p:required="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}"
+							  p:render="@{!#ViewHelper.hasSpecialReviewAttachment(#line) and #ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}"/>
 
                         <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.showFileAttachmentName(#line)}"
                             p:fieldLabel.labelText="Human Study Attachment"
-                            p:render="@{#ViewHelper.hasSpecialReviewAttachment(#line)}"
+                            p:render="@{#ViewHelper.hasSpecialReviewAttachment(#line) and #ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}"
                             p:order="140"/>
 
             </list>
