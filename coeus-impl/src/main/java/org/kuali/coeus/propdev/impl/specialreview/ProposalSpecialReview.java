@@ -100,6 +100,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         return proposalSpecialReviewExemption;
     }
 
+    @Override
     public ProposalSpecialReviewAttachment getSpecialReviewAttachment() {
         return specialReviewAttachment;
     }

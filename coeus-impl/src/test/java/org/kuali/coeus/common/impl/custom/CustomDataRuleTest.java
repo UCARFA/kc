@@ -38,6 +38,8 @@ public class CustomDataRuleTest {
             @Override
             public void addError(CustomAttribute customAttribute, String errorKey, SaveCustomDataEvent event, String attributeValue, String validFormat) {
             }
+
+            @Override
             public Collection<ArgValueLookup> getMatchingArgValues(CustomAttribute customAttribute) {
                 List<ArgValueLookup> allArgValues = new ArrayList<>();
                 ArgValueLookup argValueLookup1 = new ArgValueLookup();

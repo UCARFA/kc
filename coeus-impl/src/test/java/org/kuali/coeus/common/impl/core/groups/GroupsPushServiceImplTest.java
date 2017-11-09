@@ -52,6 +52,7 @@ public class GroupsPushServiceImplTest {
 		blRoleMembers.put("IRB_ADMIN", Arrays.asList("333333"));
 		blRoleMembers.put("DEAN", Arrays.asList("444444"));
 		GroupsPushServiceImpl service = new GroupsPushServiceImpl() {
+			@Override
 			protected List<UnitAdministratorType> getUnitAdministratorTypes() {
 				return unitAdministratorTypes;
 			}
@@ -87,6 +88,7 @@ public class GroupsPushServiceImplTest {
 		blRoleMembers.put("IRB_ADMIN", Arrays.asList("333333"));
 		blRoleMembers.put("DEAN", Arrays.asList("444444"));
 		GroupsPushServiceImpl service = new GroupsPushServiceImpl() {
+			@Override
 			protected List<UnitAdministratorType> getUnitAdministratorTypes() {
 				return unitAdministratorTypes;
 			}
@@ -153,6 +155,8 @@ public class GroupsPushServiceImplTest {
 			this.parentId = parentId;
 			this.newId = newId;
 		}
+
+		@Override
 		public ResponseEntity<CategoryDto> answer(InvocationOnMock inv) {
 			CategoryDto category = ((HttpEntity<CategoryDto>)inv.getArgument(2)).getBody();
 			assertEquals(name, category.getName());
@@ -186,6 +190,8 @@ public class GroupsPushServiceImplTest {
 			this.newId = newId;
 			this.roleMembers = roleMembers;
 		}
+
+		@Override
 		public ResponseEntity<GroupDto> answer(InvocationOnMock inv) {
 			GroupDto group = ((HttpEntity<GroupDto>)inv.getArgument(2)).getBody();
 			assertEquals(name, group.getName());
@@ -219,6 +225,8 @@ public class GroupsPushServiceImplTest {
 			this.parentId = parentId;
 			this.newId = newId;
 		}
+
+		@Override
 		public ResponseEntity<String> answer(InvocationOnMock inv) {
 			CategoryDto category = ((HttpEntity<CategoryDto>)inv.getArgument(2)).getBody();
 			assertEquals(newId, category.getId());
@@ -251,6 +259,8 @@ public class GroupsPushServiceImplTest {
 			this.newId = newId;
 			this.roleMembers = roleMembers;
 		}
+
+		@Override
 		public ResponseEntity<String> answer(InvocationOnMock inv) {
 			GroupDto group = ((HttpEntity<GroupDto>)inv.getArgument(2)).getBody();
 			assertEquals(newId, group.getId());

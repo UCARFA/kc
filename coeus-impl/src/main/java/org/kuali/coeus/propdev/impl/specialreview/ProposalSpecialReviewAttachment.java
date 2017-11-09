@@ -55,9 +55,6 @@ public class ProposalSpecialReviewAttachment extends KcAttachmentDataSource impl
     private Boolean isAttachmentDelayedOnset;
 
     @Transient
-    private Long size;
-
-    @Transient
     private transient MultipartFile multipartFile;
 
     @Transient
@@ -71,7 +68,6 @@ public class ProposalSpecialReviewAttachment extends KcAttachmentDataSource impl
 
     public void init(MultipartFile multipartFile) throws Exception {
         if (initialized.compareAndSet(false, true)) {
-            this.size = multipartFile.getSize();
             this.setType(multipartFile.getContentType());
             this.setData(multipartFile.getBytes());
             this.setName(multipartFile.getOriginalFilename());
@@ -88,6 +84,7 @@ public class ProposalSpecialReviewAttachment extends KcAttachmentDataSource impl
         initialized.set(false);
     }
 
+    @Override
     public Boolean isAttachmentDelayedOnset() {
         return isAttachmentDelayedOnset;
     }
@@ -104,10 +101,12 @@ public class ProposalSpecialReviewAttachment extends KcAttachmentDataSource impl
         this.clinicalTrial = clinicalTrial;
     }
 
+    @Override
     public String getStudyTitle() {
         return studyTitle;
     }
 
+    @Override
     public Boolean getClinicalTrial() {
         return clinicalTrial;
     }
@@ -116,6 +115,7 @@ public class ProposalSpecialReviewAttachment extends KcAttachmentDataSource impl
         this.studyTitle = studyTitle;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -132,6 +132,7 @@ public class ProposalSpecialReviewAttachment extends KcAttachmentDataSource impl
         this.attachmentXmlFileData = attachmentXmlFileData;
     }
 
+    @Override
     public Map<String, Object> getSpecialReviewAttachmentXmlFileData() {
         Map<String, Object> data = getAttachmentService().getSpecialReviewAttachmentXmlFileData(getData());
         if (data == null) {

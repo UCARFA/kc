@@ -47,6 +47,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
     @Test
     public void convertToAuditErrorsTestEmptyCustomMessage() {
         rule = new ProposalDevelopmentGrantsGovAuditRule() {
+            @Override
             protected List<NihValidationMapping> getNihValidationMappings(ValidationMessage msg) {
                 List<NihValidationMapping> mappings = new ArrayList<>();
                 NihValidationMapping mapping1 = new NihValidationMapping();
@@ -87,6 +88,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
     @Test
     public void convertToAuditErrorsTestWithCustomMessageAppend() {
         rule = new ProposalDevelopmentGrantsGovAuditRule() {
+            @Override
             protected List<NihValidationMapping> getNihValidationMappings(ValidationMessage msg) {
                 List<NihValidationMapping> mappings = new ArrayList<>();
                 NihValidationMapping mapping1 = new NihValidationMapping();
@@ -125,6 +127,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
     @Test
     public void convertToAuditErrorsTestWithCustomMessageDoNotAppend() {
         rule = new ProposalDevelopmentGrantsGovAuditRule() {
+            @Override
             protected List<NihValidationMapping> getNihValidationMappings(ValidationMessage msg) {
                 List<NihValidationMapping> mappings = new ArrayList<>();
                 NihValidationMapping mapping1 = new NihValidationMapping();
@@ -165,6 +168,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
     @Test
     public void convertToAuditErrorsTestWithCustomMessageDoNotAppendUpgradeToError() {
         rule = new ProposalDevelopmentGrantsGovAuditRule() {
+            @Override
             protected List<NihValidationMapping> getNihValidationMappings(ValidationMessage msg) {
                 List<NihValidationMapping> mappings = new ArrayList<>();
                 NihValidationMapping mapping1 = new NihValidationMapping();
@@ -206,6 +210,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
     @Test
     public void convertToAuditErrorsTestWithCustomMessageDoNotAppendEmptyPageId() {
         rule = new ProposalDevelopmentGrantsGovAuditRule() {
+            @Override
             protected List<NihValidationMapping> getNihValidationMappings(ValidationMessage msg) {
                 List<NihValidationMapping> mappings = new ArrayList<>();
                 NihValidationMapping mapping1 = new NihValidationMapping();

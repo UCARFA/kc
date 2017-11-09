@@ -251,6 +251,7 @@ public class BudgetModularServiceImplTest {
 
     private BudgetRateAndBase getBudgetRateAndBase(String rateClassCode, String rateTypeCode, String rateClassTypeCode, ScaleTwoDecimal baseCost, ScaleTwoDecimal appliedRate) {
         BudgetRateAndBase rateAndBase = new BudgetRateAndBase() {
+            @Override
             public void refreshReferenceObject(String referenceObjectName) {
             }
 
@@ -307,10 +308,11 @@ public class BudgetModularServiceImplTest {
                 return "420630";
             }
 
+            @Override
             public BudgetCalculationService getBudgetCalculationService() {
                 return new BudgetCalculationServiceImpl() {
                     @Override
-                    public void calculateBudgetLineItem(Budget budget,BudgetLineItem budgetLineItem) {
+                    public void calculateBudgetLineItem(Budget budget, BudgetLineItem budgetLineItem) {
                     }
                 };
             }
