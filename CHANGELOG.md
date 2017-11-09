@@ -1,6 +1,13 @@
 
 
 ## CURRENT
+* Add Date transactions to T&M API (#2616)
+
+  * Terry Durkin on Thu, 9 Nov 2017 16:22:17 -0500 [View Commit](../../commit/4138eca8807a04215c98394cd7c4aba90a5a1651)
+* RESKC-1631: KRMS function for checking if properties exist on human subjects special reviews
+  * Jeff Largent on Thu, 9 Nov 2017 15:33:28 -0500 [View Commit](../../commit/6fb69c63502162c3f584f3e86d369e5b303a3af1)
+
+## coeus-1711.0014
 * RESKC-2617: Prevent attachment data from being read more than once
   * Jeff Largent on Thu, 9 Nov 2017 11:27:19 -0500 [View Commit](../../commit/dd1a6a67c46022374958f7810e0353333b302f9a)
 * RESKC-2617: Made sure compliance attachment UI only renders for Human Subjects
