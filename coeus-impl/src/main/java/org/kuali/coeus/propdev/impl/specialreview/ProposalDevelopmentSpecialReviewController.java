@@ -192,16 +192,10 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
 
         if (proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS) ||
                 proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.ANIMAL_USAGE)) {
-                ProposalSpecialReviewAttachment specialReviewAttachment = proposalSpecialReview.getSpecialReviewAttachment();
-            if (specialReviewAttachment.getMultipartFile() != null) {
-                specialReviewAttachment.init(specialReviewAttachment.getMultipartFile());
-                proposalSpecialReview.setSpecialReviewAttachment(specialReviewAttachment);
-            }
-
             proposalSpecialReview.setDevelopmentProposal(proposalDevelopmentDocument.getDevelopmentProposal());
             pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(proposalSpecialReview);
 
-            // Invalid protrocol trying to be linked so blank out protocol info
+            // Invalid protocol trying to be linked so blank out protocol info
             if (protocolNeedsToBeLinked(proposalSpecialReview.getSpecialReviewTypeCode()) && !proposalSpecialReview.isLinkedToProtocol()) {
                 proposalSpecialReview.setProtocolStatus(null);
                 proposalSpecialReview.setProtocolNumber(null);
