@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2617: Prevent attachment data from being read more than once
+  * Jeff Largent on Thu, 9 Nov 2017 11:27:19 -0500 [View Commit](../../commit/dd1a6a67c46022374958f7810e0353333b302f9a)
+* RESKC-2617: Made sure compliance attachment UI only renders for Human Subjects
+
+* Also fixed a bug where special review attachments could not be updated
+  * Jeff Largent on Thu, 9 Nov 2017 09:25:24 -0500 [View Commit](../../commit/2218257451c99bed46c05b9577f63143010b4c87)
+
+## coeus-1711.0012
 * allow running flyway through uber jar locally to bootstrap ebs envs for now
   * blackcathacker on Tue, 7 Nov 2017 17:14:39 -0800 [View Commit](../../commit/19a06e12398808581105a9d813b2df6e73accda5)
 
