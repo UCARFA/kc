@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.krms;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,6 +58,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -1149,7 +1151,25 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
 		 .filter(actionRequest -> actionRequest.getActionTaken() != null)
 		 .anyMatch(actionRequest -> actionRequest.getActionTaken().getActionTaken().equals(ActionType.RETURN_TO_PREVIOUS)) ? FALSE : TRUE;
     }
-    
+
+    @Override
+    public String humanSubjectsSpecialReviewContainsPropertyValue(DevelopmentProposal developmentProposal, String propertyName, String propertyValue) {
+        return developmentProposal.getPropSpecialReviews().stream()
+                .filter(specialReview -> SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()))
+                .anyMatch(specialReview -> {
+            try {
+                Object value = PropertyUtils.getProperty(specialReview, propertyName);
+                if (NULL_VALUES.stream().anyMatch(nullValue -> nullValue.equalsIgnoreCase(propertyValue))) {
+                    return value == null || StringUtils.isEmpty(String.valueOf(value));
+                }
+                return String.valueOf(value).equals(propertyValue);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                LOG.error(String.format("Failed to access special review property '%s'", propertyName), e);
+            }
+            return false;
+        }) ? TRUE : FALSE;
+    }
+
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }

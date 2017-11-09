@@ -87,5 +87,7 @@ public interface PropDevJavaFunctionKrmsTermService extends KcKrmsJavaFunctionTe
     public String specialReviewDateRule(DevelopmentProposal developmentProposal);
     public String deadlineDateRule(DevelopmentProposal developmentProposal, String deadlineDate);
     public String routingSequenceRule(DevelopmentProposal developmentProposal);
+
+    public String humanSubjectsSpecialReviewContainsPropertyValue(DevelopmentProposal developmentProposal, String propertyName, String propertyValue);
     
 }
