@@ -154,6 +154,7 @@ public class TimeAndMoneyController extends RestController {
     public TimeAndMoneyDto getTimeAndMoneydocument(@PathVariable String documentNumber) {
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) commonApiService.getDocumentFromDocId(Long.parseLong(documentNumber));
         TimeAndMoneyDto timeAndMoneyDto = commonApiService.convertObject(timeAndMoneyDocument, TimeAndMoneyDto.class);
+        timeAndMoneyDto.setTransactionDetails(timeAndMoneyDao.getTransactionDetailsForDocument(documentNumber).stream().map(item -> commonApiService.convertObject(item, TransactionDetailDto.class)).collect(Collectors.toList()));
         timeAndMoneyDto.setTimeAndMoneyDocumentNbr(timeAndMoneyDocument.getDocumentNumber());
         timeAndMoneyDto.setTimeAndMoneyDocumentStatus(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());
         return timeAndMoneyDto;

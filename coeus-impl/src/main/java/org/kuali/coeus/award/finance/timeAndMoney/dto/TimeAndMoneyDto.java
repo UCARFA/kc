@@ -36,7 +36,7 @@ public class TimeAndMoneyDto {
     private List<AwardAmountTransactionDto> awardAmountTransactions;
 
     @JsonProperty(value="transactionDetails")
-    @CollectionProperty(source="transactionDetails", itemClass= AwardAmountTransactionDto.class)
+    @CollectionProperty(source="transactionDetails", itemClass= TransactionDetailDto.class)
     private List<TransactionDetailDto> transactionDetails;
 
     @JsonProperty(value="awardAmountInfos")
