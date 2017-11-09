@@ -30,8 +30,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.lang.ref.SoftReference;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Entity
 @Table(name = "EPS_PROP_SPL_REVIEW_ATTACHMENT")
@@ -66,12 +66,16 @@ public class ProposalSpecialReviewAttachment extends KcAttachmentDataSource impl
     private transient ProposalSpecialReviewHumanSubjectsAttachmentService proposalSpecialReviewHumanSubjectsAttachmentService;
     @Transient
     private transient GlobalVariableService globalVariableService;
+    @Transient
+    private final AtomicBoolean initialized = new AtomicBoolean(false);
 
     public void init(MultipartFile multipartFile) throws Exception {
-        this.size = multipartFile.getSize();
-        this.setType(multipartFile.getContentType());
-        this.setData(multipartFile.getBytes());
-        this.setName(multipartFile.getOriginalFilename());
+        if (initialized.compareAndSet(false, true)) {
+            this.size = multipartFile.getSize();
+            this.setType(multipartFile.getContentType());
+            this.setData(multipartFile.getBytes());
+            this.setName(multipartFile.getOriginalFilename());
+        }
     }
 
 
@@ -81,6 +85,7 @@ public class ProposalSpecialReviewAttachment extends KcAttachmentDataSource impl
 
     public void setMultipartFile(MultipartFile multipartFile) {
         this.multipartFile = multipartFile;
+        initialized.set(false);
     }
 
     public Boolean isAttachmentDelayedOnset() {
