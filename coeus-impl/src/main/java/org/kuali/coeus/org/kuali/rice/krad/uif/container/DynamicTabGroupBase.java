@@ -164,6 +164,7 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
 		return applyLazyLoadProperty;
 	}
 
+	@Override
 	public void setApplyLazyLoadProperty(String applyLazyLoadProperty) {
 		this.applyLazyLoadProperty = applyLazyLoadProperty;
 	}

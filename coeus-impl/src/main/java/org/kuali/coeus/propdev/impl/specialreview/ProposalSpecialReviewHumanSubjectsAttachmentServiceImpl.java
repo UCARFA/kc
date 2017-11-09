@@ -44,6 +44,7 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
     private S2sUserAttachedFormService s2sUserAttachedFormService;
 
 
+    @Override
     public Map<String, Object> getSpecialReviewAttachmentXmlFileData(byte pdfFileContents[]) {
         String xml;
         Map<Object, Object> attachments;
@@ -101,8 +102,7 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
         } catch (IOException | ParserConfigurationException | SAXException | TransformerException exception) {
             fileData = null;
             LOG.error("Cannot parse attachment." + exception.getMessage(), exception);
-        }
-        finally {
+        } finally {
             if (reader != null) reader.close();
         }
 

@@ -230,12 +230,14 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     
     public boolean syncAllRequiresEndDateExtension(DevelopmentProposal hierarchyProposal) {
     	return getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal);
-    }    
+    }
 
+    @Override
     public ParameterService getParameterService() {
         return parameterService;
     }
 
+    @Override
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
