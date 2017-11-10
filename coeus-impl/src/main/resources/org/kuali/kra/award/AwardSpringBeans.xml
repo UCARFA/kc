@@ -474,14 +474,20 @@
         <property name="parameterService" ref="parameterService" />
         <property name="businessObjectService" ref="businessObjectService" />       
     </bean>
-    
+    <!-- SJW
     <bean id="awardScheduleGenerationService" class="org.kuali.kra.award.service.impl.AwardScheduleGenerationServiceImpl">
         <property name="scheduleService" ref="scheduleService" />
         <property name="persistenceService" ref="persistenceService" />
         <property name="parameterService" ref="parameterService" />
         <property name="awardAmountInfoService" ref="awardAmountInfoService" />
     </bean>
-    
+    -->
+    <bean id="awardScheduleGenerationService" class="edu.ucar.fanda.kuali.kra.award.service.impl.UcarAwardScheduleGenerationServiceImpl">
+        <property name="scheduleService" ref="scheduleService" />
+        <property name="persistenceService" ref="persistenceService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="awardAmountInfoService" ref="awardAmountInfoService" />
+    </bean>
     <bean id="awardSponsorTermService" class="org.kuali.kra.award.service.impl.AwardSponsorTermServiceImpl" />
     
     <bean id="awardTemplateSyncService" class="org.kuali.kra.award.AwardTemplateSyncServiceImpl">
