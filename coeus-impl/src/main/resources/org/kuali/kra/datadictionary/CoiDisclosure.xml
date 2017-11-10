@@ -168,7 +168,7 @@
     </bean>
 
     <bean id="CoiDisclosure-personId" parent="CoiDisclosure-personId-parentBean" />
-    <bean id="CoiDisclosure-personId-parentBean" abstract="true" parent="PersonImpl-principalId" >
+    <bean id="CoiDisclosure-personId-parentBean" abstract="true" parent="KcPerson-personId" >
         <property name="name" value="personId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Person Id" />

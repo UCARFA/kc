@@ -287,7 +287,7 @@
     </bean>
     
     <bean id="ProposalLog-piId" parent="ProposalLog-piId-parentBean" />
-    <bean id="ProposalLog-piId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <bean id="ProposalLog-piId-parentBean" abstract="true" parent="KcPerson-personId">
         <property name="name" value="piId" />
         <property name="label" value="Principal Investigator Person Identifier" />
         <property name="shortLabel" value="PI Person ID" />

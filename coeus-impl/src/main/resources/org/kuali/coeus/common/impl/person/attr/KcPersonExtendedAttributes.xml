@@ -73,14 +73,11 @@
 <!-- Attribute Definitions -->
 
   <bean id="KcPersonExtendedAttributes-personId" parent="KcPersonExtendedAttributes-personId-parentBean" />
-  <bean id="KcPersonExtendedAttributes-personId-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="KcPersonExtendedAttributes-personId-parentBean" abstract="true" parent="KcPerson-personId">
     <property name="name" value="personId" />
     <property name="label" value="KcPersonExtendedAttributes Id" />
     <property name="shortLabel" value="KcPersonExtendedAttributes Id" />
     <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
     <property name="summary" value="KcPersonExtendedAttributes Id" />
     <property name="description" value="KcPersonExtendedAttributes Id" />
   </bean>

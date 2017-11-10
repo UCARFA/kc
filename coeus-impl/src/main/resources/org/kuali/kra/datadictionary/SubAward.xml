@@ -526,7 +526,7 @@
   </bean>
   
   <bean id="SubAward-requisitionerId" parent="SubAward-requisitionerId-parentBean" />
-  <bean id="SubAward-requisitionerId-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="SubAward-requisitionerId-parentBean" abstract="true" parent="KcPerson-personId">
     <property name="name" value="requisitionerId" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Requisitioner ID" />
@@ -544,12 +544,9 @@
     <property name="label" value="Requisitioner User Name" />
     <property name="shortLabel" value="Requisitioner User Name" />
     <property name="required" value="false" />
-    <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" />
-        </property>
-        <property name="control" >
+    <property name="control" >
       <bean parent="KualiUserControlDefinition" p:personNameAttributeName="requisitionerName" p:universalIdAttributeName="requisitionerId" p:userIdAttributeName="requisitionerUserName"/>
-        </property>
+    </property>
   </bean>
   
    <bean id="SubAward-requisitionerName" parent="SubAward-requisitionerName-parentBean" />
