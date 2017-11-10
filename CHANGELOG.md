@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* RESKC-2604: Loosening principal id validations. (#2619)
+
+  * Gayathri Athreya on Fri, 10 Nov 2017 11:17:17 -0700 [View Commit](../../commit/9471f94e60cb7c51b94e935db1ba23ec766a7a30)
+
+## coeus-1711.0017
 * RESKC-2617: Disable client-side validation when deleting compliance entries
   * Jeff Largent on Fri, 10 Nov 2017 11:26:39 -0500 [View Commit](../../commit/18ace59b1406ec121f09c7f273e48a84d6569508)
 
