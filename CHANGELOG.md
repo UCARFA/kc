@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2617: Disable client-side validation when deleting compliance entries
+  * Jeff Largent on Fri, 10 Nov 2017 11:26:39 -0500 [View Commit](../../commit/18ace59b1406ec121f09c7f273e48a84d6569508)
+
+## coeus-1711.0016
 * No Changes
 
 
