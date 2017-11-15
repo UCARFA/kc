@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1711.0018
 * RESKC-2604: Loosening principal id validations. (#2619)
 
   * Gayathri Athreya on Fri, 10 Nov 2017 11:17:17 -0700 [View Commit](../../commit/9471f94e60cb7c51b94e935db1ba23ec766a7a30)
