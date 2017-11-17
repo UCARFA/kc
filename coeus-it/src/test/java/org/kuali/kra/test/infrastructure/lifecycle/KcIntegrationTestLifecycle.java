@@ -25,52 +25,52 @@ public interface KcIntegrationTestLifecycle {
     /**
      * This method starts the "per test" portion of the lifecycle.
      */
-    public void startPerTest(boolean transactional);
+    void startPerTest(boolean transactional);
 
     /**
      * This method stops the "per test" portion of the lifecycle
      */
-    public void stopPerTest();
+    void stopPerTest();
 
     /**
      * This method starts the "per class" portion of the lifecycle
      */
-    public void startPerClass();
+    void startPerClass();
 
     /**
      * This method stops the "per class" portion of the lifecycle
      */
-    public void stopPerClass();
+    void stopPerClass();
 
     /**
      * This method starts the "per suite" portion of the lifecycle
      */
-    public void startPerSuite();
+    void startPerSuite();
 
     /**
      * This method stops the "per suite" portion of the lifecycle
      */
-    public void stopPerSuite();
+    void stopPerSuite();
 
     /**
      * This method indicates whether the "per test" portion of the lifecycle is running
      * 
      * @return the state of the "per test" portion of the lifecycle
      */
-    public boolean isPerTestStarted();
+    boolean isPerTestStarted();
 
     /**
      * This method indicates whether the "per class" portion of the lifecycle is running
      * 
      * @return the state of the "per class" portion of the lifecycle
      */
-    public boolean isPerClassStarted();
+    boolean isPerClassStarted();
 
     /**
      * This method indicates whether the "per suite" portion of the lifecycle is running
      * 
      * @return the state of the "per suite" portion of the lifecycle
      */
-    public boolean isPerSuiteStarted();
+    boolean isPerSuiteStarted();
 
 }

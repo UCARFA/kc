@@ -40,6 +40,7 @@
 				<ref bean="LookupableDevelopmentProposal-investigator" />
 				<ref bean="LookupableDevelopmentProposal-documentNumber" />
 				<ref bean="LookupableDevelopmentProposal-sponsor.sponsorName" />
+                <ref bean="LookupableDevelopmentProposal-createTimestamp"/>
             </list>
         </property>
     </bean>
@@ -266,8 +267,23 @@
         <property name="shortLabel" value="Sponsor Name" />
         <property name="required" value="false" />    
     </bean>
-    
-<bean id="LookupableDevelopmentProposal-lookupDefinition" parent="LookupableDevelopmentProposal-lookupDefinition-parentBean" />
+
+    <bean id="LookupableDevelopmentProposal-createTimestamp"
+          parent="LookupableDevelopmentProposal-createTimestamp-parentBean"/>
+    <bean id="LookupableDevelopmentProposal-createTimestamp-parentBean" abstract="true"
+          parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="createTimestamp"/>
+        <property name="label" value="Proposal Create Date"/>
+        <property name="shortLabel" value="Proposal Create Date"/>
+        <property name="controlField">
+            <bean parent="Uif-DateControl" p:size="12"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+        <property name="summary" value="Proposal Create Date"/>
+        <property name="description" value="Proposal Create Date."/>
+    </bean>
+
+    <bean id="LookupableDevelopmentProposal-lookupDefinition" parent="LookupableDevelopmentProposal-lookupDefinition-parentBean" />
   <bean id="LookupableDevelopmentProposal-LookupView" parent="LookupableDevelopmentProposal-LookupView-parentBean"/>
     <bean id="LookupableDevelopmentProposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
       <property name="title" value="Proposal Development Document Lookup" />
@@ -283,6 +299,7 @@
         <bean parent="FieldDefinition" p:attributeName="ownedByUnitNumber"/>
         <bean parent="FieldDefinition" p:attributeName="proposalTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="deadlineDate"/>
+            <bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
         </list>
       </property>
       <property name="resultFields" >
@@ -295,6 +312,7 @@
         <bean parent="FieldDefinition" p:attributeName="ownedByUnitNumber"/>
         <bean parent="FieldDefinition" p:attributeName="proposalTypeDescription"/>
         <bean parent="FieldDefinition" p:attributeName="deadlineDate"/>
+            <bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
         </list>
       </property>
     </bean>

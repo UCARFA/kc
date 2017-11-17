@@ -96,6 +96,16 @@ VALUES (SEQ_QUESTIONNAIRE_REF_ID.nextval,
   295,0,1,'N',null,null,'admin',sysdate,SYS_GUID(),1,'KC152');
 ```
 
+## Valid Narrative Forms:
+
+  We should hardcode the primary key of new entries in valid_narr_forms using a negative number.  Also be mindful that currently our bootstrap
+  data contains duplicate entries in regards to the combination of FORM_NAME and NARRATIVE_TYPE_CODE.
+  
+  See the following query that detects duplicates
+  ```  
+select * from (SELECT FORM_NAME, NARRATIVE_TYPE_CODE, count(*) as cnt FROM valid_narr_forms group by FORM_NAME, NARRATIVE_TYPE_CODE) t where cnt > 1;
+  ```
+
 ## Parameters:
 
 When adding new Parameters, use the format Foo_Bar_Baz as the parameter name.  Be sure to have a good description that

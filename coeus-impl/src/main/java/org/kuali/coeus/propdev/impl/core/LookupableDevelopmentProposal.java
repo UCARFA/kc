@@ -29,6 +29,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -60,6 +61,10 @@ public class LookupableDevelopmentProposal extends KcPersistableBusinessObjectBa
     private ProposalType proposalType;
 
     private Date deadlineDate;
+
+    private Timestamp createTimestamp;
+
+    private String createUser;
 
     private List<ProposalPerson> proposalPersons;
 
@@ -182,14 +187,19 @@ public class LookupableDevelopmentProposal extends KcPersistableBusinessObjectBa
         return this.proposalPersons;
     }
 
-@Override
-public String toString() {
-    return "Proposal: sponsorCode = " + sponsorCode
-    + ", proposalNumber = " + proposalNumber
-    + ", documentNumber = " + documentNumber 
-    + ", title = " + title 
-    + ", unit = " + ownedByUnitNumber
-    + ", type = " + proposalTypeCode
-    + ", deadline = " + deadlineDate;
-}
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
 }

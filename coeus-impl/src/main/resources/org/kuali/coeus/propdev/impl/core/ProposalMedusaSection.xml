@@ -26,7 +26,8 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <bean id="PropDev-MedusaSection" parent="PropDev-MedusaSection-parentBean"/>
-    <bean id="PropDev-MedusaSection-parentBean" abstract="true" parent="Uif-DialogBase" p:resetDataOnRefresh="true" p:dialogCssClass="modal-lg">
+    <bean id="PropDev-MedusaSection-parentBean" abstract="true" parent="Uif-DialogBase" p:resetDataOnRefresh="true" p:dialogCssClass="modal-lg"
+    	p:retrieveViaAjax="true">
         <property name="header">
             <bean parent="Uif-DialogHeader" p:headerText="Medusa"/>
         </property>
@@ -51,7 +52,7 @@
                 </property>
             </bean>
         </property>
-        <property name="onShowDialogScript" value="Kc.Medusa.minimizeMedusaTrees();"/>
+        <property name="onShowDialogScript" value="Kc.Medusa.lazyMedusaLoader();"/>
     </bean>
 
     <bean id="PropDev-MedusaSection-TabGroup" parent="PropDev-MedusaSection-TabGroup-parentBean"/>

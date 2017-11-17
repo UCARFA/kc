@@ -37,12 +37,14 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     private transient ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService;
     private ProposalDevelopmentDocument proposalDevelopmentDocument;
     private boolean modifySpecialReviewPermission;
+    public ProposalSpecialReviewAttachment proposalSpecialReviewAttachment;
     
     public SpecialReviewHelper(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean modifySpecialReviewPermission) {
         this.proposalDevelopmentDocument = proposalDevelopmentDocument;
         this.modifySpecialReviewPermission = modifySpecialReviewPermission;
         setNewSpecialReview(new ProposalSpecialReview());
-        setLinkedProtocolNumbers(new ArrayList<String>()); 
+        setLinkedProtocolNumbers(new ArrayList<String>());
+        proposalSpecialReviewAttachment = new ProposalSpecialReviewAttachment();
     }
     
 

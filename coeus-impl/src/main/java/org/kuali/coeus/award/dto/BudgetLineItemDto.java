@@ -21,12 +21,14 @@ package org.kuali.coeus.award.dto;
 
 import com.codiform.moo.annotation.CollectionProperty;
 import com.codiform.moo.annotation.Property;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
 import org.kuali.coeus.instprop.impl.api.customSerializers.ScaleTwoDecimalSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.json.JsonFormats;
 
 import java.sql.Date;
 import java.util.List;
@@ -41,6 +43,7 @@ public class BudgetLineItemDto {
     private String budgetJustification;
     private String groupName;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date endDate;
     @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal lineItemCost;
@@ -51,6 +54,7 @@ public class BudgetLineItemDto {
     private Boolean onOffCampusFlag;
     private Integer quantity;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date startDate;
     @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal underrecoveryAmount;

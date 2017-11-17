@@ -746,10 +746,15 @@
     	<property name="description" value="The number of paper copies of the proposal that should be mailed to the agency/sponsor."/>
   </bean>
 	<bean id="InstitutionalProposal-createTimestamp" parent="InstitutionalProposal-createTimestamp-parentBean" />
-    <bean id="InstitutionalProposal-createTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+    <bean id="InstitutionalProposal-createTimestamp-parentBean" abstract="true"
+          parent="AttributeReferenceDummy-genericDate">
         <property name="name" value="createTimestamp" />
         <property name="label" value="Proposal Create Date" />
         <property name="shortLabel" value="Proposal Create Date" />
+        <property name="controlField">
+            <bean parent="Uif-DateControl" p:size="12"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
         <property name="summary" value="Proposal Create Date" />
         <property name="description" value="Proposal Create Date" />
     </bean>
@@ -1257,6 +1262,7 @@
         <bean parent="FieldDefinition" p:attributeName="projectPersons.institutionalProposalContactId" p:hidden="true"/>
         <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
         <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true" p:attributeName="sponsor.sponsorName"/>
+                <bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
       </list>
     </property>
     <property name="resultFields">
@@ -1281,6 +1287,7 @@
         <bean parent="FieldDefinition" p:attributeName="totalDirectCostTotal"/>
         <bean parent="FieldDefinition" p:attributeName="totalIndirectCostInitial"/>
         <bean parent="FieldDefinition" p:attributeName="totalIndirectCostTotal"/>
+          <bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
       </list>
     </property>
   </bean>
@@ -1301,6 +1308,7 @@
         <bean p:propertyName="projectPersons.institutionalProposalContactId" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="sponsor.sponsorName" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
+          <bean p:propertyName="createTimestamp" parent="Uif-LookupCriteriaInputField" p:ranged="true"/>
             </list>
         </property>
         <property name="resultFields" >
@@ -1325,6 +1333,7 @@
         <bean p:propertyName="totalDirectCostTotal" parent="Uif-DataField"/>
         <bean p:propertyName="totalIndirectCostInitial" parent="Uif-DataField"/>
         <bean p:propertyName="totalIndirectCostTotal" parent="Uif-DataField"/>
+                <bean p:propertyName="createTimestamp" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

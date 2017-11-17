@@ -1,6 +1,7 @@
 package org.kuali.kra.subawardReporting.printing.print;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.xmlbeans.XmlObject;
@@ -135,6 +136,7 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
                     setAnimalPteVerification(document, templateInfo);
                     setHumanSubjectsDataExchange(document, templateInfo);
                     setHumanSubjectsDataExchangeTerms(document, templateInfo);
+                    setAdditionalTerms(document, templateInfo);
                     setPromotingObjectivityFcio(document, templateInfo, configInfo, type);
                     setDataSharingPubAccessPolicy(document, templateInfo);
                 }
@@ -180,6 +182,10 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
                     HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) ||
                     HumanDataExchangeAgreement.FROM_BOTH_PTE_AND_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd())) {
                 setField(document, Pdf.Field.SUBRECIPIENT_AGREES_TO_COMPLY.getfName(), true);
+
+                if (StringUtils.isNotBlank(templateInfo.getDataSharingAttachment())) {
+                    setField(document, Pdf.Field.DATA_SHARING_ATTACHMENT.getfName(), templateInfo.getDataSharingAttachment());
+                }
             }
         }
     }
@@ -219,6 +225,12 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
                 HumanDataExchangeAgreement.FROM_BOTH_PTE_AND_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()))) {
             setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_IN_ADD_TERMS.getfName(), HumanDataExchangeTerms.ADDITIONAL_TERMS.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
             setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_SEP_AGREEMENT.getfName(), HumanDataExchangeTerms.SEPARATE_AGREEMENT.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
+        }
+    }
+
+    private void setAdditionalTerms(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
+        if (StringUtils.isNotBlank(templateInfo.getAdditionalTerms())) {
+            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_ADD_TERMS_TEXT.getfName(), templateInfo.getAdditionalTerms());
         }
     }
 
@@ -374,6 +386,10 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
             setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_ADDITIVE_VALUE);
         } else {
             setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_OTHER_VALUE);
+
+            if (StringUtils.isNotBlank(templateInfo.getTreatmentOfIncome())) {
+                setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME_OTHER_SPECIFY.getfName(), templateInfo.getTreatmentOfIncome());
+            }
         }
     }
 
@@ -503,12 +519,14 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
                     .map(AnimalPteSendNotRequiredReason::getDescription)
                     .collect(Collectors.toSet())),
             SUBRECIPIENT_AGREES_TO_COMPLY("Check if Applicable_cYoRavTcXUVY66PpYVNBLw", Collections.emptySet()),
+            DATA_SHARING_ATTACHMENT("Att", Collections.emptySet()),
             HUMAN_SUBJECTS_DATA_NOT_APPLICABLE("HSNotApplicable", Collections.emptySet()),
             HUMAN_SUBJECTS_DATA_APPLICABLE("HSApplicable", Collections.emptySet()),
             HUMAN_SUBJECTS_DATA_SUB_TO_PTE("HSSubtoPTE", Collections.emptySet()),
             HUMAN_SUBJECTS_DATA_PTE_TO_SUB("HSPTEtoSub", Collections.emptySet()),
             HUMAN_SUBJECTS_DATA_TERMS_IN_ADD_TERMS("HSAddTerms", Collections.emptySet()),
             HUMAN_SUBJECTS_DATA_TERMS_SEP_AGREEMENT("HSSeparateAgmt", Collections.emptySet()),
+            HUMAN_SUBJECTS_DATA_ADD_TERMS_TEXT("Additional terms", Collections.emptySet()),
             FCOI_PTE("FCOI_PTE", Collections.emptySet()),
             FCOI_SUBRECIPIENT("FCOI_Sub", Collections.emptySet()),
             FCOI_OTHER_SPONSOR_AGENCY("FCOIOtherSponsor", Collections.emptySet()),
@@ -517,7 +535,8 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
             GRANTS_POLICY_STATEMENT("GrantsPolicyStatement", Collections.emptySet()),
             INTERIM_RES_TERMS_COND("IntRTCs", Collections.emptySet()),
             REQUIREMENTS("RTCs", Collections.emptySet()),
-            TREATMENT_OF_PROGRAM_INCOME("_6_  Treatment of Program Inco_nwAbuWIn0JWsW9e68RWN8A", Stream.of(TPI_ADDITIVE_VALUE, TPI_OTHER_VALUE, TPI_OFF_VALUE).collect(Collectors.toSet()));
+            TREATMENT_OF_PROGRAM_INCOME("_6_  Treatment of Program Inco_nwAbuWIn0JWsW9e68RWN8A", Stream.of(TPI_ADDITIVE_VALUE, TPI_OTHER_VALUE, TPI_OFF_VALUE).collect(Collectors.toSet())),
+            TREATMENT_OF_PROGRAM_INCOME_OTHER_SPECIFY("Program Income", Collections.emptySet());
 
             private String fName;
             private Set<String> values;

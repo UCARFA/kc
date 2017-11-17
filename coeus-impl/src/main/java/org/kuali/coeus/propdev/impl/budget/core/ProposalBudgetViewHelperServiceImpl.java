@@ -191,6 +191,12 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
        return super.performDeleteLineValidation(model,collectionId,collectionPath,deleteLine);
     }
 
+    public boolean displayUnroundedModularFandA() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                Constants.DISPLAY_UNROUNDED_MODULAR_FNA);
+    }
+
     public String getProposalStatusForDisplay(DevelopmentProposal proposal) {
         final ProposalState state = proposal.getHierarchyAwareProposalStatus();
         return state != null ? state.getDescription() : "";
@@ -224,12 +230,14 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     
     public boolean syncAllRequiresEndDateExtension(DevelopmentProposal hierarchyProposal) {
     	return getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal);
-    }    
+    }
 
+    @Override
     public ParameterService getParameterService() {
         return parameterService;
     }
 
+    @Override
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }

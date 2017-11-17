@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.quartz.CronTrigger;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 
 import java.text.ParseException;
@@ -41,12 +42,15 @@ public class KcCronTriggerBean extends CronTriggerFactoryBean {
 
     private static final Log LOG = LogFactory.getLog(KcCronTriggerBean.class);
     
+    private static final int defaultMisfireInstruction = CronTrigger.MISFIRE_INSTRUCTION_FIRE_ONCE_NOW;
+    
     private String defaultCronExpression = Constants.DEFAULT_CRON_EXPRESSION;
     private String parameterNamespace;
     private String parameterComponent;
     private String cronExpressionParameterName;
     private String triggerEnabledParameterName;
     private String startTimeParameterName;
+    private String misfireSkipParameterName;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
 
@@ -57,6 +61,7 @@ public class KcCronTriggerBean extends CronTriggerFactoryBean {
     public void afterPropertiesSet() throws ParseException {
         setCronExpression(getSystemCronExpression());
         setStartTime(getCronStartTime());
+        setMisfireInstruction(getMisfireInstruction());
         super.afterPropertiesSet();
     }
     
@@ -125,6 +130,16 @@ public class KcCronTriggerBean extends CronTriggerFactoryBean {
             return true;
         }
     }
+    
+    protected int getMisfireInstruction() {
+    	if (StringUtils.isNotBlank(misfireSkipParameterName)
+    			&& getParameterService().parameterExists(parameterNamespace, parameterComponent, misfireSkipParameterName)) {
+    		if (getParameterService().getParameterValueAsBoolean(parameterNamespace, parameterComponent, misfireSkipParameterName)) {
+    			return CronTrigger.MISFIRE_INSTRUCTION_DO_NOTHING;
+    		}
+    	}
+    	return defaultMisfireInstruction;
+    }
 
     public String getDefaultCronExpression() {
         return defaultCronExpression;
@@ -189,4 +204,12 @@ public class KcCronTriggerBean extends CronTriggerFactoryBean {
     public void setParameterComponent(String parameterComponent) {
         this.parameterComponent = parameterComponent;
     }
+
+	public String getMisfireSkipParameterName() {
+		return misfireSkipParameterName;
+	}
+
+	public void setMisfireSkipParameterName(String misfireSkipParameterName) {
+		this.misfireSkipParameterName = misfireSkipParameterName;
+	}
 }

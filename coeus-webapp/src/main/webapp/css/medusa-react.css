@@ -1,0 +1,104 @@
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css');
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    background-color: rgb(250, 250, 250);
+    color: rgb(54, 58, 69);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+body#Uif-Application {
+    background-color: rgb(250, 250, 250);
+}
+h2 {
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: normal;
+}
+h4 {
+    font-size: 1.6em;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+div, p, h1, h2, h3, h4, h5, h6 {
+}
+.form-inline .checkbox label input {
+    margin-right: 8px;
+}
+.medusa {
+}
+.medusa .medusa-controls {
+    padding-bottom: 0.5em;
+}
+.medusa .medusa-indent {
+    display: inline-block;
+}
+.medusa .medusa-node {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,.12);
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 0.3em 0 0.3em 0;
+}
+.medusa .medusa-node:hover {
+    background-color: rgb(70, 141, 203);
+    color: #fff;
+    transition: 0.1s;
+}
+.medusa i.fa {
+    margin: 0 0.4em 0 0.4em;
+    text-align: center;
+    vertical-align: middle;
+    color: rgba(0,0,0,.8);
+}
+.medusa .medusa-node:hover i.fa {
+    color: #fff;
+}
+.medusa .medusa-heading,
+.medusa .investigator-label {
+    background-color: rgb(70, 141, 203);
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    padding: 0.2em 0 0.2em 0em;
+}
+.medusa .medusa-links {
+    padding: 0.3em 0 0.3em 0;
+}
+.medusa .medusa-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+.medusa .medusa-field {
+    border-bottom: 1px solid rgba(0,0,0,.12);
+    padding-bottom: 0.3em;
+    padding-top: 0.3em;
+}
+@media(min-width: 992px) {
+    .medusa .medusa-row:nth-child(odd) {
+        background-color: rgba(213, 237, 244, 0.4);
+    }
+}
+@media(max-width: 992px) {
+    .medusa .medusa-striped {
+        background-color: rgba(213, 237, 244, 0.4);
+    }
+}
+.medusa .medusa-label {
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+.medusa .medusa-label {
+    text-align: left;
+}
+.medusa .investigator-label {
+    text-align: center;
+}

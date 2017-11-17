@@ -180,6 +180,12 @@
                 <bean parent="Uif-MessageField" p:messageText="Are you sure you want to approve this document?" p:order="10"/>
                 <bean parent="Uif-InputField" p:propertyName="actionReason" p:order="20"
                       p:fieldLabel.labelText="Approval Comment" p:required="false"/>
+                <bean parent="Uif-InputField" p:propertyName="actionFile" p:order="30"
+                      p:fieldLabel.labelText="Attachment">
+                    <property name="control">
+                        <bean parent="Uif-FileControl"/>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="footer.items">
@@ -276,7 +282,7 @@
                         <bean parent="PropDev-SubmitPage-UnitCollectionGroup" />
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.certifiedBy != null and #line.isQuestionnairesCompleted()?'complete':'incomplete'} [0]"
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getCertifiedBy(#line) != null and #line.isQuestionnairesCompleted()?'complete':'incomplete'} [0]"
                       p:fieldLabel.labelText="Proposal Person Certification"
                       p:order="40">
                     <property name="inlineComponents">

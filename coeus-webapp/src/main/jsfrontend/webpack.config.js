@@ -21,6 +21,7 @@ module.exports = {
 	devtool : 'eval',
 	entry: {
 		instituteRatesClient: './instituteRates/client/index.jsx',
+		medusaClient: './medusa/index.js'
 	},
 	output: {
 		path: __dirname + '../../../target/generated-web-sources/jsfrontend-web-sources/client/assets/',
@@ -33,8 +34,8 @@ module.exports = {
 	},
 	module: {
 		loaders: [
-			{test: /\.js/, loader: 'babel-loader'},
-			{test: /\.jsx/, loader: 'babel-loader'}
+			{test: /\.js/, loader: 'babel-loader', 'exclude': /node_modules/},
+			{test: /\.jsx/, loader: 'babel-loader', 'exclude': /node_modules/}
 		]
 	}
 };

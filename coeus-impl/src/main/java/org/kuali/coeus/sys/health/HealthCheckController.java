@@ -54,7 +54,7 @@ public class HealthCheckController {
 	private String kcHealthQuery = DEFAULT_HEALTH_QUERY;
 	private String riceHealthQuery = DEFAULT_HEALTH_QUERY;
 	
-	@RequestMapping("/")
+	@RequestMapping(value={"/", "/ebs"})
 	public ResponseEntity<HealthResponse> doHealthCheck() {
 		HealthResponse result = new HealthResponse();
 		result.version = configurationService.getPropertyValueAsString("version");

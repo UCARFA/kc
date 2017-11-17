@@ -76,26 +76,7 @@
 				<ref bean="IacucProtocol-lookupProtocolPersonId" />
 				<ref bean="IacucProtocol-initiatorLastUpdated" />
 				<ref bean="IacucProtocol-protocolSubmissionStatus" />
-      <!--  	
-
-				<bean parent="FieldDefinition" 
-                    p:attributeName="lookupPendingProtocol" p:noLookup="true" p:hidden="true" />
-                <bean parent="FieldDefinition" 
-                    p:attributeName="lookupPendingPIActionProtocol" p:noLookup="true" p:hidden="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="lookupActionAmendRenewProtocol" p:noLookup="true" p:hidden="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="lookupActionNotifyIRBProtocol" p:noLookup="true" p:hidden="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="lookupActionRequestProtocol" p:noLookup="true" p:hidden="true" />
-
-                <bean parent="FieldDefinition"
-                    p:attributeName="speciesStudyGroupIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="alternativeSearchIndicator" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="scientificJustifIndicator" />
-				-->
+                <ref bean="IacucProtocol-createTimestamp"/>
             </list>
         </property>
     </bean>
@@ -951,6 +932,19 @@
 		<property name="name" value="protocolSubmissionStatus" />
 	</bean>
 
+    <bean id="IacucProtocol-createTimestamp" parent="IacucProtocol-createTimestamp-parentBean"/>
+    <bean id="IacucProtocol-createTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="createTimestamp"/>
+        <property name="label" value="Protocol Create Date"/>
+        <property name="shortLabel" value="Protocol Create Date"/>
+        <property name="controlField">
+            <bean parent="Uif-DateControl" p:size="12"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+        <property name="summary" value="Protocol Create Date"/>
+        <property name="description" value="Protocol Create Date"/>
+    </bean>
+
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucProtocol-inquiryDefinition" parent="IacucProtocol-inquiryDefinition-parentBean" />
   <bean id="IacucProtocol-InquiryView" parent="IacucProtocol-InquiryView-parentBean"/>
@@ -1072,6 +1066,7 @@
         <bean parent="FieldDefinition" p:attributeName="exceptionCategoryCode"/>
         <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
         <bean parent="FieldDefinition" p:attributeName="lookupProtocolPersonId" p:noLookup="true" p:hidden="true"/>
+                <bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
             </list>
         </property>
         <property name="resultFields" >
@@ -1090,6 +1085,7 @@
         <bean parent="FieldDefinition" p:attributeName="leadUnitNumber"/>
         <bean parent="FieldDefinition" p:attributeName="leadUnitName"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
+                <bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
             </list>
         </property>
     </bean>
@@ -1120,6 +1116,7 @@
         <bean p:propertyName="exceptionCategoryCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="lookupProtocolPersonId" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
+          <bean p:propertyName="createTimestamp" parent="Uif-LookupCriteriaInputField" p:ranged="true"/>
       </list>
     </property>
     <property name="resultFields">
@@ -1138,6 +1135,7 @@
         <bean p:propertyName="leadUnitNumber" parent="Uif-DataField"/>
         <bean p:propertyName="leadUnitName" parent="Uif-DataField"/>
         <bean p:propertyName="active" parent="Uif-DataField"/>
+          <bean p:propertyName="createTimestamp" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

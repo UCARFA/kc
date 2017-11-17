@@ -78,7 +78,7 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
         }
         System.setProperty("web.bootstrap.config.file", TEST_CONFIG_XML);
         ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = TEST_CONFIG_XML;
-        List<String> configLocations = new ArrayList<String>();
+        List<String> configLocations = new ArrayList<>();
         configLocations.add(TEST_CONFIG_DEFAULTS_XML);
         configLocations.add(TEST_CONFIG_XML);
         Config config = new JAXBConfigImpl(configLocations, System.getProperties());
@@ -141,7 +141,7 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
 
     private PlatformTransactionManager getTransactionManager() {
         if (transactionManager == null) {
-            transactionManager = (PlatformTransactionManager) KcServiceLocator.getService(DEFAULT_TRANSACTION_MANAGER_NAME);
+            transactionManager = KcServiceLocator.getService(DEFAULT_TRANSACTION_MANAGER_NAME);
         }
         return transactionManager;
     }

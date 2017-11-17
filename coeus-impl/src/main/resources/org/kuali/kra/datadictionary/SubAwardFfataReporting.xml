@@ -118,7 +118,7 @@
     </bean>
 
     <bean id="SubAwardFfataReporting-submitterId" parent="SubAwardFfataReporting-submitterId-parentBean" />
-    <bean id="SubAwardFfataReporting-submitterId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <bean id="SubAwardFfataReporting-submitterId-parentBean" abstract="true" parent="KcPerson-personId">
         <property name="name" value="submitterId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Submitter ID" />

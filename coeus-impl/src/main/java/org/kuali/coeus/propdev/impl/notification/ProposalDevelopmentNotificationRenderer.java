@@ -20,24 +20,24 @@ package org.kuali.coeus.propdev.impl.notification;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
-import org.kuali.coeus.propdev.impl.budget.editable.BudgetChangedData;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
+import org.kuali.coeus.propdev.impl.budget.editable.BudgetChangedData;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.UserSession;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -131,8 +131,10 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         }
         if (proposalPerson != null) {
             result.put("{USER_NAME}", proposalPerson.getUserName());
-            result.put("{PROPOSAL_CERTIFY_USER}", proposalPerson.getCertifiedPersonName());
-            result.put("{PROPOSAL_CERTIFY_TIME_STAMP}", proposalPerson.getCertifiedTimeStamp());        
+            if (proposalPerson.getCertificationDetails() != null) {
+                result.put("{PROPOSAL_CERTIFY_USER}", proposalPerson.getCertificationDetails().getCertifiedPersonName());
+                result.put("{PROPOSAL_CERTIFY_TIME_STAMP}", proposalPerson.getCertificationDetails().getCertifiedTimeStamp());
+            }
             result.put("{AGGREGATOR}", getAggregators());
             String certificatioPage =result.get("{APP_LINK_PREFIX}") + "/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&" +
         			"viewId=PropDev-CertificationView&docId=" + developmentProposal.getProposalDocument().getDocumentNumber() + "&userName="+proposalPerson.getUserName();

@@ -36,9 +36,9 @@ public class KcIntegrationTestRunListener extends RunListener {
     private static final Log LOG = LogFactory.getLog(KcIntegrationTestRunListener.class);
     
     KcIntegrationTestLifecycle lifecycle;
-    List<Failure> assumptionFailures = new ArrayList<Failure>();
-    List<Failure> failures = new ArrayList<Failure>();
-    List<Description> ignoredTests = new ArrayList<Description>();
+    List<Failure> assumptionFailures = new ArrayList<>();
+    List<Failure> failures = new ArrayList<>();
+    List<Description> ignoredTests = new ArrayList<>();
     
     public KcIntegrationTestRunListener(KcIntegrationTestLifecycle lifecycle) {
         this.lifecycle = lifecycle;

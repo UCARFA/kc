@@ -18,7 +18,9 @@
  */
 package org.kuali.coeus.award.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.json.JsonFormats;
 
 import java.sql.Date;
 
@@ -32,8 +34,10 @@ public class AwardFandADistributionDto {
 
     private Integer budgetPeriod;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date startDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date endDate;
 
     private ScaleTwoDecimal directCost;

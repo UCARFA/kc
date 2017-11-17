@@ -148,6 +148,7 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase im
         this.startDate = startDate;
     }
 
+    @Override
     public String getFederalApprovingAgency() {
         return federalApprovingAgency;
     }
@@ -156,6 +157,7 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase im
         this.federalApprovingAgency = federalApprovingAgency;
     }
 
+    @Override
     public String getFederalApprovingAgencyName() {
         return federalApprovingAgencyName;
     }
@@ -164,6 +166,7 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase im
         this.federalApprovingAgencyName = federalApprovingAgencyName;
     }
 
+    @Override
     public String getRestrictedRatePolicy() {
         return restrictedRatePolicy;
     }

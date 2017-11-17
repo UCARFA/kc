@@ -21,6 +21,8 @@ package org.kuali.kra.service.impl.mocks;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class KraAuthorizationServiceMock implements KcAuthorizationService {
@@ -42,6 +44,10 @@ public class KraAuthorizationServiceMock implements KcAuthorizationService {
     @Override
     public boolean hasPermission(String username, Permissionable permissionable, String permissionName) {
         return hasPermission;
+    }
+    @Override
+    public <P extends Permissionable> Collection<P> filterForPermission(String userId, Collection<P> permissionables, String permissionNamespace, String permissionName) {
+        return hasPermission ? permissionables : Collections.emptyList();
     }
     @Override
     public boolean hasDocumentLevelRole(String username, String roleName, Permissionable permissionable) {

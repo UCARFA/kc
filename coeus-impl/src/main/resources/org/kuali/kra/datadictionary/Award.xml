@@ -1024,7 +1024,7 @@
 
     <bean id="Award-leadUnit.unitAdministrators.personId"
           parent="Award-leadUnit.unitAdministrators.personId-parentBean"/>
-    <bean id="Award-leadUnit.unitAdministrators.personId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <bean id="Award-leadUnit.unitAdministrators.personId-parentBean" abstract="true" parent="KcPerson-personId">
         <property name="name" value="leadUnit.unitAdministrators.personId"/>
         <property name="label" value="KC Person ID"/>
         <property name="shortLabel" value="KC Person ID"/>

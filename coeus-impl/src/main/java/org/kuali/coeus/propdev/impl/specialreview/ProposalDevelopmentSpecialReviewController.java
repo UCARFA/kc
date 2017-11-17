@@ -181,7 +181,7 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
         ProposalSpecialReview proposalSpecialReview = ((ProposalSpecialReview)pdForm.getNewCollectionLines().get("document.developmentProposal.propSpecialReviews"));
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
 
-        if (!getKualiRuleService().applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(pdForm.getProposalDevelopmentDocument(),
+        if (!getKualiRuleService().applyRules(new AddSpecialReviewEvent<>(pdForm.getProposalDevelopmentDocument(),
                 proposalSpecialReview,pdForm.getDevelopmentProposal().getPropSpecialReviews(),
                 protocolNeedsToBeLinked(proposalSpecialReview.getSpecialReviewTypeCode()),
                 NEW_SPECIAL_REVIEW_PATH))) {
@@ -192,11 +192,10 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
 
         if (proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS) ||
                 proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.ANIMAL_USAGE)) {
-
             proposalSpecialReview.setDevelopmentProposal(proposalDevelopmentDocument.getDevelopmentProposal());
             pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(proposalSpecialReview);
 
-            // Invalid protrocol trying to be linked so blank out protocol info
+            // Invalid protocol trying to be linked so blank out protocol info
             if (protocolNeedsToBeLinked(proposalSpecialReview.getSpecialReviewTypeCode()) && !proposalSpecialReview.isLinkedToProtocol()) {
                 proposalSpecialReview.setProtocolStatus(null);
                 proposalSpecialReview.setProtocolNumber(null);

@@ -26,6 +26,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.type.ActivityType;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
@@ -33,6 +35,8 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardServiceImpl;
+import org.kuali.kra.bo.NsfCode;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -264,6 +268,17 @@ public class AwardHierarchyServiceImplTest extends KcIntegrationTestBase {
             Assert.assertEquals(refMap.get(awardNumber), nodeMap.get(awardNumber));
         }
     }
+
+    @Test
+    public void testCopyAwardClearsFundingProposals() {
+        final String newAwardNumber = "100003-00001";
+        Award award = rootNodeA.getAward();
+        addFundingProposal(award);
+        addFundingProposal(award);
+        Award copiedAward = service.copyAward(award, newAwardNumber);
+        assertTrue(copiedAward.getFundingProposals().isEmpty());
+        assertTrue(copiedAward.getAllFundingProposals().isEmpty());
+    }
     
     private void addAwards(AwardHierarchy rootNode) throws Exception {
         List<AwardHierarchy> nodes = rootNode.getFlattenedListOfNodesInHierarchy();
@@ -350,6 +365,25 @@ public class AwardHierarchyServiceImplTest extends KcIntegrationTestBase {
         public void updateAwardSequenceStatus(Award award, VersionStatus status) {
             //do nothing.
         }
-    }    
+    }
+
+    private InstitutionalProposal addFundingProposal(Award award) {
+        Sponsor testSponsor = new Sponsor();
+        testSponsor.setSponsorCode("testsp");
+
+        InstitutionalProposal ip = new InstitutionalProposal();
+        ip.setProposalNumber(InstitutionalProposal.PROPOSAL_NUMBER_TEST_DEFAULT_STRING);
+        ip.setTitle("Test Title");
+        ip.setActivityTypeCode("RES");
+        ip.setCfdaNumber("11.111a");
+        ip.setNsfSequenceNumber(2);
+        ip.setActivityType(new ActivityType());
+        ip.setSponsor(testSponsor);
+        ip.setPrimeSponsor(testSponsor);
+        ip.setNsfCodeBo(new NsfCode());
+
+        award.add(ip);
+        return ip;
+    }
 
 }

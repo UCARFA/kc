@@ -507,6 +507,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalRoleTemplate.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/location/ProposalSite.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReview.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReviewAttachment.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReviewExemption.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/state/ProposalState.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/PropAwardPersonRole.xml</value>
@@ -679,6 +680,11 @@
                 <value>classpath:org/kuali/kra/datadictionary/UnitAdministratorPersonMassChange.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/admin/UnitAdministratorType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/crrspndnt/UnitCorrespondent.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/sync/SourceUnitInfo.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/sync/TargetRoleInfo.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/sync/UnitRole.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/sync/UnitRoleSync.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/sync/UnitRoleSyncMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/rate/UnitFormulatedCost.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/UserAttachedFormsXMLReorder.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidAwardBasisPayment.xml</value>

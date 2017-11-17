@@ -126,7 +126,7 @@
     </bean>
     
     <bean id="IntellectualPropertyReview-ipReviewer" parent="IntellectualPropertyReview-ipReviewer-parentBean" />
-    <bean id="IntellectualPropertyReview-ipReviewer-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <bean id="IntellectualPropertyReview-ipReviewer-parentBean" abstract="true" parent="KcPerson-personId">
         <property name="name" value="ipReviewer" />
         <property name="label" value="Reviewer" />
         <property name="shortLabel" value="Reviewer" />

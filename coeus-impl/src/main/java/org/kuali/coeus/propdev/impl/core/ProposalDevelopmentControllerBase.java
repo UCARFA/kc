@@ -24,6 +24,7 @@ import org.kuali.coeus.coi.framework.ProjectPublisher;
 import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
@@ -40,11 +41,14 @@ import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
+import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonCoiIntegrationService;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewAttachment;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.coeus.propdev.impl.sponsor.AddProposalSponsorAndProgramInformationEvent;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
@@ -53,6 +57,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -66,6 +71,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.document.TransactionalDocumentControllerService;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.DocumentEventBase;
 import org.kuali.rice.krad.service.*;
@@ -87,10 +93,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.stream.Collectors;
 
-import static org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.AuthConstants.CAN_SAVE_CERTIFICATION;
-import static org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.AuthConstants.MODIFY_S2S;
-import static org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.AuthConstants.OVERRIDE_PD_COMPLIANCE_ENTRY;
+import static org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.AuthConstants.*;
 
 public abstract class ProposalDevelopmentControllerBase {
 
@@ -220,6 +225,11 @@ public abstract class ProposalDevelopmentControllerBase {
     @Qualifier("kualiRuleService")
     private KualiRuleService kualiRuleService;
 
+    @Autowired
+    @Qualifier("keyPersonnelService")
+    private KeyPersonnelService keyPersonnelService;
+
+
     private ProjectPublisher projectPublisher;
 
     public ProjectPublisher getProjectPublisher() {
@@ -306,6 +316,11 @@ public abstract class ProposalDevelopmentControllerBase {
 
          preSave(proposalDevelopmentDocument);
 
+         proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews()
+                 .stream()
+                 .filter(proposalSpecialReview -> proposalSpecialReview.getSpecialReviewAttachment() != null)
+                 .forEach(this::prepareSpecialReviewAttachmentForSave);
+
          proposalDevelopmentService.initializeUnitOrganizationLocation(proposalDevelopmentDocument);
          proposalDevelopmentService.initializeProposalSiteNumbers(proposalDevelopmentDocument);
 
@@ -314,16 +329,15 @@ public abstract class ProposalDevelopmentControllerBase {
          }
 
          ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).setOrdinalPosition(form.getDevelopmentProposal().getProposalPersons());
-         saveAnswerHeaders(form, form.getPageId());
+
+         saveAnswerHeaderIfNotLocked(form, proposalDevelopmentDocument);
 
          getTransactionalDocumentControllerService().save(form);
+
          if (form.isAuditActivated()){
              getAuditHelper().auditConditionally(form);
          }
-
-
          populateAdHocRecipients(form.getProposalDevelopmentDocument());
-
          if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.CREDIT_ALLOCATION_PAGE)) {
              ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateCreditSplits(form);
          }
@@ -331,11 +345,10 @@ public abstract class ProposalDevelopmentControllerBase {
          if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.QUESTIONS_PAGE)) {
              ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateQuestionnaires(form);
          }
-         String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
          final ModelAndView view;
-         if (StringUtils.isNotBlank(pageId) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
+         if (StringUtils.isNotBlank(form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID)) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
         	 form.setDirtyForm(false);
-             view = getModelAndViewService().getModelAndView(form, pageId);
+             view = getModelAndViewService().getModelAndView(form, form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID));
          } else {
              view = getModelAndViewService().getModelAndView(form);
          }
@@ -346,12 +359,55 @@ public abstract class ProposalDevelopmentControllerBase {
                      .filter(specialReview -> !specialReview.isLinkedToProtocol())
                      .forEach(specialReview -> form.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview));
          }
+
+
          final Project project = getPropDevProjectRetrievalService().retrieveProject(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber());
          if (project != null) {
              getProjectPublisher().publishProject(project);
          }
          return view;
      }
+
+     protected void prepareSpecialReviewAttachmentForSave(ProposalSpecialReview specialReview) {
+          ProposalSpecialReviewAttachment specialReviewAttachment = specialReview.getSpecialReviewAttachment();
+          if (specialReviewAttachment.getMultipartFile() != null) {
+              try {
+                  specialReviewAttachment.init(specialReviewAttachment.getMultipartFile());
+              } catch (Exception e) {
+                  // Rethrow as unchecked exception so this method can be used in a lambda
+                  throw new RuntimeException(e);
+              }
+          }
+          // Don't try to save a new file to the database if no file data is present-- user did not attach a file to upload
+          if (specialReviewAttachment.getId() == null && specialReviewAttachment.getMultipartFile() == null) {
+              specialReview.setSpecialReviewAttachment(null);
+          }
+          // Remove attachment if compliance entry has change to something other than human subjects
+          if (specialReviewAttachment.getId() != null && !SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+              specialReview.setSpecialReviewAttachment(null);
+          }
+     }
+
+    public void saveAnswerHeaderIfNotLocked(ProposalDevelopmentDocumentForm form, ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        String pageId = form.getPageId();
+        List<PessimisticLock> locks = pessimisticLockService.getPessimisticLocksForDocument(proposalDevelopmentDocument.getDocumentNumber());
+        List<PessimisticLock> personnelLocks = locks.stream().filter(
+                lock -> StringUtils.countMatches(lock.getLockDescriptor(), KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL) > 0).collect(Collectors.toList());
+
+        if (StringUtils.equalsIgnoreCase(pageId, Constants.KEY_PERSONNEL_PAGE) || StringUtils.equalsIgnoreCase(pageId, Constants.CERTIFICATION_PAGE)) {
+            if (personnelLocks.size() == 0) {
+                saveUpdatePersonAnswerHeaders(form.getProposalDevelopmentDocument().getDevelopmentProposal(), pageId);
+            } else {
+                personnelLocks.forEach(personnelLock ->
+                        getGlobalVariableService().getMessageMap().putWarning(KRADConstants.GLOBAL_ERRORS,
+                                KeyConstants.KC_ERROR_PERSONNEL_LOCKED,
+                                personnelLock.getOwnedByUser().getName()));
+            }
+        } else if (StringUtils.equalsIgnoreCase(pageId, Constants.QUESTIONS_PAGE)) {
+            saveUpdateQuestionnaireAnswerHeaders(form.getQuestionnaireHelper(), pageId);
+            saveUpdateQuestionnaireAnswerHeaders(form.getS2sQuestionnaireHelper(), pageId);
+        }
+    }
 
     private void handleProposalTypeChange(DevelopmentProposal developmentProposal) {
         if (developmentProposal.getS2sOpportunity() != null) {
@@ -369,8 +425,6 @@ public abstract class ProposalDevelopmentControllerBase {
                  proposalDevelopmentDocument);
          proposalDevelopmentService.initializeProposalSiteNumbers(
                  proposalDevelopmentDocument);
-
-         saveAnswerHeaders(pdForm,request.getParameter(UifParameters.PAGE_ID));
 
          if (eventClazz == null) {
              getTransactionalDocumentControllerService().save(form);
@@ -531,17 +585,7 @@ public abstract class ProposalDevelopmentControllerBase {
         this.businessObjectService = businessObjectService;
     }
 
-    public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm, String pageId) {
-        if (StringUtils.equalsIgnoreCase(pageId, Constants.KEY_PERSONNEL_PAGE) ||
-                StringUtils.equalsIgnoreCase(pageId, Constants.CERTIFICATION_PAGE)) {
-            saveUpdatePersonAnswerHeaders(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal(), pageId);
-        } else if (StringUtils.equalsIgnoreCase(pageId, Constants.QUESTIONS_PAGE)) {
-            saveUpdateQuestionnaireAnswerHeaders(pdForm.getQuestionnaireHelper(), pageId);
-            saveUpdateQuestionnaireAnswerHeaders(pdForm.getS2sQuestionnaireHelper(), pageId);
-        }
-    }
-
-    private void saveUpdatePersonAnswerHeaders(DevelopmentProposal developmentProposal, String pageId) {
+    protected void saveUpdatePersonAnswerHeaders(DevelopmentProposal developmentProposal, String pageId) {
         boolean allCertificationsWereComplete = true;
         boolean allCertificationAreNowComplete = true;
 
@@ -569,15 +613,15 @@ public abstract class ProposalDevelopmentControllerBase {
                         boolean isComplete = person.getQuestionnaireHelper().getAnswerHeaders().get(0).isCompleted();
                         allCertificationAreNowComplete &= isComplete;
                         if ((isComplete && !wasComplete) || !sameAnswers) {
-                            person.setCertifiedBy(getGlobalVariableService().getUserSession().getPrincipalId());
-                            person.setCertifiedTime(getDateTimeService().getCurrentTimestamp());
+
+                            keyPersonnelService.saveCertDetails(person, getGlobalVariableService().getUserSession().getPrincipalId(), getDateTimeService().getCurrentTimestamp());
+
                             if (getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PROP_PERSON_COI_STATUS_FLAG) &&
                                     !getProposalPersonCoiIntegrationService().getProposalPersonCoiStatus(person).equals(CoiConstants.DISCLOSURE_NOT_REQUIRED)) {
                             	sendCoiDisclosureRequiredNotification(developmentProposal,person);
                             }
                         } else if (wasComplete && !isComplete) {
-                            person.setCertifiedBy(null);
-                            person.setCertifiedTime(null);
+                            keyPersonnelService.saveCertDetails(person, null, null);
                         }
 
                         checkForCertifiedByProxy(developmentProposal, person, isComplete && !wasComplete);
@@ -592,8 +636,14 @@ public abstract class ProposalDevelopmentControllerBase {
             }
         }
 
+        if (!allCertificationsWereComplete && allCertificationAreNowComplete) {
+            sendAllCertificationCompleteNotificationIfEnabled(developmentProposal);
+        }
+    }
+
+    protected void sendAllCertificationCompleteNotificationIfEnabled(DevelopmentProposal developmentProposal) {
         boolean allowsSendCertificationCompleteNotification = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, ProposalDevelopmentConstants.Parameters.NOTIFY_ALL_CERTIFICATIONS_COMPLETE);
-        if (!allCertificationsWereComplete && allCertificationAreNowComplete && allowsSendCertificationCompleteNotification) {
+        if (allowsSendCertificationCompleteNotification) {
             ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(developmentProposal, "105", "All Proposal Persons Certification Completed");
             ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(developmentProposal);
             getKcNotificationService().sendNotification(context);
@@ -682,7 +732,7 @@ public abstract class ProposalDevelopmentControllerBase {
         }
     }
 
-    private AnswerHeader retrieveCurrentAnswerHeader(Long id) {
+    protected AnswerHeader retrieveCurrentAnswerHeader(Long id) {
         if (id != null) {
             return getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, Collections.singletonMap("id", id));
         }
@@ -697,8 +747,7 @@ public abstract class ProposalDevelopmentControllerBase {
         QueryResults<ProposalPerson> currentPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.andAttributes(criteria).build());
         for (ProposalPerson currentPerson : currentPersons.getResults()) {
             if (currentPerson.getUniqueId().equals(person.getUniqueId())) {
-                person.setCertifiedBy(currentPerson.getCertifiedBy());
-                person.setCertifiedTime(currentPerson.getCertifiedTime());
+                keyPersonnelService.saveCertDetails(person, currentPerson.getCertificationDetails().getCertifiedBy(), currentPerson.getCertificationDetails().getCertifiedTime());
                 break;
             }
         }

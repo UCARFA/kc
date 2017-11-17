@@ -18,6 +18,9 @@
  */
 package co.kuali.coeus.common.impl.attachment;
 
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+
 public interface KcAttachmentDataToS3Conversion {
-    void execute();
+    public void executeInternal(JobExecutionContext context) throws JobExecutionException;
 }

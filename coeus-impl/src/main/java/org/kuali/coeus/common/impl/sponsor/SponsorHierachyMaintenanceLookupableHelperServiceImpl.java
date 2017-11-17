@@ -36,9 +36,10 @@ import org.springframework.stereotype.Component;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SponsorHierachyMaintenanceLookupableHelperServiceImpl  extends KcKualiLookupableHelperServiceImpl {
     private static final String SPONSOR_CODES = "sponsorCodes";
-    
-	public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-		List<Sponsor> searchResults = (List<Sponsor>) super.getSearchResults(fieldValues);
+
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<Sponsor> searchResults = (List<Sponsor>) super.getSearchResults(fieldValues);
 		String sponsorsCodes = (String) GlobalVariables.getUserSession().retrieveObject(SPONSOR_CODES);
 		String[] sponsorArray = sponsorsCodes.split(";");
 		List<String> sponsorList = Arrays.asList(sponsorArray);

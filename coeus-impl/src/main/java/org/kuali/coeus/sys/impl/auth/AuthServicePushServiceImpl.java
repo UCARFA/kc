@@ -63,6 +63,7 @@ public class AuthServicePushServiceImpl extends AbstractCoreUserPushService<Pers
 		return admins.contains(person.getPrincipalId()) ? ADMIN_ROLE : USER_ROLE;
 	}
 
+	@Override
 	protected List<String> getAdminUsers() {
 		return getAdminAssignees().stream()
 				.map(this::getAdminUsersFrom)

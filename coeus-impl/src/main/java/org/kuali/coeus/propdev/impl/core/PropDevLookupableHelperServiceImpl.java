@@ -19,13 +19,13 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.docperm.DocumentAccess;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
@@ -36,6 +36,8 @@ import org.kuali.rice.core.api.criteria.AndPredicate;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
@@ -43,7 +45,6 @@ import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.service.impl.LookupCriteriaGenerator;
@@ -72,12 +73,14 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
     private static final String INITIATOR = "initiator";
     private static final String PRINCIPAL_INVESTIGATOR_NAME = "principalInvestigatorName";
+    private static final String HIERARCHY_STATUS = "hierarchyStatus";
     private static final String PROPOSAL_PERSON = "proposalPerson";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final String AGGREGATOR = "aggregator";
     private static final String PARTICIPANT = "participant";
 
     private static final String PROPOSAL_DOCUMENT_DOCUMENT_NUMBER = "proposalDocument.documentNumber";
+    private static final String STATUS_CODE = "proposalStateTypeCode";
     private static final String LAST_NAME = "lastName";
     private static final String PERSON_ID = "personId";
     private static final String USER_NAME = "userName";
@@ -92,7 +95,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     public static final String OSP_ADMIN_TYPE_CODE_PATH = "ownedByUnit.unitAdministrators.unitAdministratorTypeCode";
     public static final String OSP_ADMIN_TYPE_CODE_VALUE = "2";
 
-
+    public static final String SEARCH_RESULT_FILTERING_PARAMETER_NAME = "Proposal_Search_Permissions_Filter";
 
     @Autowired
     @Qualifier("kcAuthorizationService") 
@@ -117,6 +120,10 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Autowired
     @Qualifier("permissionService")
     private PermissionService permissionService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     @Autowired
     @Qualifier("unitService")
@@ -192,7 +199,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
         QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(DevelopmentProposal.class, modifiedSearchCriteria,
                 wildcardAsLiteralSearchCriteria, getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(DevelopmentProposal.class, modifiedSearchCriteria));
         if (searchResultsLimit != null) {
-            query.setMaxResults(searchResultsLimit);
+            query.setMaxResults(searchResultsLimit * 2);
         }
 
         if ((StringUtils.isBlank(proposalNumberCriteria) || proposalNumberWildcarded)
@@ -208,7 +215,20 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
         final java.util.function.Predicate<DevelopmentProposal> statusCodePredicate = ((java.util.function.Predicate<DevelopmentProposal>) proposal -> StringUtils.isBlank(hierarchyAwareProposalStatusCode))
                 .or(proposal -> proposal.getHierarchyAwareProposalStatus().getCode().equals(hierarchyAwareProposalStatusCode));
-        
+
+        if (!StringUtils.isBlank(hierarchyAwareProposalStatusCode)) {
+            final Predicate queryPredicate = PredicateFactory.or(
+                    PredicateFactory.and(
+                            PredicateFactory.equal(STATUS_CODE, hierarchyAwareProposalStatusCode),
+                            PredicateFactory.notEqual(HIERARCHY_STATUS, HierarchyStatusConstants.Child.code()
+                            )
+                    ),
+                    PredicateFactory.equal(HIERARCHY_STATUS, HierarchyStatusConstants.Child.code())
+            );
+
+            addPredicate(queryPredicate, query);
+        }
+
         modifyCriteria(query);
 
         final List<DevelopmentProposal> proposals = getDataObjectService().findMatching(DevelopmentProposal.class, query.build()).getResults().stream()
@@ -216,15 +236,18 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
                 .distinct()
                 .collect(Collectors.toList());
 
-        boolean doNotFilter = false;
-        if (CollectionUtils.isNotEmpty(proposals) && proposals.size() > SMALL_NUMBER_OF_RESULTS) {
+        boolean filterResults = isPermissionFilteringEnabled();
+        if (filterResults && CollectionUtils.isNotEmpty(proposals) && proposals.size() > SMALL_NUMBER_OF_RESULTS) {
             //if the proposal result list is more than a few proposals then attempt to figure out if a principal
             //has access to all proposals
-            doNotFilter = canAccessAllProposals();
+            filterResults = !canAccessAllProposals();
         }
+        final List<DevelopmentProposal> filteredProposals = filterResults ? filterPermissions(proposals) : proposals;
 
-        return doNotFilter ? proposals : filterPermissions(proposals);
-
+        if (searchResultsLimit != null && proposals.size() > searchResultsLimit) {
+            return filteredProposals.subList(0, searchResultsLimit - 1);
+        }
+        return filteredProposals;
     }
 
 	protected void addPredicate(final Predicate predicate, QueryByCriteria.Builder query) {
@@ -249,45 +272,21 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     	//noop default implementation
     }
 
-    private Collection<DevelopmentProposal> filterPermissions(Collection<DevelopmentProposal> results) {
-        Collection<DevelopmentProposal> filteredResults = new ArrayList<>();
-        for (DevelopmentProposal developmentProposal : results) {
-            if (getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(),
-                    developmentProposal.getDocument(),PermissionConstants.VIEW_PROPOSAL)){
-                filteredResults.add(developmentProposal);
-            }
-        }
-        return  filteredResults;
+    protected boolean isPermissionFilteringEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.DOCUMENT_COMPONENT, SEARCH_RESULT_FILTERING_PARAMETER_NAME);
+    }
+
+    private List<DevelopmentProposal> filterPermissions(List<DevelopmentProposal> results) {
+        List<ProposalDevelopmentDocument> permissionables = results.stream().map(DevelopmentProposal::getProposalDocument).collect(Collectors.toList());
+        return getKcAuthorizationService().filterForPermission(getGlobalVariableService().getUserSession().getPrincipalId(),
+                permissionables, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.VIEW_PROPOSAL).stream()
+                .map(ProposalDevelopmentDocument::getDevelopmentProposal)
+                .collect(Collectors.toList());
     }
 
     protected boolean canAccessAllProposals() {
-        return hasPermissionWithNoUnit() || hasPermissionTopUnitWithDescends() || hasPermissionWithWildcardUnit();
-    }
-
-    protected boolean hasPermissionWithNoUnit() {
-        return permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.MODIFY_PROPOSAL, Collections.emptyMap())
-                || permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.VIEW_PROPOSAL, Collections.emptyMap());
-    }
-
-    protected boolean hasPermissionWithWildcardUnit() {
-        final Map<String, String> qualifiers = new HashedMap<>();
-        qualifiers.put(KcKimAttributes.UNIT_NUMBER, "*");
-        return containsWildcardAttribute(permissionService.getAuthorizedPermissions(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.MODIFY_PROPOSAL, qualifiers), KcKimAttributes.UNIT_NUMBER)
-                || containsWildcardAttribute(permissionService.getAuthorizedPermissions(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.VIEW_PROPOSAL, qualifiers), KcKimAttributes.UNIT_NUMBER);
-    }
-
-    private boolean containsWildcardAttribute(Collection<Permission> perms, String attrName) {
-        if (CollectionUtils.isNotEmpty(perms)) {
-            for (Permission perm : perms) {
-                if (MapUtils.isNotEmpty(perm.getAttributes())) {
-                    final String attrVal = perm.getAttributes().get(attrName);
-                    if ("*".equals(attrVal)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return hasPermissionTopUnitWithDescends();
     }
 
     protected boolean hasPermissionTopUnitWithDescends() {

@@ -33,6 +33,8 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiRuleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,10 +61,20 @@ public class BudgetModularBudgetAction extends BudgetAction {
         newBudgetModularIdc.setRateNumber(budget.getNextValue("rateNumber"));
         newBudgetModularIdc.calculateFundsRequested();
         BudgetModular budgetModular = budget.getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1).getBudgetModular();
-        budgetModular.addNewBudgetModularIdc(newBudgetModularIdc);
+        if (roundFandAbase()) {
+            budgetModular.addNewBudgetModularIdcBaseRounded(newBudgetModularIdc);
+        } else {
+            budgetModular.addNewBudgetModularIdcBaseUnrounded(newBudgetModularIdc);
+        }
         generateModularPeriod(budgetForm);
         budgetForm.setNewBudgetModularIdc(new BudgetModularIdc());
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public boolean roundFandAbase() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                Constants.ROUND_F_AND_A_BASE);
     }
 
     @Override
@@ -124,7 +136,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
             BudgetModularService budgetModularService = KcServiceLocator.getService(BudgetModularService.class);
             BudgetForm budgetForm = (BudgetForm) form;
             Budget budget = budgetForm.getBudgetDocument().getBudget();        
-            budgetModularService.synchModularBudget(budget);
+            budgetModularService.synchModularBudget(budget, false);
             budgetForm.setBudgetModularSummary(budgetModularService.processModularSummary(budget,false));
         }
         
@@ -155,6 +167,11 @@ public class BudgetModularBudgetAction extends BudgetAction {
     @Override
     protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
+    }
+
+    @Override
+    protected ParameterService getParameterService() {
+        return getService(ParameterService.class);
     }
     
 }

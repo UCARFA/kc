@@ -21,7 +21,9 @@ package org.kuali.kra.award.home;
 import java.sql.Date;
 
 import com.codiform.moo.annotation.Property;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.json.JsonFormats;
 
 public class AwardAmountInfoDto {
 
@@ -30,11 +32,14 @@ public class AwardAmountInfoDto {
     private String timeAndMoneyDocumentNumber;
     private ScaleTwoDecimal anticipatedTotalAmount;
     private ScaleTwoDecimal antDistributableAmount;
-    private Date finalExpirationDate;
-    private Date currentFundEffectiveDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
+	private Date finalExpirationDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
+	private Date currentFundEffectiveDate;
     private ScaleTwoDecimal amountObligatedToDate;
     private ScaleTwoDecimal obliDistributableAmount;
-    private Date obligationExpirationDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
+	private Date obligationExpirationDate;
     private ScaleTwoDecimal anticipatedChange;
     private ScaleTwoDecimal obligatedChange;
     private ScaleTwoDecimal obligatedChangeDirect;

@@ -19,6 +19,8 @@
 package org.kuali.coeus.propdev.impl.budget.modular;
 
 import java.io.Serializable;
+import java.sql.Date;
+
 import javax.persistence.*;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
@@ -62,6 +64,10 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
     @Column(name = "IDC_BASE")
     @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal idcBase;
+    
+    @Column(name = "IDC_BASE_UNROUNDED")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal idcBaseUnrounded;
 
     @Column(name = "FUNDS_REQUESTED")
     @Convert(converter = ScaleTwoDecimalConverter.class)
@@ -74,6 +80,15 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER")
     private BudgetModular budgetModular;
+    
+    @Column(name = "START_DATE")
+    private Date startDate;
+    
+    @Column(name = "END_DATE")
+    private Date endDate;
+    
+    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
+    private String hierarchyProposalNumber;
 
     public BudgetModularIdc() {
         idcRate = new ScaleTwoDecimal(0.0);
@@ -126,6 +141,16 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
         this.idcBase = idcBase;
     }
 
+    public ScaleTwoDecimal getIdcBaseUnrounded()
+    {
+        return idcBaseUnrounded;
+    }
+
+    public void setIdcBaseUnrounded(ScaleTwoDecimal idcBaseUnrounded)
+    {
+        this.idcBaseUnrounded = idcBaseUnrounded;
+    } 
+
     @Override
     public ScaleTwoDecimal getIdcRate() {
         return idcRate;
@@ -168,6 +193,22 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
 
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
+    }
+    
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public static final class BudgetModularIdcId implements Serializable, Comparable<BudgetModularIdcId> {
@@ -219,10 +260,19 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
             return new CompareToBuilder().append(this.budgetPeriodId, other.budgetPeriodId).append(this.rateNumber, other.rateNumber).toComparison();
         }
     }
+
     public BudgetModular getBudgetModular() { return budgetModular; }
 
     public void setBudgetModular(BudgetModular budgetModular) {
         this.budgetModular = budgetModular;
+    }
+    
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
+    }
+
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
     }
 
 }

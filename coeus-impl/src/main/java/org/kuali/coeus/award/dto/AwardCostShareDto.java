@@ -18,7 +18,9 @@
  */
 package org.kuali.coeus.award.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.json.JsonFormats;
 import org.kuali.kra.bo.CostShareType;
 
 import java.sql.Date;
@@ -33,6 +35,7 @@ public class AwardCostShareDto {
 
     private Integer costShareTypeCode;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date verificationDate;
 
     private ScaleTwoDecimal costShareMet;

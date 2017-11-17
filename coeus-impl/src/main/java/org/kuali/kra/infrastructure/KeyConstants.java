@@ -68,7 +68,7 @@ public final class KeyConstants {
     public static final String ERROR_INTERNAL_ATTACHMENT_NOT_COMPLETE = "error.document.internalattachment.statuscode.not.complete";
     public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_FOUND = "error.document.narrative.not.present";
     public static final String ERROR_PROPOSAL_MENTORINGPLAN_ATTACHMENT_NOT_FOUND = "error.document.mentoringplan.narrative.not.present";
-
+    public static final String CANNOT_PARSE_PDF = "error.pdf.cannot.parse";
     // Proposal Types System Parameter Names
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW = "proposaldevelopment.proposaltype.new";
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL = "proposaldevelopment.proposaltype.renewal";
@@ -176,6 +176,7 @@ public final class KeyConstants {
     public static final String QUESTION_TOTALCOSTLIMIT_CHANGED = "document.question.totalCostLimit.changed";
     public static final String ERROR_BUDGET_REJECT_NO_REASON = "error.budget.reject.noReason";
     public static final String ERROR_COMPLETE_BUDGET_LOCK = "error.completeBudget.locked";
+    public static final String KC_ERROR_PERSONNEL_LOCKED = "kc.warning.transactional.locked.personnel";
     public static final String ERROR_BUDGET_DATES_NOT_MATCH_PROPOSAL_DATES = "error.budget.dates.not.match.proposal.dates";
     //Budget Version warnings
     public static final String WARNING_BUDGET_VERSION_MODULAR_INVALID_TDC = "warning.budgetVersion.Modular.InvalidTotalDirectCost";
@@ -1163,6 +1164,7 @@ public final class KeyConstants {
     public static final String QUESTION_DELETE_FNA = "document.question.deleteFandA.text";
 
     public static final String XML_REORDER_WARNING = "info.grantsgov.form.xml.reorder";
+    public static final String ERROR_MODULARBUDGET_NOT_SYNCED = "error.modularBudget.not.synced";
 
     /**
      * private utility class ctor.

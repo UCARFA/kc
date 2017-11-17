@@ -44,6 +44,7 @@ import org.w3c.dom.*;
 import javax.xml.bind.UnmarshalException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -112,7 +113,8 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         return formBeans;
     }
 
-    private Map<Object, Object> extractAttachments(PdfReader reader)throws IOException{
+    @Override
+    public Map<Object, Object> extractAttachments(PdfReader reader)throws IOException{
         Map<Object, Object> fileMap = new HashMap<>();
         
         PdfDictionary catalog = reader.getCatalog();
@@ -194,7 +196,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         throw s2sException;
     }
 
-    private List<S2sUserAttachedForm> extractAndPopulateXml(ProposalDevelopmentDocument developmentProposal, PdfReader reader, S2sUserAttachedForm userAttachedForm, Map attachments) throws Exception {
+    protected List<S2sUserAttachedForm> extractAndPopulateXml(ProposalDevelopmentDocument developmentProposal, PdfReader reader, S2sUserAttachedForm userAttachedForm, Map attachments) throws Exception {
         List<S2sUserAttachedForm> formBeans = new ArrayList<>();
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
@@ -282,7 +284,8 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         }
         return formBeans;
     }
-    private void addForm(ProposalDevelopmentDocument developmentProposal, List<S2sUserAttachedForm> formBeans, Element form,
+
+    protected void addForm(ProposalDevelopmentDocument developmentProposal, List<S2sUserAttachedForm> formBeans, Element form,
             S2sUserAttachedForm userAttachedFormBean, Map attachments) throws Exception {
         S2sUserAttachedForm userAttachedForm = processForm(developmentProposal, form,userAttachedFormBean,attachments);
         if(userAttachedForm!=null){
@@ -357,7 +360,17 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         
     }
 
-    protected void reorderXmlElements(Document doc) {
+    @Override
+    public Document node2Dom(org.w3c.dom.Node n) throws TransformerException {
+        javax.xml.transform.TransformerFactory tf = javax.xml.transform.TransformerFactory.newInstance();
+        javax.xml.transform.Transformer xf = tf.newTransformer();
+        javax.xml.transform.dom.DOMResult dr = new javax.xml.transform.dom.DOMResult();
+        xf.transform(new javax.xml.transform.dom.DOMSource(n),dr);
+        return (Document)dr.getNode();
+    }
+
+    @Override
+    public void reorderXmlElements(Document doc) {
         Collection<UserAttachedFormsXMLReorder> userAttachedFormsXmlReorders = getBusinessObjectService().findAll(UserAttachedFormsXMLReorder.class);
         if (userAttachedFormsXmlReorders != null) {
             userAttachedFormsXmlReorders.forEach(userAttachedFormsXMLReorder -> {
@@ -392,14 +405,8 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         parent.removeChild(original);
     }
 
-    protected synchronized static Document node2Dom(org.w3c.dom.Node n) throws Exception{
-            javax.xml.transform.TransformerFactory tf = javax.xml.transform.TransformerFactory.newInstance();
-            javax.xml.transform.Transformer xf = tf.newTransformer();
-            javax.xml.transform.dom.DOMResult dr = new javax.xml.transform.dom.DOMResult();
-            xf.transform(new javax.xml.transform.dom.DOMSource(n),dr);
-            return (Document)dr.getNode();
-    }
-    protected void removeAllEmptyNodes(Document document,String xpath,int parentLevel) throws TransformerException {
+    @Override
+    public void removeAllEmptyNodes(Document document, String xpath, int parentLevel) throws TransformerException {
         NodeList emptyElements =  XPathAPI.selectNodeList(document,xpath);
         for (int i = emptyElements.getLength()-1; i > -1; i--){
               Node nodeToBeRemoved = emptyElements.item(i);
@@ -436,7 +443,8 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
      * @param node {Document} node entry.
      * @return String containing doc information
      */
-    protected String docToString(Document node) throws S2SException {
+    @Override
+    public String docToString(Document node) throws S2SException {
         try {
             DOMSource domSource = new DOMSource(node);
             StringWriter writer = new StringWriter();

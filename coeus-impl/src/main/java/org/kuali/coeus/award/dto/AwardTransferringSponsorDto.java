@@ -18,15 +18,18 @@
  */
 package org.kuali.coeus.award.dto;
 
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.sponsor.SponsorDto;
+
+import com.codiform.moo.annotation.Property;
 
 public class AwardTransferringSponsorDto {
 
     private Integer awardTransferringSponsorId;
 
     private String sponsorCode;
-
-    private Sponsor sponsor;
+    
+    @Property(translate = true, update = true)
+    private SponsorDto sponsor;
 
     public Integer getAwardTransferringSponsorId() {
         return awardTransferringSponsorId;
@@ -44,11 +47,13 @@ public class AwardTransferringSponsorDto {
         this.sponsorCode = sponsorCode;
     }
 
-    public Sponsor getSponsor() {
-        return sponsor;
-    }
+	public SponsorDto getSponsor() {
+		return sponsor;
+	}
 
-    public void setSponsor(Sponsor sponsor) {
-        this.sponsor = sponsor;
-    }
+	public void setSponsor(SponsorDto sponsor) {
+		this.sponsor = sponsor;
+	}
+
+
 }

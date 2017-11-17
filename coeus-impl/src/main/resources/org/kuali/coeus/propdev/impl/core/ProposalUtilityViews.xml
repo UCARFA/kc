@@ -56,6 +56,46 @@
         </property>
     </bean>
 
+    <bean id="PropDev-ReactMedusaPage" parent="PropDev-ReactMedusaPage-parent"/>
+    <bean id="PropDev-ReactMedusaPage-parent" abstract="true" parent="Uif-Page">
+        <property name="id" value="medusaRoot" />
+        <property name="template" value="/WEB-INF/ftl/krad/coeus/container/medusaReact.ftl"/>
+        <property name="templateName" value="uif_medusaReact"/>
+    </bean>
+
+    <bean id="PropDev-ReactMedusaView" parent="PropDev-ReactMedusaView-parentBean"/>
+    <bean id="PropDev-ReactMedusaView-parentBean" abstract="true" parent="Uif-FormView"
+          p:header.render="false" p:breadcrumbs.render="false">
+        <property name="stickyFooter" value="@{renderedInDialog}"/>
+        <property name="applicationHeader.render" value="@{!renderedInDialog}"/>
+        <property name="singlePageView" value="true"/>
+        <property name="renderForm" value="false"/>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>client/assets/medusaClient.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>css/medusa-react.css</value>
+            </list>
+        </property>
+        <property name="page">
+            <bean parent="PropDev-ReactMedusaPage" p:header.render="false" />
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
+                              p:onClickScript="e.preventDefault();closeIframeDialog();return false;"
+                              p:dialogResponse="false" p:order="20"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
     <bean id="PropDev-MedusaView" parent="PropDev-MedusaView-parentBean"/>
     <bean id="PropDev-MedusaView-parentBean" abstract="true"
           parent="Uif-FormView" p:header.render="false" p:breadcrumbs.render="false"
@@ -257,6 +297,29 @@
                             </list>
                         </property>
                     </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PropDev-CertificationClose-Dialog" parent="PropDev-CertificationClose-Dialog-parentBean"/>
+    <bean id="PropDev-CertificationClose-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+          p:headerText="Please Select" p:promptText="@{#ViewHelper.certifyModalMessage()}">
+        <property name="footer">
+            <bean parent="Uif-DialogFooter">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
+                              p:methodToCall="closeCertWithSave" p:disableBlocking="true"
+                              p:dialogDismissOption="REQUEST"
+                              p:actionLabel="Save and exit" p:order="10"/>
+                        <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
+                              p:methodToCall="closeCertWithoutSave" p:disableBlocking="true"
+                              p:dialogDismissOption="REQUEST"
+                              p:actionLabel="Exit without save" p:order="20"/>
+                        <bean parent="Uif-SecondaryActionButton" p:dialogDismissOption="PRESUBMIT"
+                              p:actionLabel="Return To Questions" p:order="30"/>
+                    </list>
                 </property>
             </bean>
         </property>

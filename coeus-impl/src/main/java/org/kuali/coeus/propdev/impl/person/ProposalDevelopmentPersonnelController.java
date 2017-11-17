@@ -21,6 +21,7 @@ package org.kuali.coeus.propdev.impl.person;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
+import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.propdev.impl.coi.CoiConstants;
@@ -32,12 +33,15 @@ import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotification
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.person.PersonTypeConstants;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +57,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Controller
@@ -64,9 +71,16 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public static final String CERTIFY_NOTIFICATION = "Certify Notification";
     public static final String PERSON_ROLE = "personRole";
 	public static final String CERTIFICATION_ACTION_TYPE_COI = "107";
+    private static final String INFO_PROPOSAL_CERTIFIED = "info.proposal.certified";
+    private static final String WARN_PROPOSAL_CERTIFIED = "warn.proposal.not.certified";
+
     @Autowired
     @Qualifier("wizardControllerService")
     private WizardControllerService wizardControllerService;
+
+    @Autowired
+    @Qualifier("questionnaireAnswerService")
+    private QuestionnaireAnswerService questionnaireAnswerService;
 
     @Autowired
     @Qualifier("keyPersonnelService")
@@ -142,16 +156,14 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-PersonnelPage"})
     public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, 
     		HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-    	ModelAndView mv = super.save(form);
-    	return mv;
+        return super.save(form);
     }
 
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performPersonnelSearch")
    public ModelAndView performPersonnelSearch(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        form.getAddKeyPersonHelper().getResults().clear();
-       List<Object> results = new ArrayList<Object>();
+       List<Object> results = new ArrayList<>();
 
        for (Object object : getWizardControllerService().performWizardSearch(form.getAddKeyPersonHelper().getLookupFieldValues(),form.getAddKeyPersonHelper().getLineType())) {
            WizardResultsDto wizardResult = (WizardResultsDto) object;
@@ -171,7 +183,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        ProposalPerson newProposalPerson = new ProposalPerson();
        for (Object object : form.getAddKeyPersonHelper().getResults()) {
            WizardResultsDto wizardResult = (WizardResultsDto) object;
-           if (wizardResult.isSelected() == true) {
+           if (wizardResult.isSelected()) {
                if (wizardResult.getKcPerson() != null) {
                    newProposalPerson.setPersonId(wizardResult.getKcPerson().getPersonId());
                    newProposalPerson.setFullName(wizardResult.getKcPerson().getFullName());
@@ -194,7 +206,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
            return reportKeyPersonError(form);
        }
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
-       Collections.sort(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons(), new ProposalPersonRoleComparator());
+       form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons().sort(ProposalPersonRoleComparator.INSTANCE);
        form.getAddKeyPersonHelper().reset();
        form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATEPAGE.getKey());
        super.save(form);
@@ -225,9 +237,16 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
             Object deleteLine = ((List<Object>) collection).get(Integer.parseInt(selectedLine));
 
             deleteProposalPersonBios(form.getDevelopmentProposal(), (ProposalPerson) deleteLine);
+            deleteCertDetails((ProposalPerson) deleteLine);
         }
 
         return getCollectionControllerService().deleteLine(form);
+    }
+
+    private void deleteCertDetails(ProposalPerson person) {
+        if (person.getCertificationDetails() != null) {
+            getDataObjectService().delete(person.getCertificationDetails());
+        }
     }
 
     private void deleteProposalPersonBios(DevelopmentProposal proposal, ProposalPerson deleteLine) {
@@ -262,9 +281,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 			   }
 		   }
 	   }
-	   saveAnswerHeaders(pdForm,request.getParameter(UifParameters.PAGE_ID));
-	   ModelAndView mv = this.save(pdForm, result, request, response);
-	   return mv;
+	   saveUpdatePersonAnswerHeaders(pdForm.getDevelopmentProposal(), request.getParameter(UifParameters.PAGE_ID));
+	   return this.save(pdForm, result, request, response);
    }
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certificationToggle")
     public ModelAndView certificationToggle(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
@@ -344,20 +362,12 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public ModelAndView sendAllCertificationNotifications(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         int index = 0;
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
-            if (proposalPerson.isSelectedPerson() && !isCertificationComplete(proposalPerson) ) {
+            if (proposalPerson.isSelectedPerson() && !isQuestionnaireComplete(proposalPerson.getQuestionnaireHelper())) {
                     sendPersonNotification(form, String.valueOf(index));
             }
             index++;
         }
         return super.save(form);
-    }
-
-    protected boolean isCertificationComplete(ProposalPerson proposalPerson) {
-        boolean certificationComplete = true;
-        for (AnswerHeader answerHeader : proposalPerson.getQuestionnaireHelper().getAnswerHeaders()) {
-            certificationComplete &= answerHeader.isCompleted();
-        }
-        return certificationComplete;
     }
 
     public void sendPersonNotification(ProposalDevelopmentDocumentForm form, String selectedLine) throws Exception {
@@ -387,15 +397,86 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         return getRefreshControllerService().refresh(form);
     }
 
-    @MethodAccessible @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certifyAnswers")
-    public ModelAndView certifyAnswers(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+    @MethodAccessible @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=closeCertWithSave")
+    public ModelAndView closeCertWithSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+
         String selectedPersonId = form.getProposalPersonQuestionnaireHelper().getProposalPerson().getPersonId();
+        ProposalPersonQuestionnaireHelper proposalPersonQuestionnaireHelper = null;
+        Set<String> personIdsMissingCertification = getPersonIdsMissingCertification(form.getDevelopmentProposal().getProposalPersons(), selectedPersonId);
+        boolean complete = false;
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
             if (StringUtils.equals(proposalPerson.getPersonId(),selectedPersonId)) {
-                proposalPerson.setQuestionnaireHelper(form.getProposalPersonQuestionnaireHelper());
+                proposalPersonQuestionnaireHelper = proposalPerson.getQuestionnaireHelper();
+                List<AnswerHeader> newAnswerHeaders = form.getProposalPersonQuestionnaireHelper().getAnswerHeaders();
+
+                complete = isQuestionnaireComplete(form.getProposalPersonQuestionnaireHelper());
+                getBusinessObjectService().save(newAnswerHeaders);
+                proposalPersonQuestionnaireHelper.setAnswerHeaders(newAnswerHeaders);
+
+                keyPersonnelService.saveCertDetails(proposalPerson, getGlobalVariableService().getUserSession().getPrincipalId(), getDateTimeService().getCurrentTimestamp());
             }
         }
-        return super.save(form);
+
+        if (personIdsMissingCertification.size() == 1 && personIdsMissingCertification.contains(selectedPersonId) && complete) {
+            sendAllCertificationCompleteNotificationIfEnabled(form.getDevelopmentProposal());
+        }
+
+        if (complete && getGlobalVariableService().getMessageMap().hasNoErrors()) {
+            getGlobalVariableService().getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, INFO_PROPOSAL_CERTIFIED);
+        } else if (!complete) {
+            getGlobalVariableService().getMessageMap().putWarning(KRADConstants.GLOBAL_MESSAGES, WARN_PROPOSAL_CERTIFIED);
+        }
+
+        releaseLocksForLoggedInUser(form);
+        return getNavigationControllerService().returnToHub(form);
+    }
+
+    protected Set<String> getPersonIdsMissingCertification(List<ProposalPerson> proposalPeople, String selectedPersonId) {
+	    return proposalPeople.stream().filter(person -> {
+            if (StringUtils.equals(person.getPersonId(), selectedPersonId)) {
+                // If this person is the one open in the certification view, then we need to retrieve their answers
+                // from the DB to determine if their certification is complete-- their new answers have already been
+                // populated into their questionnaire helper
+                return person.getQuestionnaireHelper().getAnswerHeaders().stream()
+                        .map(ah -> retrieveCurrentAnswerHeader(ah.getId()))
+                        .anyMatch(ah -> ah != null && !ah.isCompleted());
+            } else {
+                // We can get other peoples' certification answers directly from the questionnaire helper since they
+                // aren't being modified as part of the certification view request
+                return person.getQuestionnaireHelper().getAnswerHeaders().stream()
+                        .anyMatch(ah -> !ah.isCompleted());
+            }
+        }).map(ProposalPerson::getPersonId).collect(Collectors.toSet());
+    }
+
+    @Transactional
+    @RequestMapping(value ="/proposalDevelopment",params = "methodToCall=closeCertWithoutSave")
+    public ModelAndView closeCertWithoutSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        releaseLocksForLoggedInUser(form);
+        return getNavigationControllerService().returnToHub(form);
+    }
+
+    protected void releaseLocksForLoggedInUser(ProposalDevelopmentDocumentForm form) {
+        if (form.getProposalDevelopmentDocument().getPessimisticLocks() != null) {
+                getPessimisticLockService().releaseAllLocksForUser(form.getProposalDevelopmentDocument().getPessimisticLocks(), getGlobalVariableService().getUserSession().getPerson());
+        }
+    }
+
+    @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=certifyAnswers")
+    public ModelAndView certifyAnswers(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_CERT_CLOSE_DIALOG, true, form);
+    }
+
+    public boolean isQuestionnaireComplete(ProposalPersonQuestionnaireHelper helper) {
+        boolean retVal = true;
+        if (helper != null && helper.getAnswerHeaders() != null) {
+            for (AnswerHeader ah : helper.getAnswerHeaders()) {
+                boolean complete = questionnaireAnswerService.isQuestionnaireAnswerComplete(ah.getAnswers());
+                ah.setCompleted(complete);
+                retVal &= complete;
+            }
+        }
+        return retVal;
     }
 
     private enum MoveOperationEnum {
@@ -404,12 +485,12 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 
         private int offset;
 
-        private MoveOperationEnum(int offset) {
+        MoveOperationEnum(int offset) {
             this.offset = offset;
         }
 
         public int getOffset() { return offset; }
-    };
+    }
 
     private void swapAdjacentPersonnel(List<ProposalPerson> keyPersonnel, int index1, MoveOperationEnum op) {
         ProposalPerson movingPerson = keyPersonnel.get(index1);
@@ -447,8 +528,11 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     }
 
 	public static class ProposalPersonRoleComparator implements Comparator<ProposalPerson> {
-		@Override
-		public int compare(ProposalPerson person1, ProposalPerson person2) {
+
+        private static final Comparator<ProposalPerson> INSTANCE = new ProposalPersonRoleComparator();
+
+        @Override
+        public int compare(ProposalPerson person1, ProposalPerson person2) {
 			int retval = 0;
 			if (person1.isInvestigator() || person2.isInvestigator()) {
 				if (person1.isPrincipalInvestigator() || person2.isPrincipalInvestigator()) {

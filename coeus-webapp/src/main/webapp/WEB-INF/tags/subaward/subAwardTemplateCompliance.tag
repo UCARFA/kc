@@ -29,7 +29,8 @@
                                                                document.subAwardList[0].subAwardTemplateInfo[0].humanPteSendCd*,
                                                                document.subAwardList[0].subAwardTemplateInfo[0].humanPteNrCd*,
                                                                document.subAwardList[0].subAwardTemplateInfo[0].humanDataExchangeAgreeCd*,
-                                                               document.subAwardList[0].subAwardTemplateInfo[0].humanDataExchangeTermsCd*">
+                                                               document.subAwardList[0].subAwardTemplateInfo[0].humanDataExchangeTermsCd*,
+                                                               document.subAwardList[0].subAwardTemplateInfo[0].dataSharingAttachment*">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Compliance</span>
@@ -101,6 +102,24 @@
                     <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.humanDataExchangeTermsCd}" /></div></th>
                     <td>
                         <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].humanDataExchangeTermsCd" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.humanDataExchangeTermsCd}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <div align="right"><kul:htmlAttributeLabel
+                                attributeEntry="${subAwardTemplateInfoAttributes.dataSharingAttachment}"/></div>
+                    </th>
+                    <td>
+                        <kul:htmlControlAttribute
+                                property="document.subAwardList[0].subAwardTemplateInfo[0].dataSharingAttachment"
+                                readOnly="${readOnly}"
+                                attributeEntry="${subAwardTemplateInfoAttributes.dataSharingAttachment}"/>
+                    </td>
+                    <th>
+                        <div align="right">&nbsp;</div>
+                    </th>
+                    <td>
+                        &nbsp;
                     </td>
                 </tr>
             </table>

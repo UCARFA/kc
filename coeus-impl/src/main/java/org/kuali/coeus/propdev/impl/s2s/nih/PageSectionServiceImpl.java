@@ -97,6 +97,7 @@ public class PageSectionServiceImpl implements PageSectionService {
         return false;
     }
 
+    @Override
     public List<String> getPageIds() {
         DataDictionary dd = dataDictionaryService.getDataDictionary();
         List<String> nm = getBeanNamesForNamespace(dd);

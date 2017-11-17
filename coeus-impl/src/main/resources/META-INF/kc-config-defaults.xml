@@ -145,11 +145,17 @@
 	<!-- End of Exception Incident handling and reporting -->
 
 	<!-- Turn off KEW use of quartz db to avoid db clear issues -->
-	<param name="useQuartzDatabase">false</param>
+	<param name="useQuartzDatabase">true</param>
 
 	<!-- KC quartz table prefix -->
 	<param name="kcQuartzDatabasePrefix">KC_QRTZ_</param>
-	<!-- User the kc batch jobs run as -->
+    <param name="kc.org.quartz.jobStore.isClustered">false</param>
+    <param name="kc.org.quartz.scheduler.instanceId">AUTO</param>
+    <param name="kc.org.quartz.jobStore.misfireThreshold">300000</param>
+    <param name="kc.org.quartz.jobStore.clusterCheckinInterval">30000</param>
+    <param name="kc.org.quartz.jobStore.maxMisfiresToHandleAtATime">1</param>
+
+    <!-- User the kc batch jobs run as -->
 	<param name="batchJobUserName">kc</param>
 	
 	<!-- Notification mail properties-->
@@ -260,6 +266,7 @@
 	<param name="kc.monitoring.verbose.logging">false</param>
 	<param name="kc.monitoring.exclude.pattern">.*/static/.*|/healthCheck/.*|.*/css/.*|.*/images/.*|.*/help/.*|.*/plugins/.*|.*/themes/.*|.*/rice-contrib/.*|.*/scripts/.*|/schemaspy/.*|/legacyCoeusSchemaspy/.*</param>
 	<param name="rice.krad.jpa.global.jpa.vendor.adapter.class">co.kuali.coeus.sys.impl.monitor.MonitoringEclipseLinkJpaVendorAdapter</param>
+	<param name="rice.krad.jpa.global.eclipselink.logging.level">SEVERE</param>
 	<param name="kc.monitoring.storage-directory">/tmp/javamelody/</param>
 
     <param name="kc.rest.admin.username" override="false"></param>
@@ -362,7 +369,7 @@
 	<param name="web.analytics.enabled">false</param>
 	<param name="web.analytics.key"></param>
 
-	<param name="s3.bucket.name">bucket_name</param>
+    <param name="s3.bucket.name">bucket-name</param>
 	<param name="s3.region">us-east-1</param>
 	<param name="s3.access.key">access_key</param>
 	<param name="s3.secret.key">secret_key</param>

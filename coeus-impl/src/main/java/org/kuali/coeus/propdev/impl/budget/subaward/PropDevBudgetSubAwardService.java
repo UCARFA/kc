@@ -18,9 +18,12 @@
  */
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
+import com.lowagie.text.pdf.PdfReader;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
 import java.util.List;
 
 public interface PropDevBudgetSubAwardService {
@@ -42,4 +45,7 @@ public interface PropDevBudgetSubAwardService {
      * for that error message.
      */
     void updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards budgetSubAward, List<String[]> errors) throws Exception;
-}
+
+    byte[] getXMLFromPDF(PdfReader reader) throws IOException, TransformerException;
+
+    }

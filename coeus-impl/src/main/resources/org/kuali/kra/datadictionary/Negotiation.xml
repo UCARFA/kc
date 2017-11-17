@@ -225,7 +225,7 @@
   </bean>
   
   <bean id="Negotiation-negotiatorPersonId" parent="Negotiation-negotiatorPersonId-parentBean" />
-  <bean id="Negotiation-negotiatorPersonId-parentBean" abstract="true" parent="PersonImpl-principalId">
+  <bean id="Negotiation-negotiatorPersonId-parentBean" abstract="true" parent="KcPerson-personId">
     <property name="name" value="negotiatorPersonId" />
     <property name="label" value="Negotiator" />
     <property name="shortLabel" value="Negotiator" />

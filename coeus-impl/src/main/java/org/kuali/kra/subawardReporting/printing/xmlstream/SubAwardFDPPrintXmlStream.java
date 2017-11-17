@@ -501,6 +501,18 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 subContractTemplateInfo.setMpiLeadershipPlan(subawardTemplate.getMpiLeadershipPlan());
             }
 
+            if (subawardTemplate.getAdditionalTerms() != null) {
+                subContractTemplateInfo.setAdditionalTerms(subawardTemplate.getAdditionalTerms());
+            }
+
+            if (subawardTemplate.getTreatmentOfIncome() != null) {
+                subContractTemplateInfo.setTreatmentOfIncome(subawardTemplate.getTreatmentOfIncome());
+            }
+
+            if (subawardTemplate.getDataSharingAttachment() != null) {
+                subContractTemplateInfo.setDataSharingAttachment(subawardTemplate.getDataSharingAttachment());
+            }
+
             templateDataList.add(subContractTemplateInfo);
         }
         subContractData.setSubcontractTemplateInfoArray(templateDataList.toArray(new SubcontractTemplateInfo[0]));

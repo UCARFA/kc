@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.impl.unit;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
@@ -48,7 +49,13 @@ public class UnitAgenda extends BasicAgenda {
         if (!isActive) {
             return false;
         }
-
+        
+        String environmentId = environment.getSelectionCriteria().getAgendaQualifiers().get(TYPE_ID);
+        String agendaId = this.qualifiers.get(TYPE_ID);
+        if (environmentId != null && !StringUtils.equals(environmentId,agendaId)) {
+        	return false;
+        }
+        
         Set<Map.Entry<String, String>> agendaQualifiers = environment.getSelectionCriteria().getAgendaQualifiers().entrySet();
         for (Map.Entry<String, String> agendaQualifier : agendaQualifiers) {
             String agendaQualifierValue = qualifiers.get(agendaQualifier.getKey());
@@ -57,9 +64,9 @@ public class UnitAgenda extends BasicAgenda {
                 return unitService.appliesToUnit(agendaQualifierValue,environmentQualifierValue);
             }
         }
+        
         return false;
     }
-
 
     public UnitService getUnitService() {
         return unitService;

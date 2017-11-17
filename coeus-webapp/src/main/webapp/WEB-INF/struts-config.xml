@@ -730,6 +730,10 @@
         <action path="/dataDictionaryFile" name="KualiForm" type="org.kuali.coeus.sys.framework.dd.DataDictionaryFileAction"  scope="request" parameter="methodToCall" attribute="KualiForm">
         </action>
 
+        <action path="/unitRoleSync" name="KualiForm" type="org.kuali.coeus.common.framework.unit.sync.UnitRoleSyncAction">
+            <forward name="basic" path="/WEB-INF/jsp/common/UnitRoleSync.jsp"/>
+        </action>
+
     </action-mappings>
 
 

@@ -18,23 +18,11 @@
  */
 package org.kuali.coeus.propdev.impl.krms;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import java.sql.Date;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.Assert;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -45,6 +33,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.AppointmentType;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
@@ -59,11 +48,7 @@ import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
-import org.kuali.coeus.propdev.impl.core.ProposalTypeService;
+import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType;
@@ -73,12 +58,19 @@ import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewAttachment;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 public class PropDevJavaFunctionKrmsTermServiceImplTest {
 
@@ -1039,6 +1031,52 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
         Assert.assertFalse(propDevJavaFunctionKrmsTermService.costShareSourceAccountRule(developmentProposal, "23456, 3456, 6589"));
 
     }
+
+    @Test
+	public void test_humanSubjectsSpecialReviewContainsPropertyValue() {
+		final DevelopmentProposal developmentProposal = createDevelopmentProposal();
+		final String studyTitle = "This is the title of the study";
+
+		Assert.assertEquals(FALSE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "hiddenInHierarchy", "false"));
+
+		ProposalSpecialReview otherSpecialReview = createProposalSpecialReview("4");
+		otherSpecialReview.setApprovalTypeCode("3");
+		otherSpecialReview.setDevelopmentProposal(developmentProposal);
+		otherSpecialReview.setComments("this one does have comments");
+		developmentProposal.getPropSpecialReviews().add(otherSpecialReview);
+
+		Assert.assertEquals(FALSE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "specialReviewTypeCode", "4"));
+
+		ProposalSpecialReview humanSubjectsSpecialReview = createProposalSpecialReview(SpecialReviewType.HUMAN_SUBJECTS);
+		ProposalSpecialReviewAttachment attachment = new ProposalSpecialReviewAttachment();
+		attachment.setClinicalTrial(false);
+		attachment.setIsAttachmentDelayedOnset(true);
+		attachment.setStudyTitle(studyTitle);
+		humanSubjectsSpecialReview.setHiddenInHierarchy(true);
+		humanSubjectsSpecialReview.setHierarchyProposalNumber("dummy");
+		humanSubjectsSpecialReview.setProtocolNumber("dummy");
+		humanSubjectsSpecialReview.setComments("");
+		humanSubjectsSpecialReview.setSpecialReviewAttachment(attachment);
+		humanSubjectsSpecialReview.setDevelopmentProposal(developmentProposal);
+		developmentProposal.getPropSpecialReviews().add(humanSubjectsSpecialReview);
+
+		// Can check simple property values
+		Assert.assertEquals(FALSE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "approvalTypeCode", "3"));
+		Assert.assertEquals(TRUE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "approvalTypeCode", "4"));
+		Assert.assertEquals(TRUE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "hierarchyProposalNumber", "dummy"));
+		Assert.assertEquals(TRUE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "hiddenInHierarchy", "true"));
+
+		// Can check nested property values
+		Assert.assertEquals(TRUE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "specialReviewAttachment.isAttachmentDelayedOnset", "true"));
+		Assert.assertEquals(TRUE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "specialReviewAttachment.clinicalTrial", "false"));
+		Assert.assertEquals(TRUE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "specialReviewAttachment.studyTitle", studyTitle));
+
+		// Can check null / emptiness correctly
+		Assert.assertEquals(TRUE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "specialReviewAttachment.fileDataId", "null"));
+		Assert.assertEquals(TRUE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "specialReviewAttachment.fileDataId", "empty"));
+		Assert.assertEquals(FALSE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "protocolNumber", "null"));
+		Assert.assertEquals(TRUE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "comments", "empty"));
+	}
 
 	public DevelopmentProposal createDevelopmentProposal() {
 		final ProposalDevelopmentDocument proposalDevelopmentDocument = new ProposalDevelopmentDocument();

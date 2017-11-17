@@ -64,6 +64,9 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
     private String humanDataExchangeTermsCd;
     private Boolean mpiAward = Boolean.FALSE;
     private String mpiLeadershipPlan;
+    private String additionalTerms;
+    private String treatmentOfIncome;
+    private String dataSharingAttachment;
 
     public String getMpiLeadershipPlan() {
         return mpiLeadershipPlan;
@@ -383,5 +386,29 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
 
     public void setHumanDataExchangeTermsCd(String humanDataExchangeTermsCd) {
         this.humanDataExchangeTermsCd = humanDataExchangeTermsCd;
+    }
+
+    public String getAdditionalTerms() {
+        return additionalTerms;
+    }
+
+    public void setAdditionalTerms(String additionalTerms) {
+        this.additionalTerms = additionalTerms;
+    }
+
+    public String getTreatmentOfIncome() {
+        return treatmentOfIncome;
+    }
+
+    public void setTreatmentOfIncome(String treatmentOfIncome) {
+        this.treatmentOfIncome = treatmentOfIncome;
+    }
+
+    public String getDataSharingAttachment() {
+        return dataSharingAttachment;
+    }
+
+    public void setDataSharingAttachment(String dataSharingAttachment) {
+        this.dataSharingAttachment = dataSharingAttachment;
     }
 }

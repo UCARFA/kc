@@ -39,9 +39,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeAndMoneyDao {
 
@@ -118,11 +116,17 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
 
     @Override
     public List<TransactionDetail> getTransactionDetailsForDocument(String documentNumber) {
-        Map<String, Object> criteria = new HashMap<>();
-        criteria.put(TIME_AND_MONEY_DOCUMENT_NUMBER, documentNumber);
-        criteria.put(TRANSACTION_DETAIL_TYPE, TransactionDetailType.PRIMARY.toString());
 
-        return ((List<TransactionDetail>) businessObjectService.findMatching(TransactionDetail.class, criteria));
+        Criteria crit = new Criteria();
+        crit.addEqualTo(TIME_AND_MONEY_DOCUMENT_NUMBER, documentNumber);
+        Criteria types = new Criteria();
+        types.addEqualTo(TRANSACTION_DETAIL_TYPE, TransactionDetailType.PRIMARY.toString());
+        types.addEqualTo(TRANSACTION_DETAIL_TYPE, TransactionDetailType.DATE.toString());
+        crit.addOrCriteria(types);
+
+        QueryByCriteria criteria = new QueryByCriteria(TransactionDetail.class, crit);
+
+        return new ArrayList<TransactionDetail>(getPersistenceBrokerTemplate().getCollectionByQuery(criteria));
     }
 
 }

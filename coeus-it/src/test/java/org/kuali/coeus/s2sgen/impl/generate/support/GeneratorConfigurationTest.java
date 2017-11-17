@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -136,11 +137,13 @@ public class GeneratorConfigurationTest extends KcIntegrationTestBase {
         Collection<String> notFoundPdfForms = new ArrayList<>();
 
         for (FormMappingInfo info : mappings.values()) {
-            if (StringUtils.isNotBlank(info.getStyleSheet())) {
-                final Resource resource = getResource(info.getStyleSheet());
-                if (!resource.exists()) {
-                    notFoundSystemSheets.add(info.getStyleSheet());
-                }
+            if (CollectionUtils.isNotEmpty(info.getStyleSheets())) {
+                info.getStyleSheets().forEach(s -> {
+                    Resource resource = getResource(s);
+                    if (!resource.exists()) {
+                        notFoundSystemSheets.add(s);
+                    }
+                });
             } else {
                 Resource resource = getResource(info.getPdfForm());
                 if (!resource.exists()) {

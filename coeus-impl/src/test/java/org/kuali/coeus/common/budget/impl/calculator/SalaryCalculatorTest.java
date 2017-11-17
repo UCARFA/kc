@@ -630,7 +630,5 @@ public class SalaryCalculatorTest {
         SalaryCalculator salaryCalculator = new MockSalaryCalculator(budget, budgetPersonnelDetails2);
         java.util.Date date = salaryCalculator.getPreviousPeriodEndDate();
         Assert.assertTrue(date.compareTo(createDateFromString("12/31/2016")) == 0);
-        System.out.println("Date is " );
-
     }
 }

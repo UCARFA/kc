@@ -26,7 +26,9 @@
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegulations*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].treatmentPrgmIncomeAdditive*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegsDate*,
-                                                                document.subAwardList[0].subAwardTemplateInfo[0].mpiLeadershipPlan*">
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].mpiLeadershipPlan*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].additionalTerms*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].treatmentOfIncome*">
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Terms and Conditions</span>
@@ -54,9 +56,11 @@
                 <td>
                     <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].automaticCarryForward" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.automaticCarryForward}"  />
                 </td>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.treatmentPrgmIncomeAdditive}" /></div></th>
+                <th>
+                    <div align="right">&nbsp;</div>
+                </th>
                 <td>
-                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].treatmentPrgmIncomeAdditive" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.treatmentPrgmIncomeAdditive}"  />
+                    &nbsp;
                 </td>
             </tr>
             <tr>
@@ -67,6 +71,45 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.mpiLeadershipPlan}" /></div></th>
                 <td>
                     <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].mpiLeadershipPlan" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.mpiLeadershipPlan}"  />
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <div align="right"><kul:htmlAttributeLabel
+                            attributeEntry="${subAwardTemplateInfoAttributes.treatmentPrgmIncomeAdditive}"/></div>
+                </th>
+                <td>
+                    <kul:htmlControlAttribute
+                            property="document.subAwardList[0].subAwardTemplateInfo[0].treatmentPrgmIncomeAdditive"
+                            readOnly="${readOnly}"
+                            attributeEntry="${subAwardTemplateInfoAttributes.treatmentPrgmIncomeAdditive}"/>
+                </td>
+                <th>
+                    <div align="right"><kul:htmlAttributeLabel
+                            attributeEntry="${subAwardTemplateInfoAttributes.treatmentOfIncome}"/></div>
+                </th>
+                <td>
+                    <kul:htmlControlAttribute
+                            property="document.subAwardList[0].subAwardTemplateInfo[0].treatmentOfIncome"
+                            readOnly="${readOnly}"
+                            attributeEntry="${subAwardTemplateInfoAttributes.treatmentOfIncome}"/>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <div align="right"><kul:htmlAttributeLabel
+                            attributeEntry="${subAwardTemplateInfoAttributes.additionalTerms}"/></div>
+                </th>
+                <td>
+                    <kul:htmlControlAttribute
+                            property="document.subAwardList[0].subAwardTemplateInfo[0].additionalTerms"
+                            readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.additionalTerms}"/>
+                </td>
+                <th>
+                    <div align="right">&nbsp;</div>
+                </th>
+                <td>
+                    &nbsp;
                 </td>
             </tr>
         </table>

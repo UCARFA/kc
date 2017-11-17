@@ -24,7 +24,12 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import javax.sql.DataSource;
 import java.io.BufferedInputStream;
@@ -39,32 +44,44 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3Conversion {
+@DisallowConcurrentExecution
+public class KcAttachmentDataToS3ConversionImpl extends QuartzJobBean implements KcAttachmentDataToS3Conversion {
 
     private static final Log LOG = LogFactory.getLog(KcAttachmentDataToS3ConversionImpl.class);
-    private static final String QUERY_SQL = "select id, data from file_data where data is not null";
+    private static final String QUERY_SQL_MYSQL = "select id, data from file_data where data is not null LIMIT ? OFFSET ?";
+    private static final String QUERY_SQL_ORACLE = "select id, data from file_data where data is not null";
     private static final String UPDATE_SQL = "update file_data set data = null where id = ?";
     private static final String DELETE_FILE_FROM_DB = "DELETE_FILE_FROM_DB";
+    private static final String DATASOURCE_PLATFORM_CFG_NM = "datasource.ojb.platform";
+    private static final String MYSQL_PLATFORM = "MySQL";
 
     private S3FileService kcS3FileService;
     private ParameterService parameterService;
     private Integer fetchSize = 5;
     private DataSource dataSource;
+    private ConfigurationService configurationService;
 
     @Override
-    public void execute() {
+    public void executeInternal(JobExecutionContext context) throws JobExecutionException {
         LOG.info("Starting attachment conversion job for file_data to S3");
         boolean hasResults = true;
-        while (hasResults) {
+        for (int offset = 0; hasResults; offset = offset + fetchSize) {
             if (processRecords()) {
                 try (Connection conn = dataSource.getConnection();
-                     PreparedStatement queryStmt = conn.prepareStatement(QUERY_SQL);
+                     PreparedStatement queryStmt = mysql() ? conn.prepareStatement(QUERY_SQL_MYSQL) : conn.prepareStatement(QUERY_SQL_ORACLE);
                      PreparedStatement updateStmt = conn.prepareStatement(UPDATE_SQL)) {
+
+                    if (mysql()) {
+                        queryStmt.setInt(1, fetchSize);
+                        queryStmt.setInt(2, offset);
+                    }
                     conn.setAutoCommit(false);
                     hasResults = false;
-                    queryStmt.setFetchSize(fetchSize);
+                    if (!mysql()) {
+                        queryStmt.setFetchSize(fetchSize);
+                    }
                     try (ResultSet rs = queryStmt.executeQuery()) {
-                        for (int i = 0; i < fetchSize && rs.next(); i++) {
+                        while (rs.next()) {
                             final String fileDataId = rs.getString(1);
                             final byte[] dbBytes = rs.getBytes(2);
                             try {
@@ -157,6 +174,10 @@ public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3C
         return s3IntegrationEnabled && !s3DualSaveEnabled;
     }
 
+    protected boolean mysql() {
+        return MYSQL_PLATFORM.equals(configurationService.getPropertyValueAsString(DATASOURCE_PLATFORM_CFG_NM));
+    }
+
     protected boolean isS3IntegrationEnabled() {
         return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KcAttachmentDataS3Constants.S3_INTEGRATION_ENABLED);
     }
@@ -199,5 +220,13 @@ public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3C
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }

@@ -34,14 +34,17 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
 import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -112,6 +115,10 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     @Autowired
     @Qualifier("keyPersonnelService")
     private KeyPersonnelService keyPersonnelService;
+
+    @Autowired
+    @Qualifier("pessimisticLockService")
+    private PessimisticLockService pessimisticLockService;
 
 
    @MethodAccessible
@@ -214,6 +221,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=viewUtility")
     public ModelAndView viewUtility(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                     @RequestParam(value="userName",required = false) String userName) throws Exception {
+
         ProposalDevelopmentDocument document = null;
         boolean isDeleted = false;
 
@@ -230,10 +238,25 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
         } else {
             form.initialize();
             form.setDocument(document);
+
+            if (form.getViewId() != null && StringUtils.equalsIgnoreCase(form.getViewId(), Constants.CERTIFICATION_VIEW)) {
+                List<PessimisticLock> locks = pessimisticLockService.getPessimisticLocksForDocument(document.getDocumentNumber());
+                boolean lockAlreadyExists = locks.stream().anyMatch(
+                        lock -> StringUtils.countMatches(lock.getLockDescriptor(), KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL) > 0 &&
+                        lock.isOwnedByUser(getGlobalVariableService().getUserSession().getPerson())
+                );
+                if (!lockAlreadyExists) {
+                    pessimisticLockService.generateNewLock(document.getDocumentNumber(), document.getDocumentNumber() + "-" + KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL);
+                    document.refreshPessimisticLocks();
+                }
+            }
+
             WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
             form.setDocTypeName(workflowDocument.getDocumentTypeName());
             form.setProposalCopyCriteria(new ProposalCopyCriteria(document));
-            ((ProposalDevelopmentViewHelperServiceImpl)form.getView().getViewHelperService()).populateQuestionnaires(form);
+            if (form.getView().getViewHelperService() instanceof ProposalDevelopmentViewHelperServiceImpl) {
+                ((ProposalDevelopmentViewHelperServiceImpl) form.getView().getViewHelperService()).populateQuestionnaires(form);
+            }
 
              if (!this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,
                         getGlobalVariableService().getUserSession().getPerson())) {

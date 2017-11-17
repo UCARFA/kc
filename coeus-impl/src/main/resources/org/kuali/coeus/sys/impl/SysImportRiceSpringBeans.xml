@@ -27,6 +27,7 @@
 
     <bean id="kualiModuleService" parent="grlImporter" p:serviceName="kualiModuleService" />
     <bean id="parameterService" parent="grlImporter" p:serviceName="parameterService" />
+    <bean id="pessimisticLockService" parent="grlImporter" p:serviceName="pessimisticLockService" />
     <bean id="dateTimeService" parent="grlImporter" p:serviceName="dateTimeService" />
     <bean id="routeHeaderService" parent="grlImporter" p:serviceName="enDocumentRouteHeaderService" />
     <bean id="businessObjectService" parent="grlImporter" p:serviceName="businessObjectService" />

@@ -287,7 +287,7 @@
     </bean>
     
     <bean id="ProposalLog-piId" parent="ProposalLog-piId-parentBean" />
-    <bean id="ProposalLog-piId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <bean id="ProposalLog-piId-parentBean" abstract="true" parent="KcPerson-personId">
         <property name="name" value="piId" />
         <property name="label" value="Principal Investigator Person Identifier" />
         <property name="shortLabel" value="PI Person ID" />
@@ -507,10 +507,13 @@
     <bean id="ProposalLog-createTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
         <property name="name" value="createTimestamp" />
         <property name="label" value="Log Create Date" />
-        <property name="shortLabel" value="Create Timestamp" />
+        <property name="shortLabel" value="Log Create Date"/>
+        <property name="controlField">
+            <bean parent="Uif-DateControl" p:size="12"/>
+        </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
-        <property name="summary" value="Create Timestamp" />
-        <property name="description" value="The creation timestamp." />
+        <property name="summary" value="Log Create Date"/>
+        <property name="description" value="Log Create Date"/>
     </bean>
     
     <bean id="ProposalLog-updateUser" parent="ProposalLog-updateUser-parentBean" />
@@ -651,6 +654,7 @@
         <bean parent="FieldDefinition" p:attributeName="comments"/>
         <bean parent="FieldDefinition" p:attributeName="deadlineDate"/>
         <bean parent="FieldDefinition" p:attributeName="forInstitutionalProposal" p:noLookup="true" p:hidden="true"/>
+                <bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
 
             </list>
         </property>
@@ -670,6 +674,7 @@
         <bean parent="FieldDefinition" p:attributeName="sponsorName"/>
         <bean parent="FieldDefinition" p:attributeName="comments"/>
         <bean parent="FieldDefinition" p:attributeName="deadlineDate"/>
+                <bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
             </list>
         </property>
     </bean>
@@ -693,6 +698,7 @@
         <bean p:propertyName="sponsorName" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField"/>
+          <bean p:propertyName="createTimestamp" parent="Uif-LookupCriteriaInputField" p:ranged="true"/>
       </list>
     </property>
     <property name="resultFields">
@@ -711,6 +717,7 @@
         <bean p:propertyName="sponsorName" parent="Uif-DataField"/>
         <bean p:propertyName="comments" parent="Uif-DataField"/>
         <bean p:propertyName="deadlineDate" parent="Uif-DataField"/>
+          <bean p:propertyName="createTimestamp" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

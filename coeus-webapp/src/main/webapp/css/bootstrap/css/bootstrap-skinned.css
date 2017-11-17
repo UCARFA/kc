@@ -5249,8 +5249,8 @@ div.header2-left-focus,
 }
 @font-face {
   font-family: 'fontawsome';
-  src: url('icons/fonts/fontawsome.eot');
-  src: url('icons/fonts/fontawsome.eot?#iefix') format('embedded-opentype'), url('icons/fonts/fontawsome.woff') format('woff'), url('icons/fonts/fontawsome.ttf') format('truetype'), url('icons/fonts/fontawsome.svg#fontawsome') format('svg');
+  src: url('icons/fonts/fontawesome-webfont.eot');
+  src: url('icons/fonts/fontawesome-webfont.eot?#iefix') format('embedded-opentype'), url('icons/fonts/fontawesome-webfont.woff') format('woff'), url('icons/fonts/fontawesome-webfont.ttf') format('truetype'), url('icons/fonts/fontawesome-webfont.svg#fontawsome') format('svg');
   font-weight: normal;
   font-style: normal;
 }

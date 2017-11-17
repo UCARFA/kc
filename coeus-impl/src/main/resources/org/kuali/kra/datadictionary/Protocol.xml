@@ -76,6 +76,7 @@
 				<ref bean="Protocol-lookupActionNotifyIRBProtocol" />
 				<ref bean="Protocol-lookupActionRequestProtocol" />
 				<ref bean="Protocol-lookupProtocolPersonId" />
+				<ref bean="Protocol-createTimestamp"/>
 			</list>
 		</property>
 	</bean>
@@ -845,7 +846,20 @@
         <property name="summary" value="All My Protocols" />
         <property name="description" value="All My Protocols" />
     </bean>
-	
+
+	<bean id="Protocol-createTimestamp" parent="Protocol-createTimestamp-parentBean"/>
+	<bean id="Protocol-createTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+		<property name="name" value="createTimestamp"/>
+		<property name="label" value="Protocol Create Date"/>
+		<property name="shortLabel" value="Protocol Create Date"/>
+		<property name="controlField">
+			<bean parent="Uif-DateControl" p:size="12"/>
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+		<property name="summary" value="Protocol Create Date"/>
+		<property name="description" value="Protocol Create Date"/>
+	</bean>
+
 	<!-- Business Object Inquiry Definition -->
 	<bean id="Protocol-inquiryDefinition" parent="Protocol-inquiryDefinition-parentBean" />
   <bean id="Protocol-InquiryView" parent="Protocol-InquiryView-parentBean"/>
@@ -960,6 +974,7 @@
         <bean parent="FieldDefinition" p:attributeName="lookupActionNotifyIRBProtocol" p:noLookup="true" p:hidden="true"/>
         <bean parent="FieldDefinition" p:attributeName="lookupActionRequestProtocol" p:noLookup="true" p:hidden="true"/>
         <bean parent="FieldDefinition" p:attributeName="lookupProtocolPersonId" p:noLookup="true" p:hidden="true"/>
+				<bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -977,6 +992,7 @@
         <bean parent="FieldDefinition" p:attributeName="leadUnitNumber"/>
         <bean parent="FieldDefinition" p:attributeName="leadUnitName"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
+				<bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
 			</list>
 		</property>
  	</bean>
@@ -1010,6 +1026,7 @@
         <bean p:propertyName="lookupActionNotifyIRBProtocol" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="lookupActionRequestProtocol" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="lookupProtocolPersonId" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
+		  <bean p:propertyName="createTimestamp" parent="Uif-LookupCriteriaInputField" p:ranged="true"/>
       </list>
     </property>
     <property name="resultFields">
@@ -1027,6 +1044,7 @@
         <bean p:propertyName="leadUnitNumber" parent="Uif-DataField"/>
         <bean p:propertyName="leadUnitName" parent="Uif-DataField"/>
         <bean p:propertyName="active" parent="Uif-DataField"/>
+		  <bean p:propertyName="createTimestamp" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

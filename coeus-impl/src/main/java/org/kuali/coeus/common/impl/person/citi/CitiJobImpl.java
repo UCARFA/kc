@@ -25,30 +25,26 @@ import org.kuali.coeus.common.framework.person.citi.CitiDataProcessingService;
 import org.kuali.coeus.common.framework.person.citi.CitiJob;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.krad.UserSession;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 @Component("citiJob")
-public class CitiJobImpl implements CitiJob {
+public class CitiJobImpl extends QuartzJobBean implements CitiJob  {
 
     private static final Log LOG = LogFactory.getLog(CitiJobImpl.class);
     private static final String KC_SYSTEM_PRINCIPAL_NM = "kc";
 
-    @Autowired
-    @Qualifier("citiDataProcessingService")
     private CitiDataProcessingService citiDataProcessingService;
-
-    @Autowired
-    @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
-
-    @Autowired
-    @Qualifier("citiDataLoadingService")
     private CitiDataLoadingService citiDataLoadingService;
 
     @Override
-    public void execute() {
+    public void executeInternal(JobExecutionContext context) throws JobExecutionException {
         LOG.info("Starting CITI job");
 
         getGlobalVariableService().doInNewGlobalVariables(new UserSession(KC_SYSTEM_PRINCIPAL_NM), () -> {
@@ -83,4 +79,5 @@ public class CitiJobImpl implements CitiJob {
     public void setCitiDataLoadingService(CitiDataLoadingService citiDataLoadingService) {
         this.citiDataLoadingService = citiDataLoadingService;
     }
+
 }

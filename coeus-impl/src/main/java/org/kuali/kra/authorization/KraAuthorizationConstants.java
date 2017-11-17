@@ -30,6 +30,8 @@ public class KraAuthorizationConstants {
     public static final String LOCK_REGION_CHANGE_IND = "ACTIVE_LOCK_REGION_CHANGED";
     
     public static final String LOCK_DESCRIPTOR_PROPOSAL = "PROPOSAL DEVELOPMENT";
+    public static final String LOCK_DESCRIPTOR_PERSONNEL = "PROPOSAL DEVELOPMENT PERSONNEL";
+
     public static final String LOCK_DESCRIPTOR_BUDGET = "BUDGET";
     public static final String LOCK_DESCRIPTOR_AWARD = "AWARD";
     public static final String LOCK_DESCRIPTOR_TIME_AND_MONEY = "TIME_AND_MONEY";

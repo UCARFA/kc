@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import React from 'react/addons';
-import ReactRouter from 'react-router';
+import React from 'react';
 import RateActions from '../../stores/RateActions';
 import SharedStyles from '../shared/Styles';
 import {assign} from 'lodash';
