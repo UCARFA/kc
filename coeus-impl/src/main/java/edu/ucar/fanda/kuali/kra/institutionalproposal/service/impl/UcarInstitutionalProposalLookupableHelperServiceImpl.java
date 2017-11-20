@@ -17,7 +17,6 @@ public class UcarInstitutionalProposalLookupableHelperServiceImpl extends Instit
      */
     @Override
     protected List<InstitutionalProposal> filterForPermissions(List<InstitutionalProposal> results) {
-        System.out.println("UcarInstitutionalProposalLookupableHelperServiceImpl::filterForPermissions");
         Person user = GlobalVariables.getUserSession().getPerson();
         UcarInstitutionalProposalDocumentAuthorizer authorizer = new UcarInstitutionalProposalDocumentAuthorizer();
         List<InstitutionalProposal> filteredResults = CollectionUtils.createCorrectImplementationForCollection(results);

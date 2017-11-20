@@ -12,7 +12,6 @@ public class UcarInstitutionalProposalDocumentAuthorizer extends InstitutionalPr
     protected void addRoleQualification(
             Object primaryBusinessObjectOrDocument,
             Map<String, String> attributes) {
-        System.out.println("UcarInstitutionalProposalDocumentAuthorizer::addRoleQualification");
         super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) primaryBusinessObjectOrDocument;
         if (institutionalProposalDocument.getInstitutionalProposal() != null
