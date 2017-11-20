@@ -31,8 +31,8 @@
     <property name="documentTypeName" value="InstitutionalProposalDocument"/>
     <property name="documentClass" value="org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument"/>
     <property name="businessRulesClass" value="org.kuali.kra.institutionalproposal.rules.InstitutionalProposalDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer"/>
-
+   <!-- SJW <property name="documentAuthorizerClass" value="org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer"/> -->
+    <property name="documentAuthorizerClass" value="edu.ucar.fanda.kuali.kra.institutionalproposal.document.authorization.UcarInstitutionalProposalDocumentAuthorizer"/>
     <property name="allowsNoteAttachments" value="true"/>
      
     <property name="allowsCopy" value="true"/>

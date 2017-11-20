@@ -279,10 +279,18 @@
     
     <bean id="institutionalProposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="institutionalProposalLookupableHelperService" />
-    </bean> 
+    </bean>
 
+    <!-- SJW Replace with UCAR class
     <bean id="institutionalProposalLookupableHelperService" 
           class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
+          scope="prototype">
+        <property name="institutionalProposalService" ref="institutionalProposalService" />
+    </bean>
+    -->
+
+    <bean id="institutionalProposalLookupableHelperService"
+          class="edu.ucar.fanda.kuali.kra.institutionalproposal.service.impl.UcarInstitutionalProposalLookupableHelperServiceImpl" parent="parentLookupableHelperService"
           scope="prototype">
         <property name="institutionalProposalService" ref="institutionalProposalService" />
     </bean>
