@@ -17,6 +17,9 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+set define off
+set sqlblanklines on
 
-\. ./kc/bootstrap/V1711_001__add_missing_forms_e_elements.sql
+spool 1711_oracle_kc_rice_server_upgrade.sql.log
+@./rice/bootstrap/V1711_002__compliance_entry_krms_function.sql
 commit;
