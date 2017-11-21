@@ -20,7 +20,9 @@
 <div id="medusaRoot"></div>
 <script type="text/javascript">
     var reactContext = {};
+    reactContext.appContext = "${ConfigProperties.app.context.name}";
     reactContext.module = "${KualiForm.medusaBean.moduleName}";
     reactContext.moduleId = ${KualiForm.medusaBean.moduleIdentifier};
 </script>
-<script src="../../client/assets/medusaClient-${ConfigProperties.frontend.timestamp}.js"></script>
+<script src="client/assets/medusaClient-${ConfigProperties.frontend.timestamp}.js"></script>
+<link rel="stylesheet" href="css/medusa-react.css" type="text/css" />

@@ -164,6 +164,13 @@
                         <resource>
                             <directory>${rice.web.sources}</directory>
                         </resource>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                            <filtering>true</filtering>
+                            <includes>
+                                <include>WEB-INF/web.xml</include>
+                            </includes>
+                        </resource>
                     </webResources>
                 </configuration>
             </plugin>
@@ -209,13 +216,6 @@
                                     <excludes>
                                         <exclude>**/*.html</exclude>
                                     </excludes>
-                                </resource>
-                                <resource>
-                                    <directory>src/main/webapp</directory>
-                                    <filtering>true</filtering>
-                                    <includes>
-                                        <include>WEB-INF/web.xml</include>
-                                    </includes>
                                 </resource>
 		                    </webResources>
 		                </configuration>

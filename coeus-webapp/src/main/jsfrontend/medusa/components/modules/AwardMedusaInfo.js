@@ -6,11 +6,11 @@ import MedusaHeading from '../MedusaHeading';
 import MedusaInvestigators from '../MedusaInvestigators';
 import MedusaLinks from '../MedusaLinks';
 import MedusaRow from '../MedusaRow';
-import { concat, formatUSD } from '../../utils';
+import { concat, formatUSD, linkTo } from '../../utils';
 
-const openAwardLinkFor = docId => `../awardHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true`;
-const openAwardNotesLinkFor = docId => `../awardNotesAndAttachments.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true&tabStates(Notes)=OPEN#Notes`;
-const openAwardHierarchyLinkFor = docId => `../awardActions.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true&tabStates(HierarchyActions)=OPEN#Hierarchy Actions`
+const openAwardLinkFor = docId => linkTo(`awardHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true`);
+const openAwardNotesLinkFor = docId => linkTo(`awardNotesAndAttachments.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true&tabStates(Notes)=OPEN#Notes`);
+const openAwardHierarchyLinkFor = docId => linkTo(`awardActions.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true&tabStates(HierarchyActions)=OPEN#Hierarchy Actions`);
 
 const getAwardLinks = docId => [
     { text: 'Open Award', href: openAwardLinkFor(docId) },

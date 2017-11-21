@@ -5,8 +5,9 @@ import MedusaEntry from '../MedusaEntry';
 import MedusaHeading from '../MedusaHeading';
 import MedusaLinks from '../MedusaLinks';
 import MedusaRow from '../MedusaRow';
+import { linkTo } from '../../utils';
 
-const openProtocolLinkFor = (action, docId) => `../${action}?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true`;
+const openProtocolLinkFor = (action, docId) => linkTo(`${action}?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true`);
 
 const getProtocolLinksFor = (moduleName, docId) => {
     const action = moduleName === 'IRB' ? 'protocolProtocol.do' : 'iacucProtocolProtocol.do';

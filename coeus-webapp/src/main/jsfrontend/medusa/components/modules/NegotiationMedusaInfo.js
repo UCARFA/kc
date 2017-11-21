@@ -5,9 +5,9 @@ import MedusaEntry from '../MedusaEntry';
 import MedusaHeading from '../MedusaHeading';
 import MedusaLinks from '../MedusaLinks';
 import MedusaRow from '../MedusaRow';
-import { concat } from '../../utils';
+import { concat, linkTo } from '../../utils';
 
-const openNegotiationLinkFor = docId => `../negotiationNegotiation.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true`;
+const openNegotiationLinkFor = docId => linkTo(`negotiationNegotiation.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true`);
 
 const getNegotiationLinksFor = docId => [
     { text: 'Open Negotiation', href: openNegotiationLinkFor(docId) }

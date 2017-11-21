@@ -20,6 +20,12 @@
 <%@ attribute name="helpParameterNamespace" required="false" %>
 <%@ attribute name="helpParameterDetailType" required="false" %>
 <%@ attribute name="helpParameterName" required="false" %>
+
+<c:choose>
+	<c:when test="${KualiForm.reactMedusaEnabled}">
+		<kra-m:medusaReact />
+	</c:when>
+	<c:otherwise>
 	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
 	<link rel="stylesheet" href="css/medusa.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
@@ -96,3 +102,5 @@ ${kfunc:registerEditableProperty(KualiForm, "medusaBean.moduleIdentifier")}
 <input type="hidden" id = "medusaBean.moduleIdentifier" name="medusaBean.moduleIdentifier" value="${KualiForm.medusaBean.moduleIdentifier}">
 
 </div>
+</c:otherwise>
+</c:choose>
