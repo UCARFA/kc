@@ -21,6 +21,8 @@
 <%@ attribute name="helpParameterDetailType" required="false" %>
 <%@ attribute name="helpParameterName" required="false" %>
 
+<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 <c:choose>
 	<c:when test="${KualiForm.reactMedusaEnabled}">
 		<kra-m:medusaReact />
@@ -28,8 +30,6 @@
 	<c:otherwise>
 	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
 	<link rel="stylesheet" href="css/medusa.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
 	<script type="text/javascript">
 	   var $jq = jQuery.noConflict();

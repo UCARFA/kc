@@ -1,34 +1,34 @@
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css');
-@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
 
-html {
-    height: 100%;
-}
-body {
-    height: 100%;
+body#Uif-Application {
     background-color: rgb(250, 250, 250);
+}
+div.modal-body {
+    padding-top: 50px;
+}
+div.medusa {
+    height: 100%;
     color: rgb(54, 58, 69);
+}
+div.medusa, .medusa h2, .medusa h4 {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     letter-spacing: 0.3px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
 }
-body#Uif-Application {
-    background-color: rgb(250, 250, 250);
-}
-h2 {
+.medusa h2 {
     font-size: 36px;
     font-weight: 400;
     letter-spacing: normal;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
-h4 {
+.medusa h4 {
     font-size: 1.6em;
     font-weight: 400;
     letter-spacing: 0.05em;
-}
-div, p, h1, h2, h3, h4, h5, h6 {
 }
 .form-inline .checkbox label input {
     margin-right: 8px;
