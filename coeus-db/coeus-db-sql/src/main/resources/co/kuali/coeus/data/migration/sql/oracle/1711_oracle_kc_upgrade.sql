@@ -22,5 +22,4 @@ set sqlblanklines on
 
 spool 1711_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1711_001__add_missing_forms_e_elements.sql
-@./kc/bootstrap/V1711_002__compliance_entry_krms_function.sql
 commit;
