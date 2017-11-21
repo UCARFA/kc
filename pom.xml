@@ -208,6 +208,8 @@
         <!-- defaults to dev unless overriden -->
         <build.environment>dev</build.environment>
         <build.spring.profiles.active />
+        <frontend.timestamp>${maven.build.timestamp}</frontend.timestamp>
+        <maven.build.timestamp.format>yyyyMMdd.hh.mm.ss</maven.build.timestamp.format>
 
         <!-- This is used in the licenses section as well as the jar/war plugins -->
         <kuali.agpl3.license.url>http://www.gnu.org/licenses/agpl-3.0.txt</kuali.agpl3.license.url>

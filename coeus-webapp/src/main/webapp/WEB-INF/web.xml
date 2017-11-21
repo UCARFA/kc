@@ -42,6 +42,11 @@
         <param-value>classpath:META-INF/kc-config.xml</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>frontend.timestamp</param-name>
+        <param-value>@frontend.timestamp@</param-value>
+    </context-param>
+
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
