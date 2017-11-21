@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Checkbox, ControlLabel, Form, FormGroup, FormControl, Radio, Col, Row } from 'react-bootstrap';
+import { Checkbox, Form, FormGroup, FormControl, Radio, Col, Row } from 'react-bootstrap';
 
 const controlStyles = {
     marginRight: '20px'

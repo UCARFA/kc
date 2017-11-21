@@ -26,4 +26,6 @@ export const concat = (arg1, arg2, separator) => {
 
 export const convertToYesNo = booleanValue => booleanValue ? 'Yes' : 'No';
 
+export const createNodeKey = (moduleCode, moduleId) => `${moduleCode}-${moduleId}`;
+
 export const formatUSD = currencyValue => formatCurrency(currencyValue, { format: '%s%v', symbol: '$' });
