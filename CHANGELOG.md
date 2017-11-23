@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1711.0023
 * RESKC-2634: Bumped s2s version and moved misplaced KRMS scripts
   * Jeff Largent on Mon, 20 Nov 2017 15:39:01 -0500 [View Commit](../../commit/81071b211e2a910c010136af29ec8f4ea6a35584)
 
