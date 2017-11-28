@@ -26,6 +26,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -54,6 +55,7 @@ public class ProposalSpecialReviewAttachment extends KcAttachmentDataSource impl
     @Convert(converter = BooleanYNConverter.class)
     private Boolean isAttachmentDelayedOnset;
 
+    @RequestAccessible
     @Transient
     private transient MultipartFile multipartFile;
 
@@ -80,8 +82,10 @@ public class ProposalSpecialReviewAttachment extends KcAttachmentDataSource impl
     }
 
     public void setMultipartFile(MultipartFile multipartFile) {
-        this.multipartFile = multipartFile;
-        initialized.set(false);
+        if (multipartFile != null && !multipartFile.isEmpty()) {
+            this.multipartFile = multipartFile;
+            initialized.set(false);
+        }
     }
 
     @Override
