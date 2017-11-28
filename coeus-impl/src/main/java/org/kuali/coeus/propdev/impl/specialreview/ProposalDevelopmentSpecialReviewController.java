@@ -26,6 +26,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.sys.framework.controller.ControllerFileUtils;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
@@ -44,12 +45,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopmentControllerBase {
@@ -74,7 +73,7 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
     @Autowired
     @Qualifier("kualiRuleService")
     private KualiRuleService kualiRuleService;
-    
+
     @ResponseBody
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=clearAddCompliance")
     public void clearAddCompliance(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm, BindingResult result,
@@ -253,7 +252,38 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
     	}
     	return true;
     }
-    
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getSpecialReviewAttachmentFromLine")
+    public void getSpecialReviewAttachmentFromLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String selectedLine = request.getParameter(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isEmpty(selectedLine)) {
+            throw new RuntimeException("Selected line index was not set properly, cannot retrieve special review attachment");
+        }
+        int selectedIndex = Integer.parseInt(selectedLine);
+
+        ProposalSpecialReviewAttachment attachment = Optional.ofNullable(pdForm.getDevelopmentProposal().getPropSpecialReview(selectedIndex))
+                .map(ProposalSpecialReview::getSpecialReviewAttachment)
+                .orElseThrow(() -> new RuntimeException(String.format("No downloadable attachment for special review %d", selectedIndex)));
+        ControllerFileUtils.streamToResponse(attachment, response);
+    }
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=replaceSpecialReviewAttachment")
+    public ModelAndView replaceSpecialReviewAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm) throws Exception{
+        String selectedLine = pdForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isEmpty(selectedLine)) {
+            throw new RuntimeException("Selected line index was not set properly, cannot replace special review attachment");
+        }
+        int selectedIndex = Integer.parseInt(selectedLine);
+
+        ProposalSpecialReview specialReview = pdForm.getDevelopmentProposal().getPropSpecialReview(selectedIndex);
+        if (specialReview != null && specialReview.getSpecialReviewAttachment() != null && specialReview.getSpecialReviewAttachment().getMultipartFile() != null) {
+            prepareSpecialReviewAttachmentForSave(specialReview);
+            getDataObjectService().save(specialReview);
+        }
+
+        return getModelAndViewService().getModelAndView(pdForm);
+    }
+
     public ProposalDevelopmentSpecialReviewService getProposalDevelopmentSpecialReviewService() {
  		return proposalDevelopmentSpecialReviewService;
  	}
