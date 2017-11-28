@@ -22,8 +22,6 @@ import org.kuali.coeus.common.framework.print.KcAttachmentDataSource;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewAttachmentContract;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.web.bind.RequestAccessible;
@@ -138,11 +136,7 @@ public class ProposalSpecialReviewAttachment extends KcAttachmentDataSource impl
 
     @Override
     public Map<String, Object> getSpecialReviewAttachmentXmlFileData() {
-        Map<String, Object> data = getAttachmentService().getSpecialReviewAttachmentXmlFileData(getData());
-        if (data == null) {
-            getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, KeyConstants.CANNOT_PARSE_PDF, getName());
-        }
-        return data;
+        return getAttachmentService().getSpecialReviewAttachmentXmlFileData(getData());
     }
 
     public GlobalVariableService getGlobalVariableService() {
