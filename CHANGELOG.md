@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-2632: Added missing abstract property to parent bean
+  * Jeff Largent on Tue, 28 Nov 2017 11:35:50 -0500 [View Commit](../../commit/500bc841f3d1e7af96861413dd9e0f4847cf91e9)
+* RESKC-2636: Added the ability to view and replace Human Subjects attachments
+  * Jeff Largent on Tue, 28 Nov 2017 09:45:47 -0500 [View Commit](../../commit/1a07e51c8feb6074be15b6e4143b86a915169188)
+
+## coeus-1711.0024
 * No Changes
 
 
