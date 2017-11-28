@@ -25,4 +25,5 @@
     reactContext.moduleId = ${KualiForm.medusaBean.moduleIdentifier};
 </script>
 <script src="client/assets/medusaClient-${ConfigProperties.frontend.timestamp}.js"></script>
+<link rel="stylesheet" href="themes/kboot/stylesheets/kboot.2.5.3.1709.0005-kualico.min.css" type="text/css" />
 <link rel="stylesheet" href="css/medusa-react.css" type="text/css" />

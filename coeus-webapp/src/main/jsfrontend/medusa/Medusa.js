@@ -15,15 +15,13 @@ class Medusa extends Component {
             filteredNodes: [],
             loadedNodes: {},
             loadingState: LoadingStates.PRISTINE,
-            preferredModule: 'DP',
-            isContextPreserved: false
+            preferredModule: 'DP'
         };
 
         this.loadMedusaNode = this.loadMedusaNode.bind(this);
         this.loadMedusaTree = this.loadMedusaTree.bind(this);
         this.filter = this.filter.bind(this);
         this.preferModule = this.preferModule.bind(this);
-        this.preserveContext = this.preserveContext.bind(this);
     }
 
     componentDidMount() {
@@ -80,19 +78,15 @@ class Medusa extends Component {
         this.loadMedusaTree(e.target.value);
     }
 
-    preserveContext(e) {
-        this.setState({ ...this.state, isContextPreserved: !this.state.isContextPreserved });
-    }
-
     render() {
         const filteredElements = this.state.filterText.length === 0 ?
             this.state.childNodes.map((node, i) => <MedusaNode depth={0} key={`${node.description}-${i}`} loadedNodes={this.state.loadedNodes} load={this.loadMedusaNode} {...node} />) :
-            this.state.filteredNodes.map((node, i) => <MedusaNode depth={0} key={`${node.description}-${i}`} renderChildren={this.state.isContextPreserved} loadedNodes={this.state.loadedNodes} load={this.loadMedusaNode} {...node} />);
+            this.state.filteredNodes.map((node, i) => <MedusaNode depth={0} key={`${node.description}-${i}`} renderChildren={false} loadedNodes={this.state.loadedNodes} load={this.loadMedusaNode} {...node} />);
         const loadingIndicator = <h4><i className={'fa fa-spinner fa-pulse'}></i> Loading...</h4>;
         return (
             <div className="container-fluid medusa">
                 <h2>Medusa</h2>
-                <MedusaControls filterText={this.state.filterText} onFilter={this.filter} isContextPreserved={this.state.isContextPreserved} setContextPreserved={this.preserveContext} preferredModule={this.state.preferredModule} setPreferredModule={this.preferModule} />
+                <MedusaControls filterText={this.state.filterText} onFilter={this.filter} preferredModule={this.state.preferredModule} setPreferredModule={this.preferModule} />
                 { this.state.loadingState === LoadingStates.LOADING ? loadingIndicator : filteredElements }
             </div>
         );
