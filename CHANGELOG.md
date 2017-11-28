@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2637: handling bad attachments
+  * Travis Schneeberger on Tue, 28 Nov 2017 14:43:49 -0500 [View Commit](../../commit/8da85cf5a537118b7982030bcff6de8543911c5d)
+
+## coeus-1711.0025
 * RESKC-2632: Added missing abstract property to parent bean
   * Jeff Largent on Tue, 28 Nov 2017 11:35:50 -0500 [View Commit](../../commit/500bc841f3d1e7af96861413dd9e0f4847cf91e9)
 * RESKC-2636: Added the ability to view and replace Human Subjects attachments
