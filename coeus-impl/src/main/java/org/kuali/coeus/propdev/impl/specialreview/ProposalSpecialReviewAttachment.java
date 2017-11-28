@@ -138,11 +138,7 @@ public class ProposalSpecialReviewAttachment extends KcAttachmentDataSource impl
 
     @Override
     public Map<String, Object> getSpecialReviewAttachmentXmlFileData() {
-        Map<String, Object> data = getAttachmentService().getSpecialReviewAttachmentXmlFileData(getData());
-        if (data == null) {
-            getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, KeyConstants.CANNOT_PARSE_PDF, getName());
-        }
-        return data;
+        return getAttachmentService().getSpecialReviewAttachmentXmlFileData(getData());
     }
 
     public GlobalVariableService getGlobalVariableService() {
