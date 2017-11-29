@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2588: Ensure that KRMS validations are run on award submit
+  * Jeff Largent on Tue, 28 Nov 2017 16:39:44 -0500 [View Commit](../../commit/cb631b7f2df7bbabb3315f7502c69e558711cf18)
+
+## coeus-1711.0026
 * RESKC-2637: handling bad attachments
   * Travis Schneeberger on Tue, 28 Nov 2017 14:43:49 -0500 [View Commit](../../commit/8da85cf5a537118b7982030bcff6de8543911c5d)
 
