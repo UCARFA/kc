@@ -23,7 +23,7 @@ VALUES (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL, -5, 1, 'Clinical Trials Decision Tree'
 
 INSERT INTO QUESTION (QUESTION_REF_ID, QUESTION_ID, SEQUENCE_NUMBER, SEQUENCE_STATUS, QUESTION, STATUS, GROUP_TYPE_CODE, QUESTION_TYPE_ID, LOOKUP_CLASS, LOOKUP_RETURN, DISPLAYED_ANSWERS, MAX_ANSWERS, ANSWER_MAX_LENGTH, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID, DOCUMENT_NUMBER)
 VALUES
-  (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL, -10080, 1, 'C', 'Are participants assigned to an intervention?', 'I', 4, 1, NULL, NULL, NULL, 1, 1, SYSDATE,
+  (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL, -10131, 1, 'C', 'Are participants assigned to an intervention?', 'I', 4, 1, NULL, NULL, NULL, 1, 1, SYSDATE,
    'admin', 1, SYS_GUID(), NULL);
 
 INSERT INTO QUESTIONNAIRE_QUESTIONS (QUESTIONNAIRE_QUESTIONS_ID, QUESTIONNAIRE_REF_ID_FK, QUESTION_REF_ID_FK, QUESTION_NUMBER, PARENT_QUESTION_NUMBER, QUESTION_SEQ_NUMBER, CONDITION_FLAG, CONDITION_TYPE, CONDITION_VALUE, UPDATE_USER, UPDATE_TIMESTAMP, OBJ_ID, VER_NBR)
@@ -32,12 +32,13 @@ VALUES (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL, (SELECT QUESTIONNAIRE_REF_ID
                                            WHERE QUESTIONNAIRE_ID = '-5' AND SEQUENCE_NUMBER = 1), (SELECT max(QUESTION_REF_ID)
                                                                                                     FROM QUESTION
                                                                                                     WHERE
-                                                                                                      QUESTION_ID = '-10080' AND SEQUENCE_NUMBER = 1),
+                                                                                                      QUESTION_ID = '-10131' AND SEQUENCE_NUMBER = 1),
                                           1, 0, 1, 'N', NULL, NULL, 'admin', SYSDATE, SYS_GUID(), 1);
+
 
 INSERT INTO QUESTION (QUESTION_REF_ID, QUESTION_ID, SEQUENCE_NUMBER, SEQUENCE_STATUS, QUESTION, STATUS, GROUP_TYPE_CODE, QUESTION_TYPE_ID, LOOKUP_CLASS, LOOKUP_RETURN, DISPLAYED_ANSWERS, MAX_ANSWERS, ANSWER_MAX_LENGTH, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID, DOCUMENT_NUMBER)
 VALUES
-  (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL, -10081, 1, 'C', 'Is the study designed to evaluate the effect of the intervention on the participants?', 'I', 4,
+  (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL, -10132, 1, 'C', 'Is the study designed to evaluate the effect of the intervention on the participants?', 'I', 4,
                                      1, NULL, NULL, NULL, 1, 1, SYSDATE, 'admin', 1, SYS_GUID(), NULL);
 
 INSERT INTO QUESTIONNAIRE_QUESTIONS (QUESTIONNAIRE_QUESTIONS_ID, QUESTIONNAIRE_REF_ID_FK, QUESTION_REF_ID_FK, QUESTION_NUMBER, PARENT_QUESTION_NUMBER, QUESTION_SEQ_NUMBER, CONDITION_FLAG, CONDITION_TYPE, CONDITION_VALUE, UPDATE_USER, UPDATE_TIMESTAMP, OBJ_ID, VER_NBR)
@@ -46,12 +47,13 @@ VALUES (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL, (SELECT QUESTIONNAIRE_REF_ID
                                            WHERE QUESTIONNAIRE_ID = '-5' AND SEQUENCE_NUMBER = 1), (SELECT max(QUESTION_REF_ID)
                                                                                                     FROM QUESTION
                                                                                                     WHERE
-                                                                                                      QUESTION_ID = '-10081' AND SEQUENCE_NUMBER = 1),
+                                                                                                      QUESTION_ID = '-10132' AND SEQUENCE_NUMBER = 1),
                                           2, 1, 1, 'Y', '4', 'Y', 'admin', SYSDATE, SYS_GUID(), 1);
+
 
 INSERT INTO QUESTION (QUESTION_REF_ID, QUESTION_ID, SEQUENCE_NUMBER, SEQUENCE_STATUS, QUESTION, STATUS, GROUP_TYPE_CODE, QUESTION_TYPE_ID, LOOKUP_CLASS, LOOKUP_RETURN, DISPLAYED_ANSWERS, MAX_ANSWERS, ANSWER_MAX_LENGTH, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID, DOCUMENT_NUMBER)
 VALUES
-  (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL, -10082, 1, 'C', 'Is the effect being evaluated on health-related biomedical or behavioral outcome?', 'I', 4, 1,
+  (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL, -10133, 1, 'C', 'Is the effect being evaluated on health-related biomedical or behavioral outcome?', 'I', 4, 1,
                                      NULL, NULL, NULL, 1, 1, SYSDATE, 'admin', 1, SYS_GUID(), NULL);
 
 INSERT INTO QUESTIONNAIRE_QUESTIONS (QUESTIONNAIRE_QUESTIONS_ID, QUESTIONNAIRE_REF_ID_FK, QUESTION_REF_ID_FK, QUESTION_NUMBER, PARENT_QUESTION_NUMBER, QUESTION_SEQ_NUMBER, CONDITION_FLAG, CONDITION_TYPE, CONDITION_VALUE, UPDATE_USER, UPDATE_TIMESTAMP, OBJ_ID, VER_NBR)
@@ -60,7 +62,7 @@ VALUES (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL, (SELECT QUESTIONNAIRE_REF_ID
                                            WHERE QUESTIONNAIRE_ID = '-5' AND SEQUENCE_NUMBER = 1), (SELECT max(QUESTION_REF_ID)
                                                                                                     FROM QUESTION
                                                                                                     WHERE
-                                                                                                      QUESTION_ID = '-10082' AND SEQUENCE_NUMBER = 1),
+                                                                                                      QUESTION_ID = '-10133' AND SEQUENCE_NUMBER = 1),
                                           3, 2, 1, 'Y', '4', 'Y', 'admin', SYSDATE, SYS_GUID(), 1);
 
 INSERT INTO QUESTIONNAIRE_USAGE (QUESTIONNAIRE_USAGE_ID, MODULE_ITEM_CODE, MODULE_SUB_ITEM_CODE, QUESTIONNAIRE_REF_ID_FK, QUESTIONNAIRE_SEQUENCE_NUMBER, RULE_ID, QUESTIONNAIRE_LABEL, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID, IS_MANDATORY)
