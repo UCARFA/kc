@@ -23,18 +23,16 @@ import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolJavaFunctionKrmsTermServiceBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class IacucJavaFunctionKrmsTermServiceImpl extends ProtocolJavaFunctionKrmsTermServiceBase implements IacucJavaFunctionKrmsTermService {
-    private BusinessObjectService businessObjectService;
 
     @Override
     protected ProtocolBase getActiveProtocol(String protocolNumber) {
-        Map<String,String> keyMap = new HashMap<String,String>();
+        Map<String, String> keyMap = new HashMap<>();
         keyMap.put("protocolNumber", protocolNumber);
         List<IacucProtocol> protocols = (List <IacucProtocol>)getBusinessObjectService().findMatchingOrderBy(
                             IacucProtocol.class, keyMap, "sequenceNumber", false);
@@ -60,17 +58,4 @@ public class IacucJavaFunctionKrmsTermServiceImpl extends ProtocolJavaFunctionKr
     public String getNotifySubmissionTypeCode() {
         return IacucProtocolSubmissionType.FYI;
     }
-
-
-    @Override
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
 }
