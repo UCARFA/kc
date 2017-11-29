@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1711.0028
 * RESKC-2503: adding new clinical trial questionnaire
   * Travis Schneeberger on Wed, 29 Nov 2017 12:52:49 -0500 [View Commit](../../commit/835443fcfe4e5c9caff941ad685fb230f2b81102)
 * RESKC-2580: Fixing proposal delete when certifications exist (#2632)
