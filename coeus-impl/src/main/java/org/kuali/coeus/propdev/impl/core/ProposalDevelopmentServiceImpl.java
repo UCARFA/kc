@@ -29,6 +29,8 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonCertificationDetails;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -38,6 +40,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -56,6 +59,7 @@ import java.util.*;
 @Component("proposalDevelopmentService")
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
 
+    public static final String PROPOSAL_NUMBER = "proposalNumber";
     protected final Log LOG = LogFactory.getLog(ProposalDevelopmentServiceImpl.class);
 
     @Autowired
@@ -194,13 +198,21 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     public ProposalDevelopmentDocument deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
 
         handleProjectPush(proposalDocument.getDevelopmentProposal().getProposalNumber());
-
+        deleteCertDetails(proposalDocument.getDevelopmentProposal());
         dataObjectService.delete(proposalDocument.getDevelopmentProposal());
+
         proposalDocument.setDevelopmentProposal(null);
         proposalDocument.setProposalDeleted(true);
 
         proposalDocument = (ProposalDevelopmentDocument)getDocumentService().saveDocument(proposalDocument);
         return (ProposalDevelopmentDocument) getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
+    }
+
+    protected void deleteCertDetails(DevelopmentProposal proposal) {
+        HashMap<String, String> criteria = new HashMap<>();
+        criteria.put(PROPOSAL_NUMBER, proposal.getProposalNumber());
+        dataObjectService.deleteMatching(ProposalPersonCertificationDetails.class, QueryByCriteria.Builder.andAttributes(criteria).build());
+        proposal.getProposalPersons().forEach(proposalPerson -> proposalPerson.setCertificationDetails(null));
     }
 
     protected DocumentService getDocumentService() {

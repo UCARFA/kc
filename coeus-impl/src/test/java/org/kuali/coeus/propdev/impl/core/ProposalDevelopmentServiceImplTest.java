@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.kuali.coeus.coi.framework.Project;
 import org.kuali.coeus.coi.framework.ProjectPublisher;
 import org.kuali.coeus.coi.framework.ProjectRetrievalService;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.data.provider.impl.ProviderBasedDataObjectService;
 import org.kuali.rice.krad.document.Document;
@@ -60,6 +61,11 @@ public class ProposalDevelopmentServiceImplTest {
     class MockDataObjectService extends ProviderBasedDataObjectService {
         @Override
         public void delete(Object dataObject) {
+            deleteCalled = true;
+        }
+
+        @Override
+        public <T> void deleteMatching(Class<T> type, QueryByCriteria queryByCriteria) {
             deleteCalled = true;
         }
     }
