@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2503: adding new clinical trial questionnaire, fixing oracle script
+  * Travis Schneeberger on Wed, 29 Nov 2017 15:50:33 -0500 [View Commit](../../commit/ec181bdf521004580429429fe8a86c22133d4f35)
+* Make expiration date optional for expedited approvals
+  * blackcathacker on Tue, 28 Nov 2017 18:30:33 -0800 [View Commit](../../commit/4aae633107078a573c66c077e940ad39b2ac97d7)
+* Inactivate users in Core instead of deleting
+  * blackcathacker on Tue, 28 Nov 2017 15:59:52 -0800 [View Commit](../../commit/a5c1d6ebb1dd543a7c7b2627f607b28eb13393d0)
+
+## coeus-1711.0029
 * No Changes
 
 
