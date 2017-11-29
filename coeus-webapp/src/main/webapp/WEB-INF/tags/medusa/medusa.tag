@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 <c:choose>
 	<c:when test="${KualiForm.reactMedusaEnabled}">
-		<kra-m:medusaReact />
+		<iframe style="width: 100%; height: 90vh" frameBorder="0" src="research-common/medusa?module=${KualiForm.medusaBean.moduleName}&moduleId=${KualiForm.medusaBean.moduleIdentifier}"></iframe>
 	</c:when>
 	<c:otherwise>
 	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>

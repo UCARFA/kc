@@ -54,9 +54,11 @@
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportSimpleCrudRestSpringBeans.xml" />
 
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
-        p:prefix="/WEB-INF/client/" p:suffix=".html" />
-    
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+        p:prefix="/WEB-INF/client/" p:suffix=".html" p:order="0" />
+
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" p:order="1" />
     
     <!-- Load Business Rules for this module -->
     <bean id="commonKcBusinessRulesHandler" class="org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesHandler"/>

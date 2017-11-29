@@ -863,7 +863,7 @@ public class MedusaServiceImpl implements MedusaService {
     protected void setDocumentDescriptionIfEnabled(MedusaNode node, String coeusModule, Document document) {
         if (getDocumentDescriptionDisplayModules().contains(coeusModule) || getDocumentDescriptionDisplayModules().contains("*")) {
             String description = document != null && document.getDocumentHeader() != null ? document.getDocumentHeader().getDocumentDescription() : "";
-            description = description.length() <= MAX_DESCRIPTION_LENGTH ? description : description.substring(0, MAX_DESCRIPTION_LENGTH).concat("...");
+            description = StringUtils.substring(description, MAX_DESCRIPTION_LENGTH).concat("...");
             node.setDocumentDescription(description);
         }
     }
