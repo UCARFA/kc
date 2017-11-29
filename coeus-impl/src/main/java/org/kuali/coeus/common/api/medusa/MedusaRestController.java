@@ -17,14 +17,17 @@ import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ViewResolver;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Controller
@@ -40,6 +43,10 @@ public class MedusaRestController {
     @Autowired
     @Lazy
     private MedusaService medusaService;
+
+    @Autowired
+    @Qualifier("jspViewResolver")
+    private ViewResolver jspViewResolver;
 
     @GetMapping("/api/v1/medusa/tree")
     @ResponseBody
@@ -128,7 +135,7 @@ public class MedusaRestController {
         modelAndView.addObject("riceVersion", configurationService.getPropertyValueAsString("rice.version"));
         modelAndView.addObject("module", module);
         modelAndView.addObject("moduleId", moduleId);
-        modelAndView.setViewName("medusa/medusaReact");
+        modelAndView.setView(jspViewResolver.resolveViewName("medusa/medusaReact", Locale.US));
         return modelAndView;
     }
 
