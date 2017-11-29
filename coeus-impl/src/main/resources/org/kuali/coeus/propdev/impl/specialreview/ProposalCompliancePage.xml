@@ -78,46 +78,69 @@
         </property>
 		<property name="items">
 			<list>
-						<bean parent="PropDev-CompliancePage-SpecialReviewTypeCode" p:order="10" />
-						<bean parent="PropDev-CompliancePage-ApprovalTypeCode" p:order="20" />
-                        <bean parent="PropDev-CompliancePage-ProtocolStatus" p:order="25" />
-						<bean parent="PropDev-CompliancePage-ProtocolNumber" p:order="30" />
-						<bean parent="PropDev-CompliancePage-Dates" p:propertyName="applicationDate" p:order="40" />
-						<bean parent="PropDev-CompliancePage-Dates" p:propertyName="approvalDate" p:order="50" />
-						<bean parent="PropDev-CompliancePage-Dates" p:propertyName="expirationDate" p:order="60" />
-						<bean parent="PropDev-CompliancePage-ExemptionTypeCodes" p:order="70" />
-						<bean parent="Uif-InputField" p:propertyName="comments" p:order="80">
-                            <property name="control">
-                                <bean parent="Uif-TextAreaControl">
-                                    <property name="rows" value="2"/>
-                                    <property name="cols" value="120"/>
-                                </bean>
-                            </property>
+                <bean parent="PropDev-CompliancePage-SpecialReviewTypeCode" p:order="10" />
+                <bean parent="PropDev-CompliancePage-ApprovalTypeCode" p:order="20" />
+                <bean parent="PropDev-CompliancePage-ProtocolStatus" p:order="25" />
+                <bean parent="PropDev-CompliancePage-ProtocolNumber" p:order="30" />
+                <bean parent="PropDev-CompliancePage-Dates" p:propertyName="applicationDate" p:order="40" />
+                <bean parent="PropDev-CompliancePage-Dates" p:propertyName="approvalDate" p:order="50" />
+                <bean parent="PropDev-CompliancePage-Dates" p:propertyName="expirationDate" p:order="60" />
+                <bean parent="PropDev-CompliancePage-ExemptionTypeCodes" p:order="70" />
+                <bean parent="Uif-InputField" p:propertyName="comments" p:order="80">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl">
+                            <property name="rows" value="2"/>
+                            <property name="cols" value="120"/>
                         </bean>
+                    </property>
+                </bean>
 
-                        <bean parent="PropDev-CompliancePage-AttachmentType" p:order="90" p:render="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}" />
-                        <bean parent="PropDev-CompliancePage-ClinicalTrial" p:order="100" p:render="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}" />
+                <bean parent="PropDev-CompliancePage-AttachmentType" p:order="90" p:render="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}" />
+                <bean parent="PropDev-CompliancePage-ClinicalTrial" p:order="100" p:render="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}" />
 
-                        <bean parent="Uif-InputField" p:propertyName="specialReviewAttachment.studyTitle" p:label="Study Title" p:order="120"
-							  p:progressiveRender="@{#fp.specialReviewAttachment?.isAttachmentDelayedOnset?:false?'':false == '' and #fp.specialReviewAttachment.isAttachmentDelayedOnset == 'on'}"
-                              p:render="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}" >
-							<property name="control">
-                                <bean parent="Uif-TextAreaControl">
-                                    <property name="rows" value="2"/>
-                                    <property name="cols" value="120"/>
-                                </bean>
-                            </property>
+                <bean parent="Uif-InputField" p:propertyName="specialReviewAttachment.studyTitle" p:label="Study Title" p:order="120"
+                      p:progressiveRender="@{#fp.specialReviewAttachment?.isAttachmentDelayedOnset?:false?'':false == '' and #fp.specialReviewAttachment.isAttachmentDelayedOnset == 'on'}"
+                      p:render="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}" >
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl">
+                            <property name="rows" value="2"/>
+                            <property name="cols" value="120"/>
                         </bean>
+                    </property>
+                </bean>
 
-                        <bean parent="PropDev-CompliancePage-PropSpecialReviewAttachment" p:order="130"
-							  p:required="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}"
-							  p:render="@{!#ViewHelper.hasSpecialReviewAttachment(#line) and #ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}"/>
+                <bean parent="PropDev-CompliancePage-PropSpecialReviewAttachment" p:order="130" p:cssClasses="specialReviewAttachmentReplace@{#lineSuffix}"
+                      p:required="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line) and #index eq -1}"
+                      p:render="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}"
+                      p:hidden="@{#ViewHelper.hasSpecialReviewAttachment(#line)}"/>
 
-                        <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.showFileAttachmentName(#line)}"
-                            p:fieldLabel.labelText="Human Study Attachment"
-                            p:render="@{#ViewHelper.hasSpecialReviewAttachment(#line) and #ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}"
-                            p:order="140"/>
+                <bean parent="PropDev-CompliancePage-PropSpecialReviewAttachmentLink" p:order="140" p:cssClasses="specialReviewAttachmentCurrent@{#lineSuffix}"
+                      p:render="@{#ViewHelper.hasSpecialReviewAttachment(#line) and #ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}"/>
 
+                <bean parent="Uif-ActionField" p:order="150" p:actionLabel="Replace" p:cssClasses="specialReviewAttachmentCurrent@{#lineSuffix},pull-left"
+                      p:actionScript="jQuery('.specialReviewAttachmentReplace@{#lineSuffix}').show(); jQuery('.specialReviewAttachmentCurrent@{#lineSuffix}').hide();"
+                      p:render="@{#ViewHelper.hasSpecialReviewAttachment(#line) and #ViewHelper.isSpecialReviewAttachmentRequired(document, #line) and (#editModes[#proposalAuthConsts.OVERRIDE_PD_COMPLIANCE_ENTRY] or !#parent.readOnly)}">
+                    <property name="action">
+                        <bean parent="Uif-SecondaryActionButton-Mini" />
+                    </property>
+                </bean>
+
+                <bean parent="Uif-ActionField" p:order="160" p:actionLabel="Cancel" p:cssClasses="specialReviewAttachmentReplace@{#lineSuffix},pull-left"
+                      p:actionScript="jQuery('.specialReviewAttachmentReplace@{#lineSuffix}').hide(); jQuery('.specialReviewAttachmentCurrent@{#lineSuffix}').show();"
+                      p:render="@{#ViewHelper.hasSpecialReviewAttachment(#line) and #ViewHelper.isSpecialReviewAttachmentRequired(document, #line) and (#editModes[#proposalAuthConsts.OVERRIDE_PD_COMPLIANCE_ENTRY] or !#parent.readOnly)}"
+                      p:hidden="true">
+                    <property name="action">
+                        <bean parent="Uif-SecondaryActionButton-Mini" />
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionField" p:order="170" p:actionLabel="Update" p:cssClasses="specialReviewAttachmentReplace@{#lineSuffix},pull-left"
+                      p:methodToCall="replaceSpecialReviewAttachment" p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{#index}"
+                      p:render="@{#ViewHelper.hasSpecialReviewAttachment(#line) and #ViewHelper.isSpecialReviewAttachmentRequired(document, #line) and (#editModes[#proposalAuthConsts.OVERRIDE_PD_COMPLIANCE_ENTRY] or !#parent.readOnly)}"
+                      p:hidden="true">
+                    <property name="action">
+                        <bean parent="Uif-SecondaryActionButton-Mini" />
+                    </property>
+                </bean>
             </list>
 		</property>
 
@@ -213,12 +236,16 @@
 
     <bean id="PropDev-CompliancePage-PropSpecialReviewAttachment" parent="PropDev-CompliancePage-PropSpecialReviewAttachment-parentBean" />
     <bean id="PropDev-CompliancePage-PropSpecialReviewAttachment-parentBean" abstract="true" parent="Uif-InputField" p:propertyName="specialReviewAttachment.multipartFile"
-          p:readOnly="@{#ViewHelper.hasSpecialReviewAttachment(#line) || #lp.linkedToProtocol || #parent.readOnly}" p:label="Human Study Attachment">
+          p:readOnly="@{(#parent.readOnly and !#editModes[#proposalAuthConsts.OVERRIDE_PD_COMPLIANCE_ENTRY]) or #lp.linkedToProtocol}" p:label="Human Study Attachment">
             <property name="control">
                 <bean parent="Uif-FileControl"/>
             </property>
     </bean>
 
+	<bean id="PropDev-CompliancePage-PropSpecialReviewAttachmentLink" parent="PropDev-CompliancePage-PropSpecialReviewAttachmentLink-parentBean" />
+	<bean id="PropDev-CompliancePage-PropSpecialReviewAttachmentLink-parentBean" abstract="true" parent="Uif-LinkField"
+		  p:readOnly="true" p:link.linkText="@{#ViewHelper.showFileAttachmentName(#line)}" p:fieldLabel.labelText="Human Study Attachment"
+		  p:link.href="?methodToCall=getSpecialReviewAttachmentFromLine&amp;formKey=@{formKey}&amp;fileName=@{#ViewHelper.urlEncode(#line?.specialReviewAttachment?.name)}&amp;propertyPath=@{#collectionGroup.bindingInfo.bindingPath}&amp;selectedLineIndex=@{#index}" />
 
 	<bean id="PropDev-CompliancePage-ApprovalTypeCode" parent="PropDev-CompliancePage-ApprovalTypeCode-parentBean" />
 	<bean id="PropDev-CompliancePage-ApprovalTypeCode-parentBean"
