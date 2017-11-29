@@ -66,7 +66,7 @@
                     <th width="15%"> 
                         <div align="right">
                             <nobr>
-                                <kul:htmlAttributeLabel attributeEntry="${attributes.expirationDate}" />
+                                <kul:htmlAttributeLabel attributeEntry="${attributes.expirationDate}" forceRequired="true"/>
                             </nobr>
                         </div>
                     </th>
@@ -75,7 +75,7 @@
 
                             <kul:htmlControlAttribute property="${property}.expirationDate"
                                                       attributeEntry="${attributes.expirationDate}" 
-                                                      readOnly="${datesReadOnly}" />
+                                                      readOnly="${datesReadOnly}" forceRequired="true" />
                         </nobr>
                     </td>
                 </tr>
