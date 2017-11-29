@@ -1078,6 +1078,47 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 		Assert.assertEquals(TRUE, propDevJavaFunctionKrmsTermService.humanSubjectsSpecialReviewContainsPropertyValue(developmentProposal, "comments", "empty"));
 	}
 
+	@Test
+	public void test_clinicalTrialQuestionnaireRule() {
+		final DevelopmentProposal developmentProposal = createDevelopmentProposal();
+		final String studyTitle = "This is the title of the study";
+
+		Assert.assertEquals(FALSE, propDevJavaFunctionKrmsTermService.s2sHumanSubjectExists(developmentProposal));
+
+		ProposalSpecialReview otherSpecialReview = createProposalSpecialReview("4");
+		otherSpecialReview.setApprovalTypeCode("3");
+		otherSpecialReview.setDevelopmentProposal(developmentProposal);
+		otherSpecialReview.setComments("this one does have comments");
+		developmentProposal.getPropSpecialReviews().add(otherSpecialReview);
+
+		Assert.assertEquals(FALSE, propDevJavaFunctionKrmsTermService.s2sHumanSubjectExists(developmentProposal));
+
+		ProposalSpecialReview humanSubjectsSpecialReview = createProposalSpecialReview(SpecialReviewType.HUMAN_SUBJECTS);
+		ProposalSpecialReviewAttachment attachment = new ProposalSpecialReviewAttachment();
+		attachment.setClinicalTrial(false);
+		attachment.setIsAttachmentDelayedOnset(true);
+		attachment.setStudyTitle(studyTitle);
+		humanSubjectsSpecialReview.setHiddenInHierarchy(true);
+		humanSubjectsSpecialReview.setHierarchyProposalNumber("dummy");
+		humanSubjectsSpecialReview.setProtocolNumber("dummy");
+		humanSubjectsSpecialReview.setComments("");
+		humanSubjectsSpecialReview.setSpecialReviewAttachment(attachment);
+		humanSubjectsSpecialReview.setDevelopmentProposal(developmentProposal);
+		developmentProposal.getPropSpecialReviews().add(humanSubjectsSpecialReview);
+
+		Assert.assertEquals(FALSE, propDevJavaFunctionKrmsTermService.s2sHumanSubjectExists(developmentProposal));
+
+		developmentProposal.getPropSpecialReviews().remove(humanSubjectsSpecialReview);
+		developmentProposal.setS2sOpportunity(new S2sOpportunity());
+
+		Assert.assertEquals(FALSE, propDevJavaFunctionKrmsTermService.s2sHumanSubjectExists(developmentProposal));
+
+
+		developmentProposal.getPropSpecialReviews().add(humanSubjectsSpecialReview);
+
+		Assert.assertEquals(TRUE, propDevJavaFunctionKrmsTermService.s2sHumanSubjectExists(developmentProposal));
+	}
+
 	public DevelopmentProposal createDevelopmentProposal() {
 		final ProposalDevelopmentDocument proposalDevelopmentDocument = new ProposalDevelopmentDocument();
 		proposalDevelopmentDocument.getDocumentHeader().setDocumentNumber("123");
