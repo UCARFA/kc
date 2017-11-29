@@ -1,6 +1,13 @@
 
 
 ## CURRENT
+* RESKC-2503: adding new clinical trial questionnaire
+  * Travis Schneeberger on Wed, 29 Nov 2017 12:52:49 -0500 [View Commit](../../commit/835443fcfe4e5c9caff941ad685fb230f2b81102)
+* RESKC-2580: Fixing proposal delete when certifications exist (#2632)
+
+  * Gayathri Athreya on Wed, 29 Nov 2017 10:48:42 -0700 [View Commit](../../commit/f855391eac33d558901a1bacea5fa4ce4a1cdd41)
+
+## coeus-1711.0027
 * RESKC-2588: Ensure that KRMS validations are run on award submit
   * Jeff Largent on Tue, 28 Nov 2017 16:39:44 -0500 [View Commit](../../commit/cb631b7f2df7bbabb3315f7502c69e558711cf18)
 

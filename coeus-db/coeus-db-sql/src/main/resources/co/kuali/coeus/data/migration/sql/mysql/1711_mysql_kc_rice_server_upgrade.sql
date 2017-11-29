@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1711_002__compliance_entry_krms_function.sql
+\. ./rice/bootstrap/V1711_003__s2s_human_subjects_krms_function.sql
 commit;
