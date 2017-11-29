@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1711.0030
 * RESKC-2503: adding new clinical trial questionnaire, fixing oracle script
   * Travis Schneeberger on Wed, 29 Nov 2017 15:50:33 -0500 [View Commit](../../commit/ec181bdf521004580429429fe8a86c22133d4f35)
 * Make expiration date optional for expedited approvals
