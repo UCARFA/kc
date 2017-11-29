@@ -98,7 +98,7 @@ public abstract class AbstractCoreUserPushService<T> implements CoreUserPushServ
 						status.addNumberUpdated();
 					}
 				} else if (authServicePerson != null) {
-					removeUserFromAuthService(authServicePerson.getId());
+					disableUserInAuthService(authServicePerson);
 					status.addNumberRemoved();
 				}
 			} catch (HttpClientErrorException|HttpServerErrorException e) {
@@ -162,10 +162,11 @@ public abstract class AbstractCoreUserPushService<T> implements CoreUserPushServ
 		}
 	}
 
-	protected void removeUserFromAuthService(String userId) {
-		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl() + userId, HttpMethod.DELETE, 
-				new HttpEntity<AuthUser>(authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()), String.class);
-		if (result.getStatusCode() != HttpStatus.NO_CONTENT) {
+	protected void disableUserInAuthService(AuthUser disabledUser) {
+		disabledUser.setActive(false);
+		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl() + disabledUser.getId(), HttpMethod.PUT, 
+				new HttpEntity<AuthUser>(disabledUser, authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()), String.class);
+		if (result.getStatusCode() != HttpStatus.OK) {
 			throw new RestClientException(result.getBody());
 		}
 	}

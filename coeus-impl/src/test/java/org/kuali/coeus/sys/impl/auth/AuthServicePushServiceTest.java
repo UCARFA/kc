@@ -44,9 +44,9 @@ public class AuthServicePushServiceTest {
 	
 	private static final String TOP_LEVEL_UNIT_NUMBER = "000001";
 	
-	private Person person1;
-	private Person person2;
-	private Person person3;
+	private PersonMock person1;
+	private PersonMock person2;
+	private PersonMock person3;
 	
 	private List<AuthUser> addedUsers;
 	private List<AuthUser> updatedUsers;
@@ -149,6 +149,56 @@ public class AuthServicePushServiceTest {
 		assertEquals(1, status.getNumberSame());
 		assertEquals(1, status.getNumberAdded());
 		assertEquals(1, status.getNumberUpdated());
+	}
+	
+	@Test
+	public void testPushAllUsers_inactiveUser() {
+		person1.setActive(false);
+		AuthServicePushServiceImpl service = new AuthServicePushServiceImpl() {
+			protected List<Person> getAllPeople() {
+				List<Person> result = new ArrayList<>();
+				result.add(person1);
+				result.add(person2);
+				result.add(person3);
+				return result;
+			}
+			
+			@Override
+			protected List<AuthUser> getAllAuthServiceUsers() {
+				List<AuthUser> authServiceUserList = new ArrayList<AuthUser>();
+				authServiceUserList.add(this.generateAuthUserFromPerson(person1, groupIds));
+				authServiceUserList.add(this.generateAuthUserFromPerson(person2, groupIds));
+				authServiceUserList.get(1).setName("Testing Name Change");
+				return authServiceUserList;
+			}
+			
+			@Override
+			protected void addUserToAuthService(AuthUser newUser, String userPassword) { }
+			
+			@Override
+			protected void updateUserInAuthService(AuthUser updatedUser, String userId) { }
+			
+			@Override
+			protected void disableUserInAuthService(AuthUser authUser) { }
+			
+			@Override
+			protected List<String> getAdminUsers() {
+				return new ArrayList<>(Collections.singleton(person3.getPrincipalId()));
+			}
+			
+			@Override
+			protected boolean useDevPassword() {
+				return false;
+			}
+		};
+		service.setCoreGroupsService(buildMockCoreGroupsService());
+		CoreUsersPushStatus status = service.pushAllUsers();
+		assertNotNull(status);
+		assertEquals(3, status.getNumberOfUsers());
+		assertEquals(0, status.getNumberSame());
+		assertEquals(1, status.getNumberAdded());
+		assertEquals(1, status.getNumberUpdated());
+		assertEquals(1, status.getNumberRemoved());
 	}
 	
 	@Test
@@ -283,6 +333,7 @@ public class AuthServicePushServiceTest {
 		private String emailAddress;
 		private String phoneNumber;
 		private String primaryDepartmentCode;
+		private boolean active;
 		
 		public PersonMock(String principalId, String userName, String firstName, String lastName,
 				String name, String emailAddress, String phoneNumber, String primaryDepartmentCode) {
@@ -295,6 +346,7 @@ public class AuthServicePushServiceTest {
 			this.emailAddress = emailAddress;
 			this.phoneNumber = phoneNumber;
 			this.primaryDepartmentCode = primaryDepartmentCode;
+			this.active = true;
 		}
 		
 		public PersonMock(String userName, String firstName, String lastName, String phoneNumber) {
@@ -340,7 +392,11 @@ public class AuthServicePushServiceTest {
 		
 		@Override
 		public boolean isActive() {
-			return true;
+			return active;
+		}
+		
+		public void setActive(boolean active) {
+			this.active = active;
 		}
 
 		@Override

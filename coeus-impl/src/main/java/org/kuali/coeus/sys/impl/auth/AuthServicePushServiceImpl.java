@@ -102,6 +102,7 @@ public class AuthServicePushServiceImpl extends AbstractCoreUserPushService<Pers
 		kimAuthUser.setActive(person.isActive());
 		kimAuthUser.setRole(USER_ROLE);
 		kimAuthUser.setGroupId(groupIdsByUnitNumber.get(person.getPrimaryDepartmentCode()));
+		kimAuthUser.setActive(person.isActive());
 		return kimAuthUser;
 	}
 

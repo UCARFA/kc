@@ -46,13 +46,12 @@ public class AuthUser implements Serializable {
 	private String impersonatedBy;
 	private String displayName;
 	private String groupId;
+	private boolean active = true;
 	
 	@JsonIgnore
 	private String authToken;
 	@JsonIgnore
 	private Instant lastValidated;
-	@JsonIgnore
-	private boolean active = true;
 	@JsonIgnore
 	private String actualUser;
 	
@@ -170,6 +169,7 @@ public class AuthUser implements Serializable {
 			.append(firstName, rhs.firstName)
 			.append(lastName, rhs.lastName)
 			.append(groupId, rhs.groupId)
+			.append(active,  rhs.active)
 			.isEquals();
 	}
 	
