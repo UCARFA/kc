@@ -32,7 +32,18 @@ public class ProtocolExpeditedApproveRule extends ProtocolApproveRule {
 
     @Override
     public boolean processRules(ProtocolApproveEvent event) {
-        boolean isValid = super.processRules(event);
+        boolean isValid = true;
+        
+        if (event.getProtocolApproveBean().getApprovalDate() == null) {
+            isValid = false;
+            reportError(APPROVAL_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_APPROVAL_DATE_REQUIRED);  
+        }
+        
+        if (event.getProtocolApproveBean().getActionDate() == null) {
+            isValid = false;
+            reportError(ACTION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_GENERIC_ACTION_DATE_REQUIRED);  
+        }
+        
         ProtocolExpeditedApproveBean expeditedBean = (ProtocolExpeditedApproveBean)event.getProtocolApproveBean();
         if (expeditedBean.isAssignToAgenda() && StringUtils.isBlank(expeditedBean.getScheduleId())) {
             isValid = false;

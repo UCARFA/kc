@@ -49,7 +49,7 @@
         <property name="name" value="expirationDate"/>
         <property name="label" value="Expiration Date"/>
         <property name="shortLabel" value="Expiration Date"/>
-        <property name="required" value="true"/>
+        <property name="required" value="false"/>
         <property name="summary" value="Expiration Date"/>
         <property name="description" value="Expiration Date"/>
     </bean> 
