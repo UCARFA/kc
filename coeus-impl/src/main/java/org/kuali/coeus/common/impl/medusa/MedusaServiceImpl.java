@@ -69,6 +69,7 @@ import java.util.stream.Collectors;
 @Lazy
 public class MedusaServiceImpl implements MedusaService {
 
+    public static final int MAX_DESCRIPTION_LENGTH = 160;
     public static final String SHOW_MEDUSA_DOCUMENT_DESCRIPTIONS_PARAMETER = "Show_Document_Descriptions_In_Medusa";
     public static final String REACT_MEDUSA_ENABLED_PARAMETER = "Enable_Improved_Medusa_UI";
     private static final int INST_PROPOSAL_STATUS_FUNDED = 2;
@@ -862,7 +863,7 @@ public class MedusaServiceImpl implements MedusaService {
     protected void setDocumentDescriptionIfEnabled(MedusaNode node, String coeusModule, Document document) {
         if (getDocumentDescriptionDisplayModules().contains(coeusModule) || getDocumentDescriptionDisplayModules().contains("*")) {
             String description = document != null && document.getDocumentHeader() != null ? document.getDocumentHeader().getDocumentDescription() : "";
-            description = description.length() <= 120 ? description : description.substring(0, 120).concat("...");
+            description = description.length() <= MAX_DESCRIPTION_LENGTH ? description : description.substring(0, MAX_DESCRIPTION_LENGTH).concat("...");
             node.setDocumentDescription(description);
         }
     }
