@@ -145,6 +145,7 @@ public class QuestionnaireAnswerServiceTest {
         QuestionnaireQuestion questionnaireQuestion = new QuestionnaireQuestion();
         questionnaireQuestion.setQuestionNumber(questionNumber);
         questionnaireQuestion.setQuestionSeqNumber(questionNumber);
+        questionnaireQuestion.setQuestionId(Long.valueOf(questionNumber));
         questionnaireQuestion.setParentQuestionNumber(0);
         questionnaireQuestion.setQuestion(createQuestion(Long.parseLong(questionNumber.toString()), questionNumber));
         return questionnaireQuestion;
