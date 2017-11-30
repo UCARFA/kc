@@ -1,6 +1,44 @@
 
 
 ## CURRENT
+* RESKC-2599: Fixing based on PR comments and added license headers
+  * Jeff Largent on Thu, 30 Nov 2017 09:46:51 -0500 [View Commit](../../commit/1e495c5210d40243f63850b700aac762b2f2a783)
+* RESKC-2599: Switch back to explicit view resolution
+  * Jeff Largent on Wed, 29 Nov 2017 18:02:06 -0500 [View Commit](../../commit/7d1655e4e353a27c4598138dc127dc9d7aeb7463)
+* RESKC-2599: Fixed issue with UrlBasedViewResolver
+  * Jeff Largent on Wed, 29 Nov 2017 17:26:47 -0500 [View Commit](../../commit/dfd0645232b016a2a7b07daf4fbf2061bf39bb3d)
+* RESKC-2599: Incorporated PR feedback and fixed bootstrap global CSS issue
+  * Jeff Largent on Wed, 29 Nov 2017 17:21:18 -0500 [View Commit](../../commit/7d6c50b83d693b369ebf0bce05fcde204e27ca01)
+* RESKC-2599: Re-sequencing SQL scripts
+  * Jeff Largent on Wed, 29 Nov 2017 11:52:26 -0500 [View Commit](../../commit/b65f10eb11a4dea9b93dbccc1fb838856f86de88)
+* RESKC-2599: Moved magic number to constant
+  * Jeff Largent on Wed, 29 Nov 2017 10:59:59 -0500 [View Commit](../../commit/ca569d7958a630eec4e293cdf85fccc6fe5d2406)
+* RESKC-2599: Fixed CSS issue in KNS modules and removed "Preserve Context" checkbox
+  * Jeff Largent on Tue, 28 Nov 2017 15:31:39 -0500 [View Commit](../../commit/0b2677b22e5bf8acb916386f5a06761c86781812)
+* RESKC-2599: Resolved some CSS conflicts with KNS pages
+  * Jeff Largent on Tue, 21 Nov 2017 17:56:42 -0500 [View Commit](../../commit/39c415e26c218c2eff50c0bc8e7aca00c850b465)
+* RESKC-2599: Got React medusa working in KNS modules
+
+* Also fixed several context path issues.
+  * Jeff Largent on Tue, 21 Nov 2017 17:22:34 -0500 [View Commit](../../commit/6ea3de2dac0ed66a966ff3dea0808c8dbecf3382)
+* RESKC-2599: Added cache busting for React JS
+  * Jeff Largent on Tue, 21 Nov 2017 15:16:41 -0500 [View Commit](../../commit/5c1be2c782fd6135b09921498ef0362adf482327)
+* RESKC-2599: Updated script versions and cached Medusa node state
+  * Jeff Largent on Tue, 21 Nov 2017 09:53:05 -0500 [View Commit](../../commit/a545191f4caf2edb0696bab8e03add31a19bd074)
+* RESKC-2599: Added UI support for Protocols and Negotiations
+  * Jeff Largent on Fri, 27 Oct 2017 17:50:59 -0400 [View Commit](../../commit/913904a7de43c837b8c635e31e83a610fefb7c94)
+* RESKC-2599: Added support for document descriptions in Medusa tree view
+
+* Also refactored Medusa-related parameters so they can be retrieved from one place (the MedusaService)
+  * Jeff Largent on Fri, 27 Oct 2017 15:05:41 -0400 [View Commit](../../commit/7e0af16aef631b9eeea45e975455f3502eec6c63)
+* RESKC-2599: Added support for React Medusa view within Prop Dev
+
+  * and made the Uif spEL expressions slightly less terrible
+  * Jeff Largent on Thu, 26 Oct 2017 17:37:49 -0400 [View Commit](../../commit/c04ca3b3486234cf578f6c4588e890fc29ed97b5)
+* RESKC-2599: Added API support for Protocols and fixed some CSS issues
+  * Jeff Largent on Thu, 26 Oct 2017 14:31:46 -0400 [View Commit](../../commit/bd62b4d81484ca4be407edc84f575d5e0cb9db9d)
+
+## coeus-1711.0031
 * No Changes
 
 
