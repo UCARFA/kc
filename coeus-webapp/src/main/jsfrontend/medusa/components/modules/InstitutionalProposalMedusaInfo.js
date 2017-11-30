@@ -6,10 +6,10 @@ import MedusaHeading from '../MedusaHeading';
 import MedusaInvestigators from '../MedusaInvestigators';
 import MedusaLinks from '../MedusaLinks';
 import MedusaRow from '../MedusaRow';
-import { concat, formatUSD } from '../../utils';
+import { concat, formatUSD, linkTo } from '../../utils';
 
-const openIPLinkFor = docId => `../institutionalProposalHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true`;
-const openNotesLinkFor = docId => `../institutionalProposalHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true&tabStates(Notes)=OPEN#Notes`;
+const openIPLinkFor = docId => linkTo(`institutionalProposalHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true`);
+const openNotesLinkFor = docId => linkTo(`institutionalProposalHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true&tabStates(Notes)=OPEN#Notes`);
 
 const getIPLinksFor = docId => [
     { text: 'Open Proposal', href: openIPLinkFor(docId) },

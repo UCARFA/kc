@@ -20,10 +20,16 @@
 <%@ attribute name="helpParameterNamespace" required="false" %>
 <%@ attribute name="helpParameterDetailType" required="false" %>
 <%@ attribute name="helpParameterName" required="false" %>
+
+<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+<c:choose>
+	<c:when test="${KualiForm.reactMedusaEnabled}">
+		<iframe style="width: 100%; height: 90vh" frameBorder="0" src="research-common/medusa?module=${KualiForm.medusaBean.moduleName}&moduleId=${KualiForm.medusaBean.moduleIdentifier}"></iframe>
+	</c:when>
+	<c:otherwise>
 	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
 	<link rel="stylesheet" href="css/medusa.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
 	<script type="text/javascript">
 	   var $jq = jQuery.noConflict();
@@ -96,3 +102,5 @@ ${kfunc:registerEditableProperty(KualiForm, "medusaBean.moduleIdentifier")}
 <input type="hidden" id = "medusaBean.moduleIdentifier" name="medusaBean.moduleIdentifier" value="${KualiForm.medusaBean.moduleIdentifier}">
 
 </div>
+</c:otherwise>
+</c:choose>

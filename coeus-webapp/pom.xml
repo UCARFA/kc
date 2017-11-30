@@ -164,6 +164,13 @@
                         <resource>
                             <directory>${rice.web.sources}</directory>
                         </resource>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                            <filtering>true</filtering>
+                            <includes>
+                                <include>WEB-INF/web.xml</include>
+                            </includes>
+                        </resource>
                     </webResources>
                 </configuration>
             </plugin>
@@ -196,9 +203,27 @@
 		                        <resource>
 		                            <directory>${rice.web.sources}</directory>
 		                        </resource>
-		                        <resource>
-		                        	<directory>${jsfrontend.web.sources}</directory>
-		                        </resource>
+                                <resource>
+                                    <directory>${jsfrontend.web.sources}</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>**/*.html</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${jsfrontend.web.sources}</directory>
+                                    <filtering>false</filtering>
+                                    <excludes>
+                                        <exclude>**/*.html</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/webapp</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>WEB-INF/web.xml</include>
+                                    </includes>
+                                </resource>
 		                    </webResources>
 		                </configuration>
 		            </plugin>
@@ -238,6 +263,9 @@
 									<goal>gulp</goal>
 								</goals>
 								<configuration>
+                                    <environmentVariables>
+                                        <BUILD_TIMESTAMP>${frontend.timestamp}</BUILD_TIMESTAMP>
+                                    </environmentVariables>
 									<srcdir>${jsfrontend.sources}</srcdir>
 									<outputdir>${jsfrontend.web.sources}</outputdir>
 								</configuration>

@@ -19,14 +19,15 @@
 package org.kuali.coeus.sys.framework.model;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
+import org.kuali.coeus.common.questionnaire.framework.core.MultiQuestionableFormInterface;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionableFormInterface;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.SoftError;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.coeus.common.questionnaire.framework.core.MultiQuestionableFormInterface;
-import org.kuali.coeus.common.questionnaire.framework.core.QuestionableFormInterface;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
@@ -59,7 +60,7 @@ public abstract class KcTransactionalDocumentFormBase extends KualiTransactional
     private Map<String, Boolean> personEditableFields;
     
     private List<String> unitRulesMessages = new ArrayList<String>();
-   
+
     public String getActionName() {
         return actionName;
     }
@@ -388,5 +389,13 @@ public abstract class KcTransactionalDocumentFormBase extends KualiTransactional
 
     protected ConfigurationService getConfigurationService() {
         return KcServiceLocator.getService(ConfigurationService.class);
+    }
+
+    public boolean isReactMedusaEnabled() {
+        return getMedusaService().isReactMedusaEnabled();
+    }
+
+    protected MedusaService getMedusaService() {
+        return KcServiceLocator.getService(MedusaService.class);
     }
 }

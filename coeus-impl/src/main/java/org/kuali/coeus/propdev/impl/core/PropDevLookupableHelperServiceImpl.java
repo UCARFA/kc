@@ -23,6 +23,7 @@ import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.docperm.DocumentAccess;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
@@ -132,6 +133,10 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Autowired
     @Qualifier("personService")
     private PersonService personService;
+
+    @Autowired
+    @Qualifier("medusaService")
+    private MedusaService medusaService;
 
     @Override
     protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria,
@@ -541,6 +546,10 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
         if (!canModifyProposal && !canModifyBudget) {
                 fieldGroup.setRender(false);
         }
+    }
+
+    public boolean isReactMedusaEnabled() {
+        return medusaService.isReactMedusaEnabled();
     }
 
 	public KcAuthorizationService getKcAuthorizationService() {

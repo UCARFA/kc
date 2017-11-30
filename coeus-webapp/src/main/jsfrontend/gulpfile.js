@@ -22,7 +22,7 @@ var gutil = require('gulp-util');
 var rename = require('gulp-rename');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
-var webpackConfig = require('./webpack.config.js');
+var webpackConfig = require('./webpack.config.js')(process.env);
 
 
 var dest = process.env.OVERRIDE_DEST || '../../../target/generated-web-sources/jsfrontend-web-sources';
