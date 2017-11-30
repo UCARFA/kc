@@ -1,3 +1,21 @@
+/*
+ * Kuali Coeus, a comprehensive research administration system for higher education.
+ *
+ * Copyright 2005-2017 Kuali, Inc.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.kuali.coeus.common.api.medusa;
 
 import com.codiform.moo.curry.Translate;
@@ -38,10 +56,12 @@ public class MedusaRestController {
     public static final String PREFERRED_MODULE_PARAM = "preferredModule";
 
     @Autowired
+    @Qualifier("kualiConfigurationService")
     private ConfigurationService configurationService;
 
     @Autowired
     @Lazy
+    @Qualifier("medusaService")
     private MedusaService medusaService;
 
     @Autowired
@@ -130,9 +150,9 @@ public class MedusaRestController {
     @GetMapping("/medusa")
     public ModelAndView getMedusaPage(@RequestParam(MODULE_PARAM) String module, @RequestParam(MODULE_ID_PARAM) Long moduleId) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("appContext", configurationService.getPropertyValueAsString("app.context.name"));
-        modelAndView.addObject("frontendTimestamp", configurationService.getPropertyValueAsString("frontend.timestamp"));
-        modelAndView.addObject("riceVersion", configurationService.getPropertyValueAsString("rice.version"));
+        modelAndView.addObject("appContext", configurationService.getPropertyValueAsString(Constants.APP_CONTEXT_NAME));
+        modelAndView.addObject("frontendTimestamp", configurationService.getPropertyValueAsString(Constants.FRONTEND_TIMESTAMP));
+        modelAndView.addObject("riceVersion", configurationService.getPropertyValueAsString(Constants.RICE_VERSION));
         modelAndView.addObject("module", module);
         modelAndView.addObject("moduleId", moduleId);
         modelAndView.setView(jspViewResolver.resolveViewName("medusa/medusaReact", Locale.US));
