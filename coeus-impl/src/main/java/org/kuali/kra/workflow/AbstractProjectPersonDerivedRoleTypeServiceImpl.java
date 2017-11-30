@@ -19,21 +19,37 @@
 package org.kuali.kra.workflow;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class AbstractProjectPersonDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
-    
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
     protected abstract List<? extends AbstractProjectPerson> getProjectPersons(Map<String, String> qualification);
-    
+
+    protected Set<String> getAllProjectPersonRoleCodes() {
+        return dataObjectService.findAll(PropAwardPersonRole.class).getResults().stream()
+                .map(PropAwardPersonRole::getCode)
+                .collect(Collectors.toSet());
+    }
+
     /**
      * Filter the list of negotiation persons by their role. Typically the role name
      * is used to indicate PI, COI or KP. If the role name does not match any known
@@ -41,10 +57,8 @@ public abstract class AbstractProjectPersonDerivedRoleTypeServiceImpl extends De
      */
     protected List<? extends AbstractProjectPerson> filterListByRole(List<? extends AbstractProjectPerson> persons, String roleName) {
         List<AbstractProjectPerson> newPersons = new ArrayList<AbstractProjectPerson>();
-        if (StringUtils.equals(roleName, Constants.PRINCIPAL_INVESTIGATOR_ROLE)
-                || StringUtils.equals(roleName, Constants.CO_INVESTIGATOR_ROLE)
-                || StringUtils.equals(roleName, Constants.KEY_PERSON_ROLE)) {
-            for(AbstractProjectPerson person : persons) {
+        if (getAllProjectPersonRoleCodes().contains(roleName)) {
+            for (AbstractProjectPerson person : persons) {
                 if (StringUtils.equals(person.getRoleCode(), roleName)) {
                     newPersons.add(person);
                 }
