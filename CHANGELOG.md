@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2648: Updating to latest version of kc-rice
+  * Jeff Largent on Fri, 1 Dec 2017 14:50:23 -0500 [View Commit](../../commit/71aa05875f04219e1a1813906743d2464e8b91d9)
+
+## coeus-1712.0001
 * RESKC-2639: fixing tests
   * Travis Schneeberger on Fri, 1 Dec 2017 14:51:36 -0500 [View Commit](../../commit/4c76155b1106a264107d111c0ad1cbd7aec03cd7)
 * RESKC-2657: removing response streaming to work around citi server timeout
