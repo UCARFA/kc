@@ -1,6 +1,18 @@
 
 
 ## CURRENT
+* RESKC-2639: fixing tests
+  * Travis Schneeberger on Fri, 1 Dec 2017 14:51:36 -0500 [View Commit](../../commit/4c76155b1106a264107d111c0ad1cbd7aec03cd7)
+* RESKC-2657: removing response streaming to work around citi server timeout
+  * Travis Schneeberger on Fri, 1 Dec 2017 13:56:16 -0500 [View Commit](../../commit/782823e66499a8d6bfa1729b55c347db07259424)
+* RESKC-2639: fix test
+  * Travis Schneeberger on Thu, 30 Nov 2017 14:14:11 -0500 [View Commit](../../commit/339e5446efeae5bbe4c69833b07c10ea55188c01)
+* RESKC-2639: detects questions that do not have answers, initializes the answer records.
+  * Travis Schneeberger on Thu, 30 Nov 2017 12:50:32 -0500 [View Commit](../../commit/065786eabbac8c31cefdc4c7b7eabc0eba583ad9)
+* RESKC-2387: Support MPI (and custom person roles) for permissions and routing
+  * Jeff Largent on Thu, 30 Nov 2017 10:39:01 -0500 [View Commit](../../commit/4096289054bec8b58bec82b5a54aa1db66710431)
+
+## coeus-1711.0032
 * RESKC-2599: Fixing based on PR comments and added license headers
   * Jeff Largent on Thu, 30 Nov 2017 09:46:51 -0500 [View Commit](../../commit/1e495c5210d40243f63850b700aac762b2f2a783)
 * RESKC-2599: Switch back to explicit view resolution
