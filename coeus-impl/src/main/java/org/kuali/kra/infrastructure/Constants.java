@@ -37,7 +37,7 @@ public interface Constants {
     
     String KEY_PERSON_ROLE = "KP";
     String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
-    String ALL_INVESTIGATORS = "Investigators";
+    String ALL_INVESTIGATORS = "All Personnel";
     String PRINCIPAL_INVESTIGATOR = "Principle Investigator";
     String MULTI_PI_ROLE ="MPI";
     String CO_INVESTIGATOR_ROLE = "COI";
