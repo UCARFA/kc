@@ -144,10 +144,10 @@ public class PaymentScheduleBean implements Serializable {
         art.refreshReferenceObject("frequencyBase");
         
         String description = "";
-        description += StringUtils.isNotEmpty(art.getReport().getDescription()) ?  art.getReport().getDescription() : "";
-        description += StringUtils.isNotEmpty(art.getFrequency().getDescription()) ?  "-" + art.getFrequency().getDescription() : "";
-        description += StringUtils.isNotEmpty(art.getFrequencyBase().getDescription()) ?  "-" + art.getFrequencyBase().getDescription() : "";
-        description += StringUtils.isNotEmpty(art.getDistribution().getDescription()) ?  "-" + art.getDistribution().getDescription() : "";
+        description += art.getReport() != null && StringUtils.isNotEmpty(art.getReport().getDescription()) ?  art.getReport().getDescription() : "";
+        description += art.getFrequency() != null && StringUtils.isNotEmpty(art.getFrequency().getDescription()) ?  "-" + art.getFrequency().getDescription() : "";
+        description += art.getFrequencyBase() != null && StringUtils.isNotEmpty(art.getFrequencyBase().getDescription()) ?  "-" + art.getFrequencyBase().getDescription() : "";
+        description += art.getDistribution() != null && StringUtils.isNotEmpty(art.getDistribution().getDescription()) ?  "-" + art.getDistribution().getDescription() : "";
         description += ObjectUtils.isNotNull(art.getDueDate()) ?  "-" + art.getDueDate() : "";
 
         return description;
