@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2507: Additional null checking around award report tracking summary
+  * Jeff Largent on Mon, 4 Dec 2017 12:05:49 -0500 [View Commit](../../commit/fc70f7bf4d787320a5f841c4b957cb2668fabc7f)
+
+## coeus-1712.0003
 * RESKC-2498: Added ability to pull PD personnel units from multiple sources (#2641)
 
   * This commit enables optionally populating PD personnel units from appointments and affiliations, based on the following configuration options in the Prop Award Person Role maintenance table:
