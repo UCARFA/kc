@@ -19,3 +19,7 @@ version of that product required.
 ## 1709.0035
 
 - Project push now pushes an updated project with an active field of false on development proposal deletion.  Requires research-coi version 17.09.057
+
+## 1711.0030
+
+- Core User Push now sets users active/inactive flag instead of deleting inactive users from Core. Requires cor-main version 17.12.1
