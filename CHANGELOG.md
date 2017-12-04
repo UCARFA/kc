@@ -1,6 +1,20 @@
 
 
 ## CURRENT
+* RESKC-2498: Added ability to pull PD personnel units from multiple sources (#2641)
+
+  * This commit enables optionally populating PD personnel units from appointments and affiliations, based on the following configuration options in the Prop Award Person Role maintenance table:
+  * 
+* `NONE`: Don't populate any units for this role (e.g. Key Persons)
+* `PRIMARY`: Only populate the person's home unit (current behavior for investigators)
+* `ALL`: Populate all active units listed in the person employment info and kc person extended attributes appointments sections.
+* `SELECTED`: Populate only active units listed in the employment info / appointments sections based on a comma-separated list of affilliation types and appointment type codes.
+  * 
+  * To support these requirements, this PR also adds a couple of new UI components:
+* `GroupedValuesFinder` - ValuesFinder that aggregates the output of multiple sub-ValuesFinders under `<optgroup>` headings for use in grouped multiselect drop-downs.
+* `ValuesFinderDisplayInputField` - Used for displaying the descriptions association with selected keys from a multiselect drop-down in read-only mode.  * Jeff Largent on Mon, 4 Dec 2017 12:03:43 -0500 [View Commit](../../commit/b9780d217b4b1c7eabc82240cfc1579581862838)
+
+## coeus-1712.0002
 * RESKC-2648: Updating to latest version of kc-rice
   * Jeff Largent on Fri, 1 Dec 2017 14:50:23 -0500 [View Commit](../../commit/71aa05875f04219e1a1813906743d2464e8b91d9)
 
