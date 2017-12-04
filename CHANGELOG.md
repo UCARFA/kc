@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2498: Fixed issue with populating empty units for people with no employment info
+  * Jeff Largent on Mon, 4 Dec 2017 15:00:28 -0500 [View Commit](../../commit/3df67376eeaa6c3f74309c46a28d56f4028b2db9)
+
+## coeus-1712.0004
 * RESKC-2507: Additional null checking around award report tracking summary
   * Jeff Largent on Mon, 4 Dec 2017 12:05:49 -0500 [View Commit](../../commit/fc70f7bf4d787320a5f841c4b957cb2668fabc7f)
 
