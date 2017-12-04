@@ -1,6 +1,105 @@
 
 
 ## CURRENT
+* RESKC-2507: Additional null checking around award report tracking summary
+  * Jeff Largent on Mon, 4 Dec 2017 12:05:49 -0500 [View Commit](../../commit/fc70f7bf4d787320a5f841c4b957cb2668fabc7f)
+
+## coeus-1712.0003
+* RESKC-2498: Added ability to pull PD personnel units from multiple sources (#2641)
+
+  * This commit enables optionally populating PD personnel units from appointments and affiliations, based on the following configuration options in the Prop Award Person Role maintenance table:
+  * 
+* `NONE`: Don't populate any units for this role (e.g. Key Persons)
+* `PRIMARY`: Only populate the person's home unit (current behavior for investigators)
+* `ALL`: Populate all active units listed in the person employment info and kc person extended attributes appointments sections.
+* `SELECTED`: Populate only active units listed in the employment info / appointments sections based on a comma-separated list of affilliation types and appointment type codes.
+  * 
+  * To support these requirements, this PR also adds a couple of new UI components:
+* `GroupedValuesFinder` - ValuesFinder that aggregates the output of multiple sub-ValuesFinders under `<optgroup>` headings for use in grouped multiselect drop-downs.
+* `ValuesFinderDisplayInputField` - Used for displaying the descriptions association with selected keys from a multiselect drop-down in read-only mode.  * Jeff Largent on Mon, 4 Dec 2017 12:03:43 -0500 [View Commit](../../commit/b9780d217b4b1c7eabc82240cfc1579581862838)
+
+## coeus-1712.0002
+* RESKC-2648: Updating to latest version of kc-rice
+  * Jeff Largent on Fri, 1 Dec 2017 14:50:23 -0500 [View Commit](../../commit/71aa05875f04219e1a1813906743d2464e8b91d9)
+
+## coeus-1712.0001
+* RESKC-2639: fixing tests
+  * Travis Schneeberger on Fri, 1 Dec 2017 14:51:36 -0500 [View Commit](../../commit/4c76155b1106a264107d111c0ad1cbd7aec03cd7)
+* RESKC-2657: removing response streaming to work around citi server timeout
+  * Travis Schneeberger on Fri, 1 Dec 2017 13:56:16 -0500 [View Commit](../../commit/782823e66499a8d6bfa1729b55c347db07259424)
+* RESKC-2639: fix test
+  * Travis Schneeberger on Thu, 30 Nov 2017 14:14:11 -0500 [View Commit](../../commit/339e5446efeae5bbe4c69833b07c10ea55188c01)
+* RESKC-2639: detects questions that do not have answers, initializes the answer records.
+  * Travis Schneeberger on Thu, 30 Nov 2017 12:50:32 -0500 [View Commit](../../commit/065786eabbac8c31cefdc4c7b7eabc0eba583ad9)
+* RESKC-2387: Support MPI (and custom person roles) for permissions and routing
+  * Jeff Largent on Thu, 30 Nov 2017 10:39:01 -0500 [View Commit](../../commit/4096289054bec8b58bec82b5a54aa1db66710431)
+
+## coeus-1711.0032
+* RESKC-2599: Fixing based on PR comments and added license headers
+  * Jeff Largent on Thu, 30 Nov 2017 09:46:51 -0500 [View Commit](../../commit/1e495c5210d40243f63850b700aac762b2f2a783)
+* RESKC-2599: Switch back to explicit view resolution
+  * Jeff Largent on Wed, 29 Nov 2017 18:02:06 -0500 [View Commit](../../commit/7d1655e4e353a27c4598138dc127dc9d7aeb7463)
+* RESKC-2599: Fixed issue with UrlBasedViewResolver
+  * Jeff Largent on Wed, 29 Nov 2017 17:26:47 -0500 [View Commit](../../commit/dfd0645232b016a2a7b07daf4fbf2061bf39bb3d)
+* RESKC-2599: Incorporated PR feedback and fixed bootstrap global CSS issue
+  * Jeff Largent on Wed, 29 Nov 2017 17:21:18 -0500 [View Commit](../../commit/7d6c50b83d693b369ebf0bce05fcde204e27ca01)
+* RESKC-2599: Re-sequencing SQL scripts
+  * Jeff Largent on Wed, 29 Nov 2017 11:52:26 -0500 [View Commit](../../commit/b65f10eb11a4dea9b93dbccc1fb838856f86de88)
+* RESKC-2599: Moved magic number to constant
+  * Jeff Largent on Wed, 29 Nov 2017 10:59:59 -0500 [View Commit](../../commit/ca569d7958a630eec4e293cdf85fccc6fe5d2406)
+* RESKC-2599: Fixed CSS issue in KNS modules and removed "Preserve Context" checkbox
+  * Jeff Largent on Tue, 28 Nov 2017 15:31:39 -0500 [View Commit](../../commit/0b2677b22e5bf8acb916386f5a06761c86781812)
+* RESKC-2599: Resolved some CSS conflicts with KNS pages
+  * Jeff Largent on Tue, 21 Nov 2017 17:56:42 -0500 [View Commit](../../commit/39c415e26c218c2eff50c0bc8e7aca00c850b465)
+* RESKC-2599: Got React medusa working in KNS modules
+
+* Also fixed several context path issues.
+  * Jeff Largent on Tue, 21 Nov 2017 17:22:34 -0500 [View Commit](../../commit/6ea3de2dac0ed66a966ff3dea0808c8dbecf3382)
+* RESKC-2599: Added cache busting for React JS
+  * Jeff Largent on Tue, 21 Nov 2017 15:16:41 -0500 [View Commit](../../commit/5c1be2c782fd6135b09921498ef0362adf482327)
+* RESKC-2599: Updated script versions and cached Medusa node state
+  * Jeff Largent on Tue, 21 Nov 2017 09:53:05 -0500 [View Commit](../../commit/a545191f4caf2edb0696bab8e03add31a19bd074)
+* RESKC-2599: Added UI support for Protocols and Negotiations
+  * Jeff Largent on Fri, 27 Oct 2017 17:50:59 -0400 [View Commit](../../commit/913904a7de43c837b8c635e31e83a610fefb7c94)
+* RESKC-2599: Added support for document descriptions in Medusa tree view
+
+* Also refactored Medusa-related parameters so they can be retrieved from one place (the MedusaService)
+  * Jeff Largent on Fri, 27 Oct 2017 15:05:41 -0400 [View Commit](../../commit/7e0af16aef631b9eeea45e975455f3502eec6c63)
+* RESKC-2599: Added support for React Medusa view within Prop Dev
+
+  * and made the Uif spEL expressions slightly less terrible
+  * Jeff Largent on Thu, 26 Oct 2017 17:37:49 -0400 [View Commit](../../commit/c04ca3b3486234cf578f6c4588e890fc29ed97b5)
+* RESKC-2599: Added API support for Protocols and fixed some CSS issues
+  * Jeff Largent on Thu, 26 Oct 2017 14:31:46 -0400 [View Commit](../../commit/bd62b4d81484ca4be407edc84f575d5e0cb9db9d)
+
+## coeus-1711.0031
+* No Changes
+
+
+## coeus-1711.0030
+* RESKC-2503: adding new clinical trial questionnaire, fixing oracle script
+  * Travis Schneeberger on Wed, 29 Nov 2017 15:50:33 -0500 [View Commit](../../commit/ec181bdf521004580429429fe8a86c22133d4f35)
+* Make expiration date optional for expedited approvals
+  * blackcathacker on Tue, 28 Nov 2017 18:30:33 -0800 [View Commit](../../commit/4aae633107078a573c66c077e940ad39b2ac97d7)
+* Inactivate users in Core instead of deleting
+  * blackcathacker on Tue, 28 Nov 2017 15:59:52 -0800 [View Commit](../../commit/a5c1d6ebb1dd543a7c7b2627f607b28eb13393d0)
+
+## coeus-1711.0029
+* No Changes
+
+
+## coeus-1711.0028
+* RESKC-2503: adding new clinical trial questionnaire
+  * Travis Schneeberger on Wed, 29 Nov 2017 12:52:49 -0500 [View Commit](../../commit/835443fcfe4e5c9caff941ad685fb230f2b81102)
+* RESKC-2580: Fixing proposal delete when certifications exist (#2632)
+
+  * Gayathri Athreya on Wed, 29 Nov 2017 10:48:42 -0700 [View Commit](../../commit/f855391eac33d558901a1bacea5fa4ce4a1cdd41)
+
+## coeus-1711.0027
+* RESKC-2588: Ensure that KRMS validations are run on award submit
+  * Jeff Largent on Tue, 28 Nov 2017 16:39:44 -0500 [View Commit](../../commit/cb631b7f2df7bbabb3315f7502c69e558711cf18)
+
+## coeus-1711.0026
 * RESKC-2637: handling bad attachments
   * Travis Schneeberger on Tue, 28 Nov 2017 14:43:49 -0500 [View Commit](../../commit/8da85cf5a537118b7982030bcff6de8543911c5d)
 

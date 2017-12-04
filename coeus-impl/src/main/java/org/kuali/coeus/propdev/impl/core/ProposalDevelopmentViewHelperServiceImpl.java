@@ -32,6 +32,7 @@ import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
+import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.print.KcAttachmentDataSource;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -221,6 +222,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
+
+    @Autowired
+    @Qualifier("medusaService")
+    private MedusaService medusaService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -1156,6 +1161,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     
     public boolean syncAllRequiresEndDateExtension(DevelopmentProposal hierarchyProposal) {
     	return getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal);
+    }
+
+    public boolean isReactMedusaEnabled() {
+        return medusaService.isReactMedusaEnabled();
     }
 
     public SponsorSearchService getSponsorSearchService() {

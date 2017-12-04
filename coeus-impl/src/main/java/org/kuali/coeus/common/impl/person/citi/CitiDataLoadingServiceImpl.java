@@ -18,13 +18,11 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
 import java.beans.PropertyEditorSupport;
 import java.io.*;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -67,26 +65,27 @@ public class CitiDataLoadingServiceImpl implements CitiDataLoadingService {
             final Map<String, String> headerMap = getConfigurationService().getAllProperties().entrySet().stream()
                     .filter(e -> e.getKey().startsWith(CITI_HEADER_LABEL_PREFIX)).collect(CollectionUtils.entriesToMap());
 
-            COMMA_REGEX.splitAsStream(citiEndpoints).map(String::trim).forEach(endpoint -> {
-                //creating a custom ResponseExtractor so that the response can be streamed to avoid memory issues
-                getRestOperations().execute(endpoint, HttpMethod.GET, request -> {
-                }, response -> {
-                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.getBody()))) {
-                        CSVParser parser = CSVFormat.DEFAULT
-                                .withDelimiter(citiDelimiter)
-                                .withFirstRecordAsHeader()
-                                .withAllowMissingColumnNames(true)
-                                .withIgnoreEmptyLines(true)
-                                .withIgnoreHeaderCase(true)
-                                .withIgnoreSurroundingSpaces(true)
-                                .withTrim(true)
-                                .parse(reader);
+            //Purposefully not using a custom ResponseExtractor to stream the response.  This means the entire response stays in memory to be
+            //processed.  This is to avoid the citi endpoint from timing out when processing the response as a stream.
+            COMMA_REGEX.splitAsStream(citiEndpoints)
+                    .map(String::trim)
+                    .map(endpoint -> getRestOperations().getForObject(endpoint, String.class))
+                    .forEach(records -> {
+                        try (Reader reader = new StringReader(records)) {
+                            CSVParser parser = CSVFormat.DEFAULT
+                                    .withDelimiter(citiDelimiter)
+                                    .withFirstRecordAsHeader()
+                                    .withAllowMissingColumnNames(true)
+                                    .withIgnoreEmptyLines(true)
+                                    .withIgnoreHeaderCase(true)
+                                    .withIgnoreSurroundingSpaces(true)
+                                    .withTrim(true)
+                                    .parse(reader);
 
-                        processRecords(headerMap, parser.iterator());
-
-                    }
-                    return null;
-                });
+                            processRecords(headerMap, parser.iterator());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
             });
         }
     }

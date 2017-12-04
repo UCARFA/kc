@@ -42,7 +42,6 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public abstract class KcKrmsJavaFunctionTermServiceBase {
 
@@ -71,10 +70,10 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
     private VersionHistoryService versionHistoryService;
 
     public Boolean checkPropertyValueForAnyPreviousVersion(SequenceOwner<?> currentVersion, String property, String valueToCompare) {
-        return currentVersion.getVersionNameFieldValue() == null ? false:
-           getVersionHistories(currentVersion, currentVersion.getVersionNameFieldValue()).stream().filter(pastVersion ->
-                    isArchivedOrActive(pastVersion)).collect(Collectors.toList()).
-                    stream().anyMatch(pastVersion -> isPropertyValueMatches(currentVersion, property, valueToCompare, pastVersion));
+        return currentVersion.getVersionNameFieldValue() != null && getVersionHistories(currentVersion, currentVersion.getVersionNameFieldValue())
+                .stream()
+                .filter(this::isArchivedOrActive)
+                .anyMatch(pastVersion -> isPropertyValueMatches(currentVersion, property, valueToCompare, pastVersion));
     }
 
     protected boolean isPropertyValueMatches(SequenceOwner<?> currentVersion, String property, String valueToCompare, VersionHistory pastVersion) {
@@ -172,7 +171,7 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
     protected SequenceOwner<?> getLastActiveVersion(SequenceOwner<?> currentVersion) {
         SequenceOwner<?> highestActiveVersion = null;
         if (currentVersion.getVersionNameFieldValue() != null) {
-            for (VersionHistory pastVersion : getVersionHistories(currentVersion, currentVersion.getVersionNameFieldValue().toString())) {
+            for (VersionHistory pastVersion : getVersionHistories(currentVersion, currentVersion.getVersionNameFieldValue())) {
                 if (isHighestActiveVersion(highestActiveVersion, pastVersion, currentVersion)) {
                     highestActiveVersion = pastVersion.getSequenceOwner();
                 }
@@ -182,7 +181,7 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
     }
 
     private boolean isHighestActiveVersion(SequenceOwner<?> highestActiveVersion, VersionHistory pastVersion, SequenceOwner<?> currentVersion) {
-        return (pastVersion.getSequenceOwnerSequenceNumber() != currentVersion.getSequenceNumber() && isArchivedOrActive(pastVersion)) &&
+        return (!Objects.equals(pastVersion.getSequenceOwnerSequenceNumber(), currentVersion.getSequenceNumber()) && isArchivedOrActive(pastVersion)) &&
                 (highestActiveVersion == null || pastVersion.getSequenceOwnerSequenceNumber() > highestActiveVersion.getSequenceNumber());
     }
 

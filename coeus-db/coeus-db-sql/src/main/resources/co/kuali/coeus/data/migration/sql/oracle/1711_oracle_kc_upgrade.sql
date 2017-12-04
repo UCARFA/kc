@@ -22,4 +22,7 @@ set sqlblanklines on
 
 spool 1711_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1711_001__add_missing_forms_e_elements.sql
+@./kc/bootstrap/V1711_004__clinical_trial_questionnaire.sql
+@./kc/bootstrap/V1711_007__update_person_role_derived_roles.sql
+@./kc/bootstrap/V1711_008__auto_populate_person_units.sql
 commit;

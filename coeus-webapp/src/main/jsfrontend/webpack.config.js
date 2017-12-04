@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-module.exports = {
+module.exports = env => ({
 	devtool : 'eval',
 	entry: {
 		instituteRatesClient: './instituteRates/client/index.jsx',
@@ -26,7 +26,7 @@ module.exports = {
 	output: {
 		path: __dirname + '../../../target/generated-web-sources/jsfrontend-web-sources/client/assets/',
 		publicPath: '/client/assets/',
-		filename: '[name].js',
+		filename: `[name]-${env.BUILD_TIMESTAMP}.js`,
 		sourceMapFilename: '[file].map'
 	},
 	resolve: {
@@ -38,4 +38,4 @@ module.exports = {
 			{test: /\.jsx/, loader: 'babel-loader', 'exclude': /node_modules/}
 		]
 	}
-};
+});

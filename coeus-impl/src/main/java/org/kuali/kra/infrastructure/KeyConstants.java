@@ -148,6 +148,8 @@ public final class KeyConstants {
     public static final String INFO_PERSONNEL_INVALID_ROLE = "info.personnel.invalid.role";
     public static final String APPROVAL_CYCLE_COMPLETE = "info.proposal.approval.final";
 
+    public static final String ERROR_INVESTIGATOR_HOME_UNIT_REQUIRED = "error.investigator.home.unit.required";
+
     // proposal ynq errors
     public static final String ERROR_REQUIRED_FOR_EXPLANATION = "error.required.for.explanation";
     public static final String ERROR_REQUIRED_FOR_REVIEW_DATE = "error.required.for.reviewDate";

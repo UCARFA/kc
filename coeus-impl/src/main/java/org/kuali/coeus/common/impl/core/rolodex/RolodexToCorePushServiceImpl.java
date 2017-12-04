@@ -57,6 +57,7 @@ public class RolodexToCorePushServiceImpl extends AbstractCoreUserPushService<Ro
 		kimAuthUser.setActive(person.isActive());
 		kimAuthUser.setRole(EXTERNAL_ROLE);
 		kimAuthUser.setGroupId(groupIdsByUnitNumber.get(person.getOwnedByUnit()));
+		kimAuthUser.setActive(person.isActive());
 		return kimAuthUser;
 	}
 

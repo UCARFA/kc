@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus</artifactId>
-        <version>1711.0027-SNAPSHOT</version>
+        <version>1712.0005-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-impl</artifactId>
     <packaging>jar</packaging>
@@ -606,6 +606,16 @@
         	<groupId>org.mockito</groupId>
         	<artifactId>mockito-core</artifactId>
        	</dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito2</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.kuali.db.ojb</groupId>

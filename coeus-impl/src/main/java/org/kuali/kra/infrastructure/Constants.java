@@ -37,7 +37,7 @@ public interface Constants {
     
     String KEY_PERSON_ROLE = "KP";
     String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
-    String ALL_INVESTIGATORS = "Investigators";
+    String ALL_INVESTIGATORS = "All Personnel";
     String PRINCIPAL_INVESTIGATOR = "Principle Investigator";
     String MULTI_PI_ROLE ="MPI";
     String CO_INVESTIGATOR_ROLE = "COI";
@@ -915,6 +915,10 @@ public interface Constants {
     String SUBAWARD_MODULE = "subaward";
     String IRB_MODULE = "irb";
     String IACUC_MODULE = "iacuc";
+
+    String APP_CONTEXT_NAME = "app.context.name";
+    String FRONTEND_TIMESTAMP = "frontend.timestamp";
+    String RICE_VERSION = "rice.version";
     
     String PD_INITIATED_ROUTE_NODE_NAME = "Initiated";
 

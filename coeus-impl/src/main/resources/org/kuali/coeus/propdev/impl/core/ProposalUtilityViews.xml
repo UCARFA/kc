@@ -72,7 +72,7 @@
         <property name="renderForm" value="false"/>
         <property name="additionalScriptFiles">
             <list>
-                <value>client/assets/medusaClient.js</value>
+                <value>client/assets/medusaClient-@{#ConfigProperties['frontend.timestamp']}.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">

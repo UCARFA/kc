@@ -520,6 +520,7 @@
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
         <field-descriptor name="certificationRequired" column="CERTIFICATION_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="unitDetailsRequired" column="UNIT_DETAILS_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="autoPopulateUnitsCode" column="AUTO_POPULATE_UNITS" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

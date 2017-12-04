@@ -5,9 +5,9 @@ import MedusaEntry from '../MedusaEntry';
 import MedusaHeading from '../MedusaHeading';
 import MedusaLinks from '../MedusaLinks';
 import MedusaRow from '../MedusaRow';
-import { concat, formatUSD } from '../../utils';
+import { concat, formatUSD, linkTo } from '../../utils';
 
-const openSubAwardLinkFor = docId => `../subAwardHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true`;
+const openSubAwardLinkFor = docId => linkTo(`subAwardHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&medusaOpenedDoc=true`);
 
 const getSubAwardLinksFor = docId => [
     { text: 'Open Subaward', href: openSubAwardLinkFor(docId) }

@@ -27,9 +27,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
  */
 public class ProtocolApproveRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<ProtocolApproveEvent> {
     
-    private static final String APPROVAL_DATE_FIELD = "approvalDate";
-    private static final String EXPIRATION_DATE_FIELD = "expirationDate";
-    private static final String ACTION_DATE_FIELD = "actionDate";
+    protected static final String APPROVAL_DATE_FIELD = "approvalDate";
+    protected static final String EXPIRATION_DATE_FIELD = "expirationDate";
+    protected static final String ACTION_DATE_FIELD = "actionDate";
     
     @Override
     public boolean processRules(ProtocolApproveEvent event) {

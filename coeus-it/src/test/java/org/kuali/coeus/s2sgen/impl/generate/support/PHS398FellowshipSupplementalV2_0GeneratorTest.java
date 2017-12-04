@@ -30,20 +30,17 @@ import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
 import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
-import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
-import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
-import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
-import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms.S2sOppFormsId;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -311,117 +308,123 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 
 		document.getDevelopmentProposal().setNarratives(narrativeList);
 
-		BusinessObjectService businessObjectService = getService(BusinessObjectService.class);
-		ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(
-				document.getDevelopmentProposal());
+        saveAnswers(document);
+    }
 
-		AnswerHeader answerHeader = new AnswerHeader();
-		answerHeader.setModuleItemCode(moduleQuestionnaireBean
-				.getModuleItemCode());
-		answerHeader.setModuleItemKey(moduleQuestionnaireBean
-				.getModuleItemKey());
-		answerHeader.setModuleSubItemCode("2");
-		answerHeader.setModuleSubItemKey(moduleQuestionnaireBean
-				.getModuleSubItemKey());
+    protected void saveAnswers(ProposalDevelopmentDocument document) {
+        ProposalDevelopmentS2sQuestionnaireService service2 = KcServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
 
-		Questionnaire questionnaire = null;
-		questionnaire = businessObjectService.findBySinglePrimaryKey(
-				Questionnaire.class, 5276);
-		answerHeader.setQuestionnaireId(questionnaire.getId());
-		answerHeader.setQuestionnaire(questionnaire);
+        List<AnswerHeader> rawAnswerHeaders = service2.getProposalAnswerHeaderForForm(document.getDevelopmentProposal(), "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0", "PHS_Fellowship_Supplemental_2_0");
 
-		QuestionnaireQuestion questionnaireQuestion1 = null;
-		questionnaireQuestion1 = businessObjectService.findBySinglePrimaryKey(
-				QuestionnaireQuestion.class, 714);
-		Answer answer1 = new Answer();
-		answer1.setQuestionId(1L);
-		answer1.setAnswer("N");
-		answer1.setQuestionNumber(1);
-		answer1.setAnswerNumber(1);
-		answer1.setQuestionnaireQuestionsId(questionnaireQuestion1.getId());
-		answer1.setQuestionnaireQuestion(questionnaireQuestion1);
+        for (AnswerHeader answerHeader : rawAnswerHeaders) {
+            if (answerHeader.getLabel().contains("PHS Fellowship Form V1-2")) {
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for (Answer answer : answerDetails) {
+                    if (1 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (4 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (5 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (6 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (7 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (24 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (32 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (28 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (119 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (29 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (33 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (36 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (37 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (38 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (51 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (40 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (41 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (42 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (35 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (99 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (16 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (17 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (18 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (19 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (100 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (21 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (43 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (44 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (47 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (48 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (50 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (49 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (45 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (27 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (31 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (32 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (33 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (43 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (44 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (49 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (45 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (46 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (27 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (145 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (146 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (147 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (148 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (2 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (3 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("N");
+                    } else if (22 == answer.getQuestion().getQuestionSeqId()) {
+                        answer.setAnswer("1100 BIOCHEMISTRY");
+                    }
 
-		QuestionnaireQuestion questionnaireQuestion2 = null;
-		questionnaireQuestion2 = businessObjectService.findBySinglePrimaryKey(
-				QuestionnaireQuestion.class, 715);
-		Question question2 = businessObjectService.findBySinglePrimaryKey(
-				Question.class, 771);
-		questionnaireQuestion2.setQuestion(question2);
-		Answer answer2 = new Answer();
-		answer2.setQuestionId(771L);
-		answer2.setAnswer("N");
-		answer2.setQuestionNumber(1);
-		answer2.setAnswerNumber(1);
-		answer2.setQuestionnaireQuestionsId(questionnaireQuestion2.getId());
-		answer2.setQuestionnaireQuestion(questionnaireQuestion2);
-
-		QuestionnaireQuestion questionnaireQuestion3 = null;
-		questionnaireQuestion3 = businessObjectService.findBySinglePrimaryKey(
-				QuestionnaireQuestion.class, 717);
-		Question question3 = businessObjectService.findBySinglePrimaryKey(
-				Question.class, 773);
-		questionnaireQuestion3.setQuestion(question3);
-		Answer answer3 = new Answer();
-		answer3.setQuestionId(773L);
-		answer3.setAnswer("N");
-		answer3.setQuestionNumber(1);
-		answer3.setAnswerNumber(1);
-		answer3.setQuestionnaireQuestionsId(questionnaireQuestion3.getId());
-		answer3.setQuestionnaireQuestion(questionnaireQuestion3);
-
-		QuestionnaireQuestion questionnaireQuestion4 = null;
-		questionnaireQuestion4 = businessObjectService.findBySinglePrimaryKey(
-				QuestionnaireQuestion.class, 718);
-		Question question4 = businessObjectService.findBySinglePrimaryKey(
-				Question.class, 774);
-		questionnaireQuestion4.setQuestion(question4);
-		Answer answer4 = new Answer();
-		answer4.setQuestionId(774L);
-		answer4.setAnswer("N");
-		answer4.setQuestionNumber(1);
-		answer4.setAnswerNumber(1);
-		answer4.setQuestionnaireQuestionsId(questionnaireQuestion4.getId());
-		answer4.setQuestionnaireQuestion(questionnaireQuestion4);
-
-		QuestionnaireQuestion questionnaireQuestion5 = null;
-		questionnaireQuestion5 = businessObjectService.findBySinglePrimaryKey(
-				QuestionnaireQuestion.class, 721);
-		Question question5 = businessObjectService.findBySinglePrimaryKey(
-				Question.class, 791);
-		questionnaireQuestion5.setQuestion(question5);
-		Answer answer5 = new Answer();
-		answer5.setQuestionId(791L);
-		answer5.setAnswer("1100 BIOCHEMISTRY");
-		answer5.setQuestionNumber(1);
-		answer5.setAnswerNumber(1);
-		answer5.setQuestionnaireQuestionsId(questionnaireQuestion5.getId());
-		answer5.setQuestionnaireQuestion(questionnaireQuestion5);
-
-		QuestionnaireQuestion questionnaireQuestion6 = null;
-		questionnaireQuestion6 = businessObjectService.findBySinglePrimaryKey(
-				QuestionnaireQuestion.class, 723);
-		Question question6 = businessObjectService.findBySinglePrimaryKey(
-				Question.class, 793);
-		questionnaireQuestion6.setQuestion(question6);
-		Answer answer6 = new Answer();
-		answer6.setQuestionId(793L);
-		answer6.setAnswer("N");
-		answer6.setQuestionNumber(1);
-		answer6.setAnswerNumber(1);
-		answer6.setQuestionnaireQuestionsId(questionnaireQuestion6.getId());
-		answer6.setQuestionnaireQuestion(questionnaireQuestion6);
-
-		List<Answer> answers = new ArrayList<Answer>();
-		answers.add(answer1);
-		answers.add(answer2);
-		answers.add(answer3);
-		answers.add(answer4);
-		answers.add(answer5);
-		answers.add(answer6);
-		answerHeader.setAnswers(answers);
-		businessObjectService.save(answerHeader);
-		for (Answer a : answers) {
-			a.refreshReferenceObject("question");
-		}
+                }
+                getService(BusinessObjectService.class).save(answerHeader);
+            }
+        }
 	}
 }

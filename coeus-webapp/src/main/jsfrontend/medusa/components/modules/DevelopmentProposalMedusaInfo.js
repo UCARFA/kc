@@ -6,10 +6,10 @@ import MedusaHeading from '../MedusaHeading';
 import MedusaInvestigators from '../MedusaInvestigators';
 import MedusaLinks from '../MedusaLinks';
 import MedusaRow from '../MedusaRow';
-import { concat } from '../../utils';
+import { concat, linkTo } from '../../utils';
 
-const openPropDevLinkFor = docId =>  `../kc-pd-krad/proposalDevelopment?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}`;
-const openNotesLinkFor = docId => `../kc-pd-krad/proposalDevelopment?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&navigateToPageId=PropDev-AttachmentsPage&defaultOpenTab=PropDev-AttachmentsPage-NotesSection`;
+const openPropDevLinkFor = docId =>  linkTo(`kc-pd-krad/proposalDevelopment?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}`);
+const openNotesLinkFor = docId => linkTo(`kc-pd-krad/proposalDevelopment?methodToCall=docHandler&command=displayDocSearchView&docId=${docId}&navigateToPageId=PropDev-AttachmentsPage&defaultOpenTab=PropDev-AttachmentsPage-NotesSection`);
 
 const getPropDevLinks = docId => [
   { text: 'Open Proposal', href: openPropDevLinkFor(docId) },

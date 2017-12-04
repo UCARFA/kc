@@ -47,6 +47,8 @@ public class PropAwardPersonRole extends KcPersistableBusinessObjectBase impleme
 
     public static final String KEY_PERSON = "KP";
 
+    public static final String UNIT_SOURCE_SEPARATOR = ",";
+
     private static final long serialVersionUID = -2184772940618843909L;
 
     @PortableSequenceGenerator(name = "SEQ_EPS_PROP_PERSON_ROLE")
@@ -74,6 +76,12 @@ public class PropAwardPersonRole extends KcPersistableBusinessObjectBase impleme
     @Column(name = "UNIT_DETAILS_REQUIRED")
     @Convert(converter = BooleanYNConverter.class)
     private Boolean unitDetailsRequired = Boolean.TRUE;
+
+    @Column(name = "AUTO_POPULATE_UNITS")
+    private String autoPopulateUnitsCode = UnitPopulationBehavior.PRIMARY.getCode();
+
+    @Column(name = "SELECTED_UNIT_SOURCES")
+    private String selectedUnitSources;
 
     @Override
     public final String getCode() {
@@ -114,6 +122,26 @@ public class PropAwardPersonRole extends KcPersistableBusinessObjectBase impleme
 
     public void setCertificationRequired(Boolean certificationRequired) {
         this.certificationRequired = certificationRequired;
+    }
+
+    public String getAutoPopulateUnitsCode() {
+        return autoPopulateUnitsCode;
+    }
+
+    public void setAutoPopulateUnitsCode(String autoPopulateUnitsCode) {
+        this.autoPopulateUnitsCode = autoPopulateUnitsCode;
+    }
+
+    public UnitPopulationBehavior getUnitPopulationBehavior() {
+        return UnitPopulationBehavior.fromCode(getAutoPopulateUnitsCode());
+    }
+
+    public String getSelectedUnitSources() {
+        return selectedUnitSources;
+    }
+
+    public void setSelectedUnitSources(String selectedUnitSources) {
+        this.selectedUnitSources = selectedUnitSources;
     }
 
     @Override

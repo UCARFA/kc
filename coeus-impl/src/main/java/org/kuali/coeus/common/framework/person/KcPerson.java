@@ -26,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
+import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
@@ -56,6 +57,9 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Represents a person in KC.
@@ -944,7 +948,40 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     public Unit getUnit() {
         final String org = this.getOrganizationIdentifier();
         
-        return org != null ? (Unit) this.getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", org)) : null; 
+        return org != null ? this.getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", org)) : null;
+    }
+
+    /**
+     * Gets all units from a person's associated {@link org.kuali.rice.kim.api.identity.employment.EntityEmployment}
+     * and {@link PersonAppointment} entries
+     *
+     * @return all units associated with this person
+     */
+    public Collection<Unit> getAllUnits() {
+        return getAllUnits(false, null);
+    }
+
+    /**
+     * Gets all units from a person's associated {@link org.kuali.rice.kim.api.identity.employment.EntityEmployment}
+     * and {@link PersonAppointment} entries, optionally filtering them by their respective codes
+     *
+     * @param filterUnits whether or not to filter the units associated with this person by code
+     * @param includeCodes the appointment and affilliation type codes to include in the returned units
+     * @return all units associated with this person, optionally filtered by affiliation and appointment type
+     */
+    public Collection<Unit> getAllUnits(boolean filterUnits, Collection<String> includeCodes) {
+        List<String> unitNumbers = Stream.concat(
+                entity.getEmploymentInformation().stream()
+                    .filter(EntityEmploymentContract::isActive)
+                    .filter(empInfo -> !filterUnits || empInfo.isPrimary() || includeCodes.contains(empInfo.getEntityAffiliation().getAffiliationType().getCode()))
+                    .map(EntityEmploymentContract::getPrimaryDepartmentCode),
+                extendedAttributes.getPersonAppointments().stream()
+                    .filter(app -> org.kuali.coeus.sys.framework.util.DateUtils.isCurrentDateInRange(app.getStartDate(), app.getEndDate()))
+                    .filter(app -> !filterUnits || includeCodes.contains(app.getAppointmentType().getAppointmentTypeCode()))
+                    .map(PersonAppointment::getUnitNumber))
+                .collect(Collectors.toList());
+
+        return this.getBusinessObjectService().findMatching(Unit.class, Collections.singletonMap("unitNumber", unitNumbers));
     }
 
     @Override
