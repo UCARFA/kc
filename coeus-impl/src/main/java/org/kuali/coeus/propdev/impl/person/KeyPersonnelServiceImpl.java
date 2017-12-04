@@ -19,21 +19,29 @@
 package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
+import org.kuali.coeus.common.framework.person.UnitPopulationBehavior;
 import org.kuali.coeus.common.framework.person.attr.PersonBiosketch;
 import org.kuali.coeus.common.framework.person.attr.PersonDegree;
+import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.ynq.YnqService;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
-import org.kuali.coeus.propdev.impl.person.creditsplit.*;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
+import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
+import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
+import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -45,8 +53,6 @@ import org.springframework.stereotype.Component;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Component("keyPersonnelService")
 public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
@@ -79,9 +85,14 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     @Autowired
     @Qualifier("personEditableService")
     private PersonEditableService personEditableService;
+
     @Autowired
     @Qualifier("proposalPersonService")
     ProposalPersonService proposalPersonService;
+
+    @Autowired
+    @Qualifier("propAwardPersonRoleService")
+    PropAwardPersonRoleService propAwardPersonRoleService;
 
     protected ProposalPersonService getProposalPersonService (){return proposalPersonService;}
     public  void setProposalPersonService (ProposalPersonService proposalPersonService){
@@ -191,23 +202,41 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         else
         {   
             proposalPerson.setDivision(ROLODEX_PERSON);
-        } 
-        if (PRINCIPAL_INVESTIGATOR_ROLE.equals(proposalPerson.getProposalPersonRoleId())  ||
-                MULTI_PI_ROLE.equals(proposalPerson.getProposalPersonRoleId()) ||
-                CO_INVESTIGATOR_ROLE.equals(proposalPerson.getProposalPersonRoleId())) {
-            if (isNotBlank(proposalPerson.getHomeUnit()) && isValidHomeUnit(proposalPerson.getHomeUnit())){
-                addUnitToPerson(proposalPerson, createProposalPersonUnit(proposalPerson.getHomeUnit(), proposalPerson));
-            }
         }
         if (proposalPerson.getCitizenshipTypeCode() != null) {
             getDataObjectService().wrap(proposalPerson).fetchRelationship("citizenshipType");
         }
+        populatePersonUnits(document.getDevelopmentProposal(), proposalPerson);
         populateProposalPerson(proposalPerson, document);
     }
 
+    public void populatePersonUnits(DevelopmentProposal proposal, ProposalPerson proposalPerson) {
+        propAwardPersonRoleService.getRolesByHierarchy(proposal.getSponsorCode()).stream()
+                .filter(personRole -> personRole.getCode().equals(proposalPerson.getProposalPersonRoleId()))
+                .findFirst()
+                .map(personRole -> getUnitsForPerson(proposalPerson, personRole))
+                .ifPresent(units -> units.forEach(unit -> addUnitToPerson(proposalPerson, createProposalPersonUnit(unit, proposalPerson))));
+    }
 
-    public boolean isValidHomeUnit(String unitId){
-        return getBusinessObjectService().countMatching(Unit.class, Collections.singletonMap("unitNumber", unitId)) > 0;
+    protected Set<String> getUnitsForPerson(ProposalPerson proposalPerson, PropAwardPersonRole personRole) {
+        Collection<String> selectedCodes = StringUtils.isNotBlank(personRole.getSelectedUnitSources()) ?
+                Arrays.asList(StringUtils.split(personRole.getSelectedUnitSources(), PropAwardPersonRole.UNIT_SOURCE_SEPARATOR)) :
+                Collections.emptyList();
+        switch (UnitPopulationBehavior.fromCode(personRole.getAutoPopulateUnitsCode())) {
+            case PRIMARY:
+                return Collections.singleton(proposalPerson.getHomeUnit());
+            case ALL:
+                return proposalPerson.getPerson().getAllUnits().stream()
+                        .map(Unit::getUnitNumber)
+                        .collect(Collectors.toSet());
+            case SELECTED:
+                return proposalPerson.getPerson().getAllUnits(true, selectedCodes).stream()
+                        .map(Unit::getUnitNumber)
+                        .collect(Collectors.toSet());
+            case NONE:
+            default:
+                return Collections.emptySet();
+        }
     }
 
     @Override
@@ -407,10 +436,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         for (Unit found : units) {
             retval.setUnitNumber(found.getUnitNumber());
             retval.setUnit(found);
-        } 
+        }
         retval.getCreditSplits().addAll(createCreditSplits(retval));
 
-        return retval;        
+        return retval;
     }
 
     @Override

@@ -35,8 +35,7 @@
           p:dataObjectClassName="org.kuali.coeus.common.framework.person.PropAwardPersonRole">
         <property name="items">
             <list merge="true">
-                <bean parent="Uif-MaintenanceGridSection"
-                      p:headerText="Proposal Award Person Role">
+                <bean parent="Uif-MaintenanceGridSection" p:headerText="Proposal Award Person Role">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="code" p:required="true" p:order="10"/>
@@ -46,6 +45,11 @@
                             <bean parent="Uif-InputField" p:propertyName="readOnly" p:order="40"/>
                             <bean parent="Uif-InputField" p:propertyName="certificationRequired" p:order="50"/>
                             <bean parent="Uif-InputField" p:propertyName="unitDetailsRequired" p:order="60"/>
+                            <bean parent="Uif-InputField" p:propertyName="autoPopulateUnitsCode" p:order="70"
+                                  p:onChangeScript="if (e.target.value != '#{T(org.kuali.coeus.common.framework.person.UnitPopulationBehavior).SELECTED.code}') { jQuery('select[name$=selectedUnitSources] option').prop('selected', false); }"/>
+                            <bean id="unitSources" parent="Uif-ValuesFinderDisplayInputField" p:propertyName="selectedUnitSources"
+                                  p:hidden="@{#fp.autoPopulateUnitsCode != '#{T(org.kuali.coeus.common.framework.person.UnitPopulationBehavior).SELECTED.code}'}"
+                                  p:refreshWhenChangedPropertyNames="#fp.autoPopulateUnitsCode" p:order="80"/>
                         </list>
                     </property>
                 </bean>

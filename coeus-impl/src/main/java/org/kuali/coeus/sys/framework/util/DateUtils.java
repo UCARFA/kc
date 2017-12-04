@@ -19,7 +19,9 @@
 package org.kuali.coeus.sys.framework.util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.mo.common.active.InactivatableFromToUtils;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -282,5 +284,16 @@ public final class DateUtils {
         }
 
         return intHour + ":" + minute + " " + amPmMarker;
+    }
+
+    public static boolean isCurrentDateInRange(Date startDate, Date endDate) {
+        return isDateInRange(startDate, endDate, null);
+    }
+
+    public static boolean isDateInRange(Date startDate, Date endDate, Date currentDate) {
+        DateTime currentDateTime = currentDate == null ? DateTime.now() : new DateTime(currentDate.getTime());
+        DateTime startDateTime = startDate == null ? null : new DateTime(startDate.getTime());
+        DateTime endDateTime = endDate == null ? null : new DateTime(endDate.getTime());
+        return InactivatableFromToUtils.isActive(startDateTime, endDateTime, currentDateTime);
     }
 }
