@@ -217,7 +217,7 @@ public class KeyPersonnelServiceImplTest {
         proposalPerson.setHomeUnit(empInfos.stream()
                 .filter(empInfo -> empInfo.isActive() && empInfo.isPrimary())
                 .map(EntityEmploymentContract::getPrimaryDepartmentCode)
-                .findFirst().get());
+                .findFirst().orElse(""));
 
         KcPerson person = new KcPerson();
         KcPersonExtendedAttributes attributes = new KcPersonExtendedAttributes();
@@ -370,6 +370,14 @@ public class KeyPersonnelServiceImplTest {
         keyPersonnelService.populatePersonUnits(mock(DevelopmentProposal.class), proposalPerson);
         assertEquals(2, proposalPerson.getUnits().size());
         assertProposalPersonHasUnits(proposalPerson, PRIMARY_UNIT, "BL-BL");
+    }
+
+    @Test
+    public void test_primaryUnitPopulationFiltersEmptyUnits() {
+        mockPropAwardPersonRoles(createPropAwardPersonRole(PropAwardPersonRole.PI_CODE, UnitPopulationBehavior.PRIMARY, FACULTY_AFFILIATION_CODE));
+        ProposalPerson proposalPerson = createProposalPerson(PropAwardPersonRole.PI_CODE, Collections.emptyList(), Collections.emptyList());
+        keyPersonnelService.populatePersonUnits(mock(DevelopmentProposal.class), proposalPerson);
+        assertTrue(proposalPerson.getUnits().isEmpty());
     }
 
     private void assertProposalPersonHasUnits(ProposalPerson person, String... units) {

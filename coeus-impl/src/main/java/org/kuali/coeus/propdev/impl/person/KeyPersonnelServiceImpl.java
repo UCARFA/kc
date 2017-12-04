@@ -224,7 +224,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                 Collections.emptyList();
         switch (UnitPopulationBehavior.fromCode(personRole.getAutoPopulateUnitsCode())) {
             case PRIMARY:
-                return Collections.singleton(proposalPerson.getHomeUnit());
+                return StringUtils.isEmpty(proposalPerson.getHomeUnit()) ? Collections.emptySet() : Collections.singleton(proposalPerson.getHomeUnit());
             case ALL:
                 return proposalPerson.getPerson().getAllUnits().stream()
                         .map(Unit::getUnitNumber)
