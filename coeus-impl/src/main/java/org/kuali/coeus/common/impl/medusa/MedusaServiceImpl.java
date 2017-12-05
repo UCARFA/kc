@@ -50,6 +50,7 @@ import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -862,8 +863,11 @@ public class MedusaServiceImpl implements MedusaService {
 
     protected void setDocumentDescriptionIfEnabled(MedusaNode node, String coeusModule, Document document) {
         if (getDocumentDescriptionDisplayModules().contains(coeusModule) || getDocumentDescriptionDisplayModules().contains("*")) {
-            String description = document != null && document.getDocumentHeader() != null ? document.getDocumentHeader().getDocumentDescription() : "";
-            description = StringUtils.substring(description, MAX_DESCRIPTION_LENGTH).concat("...");
+            String description = Optional.ofNullable(document)
+                    .map(Document::getDocumentHeader)
+                    .map(DocumentHeader::getDocumentDescription)
+                    .map(d -> d.length() > MAX_DESCRIPTION_LENGTH ? d.substring(0, MAX_DESCRIPTION_LENGTH).concat("...") : d)
+                    .orElse("");
             node.setDocumentDescription(description);
         }
     }
