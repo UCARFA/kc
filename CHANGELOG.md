@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* Update api changelog
+  * blackcathacker on Mon, 4 Dec 2017 15:25:06 -0800 [View Commit](../../commit/a3b27e1a04096c0665e0e518f24e7556e8ef11b8)
+
+## coeus-1712.0005
 * RESKC-2498: Fixed issue with populating empty units for people with no employment info
   * Jeff Largent on Mon, 4 Dec 2017 15:00:28 -0500 [View Commit](../../commit/3df67376eeaa6c3f74309c46a28d56f4028b2db9)
 
