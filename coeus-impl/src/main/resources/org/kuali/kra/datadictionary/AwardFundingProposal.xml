@@ -35,6 +35,9 @@
                 <ref bean="AwardFundingProposal-awardId" />
                 <ref bean="AwardFundingProposal-proposalId" />
                 <ref bean="AwardFundingProposal-versionNumber" />
+                <ref bean="AwardFundingProposal-proposal.proposalNumber" />
+                <ref bean="AwardFundingProposal-award.awardNumber" />
+
             </list>
         </property>
     </bean>
@@ -62,7 +65,51 @@
         <property name="summary" value="Award Funding Proposal Id" />
         <property name="description" value="Award Funding Proposal Id" />
     </bean>
+    <bean id="AwardFundingProposal-award.awardNumber" parent="AwardFundingProposal-award.awardNumber-parentBean" />
+    <bean id="AwardFundingProposal-award.awardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="award.awardNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Award Number" />
+        <property name="shortLabel" value="Award Number" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Award Number" />
+        <property name="description" value="Award Number" />
+    </bean>
 
+    <bean id="AwardFundingProposal-proposal.proposalNumber" parent="AwardFundingProposal-proposal.proposalNumber-parentBean" />
+    <bean id="AwardFundingProposal-proposal.proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="proposal.proposalNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Proposal Number" />
+        <property name="shortLabel" value="Proposal Number" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Award Funding Proposal Number" />
+        <property name="description" value="Award Funding Proposal Number" />
+    </bean>
     <bean id="AwardFundingProposal-awardId" parent="AwardFundingProposal-awardId-parentBean" />
     <bean id="AwardFundingProposal-awardId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="awardId" />
@@ -126,6 +173,7 @@
               <bean parent="FieldDefinition" p:attributeName="awardFundingProposalId" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="awardId"/>
               <bean parent="FieldDefinition" p:attributeName="proposalId"/>
+                            <bean parent="FieldDefinition" p:attributeName="proposal.proposalNumber"/>
             </list>
           </property>
         </bean>
@@ -146,6 +194,7 @@
               <bean p:propertyName="awardFundingProposalId" parent="Uif-DataField"/>
               <bean p:propertyName="awardId" parent="Uif-DataField"/>
               <bean p:propertyName="proposalId" parent="Uif-DataField"/>
+                <bean p:propertyName="proposal.proposalNumber" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -165,6 +214,7 @@
         <bean parent="FieldDefinition" p:attributeName="awardFundingProposalId" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="awardId"/>
         <bean parent="FieldDefinition" p:attributeName="proposalId"/>
+                <bean parent="FieldDefinition" p:attributeName="proposal.proposalNumber"/>
             </list>
         </property>
         <property name="resultFields" >
@@ -172,6 +222,8 @@
         <bean parent="FieldDefinition" p:attributeName="awardFundingProposalId" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="awardId"/>
         <bean parent="FieldDefinition" p:attributeName="proposalId"/>
+                <bean parent="FieldDefinition" p:attributeName="proposal.proposalNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="award.awardNumber"/>
             </list>
         </property>
     </bean>
@@ -184,6 +236,7 @@
         <bean p:propertyName="awardFundingProposalId" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="awardId" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="proposalId" parent="Uif-LookupCriteriaInputField"/>
+          <bean p:propertyName="proposal.proposalNumber" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
@@ -191,6 +244,8 @@
         <bean p:propertyName="awardFundingProposalId" parent="Uif-DataField"/>
         <bean p:propertyName="awardId" parent="Uif-DataField"/>
         <bean p:propertyName="proposalId" parent="Uif-DataField"/>
+          <bean p:propertyName="proposal.proposalNumber" parent="Uif-DataField"/>
+          <bean p:propertyName="award.awardNumber" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

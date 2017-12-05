@@ -125,6 +125,7 @@
 		</collection-descriptor>
 		<collection-descriptor name="allFundingProposals" proxy="true" element-class-ref="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<query-customizer class="org.kuali.kra.award.dao.ojb.AllFundingProposalQueryCustomizer"/>
+			<inverse-foreignkey field-ref="awardId"/>
 		</collection-descriptor>
 		
         <collection-descriptor name="projectPersons" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
