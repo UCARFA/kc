@@ -19,7 +19,6 @@
 package org.kuali.kra.award.budget;
 
 
-import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -825,6 +824,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     
     protected void copyProposalBudgetLineItemsToAwardBudget(AwardBudgetPeriodExt awardBudgetPeriod, BudgetPeriod proposalBudgetPeriod) {
+        boolean changeLineItemDates = false;
     	boolean warnOfRateEffectiveDateChange = false;
     	final Budget awardBudget = awardBudgetPeriod.getBudget();
 		Date currentEffectiveDate = getEffectiveRateStartDate(awardBudget);
@@ -838,7 +838,9 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             BeanUtils.copyProperties(budgetLineItem, awardBudgetLineItem, ignoreProperties);
             awardBudgetLineItem.setLineItemNumber(awardBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             awardBudgetLineItem.setBudgetId(awardBudgetPeriod.getBudgetId());
-            boolean changeLineItemDates = adjustLineItemDatesIfNecessary(awardBudgetLineItem, awardBudgetPeriod.getStartDate(), awardBudgetPeriod.getEndDate());
+            // Always set line item start and end dates to period dates, since they can't be changed after copy
+            awardBudgetLineItem.setStartDate(awardBudgetPeriod.getStartDate());
+            awardBudgetLineItem.setEndDate(awardBudgetPeriod.getEndDate());
             
             List<BudgetPersonnelDetails> awardBudgetPersonnelLineItems = awardBudgetLineItem.getBudgetPersonnelDetailsList();
             List<BudgetPersonnelDetails> budgetPersonnelLineItems = budgetLineItem.getBudgetPersonnelDetailsList();
@@ -869,7 +871,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 awardBudgetPerDetails.setBudget(awardBudget);
                 awardBudgetPerDetails.setBudgetId(awardBudgetPeriod.getBudgetId());
                 awardBudgetPerDetails.setCostElement(awardBudgetLineItem.getCostElement());
-                changeLineItemDates &= adjustLineItemDatesIfNecessary(awardBudgetPerDetails, awardBudgetLineItem.getStartDate(), awardBudgetLineItem.getEndDate());
+                changeLineItemDates |= adjustLineItemDatesIfNecessary(awardBudgetPerDetails, awardBudgetLineItem.getStartDate(), awardBudgetLineItem.getEndDate());
                 awardBudgetPersonnelLineItems.add(awardBudgetPerDetails);
             }
             if (changeLineItemDates) {
