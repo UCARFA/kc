@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-2599: Fixed doc description truncation issue
+  * Jeff Largent on Tue, 5 Dec 2017 17:35:47 -0500 [View Commit](../../commit/b0346c1652c5b686bbf4cd01eea8d2aebda40e16)
+* RESKC-2659: Bumping s2sgen version to fix stylesheet issue
+  * Jeff Largent on Tue, 5 Dec 2017 16:49:05 -0500 [View Commit](../../commit/631344cdfa6e1ea1974d4620d10da3876b56c8c7)
+
+## coeus-1712.0007
 * RESKC-2482: Fixed issue where the dates of imported award budget line items (#2645)
 
   * weren't updated to match award budget period dates, leading to a situation where the budget personnel details dates could be changed to get out of sync with the underlying line item dates (which are fixed after copy).
