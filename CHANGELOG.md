@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-2482: Fixed issue where the dates of imported award budget line items (#2645)
+
+  * weren't updated to match award budget period dates, leading to a situation where the budget personnel details dates could be changed to get out of sync with the underlying line item dates (which are fixed after copy).
+  * Jeff Largent on Tue, 5 Dec 2017 10:37:42 -0500 [View Commit](../../commit/7b90448ede2439adeae936b63f621268cb046313)
+
+## coeus-1712.0006
 * Update api changelog
   * blackcathacker on Mon, 4 Dec 2017 15:25:06 -0800 [View Commit](../../commit/a3b27e1a04096c0665e0e518f24e7556e8ef11b8)
 
