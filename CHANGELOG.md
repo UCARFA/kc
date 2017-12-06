@@ -4,6 +4,10 @@
 * No Changes
 
 
+## coeus-1712.0009
+* No Changes
+
+
 ## coeus-1712.0008
 * RESKC-2599: Fixed doc description truncation issue
   * Jeff Largent on Tue, 5 Dec 2017 17:35:47 -0500 [View Commit](../../commit/b0346c1652c5b686bbf4cd01eea8d2aebda40e16)
