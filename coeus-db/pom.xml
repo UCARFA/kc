@@ -56,7 +56,7 @@
                 <module>coeus-db-data-conv</module>
                 <module>coeus-db-sql</module>
                 <module>coeus-db-xml</module>
-                <module>coeus-db-aws-lambda</module>
+                <module>coeus-db-client</module>
             </modules>
         </profile>
     </profiles>

@@ -26,9 +26,9 @@
         <artifactId>coeus-db</artifactId>
         <version>1712.0013-SNAPSHOT</version>
     </parent>
-    <artifactId>coeus-db-aws-lambda</artifactId>
+    <artifactId>coeus-db-client</artifactId>
     <packaging>jar</packaging>
-    <name>Kuali Coeus Database AWS Lambda</name>
+    <name>Kuali Coeus Database Client</name>
     <description>
         For internal use only.
     </description>
@@ -48,22 +48,6 @@
             </activation>
             <properties>
                 <maven-shade-plugin.version>3.1.0</maven-shade-plugin.version>
-                <lambda-maven-plugin.version>2.2.2</lambda-maven-plugin.version>
-                <lambda.publish>false</lambda.publish>
-                <lambda.force.update>false</lambda.force.update>
-                <lambda.functions.json>
-                    [{
-                    "functionName": "kc-flyway-apply",
-                    "description": "KC Flyway apply",
-                    "handler": "co.kuali.coeus.db.lambda.FlywayLambda::apply",
-                    "timeout": 300
-                    }]
-                </lambda.functions.json>
-                <lambda.publish.role.arn />
-                <lambda.publish.accessKey />
-                <lambda.publish.secretKey />
-                <lambda.publish.s3.bucket />
-                <lambda.publish.region />
             </properties>
 
             <dependencies>
@@ -72,18 +56,6 @@
                     <groupId>co.kuali</groupId>
                     <artifactId>kc-sql</artifactId>
                     <scope>compile</scope>
-                </dependency>
-
-                <dependency>
-                    <groupId>com.amazonaws</groupId>
-                    <artifactId>aws-lambda-java-core</artifactId>
-                    <scope>compile</scope>
-                </dependency>
-
-                <dependency>
-                    <groupId>com.amazonaws</groupId>
-                    <artifactId>aws-lambda-java-log4j</artifactId>
-                    <scope>runtime</scope>
                 </dependency>
                 
 	            <dependency>
@@ -147,37 +119,29 @@
                     <artifactId>slf4j-log4j12</artifactId>
                     <scope>runtime</scope>
                 </dependency>
+                
             </dependencies>
 
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>com.github.seanroy</groupId>
-                        <artifactId>lambda-maven-plugin</artifactId>
-                        <version>${lambda-maven-plugin.version}</version>
-                        <configuration>
-                            <publish>${lambda.publish}</publish>
-                            <forceUpdate>${lambda.force.update}</forceUpdate>
-                            <functionCode>${project.build.directory}/${project.build.finalName}.jar</functionCode>
-                            <version>${project.version}</version>
-                            <accessKey>${lambda.publish.accessKey}</accessKey>
-                            <secretKey>${lambda.publish.secretKey}</secretKey>
-                            <s3Bucket>${lambda.publish.s3.bucket}</s3Bucket>
-                            <region>${lambda.publish.region}</region>
-                            <lambdaRoleArn>${lambda.publish.role.arn}</lambdaRoleArn>
-                            <lambdaFunctionsJSON>${lambda.functions.json}</lambdaFunctionsJSON>
-                        </configuration>
-                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-shade-plugin</artifactId>
                         <version>${maven-shade-plugin.version}</version>
                         <executions>
                             <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>shade</goal>
-                                </goals>
+								<phase>package</phase>
+								<goals>
+									<goal>shade</goal>
+								</goals>
+								<configuration>
+									<transformers>
+										<transformer
+											implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+											<mainClass>co.kuali.coeus.db.client.FlywayClient</mainClass>
+										</transformer>
+									</transformers>
+								</configuration>
                             </execution>
                         </executions>
                     </plugin>

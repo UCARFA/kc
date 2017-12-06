@@ -1,8 +1,6 @@
-package co.kuali.coeus.db.lambda;
+package co.kuali.coeus.db.client;
 
 import co.kuali.coeus.data.migration.FlywayMigrator;
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,10 +10,16 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.sql.DataSource;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 
 /**
@@ -43,7 +47,7 @@ import java.util.Map;
  * "initVersion": "0"
  * }
  */
-public class FlywayLambda {
+public class FlywayClient {
     private static final String COEUS_DATASOURCE = "coeusDataSource";
     private static final String RICE_DATASOURCE = "riceDataSource";
     private static final String DRIVER_NAME = "driverName";
@@ -58,26 +62,19 @@ public class FlywayLambda {
     private static final String JAVA_MIGRATION_PATH = "javaMigrationPath";
     private static final String INIT_VERSION = "initVersion";
     
+    private static final Logger LOG = Logger.getLogger(FlywayClient.class.getName()); 
+    
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
-    	HashMap<String, Object> input = new ObjectMapper().readValue(System.in, HashMap.class);
+    		initLogging("jul-default.properties");
+    		HashMap<String, Object> input = new ObjectMapper().readValue(System.in, HashMap.class);
     	
-    	new FlywayLambda().apply(input, new LambdaLogger() {
-			@Override
-			public void log(String string) {
-				System.out.println(string);
-			}
-    	});
-    }
-
-    public String apply(Map<String, Object> input, Context context) {
-        LambdaLogger logger = context.getLogger();
-        return apply(input, logger);
+    		new FlywayClient().apply(input);
     }
 
     @SuppressWarnings("unchecked")
-	protected String apply(Map<String, Object> input, LambdaLogger logger) {
-		logger.log("Stating Flyway Migrator with config: " + input);
+	protected void apply(Map<String, Object> input) {
+		LOG.info("Stating Flyway Migrator");
 
         final Map<String, String> coeusDataSourceInput = (Map<String, String>) input.get(COEUS_DATASOURCE);
         final String coeusDriverName = coeusDataSourceInput.get(DRIVER_NAME);
@@ -113,12 +110,10 @@ public class FlywayLambda {
 
         try {
             migrator.migrate();
-            return "SUCCESS";
+            LOG.info("SUCCESS");
         } catch (SQLException e) {
-            logger.log(ExceptionUtils.getStackTrace(e));
-            return "FAIL";
-        } finally {
-            logger.log("Ending Flyway Migrator with config: " + input);
+            LOG.severe(ExceptionUtils.getStackTrace(e));
+            LOG.severe("ERROR");
         }
 	}
 
@@ -134,4 +129,16 @@ public class FlywayLambda {
 
         return dataSource;
     }
+    
+	private static void initLogging(String file) {
+		final String fname = System.getProperty("java.util.logging.config.file");
+		if (fname == null || !new File(fname).isFile()) {
+			// configure default
+			try (InputStream in = new BufferedInputStream(FlywayClient.class.getResourceAsStream(file))) {
+				LogManager.getLogManager().readConfiguration(in);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
 }
