@@ -55,11 +55,11 @@ public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
 		if (citizenshipTypeSourceInternal != null && !citizenshipTypeSourceInternal) {
 			return getCitizenshipDataFromExternalSource(proposalPerson);
 		} else {
-			final Integer citizenshipTypeCode;
+			Integer citizenshipTypeCode = null;
 			Boolean allowOverride = isAllowCitizenshipTypeOverride();
 			if (allowOverride && proposalPerson.getCitizenshipType() != null) {
 				citizenshipTypeCode = proposalPerson.getCitizenshipType().getCode();
-			} else {
+			} else if (proposalPerson.getPerson() != null) {
 				citizenshipTypeCode = proposalPerson.getPerson().getCitizenshipTypeCode();
 			}
 			
