@@ -18,12 +18,12 @@
  */
 package org.kuali.coeus.propdev.impl.person;
 
-import static org.junit.Assert.*;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
+
+import static org.junit.Assert.assertEquals;
 
 public class CitizenshipTypeServiceTest {
 
@@ -43,6 +43,31 @@ public class CitizenshipTypeServiceTest {
 	public void testGetPersonCitizenshipNullPerson() {
 		CitizenshipTypeServiceImpl service = new CitizenshipTypeServiceImpl();
 		service.getPersonCitizenshipType(null);
+	}
+
+	@Test
+	public void testGetPersonCitizenshipRolodexPerson() {
+		CitizenshipTypeServiceImpl service = new CitizenshipTypeServiceImpl() {
+			@Override
+			protected Boolean isCitizenshipTypeSourceInternal() {
+				return true;
+			}
+			@Override
+			protected Boolean isAllowCitizenshipTypeOverride() {
+				return true;
+			}
+			@Override
+			protected org.kuali.coeus.common.api.person.attr.CitizenshipType getCitizenshipTypeFromCode(String citizenShipCode) {
+				if (StringUtils.equals(citizenShipCode, "1")) {
+					return org.kuali.coeus.common.api.person.attr.CitizenshipType.PERMANENT_RESIDENT_OF_US;
+				} else {
+					return null;
+				}
+			}
+		};
+		ProposalPerson proposalPerson = new ProposalPerson();
+		proposalPerson.setRolodexId(5);
+		assertEquals(org.kuali.coeus.common.api.person.attr.CitizenshipType.NOT_AVAILABLE, service.getPersonCitizenshipType(proposalPerson));
 	}
 	
 	@Test
