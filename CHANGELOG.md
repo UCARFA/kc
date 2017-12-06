@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* remove unused all api doc to avoid memory errors in build process
+  * blackcathacker on Tue, 5 Dec 2017 17:26:13 -0800 [View Commit](../../commit/cb929b8dc090f78dcf667a4191bd60cb8f87d62d)
+
+## coeus-1712.0010
 * No Changes
 
 
