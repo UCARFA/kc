@@ -1944,9 +1944,6 @@
                 <kc-s3.version>1709.0002</kc-s3.version>
                 <kc-sql.version>1706.0001</kc-sql.version>
 
-                <aws-lambda-java-core.version>1.1.0</aws-lambda-java-core.version>
-                <aws-lambda-java-log4j.version>1.0.0</aws-lambda-java-log4j.version>
-
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>
                 <scm.url>https://github.com/kualico/kc</scm.url>
@@ -1999,20 +1996,6 @@
                         <groupId>co.kuali</groupId>
                         <artifactId>kc-sql</artifactId>
                         <version>${kc-sql.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-
-                    <dependency>
-                        <groupId>com.amazonaws</groupId>
-                        <artifactId>aws-lambda-java-core</artifactId>
-                        <version>${aws-lambda-java-core.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-
-                    <dependency>
-                        <groupId>com.amazonaws</groupId>
-                        <artifactId>aws-lambda-java-log4j</artifactId>
-                        <version>${aws-lambda-java-log4j.version}</version>
                         <scope>runtime</scope>
                     </dependency>
 

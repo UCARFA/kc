@@ -3,7 +3,7 @@
 **/.settings
 **/target
 **/.idea
-**/coeus-db-aws-lambda.iml
+**/coeus-db-client.iml
 **/dependency-reduced-pom.xml
 **/.DS_Store
 **/Thumbs.db
