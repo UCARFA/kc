@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-2663: Guard against ProposalPerson with no personId (aka rolodex)
+
+* Also update citizenship error message to be clearer
+  * Jeff Largent on Wed, 6 Dec 2017 13:03:48 -0500 [View Commit](../../commit/d386d3655c53f8598eb7c221b2efeed8f058b121)
+
+## coeus-1712.0011
 * remove unused all api doc to avoid memory errors in build process
   * blackcathacker on Tue, 5 Dec 2017 17:26:13 -0800 [View Commit](../../commit/cb929b8dc090f78dcf667a4191bd60cb8f87d62d)
 
