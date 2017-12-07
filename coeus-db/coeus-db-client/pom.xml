@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus-db</artifactId>
-        <version>1712.0013-SNAPSHOT</version>
+        <version>1712.0013</version>
     </parent>
     <artifactId>coeus-db-client</artifactId>
     <packaging>jar</packaging>
@@ -136,8 +136,7 @@
 								</goals>
 								<configuration>
 									<transformers>
-										<transformer
-											implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+										<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 											<mainClass>co.kuali.coeus.db.client.FlywayClient</mainClass>
 										</transformer>
 									</transformers>
