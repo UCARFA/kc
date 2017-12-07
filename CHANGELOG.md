@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2647: Remove lambda functionality in preference for an exec jar
+  * blackcathacker on Tue, 5 Dec 2017 17:25:21 -0800 [View Commit](../../commit/1ea51cc550483dfa4bb0c91e06d0a27dd7568350)
+
+## coeus-1712.0012
 * RESKC-2663: Guard against ProposalPerson with no personId (aka rolodex)
 
 * Also update citizenship error message to be clearer
