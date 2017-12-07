@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2639: Set up parent-child relationships for newly added answers
+  * Jeff Largent on Thu, 7 Dec 2017 11:30:44 -0500 [View Commit](../../commit/15978999ac5547373c2ac873a6041a70d86fcaab)
+
+## coeus-1712.0013
 * RESKC-2647: Remove lambda functionality in preference for an exec jar
   * blackcathacker on Tue, 5 Dec 2017 17:25:21 -0800 [View Commit](../../commit/1ea51cc550483dfa4bb0c91e06d0a27dd7568350)
 
