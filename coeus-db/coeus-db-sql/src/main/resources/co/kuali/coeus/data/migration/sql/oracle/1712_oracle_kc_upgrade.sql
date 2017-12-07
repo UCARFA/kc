@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1712_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1712_001__update_citizenship_s2s_error.sql
+@./kc/bootstrap/V1712_002__active_s2s_hsct_form.sql
 commit;

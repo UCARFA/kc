@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2662: Turn on Human Subjects Clinical Trials form by default
+  * Jeff Largent on Thu, 7 Dec 2017 14:28:53 -0500 [View Commit](../../commit/97a55f8c7b41ecbaec33196b9559e92f9ed08f93)
+
+## coeus-1712.0014
 * RESKC-2639: Set up parent-child relationships for newly added answers
   * Jeff Largent on Thu, 7 Dec 2017 11:30:44 -0500 [View Commit](../../commit/15978999ac5547373c2ac873a6041a70d86fcaab)
 
