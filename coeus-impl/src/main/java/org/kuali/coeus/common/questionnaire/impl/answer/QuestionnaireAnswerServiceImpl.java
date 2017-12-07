@@ -268,10 +268,14 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
         List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap);
         for (AnswerHeader answerHeader : answerHeaders) {
-            answerHeader.getAnswers().addAll(findQuestionsWithoutAnswers(answerHeader)
-                    .stream()
-                    .flatMap(q -> setupAnswersForQuestion(q).stream())
-                    .collect(Collectors.toList()));
+            List<QuestionnaireQuestion> questionsWithoutAnswers = findQuestionsWithoutAnswers(answerHeader);
+            if (!questionsWithoutAnswers.isEmpty()) {
+                answerHeader.getAnswers().addAll(questionsWithoutAnswers
+                        .stream()
+                        .flatMap(q -> setupAnswersForQuestion(q).stream())
+                        .collect(Collectors.toList()));
+                setupChildAnswerIndicator(answerHeader);
+            }
 
             answerHeader.getAnswers().sort(new AnswerComparator());
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
