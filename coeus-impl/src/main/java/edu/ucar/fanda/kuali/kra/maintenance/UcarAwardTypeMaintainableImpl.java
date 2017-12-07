@@ -39,33 +39,22 @@ public class UcarAwardTypeMaintainableImpl extends KraMaintainableImpl{
         String awardTypeJson = "{\"awardTypeCode\":\"" + awardType.getCode() + "\",\"awardTypeDescription\":\"" + awardType.getDescription() + "\"}";
         System.out.println("awardTypeJson: " + awardTypeJson);
 
-   //     String payload = "data={" +
-   //             "\"awardTypeCode\":\"" + awardType.getCode() + "\"," +
-   //             "\"awardTypeDescription\":\"" + awardType.getDescription() + "\"" +
-   //             "}";
-        String payload = "{" +
-                "\"awardTypeCode\":\"" + awardType.getCode() + "\"," +
-                "\"awardTypeDescription\":\"" + awardType.getDescription() + "\"" +
-                "}";
+        String payload = "{\"awardTypeCode\":\"" + awardType.getCode() + "\",\"awardTypeDescription\":\"" + awardType.getDescription() + "\"}";
         System.out.println("Award Type Payload: " + payload);
         StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_FORM_URLENCODED);
         entity.setContentType("application/json");
 
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-
         String credentials = Base64.getEncoder().encodeToString(("admin:admin").getBytes());
         try {
             HttpPost request = new HttpPost("http://localhost:8161/api/message?destination=KUALIAWARDTYPEKEY&type=queue");
             request.setHeader("Authorization", "Basic " + credentials);
-          //  request.setHeader("Content-type", "application/json");
             request.setEntity(entity);
             HttpResponse response = httpClient.execute(request);
             System.out.println(response.getStatusLine().getStatusCode());
         } catch (Exception ex) {
             System.out.println("Exception: " + ex.toString());
         }
-
     }
-
 }
