@@ -8,7 +8,7 @@ import org.kuali.rice.krad.service.PostProcessorService;
 
 import java.util.List;
 
-public class AwardTypePostProcessorImpl extends KcPostProcessor {
+public class UcarAwardTypePostProcessorImpl extends KcPostProcessor {
 
     @Override
     public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
