@@ -39,7 +39,11 @@ public class UcarAwardTypeMaintainableImpl extends KraMaintainableImpl{
         String awardTypeJson = "{\"awardTypeCode\":\"" + awardType.getCode() + "\",\"awardTypeDescription\":\"" + awardType.getDescription() + "\"}";
         System.out.println("awardTypeJson: " + awardTypeJson);
 
-        String payload = "data={" +
+   //     String payload = "data={" +
+   //             "\"awardTypeCode\":\"" + awardType.getCode() + "\"," +
+   //             "\"awardTypeDescription\":\"" + awardType.getDescription() + "\"" +
+   //             "}";
+        String payload = "{" +
                 "\"awardTypeCode\":\"" + awardType.getCode() + "\"," +
                 "\"awardTypeDescription\":\"" + awardType.getDescription() + "\"" +
                 "}";
@@ -54,7 +58,7 @@ public class UcarAwardTypeMaintainableImpl extends KraMaintainableImpl{
         try {
             HttpPost request = new HttpPost("http://localhost:8161/api/message?destination=KUALIAWARDTYPEKEY&type=queue");
             request.setHeader("Authorization", "Basic " + credentials);
-            request.setHeader("Content-type", "application/json");
+          //  request.setHeader("Content-type", "application/json");
             request.setEntity(entity);
             HttpResponse response = httpClient.execute(request);
             System.out.println(response.getStatusLine().getStatusCode());
