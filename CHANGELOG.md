@@ -1,6 +1,9 @@
 
 
 ## CURRENT
+* RESKC-2671: update s2s  * Travis Schneeberger on Fri, 8 Dec 2017 14:07:51 -0500 [View Commit](../../commit/54c848caed6a6c8e7625ef5336cbf49b12b9781e)
+
+## coeus-1712.0017
 * RESKC-2661: Pulling in latest s2sgen version with fixes
   * Jeff Largent on Thu, 7 Dec 2017 14:16:21 -0500 [View Commit](../../commit/6f89e685ca48fb280e8601a6a0fbce60b320048e)
 * RESKC-2554: Extend end date calculation by frequency when frequency base is "as required"
