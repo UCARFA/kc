@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2661: Pulling in latest s2sgen version with fixes
+  * Jeff Largent on Thu, 7 Dec 2017 14:16:21 -0500 [View Commit](../../commit/6f89e685ca48fb280e8601a6a0fbce60b320048e)
+* RESKC-2554: Extend end date calculation by frequency when frequency base is "as required"
+
+* This fixes an issue where "as required" award report tracking schedules for positively-offset freqencies don't include the last couple reports since they occur outside of the project's end date.
+  * Jeff Largent on Thu, 7 Dec 2017 13:58:47 -0500 [View Commit](../../commit/40b6631ad95f4c73396d670fb5d84f9a5f2aae09)
+
+## coeus-1712.0016
 * RESKC-2662: Turn on Human Subjects Clinical Trials form by default
   * Jeff Largent on Thu, 7 Dec 2017 14:28:53 -0500 [View Commit](../../commit/97a55f8c7b41ecbaec33196b9559e92f9ed08f93)
 
