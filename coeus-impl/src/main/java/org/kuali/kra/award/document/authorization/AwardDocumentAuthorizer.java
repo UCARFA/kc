@@ -23,6 +23,7 @@ import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
@@ -65,6 +66,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     public static final String AWARD_SYNC = "awardSync";
     public static final String CAN_MAINTAIN_AWARD_ATTACHMENTS = "CAN_MAINTAIN_AWARD_ATTACHMENTS";
     public static final String CAN_VIEW_AWARD_ATTACHMENTS = "CAN_VIEW_AWARD_ATTACHMENTS";
+    public static final String CAN_SEND_AWARD_NOTICE = "sendAwardNotice";
     private static final String VIEW_ACCOUNT_ELEMENT = "viewAccountElement";
     private static final String VIEW_CHART_OF_ACCOUNTS_ELEMENT = "viewChartOfAccountsElement";
 
@@ -143,6 +145,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             if (editModes.contains(CAN_MAINTAIN_AWARD_ATTACHMENTS) ||
                     canViewAwardAttachments(awardDocument, user)) {
                 editModes.add(CAN_VIEW_AWARD_ATTACHMENTS);
+            }
+            if (canSendAwardNotice(user.getPrincipalId())) {
+                editModes.add(CAN_SEND_AWARD_NOTICE);
             }
         }
 
@@ -241,6 +246,11 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         }
         return hasPermission;
     }
+
+    public boolean canSendAwardNotice(String principalId) {
+        return getPermissionService().hasPermission(principalId, KraAuthorizationConstants.KC_AWARD_NAMESPACE, AwardPermissionConstants.SEND_AWARD_NOTICE.getAwardPermission());
+    }
+
     @Override
     public boolean canOpen(Document document, Person user) {
         AwardDocument awardDocument = (AwardDocument) document;
