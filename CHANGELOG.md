@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2526: Add permission to control who can send award notices
+  * Jeff Largent on Mon, 11 Dec 2017 14:18:40 -0500 [View Commit](../../commit/4c9e13b381d76627badb06e500d226627abb6239)
+
+## coeus-1712.0018
 * RESKC-2671: update s2s  * Travis Schneeberger on Fri, 8 Dec 2017 14:07:51 -0500 [View Commit](../../commit/54c848caed6a6c8e7625ef5336cbf49b12b9781e)
 
 ## coeus-1712.0017
