@@ -36,6 +36,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ValidRates;
@@ -451,10 +452,14 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     }
 
     public ActionForward sendNotice(ActionMapping mapping, ActionForm form,
-                                    HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
+
+        if (!awardForm.getEditingMode().containsKey(AwardDocumentAuthorizer.CAN_SEND_AWARD_NOTICE)) {
+            GlobalVariables.getMessageMap().putError(KeyConstants.NO_PERMISSION_TO_SEND_NOTICE, KeyConstants.NO_PERMISSION_TO_SEND_NOTICE);
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
 
         AwardNoticePrintout awardPrintout = createAwardNoticePrintout(award, awardForm.getAwardPrintNotice());
 
