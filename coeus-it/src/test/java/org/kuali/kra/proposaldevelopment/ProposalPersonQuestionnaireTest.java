@@ -23,27 +23,30 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
-import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
-import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
-import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
+import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.util.List;
@@ -55,6 +58,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
     private QuestionnaireAnswerService questionnaireAnswerService;
     private DocumentService documentService;
     private ProposalDevelopmentService proposalDevelopmentService;
+    private KcAuthorizationService kcAuthorizationService;
     private DevelopmentProposal proposal;
     private ProposalPersonQuestionnaireHelper questionnaireHelper;
     
@@ -71,6 +75,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         documentService = KcServiceLocator.getService(DocumentService.class);
         proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+        kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         proposal = getDocument().getDevelopmentProposal();
         questionnaireHelper = new ProposalPersonQuestionnaireHelper(getPerson());
     }
@@ -78,9 +83,9 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
     @After
     public void tearDown() throws Exception {
         questionnaireAnswerService  = null;
-
         documentService = null;
         proposalDevelopmentService = null;
+        kcAuthorizationService = null;
         proposal = null;
         questionnaireHelper = null;
     }
@@ -115,6 +120,8 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         }
 
         documentService.saveDocument(document);
+
+        kcAuthorizationService.addDocumentLevelRole(GlobalVariables.getUserSession().getPrincipalId(), RoleConstants.AGGREGATOR, document);
 
         ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
 
