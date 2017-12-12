@@ -18,18 +18,10 @@
  */
 package org.kuali.coeus.propdev.impl.print;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
@@ -43,20 +35,31 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.util.*;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 public class ProposalDevelopmentPrintingServiceImplTest extends KcIntegrationTestBase {
 
 	public BusinessObjectService businessObjectService;
+	private KcAuthorizationService kcAuthorizationService;
 	private ParameterService parameterService;
-	
+
 	@Before
 	public void setup() {
 		businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+		kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
 		parameterService = KcServiceLocator.getService(ParameterService.class);
 	}
 	
@@ -191,6 +194,7 @@ public class ProposalDevelopmentPrintingServiceImplTest extends KcIntegrationTes
 		initializeDevelopmentProposal(document);
 		Assert.assertNotNull(document.getDocumentHeader().getWorkflowDocument());
 		saveProposalDocument(document);
+		kcAuthorizationService.addDocumentLevelRole(GlobalVariables.getUserSession().getPrincipalId(), RoleConstants.AGGREGATOR, document);
 		document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb
 				.getDocumentService().getByDocumentHeaderId(
 						document.getDocumentHeader().getDocumentNumber());

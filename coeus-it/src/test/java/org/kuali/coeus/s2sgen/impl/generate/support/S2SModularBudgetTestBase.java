@@ -21,6 +21,7 @@ package org.kuali.coeus.s2sgen.impl.generate.support;
 import org.apache.xmlbeans.XmlObject;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
@@ -28,9 +29,11 @@ import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 import org.kuali.coeus.s2sgen.impl.validate.S2SValidatorService;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,6 +74,8 @@ public abstract class S2SModularBudgetTestBase extends S2STestBase {
 		assertNotNull(docNumber);
 		assertNotNull(pd.getDevelopmentProposal());
 		KcServiceLocator.getService(DocumentService.class).saveDocument(pd);
+		KcServiceLocator.getService(KcAuthorizationService.class).addDocumentLevelRole(
+				GlobalVariables.getUserSession().getPrincipalId(), RoleConstants.AGGREGATOR, pd);
 	}
 
 	@Override
