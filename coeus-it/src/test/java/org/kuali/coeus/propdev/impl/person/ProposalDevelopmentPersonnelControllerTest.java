@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
@@ -14,11 +15,11 @@ import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswer
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.ken.api.notification.Notification;
 import org.kuali.rice.ken.api.service.SendNotificationService;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.uif.view.View;
@@ -39,9 +40,9 @@ public class ProposalDevelopmentPersonnelControllerTest extends KcIntegrationTes
     private static final String COI_USERNAME = "burd";
 
     private BusinessObjectService businessObjectService;
-    private DataObjectService dataObjectService;
     private DocumentService documentService;
     private KcPersonService kcPersonService;
+    private KcAuthorizationService kcAuthorizationService;
     private KcNotificationService kcNotificationService;
     private KeyPersonnelService keyPersonnelService;
     private HistoryManager historyManagerMock;
@@ -56,8 +57,8 @@ public class ProposalDevelopmentPersonnelControllerTest extends KcIntegrationTes
     public void setup() {
         GlobalVariables.setUifFormManager(new UifFormManager());
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        dataObjectService = KcServiceLocator.getService(DataObjectService.class);
         documentService = KcServiceLocator.getService(DocumentService.class);
+        kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         kcNotificationService = KcServiceLocator.getService(KcNotificationService.class);
         kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         keyPersonnelService = KcServiceLocator.getService(KeyPersonnelService.class);
@@ -85,6 +86,7 @@ public class ProposalDevelopmentPersonnelControllerTest extends KcIntegrationTes
     @Test
     public void testAllPersonCertificationFiresFromCertificationScreen() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.saveDocument(pdDocument);
+        kcAuthorizationService.addDocumentLevelRole(GlobalVariables.getUserSession().getPrincipalId(), RoleConstants.AGGREGATOR, document);
         ProposalDevelopmentDocumentForm form = new ProposalDevelopmentDocumentForm();
         form.setDocument(document);
         form.initialize();

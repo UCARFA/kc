@@ -18,9 +18,6 @@
  */
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
@@ -38,6 +35,9 @@ import org.kuali.coeus.propdev.impl.s2s.S2sRevisionType;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RRSF424_2_0V2_0GeneratorTest extends S2STestBase {
 
@@ -126,7 +126,7 @@ public class RRSF424_2_0V2_0GeneratorTest extends S2STestBase {
         person.setDevelopmentProposal(developmentProposal);
         developmentProposal.getProposalPersons().add(person);
 
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(document.getDevelopmentProposal());
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(document.getDevelopmentProposal(), false);
         final List<AnswerHeader> answerHeaders = KcServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(moduleQuestionnaireBean);
 
         for (AnswerHeader answerHeader : answerHeaders) {

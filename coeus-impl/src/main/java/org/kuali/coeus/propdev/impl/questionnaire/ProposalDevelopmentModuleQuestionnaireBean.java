@@ -45,7 +45,8 @@ public class ProposalDevelopmentModuleQuestionnaireBean extends ModuleQuestionna
     }
 
     public ProposalDevelopmentModuleQuestionnaireBean(DevelopmentProposal developmentProposal, boolean finalDoc) {
-        this(developmentProposal);
+        super(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, developmentProposal.getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE, "0", true);
+        this.developmentProposal = developmentProposal;
         setFinalDoc(finalDoc);
     }
     
