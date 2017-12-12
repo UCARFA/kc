@@ -1,6 +1,16 @@
 
 
 ## CURRENT
+* RESKC-2009: Ensure all ITs properly assign access to PD initiator
+  * Jeff Largent on Tue, 12 Dec 2017 17:07:47 -0500 [View Commit](../../commit/46148dd1d8f5d395b00366d0d2393d426d5a519f)
+* RESKC-2009: Updated PD Questionnaire logic to match KNS
+
+* Specifically, PD should display inactive or out-of-date questionnaires whenever the document is not in an editable mode (aka, questionnaires should only be hidden or updated when the data is actually in a state to be changed).
+  * Jeff Largent on Tue, 12 Dec 2017 11:14:32 -0500 [View Commit](../../commit/68a5132c7241367c15d3e9a075e1b432b047b840)
+* RESKC-2676: Remove PHS training program plan v4 narrative
+  * Jeff Largent on Tue, 12 Dec 2017 10:52:35 -0500 [View Commit](../../commit/fa49adaf6aafc26e749b9ad10a962f20b2def0c1)
+
+## coeus-1712.0019
 * RESKC-2526: Add permission to control who can send award notices
   * Jeff Largent on Mon, 11 Dec 2017 14:18:40 -0500 [View Commit](../../commit/4c9e13b381d76627badb06e500d226627abb6239)
 
