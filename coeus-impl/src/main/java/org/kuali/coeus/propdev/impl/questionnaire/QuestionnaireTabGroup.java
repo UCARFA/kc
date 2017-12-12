@@ -19,10 +19,10 @@
 package org.kuali.coeus.propdev.impl.questionnaire;
 
 
-
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
@@ -44,10 +44,12 @@ public class QuestionnaireTabGroup extends TabGroup {
 
     @Override
     public void performInitialization(Object model) {
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
+        boolean readOnly = form.getEditModes() == null || !form.getEditModes().containsKey(AuthorizationConstants.EditMode.FULL_ENTRY);
         List<Component> tabs = new ArrayList<Component>();
-        String formKey =  ((ProposalDevelopmentDocumentForm)model).getFormKey();
-        tabs.addAll(createTabs(((ProposalDevelopmentDocumentForm)model).getQuestionnaireHelper().getAnswerHeaders(),"questionnaireHelper",formKey));
-        tabs.addAll(createTabs(((ProposalDevelopmentDocumentForm)model).getS2sQuestionnaireHelper().getAnswerHeaders(),"s2sQuestionnaireHelper",formKey));
+        String formKey = form.getFormKey();
+        tabs.addAll(createTabs(form.getQuestionnaireHelper().getAnswerHeaders(),"questionnaireHelper", formKey, readOnly));
+        tabs.addAll(createTabs(form.getS2sQuestionnaireHelper().getAnswerHeaders(),"s2sQuestionnaireHelper", formKey, readOnly));
 
         Collections.sort(tabs, new Comparator<Component>(){
             @Override
@@ -61,11 +63,11 @@ public class QuestionnaireTabGroup extends TabGroup {
         super.performInitialization(model);
     }
 
-    private List<Component> createTabs(List<AnswerHeader> answerHeaders, String helper, String formKey) {
+    private List<Component> createTabs(List<AnswerHeader> answerHeaders, String helper, String formKey, boolean isReadOnly) {
         List<Component> tabs = new ArrayList<Component>();
         int index = 0;
         for (AnswerHeader answerHeader : answerHeaders) {
-            if (answerHeader.isActive()) {
+            if (answerHeader.isActive() || (isReadOnly && answerHeader.isHasVisibleQuestion())) {
                 GroupBase group = (GroupBase) ComponentFactory.getNewComponentInstance("Uif-VerticalBoxGroup");
                 group.setHeader((Header)ComponentFactory.getNewComponentInstance("Uif-SectionHeader"));
                 group.setId("PropDev-QuestionnairePage-" + StringUtils.removePattern(answerHeader.getLabel(),"([^0-9a-zA-Z\\-_])"));
