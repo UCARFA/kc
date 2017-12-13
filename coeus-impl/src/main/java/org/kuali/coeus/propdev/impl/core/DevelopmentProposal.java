@@ -337,7 +337,8 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @OrderBy("columnName DESC, changeNumber DESC")
     private List<BudgetChangedData> budgetChangedDataList;
 
-    @OneToMany(mappedBy="developmentProposal",orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OrderBy("moduleSequenceNumber DESC")
     private List<Narrative> narratives;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
