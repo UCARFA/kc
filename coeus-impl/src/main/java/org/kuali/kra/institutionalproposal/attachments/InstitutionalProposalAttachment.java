@@ -19,11 +19,9 @@
 package org.kuali.kra.institutionalproposal.attachments;
 
 
-import java.lang.ref.WeakReference;
-import java.sql.Timestamp;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -32,9 +30,11 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 
 import javax.persistence.PostRemove;
+import java.lang.ref.WeakReference;
+import java.sql.Timestamp;
 
 
-public class InstitutionalProposalAttachment extends InstitutionalProposalAssociate  implements Comparable<InstitutionalProposalAttachment> {
+public class InstitutionalProposalAttachment extends InstitutionalProposalAssociate  implements Comparable<InstitutionalProposalAttachment>, SequenceAssociate<InstitutionalProposal> {
 
 	private static final long serialVersionUID = 502762283098287794L;
 
@@ -65,7 +65,6 @@ public class InstitutionalProposalAttachment extends InstitutionalProposalAssoci
     private boolean modifyAttachment=false;
 
     private transient FormFile newFile;
-
 
     private InstitutionalProposalAttachmentType type;
 
@@ -244,6 +243,7 @@ public class InstitutionalProposalAttachment extends InstitutionalProposalAssoci
 		super.setInstitutionalProposal(institutionalProposal);
 		if (institutionalProposal != null) {
 			setProposalId(institutionalProposal.getProposalId());
+			setSequenceNumber(institutionalProposal.getSequenceNumber());
 		}
 	}
 
@@ -297,4 +297,18 @@ public class InstitutionalProposalAttachment extends InstitutionalProposalAssoci
 		return KcServiceLocator.getService(KcAttachmentDataDao.class);
 	}
 
+	@Override
+	public void setSequenceOwner(InstitutionalProposal sequenceOwner) {
+		setInstitutionalProposal(sequenceOwner);
+	}
+
+	@Override
+	public InstitutionalProposal getSequenceOwner() {
+		return getInstitutionalProposal();
+	}
+
+	@Override
+	public void resetPersistenceState() {
+		proposalAttachmentId = null;
+	}
 }
