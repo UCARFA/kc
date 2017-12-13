@@ -24,4 +24,5 @@ spool 1712_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1712_001__update_citizenship_s2s_error.sql
 @./kc/bootstrap/V1712_002__active_s2s_hsct_form.sql
 @./kc/bootstrap/V1712_004__remove_phs_research_training_plan_v4_narrative.sql
+@./kc/bootstrap/V1712_005__update_ip_attachment_constraint.sql
 commit;

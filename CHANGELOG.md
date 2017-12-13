@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2432: Made sure IP attachments are versioned along with IP
+  * Jeff Largent on Tue, 12 Dec 2017 12:47:11 -0500 [View Commit](../../commit/23fd9efaf043c6b9efb524ca5ea11f77aba8c3bd)
+
+## coeus-1712.0020
 * RESKC-2009: Ensure all ITs properly assign access to PD initiator
   * Jeff Largent on Tue, 12 Dec 2017 17:07:47 -0500 [View Commit](../../commit/46148dd1d8f5d395b00366d0d2393d426d5a519f)
 * RESKC-2009: Updated PD Questionnaire logic to match KNS
