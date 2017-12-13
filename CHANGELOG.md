@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-1479: Always order narratives by upload order desc
+
+* Except for specific S2S generator included in s2sgen version 1712.0006
+  * Jeff Largent on Wed, 13 Dec 2017 15:12:53 -0500 [View Commit](../../commit/f2e54bd62940049166861f353f31d642fa479956)
+
+## coeus-1712.0021
 * RESKC-2432: Made sure IP attachments are versioned along with IP
   * Jeff Largent on Tue, 12 Dec 2017 12:47:11 -0500 [View Commit](../../commit/23fd9efaf043c6b9efb524ca5ea11f77aba8c3bd)
 
