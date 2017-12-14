@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1712.0022
 * RESKC-1479: Always order narratives by upload order desc
 
 * Except for specific S2S generator included in s2sgen version 1712.0006
