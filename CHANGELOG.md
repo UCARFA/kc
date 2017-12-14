@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* Make expiration date editable for amendments
+  * blackcathacker on Thu, 14 Dec 2017 13:18:01 -0800 [View Commit](../../commit/ec16f570e3b7d742f0bffb7558ba5ff135d767db)
+
+## coeus-1712.0024
 * RESKC-2432: Make sure IP sequence associates respect canceled IPs when incrementing sequence number
   * Jeff Largent on Thu, 14 Dec 2017 13:36:39 -0500 [View Commit](../../commit/f99e51336961b1210def01c8a41240fb717c0bbe)
 
