@@ -99,8 +99,7 @@ function enableDisableCheckbox() {
                     <td colspan="5">
                         <nobr>
                             <kul:htmlControlAttribute property="${property}.expirationDate" 
-                                                      attributeEntry="${attributes.expirationDate}" 
-                                                      readOnly="${datesReadOnly}" />
+                                                      attributeEntry="${attributes.expirationDate}" />
                         </nobr>
                     </td>
                 </tr>
