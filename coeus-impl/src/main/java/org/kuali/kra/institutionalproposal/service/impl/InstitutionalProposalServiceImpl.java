@@ -791,13 +791,6 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         InstitutionalProposal newVersion = getVersioningService().createNewVersion(currentInstitutionalProposal);
         Map<String, String> fieldValues = new HashMap<>();
         fieldValues.put(PROPOSAL_NUMBER, currentInstitutionalProposal.getProposalNumber());
-        List<InstitutionalProposal> instProp = (List<InstitutionalProposal>) businessObjectService.findMatchingOrderBy(InstitutionalProposal.class, fieldValues, "sequenceNumber", false);
-        if (instProp != null && instProp.size() > 0) {
-            for(InstitutionalProposal instProposal:instProp) {
-                if (instProposal.getSequenceNumber().equals(newVersion.getSequenceNumber()))
-                    newVersion.setSequenceNumber(instProp.get(0).getSequenceNumber()+1);
-            }
-        }
         synchNewCustomAttributes(newVersion, currentInstitutionalProposal);
 
         newVersion.setProposalSequenceStatus(VersionStatus.PENDING.toString());
