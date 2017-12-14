@@ -24,6 +24,7 @@ import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContact;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -86,7 +87,11 @@ public class InstitutionalProposalVersioningTest extends KcIntegrationTestBase {
         ipSpecialReview.getSpecialReviewExemptions().add(ipSpecialReviewExemption);
         institutionalProposal.addSpecialReview(ipSpecialReview);
         Assert.assertTrue(institutionalProposal.getSpecialReviews().get(0).getSequenceNumber().equals(1));
-        
+
+        InstitutionalProposalAttachment ipAttachment = new InstitutionalProposalAttachment();
+        ipAttachment.setProposalAttachmentId(1L);
+        institutionalProposal.addAttachment(ipAttachment);
+
         InstitutionalProposal newIpVersion = getVersioningService().createNewVersion(institutionalProposal);
         
         Assert.assertNull(newIpVersion.getProposalId());
@@ -121,7 +126,10 @@ public class InstitutionalProposalVersioningTest extends KcIntegrationTestBase {
         
         Assert.assertNull(newIpVersion.getSpecialReviews().get(0).getProposalSpecialReviewId());
         Assert.assertNull(newIpVersion.getSpecialReviews().get(0).getSpecialReviewExemptions().get(0).getProposalSpecialReviewExemptionId());
-        
+
+        Assert.assertNull(newIpVersion.getInstProposalAttachments().get(0).getProposalAttachmentId());
+        Assert.assertNull(newIpVersion.getInstProposalAttachments().get(0).getProposalId());
+        Assert.assertTrue(newIpVersion.getInstProposalAttachments().get(0).getSequenceNumber().equals(2));
     }
     
     private VersioningService getVersioningService() {

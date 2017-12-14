@@ -569,6 +569,7 @@ public final class KeyConstants {
     public static final String DOCUMENT_NUMBER_NULL = "error.award.createAccount.nullDocumentNumber";
     public static final String DOCUMENT_SAVED_WITH_ERRORS = "error.award.createAccount.saved.with.errors";
     public static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
+    public static final String NO_PERMISSION_TO_SEND_NOTICE = "error.award.sendNotice.noPermission";
     public static final String VALIDATION_DID_NOT_OCCUR = "error.award.account.number.not.validated";
     public static final String AWARD_INFORMATION_POSTED = "info.award.information.posted";
     public static final String TM_INFORMATION_POSTED = "info.tm.information.posted";

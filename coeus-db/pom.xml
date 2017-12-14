@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus</artifactId>
-        <version>1712.0005-SNAPSHOT</version>
+        <version>1712.0023-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-db</artifactId>
     <packaging>pom</packaging>
@@ -56,7 +56,7 @@
                 <module>coeus-db-data-conv</module>
                 <module>coeus-db-sql</module>
                 <module>coeus-db-xml</module>
-                <module>coeus-db-aws-lambda</module>
+                <module>coeus-db-client</module>
             </modules>
         </profile>
     </profiles>

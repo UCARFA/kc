@@ -75,6 +75,17 @@ consistency, data integrity, and the stability of our database process.
   When creating new tables, always add constraints to a table.  This includes FK, PK, non-null and unique constraints.  
   Exceptions to this rule include FK constraints across modules.  
 
+## KIM and KRMS Tables:
+  Always use hardcoded primary keys as described above when adding new permissions, roles, agendas, rules, etc... 
+  If you need to refer to an existing KIM or KRMS object by a non-hardcoded PK, always make sure to include the NMSPC_CD 
+  in the where clause to ensure that you are referring to the correct object and that it is unique:
+```
+insert into krim_perm_attr_data_t (attr_data_id, obj_id, ver_nbr, perm_id, attr_val, kim_typ_id, kim_attr_defn_id)
+values ('RESBOOT-1001', uuid(), 1, 'RESBOOT-1003', 'AwardDocument',
+		    (select kim_typ_id from krim_perm_tmpl_t where nmspc_cd = 'KC-IDM' and nm = 'Perform Document Action'),
+		    (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName'));
+```
+
 ## Questionnaire:
 
   When adding new Question or Questionnaire records, use the proper sequences for each record; however, it is important to hardcode 

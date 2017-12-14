@@ -479,7 +479,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
 
         getBudgetPersonService().populateBudgetPersonDefaultDataIfEmpty(budget);
 
-        if (getKcBusinessRulesEngine().applyRules(new BudgetSavePersonnelEvent(budget, budget.getBudgetPeriod(budgetForm.getViewBudgetPeriod()-1)))) {
+        if (getKcBusinessRulesEngine().applyRules(new BudgetSavePersonnelEvent(budget, budget.getBudgetPeriod(budgetForm.getViewBudgetPeriod()-1))) &&
+                getKcBusinessRulesEngine().applyRules(new AwardBudgetSaveEvent(budget))) {
             if (budgetForm.isAuditActivated()) {
                 forward = super.save(mapping, form, request, response);
             } else {

@@ -150,7 +150,7 @@ public class AwardBudgetServiceImplTest {
     	awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
     	assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
     	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
-    	assertEquals(convertToSqlDate(proposalBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getEndDate());
+    	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getEndDate());
     	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getStartDate());
     	assertEquals(convertToSqlDate(proposalBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getEndDate());
     	assertEquals(2, GlobalVariables.getMessageMap().getWarningCount());
@@ -170,12 +170,38 @@ public class AwardBudgetServiceImplTest {
     	
     	awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
     	assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
-    	assertEquals(convertToSqlDate(proposalBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
+    	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
     	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getEndDate());
     	assertEquals(convertToSqlDate(proposalBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getStartDate());
     	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getEndDate());
     	assertEquals(1, GlobalVariables.getMessageMap().getWarningCount());
     }
+
+	/**
+	 * Test that line item dates are converted to match budget period dates if the dates are inside the period date
+	 * range, while budget personnel details remain the same. This is because line item dates can never be changed
+	 * once copied to the award budget, whereas budget personnel details can and should be allowed to be within the
+	 * period start and end dates.
+	 */
+	@Test
+	public void testCopyProposalBudgetLineItemsToAwardBudget_ContainedWithinPeriod() {
+		awardBudgetService = getAwardBudgetServiceForTesting();
+		final LocalDateTime awardBudgetStartDate = LocalDateTime.now().minusWeeks(26);
+		final LocalDateTime awardBudgetEndDate = awardBudgetStartDate.plusYears(1);
+		final LocalDateTime proposalBudgetStartDate = awardBudgetStartDate.plusWeeks(5);
+		final LocalDateTime proposalBudgetEndDate = awardBudgetEndDate.minusWeeks(5);
+
+		AwardBudgetPeriodExt awardBudgetPeriod1 = prepareAwardBudgetPeriod(awardBudgetStartDate, awardBudgetEndDate);
+		BudgetPeriod proposalBudgetPeriod = prepareProposalBudgetPeriod(proposalBudgetStartDate, proposalBudgetEndDate);
+
+		awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
+		assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
+		assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
+		assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getEndDate());
+		assertEquals(convertToSqlDate(proposalBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getStartDate());
+		assertEquals(convertToSqlDate(proposalBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getEndDate());
+		assertEquals(0, GlobalVariables.getMessageMap().getWarningCount());
+	}
     
     @Test
     public void testCopyProposalBudgetLineItemsToAwardBudget_BeforePeriod() {

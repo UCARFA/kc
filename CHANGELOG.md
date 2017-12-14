@@ -1,6 +1,91 @@
 
 
 ## CURRENT
+* RESKC-1479: Always order narratives by upload order desc
+
+* Except for specific S2S generator included in s2sgen version 1712.0006
+  * Jeff Largent on Wed, 13 Dec 2017 15:12:53 -0500 [View Commit](../../commit/f2e54bd62940049166861f353f31d642fa479956)
+
+## coeus-1712.0021
+* RESKC-2432: Made sure IP attachments are versioned along with IP
+  * Jeff Largent on Tue, 12 Dec 2017 12:47:11 -0500 [View Commit](../../commit/23fd9efaf043c6b9efb524ca5ea11f77aba8c3bd)
+
+## coeus-1712.0020
+* RESKC-2009: Ensure all ITs properly assign access to PD initiator
+  * Jeff Largent on Tue, 12 Dec 2017 17:07:47 -0500 [View Commit](../../commit/46148dd1d8f5d395b00366d0d2393d426d5a519f)
+* RESKC-2009: Updated PD Questionnaire logic to match KNS
+
+* Specifically, PD should display inactive or out-of-date questionnaires whenever the document is not in an editable mode (aka, questionnaires should only be hidden or updated when the data is actually in a state to be changed).
+  * Jeff Largent on Tue, 12 Dec 2017 11:14:32 -0500 [View Commit](../../commit/68a5132c7241367c15d3e9a075e1b432b047b840)
+* RESKC-2676: Remove PHS training program plan v4 narrative
+  * Jeff Largent on Tue, 12 Dec 2017 10:52:35 -0500 [View Commit](../../commit/fa49adaf6aafc26e749b9ad10a962f20b2def0c1)
+
+## coeus-1712.0019
+* RESKC-2526: Add permission to control who can send award notices
+  * Jeff Largent on Mon, 11 Dec 2017 14:18:40 -0500 [View Commit](../../commit/4c9e13b381d76627badb06e500d226627abb6239)
+
+## coeus-1712.0018
+* RESKC-2671: update s2s  * Travis Schneeberger on Fri, 8 Dec 2017 14:07:51 -0500 [View Commit](../../commit/54c848caed6a6c8e7625ef5336cbf49b12b9781e)
+
+## coeus-1712.0017
+* RESKC-2661: Pulling in latest s2sgen version with fixes
+  * Jeff Largent on Thu, 7 Dec 2017 14:16:21 -0500 [View Commit](../../commit/6f89e685ca48fb280e8601a6a0fbce60b320048e)
+* RESKC-2554: Extend end date calculation by frequency when frequency base is "as required"
+
+* This fixes an issue where "as required" award report tracking schedules for positively-offset freqencies don't include the last couple reports since they occur outside of the project's end date.
+  * Jeff Largent on Thu, 7 Dec 2017 13:58:47 -0500 [View Commit](../../commit/40b6631ad95f4c73396d670fb5d84f9a5f2aae09)
+
+## coeus-1712.0016
+* RESKC-2662: Turn on Human Subjects Clinical Trials form by default
+  * Jeff Largent on Thu, 7 Dec 2017 14:28:53 -0500 [View Commit](../../commit/97a55f8c7b41ecbaec33196b9559e92f9ed08f93)
+
+## coeus-1712.0014
+* RESKC-2639: Set up parent-child relationships for newly added answers
+  * Jeff Largent on Thu, 7 Dec 2017 11:30:44 -0500 [View Commit](../../commit/15978999ac5547373c2ac873a6041a70d86fcaab)
+
+## coeus-1712.0013
+* RESKC-2647: Remove lambda functionality in preference for an exec jar
+  * blackcathacker on Tue, 5 Dec 2017 17:25:21 -0800 [View Commit](../../commit/1ea51cc550483dfa4bb0c91e06d0a27dd7568350)
+
+## coeus-1712.0012
+* RESKC-2663: Guard against ProposalPerson with no personId (aka rolodex)
+
+* Also update citizenship error message to be clearer
+  * Jeff Largent on Wed, 6 Dec 2017 13:03:48 -0500 [View Commit](../../commit/d386d3655c53f8598eb7c221b2efeed8f058b121)
+
+## coeus-1712.0011
+* remove unused all api doc to avoid memory errors in build process
+  * blackcathacker on Tue, 5 Dec 2017 17:26:13 -0800 [View Commit](../../commit/cb929b8dc090f78dcf667a4191bd60cb8f87d62d)
+
+## coeus-1712.0010
+* No Changes
+
+
+## coeus-1712.0009
+* No Changes
+
+
+## coeus-1712.0008
+* RESKC-2599: Fixed doc description truncation issue
+  * Jeff Largent on Tue, 5 Dec 2017 17:35:47 -0500 [View Commit](../../commit/b0346c1652c5b686bbf4cd01eea8d2aebda40e16)
+* RESKC-2659: Bumping s2sgen version to fix stylesheet issue
+  * Jeff Largent on Tue, 5 Dec 2017 16:49:05 -0500 [View Commit](../../commit/631344cdfa6e1ea1974d4620d10da3876b56c8c7)
+
+## coeus-1712.0007
+* RESKC-2482: Fixed issue where the dates of imported award budget line items (#2645)
+
+  * weren't updated to match award budget period dates, leading to a situation where the budget personnel details dates could be changed to get out of sync with the underlying line item dates (which are fixed after copy).
+  * Jeff Largent on Tue, 5 Dec 2017 10:37:42 -0500 [View Commit](../../commit/7b90448ede2439adeae936b63f621268cb046313)
+
+## coeus-1712.0006
+* Update api changelog
+  * blackcathacker on Mon, 4 Dec 2017 15:25:06 -0800 [View Commit](../../commit/a3b27e1a04096c0665e0e518f24e7556e8ef11b8)
+
+## coeus-1712.0005
+* RESKC-2498: Fixed issue with populating empty units for people with no employment info
+  * Jeff Largent on Mon, 4 Dec 2017 15:00:28 -0500 [View Commit](../../commit/3df67376eeaa6c3f74309c46a28d56f4028b2db9)
+
+## coeus-1712.0004
 * RESKC-2507: Additional null checking around award report tracking summary
   * Jeff Largent on Mon, 4 Dec 2017 12:05:49 -0500 [View Commit](../../commit/fc70f7bf4d787320a5f841c4b957cb2668fabc7f)
 
