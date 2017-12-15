@@ -21,6 +21,7 @@ package org.kuali.coeus.common.budget.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -33,7 +34,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @Component("costElementValuesFinder")
 public class CostElementValuesFinder extends UifKeyValuesFinderBase {
@@ -75,7 +79,7 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
         }
         // added comparator below to alphabetize lists on label
         Collections.sort(keyValues, new KeyValueComparator());
-        keyValues.add(0, new ConcreteKeyValue("", "select"));
+        keyValues.add(0, ValuesFinderUtils.getSelectOption());
         return keyValues;
     }
 

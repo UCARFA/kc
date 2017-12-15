@@ -20,6 +20,7 @@ package org.kuali.kra.coi.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
@@ -37,7 +38,7 @@ public class CoiDisclosureFinancialEntitiesValuesFinder extends FormViewAwareUif
         List<KeyValue> keyLabels = new ArrayList<KeyValue>();
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) getDocument();
         String personId = coiDisclosureDocument.getCoiDisclosure().getDisclosureReporter().getPersonId();
-        keyLabels.add(new ConcreteKeyValue("", "select"));
+        keyLabels.add(ValuesFinderUtils.getSelectOption());
         List<PersonFinIntDisclosure> financialEntities = getAllFinancialEntities(personId);
         for (PersonFinIntDisclosure fe : financialEntities) {
             keyLabels.add(new ConcreteKeyValue(fe.getPersonFinIntDisclosureId().toString(), fe.getEntityName()));

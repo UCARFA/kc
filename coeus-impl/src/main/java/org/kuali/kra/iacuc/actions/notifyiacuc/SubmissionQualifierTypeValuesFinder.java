@@ -20,6 +20,7 @@ package org.kuali.kra.iacuc.actions.notifyiacuc;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
@@ -47,7 +48,7 @@ public class SubmissionQualifierTypeValuesFinder extends IacucActionsKeyValuesBa
         List<IacucValidProtoSubTypeQual> validProtoSubTypeQuals = (List<IacucValidProtoSubTypeQual>) getBusinessObjectService().findMatching(
                 IacucValidProtoSubTypeQual.class, fieldValues);
         if (validProtoSubTypeQuals.isEmpty()) {
-            keyValues.add(new ConcreteKeyValue("", "select"));
+            keyValues.add(ValuesFinderUtils.getSelectOption());
             Collection<IacucProtocolSubmissionQualifierType> submissionQualifierTypes = this.getKeyValuesService().findAll(
                     IacucProtocolSubmissionQualifierType.class);
             for (IacucProtocolSubmissionQualifierType submissionQualifierType : submissionQualifierTypes) {

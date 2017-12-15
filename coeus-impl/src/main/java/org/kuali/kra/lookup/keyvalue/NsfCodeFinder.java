@@ -2,6 +2,7 @@ package org.kuali.kra.lookup.keyvalue;
 
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -24,7 +25,7 @@ public class NsfCodeFinder extends UifKeyValuesFinderBase {
 
     @Override
     public List<KeyValue> getKeyValues() {
-        return Stream.concat(Stream.of(new ConcreteKeyValue("", "select")), getBusinessObjectService().findAll(NsfCode.class).stream()
+        return Stream.concat(Stream.of(ValuesFinderUtils.getSelectOption()), getBusinessObjectService().findAll(NsfCode.class).stream()
                 .map(nsfCode -> new ConcreteKeyValue(nsfCode.getNsfSequenceNumber().toString(), nsfCode.getDescription())))
                 .collect(Collectors.toList());
     }

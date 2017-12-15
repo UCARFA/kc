@@ -61,18 +61,6 @@ public class FrequencyCodeValuesFinderTest extends KcIntegrationTestBase {
     }
     
     @Test
-    public final void testGetRelevantValidClassReportFrequencies(){
-        frequencyCodeValuesFinder = new FrequencyCodeValuesFinder("1","55");
-        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "1", "1"));
-        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "1", "13"));
-        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "4"));
-        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "7"));
-        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "8"));
-        validClassReportFrequencies.add(new ValidClassReportFrequency("2", "5", "16"));
-        Assert.assertEquals(3, frequencyCodeValuesFinder.getUniqueRelevantFrequencyCodes(validClassReportFrequencies).size());
-    }
-    
-    @Test
     public final void testThis(){
         frequencyCodeValuesFinder.setReportClassCode("1");
         frequencyCodeValuesFinder.setReportCode("27");

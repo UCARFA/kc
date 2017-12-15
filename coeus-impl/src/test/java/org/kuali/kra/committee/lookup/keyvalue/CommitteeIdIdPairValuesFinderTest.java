@@ -21,6 +21,7 @@ package org.kuali.kra.committee.lookup.keyvalue;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -56,7 +57,7 @@ public class CommitteeIdIdPairValuesFinderTest {
         activeCommittees.add(committee3);
         activeCommittees.add(committee4);
         
-        KeyValue klp0 = new ConcreteKeyValue("", "select");
+        KeyValue klp0 = ValuesFinderUtils.getSelectOption();
         KeyValue klp1 = new ConcreteKeyValue(CMT_1_ID, CMT_1_ID);
         KeyValue klp2 = new ConcreteKeyValue(CMT_2_ID, CMT_2_ID);
         KeyValue klp3 = new ConcreteKeyValue(CMT_3_ID, CMT_3_ID);

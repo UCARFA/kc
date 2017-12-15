@@ -18,25 +18,25 @@
  */
 package org.kuali.coeus.common.budget.impl.nonpersonnel;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.award.budget.AwardBudgetForm;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
-
-import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Component("groupNameValuesFinder")
 public class GroupNameValuesFinder extends UifKeyValuesFinderBase {
@@ -51,7 +51,7 @@ public class GroupNameValuesFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();        
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         AwardBudgetForm budgetForm = (AwardBudgetForm) KNSGlobalVariables.getKualiForm();
         AwardBudgetDocument budgetDocument = (AwardBudgetDocument) budgetForm.getBudgetDocument();
         BudgetPeriod curPeriod = null;

@@ -22,18 +22,14 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueComparator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.Collections.sort;
 
@@ -112,7 +108,7 @@ public abstract class CommitteeIdValuesFinderBase extends UifKeyValuesFinderBase
             sort(keyValues, new KeyValueComparator());
         }
 
-        keyValues.add(0, new ConcreteKeyValue("", "select"));
+        keyValues.add(0, ValuesFinderUtils.getSelectOption());
         
         return keyValues;
     }

@@ -61,17 +61,6 @@ public class FrequencyBaseCodeValuesFinderTest extends KcIntegrationTestBase {
             Assert.assertNotNull(KeyValue.getValue());
         }
     }
-        
-    @Test
-    public final void testGetRelevantValidClassReportFrequencies(){        
-        validFrequencyBases.add(new ValidFrequencyBase("13", "14"));
-        validFrequencyBases.add(new ValidFrequencyBase("13", "1"));
-        validFrequencyBases.add(new ValidFrequencyBase("13", "55"));
-        validFrequencyBases.add(new ValidFrequencyBase("14", "55"));
-        validFrequencyBases.add(new ValidFrequencyBase("14", "2"));
-        validFrequencyBases.add(new ValidFrequencyBase("15", "5"));
-        Assert.assertEquals(3, frequencyBaseCodeValuesFinder.getUniqueRelevantFrequencyBaseCodes(validFrequencyBases).size());
-    }
     
 }
 

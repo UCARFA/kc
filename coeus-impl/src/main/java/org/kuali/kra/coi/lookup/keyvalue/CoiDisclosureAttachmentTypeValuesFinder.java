@@ -19,6 +19,7 @@
 package org.kuali.kra.coi.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.coi.CoiAttachmentType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -39,7 +40,7 @@ public class CoiDisclosureAttachmentTypeValuesFinder extends UifKeyValuesFinderB
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         Collection<CoiAttachmentType> cdaTypes = this.getKeyValuesService().findAll(CoiAttachmentType.class);
         for (CoiAttachmentType cdaType : cdaTypes) {
             keyValues.add(new ConcreteKeyValue(cdaType.getCode(), cdaType.getDescription())); 

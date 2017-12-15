@@ -18,9 +18,10 @@
  */
 package org.kuali.kra.award.budget;
 
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -50,7 +51,7 @@ public class AwardFnARatesValuesFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> matchingAwardFnARateTypes = filterRateTypes();
-        matchingAwardFnARateTypes.add(0, new ConcreteKeyValue("", "select"));
+        matchingAwardFnARateTypes.add(0, ValuesFinderUtils.getSelectOption());
         return matchingAwardFnARateTypes;
     }
     

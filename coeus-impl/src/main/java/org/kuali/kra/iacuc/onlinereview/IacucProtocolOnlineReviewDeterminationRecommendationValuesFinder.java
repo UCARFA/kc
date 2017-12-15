@@ -19,6 +19,7 @@
 package org.kuali.kra.iacuc.onlinereview;
 
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
@@ -44,7 +45,7 @@ public class IacucProtocolOnlineReviewDeterminationRecommendationValuesFinder ex
         String reviewType = iacucProtocolDocument.getIacucProtocol().getProtocolSubmission().getProtocolReviewTypeCode();
         Collection<IacucProtocolOnlineReviewDeterminationRecommendation> recommendations = this.getKeyValuesService().findAll(IacucProtocolOnlineReviewDeterminationRecommendation.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         for (IacucProtocolOnlineReviewDeterminationRecommendation recommendation : recommendations) {
             if (recommendation.getIacucProtocolReviewTypeCode() != null && recommendation.getIacucProtocolReviewTypeCode().equals(reviewType)) {
                 keyValues.add(new ConcreteKeyValue(recommendation.getProtocolOnlineReviewDeterminationRecommendationCode().toString(), recommendation.getIacucProtocolActionType().getDescription()));

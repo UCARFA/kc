@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.timeandmoney;
 
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -30,7 +31,7 @@ public class PendingTransactionAwardValuesFinder extends AwardValuesFinder {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select:"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         keyValues.add(new ConcreteKeyValue(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, "External"));
         keyValues.addAll(super.getKeyValues());
         return keyValues;

@@ -21,6 +21,7 @@ package org.kuali.kra.coi.disclosure;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -58,7 +59,7 @@ public class CoiDispositionStatusValuesFinder extends FormViewAwareUifKeyValuesF
             statuses = (List<CoiDispositionStatus>) getBusinessObjectService().findAllOrderBy(CoiDispositionStatus.class, "coiDispositionCode", true);
         }
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         for (CoiDispositionStatus status : statuses) {
             keyValues.add(new ConcreteKeyValue(status.getCoiDispositionCode(), status.getDescription()));
         }

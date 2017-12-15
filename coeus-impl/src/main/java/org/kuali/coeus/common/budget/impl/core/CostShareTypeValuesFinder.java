@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.budget.impl.core;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -36,13 +37,12 @@ import java.util.stream.Stream;
 @Component("costShareTypeValuesFinder")
 public class CostShareTypeValuesFinder extends UifKeyValuesFinderBase {
 
-    private static final ConcreteKeyValue SELECT = new ConcreteKeyValue("", "select");
     private BusinessObjectService businessObjectService;
 
     @Override
     public List<KeyValue> getKeyValues() {
         final Collection<CostShareType> costSharetypes = getBusinessObjectService().findMatching(CostShareType.class, Collections.singletonMap("active", "true"));
-        return Stream.concat(Stream.of(SELECT), costSharetypes.stream()
+        return Stream.concat(Stream.of(ValuesFinderUtils.getSelectOption()), costSharetypes.stream()
                 .map(costShareType -> new ConcreteKeyValue(costShareType.getCostShareTypeCode().toString(), costShareType.getDescription()))
                 .sorted(Comparator.comparing(ConcreteKeyValue::getValue, String.CASE_INSENSITIVE_ORDER)))
                 .collect(Collectors.toList());

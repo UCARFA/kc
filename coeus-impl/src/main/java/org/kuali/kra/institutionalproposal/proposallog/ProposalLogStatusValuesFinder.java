@@ -21,6 +21,7 @@ package org.kuali.kra.institutionalproposal.proposallog;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
@@ -54,7 +55,7 @@ public class ProposalLogStatusValuesFinder extends FormViewAwareUifKeyValuesFind
         Collection<ProposalLogStatus> statuses = keyValuesService.findAll(ProposalLogStatus.class);
         Set<String> validStatuses = new HashSet<String>();
         Object form = getFormOrView();
-        retval.add(new ConcreteKeyValue("", "select"));
+        retval.add(ValuesFinderUtils.getSelectOption());
         boolean filterResults = true;       
         if (form instanceof KualiMaintenanceForm) {
         	ProposalLog proposalLog = (ProposalLog)(((KualiMaintenanceForm)form).getDocument().getNoteTarget());

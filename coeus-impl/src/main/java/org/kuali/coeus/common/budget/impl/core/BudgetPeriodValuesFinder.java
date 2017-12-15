@@ -18,11 +18,12 @@
  */
 package org.kuali.coeus.common.budget.impl.core;
 
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -80,7 +81,7 @@ public class BudgetPeriodValuesFinder extends FormViewAwareUifKeyValuesFinderBas
     }
     private List<KeyValue> buildKeyValues(List<BudgetPeriod> budgetPeriods) {
         List<KeyValue> KeyValues = new ArrayList<KeyValue>();
-        KeyValues.add(new ConcreteKeyValue("", "Select"));
+        KeyValues.add(ValuesFinderUtils.getSelectOption());
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             KeyValues.add(new ConcreteKeyValue(budgetPeriod.getBudgetPeriod().toString(), budgetPeriod.getLabel()));
         }

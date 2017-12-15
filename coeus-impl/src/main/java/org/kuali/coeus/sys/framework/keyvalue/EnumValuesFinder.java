@@ -21,15 +21,16 @@ package org.kuali.coeus.sys.framework.keyvalue;
 
 import org.kuali.coeus.sys.api.model.Coded;
 import org.kuali.coeus.sys.api.model.Describable;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public abstract class EnumValuesFinder<T extends Enum & Coded & Describable> extends KeyValuesBase {
-
-    private static final ConcreteKeyValue SELECT = new ConcreteKeyValue("", "select");
 
     protected abstract Class<? extends T> getEnumClass();
 
@@ -44,7 +45,7 @@ public abstract class EnumValuesFinder<T extends Enum & Coded & Describable> ext
         }
 
         keyValues.sort(Comparator.comparing(KeyValue::getValue));
-        keyValues.add(0, SELECT);
+        keyValues.add(0, ValuesFinderUtils.getSelectOption());
 
         return keyValues;
     }

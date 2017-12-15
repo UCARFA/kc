@@ -59,20 +59,6 @@ public class ReportCodeValuesFinderTest extends KcIntegrationTestBase {
             Assert.assertNotNull(KeyValue.getValue());
         }
     }
-    
-    @Test
-    public final void testGetRelevantValidClassReportFrequencies(){
-        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "1", "1"));
-        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "1", "13"));
-        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "4"));
-        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "7"));
-        validClassReportFrequencies.add(new ValidClassReportFrequency("1", "55", "8"));
-        validClassReportFrequencies.add(new ValidClassReportFrequency("2", "5", "16"));
-        
-        Assert.assertEquals(2, reportCodeValuesFinder.getUniqueRelevantReportClassCodes(
-                                                          validClassReportFrequencies).size());
-    }
-    
 
 }
 

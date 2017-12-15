@@ -23,13 +23,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.ViewModel;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -57,7 +57,7 @@ public class AbstractTypeValuesFinder extends UifKeyValuesFinderBase {
         String selectedAbstractType = getFieldValue(model,field);
         Collection<AbstractType> abstractTypes = getDataObjectService().findAll(AbstractType.class).getResults();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         for (AbstractType abstractType : abstractTypes) {
             if (!hasAbstract(form.getProposalDevelopmentDocument(), abstractType) || StringUtils.equals(abstractType.getCode(),selectedAbstractType)) {
                 keyValues.add(new ConcreteKeyValue(abstractType.getCode(), abstractType.getDescription()));

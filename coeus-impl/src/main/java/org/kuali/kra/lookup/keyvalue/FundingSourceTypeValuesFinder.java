@@ -18,16 +18,17 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class FundingSourceTypeValuesFinder extends UifKeyValuesFinderBase {
 
@@ -41,7 +42,7 @@ public class FundingSourceTypeValuesFinder extends UifKeyValuesFinderBase {
                 keyValues.add(new ConcreteKeyValue(fundingSourceType.getFundingSourceTypeCode(), fundingSourceType.getDescription()));
             }
         }
-        keyValues.add(0, new ConcreteKeyValue("", "select"));
+        keyValues.add(0, ValuesFinderUtils.getSelectOption());
         return keyValues;
     }
 

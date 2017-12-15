@@ -21,6 +21,7 @@ package org.kuali.kra.coi.lookup.keyvalue;
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -42,7 +43,7 @@ public class CoiDisclosureProjectsProjectTypeValuesFinder extends UifKeyValuesFi
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
 
         List<ProposalType> proposalTypes = (List<ProposalType>) getBusinessObjectService().findAll(ProposalType.class);
         if (CollectionUtils.isNotEmpty(proposalTypes)) {

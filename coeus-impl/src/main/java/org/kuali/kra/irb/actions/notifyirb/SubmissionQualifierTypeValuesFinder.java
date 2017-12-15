@@ -19,6 +19,7 @@
 package org.kuali.kra.irb.actions.notifyirb;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
@@ -45,7 +46,7 @@ public class SubmissionQualifierTypeValuesFinder extends IrbActionsKeyValuesBase
         List<ValidProtoSubTypeQual> validProtoSubTypeQuals = (List<ValidProtoSubTypeQual>) getBusinessObjectService().findMatching(
                 ValidProtoSubTypeQual.class, fieldValues);
         if (validProtoSubTypeQuals.isEmpty()) {
-            keyValues.add(new ConcreteKeyValue("", "select"));
+            keyValues.add(ValuesFinderUtils.getSelectOption());
             Collection<ProtocolSubmissionQualifierType> submissionQualifierTypes = this.getKeyValuesService().findAll(
                     ProtocolSubmissionQualifierType.class);
             for (ProtocolSubmissionQualifierType submissionQualifierType : submissionQualifierTypes) {

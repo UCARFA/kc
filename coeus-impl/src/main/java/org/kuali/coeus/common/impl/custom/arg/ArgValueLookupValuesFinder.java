@@ -19,23 +19,26 @@
 package org.kuali.coeus.common.impl.custom.arg;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
 
 	private enum ArgValueConfig { VALUE, DESCRIPTION, BOTH}
-	private static final ConcreteKeyValue SELECT = new ConcreteKeyValue("", "select");
 	private static final String ARGUMENT_NAME = "argumentName";
 	private static final String ARG_VALUE_VALUES_FINDER_DEFAULT_CONFIG = "ARG_VALUE_VALUES_FINDER_DEFAULT_CONFIG";
 	private static final String ARG_VALUE_VALUES_FINDER_ARG_CONFIG ="ARG_VALUE_VALUES_FINDER_ARG_CONFIG";
@@ -54,7 +57,7 @@ public class ArgValueLookupValuesFinder extends UifKeyValuesFinderBase {
 				Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ARG_VALUE_VALUES_FINDER_ARG_CONFIG, argName);
 		final String cfg = StringUtils.isNotBlank(argConfig) ? argConfig : defaultConfig;
 
-		return Stream.concat(Stream.of(SELECT), argValueLookups.stream()
+		return Stream.concat(Stream.of(ValuesFinderUtils.getSelectOption()), argValueLookups.stream()
 				.map(argValueLookup -> new ConcreteKeyValue(argValueLookup.getValue(), getKeyValueValue(argValueLookup, cfg)))
 				.sorted(Comparator.comparing(ConcreteKeyValue::getValue)))
 				.collect(Collectors.toList());
