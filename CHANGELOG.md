@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2270: Used `ValuesFinderUtils` for adding select option to values finders
+  * Jeff Largent on Fri, 15 Dec 2017 12:39:10 -0500 [View Commit](../../commit/b563c8e16ab615e33a2b93b50e6a2f73c32e395a)
+* RESKC-2270: Replace session-level caching with JSP request caching-level for Award Report Tracking values finders
+
+* Also reduce the number of DB queries and object invocations being done in those values finders
+  * Jeff Largent on Fri, 15 Dec 2017 12:06:43 -0500 [View Commit](../../commit/b3474ddd3bd82574bb943a7138fc1991e828bd96)
+
+## coeus-1712.0025
 * Make expiration date editable for amendments
   * blackcathacker on Thu, 14 Dec 2017 13:18:01 -0800 [View Commit](../../commit/ec16f570e3b7d742f0bffb7558ba5ff135d767db)
 
