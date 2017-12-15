@@ -20,6 +20,7 @@ package org.kuali.kra.coi.lookup.keyvalue;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -41,7 +42,7 @@ public class CoiDisclosureManualEventTypesValuesFinder extends UifKeyValuesFinde
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
 
         List<CoiDisclosureEventType> eventTypes = (List<CoiDisclosureEventType>) getBusinessObjectService().findAll(CoiDisclosureEventType.class);
         if (CollectionUtils.isNotEmpty(eventTypes)) {

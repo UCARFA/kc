@@ -19,6 +19,7 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -44,7 +45,7 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     public List<KeyValue> getKeyValues() {
        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         
         Collection<ProtocolSubmissionType> submissionTypes = this.getKeyValuesService().findAll(ProtocolSubmissionType.class);
         for (ProtocolSubmissionType submissionType : submissionTypes) {

@@ -21,6 +21,7 @@ package org.kuali.kra.lookup.keyvalue;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueComparator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -68,7 +69,7 @@ public class LookupableBoValuesFinder extends UifKeyValuesFinderBase {
 
     	// added comparator below to alphabetize lists on label
         Collections.sort(keyValues, new KeyValueComparator());
-        keyValues.add(0, new ConcreteKeyValue("", "select"));
+        keyValues.add(0, ValuesFinderUtils.getSelectOption());
 
     	return keyValues;
     }

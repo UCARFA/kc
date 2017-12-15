@@ -18,11 +18,11 @@
  */
 package org.kuali.kra.award.cgb;
 
-import java.util.List;
-
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.EnumValuesFinder;
+
+import java.util.List;
 
 public class InvoicingOptionsValuesFinder extends EnumValuesFinder {
 
@@ -33,7 +33,7 @@ public class InvoicingOptionsValuesFinder extends EnumValuesFinder {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> labels = super.getKeyValues();
-        labels.add(0, new ConcreteKeyValue("", "Select"));
+        labels.add(0, ValuesFinderUtils.getSelectOption());
         return labels;
     }
 	

@@ -21,6 +21,7 @@ package org.kuali.kra.award.lookup.keyvalue;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -49,7 +50,7 @@ public class ContactsValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
         
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select "));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         
         Long awardId = ((AwardDocument) getDocument()).getAward().getAwardId();
         

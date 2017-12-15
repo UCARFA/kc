@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.irb.actions;
 
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -30,7 +31,7 @@ public class StatusValuesFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         keyValues.add(new ConcreteKeyValue("A", "active"));
         keyValues.add(new ConcreteKeyValue("I", "inactive"));
         return keyValues;

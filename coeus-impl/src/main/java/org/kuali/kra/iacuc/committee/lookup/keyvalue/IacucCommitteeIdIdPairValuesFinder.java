@@ -20,6 +20,7 @@ package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 
@@ -39,7 +40,7 @@ public class IacucCommitteeIdIdPairValuesFinder extends IacucCommitteeIdValuesFi
     @Override
     public List<KeyValue> getKeyValues() {        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         
         List<CommitteeBase> committees = this.getActiveCommittees();
         if (CollectionUtils.isNotEmpty(committees)) {

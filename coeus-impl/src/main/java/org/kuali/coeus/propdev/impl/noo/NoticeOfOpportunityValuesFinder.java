@@ -18,8 +18,9 @@
  */
 package org.kuali.coeus.propdev.impl.noo;
 
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.framework.noo.NoticeOfOpportunity;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -45,7 +46,7 @@ public class NoticeOfOpportunityValuesFinder extends UifKeyValuesFinderBase {
         KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection noticesOfOpportunity = keyValuesService.findAll(NoticeOfOpportunity.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         for (Iterator iter = noticesOfOpportunity.iterator(); iter.hasNext();) {
             NoticeOfOpportunity noticeOfOpportunity = (NoticeOfOpportunity) iter.next();
             keyValues.add(new ConcreteKeyValue(noticeOfOpportunity.getCode(), noticeOfOpportunity.getDescription()));

@@ -21,6 +21,7 @@ package org.kuali.coeus.common.questionnaire.impl.core;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -47,7 +48,7 @@ public class CoeusModuleValuesFinder extends UifKeyValuesFinderBase {
             KeyValuesService boService = KNSServiceLocator.getKeyValuesService();
             Collection<CoeusModule> codes = (Collection<CoeusModule>) boService.findAll(CoeusModule.class);
             List<KeyValue> labels = new ArrayList<KeyValue>();
-            labels.add(new ConcreteKeyValue("", "select"));
+            labels.add(ValuesFinderUtils.getSelectOption());
             for (CoeusModule coeusModule : codes) {
                 if (validCodes.contains(coeusModule.getModuleCode())) {
                     labels.add(new ConcreteKeyValue(coeusModule.getModuleCode(), coeusModule.getDescription()));

@@ -18,19 +18,19 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommitteeIdValuesFinderTest extends KcIntegrationTestBase {
 
@@ -82,7 +82,7 @@ public class CommitteeIdValuesFinderTest extends KcIntegrationTestBase {
         activeCommittees.add(committee3);
         activeCommittees.add(committee4);
         
-        KeyValue klp0 = new ConcreteKeyValue("", "select");
+        KeyValue klp0 = ValuesFinderUtils.getSelectOption();
         KeyValue klp1 = new ConcreteKeyValue(CMT_1_ID, C1_LATEST_NAME);
         KeyValue klp2 = new ConcreteKeyValue(CMT_2_ID, C2_LATEST_NAME);
         KeyValue klp3 = new ConcreteKeyValue(CMT_3_ID, C3_LATEST_NAME);

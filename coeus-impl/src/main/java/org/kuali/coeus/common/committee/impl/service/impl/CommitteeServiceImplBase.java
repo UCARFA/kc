@@ -25,6 +25,7 @@ import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.committee.dao.CustomCommitteeDao;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase;
@@ -155,7 +156,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     @Override
     public List<KeyValue> getAvailableCommitteeDates(String committeeId) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         CMT committee = getCommitteeById(committeeId);
         if (committee != null) {
             List<CS> schedules = committee.getCommitteeSchedules();

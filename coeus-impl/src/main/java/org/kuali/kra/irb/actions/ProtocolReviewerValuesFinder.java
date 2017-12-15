@@ -19,6 +19,7 @@
 package org.kuali.kra.irb.actions;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -40,7 +41,7 @@ public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         
         Protocol protocol = getProtocol();
         if (protocol != null) {

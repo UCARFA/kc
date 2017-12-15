@@ -3,6 +3,7 @@ package org.kuali.coeus.propdev.impl.s2s;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -14,11 +15,10 @@ import java.util.stream.Stream;
 public class S2sFormValuesFinder extends UifKeyValuesFinderBase {
 
     private transient FormMappingService formMappingService;
-    private static final ConcreteKeyValue SELECT = new ConcreteKeyValue("", "select");
 
     @Override
     public List<KeyValue> getKeyValues() {
-        return Stream.concat(Stream.of(SELECT), getFormMappingService().getBindings()
+        return Stream.concat(Stream.of(ValuesFinderUtils.getSelectOption()), getFormMappingService().getBindings()
                 .values()
                 .stream()
                 .map(FormMappingInfo::getFormName)

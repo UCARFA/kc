@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -37,7 +38,7 @@ public class ProtocolOnlineReviewDeterminationRecommendationValuesFinder extends
     public List<KeyValue> getKeyValues() {
         Collection<ProtocolOnlineReviewDeterminationRecommendation> recommendations = this.getKeyValuesService().findAll(ProtocolOnlineReviewDeterminationRecommendation.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         for (ProtocolOnlineReviewDeterminationRecommendation recommendation : recommendations) {
             keyValues.add(new ConcreteKeyValue(recommendation.getProtocolOnlineReviewDeterminationRecommendationCode().toString(), recommendation.getDescription()));
         }
