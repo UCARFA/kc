@@ -23,6 +23,8 @@ import com.lowagie.text.pdf.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xpath.XPathAPI;
+import org.kuali.coeus.propdev.api.s2s.S2sFormConfigurationContract;
+import org.kuali.coeus.propdev.api.s2s.S2sFormConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
 import org.kuali.coeus.s2sgen.api.core.InfastructureConstants;
@@ -33,7 +35,6 @@ import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
 import org.kuali.coeus.s2sgen.api.hash.GrantApplicationHashService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,6 @@ import org.w3c.dom.*;
 import javax.xml.bind.UnmarshalException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -83,6 +83,10 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("s2sFormConfigurationService")
+    private S2sFormConfigurationService s2sFormConfigurationService;
 
     @Override
     public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(ProposalDevelopmentDocument developmentProposal,
@@ -315,8 +319,14 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         namespaceUri = form.getNamespaceURI();
         formname = form.getLocalName();
         FormMappingInfo bindingInfoBean = formMappingService.getFormInfo(namespaceUri);
-        if(bindingInfoBean != null) {
-            return null;
+        if (bindingInfoBean != null) {
+            S2sFormConfigurationContract formConfig = s2sFormConfigurationService.findS2sFormConfigurationByFormName(bindingInfoBean.getFormName());
+            if (formConfig == null || formConfig.isActive()) {
+                S2SException s2SException = new S2SException(KeyConstants.S2S_USER_ATTACHED_FORM_NOT_ALLOWED,
+                        "The form is not configured for user attachment", formname);
+                s2SException.setTabErrorKey(USER_ATTACHED_FORMS_ERRORS);
+                throw s2SException;
+            }
         }
         Document doc = node2Dom(form);
         String xpathEmptyNodes = "//*[not(node()) and local-name(.) != 'FileLocation' and local-name(.) != 'HashValue' and local-name(.) != 'FileName']";// and not(FileLocation[@href])]";// and string-length(normalize-space(@*)) = 0 ]";
