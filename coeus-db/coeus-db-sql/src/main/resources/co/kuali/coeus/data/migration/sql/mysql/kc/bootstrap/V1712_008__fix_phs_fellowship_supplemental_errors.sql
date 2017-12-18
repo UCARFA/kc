@@ -47,6 +47,8 @@ where message_key = '/GrantApplication/Forms/PHS_Fellowship_Supplemental_4_0/Res
 update s2s_error set message = 'Responsible Conduct of Research attachment is required for PHS Fellowship Supplemental form.'
 where message_key = '/GrantApplication/Forms/PHS_Fellowship_Supplemental_4_0/ResearchTrainingPlan/TrainingInResponsibleConductOfResearch';
 
+insert into seq_s2s_error_id values (null);
+
 insert into s2s_error (s2s_error_id, message_key, message, fix_link, update_timestamp, update_user, ver_nbr, obj_id)
 values ((select max(id) from seq_s2s_error_id), '/GrantApplication/Forms/PHS_Fellowship_Supplemental_4_0/AdditionalInformation/CurrentPriorNRSASupportIndicator',
 'The PHS Fellowship Supplemental 4.0 questionnaire must be completed on the Questions tab.', 'questions', now(), 'admin', 1, uuid());
