@@ -1,6 +1,18 @@
 
 
 ## CURRENT
+* RESKC-2677: Added missing sequence increment statement
+  * Jeff Largent on Mon, 18 Dec 2017 12:35:21 -0500 [View Commit](../../commit/53bb28880d7bedf2c5686a459820d83b6cdf8e1f)
+* RESKC-2322: Fix first run of tests
+  * blackcathacker on Sun, 17 Dec 2017 16:15:02 -0800 [View Commit](../../commit/755832d79e43c77a115a8f2794b6378b60fe2424)
+* RESKC-2677: Fixed several incorrect S2S errors for PHS fellowship supplemental form
+  * Jeff Largent on Mon, 18 Dec 2017 10:20:44 -0500 [View Commit](../../commit/b7da27337800b5f9f86601ddc2d7b9f3680b5cec)
+* RESKC-2684: Remove deprecated Research Plan v4 valid narrative
+  * Jeff Largent on Mon, 18 Dec 2017 09:54:33 -0500 [View Commit](../../commit/ce44c2c949658c86b1eb17391422bdb2d1af6253)
+* RESKC-2275: Enable user-attaching supported forms view s2s form config
+  * Jeff Largent on Fri, 15 Dec 2017 10:41:13 -0500 [View Commit](../../commit/6c0b722afeaf5926c46524cffa78b79f258aaf3d)
+
+## coeus-1712.0026
 * RESKC-2270: Used `ValuesFinderUtils` for adding select option to values finders
   * Jeff Largent on Fri, 15 Dec 2017 12:39:10 -0500 [View Commit](../../commit/b563c8e16ab615e33a2b93b50e6a2f73c32e395a)
 * RESKC-2270: Replace session-level caching with JSP request caching-level for Award Report Tracking values finders
