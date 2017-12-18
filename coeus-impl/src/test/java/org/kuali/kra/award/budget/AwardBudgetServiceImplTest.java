@@ -134,6 +134,21 @@ public class AwardBudgetServiceImplTest {
     	assertEquals(convertToSqlDate(proposalBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
     	assertEquals(convertToSqlDate(proposalBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getEndDate());
     }
+
+    @Test
+	public void testCopyProposalBudgetLineItemsRemovesSubawardLink() {
+		awardBudgetService = getAwardBudgetServiceForTesting();
+		LocalDateTime awardBudgetStartDate = LocalDateTime.now().minusWeeks(26);
+		LocalDateTime awardBudgetEndDate = awardBudgetStartDate.plusYears(1);
+
+		AwardBudgetPeriodExt awardBudgetPeriod1 = prepareAwardBudgetPeriod(awardBudgetStartDate, awardBudgetEndDate);
+		BudgetPeriod proposalBudgetPeriod = prepareProposalBudgetPeriod(awardBudgetStartDate, awardBudgetEndDate);
+		proposalBudgetPeriod.getBudgetLineItem(0).setSubAwardNumber(3);
+
+		awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
+		assertTrue(proposalBudgetPeriod.getBudgetLineItem(0).getSubAwardNumber() == 3);
+		assertNull(awardBudgetPeriod1.getBudgetLineItem(0).getSubAwardNumber());
+	}
     
     @Test
     public void testCopyProposalBudgetLineItemsToAwardBudgetWithDifferentStartDates() {
