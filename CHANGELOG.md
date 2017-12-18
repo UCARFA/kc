@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+*  RESKC-2683: Show error if human specimens question is Y and other requested info attachment is not present
+  * Jeff Largent on Mon, 18 Dec 2017 16:23:19 -0500 [View Commit](../../commit/ec6a4e88a94a66fd743979e0b42b56fb8c522e3c)
+
+## coeus-1712.0027
 * RESKC-2677: Added missing sequence increment statement
   * Jeff Largent on Mon, 18 Dec 2017 12:35:21 -0500 [View Commit](../../commit/53bb28880d7bedf2c5686a459820d83b6cdf8e1f)
 * RESKC-2322: Fix first run of tests
