@@ -60,8 +60,6 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 @Component("unitRoleSyncService")
 public class UnitRoleSyncServiceImpl implements UnitRoleSyncService {
 
-    private static final String Y = "Y";
-    private static final String N = "N";
     private static final String ACTIVE = "active";
     private static final String PRIMARY = "primary";
     private static final String PRIMARY_DEPARTMENT_CODE = "primaryDepartmentCode";
