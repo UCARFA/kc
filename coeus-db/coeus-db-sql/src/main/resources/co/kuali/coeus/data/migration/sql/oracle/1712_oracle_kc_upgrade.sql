@@ -29,4 +29,5 @@ spool 1712_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1712_007__remove_phs_research_plan_v4_narrative.sql
 @./kc/bootstrap/V1712_008__fix_phs_fellowship_supplemental_errors.sql
 @./kc/bootstrap/V1712_009__validate_human_subjects_question_explanation.sql
+@./kc/bootstrap/V1712_010__update_hsct_explanation_error_message.sql
 commit;

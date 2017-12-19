@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2683: Update HSCT explanation error message
+  * Jeff Largent on Tue, 19 Dec 2017 12:23:17 -0500 [View Commit](../../commit/f294ca22d039c7aab983b4e8966598727531bc69)
+
+## coeus-1712.0029
 * RESKC-2493: Remove the subaward line item link when copying periods to award budget
   * Jeff Largent on Mon, 18 Dec 2017 10:50:29 -0500 [View Commit](../../commit/3ffd2a8dfc25022b1ce40527af49da7d819f9e2d)
 
