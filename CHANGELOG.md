@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2493: Remove the subaward line item link when copying periods to award budget
+  * Jeff Largent on Mon, 18 Dec 2017 10:50:29 -0500 [View Commit](../../commit/3ffd2a8dfc25022b1ce40527af49da7d819f9e2d)
+
+## coeus-1712.0028
 *  RESKC-2683: Show error if human specimens question is Y and other requested info attachment is not present
   * Jeff Largent on Mon, 18 Dec 2017 16:23:19 -0500 [View Commit](../../commit/ec6a4e88a94a66fd743979e0b42b56fb8c522e3c)
 
