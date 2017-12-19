@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1712.0031
 * RESKC-2188: allowing UTF-8 characters in s2s opportunity titles.
   * Travis Schneeberger on Tue, 19 Dec 2017 15:38:34 -0500 [View Commit](../../commit/e9f1fab4fd874158499153bf4cab15f547e8ff64)
 * RESKC-2685: configuring the unit role sync quartz job to use the correct parameters
