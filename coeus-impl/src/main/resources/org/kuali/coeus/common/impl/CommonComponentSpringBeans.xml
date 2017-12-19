@@ -273,8 +273,8 @@
         <property name="jobDetail" ref="unitRoleSyncJobDetail"/>
         <property name="parameterService" ref="parameterService"/>
         <property name="dateTimeService" ref="dateTimeService"/>
-        <property name="cronExpressionParameterName" value="unitRoleSync.cronExpression"/>
-        <property name="triggerEnabledParameterName" value="unitRoleSync.enabled"/>
+        <property name="cronExpressionParameterName" value="unit.role.sync.job.cronExpression"/>
+        <property name="triggerEnabledParameterName" value="unit.role.sync.job.enabled"/>
         <property name="parameterNamespace" value="KC-SYS"/>
         <property name="parameterComponent" value="All"/>
     </bean>
