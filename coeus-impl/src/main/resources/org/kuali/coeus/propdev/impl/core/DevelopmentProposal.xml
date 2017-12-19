@@ -563,14 +563,14 @@
 		<property name="label" value="Opportunity Title" />
 		<property name="shortLabel" value="Opportunity Title" />
 		<property name="maxLength" value="255" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+	  <property name="validationPattern">
+		  <bean parent="UTF8AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
+	  <property name="validCharactersConstraint">
+		  <bean parent="UTF8AnyCharacterPatternConstraint">
+			  <property name="allowWhitespace" value="true"/>
+		  </bean>
+	  </property>
 		<property name="required" value="false" />
 		<property name="control">
 			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
