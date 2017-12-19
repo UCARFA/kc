@@ -28,4 +28,5 @@
 \. ./kc/bootstrap/V1712_009__validate_human_subjects_question_explanation.sql
 \. ./kc/bootstrap/V1712_010__update_hsct_explanation_error_message.sql
 \. ./kc/bootstrap/V1712_011__SF424_Mandatory_questions.sql
+\. ./kc/bootstrap/V1712_014__questions_active.sql
 commit;

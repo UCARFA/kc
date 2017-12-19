@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2691: honoring the active flag
+  * Travis Schneeberger on Tue, 19 Dec 2017 18:00:38 -0500 [View Commit](../../commit/3ad99bc14076eeac03b8c94a3b450cf4994fc923)
+* RESKC-2691: Setting specific questions with the latest sequence to active
+  * Travis Schneeberger on Tue, 19 Dec 2017 17:03:40 -0500 [View Commit](../../commit/2e9aad1aa06f5019a440d2f62258fc79cc308e37)
+* RESKC-2656: Removed parentheses from sponsor hierarchy term resolver name
+  * Jeff Largent on Tue, 19 Dec 2017 16:59:03 -0500 [View Commit](../../commit/07a3ae14f7d39a0f988520002254eb75f58981f2)
+
+## coeus-1712.0032
 * No Changes
 
 
