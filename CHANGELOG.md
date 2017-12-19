@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1712.0033
 * RESKC-2691: honoring the active flag
   * Travis Schneeberger on Tue, 19 Dec 2017 18:00:38 -0500 [View Commit](../../commit/3ad99bc14076eeac03b8c94a3b450cf4994fc923)
 * RESKC-2691: Setting specific questions with the latest sequence to active
