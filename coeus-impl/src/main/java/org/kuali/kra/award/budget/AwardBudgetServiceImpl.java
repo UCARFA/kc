@@ -838,6 +838,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             BeanUtils.copyProperties(budgetLineItem, awardBudgetLineItem, ignoreProperties);
             awardBudgetLineItem.setLineItemNumber(awardBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             awardBudgetLineItem.setBudgetId(awardBudgetPeriod.getBudgetId());
+            // Remove budget-subaward linkage since it doesn't apply to award budget
+            awardBudgetLineItem.setSubAwardNumber(null);
             // Always set line item start and end dates to period dates, since they can't be changed after copy
             awardBudgetLineItem.setStartDate(awardBudgetPeriod.getStartDate());
             awardBudgetLineItem.setEndDate(awardBudgetPeriod.getEndDate());
