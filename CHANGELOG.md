@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2188: allowing UTF-8 characters in s2s opportunity titles.
+  * Travis Schneeberger on Tue, 19 Dec 2017 15:38:34 -0500 [View Commit](../../commit/e9f1fab4fd874158499153bf4cab15f547e8ff64)
+* RESKC-2685: configuring the unit role sync quartz job to use the correct parameters
+  * Travis Schneeberger on Tue, 19 Dec 2017 15:00:31 -0500 [View Commit](../../commit/0fd7fb043e66b7e70c793d234cd8dfe361f15735)
+* RESKC-2077: updating s2s questionnaire and s2s library
+  * Travis Schneeberger on Tue, 19 Dec 2017 14:31:30 -0500 [View Commit](../../commit/abd4a4181d4dccd11ec310d3f3c0b342bd7c4c77)
+
+## coeus-1712.0030
 * RESKC-2683: Update HSCT explanation error message
   * Jeff Largent on Tue, 19 Dec 2017 12:23:17 -0500 [View Commit](../../commit/f294ca22d039c7aab983b4e8966598727531bc69)
 

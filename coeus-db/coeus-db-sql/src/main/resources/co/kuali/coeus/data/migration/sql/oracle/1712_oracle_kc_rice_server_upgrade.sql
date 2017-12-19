@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1712_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1712_003__create_send_notice_permission.sql
+@./rice/bootstrap/V1712_012__SF424_Mandatory_questions.sql
 commit;
