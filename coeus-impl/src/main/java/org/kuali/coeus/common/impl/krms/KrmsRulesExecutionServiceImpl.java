@@ -139,7 +139,9 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
             List<RuleDefinition> ruleDefinitions = ruleRepositoryService.getRules(ruleIds);
             Map<String, RuleDefinition> ruleMap = new HashMap<String, RuleDefinition>();
             for (RuleDefinition rule : ruleDefinitions) {
-                ruleMap.put(rule.getName(), rule);
+                if (rule.isActive()) {
+                    ruleMap.put(rule.getName(), rule);
+                }
             }
             if (results.getResultsOfType(ResultEvent.RULE_EVALUATED) != null && results.getResultsOfType(ResultEvent.RULE_EVALUATED).size() > 0) {
                 for (ResultEvent resultEvent : results.getResultsOfType(ResultEvent.RULE_EVALUATED)) {
