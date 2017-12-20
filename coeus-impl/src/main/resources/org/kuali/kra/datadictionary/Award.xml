@@ -77,6 +77,7 @@
                 <ref bean="Award-templateCode"/>
                 <ref bean="Award-principalInvestigatorName"/>
                 <ref bean="Award-leadUnit.unitName"/>
+                <ref bean="Award-leadUnit.unitNumber"/>
                 <ref bean="Award-leadUnit.unitAdministrators.person.userName"/>
                 <ref bean="Award-leadUnit.unitAdministrators.personId"/>
                 <ref bean="Award-unitNumber"/>
@@ -110,8 +111,6 @@
                 <ref bean="Award-latestAwardAmountInfo.amountObligatedToDate"/>
                 <ref bean="Award-documentStatus" />
                 <ref bean="Award-documentStatusResult" />
-                <ref bean="Award-allFundingProposals.proposal.proposalNumber"/>
-                <ref bean="Award-fundingProposals.awardFundingProposalId"/>
             </list>
         </property>
       	<property name="relationships">
@@ -135,20 +134,19 @@
 				    </property>
 		        </bean>
                 <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="allFundingProposals" />
+                    <property name="objectAttributeName" value="fundingProposals" />
                     <property name="primitiveAttributes">
                         <list>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="allFundingProposals.proposal.proposalNumber"
-                                  p:targetName="proposal.proposalNumber" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="awardNumber"
+                                  p:targetName="award.awardNumber" />
                         </list>
                     </property>
                 </bean>
                 <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="fundingProposals" />
+                    <property name="objectAttributeName" value="leadUnit" />
                     <property name="primitiveAttributes">
                         <list>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="fundingProposals.awardFundingProposalId"
-                                  p:targetName="awardFundingProposalId" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="leadUnit.unitName" p:targetName="unitName" />
                         </list>
                     </property>
                 </bean>
@@ -519,7 +517,7 @@
     <bean id="Award-awardNumber" parent="Award-awardNumber-parentBean"/>
     <bean id="Award-awardNumber-parentBean" abstract="true" parent="KraAttributeReferenceDummy-awardNumber">
         <property name="name" value="awardNumber"/>
-        <property name="label" value="Award ID"/>
+        <property name="label" value="Award ID or Click Icon for Proposal Number Search"/>
         <property name="shortLabel" value="Award ID"/>
         <property name="required" value="false"/>
         <property name="summary" value="Award ID"/>
@@ -997,12 +995,18 @@
         <property name="description" value="Investigator"/>
     </bean>
 
+    <bean id="Award-leadUnit.unitNumber" parent="Award-leadUnit.unitNumber-parentBean" />
+    <bean id="Award-leadUnit.unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="leadUnit.unitNumber" />
+        <property name="label" value="Lead Unit ID" />
+        <property name="shortLabel" value="Unit ID" />
+    </bean>
     <bean id="Award-unitNumber" parent="Award-unitNumber-parentBean"/>
     <bean id="Award-unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="unitNumber"/>
         <property name="forceUppercase" value="false"/>
-        <property name="label" value="Lead Unit ID"/>
-        <property name="shortLabel" value="Lead Unit ID"/>
+        <property name="label" value="Lead Unit Number"/>
+        <property name="shortLabel" value="Lead Unit Number"/>
         <property name="maxLength" value="150"/>
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
@@ -1027,23 +1031,9 @@
     <bean id="Award-leadUnit.unitName-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="leadUnit.unitName"/>
         <property name="forceUppercase" value="false"/>
-        <property name="label" value="Lead Unit"/>
-        <property name="shortLabel" value="Lead Unit"/>
-        <property name="maxLength" value="150"/>
-        <property name="validationPattern">
-            <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
-        </property>
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="true"/>
-            </bean>
-        </property>
-        <property name="control">
-            <bean p:size="60" parent="TextControlDefinition"/>
-        </property>
-        <property name="controlField">
-            <bean p:size="60" parent="Uif-TextControl"/>
-        </property>
+        <property name="label" value="Lead Unit Name"/>
+        <property name="shortLabel" value="Lead Unit Name"/>
+        <property name="required" value="false"/>
         <property name="summary" value="The lead unit name for the Award."/>
         <property name="description" value="The lead unit name for the Award."/>
     </bean>
@@ -1354,35 +1344,7 @@
         <property name="shortLabel" value="Award Unit Contact"/>
     </bean>
 
-<bean id="Award-allFundingProposals.proposal.proposalNumber" parent="Award-allFundingProposals.proposal.proposalNumber-parentBean"/>
-    <bean id="Award-allFundingProposals.proposal.proposalNumber-parentBean"  parent="AttributeDefinition">
-        <property name="name" value="allFundingProposals.proposal.proposalNumber"/>
-        <property name="label" value="Proposal Number"/>
-        <property name="shortLabel" value="Proposal Number"/>
-        <property name="required" value="false" />
-        <property name="maxLength" value="200" />
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                  p:size="20" />
-        </property>
-        <property name="summary" value="Proposal Number" />
-        <property name="description" value="Proposal Number" />
-    </bean>
-    <bean id="Award-fundingProposals.awardFundingProposalId" parent="Award-fundingProposals.awardFundingProposalId-parentBean"/>
-    <bean id="Award-fundingProposals.awardFundingProposalId-parentBean"  parent="AttributeDefinition">
-        <property name="name" value="fundingProposals.awardFundingProposalId"/>
-        <property name="label" value="Funding Proposal ID"/>
-        <property name="shortLabel" value="Funding Proposal ID"/>
-        <property name="required" value="false" />
-        <property name="maxLength" value="200" />
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                  p:size="20" />
-        </property>
-        <property name="summary" value="Award Funding Proposal Id" />
-        <property name="description" value="Award Funding Proposal ID" />
-    </bean>
-    <bean id="Award-projectPersons.fullName" parent="Award-projectPersons.fullName-parentBean"/>
+  <bean id="Award-projectPersons.fullName" parent="Award-projectPersons.fullName-parentBean"/>
     <bean id="Award-projectPersons.fullName-parentBean" abstract="true" parent="AwardContact-fullName">
         <property name="name" value="projectPersons.fullName"/>
         <property name="label" value="Investigator"/>
@@ -1532,8 +1494,7 @@
                             <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
                             <bean p:attributeName="title" parent="FieldDefinition"/>
                             <bean p:attributeName="projectPersons.fullName" parent="FieldDefinition"/>
-                            <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
-                            <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition"/>
+                            <bean p:attributeName="leadUnit.unitNumber" parent="FieldDefinition"/>
                             <bean p:attributeName="ospAdministratorName" parent="FieldDefinition"/>
                             <bean p:attributeName="archiveLocation" parent="FieldDefinition"/>
                             <bean p:attributeName="closeoutDate" parent="FieldDefinition"/>
@@ -1564,7 +1525,7 @@
                             <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
                             <bean p:propertyName="title" parent="Uif-DataField"/>
                             <bean p:propertyName="projectPersons.fullName" parent="Uif-DataField"/>
-                            <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
+                            <bean p:propertyName="ledUnit.unitNumber" parent="Uif-DataField"/>
                             <bean p:propertyName="leadUnit.unitName" parent="Uif-DataField"/>
                             <bean p:propertyName="ospAdministratorName" parent="Uif-DataField"/>
                             <bean p:propertyName="archiveLocation" parent="Uif-DataField"/>
@@ -1588,16 +1549,15 @@
         </property>
         <property name="lookupFields">
             <list>
-                <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition"/>
+                <bean p:attributeName="leadUnit.unitNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="leadUnit.unitName" p:noLookup="true" p:noDirectInquiry="true" parent="FieldDefinition"/>
                 <bean p:attributeName="projectPersons.fullName" p:noDirectInquiry="true" parent="FieldDefinition"/>
-                <bean p:attributeName="allFundingProposals.proposal.proposalNumber" p:noDirectInquiry="true" parent="FieldDefinition"/>
-                <bean p:attributeName="fundingProposals.awardFundingProposalId" p:noDirectInquiry="true" parent="FieldDefinition"/>
                 <bean p:attributeName="title" parent="FieldDefinition"/>
                 <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
                 <bean p:attributeName="accountNumber" parent="FieldDefinition"/> <!-- SJW - Account Key -->
                 <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition"/>
                 <bean p:attributeName="financialChartOfAccountsCode" parent="FieldDefinition"/> <!-- SJW - Contract ID -->
-                <bean p:attributeName="awardNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="awardNumber" p:noDirectInquiry="true" parent="FieldDefinition"/>
                 <bean p:attributeName="statusCode" parent="FieldDefinition"/>
                 <bean p:attributeName="awardTypeCode" parent="FieldDefinition"/>
                 <bean p:attributeName="basisOfPaymentCode" parent="FieldDefinition"/>
@@ -1615,7 +1575,7 @@
                 <bean p:attributeName="accountNumber" parent="FieldDefinition"/> <!-- SJW - Account Key -->
                 <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition"/>
                 <bean p:attributeName="financialChartOfAccountsCode" parent="FieldDefinition"/> <!-- SJW - Contract ID -->
-                <bean p:attributeName="awardNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="awardNumber" p:useShortLabel="true" parent="FieldDefinition"/>
                 <bean p:attributeName="awardEffectiveDate" parent="FieldDefinition"/>
                 <bean p:attributeName="latestAwardAmountInfo.finalExpirationDate" parent="FieldDefinition"/>
                 <bean p:attributeName="statusDescription" parent="FieldDefinition"/>
@@ -1633,17 +1593,15 @@
             <property name="headerText" value="Award Lookup"/>
             <property name="criteriaFields">
                 <list>
-                    <bean p:propertyName="awardNumber" parent="Uif-LookupCriteriaInputField"/>
+                    <bean p:propertyName="awardNumber" p:enableAutoDirectInquiry="false" parent="Uif-LookupCriteriaInputField"/>
                     <bean p:propertyName="sponsorAwardNumber" parent="Uif-LookupCriteriaInputField"/>
                     <bean p:propertyName="accountNumber" parent="Uif-LookupCriteriaInputField"/>
                     <bean p:propertyName="statusCode" parent="Uif-LookupCriteriaInputField"/>
                     <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
                     <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
                     <bean p:propertyName="projectPersons.fullName" p:enableAutoDirectInquiry="false" parent="Uif-LookupCriteriaInputField"/>
-                    <bean p:propertyName="allFundingProposals.proposal.proposalNumber" p:enableAutoDirectInquiry="false" parent="Uif-LookupCriteriaInputField"/>
-                    <bean p:propertyName="fundingProposals.awardFundingProposalId" p:enableAutoDirectInquiry="false" parent="Uif-LookupCriteriaInputField"/>
-                    <bean p:propertyName="unitNumber" parent="Uif-LookupCriteriaInputField"/>
-                    <bean p:propertyName="leadUnit.unitName" parent="Uif-LookupCriteriaInputField"/>
+                    <bean p:propertyName="leadUnit.unitNumber" parent="Uif-LookupCriteriaInputField"/>
+                    <bean p:propertyName="leadUnit.unitName" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
                     <bean p:propertyName="lookupOspAdministratorName" p:enableAutoDirectInquiry="false" parent="Uif-LookupCriteriaInputField"/>
                     <bean p:propertyName="awardUnitContacts.awardContactId" parent="Uif-LookupCriteriaInputField"/>
                     <bean p:propertyName="archiveLocation" parent="Uif-LookupCriteriaInputField"/>
@@ -1655,7 +1613,7 @@
             </property>
             <property name="resultFields">
                 <list>
-                    <bean p:propertyName="awardNumber" parent="Uif-DataField"/>
+                    <bean p:propertyName="awardNumber" p:useShortLabel="true" parent="Uif-DataField"/>
                     <bean p:propertyName="sponsorAwardNumber" parent="Uif-DataField"/>
                     <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
                     <bean p:propertyName="leadUnit.unitName" parent="Uif-DataField"/>
