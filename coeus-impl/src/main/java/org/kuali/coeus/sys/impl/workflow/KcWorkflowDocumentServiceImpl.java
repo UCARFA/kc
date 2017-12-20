@@ -19,12 +19,16 @@
 package org.kuali.coeus.sys.impl.workflow;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
+import org.kuali.coeus.sys.impl.workflow.action.KcRecallAction;
 import org.kuali.coeus.sys.impl.workflow.action.KcReturnToPreviousNodeAction;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kew.actions.RecallAction;
 import org.kuali.rice.kew.actions.ReturnToPreviousNodeAction;
 import org.kuali.rice.kew.api.exception.InvalidActionTakenException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.impl.WorkflowDocumentServiceImpl;
 import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class KcWorkflowDocumentServiceImpl extends WorkflowDocumentServiceImpl {
 
@@ -39,6 +43,23 @@ public class KcWorkflowDocumentServiceImpl extends WorkflowDocumentServiceImpl {
             return finish(routeHeader);
         } else {
             return super.returnDocumentToPreviousNode(principalId, routeHeader, destinationNodeName, annotation);
+        }
+    }
+
+    @Override
+    public DocumentRouteHeaderValue recallDocument(String principalId, DocumentRouteHeaderValue routeHeader, String annotation, boolean cancel) throws InvalidActionTakenException {
+        if (isProposalDevelopmentDocument(routeHeader)) {
+            if (!routeHeader.isFinal() && !routeHeader.isProcessed()) {
+                final Principal principal = loadPrincipal(principalId);
+                final RecallAction action = new KcRecallAction(routeHeader, principal, annotation, cancel);
+                action.performAction();
+                indexForSearchAfterActionIfNecessary(routeHeader);
+            } else {
+                GlobalVariables.getMessageMap().putError("document", RiceKeyConstants.MESSAGE_RECALL_NOT_SUPPORTED);
+            }
+            return finish(routeHeader);
+        } else {
+            return super.recallDocument(principalId, routeHeader, annotation, cancel);
         }
     }
 
