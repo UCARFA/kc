@@ -215,7 +215,8 @@
 		p:readOnly="@{((#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or
 		    (#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))
 		    || #parent.readOnly}"
-		p:propertyName="specialReviewExemptions" p:label="Exemption #">
+		p:propertyName="specialReviewExemptions" p:label="Exemption #"
+		p:readOnlyDisplayReplacementPropertyName="specialReviewExemptionsForDisplay">
 		<property name="control">
 			<bean parent="Uif-AdvancedMultiSelectControl"/>
 		</property>
