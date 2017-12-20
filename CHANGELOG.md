@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2275: Allow inactive forms to be considered avilable if user-attached when returning a GG opportunity
+  * Jeff Largent on Tue, 19 Dec 2017 17:28:10 -0500 [View Commit](../../commit/9e412f66085f645482ffd3695815bded77106fdd)
+
+## coeus-1712.0035
 * No Changes
 
 
