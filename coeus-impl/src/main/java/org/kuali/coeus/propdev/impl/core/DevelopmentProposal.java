@@ -522,7 +522,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     public DevelopmentProposal() {
         super();
-        setProposalStateTypeCode(ProposalState.IN_PROGRESS);
+        this.proposalStateTypeCode = ProposalState.IN_PROGRESS;
         propScienceKeywords = new ArrayList<>();
         newDescription = getDefaultNewDescription();
         propSpecialReviews = new ArrayList<>();
