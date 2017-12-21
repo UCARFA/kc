@@ -21,4 +21,5 @@
 \. ./rice/bootstrap/V1712_003__create_send_notice_permission.sql
 \. ./rice/bootstrap/V1712_012__SF424_Mandatory_questions.sql
 \. ./rice/bootstrap/V1712_013__fix_krms_term_resolver_name.sql
+\. ./rice/bootstrap/V1712_016__update_non_pd_person_role_derived_roles.sql
 commit;

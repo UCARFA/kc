@@ -1,6 +1,16 @@
 
 
 ## CURRENT
+* RESKC-2695: Update non-PD Investigators roles to match new name
+  * Jeff Largent on Thu, 21 Dec 2017 15:40:27 -0500 [View Commit](../../commit/705bceac912c08bada2d1c637b47264a53f2be6e)
+* Revert "RESKC-1749: After Recall, a Submit for Review will clear any Complete…"
+  * Travis Schneeberger on Thu, 21 Dec 2017 13:27:51 -0500 [View Commit](../../commit/24bd8d992ce6c03ffdd764289ff1a1f3c2129915)
+* RESKC-1749: After Recall, a Submit for Review will clear any Complete requests generated from the Recall.
+  * Travis Schneeberger on Wed, 20 Dec 2017 16:12:46 -0500 [View Commit](../../commit/3fba95b72f13d67b9b81f55970b23da76da3e3dc)
+* RESKC-2692: Fix read-only display for special review exemptions
+  * Jeff Largent on Wed, 20 Dec 2017 17:59:23 -0500 [View Commit](../../commit/5fdee7a1fddb0236671bd3405c5f326b797f26f8)
+
+## coeus-1712.0037
 * RESKC-2687: Don't require special review attachment file
   * Jeff Largent on Thu, 21 Dec 2017 10:00:45 -0500 [View Commit](../../commit/bb50df490b546514bf97457aaa9751da0ed210b6)
 

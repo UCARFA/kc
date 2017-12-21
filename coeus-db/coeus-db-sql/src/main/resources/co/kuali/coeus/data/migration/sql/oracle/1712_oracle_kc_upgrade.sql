@@ -33,4 +33,5 @@ spool 1712_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1712_011__SF424_Mandatory_questions.sql
 @./kc/bootstrap/V1712_014__questions_active.sql
 @./kc/bootstrap/V1712_015__allow_null_special_review_attachments.sql
+@./kc/bootstrap/V1712_017__update_person_role_derived_roles.sql
 commit;
