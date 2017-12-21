@@ -211,11 +211,10 @@ public class ProposalDevelopmentSubmitController extends
         form.setEvaluateFlagsAndModes(true);
         if (ProposalState.REVISIONS_REQUESTED.equals(form.getDevelopmentProposal().getProposalStateTypeCode())) {
         	if (workflowDoc.isApprovalRequested()) {
-                workflowDoc.approve("Revisions Requested Re-Submit");
+        		workflowDoc.approve("Revisions Requested Re-Submit");
         	} else {
         		form.getProposalDevelopmentDocument().getActionRequests().stream()
-                        .filter(actionRequest -> ProposalDevelopmentConstants.KewConstants.AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION.equals(actionRequest.getAnnotation()) ||
-                                ProposalDevelopmentConstants.KewConstants.SUBMITTER_REQUEST_FOR_REVIEW_ANNOTATION.equals(actionRequest.getAnnotation()))
+        			.filter(actionRequest -> ProposalDevelopmentConstants.KewConstants.AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION.equals(actionRequest.getAnnotation()))
         			.map(actionRequest -> getActionRequestService().findByActionRequestId(actionRequest.getId()))
         			.forEach(actionRequest -> getActionRequestService().deactivateRequest(null, actionRequest));
         		getTransactionalDocumentControllerService().route(form);

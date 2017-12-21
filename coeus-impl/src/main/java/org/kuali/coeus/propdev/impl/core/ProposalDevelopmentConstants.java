@@ -148,7 +148,6 @@ public class ProposalDevelopmentConstants {
 
         public static final String PROPOSAL_DEVELOPMENT_DOCUMENT = "ProposalDevelopmentDocument";
 		public static final String AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION = "Aggregators Request for Review";
-        public static final String SUBMITTER_REQUEST_FOR_REVIEW_ANNOTATION = "Submitter Request for Review";
     }
     
     
