@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1712.0038
 * RESKC-2695: Update non-PD Investigators roles to match new name
   * Jeff Largent on Thu, 21 Dec 2017 15:40:27 -0500 [View Commit](../../commit/705bceac912c08bada2d1c637b47264a53f2be6e)
 * Revert "RESKC-1749: After Recall, a Submit for Review will clear any Complete…"
