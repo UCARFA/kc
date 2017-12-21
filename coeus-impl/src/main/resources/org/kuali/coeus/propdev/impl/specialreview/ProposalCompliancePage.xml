@@ -110,7 +110,6 @@
                 </bean>
 
                 <bean parent="PropDev-CompliancePage-PropSpecialReviewAttachment" p:order="130" p:cssClasses="specialReviewAttachmentReplace@{#lineSuffix}"
-                      p:required="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line) and #index eq -1}"
                       p:render="@{#ViewHelper.isSpecialReviewAttachmentRequired(document, #line)}"
                       p:hidden="@{#ViewHelper.hasSpecialReviewAttachment(#line)}"/>
 
