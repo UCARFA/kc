@@ -378,10 +378,6 @@ public abstract class ProposalDevelopmentControllerBase {
                   throw new RuntimeException(e);
               }
           }
-          // Don't try to save a new file to the database if no file data is present-- user did not attach a file to upload
-          if (specialReviewAttachment.getId() == null && specialReviewAttachment.getMultipartFile() == null) {
-              specialReview.setSpecialReviewAttachment(null);
-          }
           // Remove attachment if compliance entry has change to something other than human subjects
           if (specialReviewAttachment.getId() != null && !SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
               specialReview.setSpecialReviewAttachment(null);
