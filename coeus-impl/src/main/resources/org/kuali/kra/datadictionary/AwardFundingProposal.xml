@@ -37,6 +37,13 @@
                 <ref bean="AwardFundingProposal-versionNumber" />
                 <ref bean="AwardFundingProposal-proposal.proposalNumber" />
                 <ref bean="AwardFundingProposal-award.awardNumber" />
+                <ref bean="AwardFundingProposal-award.unitName" />
+                <ref bean="AwardFundingProposal-award.piName" />
+                <ref bean="AwardFundingProposal-award.title" />
+                <ref bean="AwardFundingProposal-award.sponsorName" />
+                <ref bean="AwardFundingProposal-award.accountNumber" />
+                <ref bean="AwardFundingProposal-award.awardEffectiveDate" />
+                <ref bean="AwardFundingProposal-award.projectEndDate" />
                 <ref bean="AwardFundingProposal-award.sponsorAwardNumber" />
 
             </list>
@@ -70,8 +77,8 @@
     <bean id="AwardFundingProposal-award.awardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="award.awardNumber" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Award Number" />
-        <property name="shortLabel" value="Award Number" />
+        <property name="label" value="Award ID" />
+        <property name="shortLabel" value="Award ID" />
         <property name="maxLength" value="22" />
         <property name="control" >
             <bean parent="TextControlDefinition" p:size="10"/>
@@ -99,6 +106,55 @@
         <property name="description" value="Sponsor Award Number" />
     </bean>
 
+    <bean id="AwardFundingProposal-award.unitName" parent="AwardFundingProposal-award.unitName-parentBean" />
+    <bean id="AwardFundingProposal-award.unitName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="award.unitName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Lead Unit" />
+        <property name="shortLabel" value="Lead Unit" />
+    </bean>
+    <bean id="AwardFundingProposal-award.piName" parent="AwardFundingProposal-award.piName-parentBean" />
+    <bean id="AwardFundingProposal-award.piName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="award.piName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Investigator" />
+        <property name="shortLabel" value="Investigator" />
+    </bean>
+    <bean id="AwardFundingProposal-award.title" parent="AwardFundingProposal-award.title-parentBean" />
+    <bean id="AwardFundingProposal-award.title-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="award.title" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Award Title" />
+        <property name="shortLabel" value="Award Title" />
+    </bean>
+    <bean id="AwardFundingProposal-award.sponsorName" parent="AwardFundingProposal-award.sponsorName-parentBean" />
+    <bean id="AwardFundingProposal-award.sponsorName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="award.sponsorName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Sponsor Name" />
+        <property name="shortLabel" value="Sponsor Name" />
+   </bean>
+    <bean id="AwardFundingProposal-award.accountNumber" parent="AwardFundingProposal-award.accountNumber-parentBean" />
+    <bean id="AwardFundingProposal-award.accountNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="award.accountNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Account Key" />
+        <property name="shortLabel" value="Account Key" />
+    </bean>
+    <bean id="AwardFundingProposal-award.awardEffectiveDate" parent="AwardFundingProposal-award.awardEffectiveDate-parentBean" />
+    <bean id="AwardFundingProposal-award.awardEffectiveDate-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="award.awardEffectiveDate" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Project Start Date" />
+        <property name="shortLabel" value="Project Start Date" />
+     </bean>
+    <bean id="AwardFundingProposal-award.projectEndDate" parent="AwardFundingProposal-award.projectEndDate-parentBean" />
+    <bean id="AwardFundingProposal-award.projectEndDate-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="award.projectEndDate" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Project End Date" />
+        <property name="shortLabel" value="Project End Date" />
+    </bean>
     <bean id="AwardFundingProposal-proposal.proposalNumber" parent="AwardFundingProposal-proposal.proposalNumber-parentBean" />
     <bean id="AwardFundingProposal-proposal.proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposal.proposalNumber" />
@@ -227,8 +283,15 @@
         </property>
         <property name="resultFields" >
             <list>
-        <bean parent="FieldDefinition" p:attributeName="award.sponsorAwardNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="award.sponsorAwardNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="proposal.proposalNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="award.unitName"/>
+                <bean parent="FieldDefinition" p:attributeName="award.piName"/>
+                <bean parent="FieldDefinition" p:attributeName="award.title"/>
+                <bean parent="FieldDefinition" p:attributeName="award.sponsorName"/>
+                <bean parent="FieldDefinition" p:attributeName="award.accountNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="award.awardEffectiveDate"/>
+                <bean parent="FieldDefinition" p:attributeName="award.projectEndDate"/>
                 <bean parent="FieldDefinition" p:attributeName="award.awardNumber"/>
             </list>
         </property>
@@ -246,6 +309,13 @@
       <list>
         <bean p:propertyName="award.sponsorAwardNumber" parent="Uif-DataField"/>
           <bean p:propertyName="proposal.proposalNumber" parent="Uif-DataField"/>
+          <bean p:propertyName="award.unitName" parent="Uif-DataField"/>
+          <bean p:propertyName="award.piName" parent="Uif-DataField"/>
+          <bean p:propertyName="award.title" parent="Uif-DataField"/>
+          <bean p:propertyName="award.sponsorName" parent="Uif-DataField"/>
+          <bean p:propertyName="award.accountNumber" parent="Uif-DataField"/>
+          <bean p:propertyName="award.awardEffectiveDate" parent="Uif-DataField"/>
+          <bean p:propertyName="award.projectEndDate" parent="Uif-DataField"/>
           <bean p:propertyName="award.awardNumber" parent="Uif-DataField"/>
       </list>
     </property>
