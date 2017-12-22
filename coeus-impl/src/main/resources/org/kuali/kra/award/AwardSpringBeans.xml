@@ -824,7 +824,8 @@
 
     <!-- Award CFDA Services -->
     
-    <bean id="cfdaService" class="org.kuali.kra.external.Cfda.service.impl.CfdaServiceImpl">
+    <!-- SJW <bean id="cfdaService" class="org.kuali.kra.external.Cfda.service.impl.CfdaServiceImpl"> -->
+    <bean id="cfdaService" class="edu.ucar.fanda.kuali.kra.external.Cfda.service.impl.UcarCfdaServiceImpl">
         <property name="parameterService" ref="parameterService"/>
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
