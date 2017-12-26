@@ -19,6 +19,7 @@
 package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -53,7 +54,7 @@ public class NarrativeStatusValuesFinder extends UifKeyValuesFinderBase {
         KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection<NarrativeStatus> statuses = keyValuesService.findAll(NarrativeStatus.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         for (NarrativeStatus status : statuses) {
              keyValues.add(new ConcreteKeyValue(status.getCode(), status.getDescription()));
       

@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -47,7 +48,7 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
     public List<KeyValue> getKeyValues(Class<? extends BusinessObject> keyValClass,String codePropName,String valPropName) {
         Collection keyVals = businessObjectService.findAll(keyValClass);
         List<KeyValue> keyValueList = new ArrayList<KeyValue>(keyVals.size());
-        keyValueList.add(new ConcreteKeyValue("", "select"));
+        keyValueList.add(ValuesFinderUtils.getSelectOption());
         for (Iterator iterator = keyVals.iterator(); iterator.hasNext();) {
             Object keyValObj = iterator.next();
             Method getCodeMeth;
@@ -72,7 +73,7 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
         
         Collection keyVals = businessObjectService.findMatching(keyValClass,queryMap);
         List<KeyValue> keyValueList = new ArrayList<KeyValue>(keyVals.size());
-        keyValueList.add(new ConcreteKeyValue("", "select:"));
+        keyValueList.add(ValuesFinderUtils.getSelectOption());
         for (Iterator iterator = keyVals.iterator(); iterator.hasNext();) {
             Object keyValObj = iterator.next();
             Method getCodeMeth;

@@ -1215,7 +1215,14 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     @Override
     public void incrementSequenceNumber() {
-        this.sequenceNumber++;
+        List<InstitutionalProposal> versions = (List<InstitutionalProposal>) getBusinessObjectService()
+                .findMatchingOrderBy(InstitutionalProposal.class, Collections.singletonMap("proposalNumber", getProposalNumber()),
+                        "sequenceNumber", false);
+        if (CollectionUtils.isNotEmpty(versions)) {
+            this.sequenceNumber = versions.get(0).getSequenceNumber() + 1;
+        } else {
+            this.sequenceNumber++;
+        }
     }
 
     @Override

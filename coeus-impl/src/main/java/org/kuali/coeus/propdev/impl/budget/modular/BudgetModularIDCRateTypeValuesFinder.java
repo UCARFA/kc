@@ -19,10 +19,10 @@
 package org.kuali.coeus.propdev.impl.budget.modular;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.rate.RateClass;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
@@ -37,7 +37,7 @@ public class BudgetModularIDCRateTypeValuesFinder extends UifKeyValuesFinderBase
         Map<String,String> queryMap = new HashMap<String,String>();
         queryMap.put("rateClassType", "O");
         List<KeyValue> keyValueList = keyValueFinderService.getKeyValues(RateClass.class, "code", "description", queryMap);
-        KeyValue KeyValueSelect = new ConcreteKeyValue("", "select");
+        KeyValue KeyValueSelect = ValuesFinderUtils.getSelectOption();
         for (KeyValue KeyValue : keyValueList) {
             if (StringUtils.isBlank(KeyValue.getKey().toString())) {
                 KeyValueSelect = KeyValue;

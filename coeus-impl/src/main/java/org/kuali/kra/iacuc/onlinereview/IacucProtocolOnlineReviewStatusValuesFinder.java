@@ -20,6 +20,7 @@ package org.kuali.kra.iacuc.onlinereview;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -42,7 +43,7 @@ public class IacucProtocolOnlineReviewStatusValuesFinder extends IacucActionsKey
     public List<KeyValue> getKeyValues() {
         Collection<IacucProtocolOnlineReviewStatus> reviewStatusCodes = this.getKeyValuesService().findAll(IacucProtocolOnlineReviewStatus.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         for (IacucProtocolOnlineReviewStatus status : reviewStatusCodes) {
             //we do not want users to assign the cancelled code.
             if (!StringUtils.equals(IacucProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD, status.getStatusCode())) {

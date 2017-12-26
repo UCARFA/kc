@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
-import com.ibm.icu.impl.Grego;
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailResponse;
 import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesResponse;
@@ -38,14 +37,14 @@ import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.propdev.impl.s2s.nih.NihSubmissionValidationService;
+import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
+import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.api.generate.FormGenerationResult;
+import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
-import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
-import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.criteria.QueryResults;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -498,7 +497,11 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
             for (S2sOppForms s2sOppForm : s2sOppForms) {
                 final S2sFormConfigurationContract cfg = getS2sFormConfigurationService().findS2sFormConfigurationByFormName(s2sOppForm.getFormName());
                 if (cfg != null) {
-                    s2sOppForm.setAvailable(s2sOppForm.getAvailable() && cfg.isActive());
+                    proposal.getS2sUserAttachedForms().stream()
+                            .filter(form -> StringUtils.equals(form.getNamespace(), s2sOppForm.getOppNameSpace()))
+                            .findFirst()
+                            .ifPresent(form -> s2sOppForm.setUserAttachedForm(true));
+                    s2sOppForm.setAvailable(s2sOppForm.getAvailable() && (cfg.isActive() || s2sOppForm.getUserAttachedForm()));
                 }
                 if (s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()) {
                     missingMandatoryForms.add(s2sOppForm.getFormName());

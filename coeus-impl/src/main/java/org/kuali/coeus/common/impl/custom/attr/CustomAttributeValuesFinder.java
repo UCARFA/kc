@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.impl.custom.attr;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -43,7 +44,7 @@ public class CustomAttributeValuesFinder extends UifKeyValuesFinderBase {
             Collection<String> validTypes = KcServiceLocator.getService(ParameterService.class).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
                     Constants.CUSTOM_ATTRIBUTE_DOCUMENT_DETAIL_TYPE_CODE, Constants.CUSTOM_ATTRIBUTE_DOCUMENT_PARAM_NAME);
             List<KeyValue> newList = new ArrayList<KeyValue>();
-            newList.add(new ConcreteKeyValue("", "select"));
+            newList.add(ValuesFinderUtils.getSelectOption());
             for (String documentType : validTypes) {
                 String[] params = documentType.split(EQUAL_CHAR);
                 newList.add(new ConcreteKeyValue(params[0].replace(" ", "+"), params[1]));

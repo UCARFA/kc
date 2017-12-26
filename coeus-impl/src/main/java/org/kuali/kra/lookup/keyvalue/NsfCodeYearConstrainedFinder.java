@@ -2,6 +2,7 @@ package org.kuali.kra.lookup.keyvalue;
 
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -34,7 +35,7 @@ public class NsfCodeYearConstrainedFinder extends UifKeyValuesFinderBase {
 
     @Override
     public List<KeyValue> getKeyValues() {
-        return Stream.concat(Stream.of(new ConcreteKeyValue("", "select")),getBusinessObjectService()
+        return Stream.concat(Stream.of(ValuesFinderUtils.getSelectOption()),getBusinessObjectService()
                 .findMatching(NsfCode.class, Collections.singletonMap(YEAR, getNsfCodeYear())).stream()
                 .map(nsfCode -> new ConcreteKeyValue(nsfCode.getNsfSequenceNumber().toString(), nsfCode.getDescription())))
                 .collect(Collectors.toList());

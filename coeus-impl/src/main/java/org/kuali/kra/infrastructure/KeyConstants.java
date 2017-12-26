@@ -1149,6 +1149,7 @@ public final class KeyConstants {
     public static final String S2S_USER_ATTACHED_FORM_NOT_VALID = "error.s2s.userattachedform.invalid";
     public static final String S2S_USER_ATTACHED_FORM_NOT_PDF = "error.s2s.userattachedform.not.pdf";
     public static final String S2S_USER_ATTACHED_FORM_NOT_FILLED = "error.s2s.userattachedform.not.filled";
+    public static final String S2S_USER_ATTACHED_FORM_NOT_ALLOWED = "error.s2s.userattachedform.not.allowed";
     public static final String ERROR_DELETION_BLOCKED = "error.deletion.blocked";
 
     public static final String AUDIT_WARNING_PROPOSAL_WITHNO_BUDGET = "warning.proposal.withno.budget";

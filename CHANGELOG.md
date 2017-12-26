@@ -1,6 +1,104 @@
 
 
 ## CURRENT
+* Revert "Revert "RESKC-1749: After Recall, a Submit for Review will clear any Complete…""
+  * Travis Schneeberger on Thu, 21 Dec 2017 13:28:14 -0500 [View Commit](../../commit/3c338cf8838336bf79790114588e954edf396429)
+
+## coeus-1712.0039
+* No Changes
+
+
+## coeus-1712.0038
+* RESKC-2695: Update non-PD Investigators roles to match new name
+  * Jeff Largent on Thu, 21 Dec 2017 15:40:27 -0500 [View Commit](../../commit/705bceac912c08bada2d1c637b47264a53f2be6e)
+* Revert "RESKC-1749: After Recall, a Submit for Review will clear any Complete…"
+  * Travis Schneeberger on Thu, 21 Dec 2017 13:27:51 -0500 [View Commit](../../commit/24bd8d992ce6c03ffdd764289ff1a1f3c2129915)
+* RESKC-1749: After Recall, a Submit for Review will clear any Complete requests generated from the Recall.
+  * Travis Schneeberger on Wed, 20 Dec 2017 16:12:46 -0500 [View Commit](../../commit/3fba95b72f13d67b9b81f55970b23da76da3e3dc)
+* RESKC-2692: Fix read-only display for special review exemptions
+  * Jeff Largent on Wed, 20 Dec 2017 17:59:23 -0500 [View Commit](../../commit/5fdee7a1fddb0236671bd3405c5f326b797f26f8)
+
+## coeus-1712.0037
+* RESKC-2687: Don't require special review attachment file
+  * Jeff Largent on Thu, 21 Dec 2017 10:00:45 -0500 [View Commit](../../commit/bb50df490b546514bf97457aaa9751da0ed210b6)
+
+## coeus-1712.0036
+* RESKC-2275: Allow inactive forms to be considered avilable if user-attached when returning a GG opportunity
+  * Jeff Largent on Tue, 19 Dec 2017 17:28:10 -0500 [View Commit](../../commit/9e412f66085f645482ffd3695815bded77106fdd)
+
+## coeus-1712.0035
+* No Changes
+
+
+## coeus-1712.0034
+* No Changes
+
+
+## coeus-1712.0033
+* RESKC-2691: honoring the active flag
+  * Travis Schneeberger on Tue, 19 Dec 2017 18:00:38 -0500 [View Commit](../../commit/3ad99bc14076eeac03b8c94a3b450cf4994fc923)
+* RESKC-2691: Setting specific questions with the latest sequence to active
+  * Travis Schneeberger on Tue, 19 Dec 2017 17:03:40 -0500 [View Commit](../../commit/2e9aad1aa06f5019a440d2f62258fc79cc308e37)
+* RESKC-2656: Removed parentheses from sponsor hierarchy term resolver name
+  * Jeff Largent on Tue, 19 Dec 2017 16:59:03 -0500 [View Commit](../../commit/07a3ae14f7d39a0f988520002254eb75f58981f2)
+
+## coeus-1712.0032
+* No Changes
+
+
+## coeus-1712.0031
+* RESKC-2188: allowing UTF-8 characters in s2s opportunity titles.
+  * Travis Schneeberger on Tue, 19 Dec 2017 15:38:34 -0500 [View Commit](../../commit/e9f1fab4fd874158499153bf4cab15f547e8ff64)
+* RESKC-2685: configuring the unit role sync quartz job to use the correct parameters
+  * Travis Schneeberger on Tue, 19 Dec 2017 15:00:31 -0500 [View Commit](../../commit/0fd7fb043e66b7e70c793d234cd8dfe361f15735)
+* RESKC-2077: updating s2s questionnaire and s2s library
+  * Travis Schneeberger on Tue, 19 Dec 2017 14:31:30 -0500 [View Commit](../../commit/abd4a4181d4dccd11ec310d3f3c0b342bd7c4c77)
+
+## coeus-1712.0030
+* RESKC-2683: Update HSCT explanation error message
+  * Jeff Largent on Tue, 19 Dec 2017 12:23:17 -0500 [View Commit](../../commit/f294ca22d039c7aab983b4e8966598727531bc69)
+
+## coeus-1712.0029
+* RESKC-2493: Remove the subaward line item link when copying periods to award budget
+  * Jeff Largent on Mon, 18 Dec 2017 10:50:29 -0500 [View Commit](../../commit/3ffd2a8dfc25022b1ce40527af49da7d819f9e2d)
+
+## coeus-1712.0028
+*  RESKC-2683: Show error if human specimens question is Y and other requested info attachment is not present
+  * Jeff Largent on Mon, 18 Dec 2017 16:23:19 -0500 [View Commit](../../commit/ec6a4e88a94a66fd743979e0b42b56fb8c522e3c)
+
+## coeus-1712.0027
+* RESKC-2677: Added missing sequence increment statement
+  * Jeff Largent on Mon, 18 Dec 2017 12:35:21 -0500 [View Commit](../../commit/53bb28880d7bedf2c5686a459820d83b6cdf8e1f)
+* RESKC-2322: Fix first run of tests
+  * blackcathacker on Sun, 17 Dec 2017 16:15:02 -0800 [View Commit](../../commit/755832d79e43c77a115a8f2794b6378b60fe2424)
+* RESKC-2677: Fixed several incorrect S2S errors for PHS fellowship supplemental form
+  * Jeff Largent on Mon, 18 Dec 2017 10:20:44 -0500 [View Commit](../../commit/b7da27337800b5f9f86601ddc2d7b9f3680b5cec)
+* RESKC-2684: Remove deprecated Research Plan v4 valid narrative
+  * Jeff Largent on Mon, 18 Dec 2017 09:54:33 -0500 [View Commit](../../commit/ce44c2c949658c86b1eb17391422bdb2d1af6253)
+* RESKC-2275: Enable user-attaching supported forms view s2s form config
+  * Jeff Largent on Fri, 15 Dec 2017 10:41:13 -0500 [View Commit](../../commit/6c0b722afeaf5926c46524cffa78b79f258aaf3d)
+
+## coeus-1712.0026
+* RESKC-2270: Used `ValuesFinderUtils` for adding select option to values finders
+  * Jeff Largent on Fri, 15 Dec 2017 12:39:10 -0500 [View Commit](../../commit/b563c8e16ab615e33a2b93b50e6a2f73c32e395a)
+* RESKC-2270: Replace session-level caching with JSP request caching-level for Award Report Tracking values finders
+
+* Also reduce the number of DB queries and object invocations being done in those values finders
+  * Jeff Largent on Fri, 15 Dec 2017 12:06:43 -0500 [View Commit](../../commit/b3474ddd3bd82574bb943a7138fc1991e828bd96)
+
+## coeus-1712.0025
+* Make expiration date editable for amendments
+  * blackcathacker on Thu, 14 Dec 2017 13:18:01 -0800 [View Commit](../../commit/ec16f570e3b7d742f0bffb7558ba5ff135d767db)
+
+## coeus-1712.0024
+* RESKC-2432: Make sure IP sequence associates respect canceled IPs when incrementing sequence number
+  * Jeff Largent on Thu, 14 Dec 2017 13:36:39 -0500 [View Commit](../../commit/f99e51336961b1210def01c8a41240fb717c0bbe)
+
+## coeus-1712.0023
+* No Changes
+
+
+## coeus-1712.0022
 * RESKC-1479: Always order narratives by upload order desc
 
 * Except for specific S2S generator included in s2sgen version 1712.0006

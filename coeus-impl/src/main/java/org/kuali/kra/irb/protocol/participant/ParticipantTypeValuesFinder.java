@@ -20,6 +20,7 @@ package org.kuali.kra.irb.protocol.participant;
 
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -67,7 +68,7 @@ public class ParticipantTypeValuesFinder extends FormViewAwareUifKeyValuesFinder
             (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection<ParticipantType> participantTypes = keyValuesService.findAll(ParticipantType.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         for (ParticipantType participantType : participantTypes) {
             if (!hasParticipant(doc, participantType)) {
                 keyValues.add(new ConcreteKeyValue(participantType.getParticipantTypeCode(), 

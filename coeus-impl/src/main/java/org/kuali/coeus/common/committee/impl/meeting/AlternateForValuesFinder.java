@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.committee.impl.meeting;
 
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -43,7 +44,7 @@ public class AlternateForValuesFinder extends UifKeyValuesFinderBase {
             String[] valuePair = idName.split(FIELD_SEPARATOR);
             keyValues.add(new ConcreteKeyValue(valuePair[0], valuePair[1]));
         }
-        keyValues.add(0, new ConcreteKeyValue("", "select"));
+        keyValues.add(0, ValuesFinderUtils.getSelectOption());
         return keyValues;
     }
 

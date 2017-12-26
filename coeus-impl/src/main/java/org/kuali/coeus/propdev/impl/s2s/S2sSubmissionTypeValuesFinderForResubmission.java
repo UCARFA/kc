@@ -19,6 +19,7 @@
 package org.kuali.coeus.propdev.impl.s2s;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -36,7 +37,7 @@ public class S2sSubmissionTypeValuesFinderForResubmission extends UifKeyValuesFi
         KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection S2SSubmissionTypes = keyValuesService.findAllOrderBy(S2sSubmissionType.class,"sortId",true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select: "));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         for (Iterator iter = S2SSubmissionTypes.iterator(); iter.hasNext();) {
             S2sSubmissionType s2sSubmissionType = (S2sSubmissionType) iter.next();
             keyValues.add(new ConcreteKeyValue(s2sSubmissionType.getCode(), s2sSubmissionType.getDescription()));

@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.committee.impl.meeting;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -48,7 +49,7 @@ public abstract class ProtocolValuesFinderBase extends UifKeyValuesFinderBase {
             valuesMap.put(protocolSubmission.getProtocolNumber(), keyValue);
         }
         List<KeyValue> keyValues = new ArrayList<KeyValue>(valuesMap.values());
-        keyValues.add(0, new ConcreteKeyValue("", "select"));
+        keyValues.add(0, ValuesFinderUtils.getSelectOption());
         return keyValues;
     }
 

@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.budget.impl.core;
 
 import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.springframework.stereotype.Component;
@@ -37,7 +38,7 @@ public class CostElementValuesFinderForSinglePointEntry extends CostElementValue
             keyValues.add(new ConcreteKeyValue(costElement.getCostElement(), costElement.getCostElement() + " - " + costElement.getDescription()));
         }
         Collections.sort(keyValues, new KeyValueComparator());
-        keyValues.add(0, new ConcreteKeyValue("", "select"));
+        keyValues.add(0, ValuesFinderUtils.getSelectOption());
         return keyValues;
     }
 

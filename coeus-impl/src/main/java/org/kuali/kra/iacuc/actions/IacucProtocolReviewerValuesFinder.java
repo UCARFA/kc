@@ -20,6 +20,7 @@ package org.kuali.kra.iacuc.actions;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
@@ -41,7 +42,7 @@ public class IacucProtocolReviewerValuesFinder extends IacucActionsKeyValuesBase
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         
         ProtocolBase protocol = getProtocol();
         if (protocol != null) {

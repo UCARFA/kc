@@ -20,6 +20,7 @@ package org.kuali.coeus.common.committee.impl.keyvalue;
 
 import org.kuali.coeus.common.committee.impl.bo.MembershipRole;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -38,7 +39,7 @@ public abstract class MembershipRoleValuesFinderBase extends UifKeyValuesFinderB
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyLabels = new ArrayList<KeyValue>();
-        keyLabels.add(new ConcreteKeyValue("", "select"));
+        keyLabels.add(ValuesFinderUtils.getSelectOption());
 
         Map<String, String> criteria = new HashMap<String, String>();
         

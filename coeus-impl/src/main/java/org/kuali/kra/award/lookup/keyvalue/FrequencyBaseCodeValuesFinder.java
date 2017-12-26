@@ -18,16 +18,17 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
+import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.ValidFrequencyBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -35,9 +36,10 @@ import java.util.*;
  */
 public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
 
+    private static final Comparator<KeyValue> COMPARATOR = new FrequenceBaseComparator();
+
     private String frequencyCode;
     private KeyValuesService keyValuesService;
-
 
     public FrequencyBaseCodeValuesFinder() {
         super();
@@ -63,13 +65,28 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        if (GlobalVariables.getUserSession().retrieveObject("awfreqbase" + getFrequencyCode()) != null) {
-            return (List<KeyValue>) GlobalVariables.getUserSession().retrieveObject("awfreqbase" + getFrequencyCode());
-        } else {
-            Collection<ValidFrequencyBase> validFrequencyBaseCodes = getKeyValuesService().findAll(ValidFrequencyBase.class);
-
-            return getKeyValues(getUniqueRelevantFrequencyBaseCodes(validFrequencyBaseCodes));
+        List<KeyValue> keyValues = new ArrayList<>();
+        keyValues.add(ValuesFinderUtils.getSelectOption());
+        if (getFrequencyCode() != null) {
+            keyValues.addAll(getKeyValues(getValidFrequencyBaseCodes()));
         }
+        return keyValues;
+    }
+
+    protected List<String> getValidFrequencyBaseCodes() {
+        Map<String, Object> criteria = new HashMap<>();
+        criteria.put("frequencyCode", getFrequencyCode());
+        return getKeyValuesService().findMatching(ValidFrequencyBase.class, criteria).stream()
+                .map(ValidFrequencyBase::getFrequencyBaseCode)
+                .collect(Collectors.toList());
+    }
+
+    protected List<KeyValue> getKeyValues(List<String> validFrequencyBaseCodes) {
+        return getKeyValuesService().findMatching(FrequencyBase.class, Collections.singletonMap("frequencyBaseCode", validFrequencyBaseCodes))
+                        .stream()
+                        .map(freqBase -> new ConcreteKeyValue(freqBase.getFrequencyBaseCode(), freqBase.getDescription()))
+                        .sorted(COMPARATOR)
+                .collect(Collectors.toList());
     }
 
     public String getFrequencyCode() {
@@ -87,45 +104,25 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
      */
     protected KeyValuesService getKeyValuesService() {
         if (keyValuesService == null) {
-            keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
+            keyValuesService = KcServiceLocator.getService("keyValuesService");
         }
         return keyValuesService;
-    }
-
-    /**
-     * 
-     * This method iterates through the validFrequencyBaseCodes and puts the valid ones in a set for another method to process.
-     * 
-     * @param validFrequencyBaseCodes
-     * @return
-     */
-    protected Set<String> getUniqueRelevantFrequencyBaseCodes(Collection<ValidFrequencyBase> validFrequencyBaseCodes) {
-
-        Set<String> uniqueRelevantFrequencyBaseCodes = new HashSet<String>();
-
-        for (ValidFrequencyBase validFrequencyBase : validFrequencyBaseCodes) {
-            if (StringUtils.equalsIgnoreCase(validFrequencyBase.getFrequencyCode(), getFrequencyCode())) {
-                uniqueRelevantFrequencyBaseCodes.add(validFrequencyBase.getFrequencyBaseCode());
-            }
-        }
-
-        return uniqueRelevantFrequencyBaseCodes;
     }
     
     /**
      * 
      * This class does the comparator for the FrequencyBase object.
      */
-    class FrequenceBaseComparator implements Comparator {
+    static class FrequenceBaseComparator implements Comparator<KeyValue> {
         /**
          * 
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
          */
         @Override
-        public int compare(Object kv1, Object kv2) {
+        public int compare(KeyValue kv1, KeyValue kv2) {
             try {
-                String desc1 = ((KeyValue) kv1).getValue();
-                String desc2 = ((KeyValue) kv2).getValue();
+                String desc1 = kv1.getValue();
+                String desc2 = kv2.getValue();
                 if (desc1 == null) {
                     desc1 = "";
                 }
@@ -138,32 +135,6 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
             }
         }
 
-    }
-
-
-    /**
-     * 
-     * This method browses through set and creates the KeyValue list from it.
-     * 
-     * @param uniqueValidFrequencyBases
-     * @return
-     */
-    protected List<KeyValue> getKeyValues(Set<String> uniqueValidFrequencyBases) {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        ValidFrequencyBase validFrequencyBase = new ValidFrequencyBase();
-        for (String frequencyBaseCode : uniqueValidFrequencyBases) {
-            validFrequencyBase.setFrequencyBaseCode(frequencyBaseCode);
-            validFrequencyBase.refreshReferenceObject("frequencyBase");
-            if (validFrequencyBase.getFrequencyBase().isActive()) {
-                keyValues.add(new ConcreteKeyValue(validFrequencyBase.getFrequencyBaseCode(), validFrequencyBase.getFrequencyBase()
-                        .getDescription()));
-            }
-        }
-        Collections.sort(keyValues, new FrequenceBaseComparator());
-        keyValues.add(0, new ConcreteKeyValue("", "select"));
-        GlobalVariables.getUserSession().addObject("awfreqbase" + getFrequencyCode(), keyValues);
-
-        return keyValues;
     }
 
 }

@@ -217,10 +217,13 @@ public class ProposalWorkflowTest extends ProposalDevelopmentRuleTestBase {
         ProposalCopyCriteria criteria = new ProposalCopyCriteria();
         criteria.setLeadUnitNumber(ORIGINAL_LEAD_UNIT);
         ProposalDevelopmentDocument copiedDocument = getProposalCopyService().copyProposal(oldDocument, criteria);
+        //ensure the create timestamp is set far enough past the bootstrap KRMS rule that it will trigger
+        copiedDocument.getDevelopmentProposal().setCreateTimestamp(new java.sql.Timestamp(System.currentTimeMillis() + 86400000));
+        getDocumentService().saveDocument(copiedDocument);
 
         RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(copiedDocument.getDocumentHeader().getWorkflowDocument().getDocumentId());
         DocumentDetail results1 = getWorkflowDocumentActionsService().executeSimulation(reportCriteriaBuilder.build());
-        Assert.assertTrue(results1.getActionRequests().size() == 5);
+        Assert.assertEquals(5, results1.getActionRequests().size());
 
 
         List<ActionRequest> peopleFlowRequests = results1.getActionRequests().stream().filter(actionRequest ->
@@ -228,13 +231,13 @@ public class ProposalWorkflowTest extends ProposalDevelopmentRuleTestBase {
                 actionRequest.getActionRequested().getCode().equalsIgnoreCase("A") &&
                 actionRequest.getStatus().getCode().equals(KewApiConstants.ActionRequestStatusVals.INITIALIZED)).collect(Collectors.toList());
 
-        Assert.assertTrue(peopleFlowRequests.size() == 3);
+        Assert.assertEquals(3, peopleFlowRequests.size());
 
         List<ActionRequest>  ospOffice = results1.getActionRequests().stream().filter(actionRequest ->
                 actionRequest.getNodeName().equalsIgnoreCase("OSPOfficeRouting") &&
                         actionRequest.getActionRequested().getCode().equalsIgnoreCase("A") &&
                         actionRequest.getStatus().getCode().equals(KewApiConstants.ActionRequestStatusVals.INITIALIZED)).collect(Collectors.toList());
-        Assert.assertTrue(ospOffice.size() == 1);
+        Assert.assertEquals(1, ospOffice.size());
 
     }
 

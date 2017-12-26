@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.sys.framework.util;
 
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class ValuesFinderUtils {
         throw new UnsupportedOperationException("do not call");
     }
 
+    private static final KeyValue SELECT = new ConcreteKeyValue("", "select");
     private static final String SEMICOLON_AS_DELIMITOR = ";";
     private static final String COMMA_AS_DELIMITOR = ",";
     
@@ -59,5 +61,14 @@ public class ValuesFinderUtils {
         strBuilder.append(KeyValueList.get(lastElementIndex).getValue());
         
         return strBuilder.toString();
+    }
+
+    /**
+     * This method returns a "select" option with a blank key for use in various
+     *
+     * @return
+     */
+    public static KeyValue getSelectOption() {
+        return SELECT;
     }
 }

@@ -21,6 +21,7 @@ package org.kuali.coeus.common.committee.impl.lookup.keyvalue;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeDecisionMotionType;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -44,7 +45,7 @@ public class CommitteeDecisionMotionValuesFinder extends FormViewAwareUifKeyValu
         Collection<CommitteeDecisionMotionType> motionTypes = getKeyValuesService().findAll(CommitteeDecisionMotionType.class);
         
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         
         for (CommitteeDecisionMotionType motionType : motionTypes) {
             keyValues.add(new ConcreteKeyValue(motionType.getMotionTypeCode(), motionType.getDescription()));

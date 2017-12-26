@@ -18,10 +18,10 @@
  */
 package org.kuali.coeus.propdev.impl.noo;
 
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class NoticeOfOpportunityValuesFinderTest extends ValuesFinderTestBase {
     protected List<KeyValue> getKeyValues() {
         final List<KeyValue> keylabel = new ArrayList<KeyValue>();
         
-        keylabel.add(new ConcreteKeyValue("", "select"));
+        keylabel.add(ValuesFinderUtils.getSelectOption());
         keylabel.add(new ConcreteKeyValue("1", "Federal Solicitation"));
         keylabel.add(new ConcreteKeyValue("2", "Unsolicited"));
         keylabel.add(new ConcreteKeyValue("3", "Verbal Request for Proposal"));

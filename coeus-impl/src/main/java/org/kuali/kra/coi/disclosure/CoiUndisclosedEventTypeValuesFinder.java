@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.infrastructure.DisclosureEventTypeConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -38,7 +39,7 @@ public class CoiUndisclosedEventTypeValuesFinder extends UifKeyValuesFinderBase 
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         for (DisclosureEventTypeConstants eventType : DisclosureEventTypeConstants.values()) {
             keyValues.add(new ConcreteKeyValue(eventType.code(), eventType.description()));
         }

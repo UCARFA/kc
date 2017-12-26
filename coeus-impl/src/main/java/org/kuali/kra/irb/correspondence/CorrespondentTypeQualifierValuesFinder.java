@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.irb.correspondence;
 
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -35,7 +36,7 @@ public class CorrespondentTypeQualifierValuesFinder extends UifKeyValuesFinderBa
     public List<KeyValue> getKeyValues() {
         List<KeyValue> KeyValues = new ArrayList<KeyValue>();
 
-        KeyValues.add(new ConcreteKeyValue("", "select"));
+        KeyValues.add(ValuesFinderUtils.getSelectOption());
         for (CorrespondentTypeQualifierConstants correspondentTypeQualifierConstants : CorrespondentTypeQualifierConstants.values()) {
             KeyValues.add(new ConcreteKeyValue(correspondentTypeQualifierConstants.code(), correspondentTypeQualifierConstants.description()));
         }

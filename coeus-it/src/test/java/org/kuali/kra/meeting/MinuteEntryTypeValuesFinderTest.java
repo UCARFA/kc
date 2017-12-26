@@ -19,6 +19,7 @@
 package org.kuali.kra.meeting;
 
 import org.kuali.coeus.common.committee.impl.meeting.MinuteEntryTypeValuesFinder;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -38,7 +39,7 @@ public class MinuteEntryTypeValuesFinderTest extends ValuesFinderTestBase {
         final List<KeyValue> keylabel = new ArrayList<KeyValue>();
         
         // if permission changed, this needs to be adjusted too.
-        keylabel.add(new ConcreteKeyValue("", "select"));
+        keylabel.add(ValuesFinderUtils.getSelectOption());
         keylabel.add(new ConcreteKeyValue("1", "General Comments"));
         keylabel.add(new ConcreteKeyValue("2", "Attendance"));
         keylabel.add(new ConcreteKeyValue("3", "Protocol"));

@@ -18,7 +18,10 @@
  */
 package org.kuali.coeus.propdev.impl.specialreview;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReview;
+import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
+import org.kuali.coeus.common.framework.compliance.exemption.SpecialReviewExemption;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
@@ -27,6 +30,7 @@ import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Defines a Special Review for a Development Proposal.
@@ -181,6 +185,13 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
     public List<ProposalSpecialReviewExemption> getSpecialReviewExemptions() {
 		return specialReviewExemptions;
 	}
+
+	public String getSpecialReviewExemptionsForDisplay() {
+        return CollectionUtils.isEmpty(specialReviewExemptions) ? " " : specialReviewExemptions.stream()
+                .map(SpecialReviewExemption::getExemptionType)
+                .map(ExemptionType::getDescription)
+                .collect(Collectors.joining(", "));
+    }
 
 	@Override
     public void setSpecialReviewExemptions(List<ProposalSpecialReviewExemption> specialReviewExemptions) {

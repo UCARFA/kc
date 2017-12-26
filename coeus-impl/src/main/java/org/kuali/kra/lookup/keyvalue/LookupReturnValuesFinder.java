@@ -20,9 +20,10 @@ package org.kuali.kra.lookup.keyvalue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -45,7 +46,7 @@ public class LookupReturnValuesFinder extends UifKeyValuesFinderBase {
     public List<KeyValue> getKeyValues() {
         // this will be called twice for each maintenancedocument page load
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         String lookupClass = (String) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME);
 
         List lookupReturnFields = (List) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS);

@@ -47,7 +47,7 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
     @Override
     public String getEncodedValidAwardBasisPaymentsByAwardTypeCode(Integer awardTypeCode) {
         List<KeyValue> results = new ArrayList<KeyValue>();
-        results.add(new ConcreteKeyValue("","select"));
+        results.add(ValuesFinderUtils.getSelectOption());
         List<ValidAwardBasisPayment> found = getValidAwardBasisPaymentsByAwardTypeCode(awardTypeCode);
         for( ValidAwardBasisPayment current : found ) {
             current.refresh();
@@ -60,7 +60,7 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
     @Override
     public String getEncodedValidBasisMethodPaymentsByBasisCode(String basisOfPaymentCode) {
         List<KeyValue> results = new ArrayList<KeyValue>();
-        results.add(new ConcreteKeyValue("","select"));
+        results.add(ValuesFinderUtils.getSelectOption());
         List<ValidBasisMethodPayment> found = getValidBasisMethodPaymentByBasisCode(basisOfPaymentCode);
         for( ValidBasisMethodPayment current : found ) {
             current.refresh();

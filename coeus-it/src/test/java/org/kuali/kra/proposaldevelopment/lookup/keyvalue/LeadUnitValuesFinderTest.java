@@ -20,6 +20,7 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.basic.LeadUnitValuesFinder;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -43,7 +44,7 @@ public class LeadUnitValuesFinderTest extends ValuesFinderTestBase {
     protected List<KeyValue> getKeyValues() {
         final List<KeyValue> keylabel = new ArrayList<KeyValue>();
         
-        keylabel.add(new ConcreteKeyValue("", "select"));
+        keylabel.add(ValuesFinderUtils.getSelectOption());
         keylabel.add(new ConcreteKeyValue("BL-IIDC", "BL-IIDC - IND INST ON DISABILITY/COMMNTY"));
         keylabel.add(new ConcreteKeyValue("IN-MDEP", "IN-MDEP - MEDICINE DEPT"));
         keylabel.add(new ConcreteKeyValue("IN-PED", "IN-PED - PEDIATRICS"));

@@ -21,6 +21,7 @@ package org.kuali.coeus.propdev.impl.basic;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -50,7 +51,7 @@ public class LeadUnitValuesFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(ValuesFinderUtils.getSelectOption());
         
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         ProposalDevelopmentService authService = getProposalDevelopmentService();

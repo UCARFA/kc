@@ -20,6 +20,7 @@ package org.kuali.kra.subaward.lookup.keyvalue;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -31,12 +32,10 @@ import java.util.stream.Stream;
 
 public class SubAwardAmountInfoTransactionValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
-    private static final ConcreteKeyValue SELECT = new ConcreteKeyValue("", "select");
-
     @Override
     public List<KeyValue> getKeyValues() {
         final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        return Stream.concat(Stream.of(SELECT),
+        return Stream.concat(Stream.of(ValuesFinderUtils.getSelectOption()),
                 ((SubAwardDocument) getDocument()).getSubAward().getAllSubAwardAmountInfos()
                 .stream()
                 .filter(info -> StringUtils.isNotEmpty(info.getModificationTypeCode()))
