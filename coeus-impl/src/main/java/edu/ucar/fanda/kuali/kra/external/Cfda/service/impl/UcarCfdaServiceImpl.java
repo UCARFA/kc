@@ -22,7 +22,7 @@ Required Kuali Configuration Parameters:
         Application ID: KC
         Parameter Name: HTTPPOST_CFDA_INFO
         Parameter Value: true
-        Parameter Description: Enable sending of new award information to message queue
+        Parameter Description: Enable sending of new cfda information to message queue
         Parameter Type Code: Config
         Parameter Constraint Code: Allowed
 

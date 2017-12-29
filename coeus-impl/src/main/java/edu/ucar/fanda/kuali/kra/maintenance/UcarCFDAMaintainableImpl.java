@@ -30,7 +30,7 @@ Required Kuali Configuration Parameters:
         Component: All
         Application ID: KC
         Parameter Name: ACTIVEMQ_KEYPARTS_URL
-        Paramter Value: http://localhost:8161/api/message?destination=KUALIIFASKEYPARTS&type=queue
+        Parameter Value: http://localhost:8161/api/message?destination=KUALIIFASKEYPARTS&type=queue
         Parameter Description: ActiveMQ IFAS Key Parts URL
         Parameter Type Code: Config
         Parameter Constraint Code: Allowed

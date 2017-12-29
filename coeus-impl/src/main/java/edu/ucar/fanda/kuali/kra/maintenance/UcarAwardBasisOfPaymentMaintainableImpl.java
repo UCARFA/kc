@@ -20,7 +20,7 @@ Required Kuali Configuration Parameters:
         Application ID: KC
         Parameter Name: HTTPPOST_PAYMENTBASIS_INFO
         Parameter Value: true
-        Parameter Description: Enable sending of new award information to message queue
+        Parameter Description: Enable sending of new payment basis information to message queue
         Parameter Type Code: Config
         Parameter Constraint Code: Allowed
 
