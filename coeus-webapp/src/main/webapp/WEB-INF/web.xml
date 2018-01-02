@@ -100,6 +100,24 @@
         <filter-class>org.kuali.rice.krad.web.filter.DummyLoginFilter</filter-class>
     </filter>
 
+    <filter>
+        <filter-name>ShortTermStaticResourceCachingFilter</filter-name>
+        <filter-class>org.kuali.coeus.sys.framework.web.StaticResourceCachingFilter</filter-class>
+        <init-param>
+            <param-name>cacheDuration</param-name>
+            <param-value>300</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>LongTermStaticResourceCachingFilter</filter-name>
+        <filter-class>org.kuali.coeus.sys.framework.web.StaticResourceCachingFilter</filter-class>
+        <init-param>
+            <param-name>cacheDuration</param-name>
+            <param-value>31536000</param-value>
+        </init-param>
+    </filter>
+
     <filter-mapping>
         <filter-name>HttpRequestLogger</filter-name>
         <url-pattern>/*</url-pattern>
@@ -223,6 +241,22 @@
     <filter-mapping>
         <filter-name>ResponseOverrideFilter</filter-name>
         <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>ShortTermStaticResourceCachingFilter</filter-name>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.htm</url-pattern>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>LongTermStaticResourceCachingFilter</filter-name>
+        <url-pattern>*.gif</url-pattern>
+        <url-pattern>*.png</url-pattern>
+        <url-pattern>*.jpg</url-pattern>
+        <url-pattern>*.woff</url-pattern>
     </filter-mapping>
 
     <!-- ******************* Start Logging Filters ********************* -->
