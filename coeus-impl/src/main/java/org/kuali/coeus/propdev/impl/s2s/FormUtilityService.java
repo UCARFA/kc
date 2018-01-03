@@ -16,14 +16,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.propdev.impl.specialreview;
+package org.kuali.coeus.propdev.impl.s2s;
 
+import com.lowagie.text.pdf.PdfReader;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
 import java.util.Map;
 
-public interface ProposalSpecialReviewHumanSubjectsAttachmentService {
+public interface FormUtilityService {
+    Map<String, byte[]> extractAttachments(PdfReader reader) throws IOException;
 
-    String CONTENT = "content";
-    String FILES = "files";
+    Document node2Dom(Node n) throws TransformerException;
 
-    Map<String, Object> getSpecialReviewAttachmentXmlFileData(byte pdfFileContents[]);
+    String docToString(Document node) throws TransformerException;
+
+    void reorderXmlElements(Document doc);
+
+    void removeAllEmptyNodes(Document document, String xpath, int parentLevel) throws TransformerException;
 }
