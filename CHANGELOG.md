@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2467: Copy recipients list in tag file to avoid ConcurrentModificationException
+  * Jeff Largent on Tue, 2 Jan 2018 15:53:55 -0500 [View Commit](../../commit/5c093231823f0f938c4e933bb3a66514671e3137)
+
+## coeus-1801.0002
 * RESKC-2293: Reducing length of field to match db (#2689)
 
   * Gayathri Athreya on Tue, 2 Jan 2018 10:57:03 -0700 [View Commit](../../commit/e9e7b824883cd1e0a7814cd7a10bcaa80a83dd4e)
