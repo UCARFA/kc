@@ -129,7 +129,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
             startDate = getStartDate(awardReportTerm, mapOfDates);
         }
         if (StringUtils.isNotBlank(awardReportTerm.getFrequencyBaseCode())) {
-            endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate, mapOfDates);
+            endDate = getEndDate(awardReportTerm,startDate, mapOfDates);
         }
         
         if (startDate != null && endDate != null) {
@@ -206,7 +206,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * 
      * This is a helper method that updates the base date based on frequency if required to get the start date.
      * 
-     * @param startDate
+     * @param calendar
      * @param frequency
      * @return
      */
@@ -260,19 +260,22 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * If frequency base code is 4(Final Expiration Date), it adds 1 year to the start date and returns it.
      * otherwise it returns the final expiration date itself.
      * 
-     * @param frequencyBaseCode
+     * @param awardReportTerm
      * @param startDate
      * @return
      */
-    protected Date getEndDate(String frequencyBaseCode, Date startDate, Map<String, java.util.Date> mapOfDates){
+    protected Date getEndDate(AwardReportTerm awardReportTerm, Date startDate, Map<String, java.util.Date> mapOfDates){
         Calendar calendar = new GregorianCalendar();
-        
-        if(frequencyBaseCode.equals(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase())){
+
+        if(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase().equals(awardReportTerm.getFrequencyBaseCode())){
             calendar.setTime(startDate);   
             calendar.add(Calendar.YEAR, Integer.parseInt(this.getParameterService().getParameterValueAsString(AwardDocument.class
                     ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE)));            
         }else{
             calendar.setTime(mapOfDates.get(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase()));
+            Optional<Frequency> frequency = Optional.ofNullable(awardReportTerm.getFrequency());
+            frequency.map(Frequency::getNumberOfMonths).ifPresent(months -> calendar.add(Calendar.MONTH, months));
+            frequency.map(Frequency::getNumberOfDays).ifPresent(days -> calendar.add(Calendar.DAY_OF_YEAR, days));
         }
         return calendar.getTime();
     }
