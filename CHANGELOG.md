@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-2688: Adding NSF ID field (#2693)
+
+  * To support the upcoming NSF changes, add the new NSF ID field to the Extended Attributes (near the NIH ERA Commons ID)
+  * Please add a display field for the NSF in the Key Personnel page, again near the ERA Commons field, and automatically fill this when the person is added.  * Gayathri Athreya on Thu, 4 Jan 2018 14:10:31 -0700 [View Commit](../../commit/e60064093b5eba98c60b402655856c959fb709c1)
+
+## coeus-1801.0005
 * RESKC-2694: implement workaround for User Attached Form: Human Studies Clinical Trial form with Human Studies attachment
   * Travis Schneeberger on Wed, 3 Jan 2018 16:47:24 -0500 [View Commit](../../commit/ba24f85dde9e2df2bb8f204a43c862cb3b3cccde)
 
