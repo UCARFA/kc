@@ -1,10 +1,28 @@
+/*
+ * Kuali Coeus, a comprehensive research administration system for higher education.
+ *
+ * Copyright 2005-2016 Kuali, Inc.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.kuali.coeus.propdev.impl.specialreview;
 
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.XfaForm;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormService;
+import org.kuali.coeus.propdev.impl.s2s.FormUtilityService;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,27 +45,25 @@ import java.util.Map;
 @Component("proposalSpecialReviewHumanSubjectsAttachmentService")
 public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements ProposalSpecialReviewHumanSubjectsAttachmentService {
 
-    public static final String CONTENT = "content";
-    public static final String EMPTY_NODES = "//*[not(node()) and local-name(.) != 'FileLocation' and local-name(.) != 'HashValue' and local-name(.) != 'FileName']";
-    public static final String OTHER_PERS = "//*[local-name(.)='ProjectRole' and local-name(../../.)='OtherPersonnel' and count(../NumberOfPersonnel)=0]";
-    public static final String GLOB_HASH_VALUE = "glob:HashValue";
-    public static final String GLOBAL_V1_0 = "http://apply.grants.gov/system/Global-V1.0";
-    public static final String XMLNS_GLOB = "xmlns:glob";
-    public static final String MESSAGE = "The pdf form does not contain any data.";
-    public static final String UPLOADED_FILE_IS_EMPTY = "Uploaded file is empty";
+    private static final String EMPTY_NODES = "//*[not(node()) and local-name(.) != 'FileLocation' and local-name(.) != 'HashValue' and local-name(.) != 'FileName']";
+    private static final String OTHER_PERS = "//*[local-name(.)='ProjectRole' and local-name(../../.)='OtherPersonnel' and count(../NumberOfPersonnel)=0]";
+    private static final String GLOB_HASH_VALUE = "glob:HashValue";
+    private static final String GLOBAL_V1_0 = "http://apply.grants.gov/system/Global-V1.0";
+    private static final String XMLNS_GLOB = "xmlns:glob";
+    private static final String MESSAGE = "The pdf form does not contain any data.";
+    private static final String UPLOADED_FILE_IS_EMPTY = "Uploaded file is empty";
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
-    public static final String FILES = "files";
+
     private static Log LOG = LogFactory.getLog(ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl.class);
 
     @Autowired
-    @Qualifier("s2sUserAttachedFormService")
-    private S2sUserAttachedFormService s2sUserAttachedFormService;
-
+    @Qualifier("formUtilityService")
+    private FormUtilityService formUtilityService;
 
     @Override
     public Map<String, Object> getSpecialReviewAttachmentXmlFileData(byte pdfFileContents[]) {
         String xml;
-        Map<Object, Object> attachments;
+        Map<String, byte[]> attachments;
         Map<String, Object> fileData = new HashMap<>();
         PdfReader reader = null;
         try {
@@ -56,7 +72,7 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
             } else {
                 reader = new PdfReader(pdfFileContents);
 
-                attachments = s2sUserAttachedFormService.extractAttachments(reader);
+                attachments = formUtilityService.extractAttachments(reader);
                 fileData.put(FILES, attachments);
                 XfaForm xfaForm = reader.getAcroFields().getXfa();
                 Node domDocument = xfaForm.getDomDocument();
@@ -113,18 +129,25 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
     private String processForm(Element form) throws TransformerException {
 
         String formXML;
-        Document doc = s2sUserAttachedFormService.node2Dom(form);
-        s2sUserAttachedFormService.removeAllEmptyNodes(doc, EMPTY_NODES, 0);
-        s2sUserAttachedFormService.removeAllEmptyNodes(doc, OTHER_PERS, 1);
-        s2sUserAttachedFormService.removeAllEmptyNodes(doc, EMPTY_NODES, 0);
+        Document doc = formUtilityService.node2Dom(form);
+        formUtilityService.removeAllEmptyNodes(doc, EMPTY_NODES, 0);
+        formUtilityService.removeAllEmptyNodes(doc, OTHER_PERS, 1);
+        formUtilityService.removeAllEmptyNodes(doc, EMPTY_NODES, 0);
         NodeList hashValueNodes = doc.getElementsByTagName(GLOB_HASH_VALUE);
         for (int i = 0; i < hashValueNodes.getLength(); i++) {
             Node hashValue = hashValueNodes.item(i);
             ((Element) hashValue).setAttribute(XMLNS_GLOB, GLOBAL_V1_0);
         }
-        s2sUserAttachedFormService.reorderXmlElements(doc);
-        formXML = s2sUserAttachedFormService.docToString(doc);
+        formUtilityService.reorderXmlElements(doc);
+        formXML = formUtilityService.docToString(doc);
         return formXML;
     }
 
+    public FormUtilityService getFormUtilityService() {
+        return formUtilityService;
+    }
+
+    public void setFormUtilityService(FormUtilityService formUtilityService) {
+        this.formUtilityService = formUtilityService;
+    }
 }
