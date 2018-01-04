@@ -50,9 +50,10 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
     
     @Override
     public List<ReportTrackingNotificationDetails> runReportTrackingNotifications() {
-        List<ReportTrackingNotificationDetails> resultDetails = new ArrayList<ReportTrackingNotificationDetails>();
+        List<ReportTrackingNotificationDetails> resultDetails = new ArrayList<>();
         AwardReportTrackingNotificationRenderer renderer = new AwardReportTrackingNotificationRenderer();
         
+
         for (ReportTrackingNotification notification : notifications) {
             ReportTrackingNotificationDetails details = new ReportTrackingNotificationDetails();
             details.setActionCode(notification.getActionCode());
@@ -60,7 +61,7 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
             resultDetails.add(details);
             try {
                 NotificationType notificationType = notificationService.getNotificationType("1", notification.getActionCode());
-                if (notificationType != null && notificationType.isActive() 
+                if (notificationType != null && notificationType.isActive()
                         && notificationType.getNotificationTypeRecipients() != null
                         && !notificationType.getNotificationTypeRecipients().isEmpty()) {
                     details.setNotificationActive(true);
@@ -71,40 +72,35 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
     
                     // either add or subtract, based on the overdue flag the number of days specified in the notification from today
                     Calendar checkFor = Calendar.getInstance();
-                    Calendar until = null;
+                    Calendar until;
                     if (notification.isOverdue()) {
-                        checkFor.add(Calendar.DAY_OF_MONTH, (notification.getDays()+notification.getScope())*-1);                       
+                        checkFor.add(Calendar.DAY_OF_MONTH, (notification.getDays() + notification.getScope()) * -1);
                     } else {
-                        checkFor.add(Calendar.DAY_OF_MONTH, notification.getDays()-notification.getScope());                                                
+                        checkFor.add(Calendar.DAY_OF_MONTH, notification.getDays() - notification.getScope());
                     }
                     until = (Calendar) checkFor.clone();
                     until.add(Calendar.DAY_OF_MONTH, notification.getScope());
                     clearTimeFields(checkFor);
                     clearTimeFields(until);
-                    Map<Award, List<ReportTracking>> matchedReports = new HashMap<Award, List<ReportTracking>>();
+                    Map<Award, List<ReportTracking>> matchedReports = new HashMap<>();
                     Map<NotificationRecipient.Builder, List<ReportTracking>> recipients = 
-                        new TreeMap<NotificationRecipient.Builder, List<ReportTracking>>(new Comparator<NotificationRecipient.Builder>() {
-                            @Override
-                            public int compare(NotificationRecipient.Builder o1, NotificationRecipient.Builder o2) {
-                                return o1.getRecipientId().compareTo(o2.getRecipientId());
-                            }
-                        }); 
+                        new TreeMap<>(Comparator.comparing(NotificationRecipient.Builder::getRecipientId));
                     for (ReportTrackingNotificationTask task : notification.getTasks()) {
-                        List<ReportTracking> reports = 
+                        List<ReportTracking> reports =
                             (List<ReportTracking>) businessObjectService.findMatching(ReportTracking.class, task.getReportTrackingValueMap());
                         recordsFound += reports.size();
                         for (ReportTracking report : reports) {
                             //if the report's due date is between the checked for date and the scoped date, and a notification
                             //hasn't previously been sent for it, add it to the matched reports.
-                            if (report.getDueDate() != null &&
-                                    doDatesMatch(report.getDueDate(), checkFor, until) 
+
+                            if (report.getDueDate() != null && doDatesMatch(report.getDueDate(), checkFor, until)
                                     && !hasSentNotification(report, notification)) {
                                 recordsMatched++;
                                 Award curAward = awardService.getActiveOrNewestAward(report.getAwardNumber());
                                 report.setAward(curAward);
                                 List<ReportTracking> curReports = matchedReports.get(curAward);
                                 if (curReports == null) {
-                                    curReports = new ArrayList<ReportTracking>();
+                                    curReports = new ArrayList<>();
                                     matchedReports.put(curAward, curReports);
                                 }
                                 curReports.add(report);
@@ -115,9 +111,9 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
                             Set<NotificationRecipient.Builder> recips = notificationService.getNotificationRecipients(
                                             new AwardNotificationContext(award, notification.getActionCode(), notification.getName()));
                             for (NotificationRecipient.Builder recip : recips) {
-                                List<ReportTracking> curReports = recipients.get(recip); 
+                                List<ReportTracking> curReports = recipients.get(recip);
                                 if (curReports == null) {
-                                    curReports = new ArrayList<ReportTracking>();
+                                    curReports = new ArrayList<>();
                                     recipients.put(recip, curReports);
                                 }
                                 curReports.addAll(matchedReports.get(award));
@@ -126,12 +122,13 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
                         for (Map.Entry<NotificationRecipient.Builder, List<ReportTracking>> entry : recipients.entrySet()) {
                             renderer.setReports(entry.getValue());
                             String message = renderer.render(notificationType.getMessage());
-                            notificationService.sendNotification(notification.getName(), notificationType.getSubject(), message, Collections.singleton(entry.getKey()));
+                            notificationService.sendNotification(notification.getName(),
+                                    notificationType.getSubject(), message, Collections.singletonList(entry.getKey().getRecipientId()));
                             notificationsSent++;
                         }
                         //for each matched report, create a sent report record to make sure we don't attempt
                         //to send this notification for this report again.
-                        List<SentReportNotification> sentReports = new ArrayList<SentReportNotification>();
+                        List<SentReportNotification> sentReports = new ArrayList<>();
                         for (Map.Entry<Award, List<ReportTracking>> entry : matchedReports.entrySet()) {
                             for (ReportTracking report : entry.getValue()) {
                                 sentReports.add(new SentReportNotification(notification.getActionCode(), report));
@@ -151,7 +148,7 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         
         return resultDetails;
     }
-    
+
     /**
      * Is date1 after from and before until?
      * @param date1

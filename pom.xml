@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.coeus</groupId>
     <artifactId>coeus</artifactId>
-    <version>1712.0041-SNAPSHOT</version>
+    <version>1801.0004-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Kuali Coeus</name>
     <description>
@@ -1940,7 +1940,7 @@
                 <build.spring.profiles.active>grm</build.spring.profiles.active>
                 <commons-dbcp2.version>2.1.1</commons-dbcp2.version>
                 <rsmart.cx.token.auth.version>1509.0001</rsmart.cx.token.auth.version>
-                <rsmart.hr.rest.version>1712.0002</rsmart.hr.rest.version>
+                <rsmart.hr.rest.version>1712.0004</rsmart.hr.rest.version>
                 <kc-s3.version>1709.0002</kc-s3.version>
                 <kc-sql.version>1706.0001</kc-sql.version>
 
