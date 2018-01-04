@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2694: implement workaround for User Attached Form: Human Studies Clinical Trial form with Human Studies attachment
+  * Travis Schneeberger on Wed, 3 Jan 2018 16:47:24 -0500 [View Commit](../../commit/ba24f85dde9e2df2bb8f204a43c862cb3b3cccde)
+
+## coeus-1801.0004
 * RESKC-2232: Enabling notifications (#2692)
 
   * Steps to Reproduce
