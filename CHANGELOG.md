@@ -1,6 +1,18 @@
 
 
 ## CURRENT
+* RESKC-2232: Enabling notifications (#2692)
+
+  * Steps to Reproduce
+  * Create an award with basic information to submit/finalize
+  * Add a property report with a due date in the past
+submit award
+  * Actual Result
+  * No notification is sent out to the persons listed on the notification document.
+  * Expected Result
+  * The system should generate emails/action list items triggered off of the events specified in the notifications table. (Ex: Property report Overdue) It looks like the triggers are not in place for these to be sending.  * Gayathri Athreya on Thu, 4 Jan 2018 08:36:37 -0700 [View Commit](../../commit/e0785791544819a67a7f1334eed86ec94f3205ac)
+
+## coeus-1801.0003
 * RESKC-2467: Copy recipients list in tag file to avoid ConcurrentModificationException
   * Jeff Largent on Tue, 2 Jan 2018 15:53:55 -0500 [View Commit](../../commit/5c093231823f0f938c4e933bb3a66514671e3137)
 
