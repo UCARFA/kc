@@ -32,7 +32,7 @@ public class ReportTrackingNotification {
     private List<ReportTrackingNotificationTask> tasks;
     
     public ReportTrackingNotification() {
-        tasks = new ArrayList<ReportTrackingNotificationTask>();
+        tasks = new ArrayList<>();
         scope = new Integer(30);
     }
     

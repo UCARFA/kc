@@ -189,7 +189,6 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         }
     }
 
-    
     /**
      * 
      * This method builds a basic report tracking item pre-populated with Award and AwardTerm data.

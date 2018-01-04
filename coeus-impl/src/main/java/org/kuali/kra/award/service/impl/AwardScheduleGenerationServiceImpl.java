@@ -85,9 +85,9 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     @Override
     public List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms, boolean isThisNotPaymentPanel) throws ParseException{
         List<Date> dates = new ArrayList<Date>();
-        Map<String, java.util.Date> mapOfDates = new HashMap<String, java.util.Date>();
+        Map<String, java.util.Date> mapOfDates = new HashMap<>();
         
-        initializeDatesForThisAward(award, mapOfDates);        
+        initializeDatesForThisAward(award, mapOfDates);
         refreshAwardReportTerms(awardReportTerms);
         
         int index = 0;
@@ -102,7 +102,8 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     }
     
     /**
-     * This is a helper method. This method calls evaluates the frequency and frequency base and generates dates either by calling the scheduling service or
+     * This is a helper method. This method calls evaluates the frequency and frequency base and generates dates
+     * either by calling the scheduling service or
      * without that.
      * 
      * @param awardReportTerm     
