@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-869: Disabling award_id constraint until we can fix orphaned tracking records
+  * Jeff Largent on Fri, 5 Jan 2018 17:34:46 -0500 [View Commit](../../commit/185b4bc6e635e62be725fc555abab4819618aa7e)
+
+## coeus-1801.0007
 * RESKC-869: Fix broken IT
   * Jeff Largent on Fri, 5 Jan 2018 15:11:36 -0500 [View Commit](../../commit/9dda734cdf1656d172f78062c9c1bc79c427540d)
 * RESKC-1748: Unify award report tracking sync behavior
