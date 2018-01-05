@@ -27,7 +27,9 @@ import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.home.AwardService;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -36,10 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Award Version Service implementation
@@ -122,12 +121,32 @@ public class AwardVersionServiceImpl extends PlatformAwareDaoBaseOjb implements 
     @Override
     public AwardDocument createAndSaveNewAwardVersion(AwardDocument awardDocument) throws Exception {
         awardDocument.getAward().setNewVersion(true);
+        refreshAwardReportTrackingRelationships(awardDocument.getAward());
         AwardDocument newAwardDocument = awardService.createNewAwardVersion(awardDocument);
         documentService.saveDocument(newAwardDocument);
+        versionAwardReportTracking(newAwardDocument.getAward());
         awardService.updateAwardSequenceStatus(newAwardDocument.getAward(), VersionStatus.PENDING);
         getVersionHistoryService().updateVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
                 globalVariableService.getUserSession().getPrincipalName());
         return newAwardDocument;
+    }
+
+    private void refreshAwardReportTrackingRelationships(Award award) {
+        award.getAwardReportTermItems().forEach(item -> {
+                    Map<String, Object> params = Collections.singletonMap(AwardConstants.AWARD_REPORT_TERM_ID, item.getAwardReportTermId());
+                    item.setReportTrackings(new ArrayList<>(getBusinessObjectService().findMatching(ReportTracking.class, params)));
+                });
+    }
+
+    private void versionAwardReportTracking(Award newAwardVersion) {
+        newAwardVersion.getAwardReportTermItems().forEach(awardReportTerm -> {
+            awardReportTerm.getReportTrackings().forEach(reportTracking -> {
+                reportTracking.setAwardReportTrackingId(null);
+                reportTracking.setAwardReportTermId(awardReportTerm.getAwardReportTermId());
+                reportTracking.setAwardId(newAwardVersion.getAwardId());
+            });
+            getBusinessObjectService().save(awardReportTerm.getReportTrackings());
+        });
     }
 
     private VersionHistory getPendingVersionHistory (List<VersionHistory> list) {

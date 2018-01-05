@@ -49,6 +49,8 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
 
     private String awardNumber;
 
+    private Long awardId;
+
     private String piPersonId;
 
     private Integer piRolodexId;
@@ -145,6 +147,14 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
 
     public void setAwardNumber(String awardNumber) {
         this.awardNumber = awardNumber;
+    }
+
+    public Long getAwardId() {
+        return awardId;
+    }
+
+    public void setAwardId(Long awardId) {
+        this.awardId = awardId;
     }
 
     public String getPiName() {

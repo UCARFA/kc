@@ -1522,6 +1522,7 @@
 		<field-descriptor name="awardReportTrackingId" column="AWARD_REPORT_TRACKING_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_REPORT_TRACKING_ID"/>
 		<field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERM_ID" jdbc-type="BIGINT" />
     	<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc_type="BIGINT"/>
     	<field-descriptor name="piPersonId" column="PI_PERSON_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="piRolodexId" column="PI_ROLODEX_ID" jdbc-type="INTEGER" />
     	<field-descriptor name="piName" column="PI_NAME" jdbc-type="VARCHAR" />

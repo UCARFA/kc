@@ -52,8 +52,6 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     public static final String FREQUENCY_CODE = "frequencyCode";
     public static final String REPORT_CODE = "reportCode";
     public static final String REPORT_CLASS_CODE = "reportClassCode";
-    public static final String AWARD_NUMBER_CAMEL = "awardNumber";
-    public static final String AWARD_REPORT_TERM_ID = "awardReportTermId";
     public static final String DESCRIPTION = "DESCRIPTION";
 
     private AwardScheduleGenerationService awardScheduleGenerationService;
@@ -200,6 +198,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         awardTerm.refresh();
         ReportTracking reportTracking = new ReportTracking();
         reportTracking.setAwardNumber(award.getAwardNumber());
+        reportTracking.setAwardId(award.getAwardId());
         reportTracking.setAwardReportTermId(awardTerm.getAwardReportTermId());
         reportTracking.setDueDate(awardTerm.getDueDate());
         reportTracking.setFrequency(awardTerm.getFrequency());
@@ -309,14 +308,14 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     public List<ReportTracking> getReportTacking(AwardReportTerm awardTerm) {
         List<ReportTracking> reportTrackings = new ArrayList<ReportTracking>();
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put(AWARD_REPORT_TERM_ID, awardTerm.getAwardReportTermId());
+        params.put(AwardConstants.AWARD_REPORT_TERM_ID, awardTerm.getAwardReportTermId());
         Collection<ReportTracking> reportTrackingCollection = this.getBusinessObjectService().findMatching(ReportTracking.class, params);
         //if there are none, check to make sure this isn't due to award versioning and the id changing
         if (reportTrackingCollection != null && !reportTrackingCollection.isEmpty()) {
             reportTrackings.addAll(reportTrackingCollection);    
         } else {
             params.clear();
-            params.put(AWARD_NUMBER_CAMEL, awardTerm.getAwardNumber());
+            params.put(AwardConstants.AWARD_ID, awardTerm.getAward().getAwardId());
             params.put(REPORT_CLASS_CODE, awardTerm.getReportClassCode());
             params.put(REPORT_CODE, awardTerm.getReportCode());
             params.put(FREQUENCY_CODE, awardTerm.getFrequencyCode());
