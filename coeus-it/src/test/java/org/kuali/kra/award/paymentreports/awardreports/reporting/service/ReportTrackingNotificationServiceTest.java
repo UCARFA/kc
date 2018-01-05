@@ -184,6 +184,7 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
         ReportTracking result = new ReportTracking();
         result.setAwardReportTermId(currentTermId++);
         result.setAwardNumber(award.getAwardNumber());
+        result.setAwardId(award.getAwardId());
         result.setPiName("Quickstart Quickstart");
         result.setLeadUnitNumber("000001");
         result.setReportClassCode(reportClassCode);
