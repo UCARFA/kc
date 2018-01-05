@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.notification.impl.bo.NotificationType;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.notification.AwardNotificationContext;
 import org.kuali.kra.award.notification.AwardReportTrackingNotificationRenderer;
@@ -176,9 +177,9 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
 
         Map<String, Object> values = new HashMap<String, Object>();
         if (report.getAwardReportTermId() != null) {
-            values.put("awardReportTermId", report.getAwardReportTermId());
+            values.put(AwardConstants.AWARD_REPORT_TERM_ID, report.getAwardReportTermId());
         }
-        values.put("awardNumber", report.getAwardNumber());
+        values.put(AwardConstants.AWARD_NUMBER, report.getAwardNumber());
         values.put("dueDate", report.getDueDate());
         values.put("actionCode", notification.getActionCode());
         List<SentReportNotification> notifications = (List<SentReportNotification>) getBusinessObjectService().findMatching(SentReportNotification.class, values);

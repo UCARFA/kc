@@ -21,10 +21,10 @@ package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.apache.ojb.broker.query.*;
+import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 import org.kuali.rice.krad.service.PersistenceStructureService;
@@ -49,6 +49,7 @@ public class ReportTrackingDaoOjb extends LookupDaoOjb implements ReportTracking
     @Override
     public List<ReportTracking> getResultsGroupedBy(Map<String, String> searchValues, List<String> groupedByAttrs, List<String> displayByAttrs) throws IllegalAccessException, InvocationTargetException {
         Criteria criteria = getCollectionCriteriaFromMap(new ReportTracking(), searchValues);
+        criteria.addIn(AwardConstants.AWARD_ID, getActiveAwardsSubQuery());
         List<String> columns = new ArrayList<String>(groupedByAttrs);
         columns.add("count(*)");
         ReportQueryByCriteria query = QueryFactory.newReportQuery(ReportTracking.class, columns.toArray(new String[1]), criteria, true);
@@ -90,12 +91,23 @@ public class ReportTrackingDaoOjb extends LookupDaoOjb implements ReportTracking
     @Override
     public List<ReportTracking> getDetailResults(Map<String, String> searchValues, List<String> detailAttrs) throws IllegalAccessException, InvocationTargetException {
         Criteria criteria = getCollectionCriteriaFromMap(new ReportTracking(), searchValues);
+        criteria.addIn(AwardConstants.AWARD_ID, getActiveAwardsSubQuery());
         QueryByCriteria query = QueryFactory.newQuery(ReportTracking.class, criteria, false);
         List<ReportTracking> result = new ArrayList<ReportTracking>(getPersistenceBrokerTemplate().getCollectionByQuery(query));
         Collections.sort(result, new MultiColumnComparator(detailAttrs));
         return result;
     }
-    
+
+    private Query getActiveAwardsSubQuery() {
+        Criteria activeAwardSubCriteria = new Criteria();
+        activeAwardSubCriteria.addIn(AwardConstants.AWARD_SEQUENCE_STATUS,
+                Arrays.asList(VersionStatus.ACTIVE.toString(), VersionStatus.PENDING.toString()));
+        ReportQueryByCriteria activeAwardIdsQuery = QueryFactory.newReportQuery(Award.class, activeAwardSubCriteria);
+        activeAwardIdsQuery.setAttributes(new String[]{ AwardConstants.MAX_AWARD_ID });
+        activeAwardIdsQuery.addGroupBy(AwardConstants.AWARD_NUMBER);
+        return activeAwardIdsQuery;
+    }
+
     /**
      * Comparator that supports sorting a list of report tracking BOs by a list of
      * columns. It will first sort by the first column, if that column is the same
