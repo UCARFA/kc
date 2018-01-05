@@ -131,7 +131,6 @@
 			<th> <div align="center">
 				Last Update
 			</div></th>
-			<th> <div align="center">Action</div></th>
 		</tr>
 		<c:forEach var="reportTracking" items="${KualiForm.document.award.awardReportTermItems[index].reportTrackings}" varStatus="status">
 			<tr>
@@ -156,7 +155,7 @@
 										'na',
 										'na',
 										'na',
-										'sub.reportTrackingBeans.div');"	attributeEntry="${reportTrackingAttributes.preparerName}" readOnly="${reportTrackingReadOnly }"  />
+										'preparer[${status.index}].id');"	attributeEntry="${reportTrackingAttributes.preparerName}" readOnly="${reportTrackingReadOnly }"  />
 					<c:if test="${!reportTrackingReadOnly}">
 	                	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
 	                                fieldConversions="userName:document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerName,personId:document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" />
@@ -164,10 +163,13 @@
                     <kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" 
 						attributeEntry="${reportTrackingAttributes.preparerId}" readOnly="${reportTrackingReadOnly }"  />
                     <kul:directInquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" inquiryParameters="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId:personId" />
-                    <html:hidden styleId ="sub.reportTrackingBeans.div" property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" />
+
+					<c:set var="preparerIdProp" value="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId"/>
+					${kfunc:registerEditableProperty(KualiForm, preparerIdProp)}
+					<html:hidden styleId ="preparer[${status.index}].id" property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" />
 					<br/>
 					<span id="preparer[${status.index}]">
-                    &nbsp;
+						<c:out value="${reportTracking.preparerFullname}" />
 					</span>
 				</td>
 				<td>
@@ -187,13 +189,6 @@
 						${reportTracking.lastUpdateUser } :
 						<fmt:formatDate value="${reportTracking.lastUpdateDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
 					</c:if>
-				</td>
-				<td>
-					<c:if test="${reportTracking.displayDeleteButton}">
-						<html:image property="methodToCall.deleteReportTrackingRecord.awardReportTermItems${index}.line${status.index}.anchor${currentTabIndex}"
-				        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
-				        onclick="return confirm('Are you sure you want to delete this report tracking detail?  Note, this record may be regenerated on the next save, based on the selected frequency and frequency base.')"/>
-			        </c:if>
 				</td>
 			</tr>			
 		</c:forEach>
