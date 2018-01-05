@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1801_001__nsf_id.sql
+\. ./kc/bootstrap/V1801_002__version_award_report_tracking.sql
 commit;

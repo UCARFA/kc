@@ -1,6 +1,20 @@
 
 
 ## CURRENT
+* RESKC-869: Fix broken IT
+  * Jeff Largent on Fri, 5 Jan 2018 15:11:36 -0500 [View Commit](../../commit/9dda734cdf1656d172f78062c9c1bc79c427540d)
+* RESKC-1748: Unify award report tracking sync behavior
+
+* No longer regenerate tracking entries with Pending status on every save
+* Always regenerate schedules for both `REGEN` and `ADDONLY` frequency bases, preserving trackings with dates that match the new schedule
+  * Jeff Largent on Fri, 5 Jan 2018 12:32:58 -0500 [View Commit](../../commit/3f7b06f7566b247f69cbebc696e59a2aac106bfd)
+* RESKC-869: Store award ID with award report tracking entries
+
+* Also updated report tracking lookup to only return entries associated with `ACTIVE` or `PENDING` awards
+* Included script to re-map existing report tracking entries to the award terms associated with the latest award version
+  * Jeff Largent on Fri, 5 Jan 2018 12:24:52 -0500 [View Commit](../../commit/37e771ee9b066fc541a2bb8c39952adbf05feecd)
+
+## coeus-1801.0006
 * RESKC-2688: Adding NSF ID field (#2693)
 
   * To support the upcoming NSF changes, add the new NSF ID field to the Extended Attributes (near the NIH ERA Commons ID)
