@@ -34,5 +34,3 @@ SET (art.award_id, art.award_report_term_id) = (
 		(art.frequency_base_code is null and frequency_base_code is null))
 	and (art.osp_distribution_code = osp_distribution_code or
 		(art.osp_distribution_code is null and osp_distribution_code is null)));
-
-alter table award_report_tracking modify award_id number(22) not null;

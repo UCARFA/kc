@@ -36,5 +36,3 @@ update award_report_tracking art
 		(art.osp_distribution_code is null and terms.osp_distribution_code is null))
 set art.award_id = terms.award_id,
 	art.award_report_term_id = terms.award_report_terms_id;
-
-alter table award_report_tracking modify award_id decimal(22) not null;
