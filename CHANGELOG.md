@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* RESKC-2642: zendesk-3192 check for null prime sponsor (#2626)
+
+  * Noah on Mon, 8 Jan 2018 10:15:24 -0800 [View Commit](../../commit/a3b5319a8c75dc5805bdc439bb3fdc2dc107d8e5)
+
+## coeus-1801.0008
 * RESKC-869: Disabling award_id constraint until we can fix orphaned tracking records
   * Jeff Largent on Fri, 5 Jan 2018 17:34:46 -0500 [View Commit](../../commit/185b4bc6e635e62be725fc555abab4819618aa7e)
 
