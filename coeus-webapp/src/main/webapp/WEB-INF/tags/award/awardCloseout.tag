@@ -35,8 +35,7 @@
         		<kul:htmlAttributeHeaderCell attributeEntry="${awardAttributes.archiveLocation}" scope="col" />
 				<td align="left" valign="middle">
 					<div align="center">
-                	<!-- SJW	<kul:htmlControlAttribute property="document.awardList[0].archiveLocation" attributeEntry="${awardAttributes.archiveLocation}" readOnly="true"  /> -->
-						<kul:htmlControlAttribute property="document.awardList[0].archiveLocation" attributeEntry="${awardAttributes.archiveLocation}"  />
+                		<kul:htmlControlAttribute property="document.awardList[0].archiveLocation" attributeEntry="${awardAttributes.archiveLocation}"   />
 					</div>
 				  </td>
 				<kul:htmlAttributeHeaderCell attributeEntry="${awardAttributes.closeoutDate}" scope="col" />

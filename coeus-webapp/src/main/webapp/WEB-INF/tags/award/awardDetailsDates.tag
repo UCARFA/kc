@@ -131,6 +131,7 @@
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div>
       	</th>
     	<td align="left" valign="middle">
+			<!-- SJW FAPA-1864  Account number read-only on award -->
     		<kul:htmlControlAttribute property="document.awardList[0].accountNumber" attributeEntry="${awardAttributes.accountNumber}" readOnly="true" />
     	</td>
     	</kra:section>
