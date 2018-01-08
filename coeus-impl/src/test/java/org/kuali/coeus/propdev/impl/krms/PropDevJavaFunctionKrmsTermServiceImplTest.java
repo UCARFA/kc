@@ -149,6 +149,32 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 	}
 
 	@Test
+	public void test_no_primeSponsor_monitoredSponsorRule() {
+		final String monitoredSponsorHirearchies = "Administering Activity";
+		final Map<String, String> fieldValues = new HashMap<>();
+		fieldValues.put(Constants.HIERARCHY_NAME, monitoredSponsorHirearchies);
+		final ArrayList<SponsorHierarchy> hierarchies = new ArrayList<>();
+		SponsorHierarchy sponsorHierarchy = new SponsorHierarchy();
+		sponsorHierarchy.setSponsorCode("001234"); // not a match to excersize checking prime sponsor 
+		sponsorHierarchy.setHierarchyName(monitoredSponsorHirearchies);
+		hierarchies.add(sponsorHierarchy);
+		final DevelopmentProposal developmentProposal = new DevelopmentProposal() {
+			@Override
+			public void refreshReferenceObject(String referenceObjectName) {
+				// do nothing
+			}
+		};
+		developmentProposal.setSponsor(createSponsor());
+		context.checking(new Expectations() {
+			{
+				one(businessObjectService).findMatching(SponsorHierarchy.class, fieldValues);
+				will(returnValue(hierarchies));
+			}
+		});
+		assertEquals(FALSE, propDevJavaFunctionKrmsTermService.monitoredSponsorRule(developmentProposal, monitoredSponsorHirearchies));
+	}
+	
+	@Test
 	public void test_s2sResplanRule() {
 		final DevelopmentProposal developmentProposal = createDevelopmentProposal();
 		String narativeTypes = "Performance_sites";
