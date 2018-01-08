@@ -24,6 +24,7 @@ public class UcarHttpUtil {
     public void httpPost (HashMap payload, String msgQueueUrlParm) {
         JSONObject jsonPayload = new JSONObject(payload);
         System.out.println("JSON Payload: " + jsonPayload);
+        // Add Logger
         HttpClient httpClient = HttpClientBuilder.create().build();
         String credentials = Base64.getEncoder().encodeToString(("admin:admin").getBytes());
         String messageQueueUrl = getParameterService().getParameterValueAsString(KC_GENERAL_NAMESPACE, DOCUMENT_COMPONENT_NAME, msgQueueUrlParm);
