@@ -763,7 +763,7 @@
         <property name="forceUppercase" value="false"/>
         <property name="label" value="Final Statement Due"/>
         <property name="shortLabel" value="Final Statement Due"/>
-        <property name="maxLength" value="3"/>
+        <property name="maxLength" value="4"/>
         <property name="validationPattern">
             <bean parent="AlphaNumericValidationPattern"/>
         </property>
