@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2652: increase field size in DD to match DB
+  * Travis Schneeberger on Tue, 9 Jan 2018 17:42:51 -0500 [View Commit](../../commit/7da3ad3156d47db4c91b4133c20c9479cba4bfca)
+
+## coeus-1801.0011
 * RESKC-2688: Change long to varchar (#2699)
 
   * Gayathri Athreya on Tue, 9 Jan 2018 10:42:00 -0700 [View Commit](../../commit/ad1c4cdb8b7fd0113b8985d633eecaad593e4458)
