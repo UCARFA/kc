@@ -124,7 +124,7 @@ public class KcPersonExtendedAttributes extends KcPersistableBusinessObjectBase 
     private Integer citizenshipTypeCode;
 
     @Column(name = "NSF_ID")
-    private Long nsfId;
+    private String nsfId;
 
     @Transient
     private String multiCampusPrincipalId;
@@ -234,11 +234,11 @@ public class KcPersonExtendedAttributes extends KcPersistableBusinessObjectBase 
         this.degree = argDegree;
     }
 
-    public Long getNsfId() {
+    public String getNsfId() {
         return nsfId;
     }
 
-    public void setNsfId(Long nsfId) {
+    public void setNsfId(String nsfId) {
         this.nsfId = nsfId;
     }
 

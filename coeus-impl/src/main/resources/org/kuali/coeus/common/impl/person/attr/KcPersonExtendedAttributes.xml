@@ -564,7 +564,7 @@
           <bean p:size="12" parent="Uif-TextControl"/>
       </property>
       <property name="validationPattern">
-          <bean parent="NumericValidationPattern"/>
+          <bean parent="AlphaNumericValidationPattern"/>
       </property>
       <property name="summary" value="NSF ID" />
       <property name="description" value="NSF ID" />

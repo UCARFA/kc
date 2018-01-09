@@ -886,7 +886,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
         return address.getCountryCode() != null ? this.convert2DigitCountryCodeTo3Digit(address.getCountryCode()) : "";
     }
 
-    public Long getNsfId() {
+    public String getNsfId() {
         return this.extendedAttributes.getNsfId();
     }
 

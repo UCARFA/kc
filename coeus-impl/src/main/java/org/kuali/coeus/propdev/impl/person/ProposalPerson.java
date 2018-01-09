@@ -365,7 +365,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     private String eraCommonsUserName;
 
     @Column(name = "NSF_ID")
-    private Long nsfId;
+    private String nsfId;
 
     @Column(name = "DIVISION")
     private String division;
@@ -1463,13 +1463,14 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
         this.eraCommonsUserName = argEraCommonsUserName;
     }
 
-    public Long getNsfId() {
+    public String getNsfId() {
         if (nsfId == null && personId != null) {
             this.nsfId = getKcPersonService().getKcPersonByPersonId(personId).getExtendedAttributes().getNsfId();
         }
-        return this.nsfId;    }
+        return nsfId;
+    }
 
-    public void setNsfId(Long nsfId) {
+    public void setNsfId(String nsfId) {
         this.nsfId = nsfId;
     }
 
