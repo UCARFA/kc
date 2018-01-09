@@ -27,8 +27,6 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
     private String subAwardCode;
     private Integer sequenceNumber;
     private Long subAwardId;
-    private String sowOrSubProposalBudget="N";
-    private Date subProposalDate;
     private Integer invoiceOrPaymentContact;
     private Integer finalStmtOfCostscontact;
     private Integer changeRequestsContact;
@@ -67,6 +65,19 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
     private String additionalTerms;
     private String treatmentOfIncome;
     private String dataSharingAttachment;
+    private String finalStatementDueCd;
+
+    /**
+     * @deprecated no longer used but no deleted for backwards compatibility reasons
+     */
+    @Deprecated
+    private String sowOrSubProposalBudget;
+
+    /**
+     * @deprecated no longer used but no deleted for backwards compatibility reasons
+     */
+    @Deprecated
+    private Date subProposalDate;
 
     public String getMpiLeadershipPlan() {
         return mpiLeadershipPlan;
@@ -106,22 +117,6 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
 
     public void setSubAwardId(Long subAwardId) {
         this.subAwardId = subAwardId;
-    }
-
-    public String getSowOrSubProposalBudget() {
-        return sowOrSubProposalBudget;
-    }
-
-    public void setSowOrSubProposalBudget(String sowOrSubProposalBudget) {
-        this.sowOrSubProposalBudget = sowOrSubProposalBudget;
-    }
-
-    public Date getSubProposalDate() {
-        return subProposalDate;
-    }
-
-    public void setSubProposalDate(Date subProposalDate) {
-        this.subProposalDate = subProposalDate;
     }
 
     public Integer getInvoiceOrPaymentContact() {
@@ -410,5 +405,45 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
 
     public void setDataSharingAttachment(String dataSharingAttachment) {
         this.dataSharingAttachment = dataSharingAttachment;
+    }
+
+    public String getFinalStatementDueCd() {
+        return finalStatementDueCd;
+    }
+
+    public void setFinalStatementDueCd(String finalStatementDueCd) {
+        this.finalStatementDueCd = finalStatementDueCd;
+    }
+
+    /**
+     * @deprecated no longer used but no deleted for backwards compatibility reasons
+     */
+    @Deprecated
+    public String getSowOrSubProposalBudget() {
+        return sowOrSubProposalBudget;
+    }
+
+    /**
+     * @deprecated no longer used but no deleted for backwards compatibility reasons
+     */
+    @Deprecated
+    public void setSowOrSubProposalBudget(String sowOrSubProposalBudget) {
+        this.sowOrSubProposalBudget = sowOrSubProposalBudget;
+    }
+
+    /**
+     * @deprecated no longer used but no deleted for backwards compatibility reasons
+     */
+    @Deprecated
+    public Date getSubProposalDate() {
+        return subProposalDate;
+    }
+
+    /**
+     * @deprecated no longer used but no deleted for backwards compatibility reasons
+     */
+    @Deprecated
+    public void setSubProposalDate(Date subProposalDate) {
+        this.subProposalDate = subProposalDate;
     }
 }

@@ -20,15 +20,14 @@
 
 <c:set var="subAwardTemplateInfoAttributes" value="${DataDictionary.SubAwardTemplateInfo.attributes}" />
 <c:set var="attachments" value="${KualiForm.document.subAwardList[0].subAwardTemplateInfo}"/>
-<kul:tabTop tabTitle="Template" defaultOpen="true" tabErrorKey="document.subAwardList[0].subAwardTemplateInfo[0].sowOrSubProposalBudget*,
-                                                                document.subAwardList[0].subAwardTemplateInfo[0].subProposalDate*,
-                                                                document.subAwardList[0].subAwardTemplateInfo[0].perfSiteDiffFromOrgAddr*,
+<kul:tabTop tabTitle="Template" defaultOpen="true" tabErrorKey="document.subAwardList[0].subAwardTemplateInfo[0].perfSiteDiffFromOrgAddr*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].subRegisteredInCcr*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].parentCongressionalDistrict*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].parentDunsNumber*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].exemptFromRprtgExecComp*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].rAndD*,
-                                                                document.subAwardList[0].subAwardTemplateInfo[0].includesCostSharing*">
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].includesCostSharing*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].finalStatementDueCd*">
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Template</span>
@@ -47,19 +46,16 @@
             </tr>
 
             <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.subProposalDate}" /></div></th>
-                <td>
-                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].subProposalDate" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.subProposalDate}" datePicker="true" />
-                </td>
-            </tr>
-            <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.sowOrSubProposalBudget}" /></div></th>
-                <td>
-                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].sowOrSubProposalBudget" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.sowOrSubProposalBudget}" />
-                </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.rAndD}" /></div></th>
                 <td>
                     <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].rAndD" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.rAndD}"   />
+                </td>
+                <th>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.finalStatementDueCd}"/></div>
+                </th>
+                <td>
+                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].finalStatementDueCd" readOnly="${readOnly}"
+                                              attributeEntry="${subAwardTemplateInfoAttributes.finalStatementDueCd}"/>
                 </td>
             </tr>
             <tr>

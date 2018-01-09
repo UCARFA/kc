@@ -262,8 +262,6 @@
                         <xs:sequence>
                             <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SowOrSubProposalBudget" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SubProposalDate" type="xs:date" nillable="true" minOccurs="0"/>
                             <xs:element name="InvoiceOrPaymentContact" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="InvoiceOrPaymentContactDescription" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FinalStmtOfCostsContact" type="xs:string" nillable="true" minOccurs="0"/>
@@ -311,6 +309,7 @@
                             <xs:element name="AdditionalTerms" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="TreatmentOfIncome" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="DataSharingAttachment" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FinalStatementDueCd" type="xs:string" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
@@ -373,6 +372,8 @@
                             <xs:element name="FdpUsdaInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FdpUsdaAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FdpUsdaFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpSubawardBilateralAgreements" type="xs:boolean" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

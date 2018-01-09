@@ -46,8 +46,8 @@
     + subAwardId (optional) - 
     + subAwardCode (optional) - 
     + sequenceNumber (optional) - 
-    + sowOrSubProposalBudget (optional) - SOW/Budget specified in proposal. Maximum length is 1.
-    + subProposalDate (optional) - SubProposal Date. Maximum length is 21.
+    + sowOrSubProposalBudget (optional, deprecated) - SOW/Budget specified in proposal. Maximum length is 1.
+    + subProposalDate (optional, deprecated) - SubProposal Date. Maximum length is 21.
     + invoiceOrPaymentContact (optional) - Invoice / Payment Contact. Maximum length is 10.
     + finalStmtOfCostscontact (optional) - Final Statement of Costs Contact. Maximum length is 10.
     + changeRequestsContact (optional) - Change Requests Contact. Maximum length is 10.
@@ -237,8 +237,8 @@
     + subAwardId (optional) - 
     + subAwardCode (optional) - 
     + sequenceNumber (optional) - 
-    + sowOrSubProposalBudget (optional) - SOW/Budget specified in proposal. Maximum length is 1.
-    + subProposalDate (optional) - SubProposal Date. Maximum length is 21.
+    + sowOrSubProposalBudget (optional, deprecated) - SOW/Budget specified in proposal. Maximum length is 1.
+    + subProposalDate (optional, deprecated) - SubProposal Date. Maximum length is 21.
     + invoiceOrPaymentContact (optional) - Invoice / Payment Contact. Maximum length is 10.
     + finalStmtOfCostscontact (optional) - Final Statement of Costs Contact. Maximum length is 10.
     + changeRequestsContact (optional) - Change Requests Contact. Maximum length is 10.
