@@ -23,4 +23,7 @@ set sqlblanklines on
 spool 1801_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1801_001__nsf_id.sql
 @./kc/bootstrap/V1801_002__version_award_report_tracking.sql
+@./kc/bootstrap/V1801_003__fdp.sql
+@./kc/bootstrap/V1801_005__fdp.sql
+@./kc/bootstrap/V1801_006__nsf_id_varchar.sql
 commit;

@@ -1,6 +1,13 @@
 
 
 ## CURRENT
+* RESKC-2688: Change long to varchar (#2699)
+
+  * Gayathri Athreya on Tue, 9 Jan 2018 10:42:00 -0700 [View Commit](../../commit/ad1c4cdb8b7fd0113b8985d633eecaad593e4458)
+* RESKC-2652: update fdp agreement
+  * Travis Schneeberger on Tue, 9 Jan 2018 11:38:58 -0500 [View Commit](../../commit/91100a52b912aefbf332ad8f62db0ff91368d9d7)
+
+## coeus-1801.0009
 * RESKC-2642: zendesk-3192 check for null prime sponsor (#2626)
 
   * Noah on Mon, 8 Jan 2018 10:15:24 -0800 [View Commit](../../commit/a3b5319a8c75dc5805bdc439bb3fdc2dc107d8e5)

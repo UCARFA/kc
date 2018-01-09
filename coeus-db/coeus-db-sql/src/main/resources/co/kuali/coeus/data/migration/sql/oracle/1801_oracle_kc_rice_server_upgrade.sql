@@ -17,10 +17,9 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+set define off
+set sqlblanklines on
 
-\. ./kc/bootstrap/V1801_001__nsf_id.sql
-\. ./kc/bootstrap/V1801_002__version_award_report_tracking.sql
-\. ./kc/bootstrap/V1801_003__fdp.sql
-\. ./kc/bootstrap/V1801_005__fdp.sql
-\. ./kc/bootstrap/V1801_006__nsf_id_varchar.sql
+spool 1801_oracle_kc_rice_server_upgrade.sql.log
+@./rice/bootstrap/V1801_004__fdp.sql
 commit;
