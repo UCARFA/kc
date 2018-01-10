@@ -85,7 +85,7 @@ public class TimeAndMoneyDocumentRule extends KcTransactionalDocumentRuleBase im
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
         for (Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()) {
             Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber()); 
-            if (!this.getReportTrackingService().getReportTacking(award).isEmpty() && checkReportTrackingValueChanges(timeAndMoneyDocument)) {
+            if (!this.getReportTrackingService().getReportTracking(award).isEmpty() && checkReportTrackingValueChanges(timeAndMoneyDocument)) {
                 KNSGlobalVariables.getMessageList().add(KeyConstants.REPORT_TRACKING_WARNING_UPDATE_FROM_DATE_CHANGE, "");
                 return;
             }
