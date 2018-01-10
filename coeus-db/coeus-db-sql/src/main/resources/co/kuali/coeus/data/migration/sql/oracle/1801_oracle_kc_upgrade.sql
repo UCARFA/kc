@@ -27,4 +27,5 @@ spool 1801_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1801_005__fdp.sql
 @./kc/bootstrap/V1801_006__nsf_id_varchar.sql
 @./kc/bootstrap/V1801_007__fdp.sql
+@./kc/bootstrap/V1801_008__nsf_cover_page_1_8.sql
 commit;

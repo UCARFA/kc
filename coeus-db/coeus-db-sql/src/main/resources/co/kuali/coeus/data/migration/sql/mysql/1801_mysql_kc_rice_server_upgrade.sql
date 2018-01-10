@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1801_004__fdp.sql
+\. ./rice/bootstrap/V1801_009__force_xsl_param.sql
 commit;

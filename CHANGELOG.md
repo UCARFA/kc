@@ -1,6 +1,16 @@
 
 
 ## CURRENT
+* RESKC-2716, RESKC-2471: show/hide t and c f coi.  Prevent STE when printing DOE fdp form.
+  * Travis Schneeberger on Wed, 10 Jan 2018 16:25:57 -0500 [View Commit](../../commit/0f147b45502077287e6db12511e2ebd64cf6b98f)
+* RESKC-2500: NSF CP form (#2704)
+
+* RESKC-2500: NSF CP form
+  * 
+* RESKC-2500: small change
+  * Gayathri Athreya on Wed, 10 Jan 2018 13:13:52 -0700 [View Commit](../../commit/a785c80489057c1c04e573ecc49b1d27246176c0)
+
+## coeus-1801.0015
 * RESKC-2624: create the correct sort order for fdp forms, cleanup unused stylesheets that have been replaced by pdf forms
   * Travis Schneeberger on Wed, 10 Jan 2018 13:56:42 -0500 [View Commit](../../commit/6d3991a63e071c3166dc27e08a5ed6fd99f43799)
 
