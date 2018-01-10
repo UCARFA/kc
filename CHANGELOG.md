@@ -1,6 +1,13 @@
 
 
 ## CURRENT
+* RESKC-2132: Changed behavior back to only deleting pending reports when schedule changes
+
+* Added support for manually deleting tracking entries which no longer match the schedule
+* Made sure that report tracking entries are updated when report / frequency properties are changed on the associated term
+  * Jeff Largent on Wed, 10 Jan 2018 11:23:56 -0500 [View Commit](../../commit/c350d1815d4447f70f1ccdd5e083187d2af20220)
+
+## coeus-1801.0012
 * RESKC-2652: increase field size in DD to match DB
   * Travis Schneeberger on Tue, 9 Jan 2018 17:42:51 -0500 [View Commit](../../commit/7da3ad3156d47db4c91b4133c20c9479cba4bfca)
 
