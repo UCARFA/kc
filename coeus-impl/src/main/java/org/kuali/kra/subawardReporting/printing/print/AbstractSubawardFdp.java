@@ -42,9 +42,14 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
     private static final String PI_TYPE_CODE = "?";
     private static final String AUTH_OFFICIAL_TYPE_CODE = "37";
 
-    private static final String FDP_AGREEMENT = "FDP Template";
-    private static final String FDP_MODIFICATION = "FDP Modification";
     private static final String MM_DD_YYYY = "MM/dd/yyyy";
+
+    private static final List<String> FORM_ORDER = Stream.of(AgreementForm.FDP_AGREEMENT.getId(), "FDP Modification", "FDP Modification Unilateral",
+            Attachment2Form.FDP_AFOSR.getId(), Attachment2Form.FDP_AMRAA.getId(), Attachment2Form.FDP_AMRMC.getId(), Attachment2Form.FDP_ARO.getId(),
+            Attachment2Form.FDP_DOE.getId(), Attachment2Form.FDP_EPA.getId(), Attachment2Form.FDP_NASA.getId(), Attachment2Form.FDP_NIH.getId(),
+            Attachment2Form.FDP_NSF.getId(), Attachment2Form.FDP_ONR.getId(), Attachment2Form.FDP_USDA.getId(),
+            "FDP_ATT_3A", "FDP_ATT_3B", "FDP_ATT_3B_2", "FDP_ATT_4")
+            .collect(Collectors.toList());
 
     private Map<String, Resource> pdfForms;
 
@@ -520,22 +525,7 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
 
     @Override
     public Map<String, byte[]> sortPdfForms(Map<String, byte[]> forms) {
-       final TreeMap<String, byte[]> sorted = new TreeMap<>((o1, o2) -> {
-           if (Objects.equals(o1, o2)) {
-               return 0;
-           }
-
-           if (FDP_AGREEMENT.equals(o1) || FDP_MODIFICATION.equals(o1)) {
-               return -1;
-           }
-
-           if (FDP_AGREEMENT.equals(o2) || FDP_MODIFICATION.equals(o2)) {
-               return 1;
-           }
-
-           return Objects.compare(o1, o2, String::compareTo);
-       });
-
+        final TreeMap<String, byte[]> sorted = new TreeMap<>(Comparator.comparing(FORM_ORDER::indexOf));
        sorted.putAll(forms);
        return sorted;
     }
