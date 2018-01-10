@@ -467,25 +467,27 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
     private void setGenTermsAndConditions(PDDocument document, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, Attachment2SponsorFormType type) {
         //General Terms and Conditions
         if (type == Attachment2SponsorFormType.NIH) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpNihPolicy(), configInfo.getFdpNihGrantsPolicyStatement(), configInfo.getFdpNihInterimResearchTerms(), configInfo.getFdpNihAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNihPolicy(), configInfo.getFdpNihGrantsPolicyStatement(), configInfo.getFdpNihInterimResearchTerms(), configInfo.getFdpNihAgencyRequirements(), true);
         } else if (type == Attachment2SponsorFormType.NSF) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpNsfPolicy(), configInfo.getFdpNsfGrantsPolicyStatement(), configInfo.getFdpNsfInterimResearchTerms(), configInfo.getFdpNsfAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNsfPolicy(), configInfo.getFdpNsfGrantsPolicyStatement(), configInfo.getFdpNsfInterimResearchTerms(), configInfo.getFdpNsfAgencyRequirements(), true);
         } else if (type == Attachment2SponsorFormType.NASA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpNasaPolicy(), configInfo.getFdpNasaGrantsPolicyStatement(), configInfo.getFdpNasaInterimResearchTerms(), configInfo.getFdpNasaAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNasaPolicy(), configInfo.getFdpNasaGrantsPolicyStatement(), configInfo.getFdpNasaInterimResearchTerms(), configInfo.getFdpNasaAgencyRequirements(), true);
         } else if (type == Attachment2SponsorFormType.ONR) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpOnrPolicy(), configInfo.getFdpOnrGrantsPolicyStatement(), configInfo.getFdpOnrInterimResearchTerms(), configInfo.getFdpOnrAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpOnrPolicy(), configInfo.getFdpOnrGrantsPolicyStatement(), configInfo.getFdpOnrInterimResearchTerms(), configInfo.getFdpOnrAgencyRequirements(), true);
         } else if (type == Attachment2SponsorFormType.ARO) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAroPolicy(), configInfo.getFdpAroGrantsPolicyStatement(), configInfo.getFdpAroInterimResearchTerms(), configInfo.getFdpAroAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAroPolicy(), configInfo.getFdpAroGrantsPolicyStatement(), configInfo.getFdpAroInterimResearchTerms(), configInfo.getFdpAroAgencyRequirements(), true);
         } else if (type == Attachment2SponsorFormType.AFOSR) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAfosrPolicy(), configInfo.getFdpAfosrGrantsPolicyStatement(), configInfo.getFdpAfosrInterimResearchTerms(), configInfo.getFdpAfosrAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAfosrPolicy(), configInfo.getFdpAfosrGrantsPolicyStatement(), configInfo.getFdpAfosrInterimResearchTerms(), configInfo.getFdpAfosrAgencyRequirements(), true);
         } else if (type == Attachment2SponsorFormType.EPA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpEpaPolicy(), configInfo.getFdpEpaGrantsPolicyStatement(), configInfo.getFdpEpaInterimResearchTerms(), configInfo.getFdpEpaAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpEpaPolicy(), configInfo.getFdpEpaGrantsPolicyStatement(), configInfo.getFdpEpaInterimResearchTerms(), configInfo.getFdpEpaAgencyRequirements(), true);
         } else if (type == Attachment2SponsorFormType.AMRMC) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAmrmcPolicy(), configInfo.getFdpAmrmcGrantsPolicyStatement(), configInfo.getFdpAmrmcInterimResearchTerms(), configInfo.getFdpAmrmcAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAmrmcPolicy(), configInfo.getFdpAmrmcGrantsPolicyStatement(), configInfo.getFdpAmrmcInterimResearchTerms(), configInfo.getFdpAmrmcAgencyRequirements(), true);
         } else if (type == Attachment2SponsorFormType.AMRAA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAmraaPolicy(), configInfo.getFdpAmraaGrantsPolicyStatement(), configInfo.getFdpAmraaInterimResearchTerms(), configInfo.getFdpAmraaAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAmraaPolicy(), configInfo.getFdpAmraaGrantsPolicyStatement(), configInfo.getFdpAmraaInterimResearchTerms(), configInfo.getFdpAmraaAgencyRequirements(), true);
         } else if (type == Attachment2SponsorFormType.USADA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpUsdaPolicy(), configInfo.getFdpUsdaGrantsPolicyStatement(), configInfo.getFdpUsdaInterimResearchTerms(), configInfo.getFdpUsdaAgencyRequirements());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpUsdaPolicy(), configInfo.getFdpUsdaGrantsPolicyStatement(), configInfo.getFdpUsdaInterimResearchTerms(), configInfo.getFdpUsdaAgencyRequirements(), true);
+        } else {
+            setGenTermsAndConditions1To4(document, "", "", "", "", false);
         }
 
         if (fromYN(templateInfo.getTreatmentPrgmIncomeAdditive())) {
@@ -499,8 +501,9 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         }
     }
 
-    private void setGenTermsAndConditions1To4(PDDocument document, String policy, String policyStatement, String terms, String requirements) {
+    private void setGenTermsAndConditions1To4(PDDocument document, String policy, String policyStatement, String terms, String requirements, boolean hideTandCfcoi) {
         setField(document, Attachment2Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), policy);
+        toggleFieldVisibility(document, Attachment2Pdf.Field.T_AND_CFCOI.getfName(), hideTandCfcoi);
         setField(document, Attachment2Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), policyStatement);
         setField(document, Attachment2Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), terms);
         setField(document, Attachment2Pdf.Field.REQUIREMENTS.getfName(), requirements);
@@ -714,6 +717,7 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
             FCOI_OTHER_SPONSOR_AGENCY("FCOIOtherSponsor", Collections.emptySet()),
             SPONSOR_AGENCY("SponsorAgency", Collections.emptySet()),
             FEDERAL_AWARD_CONDITIONS("FederalAwardConditions", Collections.emptySet()),
+            T_AND_CFCOI("T&CFCOI", Collections.emptySet()),
             GRANTS_POLICY_STATEMENT("GrantsPolicyStatement", Collections.emptySet()),
             INTERIM_RES_TERMS_COND("IntRTCs", Collections.emptySet()),
             REQUIREMENTS("RTCs", Collections.emptySet()),
