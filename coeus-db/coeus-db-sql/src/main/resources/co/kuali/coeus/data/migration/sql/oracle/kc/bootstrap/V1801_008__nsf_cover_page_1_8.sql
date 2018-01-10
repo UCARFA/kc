@@ -1,0 +1,56 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+--
+-- Copyright 2005-2017 Kuali, Inc.
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+--
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
+INSERT INTO VALID_NARR_FORMS (VALID_NARR_FORMS_ID,FORM_NAME,NARRATIVE_TYPE_CODE,MANDATORY,UPDATE_USER,UPDATE_TIMESTAMP, OBJ_ID)
+    VALUES (SEQ_VALID_NARR_FORMS_ID.NEXTVAL,'NSF_CoverPage_1_8',(SELECT NARRATIVE_TYPE_CODE FROM NARRATIVE_TYPE WHERE DESCRIPTION = 'NSF_SingleCopyDocument'),'N','admin',SYSDATE, SYS_GUID());
+
+
+INSERT INTO VALID_NARR_FORMS (VALID_NARR_FORMS_ID,FORM_NAME,NARRATIVE_TYPE_CODE,MANDATORY,UPDATE_USER,UPDATE_TIMESTAMP, OBJ_ID)
+    VALUES (SEQ_VALID_NARR_FORMS_ID.NEXTVAL,'NSF_CoverPage_1_8',(SELECT NARRATIVE_TYPE_CODE FROM NARRATIVE_TYPE WHERE DESCRIPTION = 'PersonalData'),'N','admin',SYSDATE, SYS_GUID());
+
+
+INSERT INTO VALID_NARR_FORMS (VALID_NARR_FORMS_ID,FORM_NAME,NARRATIVE_TYPE_CODE,MANDATORY,UPDATE_USER,UPDATE_TIMESTAMP, OBJ_ID)
+    VALUES (SEQ_VALID_NARR_FORMS_ID.NEXTVAL,'NSF_CoverPage_1_8',(SELECT NARRATIVE_TYPE_CODE FROM NARRATIVE_TYPE WHERE DESCRIPTION = 'PropietaryInformation'),'N','admin',SYSDATE, SYS_GUID());
+
+
+INSERT INTO VALID_NARR_FORMS (VALID_NARR_FORMS_ID,FORM_NAME,NARRATIVE_TYPE_CODE,MANDATORY,UPDATE_USER,UPDATE_TIMESTAMP, OBJ_ID)
+    VALUES (SEQ_VALID_NARR_FORMS_ID.NEXTVAL,'NSF_CoverPage_1_8',(SELECT NARRATIVE_TYPE_CODE FROM NARRATIVE_TYPE WHERE DESCRIPTION = 'Mentoring Plan'),'N','admin',SYSDATE, SYS_GUID());
+
+
+INSERT INTO VALID_NARR_FORMS (VALID_NARR_FORMS_ID,FORM_NAME,NARRATIVE_TYPE_CODE,MANDATORY,UPDATE_USER,UPDATE_TIMESTAMP, OBJ_ID)
+    VALUES (SEQ_VALID_NARR_FORMS_ID.NEXTVAL,'NSF_CoverPage_1_8',(SELECT NARRATIVE_TYPE_CODE FROM NARRATIVE_TYPE WHERE DESCRIPTION = 'Data Management Plan'),'N','admin',SYSDATE, SYS_GUID());
+
+
+INSERT INTO VALID_NARR_FORMS (VALID_NARR_FORMS_ID,FORM_NAME,NARRATIVE_TYPE_CODE,MANDATORY,UPDATE_USER,UPDATE_TIMESTAMP, OBJ_ID)
+    VALUES (SEQ_VALID_NARR_FORMS_ID.NEXTVAL,'NSF_CoverPage_1_8',(SELECT NARRATIVE_TYPE_CODE FROM NARRATIVE_TYPE WHERE DESCRIPTION = 'GOALILetter'),'N','admin',SYSDATE, SYS_GUID());
+
+
+INSERT INTO VALID_NARR_FORMS (VALID_NARR_FORMS_ID,FORM_NAME,NARRATIVE_TYPE_CODE,MANDATORY,UPDATE_USER,UPDATE_TIMESTAMP, OBJ_ID)
+    VALUES (SEQ_VALID_NARR_FORMS_ID.NEXTVAL,'NSF_CoverPage_1_8',(SELECT NARRATIVE_TYPE_CODE FROM NARRATIVE_TYPE WHERE DESCRIPTION = 'RAISEEmails'),'N','admin',SYSDATE, SYS_GUID());
+
+update QUESTIONNAIRE set NAME = 'NSF cover page 1-7 - 1-8 supporting questions', DESCRIPTION = 'These questions support  NSF Coverpage 1-7 to 1-8 Grants.gov forms.' WHERE
+NAME = 'NSF cover page 1-7 supporting questions';
+
+insert into s2s_form_to_questionnaire
+(S2S_FORM_TO_QUESTIONNAIRE_ID, OPP_NAME_SPACE, FORM_NAME, QUESTIONNAIRE_ID, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID, VER_NBR)
+VALUES (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL, 'http://apply.grants.gov/forms/NSF_CoverPage_1_8-V1.8',
+'NSF_CoverPage_1_8', (select distinct questionnaire_id from questionnaire where name='NSF cover page 1-7 - 1-8 supporting questions'), SYSDATE, 'admin', SYS_GUID(), '1');
+
+
+
