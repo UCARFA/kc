@@ -19,6 +19,7 @@
 
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,9 +50,7 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingServiceImpl.DESCRIPTION;
 import static org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingServiceImpl.PENDING_STATUS_DESCRIPTION;
 import static org.mockito.ArgumentMatchers.eq;
@@ -60,6 +59,9 @@ import static org.mockito.Mockito.*;
 @PrepareForTest(KNSServiceLocator.class)
 @RunWith(PowerMockRunner.class)
 public class ReportTrackingServiceImplTest {
+
+    private static final String PENDING_STATUS_CODE = "1";
+    private static final String NON_PENDING_STATUS_CODE = "2";
 
     private static final LocalDate START_DATE = LocalDate.of(2018, 1, 1);
     private static final Period MONTHLY = Period.ofMonths(1);
@@ -79,8 +81,11 @@ public class ReportTrackingServiceImplTest {
         PowerMockito.mockStatic(KNSServiceLocator.class);
         when(KNSServiceLocator.getLegacyAppFrameworkAdapterService()).thenReturn(mock(LegacyAppFrameworkAdapterService.class));
 
+        ReportStatus pendingStatus = new ReportStatus();
+        pendingStatus.setDescription(PENDING_STATUS_DESCRIPTION);
+        pendingStatus.setReportStatusCode(PENDING_STATUS_CODE);
         when(businessObjectService.findByPrimaryKey(eq(ReportStatus.class), eq(Collections.singletonMap(DESCRIPTION, PENDING_STATUS_DESCRIPTION))))
-                .thenReturn(new ReportStatus());
+                .thenReturn(pendingStatus);
     }
 
     @Test
@@ -95,7 +100,7 @@ public class ReportTrackingServiceImplTest {
     }
 
     @Test
-    public void reportTrackingServiceDeletesTrackingEntriesThatDontMatchSchedule() throws Exception {
+    public void reportTrackingServiceDeletesPendingTrackingEntriesThatDontMatchSchedule() throws Exception {
         Award award = setupAward(createTerm());
         when(awardScheduleGenerationService.generateSchedules(award, award.getAwardReportTermItems(), true))
                 .thenReturn(generateScheduleDates(START_DATE, LocalDate.of(2020, 1, 1), MONTHLY));
@@ -103,14 +108,18 @@ public class ReportTrackingServiceImplTest {
         assertEquals(24, award.getAwardReportTermItems().get(0).getReportTrackings().size());
         clearInvocations(businessObjectService);
 
+        award.getAwardReportTermItems().get(0).getReportTrackings().get(4).setStatusCode(NON_PENDING_STATUS_CODE);
+        award.getAwardReportTermItems().get(0).getReportTrackings().get(7).setStatusCode(NON_PENDING_STATUS_CODE);
+
         List<Date> scheduleDates = generateScheduleDates(START_DATE, LocalDate.of(2020, 3, 1), QUARTERLY);
         when(awardScheduleGenerationService.generateSchedules(award, award.getAwardReportTermItems(), true))
                 .thenReturn(scheduleDates);
         List<ReportTracking> expectedDeletes = award.getAwardReportTermItems().get(0).getReportTrackings().stream()
                 .filter(tracking -> !scheduleDates.contains(tracking.getDueDate()))
+                .filter(tracking -> PENDING_STATUS_CODE.equals(tracking.getStatusCode()))
                 .collect(Collectors.toList());
         reportTrackingService.generateReportTrackingAndSave(award, true);
-        assertEquals(8, award.getAwardReportTermItems().get(0).getReportTrackings().size());
+        assertEquals(10, award.getAwardReportTermItems().get(0).getReportTrackings().size());
         verify(businessObjectService).save(award.getAwardReportTermItems().get(0).getReportTrackings());
         verify(businessObjectService).delete(expectedDeletes);
     }
@@ -118,10 +127,11 @@ public class ReportTrackingServiceImplTest {
     @Test
     public void reportTrackingServicePreservesDatesWhenScheduleChanges() throws Exception {
         Award award = setupAward(createTerm());
+        AwardReportTerm awardTerm = award.getAwardReportTermItems().get(0);
         when(awardScheduleGenerationService.generateSchedules(award, award.getAwardReportTermItems(), true))
                 .thenReturn(generateScheduleDates(START_DATE, LocalDate.of(2021, 1, 1), ANNUAL));
         reportTrackingService.generateReportTrackingAndSave(award, true);
-        assertEquals(3, award.getAwardReportTermItems().get(0).getReportTrackings().size());
+        assertEquals(3, awardTerm.getReportTrackings().size());
         clearInvocations(businessObjectService);
 
         String savedComment1 = "This entry should remain after schedule changes";
@@ -130,32 +140,65 @@ public class ReportTrackingServiceImplTest {
         String preparerName = "tester";
         java.sql.Date activityDate = new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse("05/05/2018").getTime());
 
-        ReportTracking firstTracking = award.getAwardReportTermItems().get(0).getReportTrackings().get(2);
+        ReportTracking firstTracking = awardTerm.getReportTrackings().get(2);
         firstTracking.setComments(savedComment1);
         firstTracking.setPreparerName(preparerName);
         firstTracking.setActivityDate(activityDate);
 
-        ReportTracking secondTracking = award.getAwardReportTermItems().get(0).getReportTrackings().get(1);
+        ReportTracking secondTracking = awardTerm.getReportTrackings().get(1);
         secondTracking.setComments(savedComment2);
 
-        ReportTracking thirdTracking = award.getAwardReportTermItems().get(0).getReportTrackings().get(0);
+        ReportTracking thirdTracking = awardTerm.getReportTrackings().get(0);
         thirdTracking.setComments(deletedComment);
 
         when(awardScheduleGenerationService.generateSchedules(award, award.getAwardReportTermItems(), true))
                 .thenReturn(generateScheduleDates(START_DATE, LocalDate.of(2020, 3, 1), QUARTERLY));
         reportTrackingService.generateReportTrackingAndSave(award, true);
-        assertEquals(8, award.getAwardReportTermItems().get(0).getReportTrackings().size());
-        assertEquals(savedComment1, award.getAwardReportTermItems().get(0).getReportTrackings().get(4).getComments());
-        assertEquals(preparerName, award.getAwardReportTermItems().get(0).getReportTrackings().get(4).getPreparerName());
-        assertEquals(activityDate, award.getAwardReportTermItems().get(0).getReportTrackings().get(4).getActivityDate());
-        assertNotNull(award.getAwardReportTermItems().get(0).getReportTrackings().get(4).getLastUpdateDate());
-        assertEquals(savedComment2, award.getAwardReportTermItems().get(0).getReportTrackings().get(0).getComments());
-        assertNotNull(award.getAwardReportTermItems().get(0).getReportTrackings().get(0).getLastUpdateDate());
-        assertTrue(award.getAwardReportTermItems().get(0).getReportTrackings().stream()
+        assertEquals(8, awardTerm.getReportTrackings().size());
+        assertEquals(savedComment1, awardTerm.getReportTrackings().get(4).getComments());
+        assertEquals(preparerName, awardTerm.getReportTrackings().get(4).getPreparerName());
+        assertEquals(activityDate, awardTerm.getReportTrackings().get(4).getActivityDate());
+        assertNotNull(awardTerm.getReportTrackings().get(4).getLastUpdateDate());
+        assertEquals(savedComment2, awardTerm.getReportTrackings().get(0).getComments());
+        assertNotNull(awardTerm.getReportTrackings().get(0).getLastUpdateDate());
+        assertTrue(awardTerm.getReportTrackings().stream()
                 .map(ReportTracking::getComments)
                 .noneMatch(deletedComment::equals));
-        verify(businessObjectService).save(award.getAwardReportTermItems().get(0).getReportTrackings());
+        verify(businessObjectService).save(awardTerm.getReportTrackings());
         verify(businessObjectService).delete(Collections.singletonList(thirdTracking));
+    }
+
+    @Test
+    public void reportTrackingServiceKeepsSchedulePropertiesInSync() throws Exception {
+        Award award = setupAward(createTerm());
+        AwardReportTerm awardTerm = award.getAwardReportTermItems().get(0);
+        awardTerm.setReportClassCode("1");
+        awardTerm.setReportCode("1");
+        awardTerm.setFrequencyCode("1");
+        awardTerm.setFrequencyBaseCode("1");
+        awardTerm.setOspDistributionCode("1");
+
+        when(awardScheduleGenerationService.generateSchedules(award, award.getAwardReportTermItems(), true))
+                .thenReturn(generateScheduleDates(START_DATE, LocalDate.of(2020, 3, 1), QUARTERLY));
+        reportTrackingService.generateReportTrackingAndSave(award, true);
+        assertEquals(8, awardTerm.getReportTrackings().size());
+        clearInvocations(businessObjectService);
+
+        awardTerm.setReportCode("2");
+        awardTerm.setFrequencyCode("2");
+        awardTerm.setFrequencyBaseCode("2");
+        awardTerm.setOspDistributionCode("2");
+
+        when(awardScheduleGenerationService.generateSchedules(award, award.getAwardReportTermItems(), true))
+                .thenReturn(generateScheduleDates(START_DATE, LocalDate.of(2020, 1, 1), MONTHLY));
+        reportTrackingService.generateReportTrackingAndSave(award, true);
+        assertEquals(24, awardTerm.getReportTrackings().size());
+        assertTrue(awardTerm.getReportTrackings().stream().allMatch(rt ->
+                StringUtils.equals(awardTerm.getReportClassCode(), rt.getReportClassCode()) &&
+                        StringUtils.equals(awardTerm.getReportCode(), rt.getReportCode()) &&
+                        StringUtils.equals(awardTerm.getFrequencyCode(), rt.getFrequencyCode()) &&
+                        StringUtils.equals(awardTerm.getFrequencyBaseCode(), rt.getFrequencyBaseCode()) &&
+                        StringUtils.equals(awardTerm.getOspDistributionCode(), rt.getOspDistributionCode())));
     }
 
     private AwardReportTerm createTerm(ReportTracking... reportTrackings) {

@@ -23,16 +23,14 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.service.KualiRuleService;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class supports the AwardForm class
@@ -133,6 +131,17 @@ public class AwardReportsBean implements Serializable {
             items.remove(deletedItemIndex);
         }
         return recipient;
+    }
+
+    /**
+     * This method deletes a selected Award Report Term Tracking entry
+     */
+    public Optional<ReportTracking> deleteAwardReportTermTracking(int awardReportTermIndex, int deletedItemIndex) {
+        List<ReportTracking> trackings = getAward().getAwardReportTermItems().get(awardReportTermIndex).getReportTrackings();
+        if (deletedItemIndex >= 0 && deletedItemIndex < trackings.size()) {
+            return Optional.of(trackings.remove(deletedItemIndex));
+        }
+        return Optional.empty();
     }
         
 
