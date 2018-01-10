@@ -23,4 +23,5 @@
 \. ./kc/bootstrap/V1801_003__fdp.sql
 \. ./kc/bootstrap/V1801_005__fdp.sql
 \. ./kc/bootstrap/V1801_006__nsf_id_varchar.sql
+\. ./kc/bootstrap/V1801_007__fdp.sql
 commit;

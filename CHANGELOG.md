@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2624: create the correct sort order for fdp forms, cleanup unused stylesheets that have been replaced by pdf forms
+  * Travis Schneeberger on Wed, 10 Jan 2018 13:56:42 -0500 [View Commit](../../commit/6d3991a63e071c3166dc27e08a5ed6fd99f43799)
+
+## coeus-1801.0014
 * RESKC-2132: Changed behavior back to only deleting pending reports when schedule changes
 
 * Added support for manually deleting tracking entries which no longer match the schedule
