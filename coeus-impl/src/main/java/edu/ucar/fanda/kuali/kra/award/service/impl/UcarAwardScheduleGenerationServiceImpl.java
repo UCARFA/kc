@@ -75,7 +75,7 @@ public class UcarAwardScheduleGenerationServiceImpl extends AwardScheduleGenerat
         int index = 0;
         for(AwardReportTerm awardReportTerm: awardReportTerms){
             if(canGenerateSchedules(awardReportTerm, isThisNotPaymentPanel)){
-                //   SJW    dates.addAll(getDatesWithForward(awardReportTerm, mapOfDates, index));
+                //   SJW    dates.addAll(getDates(awardReportTerm, mapOfDates, index));
                 dates.addAll(getDatesWithForward(awardReportTerm, mapOfDates, index));
             }
             index++;
