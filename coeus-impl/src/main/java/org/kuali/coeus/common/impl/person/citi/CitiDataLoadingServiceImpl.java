@@ -120,8 +120,8 @@ public class CitiDataLoadingServiceImpl implements CitiDataLoadingService {
      * CITI data uses multiple formats for Date/Time.  This property editor supports both formats.
      */
     private static class CitiTimestampEditor extends PropertyEditorSupport {
-        private static final String TIMESTAMP_FORMAT1 = "m/d/yyyy h:m:s a";
-        private static final String TIMESTAMP_FORMAT2 = "mm/dd/yy";
+        private static final String TIMESTAMP_FORMAT1 = "MM/d/yyyy h:m:s a";
+        private static final String TIMESTAMP_FORMAT2 = "MM/dd/yy";
         @Override
         public void setAsText(String value) {
             setValue(value);
