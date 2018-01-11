@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* RESKC-2717: Fix date format to show proper month (#2707)
+
+  * Terry Durkin on Thu, 11 Jan 2018 14:07:31 -0500 [View Commit](../../commit/6ad5750b5f789e5513680128bd08d25afd63e50a)
+
+## coeus-1801.0018
 * No Changes
 
 
