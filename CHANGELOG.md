@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2090: Don't add personnel summary totals twice
+  * Jeff Largent on Wed, 10 Jan 2018 14:41:07 -0500 [View Commit](../../commit/487991668a1b10a742d4cf57386d6553af50a095)
+
+## coeus-1801.0019
 * RESKC-2717: Fix date format to show proper month (#2707)
 
   * Terry Durkin on Thu, 11 Jan 2018 14:07:31 -0500 [View Commit](../../commit/6ad5750b5f789e5513680128bd08d25afd63e50a)
