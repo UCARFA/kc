@@ -374,7 +374,7 @@
 				<websso.responseskew>50400</websso.responseskew>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod1.fanda.ucar.edu</kcserver.fqdn>
-    			<kualiAppPort>1443</kualiAppPort>
+    			<kualiAppPort>443</kualiAppPort>
     			<kualiAppProtocol>https</kualiAppProtocol>
     			<kualiAppVersion>INTEGRATION:coeus-webapp:1609.0056</kualiAppVersion>
     			<kualiAppName>ra</kualiAppName>
