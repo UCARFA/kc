@@ -22,6 +22,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
@@ -80,15 +81,15 @@ public class FrequencyCodeValuesFinder extends UifKeyValuesFinderBase {
 
     protected List<String> getValidFrequencyCodes() {
         Map<String, Object> criteria = new HashMap<>();
-        criteria.put("reportClassCode", getReportClassCode());
-        criteria.put("reportCode", getReportCode());
+        criteria.put(ReportTrackingConstants.REPORT_CLASS_CODE, getReportClassCode());
+        criteria.put(ReportTrackingConstants.REPORT_CODE, getReportCode());
         return getKeyValuesService().findMatching(ValidClassReportFrequency.class, criteria).stream()
                 .map(ValidClassReportFrequency::getFrequencyCode)
                 .collect(Collectors.toList());
     }
 
     protected List<KeyValue> getKeyValues(List<String> validFrequencyCodes) {
-        return getKeyValuesService().findMatching(Frequency.class, Collections.singletonMap("frequencyCode", validFrequencyCodes))
+        return getKeyValuesService().findMatching(Frequency.class, Collections.singletonMap(ReportTrackingConstants.FREQUENCY_CODE, validFrequencyCodes))
                 .stream()
                 .map(frequency -> new ConcreteKeyValue(frequency.getFrequencyCode(), frequency.getDescription()))
                 .sorted(COMPARATOR)

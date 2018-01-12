@@ -36,7 +36,7 @@ import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.kra.award.service.impl.AwardReportsServiceImpl;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -184,7 +184,7 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl {
         
         final Map<String, String> primaryKeyField = new HashMap<String, String>();
         final ReportClass reportClass = new ReportClass();
-        primaryKeyField.put(REPORT_CLASS_CODE_FIELD, P_AND_I_PARAM);
+        primaryKeyField.put(ReportTrackingConstants.REPORT_CLASS_CODE, P_AND_I_PARAM);
         
         context.checking(new Expectations() {{
             one(businessObjectService).findByPrimaryKey(ReportClass.class, primaryKeyField);will(returnValue(reportClass));

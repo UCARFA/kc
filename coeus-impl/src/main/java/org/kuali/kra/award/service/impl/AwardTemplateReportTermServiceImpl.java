@@ -20,6 +20,7 @@ package org.kuali.kra.award.service.impl;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.*;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
 import org.kuali.kra.award.service.AwardTemplateReportTermService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -74,8 +75,8 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
     public Collection<String> getFrequencyUsingReportCodeAndClass(String reportCode, String reportClass) {
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> classReportFreqParams = new HashMap<String, String>();
-        classReportFreqParams.put("reportCode", reportCode);
-        classReportFreqParams.put("reportClassCode", reportClass);
+        classReportFreqParams.put(ReportTrackingConstants.REPORT_CODE, reportCode);
+        classReportFreqParams.put(ReportTrackingConstants.REPORT_CLASS_CODE, reportClass);
         Collection<ValidClassReportFrequency> coll = businessObjectService.findMatching(ValidClassReportFrequency.class, classReportFreqParams);
         Set<String> frequencyCodes = new HashSet<String>();
         if ( !coll.isEmpty()) {
@@ -103,7 +104,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
     public Collection<String> getFrequencyBaseUsingFrequencyCode(String frequencyCode) {
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> params = new HashMap<String, String>();
-        params.put("frequencyCode", frequencyCode);
+        params.put(ReportTrackingConstants.FREQUENCY_CODE, frequencyCode);
         Collection<ValidFrequencyBase> coll = businessObjectService.findMatching(ValidFrequencyBase.class, params);
         Set<String> frequencyBaseCodes = new HashSet<String>();
         if ( !coll.isEmpty()) {

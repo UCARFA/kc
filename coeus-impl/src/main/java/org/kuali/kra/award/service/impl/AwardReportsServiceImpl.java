@@ -27,9 +27,10 @@ import org.kuali.kra.award.lookup.keyvalue.ReportClassValuesFinder;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
+import org.kuali.kra.award.service.AwardReportsService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.award.service.AwardReportsService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -46,8 +47,6 @@ import java.util.Map;
  */
 @Transactional
 public class AwardReportsServiceImpl implements AwardReportsService {
-    protected static final String REPORT_CLASS_CODE_FIELD = "reportClassCode";
-
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     
@@ -84,7 +83,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
             Map<String, Object> hashMap){        
         Map<String, String> primaryKeyField = new HashMap<String, String>();
         
-        primaryKeyField.put(REPORT_CLASS_CODE_FIELD, this.getParameterService().getParameterValueAsString(AwardDocument.class
+        primaryKeyField.put(ReportTrackingConstants.REPORT_CLASS_CODE, this.getParameterService().getParameterValueAsString(AwardDocument.class
                 ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES));        
         
         hashMap.put(Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL, 

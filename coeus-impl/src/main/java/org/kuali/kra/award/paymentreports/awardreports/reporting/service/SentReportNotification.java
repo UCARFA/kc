@@ -29,11 +29,12 @@ public class SentReportNotification extends KcPersistableBusinessObjectBase {
     private static final long serialVersionUID = 3646683642938736073L;
 
     private Long awardReportNotifSentId;
-    private Long awardReportTermId;
     private String awardNumber;
     private Date dueDate;
     private Date dateSent;
     private String actionCode;
+    private String reportClassCode;
+    private String reportCode;
     
     public SentReportNotification() {
         dateSent = new Date(Calendar.getInstance().getTimeInMillis());
@@ -42,7 +43,8 @@ public class SentReportNotification extends KcPersistableBusinessObjectBase {
     public SentReportNotification(String actionCode, ReportTracking report) {
         dateSent = new Date(Calendar.getInstance().getTimeInMillis());
         this.actionCode = actionCode;
-        this.awardReportTermId = report.getAwardReportTermId();
+        this.reportClassCode = report.getReportClassCode();
+        this.reportCode = report.getReportCode();
         this.awardNumber = report.getAwardNumber();
         this.dueDate = report.getDueDate();
     }
@@ -55,12 +57,6 @@ public class SentReportNotification extends KcPersistableBusinessObjectBase {
         this.awardReportNotifSentId = awardReportNotifSentId;
     }
 
-    public Long getAwardReportTermId() {
-        return awardReportTermId;
-    }
-    public void setAwardReportTermId(Long awardReportTermId) {
-        this.awardReportTermId = awardReportTermId;
-    }
     public Date getDueDate() {
         return dueDate;
     }
@@ -78,6 +74,22 @@ public class SentReportNotification extends KcPersistableBusinessObjectBase {
     }
     public void setActionCode(String actionCode) {
         this.actionCode = actionCode;
+    }
+
+    public String getReportClassCode() {
+        return reportClassCode;
+    }
+
+    public void setReportClassCode(String reportClassCode) {
+        this.reportClassCode = reportClassCode;
+    }
+
+    public String getReportCode() {
+        return reportCode;
+    }
+
+    public void setReportCode(String reportCode) {
+        this.reportCode = reportCode;
     }
 
     public String getAwardNumber() {

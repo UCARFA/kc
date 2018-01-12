@@ -630,6 +630,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/ScheduleAgenda.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ScheduleStatus.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SchoolCode.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/SentReportNotification.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/keyword/ScienceKeyword.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReview.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReviewApprovalType.xml</value>

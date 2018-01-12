@@ -26,6 +26,7 @@ import org.kuali.kra.award.paymentreports.ReportStatus;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingBean;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
 import org.kuali.kra.award.service.AwardScheduleGenerationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -44,7 +45,6 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
 
     public static final String PENDING_STATUS_DESCRIPTION = "Pending";
     public static final String REPORT_CLASS = "reportClass";
-    private static final String AWARD_REPORT_TRACKING_ID = "awardReportTrackingId";
     public static final String REPORT_STATUS_CODE = "REPORT_STATUS_CODE";
     public static final String DESCRIPTION = "DESCRIPTION";
 
@@ -108,7 +108,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
                  * if the report tracking has been saved, and it's not in pending status, we need to check for updates.
                  */
                 if (rt.getAwardReportTrackingId() != null) {
-                    ReportTracking dbRt = getBusinessObjectService().findByPrimaryKey(ReportTracking.class, Collections.singletonMap(AWARD_REPORT_TRACKING_ID, rt.getAwardReportTrackingId()));
+                    ReportTracking dbRt = getBusinessObjectService().findByPrimaryKey(ReportTracking.class, Collections.singletonMap(ReportTrackingConstants.AWARD_REPORT_TRACKING_ID, rt.getAwardReportTrackingId()));
                     if (rt.hasBeenUpdated(dbRt)) {
                         rt.setLastUpdateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
                         rt.setLastUpdateUser(GlobalVariables.getUserSession().getPerson().getName());

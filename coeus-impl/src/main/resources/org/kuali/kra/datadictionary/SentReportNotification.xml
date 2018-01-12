@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   -
+   - Copyright 2005-2018 Kuali, Inc.
+   -
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   -
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   -
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="SentReportNotification" parent="SentReportNotification-parentBean" />
+    <bean id="SentReportNotification-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.award.paymentreports.awardreports.reporting.service.SentReportNotification" />
+        <property name="objectLabel" value="Award Report Tracking Notifications" />
+        <property name="lookupDefinition" >
+            <ref bean="SentReportNotification-lookupDefinition" />
+        </property>
+        <property name="attributes" >
+            <list>
+                <ref bean="SentReportNotification-awardReportNotifSentId" />
+                <ref bean="SentReportNotification-awardNumber" />
+                <ref bean="SentReportNotification-dueDate" />
+                <ref bean="SentReportNotification-dateSent" />
+                <ref bean="SentReportNotification-actionCode" />
+                <ref bean="SentReportNotification-reportClassCode" />
+                <ref bean="SentReportNotification-reportCode" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="SentReportNotification-awardReportNotifSentId" parent="SentReportNotification-awardReportNotifSentId-parentBean" />
+    <bean id="SentReportNotification-awardReportNotifSentId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+        <property name="name" value="awardReportNotifSentId" />
+        <property name="label" value="Report Tracking Sent Notification Id" />
+        <property name="shortLabel" value="Report Tracking Sent Notification Id" />
+        <property name="summary" value="Report Tracking Sent Notification Id" />
+        <property name="description" value="Report Tracking Sent Notification Id" />
+    </bean>
+
+    <bean id="SentReportNotification-awardNumber" parent="SentReportNotification-awardNumber-parentBean" />
+    <bean id="SentReportNotification-awardNumber-parentBean" abstract="true" parent="Award-awardNumber"/>
+
+    <bean id="SentReportNotification-dueDate" parent="SentReportNotification-dueDate-parentBean" />
+    <bean id="SentReportNotification-dueDate-parentBean" abstract="true" parent="ReportTracking-dueDate" />
+
+    <bean id="SentReportNotification-dateSent" parent="SentReportNotification-dateSent-parentBean" />
+    <bean id="SentReportNotification-dateSent-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="dateSent" />
+        <property name="label" value="Date Sent" />
+        <property name="shortLabel" value="Date Sent" />
+        <property name="summary" value="Date Sent" />
+        <property name="description" value="Date Sent" />
+    </bean>
+
+    <bean id="SentReportNotification-actionCode" parent="SentReportNotification-actionCode-parentBean" />
+    <bean id="SentReportNotification-actionCode-parentBean" abstract="true" parent="NotificationType-actionCode" />
+
+    <bean id="SentReportNotification-reportClassCode" parent="SentReportNotification-reportClassCode-parentBean" />
+    <bean id="SentReportNotification-reportClassCode-parentBean" abstract="true" parent="ReportTracking-reportClassCode" />
+
+    <bean id="SentReportNotification-reportCode" parent="SentReportNotification-reportCode-parentBean" />
+    <bean id="SentReportNotification-reportCode-parentBean" abstract="true" parent="ReportTracking-reportCode" />
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="SentReportNotification-lookupDefinition" parent="SentReportNotification-lookupDefinition-parentBean" />
+    <bean id="SentReportNotification-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Award Reporting Notifications Lookup" />
+        <property name="lookupableID" value="sentReportNotificationLookupable" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition"/>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="awardNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="reportClassCode"/>
+                <bean parent="FieldDefinition" p:attributeName="reportCode"/>
+                <bean parent="FieldDefinition" p:attributeName="dueDate"/>
+                <bean parent="FieldDefinition" p:attributeName="dateSent"/>
+                <bean parent="FieldDefinition" p:attributeName="actionCode"/>
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="awardNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="reportClassCode"/>
+                <bean parent="FieldDefinition" p:attributeName="reportCode"/>
+                <bean parent="FieldDefinition" p:attributeName="dueDate"/>
+                <bean parent="FieldDefinition" p:attributeName="dateSent"/>
+                <bean parent="FieldDefinition" p:attributeName="actionCode"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SentReportNotification-LookupView" parent="SentReportNotification-LookupView-parentBean"/>
+    <bean id="SentReportNotification-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+        <property name="dataObjectClassName" value="org.kuali.kra.award.paymentreports.awardreports.reporting.service.SentReportNotification"/>
+        <property name="headerText" value="Award Reporting Notifications Lookup"/>
+        <property name="criteriaFields">
+            <list>
+                <bean p:propertyName="awardNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="reportClassCode" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="reportCode" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="dueDate" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="dateSent" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="actionCode" parent="Uif-LookupCriteriaInputField"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean p:propertyName="awardNumber" parent="Uif-DataField"/>
+                <bean p:propertyName="reportClassCode" parent="Uif-DataField"/>
+                <bean p:propertyName="reportCode" parent="Uif-DataField"/>
+                <bean p:propertyName="dueDate" parent="Uif-DataField"/>
+                <bean p:propertyName="dateSent" parent="Uif-DataField"/>
+                <bean p:propertyName="actionCode" parent="Uif-DataField"/>
+            </list>
+        </property>
+        <property name="multipleValuesSelect" value="true"/>
+        <property name="resultsGroup">
+            <bean parent="Uif-LookupResultsCollectionSection">
+                <property name="layoutManager.selectFieldPrototype.finalizeMethodToCall" value=""/>
+                <property name="footer">
+                    <bean parent="Uif-FooterBase" p:render="@{!#emptyList(lookupResults)}">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-PrimaryActionButton" p:methodToCall="deleteSelectedReportNotifications" p:actionLabel="Delete Selected"
+                                      p:ajaxSubmit="false" />
+                                <bean parent="Uif-PrimaryActionButton" p:methodToCall="deleteAllReportNotifications" p:actionLabel="Delete All"
+                                      p:ajaxSubmit="false" />
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>
