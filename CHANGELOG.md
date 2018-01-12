@@ -1,6 +1,16 @@
 
 
 ## CURRENT
+* RESKC-2715: Fix ART notification integration test
+  * Jeff Largent on Fri, 12 Jan 2018 16:27:44 -0500 [View Commit](../../commit/2b5d5a9ee5a6e332b8fb82de2841fb6316af6a7f)
+* RESKC-2715: Base Award Report Tracking sent notifications records on report class and code rather than tying them to a specific term ID (#2709)
+
+* Changed report tracking notifications to avoid sending duplicates based on report class and code rather than term ID
+* Included maintenance screen to search and delete sent report notification records to allow them to be re-triggered if necessary
+* Also refactored several commonly-used report tracking property names into their own constants class
+  * Jeff Largent on Fri, 12 Jan 2018 15:17:36 -0500 [View Commit](../../commit/d90ef120b5aa2bf80b7bbc9671fc72371c472f04)
+
+## coeus-1801.0020
 * RESKC-2090: Don't add personnel summary totals twice
   * Jeff Largent on Wed, 10 Jan 2018 14:41:07 -0500 [View Commit](../../commit/487991668a1b10a742d4cf57386d6553af50a095)
 
