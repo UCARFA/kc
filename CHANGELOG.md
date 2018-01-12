@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* RESKC-2653: Adding attachment 1 (#2708)
+
+  * Gayathri Athreya on Fri, 12 Jan 2018 15:32:06 -0700 [View Commit](../../commit/e704eb7bf183b5904290831542eaaa1c5310eea3)
+
+## coeus-1801.0021
 * RESKC-2715: Fix ART notification integration test
   * Jeff Largent on Fri, 12 Jan 2018 16:27:44 -0500 [View Commit](../../commit/2b5d5a9ee5a6e332b8fb82de2841fb6316af6a7f)
 * RESKC-2715: Base Award Report Tracking sent notifications records on report class and code rather than tying them to a specific term ID (#2709)
