@@ -62,6 +62,11 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
         AwardService mockAwardService = new AwardServiceImpl() {
 
             @Override
+            public Award getAward(Long awardId) {
+                return award;
+            }
+
+            @Override
             public Award getActiveOrNewestAward(String awardNumber) {
                 return award;
             }
