@@ -44,7 +44,7 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
 
     private static final String MM_DD_YYYY = "MM/dd/yyyy";
 
-    private static final List<String> FORM_ORDER = Stream.of(AgreementForm.FDP_AGREEMENT.getId(), "FDP Modification", "FDP Modification Unilateral",
+    private static final List<String> FORM_ORDER = Stream.of(AgreementForm.FDP_AGREEMENT.getId(), "FDP Attachment 1 Certification", "FDP Modification", "FDP Modification Unilateral",
             Attachment2Form.FDP_AFOSR.getId(), Attachment2Form.FDP_AMRAA.getId(), Attachment2Form.FDP_AMRMC.getId(), Attachment2Form.FDP_ARO.getId(),
             Attachment2Form.FDP_DOE.getId(), Attachment2Form.FDP_EPA.getId(), Attachment2Form.FDP_NASA.getId(), Attachment2Form.FDP_NIH.getId(),
             Attachment2Form.FDP_NSF.getId(), Attachment2Form.FDP_ONR.getId(), Attachment2Form.FDP_USDA.getId(),
@@ -80,36 +80,56 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
                 .map(SubAwardForms::getFormId)
                 .collect(Collectors.toList());
 
+        if (selected.stream().anyMatch(form -> form.equalsIgnoreCase(AgreementForm.FDP_AGREEMENT.getId()))) {
+            selected.add(SupplementalFormsForAgreement.FDP_ATTACHMENT_CERTIFICATION.getId());
+        }
+
         return pdfForms.entrySet().stream()
-                .filter(e -> selected.contains(e.getKey()))
-                .map(e -> {
-            try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-            PDDocument document = PDDocument.load(e.getValue().getInputStream())) {
+                .filter(pdfForm -> selected.contains(pdfForm.getKey()))
+                .map(selectedForm -> {
+                    try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                         PDDocument pdfDocument = PDDocument.load(selectedForm.getValue().getInputStream())) {
 
-                final SubContractDataDocument xmlObject = (SubContractDataDocument) xml.get(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType());
-                if (xmlObject != null) {
+                        final SubContractDataDocument xmlObject = (SubContractDataDocument) xml.get(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType());
+                        if (xmlObject != null) {
+                            fillTemplateOrAttachment(selectedForm, pdfDocument, xmlObject);
+                        }
 
-                    Optional<AgreementForm> agreement = Stream.of(AgreementForm.values())
-                            .filter(agreementForm -> agreementForm.getId().equals(e.getKey()))
-                            .findFirst();
-
-                    if (agreement.isPresent()) {
-                        fillAgreementForm(document, xmlObject);
-                    } else {
-                        Stream.of(Attachment2Form.values())
-                                .filter(attachment2Form -> attachment2Form.getId().equals(e.getKey()))
-                                .findFirst()
-                                .ifPresent(attachment2Form -> fillAttachment2Form(document, xmlObject, attachment2Form));
+                        PdfBoxUtils.flatten(pdfDocument);
+                        pdfDocument.save(out);
+                        return entry(selectedForm.getKey(), out.toByteArray());
+                    } catch (IOException e1) {
+                        throw new PrintingException(e1);
                     }
-                }
-
-                PdfBoxUtils.flatten(document);
-                document.save(out);
-                return entry(e.getKey(), out.toByteArray());
-            } catch (IOException e1) {
-                throw new PrintingException(e1);
-            }
                 }).collect(entriesToMap());
+    }
+
+    public void fillTemplateOrAttachment(Map.Entry<String, Resource> selectedForm, PDDocument pdfDocument, SubContractDataDocument xmlObject) {
+        Optional<AgreementForm> agreement = Stream.of(AgreementForm.values())
+                .filter(agreementForm -> agreementForm.getId().equals(selectedForm.getKey()))
+                .findFirst();
+
+        Optional<SupplementalFormsForAgreement> certification = Stream.of(SupplementalFormsForAgreement.values())
+                .filter(certificationForm -> certificationForm.getId().equals(selectedForm.getKey()))
+                .findFirst();
+
+        if (agreement.isPresent()) {
+            fillAgreementForm(pdfDocument, xmlObject);
+        }
+        else if (certification.isPresent()) {
+            fillCertification(pdfDocument, xmlObject);
+        }
+        else {
+            Stream.of(Attachment2Form.values())
+                    .filter(attachment2Form -> attachment2Form.getId().equals(selectedForm.getKey()))
+                    .findFirst()
+                    .ifPresent(attachment2Form -> fillAttachment2Form(pdfDocument, xmlObject, attachment2Form));
+        }
+    }
+
+    private void fillCertification(PDDocument pdfDocument, SubContractDataDocument xmlObject) {
+        final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
+        setField(pdfDocument, AgreementCertificationPdf.Field.SUBAWARD_NO.getfName(), subcontractDetail.getFsrsSubawardNumber());
     }
 
     private void fillAgreementForm(PDDocument document, SubContractDataDocument xmlObject) {
@@ -555,6 +575,20 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         }
     }
 
+    private enum SupplementalFormsForAgreement {
+        FDP_ATTACHMENT_CERTIFICATION("FDP Attachment 1 Certification");
+
+        private final String id;
+
+        SupplementalFormsForAgreement(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+    }
+
     static final class AgreementPdf {
 
         enum Field {
@@ -604,6 +638,33 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         private static final String BILATERALLY_VALUE = "Bilaterally";
 
         private AgreementPdf() {
+            throw new UnsupportedOperationException("do not call");
+        }
+    }
+
+    static final class AgreementCertificationPdf {
+
+        enum Field {
+            SUBAWARD_NO("SubawardNumber", Collections.emptySet());
+
+            private String fName;
+            private Set<String> values;
+
+            Field(String fName, Set<String> values) {
+                this.fName = fName;
+                this.values = values;
+            }
+
+            public String getfName() {
+                return fName;
+            }
+
+            public Set<String> getValues() {
+                return values;
+            }
+        }
+
+        private AgreementCertificationPdf() {
             throw new UnsupportedOperationException("do not call");
         }
     }

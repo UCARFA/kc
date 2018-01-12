@@ -245,6 +245,7 @@
                 <entry key="FDP_ONR" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
                 <entry key="FDP_USDA" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
                 <entry key="FDP Template" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAgreement.pdf"/>
+                <entry key="FDP Attachment 1 Certification" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment1.pdf"/>
             </map>
         </property>
     </bean>

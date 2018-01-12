@@ -60,6 +60,18 @@ public class SubawardFdpPdfFormMappingTest {
         }
     }
 
+    @Test
+    public void test_mapping_agreement_certification() throws Exception {
+        final Resource pdf = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader()).getResource("classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment1.pdf");
+        try (PDDocument document = PDDocument.load(pdf.getInputStream())) {
+            final PDDocumentCatalog docCatalog = document.getDocumentCatalog();
+            final PDAcroForm acroForm = docCatalog.getAcroForm();
+
+            Assert.notNull(acroForm, "pdf has no form");
+            Arrays.stream(AbstractSubawardFdp.AgreementCertificationPdf.Field.values()).forEach(f -> setValue(acroForm, f.getfName(), f.getValues()));
+        }
+    }
+
     private void setValue(PDAcroForm acroForm, String fieldName, Set<String> values) {
         PDField field = acroForm.getField(fieldName);
         Assert.notNull(field, "field does not exist " + fieldName);
