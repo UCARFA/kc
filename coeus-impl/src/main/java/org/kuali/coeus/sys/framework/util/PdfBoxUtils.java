@@ -26,6 +26,8 @@ import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
+import org.apache.pdfbox.pdmodel.PDResources;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.interactive.form.*;
 
 import java.io.IOException;
@@ -48,6 +50,8 @@ public final class PdfBoxUtils {
     private static final String COMMA_SEPARATOR = ",  ";
     private static final String VAL_START = "<";
     private static final String VAL_END = ">";
+    private static final COSName ARIAL_MT = COSName.getPDFName("ArialMT");
+    private static final COSName HELVETICA = COSName.getPDFName("Helvetica");
 
     private PdfBoxUtils() {
         throw new UnsupportedOperationException("do not call");
@@ -234,6 +238,14 @@ public final class PdfBoxUtils {
         return value;
     }
 
+    /**
+     * for some reason flattened pdfs have a font of ArialMT and Helvetica which is not available in the default resources.
+     */
+    private static void doMissingDefaultResourcesWorkaround(PDResources resources) {
+        resources.put(ARIAL_MT, PDType1Font.HELVETICA);
+        resources.put(HELVETICA, PDType1Font.HELVETICA);
+    }
+
     private static String booleanToStr(boolean value) {
         return value ? "Yes" : "Off";
     }
@@ -248,6 +260,10 @@ public final class PdfBoxUtils {
 
         if (pdfDocument == null) {
             throw new IllegalArgumentException("pdfDocument is null");
+        }
+
+        if (pdfDocument.getDocumentCatalog().getAcroForm().getDefaultResources() != null) {
+            doMissingDefaultResourcesWorkaround(pdfDocument.getDocumentCatalog().getAcroForm().getDefaultResources());
         }
 
         try {

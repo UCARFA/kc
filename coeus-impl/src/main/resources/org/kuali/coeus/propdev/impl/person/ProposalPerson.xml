@@ -91,6 +91,7 @@
         <ref bean="ProposalPerson-fedrDelqFlag" />
         <ref bean="ProposalPerson-projectRole" />
         <ref bean="ProposalPerson-eraCommonsUserName" />
+        <ref bean="ProposalPerson-nsfId" />
         <ref bean="ProposalPerson-division" />
         <ref bean="ProposalPerson-city" />
         <ref bean="ProposalPerson-county" />
@@ -382,6 +383,10 @@
 
   <bean id="ProposalPerson-eraCommonsUserName" parent="ProposalPerson-eraCommonsUserName-parentBean"/>
   <bean id="ProposalPerson-eraCommonsUserName-parentBean" abstract="true" parent="KcPerson-eraCommonsUserName"/>
+
+  <bean id="ProposalPerson-nsfId" parent="ProposalPerson-nsfId-parentBean"/>
+  <bean id="ProposalPerson-nsfId-parentBean" abstract="true" parent="KcPersonExtendedAttributes-nsfId"/>
+
   <bean id="ProposalPerson-city" parent="ProposalPerson-city-parentBean" />
   <bean id="ProposalPerson-city-parentBean" abstract="true" parent="KraAttributeReferenceDummy-city"/>
   <bean id="ProposalPerson-county" parent="ProposalPerson-county-parentBean" />

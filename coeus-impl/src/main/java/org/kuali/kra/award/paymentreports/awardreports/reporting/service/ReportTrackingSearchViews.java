@@ -20,6 +20,7 @@ package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.paymentreports.ReportTrackingView;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,11 +49,11 @@ public class ReportTrackingSearchViews {
         reportTrackingViews = new ArrayList<ReportTrackingView>();
         allFields = new ArrayList<String>();
         displayViewConversions = new HashMap<String, String>();
-        displayViewConversions.put("reportClass.description", "reportClassCode");
-        displayViewConversions.put("report.description", "reportCode");
-        displayViewConversions.put("frequency.description", "frequencyCode");
-        displayViewConversions.put("frequencyBase.description", "frequencyBaseCode");
-        displayViewConversions.put("distribution.description", "ospDistributionCode");
+        displayViewConversions.put("reportClass.description", ReportTrackingConstants.REPORT_CLASS_CODE);
+        displayViewConversions.put("report.description", ReportTrackingConstants.REPORT_CODE);
+        displayViewConversions.put("frequency.description", ReportTrackingConstants.FREQUENCY_CODE);
+        displayViewConversions.put("frequencyBase.description", ReportTrackingConstants.FREQUENCY_BASE_CODE);
+        displayViewConversions.put("distribution.description", ReportTrackingConstants.OSP_DISTRIBUTION_CODE);
         displayViewConversions.put("reportStatus.description", "statusCode");
         displayViewConversions.put("sponsor.sponsorName", "sponsorCode");
         displayViewConversions.put("leadUnit.unitName", "leadUnitNumber");

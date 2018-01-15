@@ -885,7 +885,11 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
         final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getCountryCode() != null ? this.convert2DigitCountryCodeTo3Digit(address.getCountryCode()) : "";
     }
-    
+
+    public String getNsfId() {
+        return this.extendedAttributes.getNsfId();
+    }
+
     /**
      * Gets the value of faxNumber.
      *
@@ -925,7 +929,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     public String getEraCommonsUserName() {
         return this.getExternalId("ERAC");
     }
-    
+
     /**
      * Gets the active flag.
      * @return the active flag

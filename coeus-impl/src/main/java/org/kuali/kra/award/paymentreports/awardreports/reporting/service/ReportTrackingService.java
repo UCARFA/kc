@@ -56,7 +56,7 @@ public interface ReportTrackingService {
      * @param awardTerm
      * @return
      */
-    List<ReportTracking> getReportTacking(AwardReportTerm awardTerm);
+    List<ReportTracking> getReportTracking(AwardReportTerm awardTerm);
     
     /**
      * 
@@ -64,7 +64,7 @@ public interface ReportTrackingService {
      * @param award
      * @return
      */
-    List<ReportTracking> getReportTacking(Award award);
+    List<ReportTracking> getReportTracking(Award award);
     
     /**
      * 

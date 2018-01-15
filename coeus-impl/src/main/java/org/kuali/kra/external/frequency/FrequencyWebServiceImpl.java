@@ -18,15 +18,15 @@
  */
 package org.kuali.kra.external.frequency;
 
+import org.kuali.kra.award.paymentreports.Frequency;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
+import org.kuali.kra.external.service.KcDtoService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
+import javax.jws.WebParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.jws.WebParam;
-
-import org.kuali.kra.award.paymentreports.Frequency;
-import org.kuali.kra.external.service.KcDtoService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class FrequencyWebServiceImpl implements FrequencyWebService {
 	
@@ -36,17 +36,17 @@ public class FrequencyWebServiceImpl implements FrequencyWebService {
 
 	@Override
 	public FrequencyDto getFrequency(
-			@WebParam(name = "frequencyCode") String frequencyCode) {
+			@WebParam(name = ReportTrackingConstants.FREQUENCY_CODE) String frequencyCode) {
 		return frequencyDtoService.buildDto(getBusinessObjectService().findBySinglePrimaryKey(Frequency.class, frequencyCode));
 	}
 
 	@Override
 	public List<FrequencyDto> findMatching(
-			@WebParam(name = "frequencyCode") String frequencyCode,
+			@WebParam(name = ReportTrackingConstants.FREQUENCY_CODE) String frequencyCode,
 			@WebParam(name = "description") String description) {
 		Map<String, String> values = new HashMap<String, String>();
 		if (frequencyCode != null) {
-			values.put("frequencyCode", frequencyCode);
+			values.put(ReportTrackingConstants.FREQUENCY_CODE, frequencyCode);
 		}
 		if (description != null) {
 			values.put("description", description);

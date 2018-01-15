@@ -19,11 +19,12 @@
 package org.kuali.kra.award.paymentreports.awardreports;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.paymentreports.Report;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
@@ -34,13 +35,7 @@ import java.util.Map;
 /**
  * The AwardPaymentScheduleRuleImpl.
  */
-public class AwardReportTermRuleImpl extends KcTransactionalDocumentRuleBase
-                                            implements AwardReportTermRule {
-    
-    private static final String AWARD_REPORT_TERM_REPORT_CODE_PROPERTY = "reportCode";
-    private static final String AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY = "frequencyCode";
-    private static final String AWARD_REPORT_TERM_FREQUENCY_BASE_CODE_PROPERTY = "frequencyBaseCode";
-    private static final String AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY = "ospDistributionCode";
+public class AwardReportTermRuleImpl extends KcTransactionalDocumentRuleBase implements AwardReportTermRule {
     
     private static final String REPORT_CODE_ERROR_PARM = "Type (Type)";
     private static final String FREQUENCY_BASE_CODE_ERROR_PARM = "Frequency Base (Frequency Base)";
@@ -84,7 +79,7 @@ public class AwardReportTermRuleImpl extends KcTransactionalDocumentRuleBase
         boolean retVal = true;
         if (award.getPrincipalInvestigator() == null) {
             //retVal = false;
-            reportWarning(AWARD_REPORT_TERM_REPORT_CODE_PROPERTY, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NO_PI, "");
+            reportWarning(ReportTrackingConstants.REPORT_CODE, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NO_PI, "");
         }
         return retVal;
     }
@@ -128,12 +123,12 @@ public class AwardReportTermRuleImpl extends KcTransactionalDocumentRuleBase
         boolean retVal = true;
         if (StringUtils.isBlank(awardReportTermItem.getReportCode())) {
             retVal = false;
-            reportError(fieldPrePend + AWARD_REPORT_TERM_REPORT_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, REPORT_CODE_ERROR_PARM);
+            reportError(fieldPrePend + ReportTrackingConstants.REPORT_CODE, KeyConstants.ERROR_REQUIRED, REPORT_CODE_ERROR_PARM);
         }
         if (StringUtils.isBlank(awardReportTermItem.getFrequencyCode()) && 
                 !StringUtils.isBlank(awardReportTermItem.getOspDistributionCode())) {
             retVal = false;
-            reportError(fieldPrePend + AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_FREQUENCY_REQUIRED);
+            reportError(fieldPrePend + ReportTrackingConstants.FREQUENCY_CODE, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_FREQUENCY_REQUIRED);
         }
         if (StringUtils.isBlank(awardReportTermItem.getFrequencyBaseCode())) {
             FrequencyBaseCodeValuesFinder finder = new FrequencyBaseCodeValuesFinder(awardReportTermItem.getFrequencyCode());
@@ -143,13 +138,13 @@ public class AwardReportTermRuleImpl extends KcTransactionalDocumentRuleBase
              */
             if (finder.getKeyValues().size() > 1) {
                 retVal = false;
-                reportError(fieldPrePend + AWARD_REPORT_TERM_FREQUENCY_BASE_CODE_PROPERTY, KeyConstants.ERROR_REQUIRED, FREQUENCY_BASE_CODE_ERROR_PARM);
+                reportError(fieldPrePend + ReportTrackingConstants.FREQUENCY_BASE_CODE, KeyConstants.ERROR_REQUIRED, FREQUENCY_BASE_CODE_ERROR_PARM);
             }
         }
         if (StringUtils.isBlank(awardReportTermItem.getOspDistributionCode()) 
                 && isFinalReport(awardReportTermItem.getReportCode())
                 && StringUtils.isNotBlank(awardReportTermItem.getFrequencyCode())) {
-            reportError(fieldPrePend + AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_OSP_REQUIRED);
+            reportError(fieldPrePend + ReportTrackingConstants.OSP_DISTRIBUTION_CODE, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_OSP_REQUIRED);
             retVal = false;
         }
         return retVal;

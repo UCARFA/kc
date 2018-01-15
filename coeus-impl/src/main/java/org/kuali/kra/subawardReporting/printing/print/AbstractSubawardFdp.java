@@ -9,7 +9,9 @@ import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.coeus.sys.framework.util.PdfBoxUtils;
+import org.kuali.kra.award.printing.schema.AwardType;
 import org.kuali.kra.subaward.bo.*;
+import org.kuali.kra.subaward.printing.schema.PersonDetailsType;
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
@@ -20,6 +22,7 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,18 +33,6 @@ import static org.kuali.coeus.sys.framework.util.PdfBoxUtils.*;
 
 public abstract class AbstractSubawardFdp extends AbstractPrint {
 
-    private static final String FDP_AFOSR_FORM = "FDP_AFOSR";
-    private static final String FDP_AMRMC_FORM = "FDP_AMRMC";
-    private static final String FDP_AMRAA_FORM = "FDP_AMRAA";
-    private static final String FDP_ARO_FORM = "FDP_ARO";
-    private static final String FDP_DOE_FORM = "FDP_DOE";
-    private static final String FDP_EPA_FORM = "FDP_EPA";
-    private static final String FDP_NASA_FORM = "FDP_NASA";
-    private static final String FDP_NIH_FORM = "FDP_NIH";
-    private static final String FDP_NSF_FORM = "FDP_NSF";
-    private static final String FDP_ONR_FORM = "FDP_ONR";
-    private static final String FDP_USDA_FORM = "FDP_USDA";
-
     private static final String COPYRIGHTS_GRANT_CODE = "1";
     private static final String COPYRIGHTS_SHALL_GRANT_CODE = "2";
 
@@ -51,8 +42,14 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
     private static final String PI_TYPE_CODE = "?";
     private static final String AUTH_OFFICIAL_TYPE_CODE = "37";
 
-    private static final String FDP_AGREEMENT = "FDP Template";
-    private static final String FDP_MODIFICATION = "FDP Modification";
+    private static final String MM_DD_YYYY = "MM/dd/yyyy";
+
+    private static final List<String> FORM_ORDER = Stream.of(AgreementForm.FDP_AGREEMENT.getId(), "FDP Attachment 1 Certification", "FDP Modification", "FDP Modification Unilateral",
+            Attachment2Form.FDP_AFOSR.getId(), Attachment2Form.FDP_AMRAA.getId(), Attachment2Form.FDP_AMRMC.getId(), Attachment2Form.FDP_ARO.getId(),
+            Attachment2Form.FDP_DOE.getId(), Attachment2Form.FDP_EPA.getId(), Attachment2Form.FDP_NASA.getId(), Attachment2Form.FDP_NIH.getId(),
+            Attachment2Form.FDP_NSF.getId(), Attachment2Form.FDP_ONR.getId(), Attachment2Form.FDP_USDA.getId(),
+            "FDP_ATT_3A", "FDP_ATT_3B", "FDP_ATT_3B_2", "FDP_ATT_4")
+            .collect(Collectors.toList());
 
     private Map<String, Resource> pdfForms;
 
@@ -83,96 +80,225 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
                 .map(SubAwardForms::getFormId)
                 .collect(Collectors.toList());
 
+        if (selected.stream().anyMatch(form -> form.equalsIgnoreCase(AgreementForm.FDP_AGREEMENT.getId()))) {
+            selected.add(SupplementalFormsForAgreement.FDP_ATTACHMENT_CERTIFICATION.getId());
+        }
+
         return pdfForms.entrySet().stream()
-                .filter(e -> selected.contains(e.getKey()))
-                .map(e -> {
-            try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-            PDDocument document = PDDocument.load(e.getValue().getInputStream())) {
+                .filter(pdfForm -> selected.contains(pdfForm.getKey()))
+                .map(selectedForm -> {
+                    try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                         PDDocument pdfDocument = PDDocument.load(selectedForm.getValue().getInputStream())) {
 
-                final SubContractDataDocument xmlObject = (SubContractDataDocument) xml.get(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType());
-                if (xmlObject != null) {
+                        final SubContractDataDocument xmlObject = (SubContractDataDocument) xml.get(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType());
+                        if (xmlObject != null) {
+                            fillTemplateOrAttachment(selectedForm, pdfDocument, xmlObject);
+                        }
 
-                    final SponsorFormType type;
-                    if (FDP_AFOSR_FORM.equals(e.getKey())) {
-                        type = SponsorFormType.AFOSR;
-                    } else if (FDP_AMRMC_FORM.equals(e.getKey())) {
-                        type = SponsorFormType.AMRMC;
-                    } else if (FDP_AMRAA_FORM.equals(e.getKey())) {
-                        type = SponsorFormType.AMRAA;
-                    } else if (FDP_ARO_FORM.equals(e.getKey())) {
-                        type = SponsorFormType.ARO;
-                    } else if (FDP_DOE_FORM.equals(e.getKey())) {
-                        type = SponsorFormType.DOE;
-                    } else if (FDP_EPA_FORM.equals(e.getKey())) {
-                        type = SponsorFormType.EPA;
-                    } else if (FDP_NASA_FORM.equals(e.getKey())) {
-                        type = SponsorFormType.NASA;
-                    } else if (FDP_NIH_FORM.equals(e.getKey())) {
-                        type = SponsorFormType.NIH;
-                    } else if (FDP_NSF_FORM.equals(e.getKey())) {
-                        type = SponsorFormType.NSF;
-                    } else if (FDP_ONR_FORM.equals(e.getKey())) {
-                        type = SponsorFormType.ONR;
-                    } else if (FDP_USDA_FORM.equals(e.getKey())) {
-                        type = SponsorFormType.USADA;
-                    } else {
-                        throw new RuntimeException("unsupported form type " + e.getKey());
+                        PdfBoxUtils.flatten(pdfDocument);
+                        pdfDocument.save(out);
+                        return entry(selectedForm.getKey(), out.toByteArray());
+                    } catch (IOException e1) {
+                        throw new PrintingException(e1);
                     }
-
-                    final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
-                    final SubContractDataDocument.SubContractData.OtherConfigInfo configInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getOtherConfigInfoArray()) ? xmlObject.getSubContractData().getOtherConfigInfoArray(0) : SubContractDataDocument.SubContractData.OtherConfigInfo.Factory.newInstance();
-                    final SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractTemplateInfoArray()) ? xmlObject.getSubContractData().getSubcontractTemplateInfoArray(0) : SubContractDataDocument.SubContractData.SubcontractTemplateInfo.Factory.newInstance();
-
-                    //Sponsor Agency
-                    setSponsorAgency(document, type);
-                    setHeaderInformation(document, subcontractDetail);
-                    setRequiredDataElements(document);
-                    setGenTermsAndConditions(document, configInfo, templateInfo, type);
-                    setMpiInfo(document, templateInfo, type);
-                    setStcCopyrights(document, templateInfo);
-                    setStcAutoCarryForward(document, templateInfo);
-                    setHumanAnimalSubjects(document, templateInfo);
-                    setHumanPteVerification(document, templateInfo);
-                    setAnimalPteVerification(document, templateInfo);
-                    setHumanSubjectsDataExchange(document, templateInfo);
-                    setHumanSubjectsDataExchangeTerms(document, templateInfo);
-                    setAdditionalTerms(document, templateInfo);
-                    setPromotingObjectivityFcio(document, templateInfo, configInfo, type);
-                    setDataSharingPubAccessPolicy(document, templateInfo);
-                }
-
-                PdfBoxUtils.flatten(document);
-                document.save(out);
-                return entry(e.getKey(), out.toByteArray());
-            } catch (IOException e1) {
-                throw new PrintingException(e1);
-            }
-        }).collect(entriesToMap());
+                }).collect(entriesToMap());
     }
 
-    private void setSponsorAgency(PDDocument document, SponsorFormType type) {
-        if (type == SponsorFormType.AFOSR) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.AFOSR_RADIO_VALUE);
-        } else if (type == SponsorFormType.AMRMC) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.AMRMC_RADIO_VALUE);
-        } else if (type == SponsorFormType.AMRAA) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.AMRAA_RADIO_VALUE);
-        } else if (type == SponsorFormType.ARO) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.ARO_RADIO_VALUE);
-        } else if (type == SponsorFormType.DOE) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.OTHER_AGENCY_RADIO_VALUE);
-        } else if (type == SponsorFormType.EPA) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.EPA_RADIO_VALUE);
-        } else if (type == SponsorFormType.NASA) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.NASA_RADIO_VALUE);
-        } else if (type == SponsorFormType.NIH) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.NIH_RADIO_VALUE);
-        } else if (type == SponsorFormType.NSF) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.NSF_RADIO_VALUE);
-        } else if (type == SponsorFormType.ONR) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.ONR_RADIO_VALUE);
-        } else if (type == SponsorFormType.USADA) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Pdf.USDA_RADIO_VALUE);
+    public void fillTemplateOrAttachment(Map.Entry<String, Resource> selectedForm, PDDocument pdfDocument, SubContractDataDocument xmlObject) {
+        Optional<AgreementForm> agreement = Stream.of(AgreementForm.values())
+                .filter(agreementForm -> agreementForm.getId().equals(selectedForm.getKey()))
+                .findFirst();
+
+        Optional<SupplementalFormsForAgreement> certification = Stream.of(SupplementalFormsForAgreement.values())
+                .filter(certificationForm -> certificationForm.getId().equals(selectedForm.getKey()))
+                .findFirst();
+
+        if (agreement.isPresent()) {
+            fillAgreementForm(pdfDocument, xmlObject);
+        }
+        else if (certification.isPresent()) {
+            fillCertification(pdfDocument, xmlObject);
+        }
+        else {
+            Stream.of(Attachment2Form.values())
+                    .filter(attachment2Form -> attachment2Form.getId().equals(selectedForm.getKey()))
+                    .findFirst()
+                    .ifPresent(attachment2Form -> fillAttachment2Form(pdfDocument, xmlObject, attachment2Form));
+        }
+    }
+
+    private void fillCertification(PDDocument pdfDocument, SubContractDataDocument xmlObject) {
+        final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
+        setField(pdfDocument, AgreementCertificationPdf.Field.SUBAWARD_NO.getfName(), subcontractDetail.getFsrsSubawardNumber());
+    }
+
+    private void fillAgreementForm(PDDocument document, SubContractDataDocument xmlObject) {
+        final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
+        final SubContractDataDocument.SubContractData.SubcontractAmountInfo amountInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractAmountInfoArray()) ? xmlObject.getSubContractData().getSubcontractAmountInfoArray()[0] : SubContractDataDocument.SubContractData.SubcontractAmountInfo.Factory.newInstance();
+        final SubContractDataDocument.SubContractData.PrimeRecipientContacts primeRecipientContacts = xmlObject.getSubContractData().getPrimeRecipientContacts() != null ? xmlObject.getSubContractData().getPrimeRecipientContacts() : SubContractDataDocument.SubContractData.PrimeRecipientContacts.Factory.newInstance();
+        final PersonDetailsType primePrincipalInvestigator = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getPrimePrincipalInvestigatorArray()) ? xmlObject.getSubContractData().getPrimePrincipalInvestigatorArray()[0] : PersonDetailsType.Factory.newInstance();
+        final AwardType award = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getAwardArray()) ? xmlObject.getSubContractData().getAwardArray()[0] : AwardType.Factory.newInstance();
+        final SubContractDataDocument.SubContractData.OtherConfigInfo configInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getOtherConfigInfoArray()) ? xmlObject.getSubContractData().getOtherConfigInfoArray(0) : SubContractDataDocument.SubContractData.OtherConfigInfo.Factory.newInstance();
+        final SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractTemplateInfoArray()) ? xmlObject.getSubContractData().getSubcontractTemplateInfoArray(0) : SubContractDataDocument.SubContractData.SubcontractTemplateInfo.Factory.newInstance();
+
+        setFederalAwardingAgency(document);
+        setPteInfo(document, primeRecipientContacts, primePrincipalInvestigator);
+        setSubrecipientInfo(document, subcontractDetail);
+        setAwardSubawardNumbers(document, subcontractDetail, award);
+        setTitle(document, award);
+        setDates(document, subcontractDetail, amountInfo);
+        setAmounts(document, amountInfo);
+        setTermsAndConditions(document, configInfo, templateInfo);
+    }
+
+    private void setFederalAwardingAgency(PDDocument document) {
+        setField(document, AgreementPdf.Field.FEDERAL_AWARDING_AGENCY.getfName(), "");
+    }
+
+    private void setPteInfo(PDDocument document, SubContractDataDocument.SubContractData.PrimeRecipientContacts primeRecipientContacts, PersonDetailsType primePrincipalInvestigator) {
+        if (primeRecipientContacts.getRequisitionerOrgDetails() != null) {
+            setField(document, AgreementPdf.Field.PASS_THROUGH_ENTITY.getfName(), primeRecipientContacts.getRequisitionerOrgDetails().getOrganizationName());
+        }
+
+        if (StringUtils.isNotBlank(primePrincipalInvestigator.getFullName())) {
+            setField(document, AgreementPdf.Field.PTE_PI.getfName(), primePrincipalInvestigator.getFullName());
+        }
+    }
+
+    private void setSubrecipientInfo(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail) {
+        if (StringUtils.isNotBlank(subcontractDetail.getSubcontractorName())) {
+            setField(document, AgreementPdf.Field.SUBRECIPIENT.getfName(), subcontractDetail.getSubcontractorName());
+        }
+
+        if (StringUtils.isNotBlank(subcontractDetail.getSiteInvestigator())) {
+            setField(document, AgreementPdf.Field.SUB_PI.getfName(), subcontractDetail.getSiteInvestigator());
+        }
+    }
+
+    private void setAwardSubawardNumbers(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail, AwardType award) {
+        if (award.getAwardDetails() != null && award.getAwardDetails().getAwardHeader() != null && StringUtils.isNotBlank(award.getAwardDetails().getAwardHeader().getSponsorAwardNumber())) {
+            setField(document, AgreementPdf.Field.PTE_FEDERAL_AWARD_NO.getfName(), award.getAwardDetails().getAwardHeader().getSponsorAwardNumber());
+        }
+
+        if (StringUtils.isNotBlank(subcontractDetail.getFsrsSubawardNumber())) {
+            setField(document, AgreementPdf.Field.SUBAWARD_NO.getfName(), subcontractDetail.getFsrsSubawardNumber());
+        }
+    }
+
+    private void setTitle(PDDocument document, AwardType award) {
+        if (award.getAwardDetails() != null && award.getAwardDetails().getAwardHeader() != null && StringUtils.isNotBlank(award.getAwardDetails().getAwardHeader().getTitle())) {
+            setField(document, AgreementPdf.Field.PROJECT_TITLE.getfName(), award.getAwardDetails().getAwardHeader().getTitle());
+        }
+    }
+
+    private void setDates(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail, SubContractDataDocument.SubContractData.SubcontractAmountInfo amountInfo) {
+        if (amountInfo.getPerformanceStartDate() != null) {
+            setField(document, AgreementPdf.Field.POP_START.getfName(), formatDate(amountInfo.getPerformanceStartDate().getTime()));
+        }
+
+        if (amountInfo.getPerformanceEndDate() != null) {
+            setField(document, AgreementPdf.Field.POP_END.getfName(), formatDate(amountInfo.getPerformanceEndDate().getTime()));
+        }
+
+        if (subcontractDetail.getStartDate() != null) {
+            setField(document, AgreementPdf.Field.PROJECT_START.getfName(), formatDate(subcontractDetail.getStartDate().getTime()));
+        }
+
+        if (subcontractDetail.getEndDate() != null) {
+            setField(document, AgreementPdf.Field.PROJECT_END.getfName(), formatDate(subcontractDetail.getEndDate().getTime()));
+        }
+    }
+
+    private void setAmounts(PDDocument document, SubContractDataDocument.SubContractData.SubcontractAmountInfo amountInfo) {
+        if (amountInfo.getObligatedAmount() != null) {
+            setField(document, AgreementPdf.Field.AMOUNT_FUNDED_THIS_ACTION.getfName(), amountInfo.getObligatedAmount().toPlainString());
+        }
+
+        if (amountInfo.getAnticipatedAmount() != null) {
+            setField(document, AgreementPdf.Field.INCREMENTALLY_ESTIMATED_TOTAL.getfName(), amountInfo.getAnticipatedAmount().toPlainString());
+        }
+    }
+
+    private void setTermsAndConditions(PDDocument document, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
+        setField(document, AgreementPdf.Field.TERM_2_CONTACT.getfName(), "");
+        if (StringUtils.isNotBlank(templateInfo.getInvoiceOrPaymentContactDescription())) {
+            setField(document, AgreementPdf.Field.TERM_2_CONTACT.getfName(), templateInfo.getInvoiceOrPaymentContactDescription());
+        }
+
+        setField(document, AgreementPdf.Field.TERM_3_CONTACT.getfName(), "");
+        if (StringUtils.isNotBlank(templateInfo.getFinalStmtOfCostsContactDescription())) {
+            setField(document, AgreementPdf.Field.TERM_3_CONTACT.getfName(), templateInfo.getFinalStmtOfCostsContactDescription());
+        }
+
+        if (StringUtils.isNotBlank(templateInfo.getFinalStatementDueCd())) {
+            setField(document, AgreementPdf.Field.PROJECT_BUDGET_INVOICE_DROPDOWN.getfName(), FinalStatementDue.PTE.getCode().equals(templateInfo.getFinalStatementDueCd()) ? AgreementPdf.PROJECT_PERIOD_END_DATE_VALUE : AgreementPdf.BUDGET_PERIOD_END_DATE_VALUE);
+        }
+
+        setField(document, AgreementPdf.Field.TERM_6_CONTACT.getfName(), "");
+        if (StringUtils.isNotBlank(templateInfo.getChangeRequestsContactDescription())) {
+            setField(document, AgreementPdf.Field.TERM_6_CONTACT.getfName(), templateInfo.getChangeRequestsContactDescription());
+        }
+
+        setField(document, AgreementPdf.Field.UNI_BI_MOD_DROPOWN.getfName(), configInfo.getFdpSubawardBilateralAgreements() ? AgreementPdf.BILATERALLY_VALUE : AgreementPdf.UNILATERALLY_VALUE);
+
+        //is this right?
+        setField(document, AgreementPdf.Field.TERM_7_CONTACT.getfName(), "");
+        if (StringUtils.isNotBlank(templateInfo.getChangeRequestsContactDescription())) {
+            setField(document, AgreementPdf.Field.TERM_7_CONTACT.getfName(), templateInfo.getChangeRequestsContactDescription());
+        }
+
+        setField(document, AgreementPdf.Field.TERM_9_CONTACT.getfName(), "");
+        if (StringUtils.isNotBlank(templateInfo.getTerminationContactDescription())) {
+            setField(document, AgreementPdf.Field.TERM_9_CONTACT.getfName(), templateInfo.getTerminationContactDescription());
+        }
+    }
+
+    private void fillAttachment2Form(PDDocument document, SubContractDataDocument xmlObject, Attachment2Form formId) {
+        final Attachment2SponsorFormType type = formId.getSponsorFormType();
+        final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
+        final SubContractDataDocument.SubContractData.OtherConfigInfo configInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getOtherConfigInfoArray()) ? xmlObject.getSubContractData().getOtherConfigInfoArray(0) : SubContractDataDocument.SubContractData.OtherConfigInfo.Factory.newInstance();
+        final SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractTemplateInfoArray()) ? xmlObject.getSubContractData().getSubcontractTemplateInfoArray(0) : SubContractDataDocument.SubContractData.SubcontractTemplateInfo.Factory.newInstance();
+
+        setSponsorAgency(document, type);
+        setHeaderInformation(document, subcontractDetail);
+        setRequiredDataElements(document);
+        setGenTermsAndConditions(document, configInfo, templateInfo, type);
+        setMpiInfo(document, templateInfo, type);
+        setStcCopyrights(document, templateInfo);
+        setStcAutoCarryForward(document, templateInfo);
+        setHumanAnimalSubjects(document, templateInfo);
+        setHumanPteVerification(document, templateInfo);
+        setAnimalPteVerification(document, templateInfo);
+        setHumanSubjectsDataExchange(document, templateInfo);
+        setHumanSubjectsDataExchangeTerms(document, templateInfo);
+        setAdditionalTerms(document, templateInfo);
+        setPromotingObjectivityFcio(document, templateInfo, configInfo, type);
+        setDataSharingPubAccessPolicy(document, templateInfo);
+    }
+
+    private void setSponsorAgency(PDDocument document, Attachment2SponsorFormType type) {
+        if (type == Attachment2SponsorFormType.AFOSR) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Attachment2Pdf.AFOSR_RADIO_VALUE);
+        } else if (type == Attachment2SponsorFormType.AMRMC) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Attachment2Pdf.AMRMC_RADIO_VALUE);
+        } else if (type == Attachment2SponsorFormType.AMRAA) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Attachment2Pdf.AMRAA_RADIO_VALUE);
+        } else if (type == Attachment2SponsorFormType.ARO) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Attachment2Pdf.ARO_RADIO_VALUE);
+        } else if (type == Attachment2SponsorFormType.DOE) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Attachment2Pdf.OTHER_AGENCY_RADIO_VALUE);
+        } else if (type == Attachment2SponsorFormType.EPA) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Attachment2Pdf.EPA_RADIO_VALUE);
+        } else if (type == Attachment2SponsorFormType.NASA) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Attachment2Pdf.NASA_RADIO_VALUE);
+        } else if (type == Attachment2SponsorFormType.NIH) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Attachment2Pdf.NIH_RADIO_VALUE);
+        } else if (type == Attachment2SponsorFormType.NSF) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Attachment2Pdf.NSF_RADIO_VALUE);
+        } else if (type == Attachment2SponsorFormType.ONR) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Attachment2Pdf.ONR_RADIO_VALUE);
+        } else if (type == Attachment2SponsorFormType.USADA) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY_RADIO_BUTTON_GROUP.getfName(), Attachment2Pdf.USDA_RADIO_VALUE);
         }
     }
 
@@ -181,98 +307,98 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
             if (HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) ||
                     HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) ||
                     HumanDataExchangeAgreement.FROM_BOTH_PTE_AND_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd())) {
-                setField(document, Pdf.Field.SUBRECIPIENT_AGREES_TO_COMPLY.getfName(), true);
+                setField(document, Attachment2Pdf.Field.SUBRECIPIENT_AGREES_TO_COMPLY.getfName(), true);
 
                 if (StringUtils.isNotBlank(templateInfo.getDataSharingAttachment())) {
-                    setField(document, Pdf.Field.DATA_SHARING_ATTACHMENT.getfName(), templateInfo.getDataSharingAttachment());
+                    setField(document, Attachment2Pdf.Field.DATA_SHARING_ATTACHMENT.getfName(), templateInfo.getDataSharingAttachment());
                 }
             }
         }
     }
 
-    private void setPromotingObjectivityFcio(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, SponsorFormType type) {
-        setField(document, Pdf.Field.FCOI_PTE.getfName(), FcioSubrecipientPolicy.PTE.getCode().equals(templateInfo.getFcioSubrecPolicyCd()));
-        setField(document, Pdf.Field.FCOI_SUBRECIPIENT.getfName(), FcioSubrecipientPolicy.SUBRECIPIENT.getCode().equals(templateInfo.getFcioSubrecPolicyCd()));
+    private void setPromotingObjectivityFcio(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, Attachment2SponsorFormType type) {
+        setField(document, Attachment2Pdf.Field.FCOI_PTE.getfName(), FcioSubrecipientPolicy.PTE.getCode().equals(templateInfo.getFcioSubrecPolicyCd()));
+        setField(document, Attachment2Pdf.Field.FCOI_SUBRECIPIENT.getfName(), FcioSubrecipientPolicy.SUBRECIPIENT.getCode().equals(templateInfo.getFcioSubrecPolicyCd()));
 
-        if (type == SponsorFormType.NIH) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNihFCoiGuidance());
-        } else if (type == SponsorFormType.NSF) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNsfFCoiGuidance());
-        } else if (type == SponsorFormType.NASA) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNasaFCoiGuidance());
-        } else if (type == SponsorFormType.ONR) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpOnrFCoiGuidance());
-        } else if (type == SponsorFormType.ARO) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpAroFCoiGuidance());
-        } else if (type == SponsorFormType.AFOSR) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpAfosrFCoiGuidance());
-        } else if (type == SponsorFormType.EPA) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpEpaFCoiGuidance());
-        } else if (type == SponsorFormType.AMRMC) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpAmrmcFCoiGuidance());
-        } else if (type == SponsorFormType.AMRAA) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpAmraaFCoiGuidance());
-        } else if (type == SponsorFormType.USADA) {
-            setField(document, Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpUsdaFCoiGuidance());
+        if (type == Attachment2SponsorFormType.NIH) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNihFCoiGuidance());
+        } else if (type == Attachment2SponsorFormType.NSF) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNsfFCoiGuidance());
+        } else if (type == Attachment2SponsorFormType.NASA) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpNasaFCoiGuidance());
+        } else if (type == Attachment2SponsorFormType.ONR) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpOnrFCoiGuidance());
+        } else if (type == Attachment2SponsorFormType.ARO) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpAroFCoiGuidance());
+        } else if (type == Attachment2SponsorFormType.AFOSR) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpAfosrFCoiGuidance());
+        } else if (type == Attachment2SponsorFormType.EPA) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpEpaFCoiGuidance());
+        } else if (type == Attachment2SponsorFormType.AMRMC) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpAmrmcFCoiGuidance());
+        } else if (type == Attachment2SponsorFormType.AMRAA) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpAmraaFCoiGuidance());
+        } else if (type == Attachment2SponsorFormType.USADA) {
+            setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpUsdaFCoiGuidance());
         }
 
-        setField(document, Pdf.Field.FCOI_OTHER_SPONSOR_AGENCY.getfName(), "");
+        setField(document, Attachment2Pdf.Field.FCOI_OTHER_SPONSOR_AGENCY.getfName(), "");
     }
 
     private void setHumanSubjectsDataExchangeTerms(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
         if (fromYN(templateInfo.getHumanFlag()) && (HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) ||
                 HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) ||
                 HumanDataExchangeAgreement.FROM_BOTH_PTE_AND_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()))) {
-            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_IN_ADD_TERMS.getfName(), HumanDataExchangeTerms.ADDITIONAL_TERMS.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
-            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_SEP_AGREEMENT.getfName(), HumanDataExchangeTerms.SEPARATE_AGREEMENT.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
+            setField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_IN_ADD_TERMS.getfName(), HumanDataExchangeTerms.ADDITIONAL_TERMS.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
+            setField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_TERMS_SEP_AGREEMENT.getfName(), HumanDataExchangeTerms.SEPARATE_AGREEMENT.getCode().equals(templateInfo.getHumanDataExchangeTermsCd()));
         }
     }
 
     private void setAdditionalTerms(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
         if (StringUtils.isNotBlank(templateInfo.getAdditionalTerms())) {
-            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_ADD_TERMS_TEXT.getfName(), templateInfo.getAdditionalTerms());
+            setField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_ADD_TERMS_TEXT.getfName(), templateInfo.getAdditionalTerms());
         }
     }
 
     private void setHumanSubjectsDataExchange(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
         if (fromYN(templateInfo.getHumanFlag())) {
-            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_NOT_APPLICABLE.getfName(), HumanDataExchangeAgreement.NOT_APPLICABLE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
-            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_APPLICABLE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) ||
+            setField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_NOT_APPLICABLE.getfName(), HumanDataExchangeAgreement.NOT_APPLICABLE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+            setField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_APPLICABLE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) ||
                     HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) ||
                     HumanDataExchangeAgreement.FROM_BOTH_PTE_AND_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
 
-            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_SUB_TO_PTE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) || HumanDataExchangeAgreement.FROM_BOTH_PTE_AND_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
-            setField(document, Pdf.Field.HUMAN_SUBJECTS_DATA_PTE_TO_SUB.getfName(), HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) || HumanDataExchangeAgreement.FROM_BOTH_PTE_AND_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+            setField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_SUB_TO_PTE.getfName(), HumanDataExchangeAgreement.SUBRECIPIENT_TO_PTE.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) || HumanDataExchangeAgreement.FROM_BOTH_PTE_AND_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
+            setField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_PTE_TO_SUB.getfName(), HumanDataExchangeAgreement.PTE_TO_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()) || HumanDataExchangeAgreement.FROM_BOTH_PTE_AND_SUBRECIPIENT.getCode().equals(templateInfo.getHumanDataExchangeAgreeCd()));
         }
     }
 
     private void setAnimalPteVerification(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
         if (fromYN(templateInfo.getAnimalFlag())) {
-            showField(document, Pdf.Field.PTE_REQUIRES_VERIFICATON_LABEL.getfName());
-            showField(document, Pdf.Field.PTE_IACUC_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.PTE_REQUIRES_VERIFICATON_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.PTE_IACUC_LABEL.getfName());
 
-            showField(document, Pdf.Field.PTE_IACUC_UPON_REQUEST_LABEL.getfName());
-            showField(document, Pdf.Field.PTE_IACUC_UPON_REQUEST.getfName());
-            setField(document, Pdf.Field.PTE_IACUC_UPON_REQUEST.getfName(), PteSend.UPON_REQUEST.getCode().equals(templateInfo.getAnimalPteSendCd()));
+            showField(document, Attachment2Pdf.Field.PTE_IACUC_UPON_REQUEST_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.PTE_IACUC_UPON_REQUEST.getfName());
+            setField(document, Attachment2Pdf.Field.PTE_IACUC_UPON_REQUEST.getfName(), PteSend.UPON_REQUEST.getCode().equals(templateInfo.getAnimalPteSendCd()));
 
-            showField(document, Pdf.Field.PTE_IACUC_PRIOR_LABEL.getfName());
-            showField(document, Pdf.Field.PTE_IACUC_PRIOR.getfName());
-            setField(document, Pdf.Field.PTE_IACUC_PRIOR.getfName(), PteSend.PRIOR_TO_EXECUTION.getCode().equals(templateInfo.getAnimalPteSendCd()));
+            showField(document, Attachment2Pdf.Field.PTE_IACUC_PRIOR_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.PTE_IACUC_PRIOR.getfName());
+            setField(document, Attachment2Pdf.Field.PTE_IACUC_PRIOR.getfName(), PteSend.PRIOR_TO_EXECUTION.getCode().equals(templateInfo.getAnimalPteSendCd()));
 
-            showField(document, Pdf.Field.PTE_IACUC_PRIOR_ANNUAL_LABEL.getfName());
-            showField(document, Pdf.Field.PTE_IACUC_PRIOR_ANNUAL.getfName());
-            setField(document, Pdf.Field.PTE_IACUC_PRIOR_ANNUAL.getfName(), PteSend.PRIOR_TO_EXECUTION_AND_ANNUALLY.getCode().equals(templateInfo.getAnimalPteSendCd()));
+            showField(document, Attachment2Pdf.Field.PTE_IACUC_PRIOR_ANNUAL_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.PTE_IACUC_PRIOR_ANNUAL.getfName());
+            setField(document, Attachment2Pdf.Field.PTE_IACUC_PRIOR_ANNUAL.getfName(), PteSend.PRIOR_TO_EXECUTION_AND_ANNUALLY.getCode().equals(templateInfo.getAnimalPteSendCd()));
 
-            showField(document, Pdf.Field.PTE_IACUC_NOT_REQUIRED_LABEL.getfName());
-            showField(document, Pdf.Field.PTE_IACUC_NOT_REQUIRED.getfName());
-            setField(document, Pdf.Field.PTE_IACUC_NOT_REQUIRED.getfName(), PteSend.NOT_REQUIRED.getCode().equals(templateInfo.getAnimalPteSendCd()));
+            showField(document, Attachment2Pdf.Field.PTE_IACUC_NOT_REQUIRED_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.PTE_IACUC_NOT_REQUIRED.getfName());
+            setField(document, Attachment2Pdf.Field.PTE_IACUC_NOT_REQUIRED.getfName(), PteSend.NOT_REQUIRED.getCode().equals(templateInfo.getAnimalPteSendCd()));
 
             //Work Involving Humans or Animal Subjects (PTE requires verification - Animal section) - Not Required Reason
             if (PteSend.NOT_REQUIRED.getCode().equals(templateInfo.getAnimalPteSendCd())) {
-                showField(document, Pdf.Field.PTE_IACUC_NOT_REQUIRED_REASON.getfName());
+                showField(document, Attachment2Pdf.Field.PTE_IACUC_NOT_REQUIRED_REASON.getfName());
                 AnimalPteSendNotRequiredReason aReason = AnimalPteSendNotRequiredReason.fromCode(templateInfo.getAnimalPteNrCd());
                 if (aReason != null) {
-                    setField(document, Pdf.Field.PTE_IACUC_NOT_REQUIRED_REASON.getfName(), aReason.getDescription());
+                    setField(document, Attachment2Pdf.Field.PTE_IACUC_NOT_REQUIRED_REASON.getfName(), aReason.getDescription());
                 }
             }
         }
@@ -280,161 +406,149 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
 
     private void setHumanPteVerification(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
         if (fromYN(templateInfo.getHumanFlag())) {
-            showField(document, Pdf.Field.PTE_REQUIRES_VERIFICATON_LABEL.getfName());
-            showField(document, Pdf.Field.PTE_IRB_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.PTE_REQUIRES_VERIFICATON_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.PTE_IRB_LABEL.getfName());
 
-            showField(document, Pdf.Field.PTE_IRB_UPON_REQUEST_LABEL.getfName());
-            showField(document, Pdf.Field.PTE_IRB_UPON_REQUEST.getfName());
-            setField(document, Pdf.Field.PTE_IRB_UPON_REQUEST.getfName(), PteSend.UPON_REQUEST.getCode().equals(templateInfo.getHumanPteSendCd()));
+            showField(document, Attachment2Pdf.Field.PTE_IRB_UPON_REQUEST_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.PTE_IRB_UPON_REQUEST.getfName());
+            setField(document, Attachment2Pdf.Field.PTE_IRB_UPON_REQUEST.getfName(), PteSend.UPON_REQUEST.getCode().equals(templateInfo.getHumanPteSendCd()));
 
-            showField(document, Pdf.Field.PTE_IRB_PRIOR_LABEL.getfName());
-            showField(document, Pdf.Field.PTE_IRB_PRIOR.getfName());
-            setField(document, Pdf.Field.PTE_IRB_PRIOR.getfName(), PteSend.PRIOR_TO_EXECUTION.getCode().equals(templateInfo.getHumanPteSendCd()));
+            showField(document, Attachment2Pdf.Field.PTE_IRB_PRIOR_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.PTE_IRB_PRIOR.getfName());
+            setField(document, Attachment2Pdf.Field.PTE_IRB_PRIOR.getfName(), PteSend.PRIOR_TO_EXECUTION.getCode().equals(templateInfo.getHumanPteSendCd()));
 
-            showField(document, Pdf.Field.PTE_IRB_PRIOR_ANNUAL_LABEL.getfName());
-            showField(document, Pdf.Field.PTE_IRB_PRIOR_ANNUAL.getfName());
-            setField(document, Pdf.Field.PTE_IRB_PRIOR_ANNUAL.getfName(), PteSend.PRIOR_TO_EXECUTION_AND_ANNUALLY.getCode().equals(templateInfo.getHumanPteSendCd()));
+            showField(document, Attachment2Pdf.Field.PTE_IRB_PRIOR_ANNUAL_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.PTE_IRB_PRIOR_ANNUAL.getfName());
+            setField(document, Attachment2Pdf.Field.PTE_IRB_PRIOR_ANNUAL.getfName(), PteSend.PRIOR_TO_EXECUTION_AND_ANNUALLY.getCode().equals(templateInfo.getHumanPteSendCd()));
 
-            showField(document, Pdf.Field.PTE_IRB_NOT_REQUIRED_LABEL.getfName());
-            showField(document, Pdf.Field.PTE_IRB_NOT_REQUIRED.getfName());
-            setField(document, Pdf.Field.PTE_IRB_NOT_REQUIRED.getfName(), PteSend.NOT_REQUIRED.getCode().equals(templateInfo.getHumanPteSendCd()));
+            showField(document, Attachment2Pdf.Field.PTE_IRB_NOT_REQUIRED_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.PTE_IRB_NOT_REQUIRED.getfName());
+            setField(document, Attachment2Pdf.Field.PTE_IRB_NOT_REQUIRED.getfName(), PteSend.NOT_REQUIRED.getCode().equals(templateInfo.getHumanPteSendCd()));
 
             //Work Involving Humans or Animal Subjects (PTE requires verification - Human section) - Not Required Reason
             if (PteSend.NOT_REQUIRED.getCode().equals(templateInfo.getHumanPteSendCd())) {
-                showField(document, Pdf.Field.PTE_IRB_NOT_REQUIRED_REASON.getfName());
+                showField(document, Attachment2Pdf.Field.PTE_IRB_NOT_REQUIRED_REASON.getfName());
                 final HumanPteSendNotRequiredReason hReason = HumanPteSendNotRequiredReason.fromCode(templateInfo.getHumanPteNrCd());
                 if (hReason != null) {
-                    setField(document, Pdf.Field.PTE_IRB_NOT_REQUIRED_REASON.getfName(), hReason.getDescription());
+                    setField(document, Attachment2Pdf.Field.PTE_IRB_NOT_REQUIRED_REASON.getfName(), hReason.getDescription());
                 }
             }
         }
     }
 
     private void setHumanAnimalSubjects(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
-        setField(document, Pdf.Field.HUMAN_SUBJECTS_CHECKBOX.getfName(), fromYN(templateInfo.getHumanFlag()));
-        setField(document, Pdf.Field.ANIMAL_SUBJECTS_CHECKBOX.getfName(), fromYN(templateInfo.getAnimalFlag()));
-        setField(document, Pdf.Field.NO_HUMAN_ANIMAL_SUBJECTS_CHECKBOX.getfName(), !fromYN(templateInfo.getAnimalFlag()) && !fromYN(templateInfo.getHumanFlag()));
+        setField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_CHECKBOX.getfName(), fromYN(templateInfo.getHumanFlag()));
+        setField(document, Attachment2Pdf.Field.ANIMAL_SUBJECTS_CHECKBOX.getfName(), fromYN(templateInfo.getAnimalFlag()));
+        setField(document, Attachment2Pdf.Field.NO_HUMAN_ANIMAL_SUBJECTS_CHECKBOX.getfName(), !fromYN(templateInfo.getAnimalFlag()) && !fromYN(templateInfo.getHumanFlag()));
     }
 
     private void setStcAutoCarryForward(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
-        setField(document, Pdf.Field.AUTOMATIC_CARRYFORWARD_YES_CHECKBOX.getfName(), fromYN(templateInfo.getAutomaticCarryForward()));
-        setField(document, Pdf.Field.AUTOMATIC_CARRYFORWARD_NO_CHECKBOX.getfName(), !fromYN(templateInfo.getAutomaticCarryForward()));
+        setField(document, Attachment2Pdf.Field.AUTOMATIC_CARRYFORWARD_YES_CHECKBOX.getfName(), fromYN(templateInfo.getAutomaticCarryForward()));
+        setField(document, Attachment2Pdf.Field.AUTOMATIC_CARRYFORWARD_NO_CHECKBOX.getfName(), !fromYN(templateInfo.getAutomaticCarryForward()));
         if (!fromYN(templateInfo.getAutomaticCarryForward())) {
             if (ADMIN_CONTACT_TYPE_CODE_1.equals(templateInfo.getCarryForwardRequestsSentTo()) || ADMIN_CONTACT_TYPE_CODE_2.equals(templateInfo.getCarryForwardRequestsSentTo())) {
-                setField(document, Pdf.Field.CONTACT_FOR_CARRYFORWARD.getfName(), Pdf.CF_CONTACT_ADMINISTRATIVE_CONTACT_VALUE);
+                setField(document, Attachment2Pdf.Field.CONTACT_FOR_CARRYFORWARD.getfName(), Attachment2Pdf.CF_CONTACT_ADMINISTRATIVE_CONTACT_VALUE);
             } else if (FIN_CONTACT_TYPE_CODE.equals(templateInfo.getCarryForwardRequestsSentTo())) {
-                setField(document, Pdf.Field.CONTACT_FOR_CARRYFORWARD.getfName(), Pdf.CF_CONTACT_FINANCIAL_CONTACT_VALUE);
+                setField(document, Attachment2Pdf.Field.CONTACT_FOR_CARRYFORWARD.getfName(), Attachment2Pdf.CF_CONTACT_FINANCIAL_CONTACT_VALUE);
             } else if (PI_TYPE_CODE.equals(templateInfo.getCarryForwardRequestsSentTo())) {
-                setField(document, Pdf.Field.CONTACT_FOR_CARRYFORWARD.getfName(), Pdf.CF_CONTACT_PI_VALUE);
+                setField(document, Attachment2Pdf.Field.CONTACT_FOR_CARRYFORWARD.getfName(), Attachment2Pdf.CF_CONTACT_PI_VALUE);
             } else if (AUTH_OFFICIAL_TYPE_CODE.equals(templateInfo.getCarryForwardRequestsSentTo())) {
-                setField(document, Pdf.Field.CONTACT_FOR_CARRYFORWARD.getfName(), Pdf.CF_CONTACT_AUTHORIZED_OFFICIAL_VALUE);
+                setField(document, Attachment2Pdf.Field.CONTACT_FOR_CARRYFORWARD.getfName(), Attachment2Pdf.CF_CONTACT_AUTHORIZED_OFFICIAL_VALUE);
             }
         }
     }
 
     private void setStcCopyrights(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
-        setField(document, Pdf.Field.COPYRIGHTS_SUBRECIPIENT_GRANTS_CHECKBOX.getfName(), COPYRIGHTS_GRANT_CODE.equals(templateInfo.getCopyRights()));
-        setField(document, Pdf.Field.COPYRIGHTS_SUBRECIPIENT_SHALL_GRANT_CHECKBOX.getfName(), COPYRIGHTS_SHALL_GRANT_CODE.equals(templateInfo.getCopyRights()));
+        setField(document, Attachment2Pdf.Field.COPYRIGHTS_SUBRECIPIENT_GRANTS_CHECKBOX.getfName(), COPYRIGHTS_GRANT_CODE.equals(templateInfo.getCopyRights()));
+        setField(document, Attachment2Pdf.Field.COPYRIGHTS_SUBRECIPIENT_SHALL_GRANT_CHECKBOX.getfName(), COPYRIGHTS_SHALL_GRANT_CODE.equals(templateInfo.getCopyRights()));
     }
 
-    private void setMpiInfo(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, SponsorFormType type) {
-        toggleFieldVisibility(document, Pdf.Field.MPI_SECTION_LABEL.getfName(), type != SponsorFormType.NIH);
-        toggleFieldVisibility(document, Pdf.Field.MPI_AWARD_CHECKBOX.getfName(), type != SponsorFormType.NIH);
-        toggleFieldVisibility(document, Pdf.Field.MPI_AWARD_LABEL.getfName(), type != SponsorFormType.NIH);
-        toggleFieldVisibility(document, Pdf.Field.NOT_MPI_AWARD_LABEL.getfName(), type != SponsorFormType.NIH);
-        toggleFieldVisibility(document, Pdf.Field.NOT_MPI_AWARD_CHECKBOX.getfName(), type != SponsorFormType.NIH);
-        if (type == SponsorFormType.NIH) {
-            setField(document, Pdf.Field.NOT_MPI_AWARD_CHECKBOX.getfName(), !fromYN(templateInfo.getMpiAward()));
-            setField(document, Pdf.Field.MPI_AWARD_CHECKBOX.getfName(), fromYN(templateInfo.getMpiAward()));
+    private void setMpiInfo(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, Attachment2SponsorFormType type) {
+        toggleFieldVisibility(document, Attachment2Pdf.Field.MPI_SECTION_LABEL.getfName(), type != Attachment2SponsorFormType.NIH);
+        toggleFieldVisibility(document, Attachment2Pdf.Field.MPI_AWARD_CHECKBOX.getfName(), type != Attachment2SponsorFormType.NIH);
+        toggleFieldVisibility(document, Attachment2Pdf.Field.MPI_AWARD_LABEL.getfName(), type != Attachment2SponsorFormType.NIH);
+        toggleFieldVisibility(document, Attachment2Pdf.Field.NOT_MPI_AWARD_LABEL.getfName(), type != Attachment2SponsorFormType.NIH);
+        toggleFieldVisibility(document, Attachment2Pdf.Field.NOT_MPI_AWARD_CHECKBOX.getfName(), type != Attachment2SponsorFormType.NIH);
+        if (type == Attachment2SponsorFormType.NIH) {
+            setField(document, Attachment2Pdf.Field.NOT_MPI_AWARD_CHECKBOX.getfName(), !fromYN(templateInfo.getMpiAward()));
+            setField(document, Attachment2Pdf.Field.MPI_AWARD_CHECKBOX.getfName(), fromYN(templateInfo.getMpiAward()));
 
             if (fromYN(templateInfo.getMpiAward())) {
-                showField(document, Pdf.Field.MPI_AWARD_LEADERSHIP_PLAN.getfName());
+                showField(document, Attachment2Pdf.Field.MPI_AWARD_LEADERSHIP_PLAN.getfName());
 
                 final MpiLeadershipPlan mpiLeadershipPlan = MpiLeadershipPlan.fromCode(templateInfo.getMpiLeadershipPlan());
                 if (mpiLeadershipPlan != null) {
-                    setField(document, Pdf.Field.MPI_AWARD_LEADERSHIP_PLAN.getfName(), mpiLeadershipPlan.getDescription());
+                    setField(document, Attachment2Pdf.Field.MPI_AWARD_LEADERSHIP_PLAN.getfName(), mpiLeadershipPlan.getDescription());
                 }
             }
         }
     }
 
-    private void setGenTermsAndConditions(PDDocument document, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, SponsorFormType type) {
+    private void setGenTermsAndConditions(PDDocument document, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, Attachment2SponsorFormType type) {
         //General Terms and Conditions
-        if (type == SponsorFormType.NIH) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpNihPolicy(), configInfo.getFdpNihGrantsPolicyStatement(), configInfo.getFdpNihInterimResearchTerms(), configInfo.getFdpNihAgencyRequirements());
-        } else if (type == SponsorFormType.NSF) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpNsfPolicy(), configInfo.getFdpNsfGrantsPolicyStatement(), configInfo.getFdpNsfInterimResearchTerms(), configInfo.getFdpNsfAgencyRequirements());
-        } else if (type == SponsorFormType.NASA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpNasaPolicy(), configInfo.getFdpNasaGrantsPolicyStatement(), configInfo.getFdpNasaInterimResearchTerms(), configInfo.getFdpNasaAgencyRequirements());
-        } else if (type == SponsorFormType.ONR) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpOnrPolicy(), configInfo.getFdpOnrGrantsPolicyStatement(), configInfo.getFdpOnrInterimResearchTerms(), configInfo.getFdpOnrAgencyRequirements());
-        } else if (type == SponsorFormType.ARO) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAroPolicy(), configInfo.getFdpAroGrantsPolicyStatement(), configInfo.getFdpAroInterimResearchTerms(), configInfo.getFdpAroAgencyRequirements());
-        } else if (type == SponsorFormType.AFOSR) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAfosrPolicy(), configInfo.getFdpAfosrGrantsPolicyStatement(), configInfo.getFdpAfosrInterimResearchTerms(), configInfo.getFdpAfosrAgencyRequirements());
-        } else if (type == SponsorFormType.EPA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpEpaPolicy(), configInfo.getFdpEpaGrantsPolicyStatement(), configInfo.getFdpEpaInterimResearchTerms(), configInfo.getFdpEpaAgencyRequirements());
-        } else if (type == SponsorFormType.AMRMC) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAmrmcPolicy(), configInfo.getFdpAmrmcGrantsPolicyStatement(), configInfo.getFdpAmrmcInterimResearchTerms(), configInfo.getFdpAmrmcAgencyRequirements());
-        } else if (type == SponsorFormType.AMRAA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAmraaPolicy(), configInfo.getFdpAmraaGrantsPolicyStatement(), configInfo.getFdpAmraaInterimResearchTerms(), configInfo.getFdpAmraaAgencyRequirements());
-        } else if (type == SponsorFormType.USADA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpUsdaPolicy(), configInfo.getFdpUsdaGrantsPolicyStatement(), configInfo.getFdpUsdaInterimResearchTerms(), configInfo.getFdpUsdaAgencyRequirements());
+        if (type == Attachment2SponsorFormType.NIH) {
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNihPolicy(), configInfo.getFdpNihGrantsPolicyStatement(), configInfo.getFdpNihInterimResearchTerms(), configInfo.getFdpNihAgencyRequirements(), true);
+        } else if (type == Attachment2SponsorFormType.NSF) {
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNsfPolicy(), configInfo.getFdpNsfGrantsPolicyStatement(), configInfo.getFdpNsfInterimResearchTerms(), configInfo.getFdpNsfAgencyRequirements(), true);
+        } else if (type == Attachment2SponsorFormType.NASA) {
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNasaPolicy(), configInfo.getFdpNasaGrantsPolicyStatement(), configInfo.getFdpNasaInterimResearchTerms(), configInfo.getFdpNasaAgencyRequirements(), true);
+        } else if (type == Attachment2SponsorFormType.ONR) {
+            setGenTermsAndConditions1To4(document, configInfo.getFdpOnrPolicy(), configInfo.getFdpOnrGrantsPolicyStatement(), configInfo.getFdpOnrInterimResearchTerms(), configInfo.getFdpOnrAgencyRequirements(), true);
+        } else if (type == Attachment2SponsorFormType.ARO) {
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAroPolicy(), configInfo.getFdpAroGrantsPolicyStatement(), configInfo.getFdpAroInterimResearchTerms(), configInfo.getFdpAroAgencyRequirements(), true);
+        } else if (type == Attachment2SponsorFormType.AFOSR) {
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAfosrPolicy(), configInfo.getFdpAfosrGrantsPolicyStatement(), configInfo.getFdpAfosrInterimResearchTerms(), configInfo.getFdpAfosrAgencyRequirements(), true);
+        } else if (type == Attachment2SponsorFormType.EPA) {
+            setGenTermsAndConditions1To4(document, configInfo.getFdpEpaPolicy(), configInfo.getFdpEpaGrantsPolicyStatement(), configInfo.getFdpEpaInterimResearchTerms(), configInfo.getFdpEpaAgencyRequirements(), true);
+        } else if (type == Attachment2SponsorFormType.AMRMC) {
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAmrmcPolicy(), configInfo.getFdpAmrmcGrantsPolicyStatement(), configInfo.getFdpAmrmcInterimResearchTerms(), configInfo.getFdpAmrmcAgencyRequirements(), true);
+        } else if (type == Attachment2SponsorFormType.AMRAA) {
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAmraaPolicy(), configInfo.getFdpAmraaGrantsPolicyStatement(), configInfo.getFdpAmraaInterimResearchTerms(), configInfo.getFdpAmraaAgencyRequirements(), true);
+        } else if (type == Attachment2SponsorFormType.USADA) {
+            setGenTermsAndConditions1To4(document, configInfo.getFdpUsdaPolicy(), configInfo.getFdpUsdaGrantsPolicyStatement(), configInfo.getFdpUsdaInterimResearchTerms(), configInfo.getFdpUsdaAgencyRequirements(), true);
+        } else {
+            setGenTermsAndConditions1To4(document, "", "", "", "", false);
         }
 
         if (fromYN(templateInfo.getTreatmentPrgmIncomeAdditive())) {
-            setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_ADDITIVE_VALUE);
+            setField(document, Attachment2Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Attachment2Pdf.TPI_ADDITIVE_VALUE);
         } else {
-            setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Pdf.TPI_OTHER_VALUE);
+            setField(document, Attachment2Pdf.Field.TREATMENT_OF_PROGRAM_INCOME.getfName(), Attachment2Pdf.TPI_OTHER_VALUE);
 
             if (StringUtils.isNotBlank(templateInfo.getTreatmentOfIncome())) {
-                setField(document, Pdf.Field.TREATMENT_OF_PROGRAM_INCOME_OTHER_SPECIFY.getfName(), templateInfo.getTreatmentOfIncome());
+                setField(document, Attachment2Pdf.Field.TREATMENT_OF_PROGRAM_INCOME_OTHER_SPECIFY.getfName(), templateInfo.getTreatmentOfIncome());
             }
         }
     }
 
-    private void setGenTermsAndConditions1To4(PDDocument document, String policy, String policyStatement, String terms, String requirements) {
-        setField(document, Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), policy);
-        setField(document, Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), policyStatement);
-        setField(document, Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), terms);
-        setField(document, Pdf.Field.REQUIREMENTS.getfName(), requirements);
+    private void setGenTermsAndConditions1To4(PDDocument document, String policy, String policyStatement, String terms, String requirements, boolean hideTandCfcoi) {
+        setField(document, Attachment2Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), policy);
+        toggleFieldVisibility(document, Attachment2Pdf.Field.T_AND_CFCOI.getfName(), hideTandCfcoi);
+        setField(document, Attachment2Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), policyStatement);
+        setField(document, Attachment2Pdf.Field.INTERIM_RES_TERMS_COND.getfName(), terms);
+        setField(document, Attachment2Pdf.Field.REQUIREMENTS.getfName(), requirements);
     }
 
     private void setRequiredDataElements(PDDocument document) {
         //Required Data Elements
-        hideField(document, Pdf.Field.FEDERAL_AWARD_ISSUE_DATE.getfName());
-        hideField(document, Pdf.Field.FEDERAL_AWARD_ISSUE_DATE_LABEL.getfName());
-        hideField(document, Pdf.Field.FAIN.getfName());
-        hideField(document, Pdf.Field.FAIN_LABEL.getfName());
-        hideField(document, Pdf.Field.CFDA_NO.getfName());
-        hideField(document, Pdf.Field.CFDA_NO_LABEL.getfName());
-        hideField(document, Pdf.Field.CFDA_TITLE.getfName());
-        hideField(document, Pdf.Field.CFDA_TITLE_LABEL.getfName());
-        setField(document, Pdf.Field.COPY_OF_AWARD_NOTICE.getfName(), true);
+        hideField(document, Attachment2Pdf.Field.FEDERAL_AWARD_ISSUE_DATE.getfName());
+        hideField(document, Attachment2Pdf.Field.FEDERAL_AWARD_ISSUE_DATE_LABEL.getfName());
+        hideField(document, Attachment2Pdf.Field.FAIN.getfName());
+        hideField(document, Attachment2Pdf.Field.FAIN_LABEL.getfName());
+        hideField(document, Attachment2Pdf.Field.CFDA_NO.getfName());
+        hideField(document, Attachment2Pdf.Field.CFDA_NO_LABEL.getfName());
+        hideField(document, Attachment2Pdf.Field.CFDA_TITLE.getfName());
+        hideField(document, Attachment2Pdf.Field.CFDA_TITLE_LABEL.getfName());
+        setField(document, Attachment2Pdf.Field.COPY_OF_AWARD_NOTICE.getfName(), true);
     }
 
     private void setHeaderInformation(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail) {
-        setField(document, Pdf.Field.SUBAWARD_NUMBER.getfName(), subcontractDetail.getFsrsSubawardNumber());
+        setField(document, Attachment2Pdf.Field.SUBAWARD_NUMBER.getfName(), subcontractDetail.getFsrsSubawardNumber());
     }
 
     @Override
     public Map<String, byte[]> sortPdfForms(Map<String, byte[]> forms) {
-       final TreeMap<String, byte[]> sorted = new TreeMap<>((o1, o2) -> {
-           if (Objects.equals(o1, o2)) {
-               return 0;
-           }
-
-           if (FDP_AGREEMENT.equals(o1) || FDP_MODIFICATION.equals(o1)) {
-               return -1;
-           }
-
-           if (FDP_AGREEMENT.equals(o2) || FDP_MODIFICATION.equals(o2)) {
-               return 1;
-           }
-
-           return Objects.compare(o1, o2, String::compareTo);
-       });
-
+        final TreeMap<String, byte[]> sorted = new TreeMap<>(Comparator.comparing(FORM_ORDER::indexOf));
        sorted.putAll(forms);
        return sorted;
     }
@@ -443,11 +557,143 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         return "Y".equals(s);
     }
 
-    private enum SponsorFormType {
+    private String formatDate(Date date) {
+        return new SimpleDateFormat(MM_DD_YYYY).format(date);
+    }
+
+    private enum AgreementForm {
+        FDP_AGREEMENT("FDP Template");
+
+        private final String id;
+
+        AgreementForm(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+    }
+
+    private enum SupplementalFormsForAgreement {
+        FDP_ATTACHMENT_CERTIFICATION("FDP Attachment 1 Certification");
+
+        private final String id;
+
+        SupplementalFormsForAgreement(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+    }
+
+    static final class AgreementPdf {
+
+        enum Field {
+            FEDERAL_AWARDING_AGENCY("FederalAwardingAgency", Collections.emptySet()),
+            PASS_THROUGH_ENTITY("PassThroughEntityPTE", Collections.emptySet()),
+            PTE_PI("PTEPI", Collections.emptySet()),
+            PTE_FEDERAL_AWARD_NO("PTEFederalAwardNo", Collections.emptySet()),
+            SUBRECIPIENT("SubrecipientEntityName", Collections.emptySet()),
+            SUB_PI("SubPI", Collections.emptySet()),
+            SUBAWARD_NO("SubawardNumber", Collections.emptySet()),
+            PROJECT_TITLE("ProjectTitle", Collections.emptySet()),
+            POP_START("POPStart", Collections.emptySet()),
+            POP_END("POPEnd", Collections.emptySet()),
+            PROJECT_START("ProjectStart", Collections.emptySet()),
+            PROJECT_END("ProjectEnd", Collections.emptySet()),
+            AMOUNT_FUNDED_THIS_ACTION("AmountFundedThisAction", Collections.emptySet()),
+            INCREMENTALLY_ESTIMATED_TOTAL("IncrementallyEstimatedTotal", Collections.emptySet()),
+            TERM_2_CONTACT("Term2Contact", Collections.emptySet()),
+            TERM_3_CONTACT("Term3Contact", Collections.emptySet()),
+            PROJECT_BUDGET_INVOICE_DROPDOWN("ProjectBudgetInvoiceDrop", Stream.of(PROJECT_PERIOD_END_DATE_VALUE, BUDGET_PERIOD_END_DATE_VALUE).collect(Collectors.toSet())),
+            TERM_6_CONTACT("Term6Contact", Collections.emptySet()),
+            UNI_BI_MOD_DROPOWN("UniBiModDrop", Stream.of(UNILATERALLY_VALUE, BILATERALLY_VALUE).collect(Collectors.toSet())),
+            TERM_7_CONTACT("Term7Contact", Collections.emptySet()),
+            TERM_9_CONTACT("Term9Contact", Collections.emptySet());
+
+            private String fName;
+            private Set<String> values;
+
+            Field(String fName, Set<String> values) {
+                this.fName = fName;
+                this.values = values;
+            }
+
+            public String getfName() {
+                return fName;
+            }
+
+            public Set<String> getValues() {
+                return values;
+            }
+        }
+
+        private static final String BUDGET_PERIOD_END_DATE_VALUE = "Budget Period end date.";
+        private static final String PROJECT_PERIOD_END_DATE_VALUE = "Project Period end date.";
+
+        private static final String UNILATERALLY_VALUE = "Unilaterally";
+        private static final String BILATERALLY_VALUE = "Bilaterally";
+
+        private AgreementPdf() {
+            throw new UnsupportedOperationException("do not call");
+        }
+    }
+
+    static final class AgreementCertificationPdf {
+
+        enum Field {
+            SUBAWARD_NO("SubawardNumber", Collections.emptySet());
+
+            private String fName;
+            private Set<String> values;
+
+            Field(String fName, Set<String> values) {
+                this.fName = fName;
+                this.values = values;
+            }
+
+            public String getfName() {
+                return fName;
+            }
+
+            public Set<String> getValues() {
+                return values;
+            }
+        }
+
+        private AgreementCertificationPdf() {
+            throw new UnsupportedOperationException("do not call");
+        }
+    }
+
+    private enum Attachment2Form {
+        FDP_AFOSR("FDP_AFOSR", Attachment2SponsorFormType.AFOSR), FDP_AMRMC("FDP_AMRMC", Attachment2SponsorFormType.AMRMC), FDP_AMRAA("FDP_AMRAA", Attachment2SponsorFormType.AMRAA), FDP_ARO("FDP_ARO", Attachment2SponsorFormType.ARO), FDP_DOE("FDP_DOE", Attachment2SponsorFormType.DOE), FDP_EPA("FDP_EPA", Attachment2SponsorFormType.EPA), FDP_NASA("FDP_NASA", Attachment2SponsorFormType.NASA), FDP_NIH("FDP_NIH", Attachment2SponsorFormType.NIH), FDP_NSF("FDP_NSF", Attachment2SponsorFormType.NSF), FDP_ONR("FDP_ONR", Attachment2SponsorFormType.ONR), FDP_USDA("FDP_USDA", Attachment2SponsorFormType.USADA);
+
+        private final String id;
+        private final Attachment2SponsorFormType sponsorFormType;
+
+        Attachment2Form(String id, Attachment2SponsorFormType sponsorFormType) {
+            this.id = id;
+            this.sponsorFormType = sponsorFormType;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public Attachment2SponsorFormType getSponsorFormType() {
+            return sponsorFormType;
+        }
+    }
+
+    private enum Attachment2SponsorFormType {
         AFOSR, AMRMC, AMRAA, ARO, DOE, EPA, NASA, NIH, NSF, ONR, USADA
     }
 
-    static final class Pdf {
+    static final class Attachment2Pdf {
 
         enum Field {
 
@@ -532,6 +778,7 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
             FCOI_OTHER_SPONSOR_AGENCY("FCOIOtherSponsor", Collections.emptySet()),
             SPONSOR_AGENCY("SponsorAgency", Collections.emptySet()),
             FEDERAL_AWARD_CONDITIONS("FederalAwardConditions", Collections.emptySet()),
+            T_AND_CFCOI("T&CFCOI", Collections.emptySet()),
             GRANTS_POLICY_STATEMENT("GrantsPolicyStatement", Collections.emptySet()),
             INTERIM_RES_TERMS_COND("IntRTCs", Collections.emptySet()),
             REQUIREMENTS("RTCs", Collections.emptySet()),
@@ -576,7 +823,7 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         private static final String TPI_OTHER_VALUE = "Other, Pass-through Entity specify alternative from NIH Agreement";
         private static final String TPI_OFF_VALUE = "Off";
 
-        private Pdf() {
+        private Attachment2Pdf() {
             throw new UnsupportedOperationException("do not call");
         }
     }

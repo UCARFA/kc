@@ -50,6 +50,7 @@
         <property name="sqlMigrationPath" value="${kc.flyway.sql.migration.path}" />
         <property name="javaMigrationPath" value="${kc.flyway.java.migration.path}" />
         <property name="initVersion" value="${kc.flyway.baseline.version}" />
+        <property name="targetVersion" value="${kc.flyway.target.version}" />
     </bean>
 
 </beans>

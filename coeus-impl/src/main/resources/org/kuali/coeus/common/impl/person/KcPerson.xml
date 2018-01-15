@@ -99,6 +99,7 @@
         <ref bean="KcPerson-mobilePhoneNumber" />
         <ref bean="KcPerson-eraCommonsUserName" />
         <ref bean="KcPerson-extendedAttributes.eraCommonUserName" />
+        <ref bean="KcPerson-nsfId" />
         <ref bean="KcPerson-active" />
       <!-- these aren't searchable because they don't exist in the person search inside rice 
         <bean parent="FieldDefinition" p:attributeName="extendedAttributes.directoryTitle" />
@@ -767,6 +768,9 @@
     <property name="description" value="Era Commons User Name" />
   </bean>
 
+  <bean id="KcPerson-nsfId" parent="KcPerson-nsfId-parentBean"/>
+  <bean id="KcPerson-nsfId-parentBean" abstract="true" parent="KcPersonExtendedAttributes-nsfId"/>
+
   <bean id="KcPerson-active" parent="KcPerson-active-parentBean"/>
   <bean id="KcPerson-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="active" />
@@ -849,6 +853,7 @@
               <bean parent="FieldDefinition" p:attributeName="pagerNumber"/>
               <bean parent="FieldDefinition" p:attributeName="mobilePhoneNumber"/>
               <bean parent="FieldDefinition" p:attributeName="extendedAttributes.eraCommonUserName"/>
+              <bean parent="FieldDefinition" p:attributeName="nsfId"/>
               <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
@@ -928,6 +933,7 @@
               <bean p:propertyName="pagerNumber" parent="Uif-DataField"/>
               <bean p:propertyName="mobilePhoneNumber" parent="Uif-DataField"/>
               <bean p:propertyName="extendedAttributes.eraCommonUserName" parent="Uif-DataField"/>
+              <bean p:propertyName="nsfId" parent="Uif-DataField"/>
               <bean p:propertyName="active" parent="Uif-DataField"/>
             </list>
           </property>

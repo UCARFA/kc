@@ -23,10 +23,12 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.notification.impl.bo.NotificationType;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.notification.AwardNotificationContext;
 import org.kuali.kra.award.notification.AwardReportTrackingNotificationRenderer;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
 import org.kuali.rice.ken.api.notification.NotificationRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -41,6 +43,7 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
     private BusinessObjectService businessObjectService;
     private AwardService awardService;
     private KcNotificationService notificationService;
+    private ReportTrackingDao reportTrackingDao;
     
     private List<ReportTrackingNotification> notifications;
     
@@ -86,8 +89,7 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
                     Map<NotificationRecipient.Builder, List<ReportTracking>> recipients = 
                         new TreeMap<>(Comparator.comparing(NotificationRecipient.Builder::getRecipientId));
                     for (ReportTrackingNotificationTask task : notification.getTasks()) {
-                        List<ReportTracking> reports =
-                            (List<ReportTracking>) businessObjectService.findMatching(ReportTracking.class, task.getReportTrackingValueMap());
+                        List<ReportTracking> reports = getReportTrackingDao().getDetailResults(task.getReportTrackingValueMap(), Collections.emptyList());
                         recordsFound += reports.size();
                         for (ReportTracking report : reports) {
                             //if the report's due date is between the checked for date and the scoped date, and a notification
@@ -96,7 +98,12 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
                             if (report.getDueDate() != null && doDatesMatch(report.getDueDate(), checkFor, until)
                                     && !hasSentNotification(report, notification)) {
                                 recordsMatched++;
-                                Award curAward = awardService.getActiveOrNewestAward(report.getAwardNumber());
+                                Award curAward;
+                                if (report.getAwardId() != null) {
+                                    curAward = awardService.getAward(report.getAwardId());
+                                } else {
+                                    curAward = awardService.getActiveOrNewestAward(report.getAwardNumber());
+                                }
                                 report.setAward(curAward);
                                 List<ReportTracking> curReports = matchedReports.get(curAward);
                                 if (curReports == null) {
@@ -170,12 +177,10 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
      * @return
      */
     protected boolean hasSentNotification(ReportTracking report, ReportTrackingNotification notification) {
-
-        Map<String, Object> values = new HashMap<String, Object>();
-        if (report.getAwardReportTermId() != null) {
-            values.put("awardReportTermId", report.getAwardReportTermId());
-        }
-        values.put("awardNumber", report.getAwardNumber());
+        Map<String, Object> values = new HashMap<>();
+        values.put(AwardConstants.AWARD_NUMBER, report.getAwardNumber());
+        values.put(ReportTrackingConstants.REPORT_CLASS_CODE, report.getReportClassCode());
+        values.put(ReportTrackingConstants.REPORT_CODE, report.getReportCode());
         values.put("dueDate", report.getDueDate());
         values.put("actionCode", notification.getActionCode());
         List<SentReportNotification> notifications = (List<SentReportNotification>) getBusinessObjectService().findMatching(SentReportNotification.class, values);
@@ -221,4 +226,11 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         this.awardService = awardService;
     }
 
+    public ReportTrackingDao getReportTrackingDao() {
+        return reportTrackingDao;
+    }
+
+    public void setReportTrackingDao(ReportTrackingDao reportTrackingDao) {
+        this.reportTrackingDao = reportTrackingDao;
+    }
 }

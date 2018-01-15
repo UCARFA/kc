@@ -139,6 +139,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private static final String FDP_USDA_AGENCY_REQUIREMENTS = "FDP_USDA_Agency_Requirements";
     private static final String FDP_USDA_FCOI_GUIDANCE = "FDP_USDA_FCOI_Guidance";
 
+    private static final String FDP_SUBAWARD_BILATERAL_AGREEMENTS = "FDP_Subaward_Bilateral_Agreements";
+
     private BusinessObjectService businessObjectService;
     private CountryService countryService;
     private StateService stateService;
@@ -383,6 +385,11 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         otherConfigInfo.setFdpUsdaFCoiGuidance(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
                 ParameterConstants.DOCUMENT_COMPONENT,
                 FDP_USDA_FCOI_GUIDANCE));
+
+        otherConfigInfo.setFdpSubawardBilateralAgreements(getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SUBAWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                FDP_SUBAWARD_BILATERAL_AGREEMENTS));
+
         otherConfigInfoList.add(otherConfigInfo);
         subContractData.setOtherConfigInfoArray(otherConfigInfoList.toArray(new OtherConfigInfo[0]));
     }
@@ -413,7 +420,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                     subContractTemplateInfo.setNoCostExtensionContactDescription(contactType.getDescription());
                 }
             }
-            subContractTemplateInfo.setSowOrSubProposalBudget(subawardTemplate.getSowOrSubProposalBudget());
             subContractTemplateInfo.setExemptFromRprtgExecComp(subawardTemplate.getExemptFromRprtgExecComp());
             subContractTemplateInfo.setSubRegisteredInCcr(subawardTemplate.getSubRegisteredInCcr());
 
@@ -422,9 +428,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             }
             if(subawardTemplate.getPerfSiteSameAsSubPiAddr() != null){
                 subContractTemplateInfo.setPerfSiteSameAsSubPiAddr(subawardTemplate.getPerfSiteSameAsSubPiAddr());
-            }
-            if(subawardTemplate.getSubProposalDate() != null) {
-                subContractTemplateInfo.setSubProposalDate(getDateTimeService().getCalendar(subawardTemplate.getSubProposalDate()));
             }
 
             if(subawardTemplate.getParentDunsNumber() != null) {

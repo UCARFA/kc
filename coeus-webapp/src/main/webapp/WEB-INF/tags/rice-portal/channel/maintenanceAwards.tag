@@ -49,6 +49,7 @@
   	<li><portal:portalLink displayTitle="true" title="Sponsor Template" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.award.home.AwardTemplate&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   	<li><portal:portalLink displayTitle="true" title="Sponsor Terms" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.coeus.common.framework.sponsor.term.SponsorTerm&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   	<li><portal:portalLink displayTitle="true" title="Award Transaction Type" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.timeandmoney.transactions.AwardTransactionType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
+  	<li><portal:portalLink displayTitle="true" title="Award Report Tracking Notifications" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&viewId=SentReportNotification-LookupView&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   </ul>
 </div>
 <channel:portalChannelBottom />
