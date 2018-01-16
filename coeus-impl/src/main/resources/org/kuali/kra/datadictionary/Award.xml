@@ -134,19 +134,19 @@
 				    </property>
 		        </bean>
                 <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="leadUnit" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="leadUnit.unitName" p:targetName="unitName" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
                     <property name="objectAttributeName" value="fundingProposals" />
                     <property name="primitiveAttributes">
                         <list>
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="awardNumber"
                                   p:targetName="award.awardNumber" />
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="leadUnit" />
-                    <property name="primitiveAttributes">
-                        <list>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="leadUnit.unitName" p:targetName="unitName" />
                         </list>
                     </property>
                 </bean>

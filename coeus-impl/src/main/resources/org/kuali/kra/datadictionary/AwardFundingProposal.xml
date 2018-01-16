@@ -283,13 +283,13 @@
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition" p:attributeName="award.sponsorAwardNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="proposal.proposalNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="award.unitName"/>
                 <bean parent="FieldDefinition" p:attributeName="award.piName"/>
                 <bean parent="FieldDefinition" p:attributeName="award.title"/>
                 <bean parent="FieldDefinition" p:attributeName="award.sponsorName"/>
                 <bean parent="FieldDefinition" p:attributeName="award.accountNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="award.sponsorAwardNumber"/>
                 <bean parent="FieldDefinition" p:attributeName="award.awardEffectiveDate"/>
                 <bean parent="FieldDefinition" p:attributeName="award.projectEndDate"/>
                 <bean parent="FieldDefinition" p:attributeName="award.awardNumber"/>
@@ -307,13 +307,13 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="award.sponsorAwardNumber" parent="Uif-DataField"/>
           <bean p:propertyName="proposal.proposalNumber" parent="Uif-DataField"/>
           <bean p:propertyName="award.unitName" parent="Uif-DataField"/>
           <bean p:propertyName="award.piName" parent="Uif-DataField"/>
           <bean p:propertyName="award.title" parent="Uif-DataField"/>
           <bean p:propertyName="award.sponsorName" parent="Uif-DataField"/>
           <bean p:propertyName="award.accountNumber" parent="Uif-DataField"/>
+          <bean p:propertyName="award.sponsorAwardNumber" parent="Uif-DataField"/>
           <bean p:propertyName="award.awardEffectiveDate" parent="Uif-DataField"/>
           <bean p:propertyName="award.projectEndDate" parent="Uif-DataField"/>
           <bean p:propertyName="award.awardNumber" parent="Uif-DataField"/>
