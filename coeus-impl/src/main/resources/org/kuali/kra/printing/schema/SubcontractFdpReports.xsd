@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
    -
-   - Copyright 2005-2016 Kuali, Inc.
-   -
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   -
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   -
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by abc (abc) -->
 
@@ -262,8 +253,6 @@
                         <xs:sequence>
                             <xs:element name="SubcontractCode" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="SequenceNumber" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SowOrSubProposalBudget" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SubProposalDate" type="xs:date" nillable="true" minOccurs="0"/>
                             <xs:element name="InvoiceOrPaymentContact" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="InvoiceOrPaymentContactDescription" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FinalStmtOfCostsContact" type="xs:string" nillable="true" minOccurs="0"/>
@@ -308,6 +297,10 @@
                             <xs:element name="HumanDataExchangeTermsCd" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="MpiAward" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="MpiLeadershipPlan" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="AdditionalTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="TreatmentOfIncome" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="DataSharingAttachment" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FinalStatementDueCd" type="xs:string" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
@@ -334,6 +327,44 @@
                             <xs:element name="FdpOnrInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FdpOnrAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FdpOnrFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpAroPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAroGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAroInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAroAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAroFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpAfosrPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAfosrGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAfosrInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAfosrAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAfosrFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpEpaPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpEpaGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpEpaInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpEpaAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpEpaFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpAmrmcPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmrmcGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmrmcInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmrmcAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmrmcFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpAmraaPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmraaGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmraaInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmraaAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpAmraaFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpUsdaPolicy" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpUsdaGrantsPolicyStatement" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpUsdaInterimResearchTerms" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpUsdaAgencyRequirements" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="FdpUsdaFCoiGuidance" type="xs:string" nillable="true" minOccurs="0"/>
+
+                            <xs:element name="FdpSubawardBilateralAgreements" type="xs:boolean" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

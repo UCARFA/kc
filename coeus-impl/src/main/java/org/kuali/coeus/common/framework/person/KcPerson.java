@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.common.framework.person;
 
@@ -26,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
+import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
@@ -56,6 +46,9 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Represents a person in KC.
@@ -881,7 +874,11 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
         final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getCountryCode() != null ? this.convert2DigitCountryCodeTo3Digit(address.getCountryCode()) : "";
     }
-    
+
+    public String getNsfId() {
+        return this.extendedAttributes.getNsfId();
+    }
+
     /**
      * Gets the value of faxNumber.
      *
@@ -921,7 +918,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     public String getEraCommonsUserName() {
         return this.getExternalId("ERAC");
     }
-    
+
     /**
      * Gets the active flag.
      * @return the active flag
@@ -944,7 +941,40 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     public Unit getUnit() {
         final String org = this.getOrganizationIdentifier();
         
-        return org != null ? (Unit) this.getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", org)) : null; 
+        return org != null ? this.getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", org)) : null;
+    }
+
+    /**
+     * Gets all units from a person's associated {@link org.kuali.rice.kim.api.identity.employment.EntityEmployment}
+     * and {@link PersonAppointment} entries
+     *
+     * @return all units associated with this person
+     */
+    public Collection<Unit> getAllUnits() {
+        return getAllUnits(false, null);
+    }
+
+    /**
+     * Gets all units from a person's associated {@link org.kuali.rice.kim.api.identity.employment.EntityEmployment}
+     * and {@link PersonAppointment} entries, optionally filtering them by their respective codes
+     *
+     * @param filterUnits whether or not to filter the units associated with this person by code
+     * @param includeCodes the appointment and affilliation type codes to include in the returned units
+     * @return all units associated with this person, optionally filtered by affiliation and appointment type
+     */
+    public Collection<Unit> getAllUnits(boolean filterUnits, Collection<String> includeCodes) {
+        List<String> unitNumbers = Stream.concat(
+                entity.getEmploymentInformation().stream()
+                    .filter(EntityEmploymentContract::isActive)
+                    .filter(empInfo -> !filterUnits || empInfo.isPrimary() || includeCodes.contains(empInfo.getEntityAffiliation().getAffiliationType().getCode()))
+                    .map(EntityEmploymentContract::getPrimaryDepartmentCode),
+                extendedAttributes.getPersonAppointments().stream()
+                    .filter(app -> org.kuali.coeus.sys.framework.util.DateUtils.isCurrentDateInRange(app.getStartDate(), app.getEndDate()))
+                    .filter(app -> !filterUnits || includeCodes.contains(app.getAppointmentType().getAppointmentTypeCode()))
+                    .map(PersonAppointment::getUnitNumber))
+                .collect(Collectors.toList());
+
+        return this.getBusinessObjectService().findMatching(Unit.class, Collections.singletonMap("unitNumber", unitNumbers));
     }
 
     @Override

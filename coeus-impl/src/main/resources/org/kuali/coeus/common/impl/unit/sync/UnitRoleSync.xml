@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="UnitRoleSync" parent="UnitRoleSync-parentBean"/>
+    <bean id="UnitRoleSync-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.sync.UnitRoleSync"/>
+        <property name="objectLabel" value="Unit Role Sync"/>
+        <property name="inquiryDefinition">
+            <ref bean="UnitRoleSync-inquiryDefinition"/>
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="UnitRoleSync-lookupDefinition"/>
+        </property>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+                <ref bean="UnitRoleSync-id"/>
+                <ref bean="UnitRoleSync-syncBehaviorCode"/>
+                <ref bean="UnitRoleSync-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="UnitRoleSync-id" parent="UnitRoleSync-id-parentBean"/>
+    <bean id="UnitRoleSync-id-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="id"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Id"/>
+        <property name="shortLabel" value="d"/>
+        <property name="maxLength" value="12"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"
+                  p:size="12"/>
+        </property>
+        <property name="summary" value="Id"/>
+        <property name="description" value="Id"/>
+    </bean>
+
+    <bean id="UnitRoleSync-syncBehaviorCode" parent="UnitRoleSync-syncBehaviorCode-parentBean"/>
+    <bean id="UnitRoleSync-syncBehaviorCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="syncBehaviorCode"/>
+        <property name="required" value="true"/>
+        <property name="maxLength" value="15"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.framework.unit.sync.SyncBehaviorValuesFinder"
+                  p:includeKeyInLabel="false"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.common.framework.unit.sync.SyncBehaviorValuesFinder"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="label" value="Sync Behavior Code"/>
+        <property name="shortLabel" value="Sync Behavior Code"/>
+        <property name="summary" value="Sync Behavior Code"/>
+        <property name="description" value="Sync Behavior Code"/>
+    </bean>
+
+    <bean id="UnitRoleSync-active" parent="UnitRoleSync-active-parentBean"/>
+    <bean id="UnitRoleSync-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="active"/>
+        <property name="required" value="false"/>
+        <property name="label" value="Active"/>
+        <property name="shortLabel" value="Active"/>
+        <property name="summary" value="Active"/>
+        <property name="description" value="Active"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="UnitRoleSync-inquiryDefinition" parent="UnitRoleSync-inquiryDefinition-parentBean"/>
+    <bean id="UnitRoleSync-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Unit Role Sync"/>
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Unit Role Sync"/>
+                    <property name="numberOfColumns" value="1"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="syncBehaviorCode"/>
+                            <bean parent="FieldDefinition" p:attributeName="active"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Unit Role Sync Source Units"/>
+                    <property name="numberOfColumns" value="1"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="sourceUnitInfos"/>
+                                <property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.sync.SourceUnitInfo"/>
+                                <property name="numberOfColumns" value="1"/>
+                                <property name="inquiryFields">
+                                    <list>
+                                        <bean p:attributeName="id" parent="FieldDefinition" p:forceInquiry="true"/>
+                                        <bean p:attributeName="sourceUnitCode" parent="FieldDefinition"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Unit Role Sync Target Roles"/>
+                    <property name="numberOfColumns" value="1"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="targetRoleInfos"/>
+                                <property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.sync.TargetRoleInfo"/>
+                                <property name="numberOfColumns" value="1"/>
+                                <property name="inquiryFields">
+                                    <list>
+                                        <bean p:attributeName="id" parent="FieldDefinition" p:forceInquiry="true"/>
+                                        <bean p:attributeName="roleId" parent="FieldDefinition" p:forceInquiry="true"/>
+                                        <bean p:attributeName="descends" parent="FieldDefinition"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="UnitRoleSync-lookupDefinition" parent="UnitRoleSync-lookupDefinition-parentBean"/>
+    <bean id="UnitRoleSync-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Unit Role Sync Lookup"/>
+        <property name="defaultSort">
+            <bean parent="SortDefinition"/>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id"/>
+                <bean parent="FieldDefinition" p:attributeName="syncBehaviorCode"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="syncBehaviorCode" p:alternateDisplayAttributeName="syncBehavior.description"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

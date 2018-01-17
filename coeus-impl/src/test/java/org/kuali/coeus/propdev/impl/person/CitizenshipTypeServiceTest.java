@@ -1,29 +1,18 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.person;
-
-import static org.junit.Assert.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
+
+import static org.junit.Assert.assertEquals;
 
 public class CitizenshipTypeServiceTest {
 
@@ -43,6 +32,31 @@ public class CitizenshipTypeServiceTest {
 	public void testGetPersonCitizenshipNullPerson() {
 		CitizenshipTypeServiceImpl service = new CitizenshipTypeServiceImpl();
 		service.getPersonCitizenshipType(null);
+	}
+
+	@Test
+	public void testGetPersonCitizenshipRolodexPerson() {
+		CitizenshipTypeServiceImpl service = new CitizenshipTypeServiceImpl() {
+			@Override
+			protected Boolean isCitizenshipTypeSourceInternal() {
+				return true;
+			}
+			@Override
+			protected Boolean isAllowCitizenshipTypeOverride() {
+				return true;
+			}
+			@Override
+			protected org.kuali.coeus.common.api.person.attr.CitizenshipType getCitizenshipTypeFromCode(String citizenShipCode) {
+				if (StringUtils.equals(citizenShipCode, "1")) {
+					return org.kuali.coeus.common.api.person.attr.CitizenshipType.PERMANENT_RESIDENT_OF_US;
+				} else {
+					return null;
+				}
+			}
+		};
+		ProposalPerson proposalPerson = new ProposalPerson();
+		proposalPerson.setRolodexId(5);
+		assertEquals(org.kuali.coeus.common.api.person.attr.CitizenshipType.NOT_AVAILABLE, service.getPersonCitizenshipType(proposalPerson));
 	}
 	
 	@Test

@@ -1,25 +1,13 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.web.struts.action;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,16 +15,21 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.coeus.coi.framework.*;
+import org.kuali.coeus.coi.framework.Project;
+import org.kuali.coeus.coi.framework.ProjectPublisher;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentActionBase;
+import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.controller.KcHoldingPageConstants;
-import org.kuali.coeus.sys.framework.validation.AuditHelper;
-import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
 import org.kuali.kra.award.*;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
@@ -60,12 +53,9 @@ import org.kuali.kra.award.service.AwardDirectFandADistributionService;
 import org.kuali.kra.award.service.AwardReportsService;
 import org.kuali.kra.award.service.AwardSponsorTermService;
 import org.kuali.kra.award.version.service.AwardVersionService;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentActionBase;
 import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
-import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -83,18 +73,20 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
-import org.kuali.rice.krad.service.*;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -224,8 +216,8 @@ public class AwardAction extends BudgetParentActionBase {
             Award currentAward = null;
             for(Award award : awardDocument.getAwardList()) {
                 currentAwardIndex++;
-                if(ObjectUtils.equals(award.getAwardId(), awardId)) {
-                	currentAward = award;
+                if (Objects.equals(award.getAwardId(), awardId)) {
+                    currentAward = award;
                     break;
                 }
             }
@@ -318,6 +310,7 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.setAuditActivated(true);
 
         ValidationState status = getAuditHelper().isValidSubmission(awardForm, true);
+        awardForm.setUnitRulesMessages(getUnitRulesMessages(awardForm.getAwardDocument()));
 
         if (awardForm.getUnitRulesErrors().size() > 0) {
             status = ValidationState.ERROR;
@@ -609,7 +602,7 @@ public class AwardAction extends BudgetParentActionBase {
             getBusinessObjectService().delete(award.getAwardDirectFandADistributions());
             
             Boolean autoGenerate = getParameterService().getParameterValueAsBoolean(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, 
-                                                                                    KeyConstants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS); 
+                                                                                    Constants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS);
             if (autoGenerate) {
                 AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
                 award.setAwardDirectFandADistributions(awardDirectFandADistributionService.

@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
  *
- * Copyright 2005-2016 Kuali, Inc.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.common.impl.person.citi;
 
@@ -25,30 +14,26 @@ import org.kuali.coeus.common.framework.person.citi.CitiDataProcessingService;
 import org.kuali.coeus.common.framework.person.citi.CitiJob;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.krad.UserSession;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 @Component("citiJob")
-public class CitiJobImpl implements CitiJob {
+public class CitiJobImpl extends QuartzJobBean implements CitiJob  {
 
     private static final Log LOG = LogFactory.getLog(CitiJobImpl.class);
     private static final String KC_SYSTEM_PRINCIPAL_NM = "kc";
 
-    @Autowired
-    @Qualifier("citiDataProcessingService")
     private CitiDataProcessingService citiDataProcessingService;
-
-    @Autowired
-    @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
-
-    @Autowired
-    @Qualifier("citiDataLoadingService")
     private CitiDataLoadingService citiDataLoadingService;
 
     @Override
-    public void execute() {
+    public void executeInternal(JobExecutionContext context) throws JobExecutionException {
         LOG.info("Starting CITI job");
 
         getGlobalVariableService().doInNewGlobalVariables(new UserSession(KC_SYSTEM_PRINCIPAL_NM), () -> {
@@ -83,4 +68,5 @@ public class CitiJobImpl implements CitiJob {
     public void setCitiDataLoadingService(CitiDataLoadingService citiDataLoadingService) {
         this.citiDataLoadingService = citiDataLoadingService;
     }
+
 }

@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
@@ -26,6 +15,7 @@ import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
+import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
@@ -87,106 +77,7 @@ public class RRSF424V1_2GeneratorTest extends
 		proposalType.setCode("1");
 		developmentProposal.setProposalType(proposalType);
 
-		final ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(
-				developmentProposal);
-
-		AnswerHeader answerHeader = new AnswerHeader();
-		answerHeader.setModuleItemCode(moduleQuestionnaireBean
-				.getModuleItemCode());
-		answerHeader.setModuleItemKey(moduleQuestionnaireBean
-				.getModuleItemKey());
-		answerHeader.setModuleSubItemCode(moduleQuestionnaireBean
-				.getModuleSubItemCode());
-		answerHeader.setModuleSubItemKey(moduleQuestionnaireBean
-				.getModuleSubItemKey());
-
-		Questionnaire questionnaire;
-		questionnaire = businessObjectService.findBySinglePrimaryKey(
-				Questionnaire.class, 852);
-
-		answerHeader.setQuestionnaireId(questionnaire.getId());
-		answerHeader.setQuestionnaire(questionnaire);
-
-		QuestionnaireQuestion questionnaireQuestion;
-		questionnaireQuestion = businessObjectService.findBySinglePrimaryKey(
-				QuestionnaireQuestion.class, 905);
-
-		Answer answer1 = new Answer();
-		answer1.setQuestionId(764L);
-		answer1.setAnswer("N");
-		answer1.setQuestionNumber(1);
-		answer1.setAnswerNumber(1);
-		answer1.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
-		answer1.setQuestionnaireQuestion(questionnaireQuestion);
-
-		Question question = new Question();
-		question.setId(131L);
-		question.setQuestionSeqId(131);
-		question.setSequenceNumber(1);
-		question.setSequenceStatus("C");
-		question.setQuestion("If No: Is the program not selected for review or not covered by  E.O. 12372? Select a response.");
-		question.setStatus("A");
-		question.setCategoryTypeCode(2L);
-		question.setQuestionTypeId(6L);
-		question.setLookupClass("org.kuali.coeus.common.framework.custom.arg.ArgValueLookup");
-		question.setLookupReturn("STATE_EO_12372");
-		question.setMaxAnswers(1);
-		question.setAnswerMaxLength(25);
-		businessObjectService.save(question);
-
-		Answer answer2 = new Answer();
-		answer2.setQuestionId(131L);
-		answer2.setAnswer("Not Selected");
-		answer2.setQuestionNumber(1);
-		answer2.setAnswerNumber(1);
-		answer2.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
-		answer2.setQuestionnaireQuestion(questionnaireQuestion);
-
-		Answer answer3 = new Answer();
-		answer3.setQuestionId(129L);
-		answer3.setAnswer("N");
-		answer3.setQuestionNumber(1);
-		answer3.setAnswerNumber(1);
-		answer3.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
-		answer3.setQuestionnaireQuestion(questionnaireQuestion);
-		
-		Answer answer4 = new Answer();
-		answer4.setQuestionId(766L);
-		answer4.setAnswer("11-10-2014");
-		answer4.setQuestionNumber(1);
-		answer4.setAnswerNumber(1);
-		answer4.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
-		answer4.setQuestionnaireQuestion(questionnaireQuestion);
-		
-		Answer answer5 = new Answer();
-		answer5.setQuestionId(765L);
-		answer5.setAnswer("N");
-		answer5.setQuestionNumber(1);
-		answer5.setAnswerNumber(1);
-		answer5.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
-		answer5.setQuestionnaireQuestion(questionnaireQuestion);
-		
-		Answer answer6 = new Answer();
-		answer6.setQuestionId(767L);
-		answer6.setAnswer("Not Covered");
-		answer6.setQuestionNumber(1);
-		answer6.setAnswerNumber(1);
-		answer6.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
-		answer6.setQuestionnaireQuestion(questionnaireQuestion);
-
-		List<Answer> answers = new ArrayList<>();
-		answers.add(answer1);
-		answers.add(answer2);
-		answers.add(answer3);
-		answers.add(answer4);
-		answers.add(answer5);
-		answers.add(answer6);
-
-		answerHeader.setAnswers(answers);
-		businessObjectService.save(answerHeader);
-		for (Answer a : answers) {
-			a.refreshReferenceObject("question");
-		}
+		saveAnswers(document);
 		Organization organization;
 		developmentProposal
 				.setProgramAnnouncementTitle("programAnnouncementTitle");
@@ -242,5 +133,29 @@ public class RRSF424V1_2GeneratorTest extends
 	@Override
 	protected String getFormGeneratorName() {
 		return RRSF424V1_2Generator.class.getSimpleName();
+	}
+
+	protected void saveAnswers(ProposalDevelopmentDocument document) {
+		QuestionnaireAnswerService service2 = KcServiceLocator.getService(QuestionnaireAnswerService.class);
+
+		List<AnswerHeader> rawAnswerHeaders = service2.getQuestionnaireAnswer(new ProposalDevelopmentModuleQuestionnaireBean(document.getDevelopmentProposal()));
+
+		for (AnswerHeader answerHeader : rawAnswerHeaders) {
+			List<Answer> answerDetails = answerHeader.getAnswers();
+			for (Answer answer : answerDetails) {
+				if (128 == answer.getQuestion().getQuestionSeqId()) {
+					answer.setAnswer("Y");
+				} else if (111 == answer.getQuestion().getQuestionSeqId()) {
+					answer.setAnswer("Not Selected");
+				} else if (129 == answer.getQuestion().getQuestionSeqId()) {
+					answer.setAnswer("N");
+				} else if (130 == answer.getQuestion().getQuestionSeqId()) {
+					answer.setAnswer("11-10-2014");
+				} else if (131 == answer.getQuestion().getQuestionSeqId()) {
+					answer.setAnswer("Not Covered");
+				}
+			}
+			KcServiceLocator.getService(BusinessObjectService.class).save(answerHeader);
+		}
 	}
 }

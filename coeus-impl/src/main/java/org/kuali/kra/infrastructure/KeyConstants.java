@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.infrastructure;
 
@@ -68,7 +57,7 @@ public final class KeyConstants {
     public static final String ERROR_INTERNAL_ATTACHMENT_NOT_COMPLETE = "error.document.internalattachment.statuscode.not.complete";
     public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_FOUND = "error.document.narrative.not.present";
     public static final String ERROR_PROPOSAL_MENTORINGPLAN_ATTACHMENT_NOT_FOUND = "error.document.mentoringplan.narrative.not.present";
-
+    public static final String CANNOT_PARSE_PDF = "error.pdf.cannot.parse";
     // Proposal Types System Parameter Names
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW = "proposaldevelopment.proposaltype.new";
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL = "proposaldevelopment.proposaltype.renewal";
@@ -148,6 +137,8 @@ public final class KeyConstants {
     public static final String INFO_PERSONNEL_INVALID_ROLE = "info.personnel.invalid.role";
     public static final String APPROVAL_CYCLE_COMPLETE = "info.proposal.approval.final";
 
+    public static final String ERROR_INVESTIGATOR_HOME_UNIT_REQUIRED = "error.investigator.home.unit.required";
+
     // proposal ynq errors
     public static final String ERROR_REQUIRED_FOR_EXPLANATION = "error.required.for.explanation";
     public static final String ERROR_REQUIRED_FOR_REVIEW_DATE = "error.required.for.reviewDate";
@@ -176,6 +167,7 @@ public final class KeyConstants {
     public static final String QUESTION_TOTALCOSTLIMIT_CHANGED = "document.question.totalCostLimit.changed";
     public static final String ERROR_BUDGET_REJECT_NO_REASON = "error.budget.reject.noReason";
     public static final String ERROR_COMPLETE_BUDGET_LOCK = "error.completeBudget.locked";
+    public static final String KC_ERROR_PERSONNEL_LOCKED = "kc.warning.transactional.locked.personnel";
     public static final String ERROR_BUDGET_DATES_NOT_MATCH_PROPOSAL_DATES = "error.budget.dates.not.match.proposal.dates";
     //Budget Version warnings
     public static final String WARNING_BUDGET_VERSION_MODULAR_INVALID_TDC = "warning.budgetVersion.Modular.InvalidTotalDirectCost";
@@ -534,11 +526,7 @@ public final class KeyConstants {
     public static final String CLOSE_OUT_REPORT_TYPE_PATENT = "closeoutReportTypePatent";
     public static final String CLOSE_OUT_REPORT_TYPE_PROPERTY = "closeoutReportTypeProperty";
     public static final String CLOSE_OUT_REPORT_TYPE_INVOICE = "closeoutReportTypeInvoice";
-    public static final String AWARD_ACTIVE_STATUS_CODES_PARM = "AWARD_ACTIVE_STATUS_CODES";
-    public static final String AWARD_COST_SHARING_PARM = "AWARD_COST_SHARING";
-    public static final String AWARD_FABRICATED_EQUPIMENT_PARM = "AWARD_FABRICATED_EQUIPMENT";
-    public static final String AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS = "AUTO_GENERATE_TIME_AND_MONEY_FUNDS_DIST_PERIODS";
-    
+
     //Award Validation Error Messages
     public static final String INDIRECT_COST_RATE_NOT_IN_PAIR = "indirectCostRate.not.in.pair";
     public static final String INVALID_REPORT_CODE_FOR_REPORT_CLASS = "error.invalid.type.for.reportClass";
@@ -570,6 +558,7 @@ public final class KeyConstants {
     public static final String DOCUMENT_NUMBER_NULL = "error.award.createAccount.nullDocumentNumber";
     public static final String DOCUMENT_SAVED_WITH_ERRORS = "error.award.createAccount.saved.with.errors";
     public static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
+    public static final String NO_PERMISSION_TO_SEND_NOTICE = "error.award.sendNotice.noPermission";
     public static final String VALIDATION_DID_NOT_OCCUR = "error.award.account.number.not.validated";
     public static final String AWARD_INFORMATION_POSTED = "info.award.information.posted";
     public static final String TM_INFORMATION_POSTED = "info.tm.information.posted";
@@ -1015,6 +1004,7 @@ public final class KeyConstants {
     public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER= "error.required.subaward.funding.source.award.number";
     public static final String ERROR_REQUIRED_SUBAWARD_CONTACT_PERSON_EXIST= "error.subAwardSponsorContact.person.exists";
     public static final String ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_CARRY_FORWARD_REQUESTS_SENT_TO= "error.required.subaward.templateinfo.carryForwardRequestsSentTo";
+    public static final String ERROR_SUBAWARD_EMAIL_DIFF_YES = "error.subaward.invoiceEmailDifferent.yes";
     public static final String ERROR_REQUIRED_SUBAWARD_TEMPLATE_INFO_MPI_LEADERSHIP_PLAN= "error.required.subaward.templateinfo.mpiLeadershipPlan";
     public static final String ERROR_REQUIRED_SUBAWARD_FUNDING_SOURCE_AWARD_NUMBER_DUPLICATE= "error.required.subaward.funding.source.award.number.duplicate";
     public static final String SUBAWARD_ERROR_END_DATE_GREATER_THAN_START = "subaward.error.end.date.greater.than.start";
@@ -1148,6 +1138,7 @@ public final class KeyConstants {
     public static final String S2S_USER_ATTACHED_FORM_NOT_VALID = "error.s2s.userattachedform.invalid";
     public static final String S2S_USER_ATTACHED_FORM_NOT_PDF = "error.s2s.userattachedform.not.pdf";
     public static final String S2S_USER_ATTACHED_FORM_NOT_FILLED = "error.s2s.userattachedform.not.filled";
+    public static final String S2S_USER_ATTACHED_FORM_NOT_ALLOWED = "error.s2s.userattachedform.not.allowed";
     public static final String ERROR_DELETION_BLOCKED = "error.deletion.blocked";
 
     public static final String AUDIT_WARNING_PROPOSAL_WITHNO_BUDGET = "warning.proposal.withno.budget";
@@ -1166,6 +1157,7 @@ public final class KeyConstants {
     public static final String QUESTION_DELETE_FNA = "document.question.deleteFandA.text";
 
     public static final String XML_REORDER_WARNING = "info.grantsgov.form.xml.reorder";
+    public static final String ERROR_MODULARBUDGET_NOT_SYNCED = "error.modularBudget.not.synced";
 
     /**
      * private utility class ctor.

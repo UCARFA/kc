@@ -1,34 +1,22 @@
 <%--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ You may use and modify this code under the terms of the Kuali, Inc.
+ Pre-Release License Agreement. You may not distribute it.
+ You should have received a copy of the Kuali, Inc. Pre-Release License
+ Agreement with this file. If not, please write to license@kuali.co.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="subAwardTemplateInfoAttributes" value="${DataDictionary.SubAwardTemplateInfo.attributes}" />
 <c:set var="attachments" value="${KualiForm.document.subAwardList[0].subAwardTemplateInfo}"/>
-<kul:tabTop tabTitle="Template" defaultOpen="true" tabErrorKey="document.subAwardList[0].subAwardTemplateInfo[0].sowOrSubProposalBudget*,
-                                                                document.subAwardList[0].subAwardTemplateInfo[0].subProposalDate*,
-                                                                document.subAwardList[0].subAwardTemplateInfo[0].perfSiteDiffFromOrgAddr*,
+<kul:tabTop tabTitle="Template" defaultOpen="true" tabErrorKey="document.subAwardList[0].subAwardTemplateInfo[0].perfSiteDiffFromOrgAddr*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].subRegisteredInCcr*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].parentCongressionalDistrict*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].parentDunsNumber*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].exemptFromRprtgExecComp*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].rAndD*,
-                                                                document.subAwardList[0].subAwardTemplateInfo[0].includesCostSharing*">
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].includesCostSharing*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].finalStatementDueCd*">
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Template</span>
@@ -47,19 +35,16 @@
             </tr>
 
             <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.subProposalDate}" /></div></th>
-                <td>
-                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].subProposalDate" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.subProposalDate}" datePicker="true" />
-                </td>
-            </tr>
-            <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.sowOrSubProposalBudget}" /></div></th>
-                <td>
-                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].sowOrSubProposalBudget" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.sowOrSubProposalBudget}" />
-                </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.rAndD}" /></div></th>
                 <td>
                     <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].rAndD" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.rAndD}"   />
+                </td>
+                <th>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.finalStatementDueCd}"/></div>
+                </th>
+                <td>
+                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].finalStatementDueCd" readOnly="${readOnly}"
+                                              attributeEntry="${subAwardTemplateInfoAttributes.finalStatementDueCd}"/>
                 </td>
             </tr>
             <tr>

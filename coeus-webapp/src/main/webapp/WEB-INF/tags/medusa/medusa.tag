@@ -1,29 +1,24 @@
 <%--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ You may use and modify this code under the terms of the Kuali, Inc.
+ Pre-Release License Agreement. You may not distribute it.
+ You should have received a copy of the Kuali, Inc. Pre-Release License
+ Agreement with this file. If not, please write to license@kuali.co.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="helpParameterNamespace" required="false" %>
 <%@ attribute name="helpParameterDetailType" required="false" %>
 <%@ attribute name="helpParameterName" required="false" %>
+
+<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+<c:choose>
+	<c:when test="${KualiForm.reactMedusaEnabled}">
+		<iframe style="width: 100%; height: 90vh" frameBorder="0" src="research-common/medusa?module=${KualiForm.medusaBean.moduleName}&moduleId=${KualiForm.medusaBean.moduleIdentifier}"></iframe>
+	</c:when>
+	<c:otherwise>
 	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
 	<link rel="stylesheet" href="css/medusa.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
 	<script type="text/javascript">
 	   var $jq = jQuery.noConflict();
@@ -96,3 +91,5 @@ ${kfunc:registerEditableProperty(KualiForm, "medusaBean.moduleIdentifier")}
 <input type="hidden" id = "medusaBean.moduleIdentifier" name="medusaBean.moduleIdentifier" value="${KualiForm.medusaBean.moduleIdentifier}">
 
 </div>
+</c:otherwise>
+</c:choose>

@@ -102,7 +102,20 @@ are for a production environment, there are some that are intended for a develop
 > **Example:** `http://localhost:3000/api/v1/users` \
 > **Default:** ${auth.base.url}/api/v1/users
 
-### filter.login.class
+### core.categories.url
+> Url for the Core categories api. Optional override to provide flexibility if the categories api is available in a non-standard location
+>
+> **Example:** `http://localhost:3000/api/v1/categories` \
+> **Default:** ${auth.base.url}/api/v1/categories
+
+### core.groups.url
+> Url for the Core groups api. Optional override to provide flexibility if the groups api is available in a non-standard location
+>
+> **Example:** `http://localhost:3000/api/v1/groups` \
+> **Default:** ${auth.base.url}/api/v1/groups
+
+
+### filter.login.class 
 > Class used by Kuali to process login requests. To use Core Auth as the login page use `org.kuali.coeus.sys.framework.auth.AuthServiceFilter`
 > as the login class.
 

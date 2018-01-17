@@ -1,20 +1,11 @@
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <descriptor-repository version="1.0">
     <class-descriptor class="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" table="EPS_PROPOSAL">
@@ -65,6 +56,8 @@
         <field-descriptor name="hierarchyLastSyncHashCode" column="HIERARCHY_HASH_CODE" jdbc-type="INTEGER"  />
         <field-descriptor name="hierarchyBudgetType" column="HIERARCHY_BUDGET_TYPE" jdbc-type="CHAR"  />
         <field-descriptor name="hierarchyOriginatingChildProposalNumber" column="HIERARCHY_ORIG_CHILD_PROP_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR"/>
         
         <reference-descriptor name="anticipatedAwardType" class-ref="org.kuali.kra.award.home.AwardType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="anticipatedAwardTypeCode"/>
@@ -197,6 +190,8 @@
         <field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="deadlineDate" column="DEADLINE_DATE" jdbc-type="DATE" />
         <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="createTimestamp" column="CREATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         
@@ -294,6 +289,17 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
 
+    <class-descriptor class="org.kuali.coeus.propdev.impl.person.ProposalPersonCertificationDetails" table="EPS_PROP_PERSON_CERT_DETAILS">
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="certifiedBy" column="CERTIFIED_BY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="certifiedTime" column="CERTIFIED_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+    </class-descriptor>
+
     <class-descriptor class="org.kuali.coeus.propdev.impl.person.ProposalPerson" table="EPS_PROP_PERSON">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
@@ -383,8 +389,11 @@
         </reference-descriptor>
         <reference-descriptor name="developmentProposal" class-ref="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" auto-retrieve="true" auto-update="none" auto-delete="none">
            <foreignkey field-ref="proposalNumber" />
-        </reference-descriptor>     
-                
+        </reference-descriptor>
+        <reference-descriptor name="certificationDetails" class-ref="org.kuali.coeus.propdev.impl.person.ProposalPersonCertificationDetails" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="proposalNumber"/>
+            <foreignkey field-ref="proposalPersonNumber"/>
+        </reference-descriptor>
         <collection-descriptor name="proposalPersonDegrees" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.person.ProposalPersonDegree"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="proposalNumber"/>
@@ -502,6 +511,7 @@
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
         <field-descriptor name="certificationRequired" column="CERTIFICATION_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="unitDetailsRequired" column="UNIT_DETAILS_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="autoPopulateUnitsCode" column="AUTO_POPULATE_UNITS" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

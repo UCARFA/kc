@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
  *
- * Copyright 2005-2016 Kuali, Inc.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.sys.framework.auth;
 
@@ -23,10 +12,10 @@ import java.time.Instant;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @SuppressWarnings("serial")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -45,19 +34,24 @@ public class AuthUser implements Serializable {
 	private String password;
 	private String impersonatedBy;
 	private String displayName;
+	private String groupId;
+	private boolean active = true;
 	
 	@JsonIgnore
 	private String authToken;
 	@JsonIgnore
 	private Instant lastValidated;
 	@JsonIgnore
-	private boolean active = true;
-	@JsonIgnore
 	private String actualUser;
 	
 	public AuthUser() { 
 		super();
 		lastValidated = Instant.now();
+	}
+	
+	public AuthUser(String id) {
+		super();
+		this.id = id;
 	}
 	
 	@JsonProperty
@@ -163,7 +157,8 @@ public class AuthUser implements Serializable {
 			.append(role, rhs.role)
 			.append(firstName, rhs.firstName)
 			.append(lastName, rhs.lastName)
-			.append(impersonatedBy, rhs.impersonatedBy)
+			.append(groupId, rhs.groupId)
+			.append(active,  rhs.active)
 			.isEquals();
 	}
 	
@@ -182,6 +177,7 @@ public class AuthUser implements Serializable {
 			.append(active)
 			.append(impersonatedBy)
 			.append(displayName)
+			.append(groupId)
 			.toString();
 	}
 
@@ -207,5 +203,13 @@ public class AuthUser implements Serializable {
 
 	public void setActualUser(String actualUser) {
 		this.actualUser = actualUser;
+	}
+
+	public String getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 }

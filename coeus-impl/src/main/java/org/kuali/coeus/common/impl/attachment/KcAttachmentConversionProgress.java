@@ -1,3 +1,10 @@
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
 package org.kuali.coeus.common.impl.attachment;
 
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
@@ -32,7 +39,7 @@ public class KcAttachmentConversionProgress extends RestController {
 
 	@Resource(name="tableBlobsToWatch")
 	private Map<String, String> tableBlobsToWatch;
-	
+
 	@Autowired
 	@Qualifier("dataSource")
 	private DataSource dataSource;
@@ -42,18 +49,18 @@ public class KcAttachmentConversionProgress extends RestController {
 		Map<String, Map<String, Long>> result = new HashMap<>();
 		try (Connection conn = dataSource.getConnection()) {
 			return tableBlobsToWatch.entrySet().stream()
-				.map(e -> entry(e.getKey(), getNullCount(e.getKey(), e.getValue(), conn)))
-				.collect(nullSafeEntriesToMap());
+					.map(e -> entry(e.getKey(), getNullCount(e.getKey(), e.getValue(), conn)))
+					.collect(nullSafeEntriesToMap());
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	protected Map<String, Long> getNullCount(String tableName, String blobColumn, Connection conn) {
 		Map<String, Long> result = new HashMap<>();
 		String query = "select count(*), count(" + blobColumn + ") from " + tableName;
 		try (PreparedStatement stmt = conn.prepareStatement(query);
-			ResultSet rs = stmt.executeQuery();) {
+			 ResultSet rs = stmt.executeQuery();) {
 			if (rs.next()) {
 				result.put(TOTAL, rs.getLong(1));
 				result.put(REMAINING, rs.getLong(2));
@@ -64,7 +71,7 @@ public class KcAttachmentConversionProgress extends RestController {
 		}
 		return result;
 	}
-	
+
 	public Map<String, String> getTableBlobsToWatch() {
 		return tableBlobsToWatch;
 	}

@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.common.framework.person;
 
@@ -47,6 +36,8 @@ public class PropAwardPersonRole extends KcPersistableBusinessObjectBase impleme
 
     public static final String KEY_PERSON = "KP";
 
+    public static final String UNIT_SOURCE_SEPARATOR = ",";
+
     private static final long serialVersionUID = -2184772940618843909L;
 
     @PortableSequenceGenerator(name = "SEQ_EPS_PROP_PERSON_ROLE")
@@ -74,6 +65,12 @@ public class PropAwardPersonRole extends KcPersistableBusinessObjectBase impleme
     @Column(name = "UNIT_DETAILS_REQUIRED")
     @Convert(converter = BooleanYNConverter.class)
     private Boolean unitDetailsRequired = Boolean.TRUE;
+
+    @Column(name = "AUTO_POPULATE_UNITS")
+    private String autoPopulateUnitsCode = UnitPopulationBehavior.PRIMARY.getCode();
+
+    @Column(name = "SELECTED_UNIT_SOURCES")
+    private String selectedUnitSources;
 
     @Override
     public final String getCode() {
@@ -114,6 +111,26 @@ public class PropAwardPersonRole extends KcPersistableBusinessObjectBase impleme
 
     public void setCertificationRequired(Boolean certificationRequired) {
         this.certificationRequired = certificationRequired;
+    }
+
+    public String getAutoPopulateUnitsCode() {
+        return autoPopulateUnitsCode;
+    }
+
+    public void setAutoPopulateUnitsCode(String autoPopulateUnitsCode) {
+        this.autoPopulateUnitsCode = autoPopulateUnitsCode;
+    }
+
+    public UnitPopulationBehavior getUnitPopulationBehavior() {
+        return UnitPopulationBehavior.fromCode(getAutoPopulateUnitsCode());
+    }
+
+    public String getSelectedUnitSources() {
+        return selectedUnitSources;
+    }
+
+    public void setSelectedUnitSources(String selectedUnitSources) {
+        this.selectedUnitSources = selectedUnitSources;
     }
 
     @Override

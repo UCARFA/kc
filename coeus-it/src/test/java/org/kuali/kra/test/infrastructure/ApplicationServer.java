@@ -1,36 +1,25 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.test.infrastructure;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.LifecycleState;
+import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.webresources.StandardRoot;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.naming.resources.VirtualDirContext;
+import org.apache.tomcat.util.scan.StandardJarScanner;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
-
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class ApplicationServer implements Lifecycle {
 
@@ -70,23 +59,24 @@ public class ApplicationServer implements Lifecycle {
 
         final String webappRoot = System.getProperty(BASEDIR) + File.separator + relativeWebappRoot;
         context = server.addWebapp(contextName, webappRoot);
-
-        final String extraPaths = relativeExtraResourceDirs.stream().map(root -> System.getProperty(BASEDIR) + File.separator + root).collect(Collectors.joining(","));
-        final VirtualDirContext resources = new VirtualDirContext();
-        resources.setExtraResourcePaths(extraPaths);
-        resources.setDocBase(webappRoot);
+        final StandardRoot resources = new StandardRoot(context);
+        relativeExtraResourceDirs.stream()
+                .map(root -> System.getProperty(BASEDIR) + File.separator + root)
+                .forEach(dir -> resources.createWebResourceSet(WebResourceRoot.ResourceSetType.POST, "/", dir, null, "/"));
         context.setResources(resources);
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                try {
-                    server.stop();
-                } catch (LifecycleException e) {
-                    throw new RuntimeException("Unable to stop tomcat");
-                }
+        StandardJarScanner jarScanner = new StandardJarScanner();
+        jarScanner.setScanManifest(false);
+        context.setJarScanner(jarScanner);
+        context.setAddWebinfClassesResources(true);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                server.stop();
+            } catch (LifecycleException e) {
+                throw new RuntimeException("Unable to stop tomcat");
             }
-        });
+        }));
 
         server.start();
 	}

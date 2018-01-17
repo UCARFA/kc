@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd" [
     <!ENTITY protocol_forwards SYSTEM "struts_protocol_forwards.xml">
@@ -716,8 +707,22 @@
         <action path="/authServicePush" name="KualiForm" type="org.kuali.coeus.sys.impl.auth.AuthServiceBulkPushAction">
             <forward name="basic" path="/WEB-INF/jsp/sys/AuthServicePush.jsp"/>
         </action>
+        
+        <action path="/addressBookToCorePush" name="KualiForm" type="org.kuali.coeus.common.impl.core.rolodex.RolodexToCorePushAction">
+            <forward name="basic" path="/WEB-INF/jsp/common/AddressBookToCorePush.jsp"/>
+        </action>
+        
+        
+        <action path="/groupServicePush" name="KualiForm" type="org.kuali.coeus.common.impl.core.groups.GroupsPushAction">
+            <forward name="basic" path="/WEB-INF/jsp/common/GroupServicePush.jsp"/>
+        </action>
+        
 
         <action path="/dataDictionaryFile" name="KualiForm" type="org.kuali.coeus.sys.framework.dd.DataDictionaryFileAction"  scope="request" parameter="methodToCall" attribute="KualiForm">
+        </action>
+
+        <action path="/unitRoleSync" name="KualiForm" type="org.kuali.coeus.common.framework.unit.sync.UnitRoleSyncAction">
+            <forward name="basic" path="/WEB-INF/jsp/common/UnitRoleSync.jsp"/>
         </action>
 
     </action-mappings>

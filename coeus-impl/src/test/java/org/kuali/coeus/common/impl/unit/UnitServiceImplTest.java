@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
  *
- * Copyright 2005-2016 Kuali, Inc.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.common.impl.unit;
 
@@ -25,13 +14,18 @@ import org.junit.Test;
 import org.kuali.coeus.common.framework.unit.Unit;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class UnitServiceImplTest {
 
+    public static final String UNITVERSITY_UNIT_NUMBER = "000001";
     private List<Unit> allUnits;
     private Unit one;
     private Unit two;
@@ -77,7 +71,7 @@ public class UnitServiceImplTest {
     @Before
     public void buildAllDemoUnits() {
         university = new Unit();
-        university.setUnitNumber("000001");
+        university.setUnitNumber(UNITVERSITY_UNIT_NUMBER);
         university.setUnitName("University");
 
         universityLevel = new Unit();
@@ -171,7 +165,12 @@ public class UnitServiceImplTest {
 
     @Before
     public void buildServiceToTest() {
-        unitService = new UnitServiceImpl();
+        unitService = new UnitServiceImpl() {
+            @Override
+            public List<Unit> getUnits() {
+                return allDemoUnits;
+            }
+        };
     }
 
     @Before
@@ -309,6 +308,24 @@ public class UnitServiceImplTest {
                 cardiologyRechargeCenter).collect(Collectors.toList());
         List<Unit> units = unitService.sortUnits(alreadysortedUnits);
         Assert.assertEquals(alreadysortedUnits, units);
+    }
+
+    @Test
+    public void testGetInitialUnitsForUnitHierarchyInt() {
+        String tree = unitService.getInitialUnitsForUnitHierarchy(3);
+        assertTrue(tree.contains(UNITVERSITY_UNIT_NUMBER));
+    }
+
+    @Test
+    public void testGetInitialUnitsForUnitHierarchy() {
+        String tree = unitService.getInitialUnitsForUnitHierarchy();
+        assertTrue(tree.contains(UNITVERSITY_UNIT_NUMBER));
+    }
+
+    @Test
+    public void testGetUnits() {
+        Collection<Unit> units = unitService.getUnits();
+        assertEquals(13, units.size());
     }
 
     @Test

@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
  *
- * Copyright 2005-2016 Kuali, Inc.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package co.kuali.coeus.common.impl.attachment;
 
@@ -24,7 +13,12 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import javax.sql.DataSource;
 import java.io.BufferedInputStream;
@@ -39,31 +33,44 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3Conversion {
+@DisallowConcurrentExecution
+public class KcAttachmentDataToS3ConversionImpl extends QuartzJobBean implements KcAttachmentDataToS3Conversion {
 
     private static final Log LOG = LogFactory.getLog(KcAttachmentDataToS3ConversionImpl.class);
-    private static final String QUERY_SQL = "select id, data from file_data where data is not null";
+    private static final String QUERY_SQL_MYSQL = "select id, data from file_data where data is not null LIMIT ? OFFSET ?";
+    private static final String QUERY_SQL_ORACLE = "select id, data from file_data where data is not null";
     private static final String UPDATE_SQL = "update file_data set data = null where id = ?";
+    private static final String DELETE_FILE_FROM_DB = "DELETE_FILE_FROM_DB";
+    private static final String DATASOURCE_PLATFORM_CFG_NM = "datasource.ojb.platform";
+    private static final String MYSQL_PLATFORM = "MySQL";
 
     private S3FileService kcS3FileService;
     private ParameterService parameterService;
     private Integer fetchSize = 5;
     private DataSource dataSource;
+    private ConfigurationService configurationService;
 
     @Override
-    public void execute() {
+    public void executeInternal(JobExecutionContext context) throws JobExecutionException {
         LOG.info("Starting attachment conversion job for file_data to S3");
         boolean hasResults = true;
-        while (hasResults) {
+        for (int offset = 0; hasResults; offset = offset + fetchSize) {
             if (processRecords()) {
                 try (Connection conn = dataSource.getConnection();
-                     PreparedStatement queryStmt = conn.prepareStatement(QUERY_SQL);
+                     PreparedStatement queryStmt = mysql() ? conn.prepareStatement(QUERY_SQL_MYSQL) : conn.prepareStatement(QUERY_SQL_ORACLE);
                      PreparedStatement updateStmt = conn.prepareStatement(UPDATE_SQL)) {
+
+                    if (mysql()) {
+                        queryStmt.setInt(1, fetchSize);
+                        queryStmt.setInt(2, offset);
+                    }
                     conn.setAutoCommit(false);
                     hasResults = false;
-                    queryStmt.setFetchSize(fetchSize);
+                    if (!mysql()) {
+                        queryStmt.setFetchSize(fetchSize);
+                    }
                     try (ResultSet rs = queryStmt.executeQuery()) {
-                        for (int i = 0; i < fetchSize && rs.next(); i++) {
+                        while (rs.next()) {
                             final String fileDataId = rs.getString(1);
                             final byte[] dbBytes = rs.getBytes(2);
                             try {
@@ -99,12 +106,14 @@ public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3C
                                     if (!Objects.equals(s3MD5, dbMD5)) {
                                         LOG.error("S3 data MD5: " + s3MD5 + " does not equal DB data MD5: " + dbMD5 + " for id: " + fileDataId);
                                     } else {
-                                        updateStmt.setString(1, fileDataId);
-                                        int numUpdated = updateStmt.executeUpdate();
-                                        if (numUpdated != 1) {
-                                            LOG.error("Expected to update a single row, but instead updated " + numUpdated + ". Job exiting.");
-                                            conn.rollback();
-                                            return;
+                                        if (isDeleteFromDatabase()) {
+                                            updateStmt.setString(1, fileDataId);
+                                            int numUpdated = updateStmt.executeUpdate();
+                                            if (numUpdated != 1) {
+                                                LOG.error("Expected to update a single row, but instead updated " + numUpdated + ". Job exiting.");
+                                                conn.rollback();
+                                                return;
+                                            }
                                         }
                                     }
                                 }
@@ -154,12 +163,20 @@ public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3C
         return s3IntegrationEnabled && !s3DualSaveEnabled;
     }
 
+    protected boolean mysql() {
+        return MYSQL_PLATFORM.equals(configurationService.getPropertyValueAsString(DATASOURCE_PLATFORM_CFG_NM));
+    }
+
     protected boolean isS3IntegrationEnabled() {
         return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KcAttachmentDataS3Constants.S3_INTEGRATION_ENABLED);
     }
 
     protected boolean isS3DualSaveEnabled() {
         return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KcAttachmentDataS3Constants.S3_DUAL_SAVE_ENABLED);
+    }
+
+    protected boolean isDeleteFromDatabase() {
+        return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, DELETE_FILE_FROM_DB);
     }
 
     public S3FileService getKcS3FileService() {
@@ -192,5 +209,13 @@ public class KcAttachmentDataToS3ConversionImpl implements KcAttachmentDataToS3C
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }

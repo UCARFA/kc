@@ -1,23 +1,15 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.common.impl.auth.perm;
 
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Multimaps;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.common.framework.auth.docperm.DocumentAccess;
@@ -38,8 +30,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 /**
  * The KC Authorization Service Implementation.
@@ -158,7 +151,7 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
 	        permissionable.populateAdditionalQualifiedRoleAttributes(qualifiedRoleAttributes);
 	
 	        String unitNumber = permissionable.getLeadUnitNumber();
-	        
+
 	        if(StringUtils.isNotEmpty(permissionable.getDocumentNumberForPermission())) {
 	            userHasPermission = permissionService.isAuthorized(userId, permissionNamespace, permissionName, qualifiedRoleAttributes); 
 	        }
@@ -167,6 +160,35 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
 	        }
         }
         return userHasPermission;
+    }
+
+    @Override
+    public <P extends Permissionable> Collection<P> filterForPermission(String userId, Collection<P> permissionables, String permissionNamespace, String permissionName) {
+        Set<String> authorizedDocumentNumbers = new HashSet<>();
+
+        // Group permissionables by lead unit so we can just do one permission check per unit
+        Multimap<String, String> leadUnitToDocumentNumbersMap = permissionables.stream()
+                .filter(permissionable -> permissionable.getLeadUnitNumber() != null)
+                .collect(Multimaps.toMultimap(Permissionable::getLeadUnitNumber, Permissionable::getDocumentNumberForPermission, MultimapBuilder.hashKeys().arrayListValues()::build));
+        leadUnitToDocumentNumbersMap.keySet().forEach(unitNumber -> {
+            if (unitAuthorizationService.hasPermission(userId, unitNumber, permissionNamespace, permissionName)) {
+                authorizedDocumentNumbers.addAll(leadUnitToDocumentNumbersMap.get(unitNumber));
+            }
+        });
+
+        // For any permissionables that weren't authorized by unit, fall back to doing individual document number permission checks
+        permissionables.stream().filter(permissionable -> !authorizedDocumentNumbers.contains(permissionable.getDocumentNumberForPermission())).forEach(permissionable -> {
+            final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
+            permissionable.populateAdditionalQualifiedRoleAttributes(qualifiedRoleAttributes);
+            if (permissionService.isAuthorized(userId, permissionNamespace, permissionName, qualifiedRoleAttributes)) {
+                authorizedDocumentNumbers.add(permissionable.getDocumentNumberForPermission());
+            }
+        });
+
+        // Filter the passed-in collection by the document number that are authorized for this user to preserve original order
+        return permissionables.stream()
+                .filter(permissionable -> authorizedDocumentNumbers.contains(permissionable.getDocumentNumberForPermission()))
+                .collect(Collectors.toList());
     }
 
     @Override

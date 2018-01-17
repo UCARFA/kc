@@ -1,24 +1,13 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.timeandmoney;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
@@ -61,11 +50,6 @@ public class TimeAndMoneyDocumentRule extends KcTransactionalDocumentRuleBase im
     private transient ReportTrackingService reportTrackingService;
 
 
-    /**
-     * 
-     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(
-     * org.kuali.rice.krad.document.Document)
-     */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean retval = true;
@@ -90,7 +74,7 @@ public class TimeAndMoneyDocumentRule extends KcTransactionalDocumentRuleBase im
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) document;
         for (Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()) {
             Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber()); 
-            if (!this.getReportTrackingService().getReportTacking(award).isEmpty() && checkReportTrackingValueChanges(timeAndMoneyDocument)) {
+            if (!this.getReportTrackingService().getReportTracking(award).isEmpty() && checkReportTrackingValueChanges(timeAndMoneyDocument)) {
                 KNSGlobalVariables.getMessageList().add(KeyConstants.REPORT_TRACKING_WARNING_UPDATE_FROM_DATE_CHANGE, "");
                 return;
             }
@@ -107,12 +91,12 @@ public class TimeAndMoneyDocumentRule extends KcTransactionalDocumentRuleBase im
         Map<String, AwardHierarchyNode> formAwardHierarchyNodes = timeAndMoneyDocument.getAwardHierarchyNodes();
         for (String key : formAwardHierarchyNodes.keySet()) {
             AwardHierarchyNode formNode = formAwardHierarchyNodes.get(key);
-            AwardAmountInfo awardAmountInfo = formNode.getAward().getAwardAmountInfos().get(formNode.getAward().getAwardAmountInfos().size() - 1);           
-            if (!ObjectUtils.equals(formNode.getCurrentFundEffectiveDate(), awardAmountInfo.getCurrentFundEffectiveDate())
-                    || !ObjectUtils.equals(formNode.getObligationExpirationDate(), awardAmountInfo.getObligationExpirationDate())
-                    || !ObjectUtils.equals(formNode.getFinalExpirationDate(), awardAmountInfo.getFinalExpirationDate())
-                    || !ObjectUtils.equals(formNode.getAmountObligatedToDate(), awardAmountInfo.getAmountObligatedToDate())
-                    || !ObjectUtils.equals(formNode.getAnticipatedTotalAmount(), awardAmountInfo.getAnticipatedTotalAmount())) {
+            AwardAmountInfo awardAmountInfo = formNode.getAward().getAwardAmountInfos().get(formNode.getAward().getAwardAmountInfos().size() - 1);
+            if (!Objects.equals(formNode.getCurrentFundEffectiveDate(), awardAmountInfo.getCurrentFundEffectiveDate())
+                    || !Objects.equals(formNode.getObligationExpirationDate(), awardAmountInfo.getObligationExpirationDate())
+                    || !Objects.equals(formNode.getFinalExpirationDate(), awardAmountInfo.getFinalExpirationDate())
+                    || !Objects.equals(formNode.getAmountObligatedToDate(), awardAmountInfo.getAmountObligatedToDate())
+                    || !Objects.equals(formNode.getAnticipatedTotalAmount(), awardAmountInfo.getAnticipatedTotalAmount())) {
                 return true;
             }
         }
@@ -122,8 +106,6 @@ public class TimeAndMoneyDocumentRule extends KcTransactionalDocumentRuleBase im
     /**
     *
     * process Direct F and A Distribution business rules.
-    * @param awardDocument
-    * @return
     */
     private boolean processTimeAndMoneyAwardAmountTransactionBusinessRules(Document document) {
         boolean valid = true;
@@ -145,8 +127,6 @@ public class TimeAndMoneyDocumentRule extends KcTransactionalDocumentRuleBase im
     /**
     *
     * process Direct F and A Distribution business rules.
-    * @param awardDocument
-    * @return
     */
     private boolean processTimeAndMoneySaveAwardDateBusinessRules(Document document) {
         boolean valid = true;
@@ -169,8 +149,6 @@ public class TimeAndMoneyDocumentRule extends KcTransactionalDocumentRuleBase im
     /**
     *
     * process Direct F and A Distribution business rules.
-    * @param awardDocument
-    * @return
     */
     private boolean processAwardDirectFandADistributionBusinessRules(Document document) {
         boolean valid = true;
@@ -192,11 +170,6 @@ public class TimeAndMoneyDocumentRule extends KcTransactionalDocumentRuleBase im
         return valid;
     }
 
-
-    /**
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(
-     * org.kuali.rice.krad.document.Document)
-     */
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         return retval;

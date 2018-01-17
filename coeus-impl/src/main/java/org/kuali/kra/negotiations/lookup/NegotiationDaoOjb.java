@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.negotiations.lookup;
 
@@ -49,9 +38,6 @@ import java.util.*;
  */
 public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
 
-    private static final String AWARD_ID = "awardId";
-	private static final String AWARD_NUMBER = "awardNumber";
-	private static final String MAX_AWARD_ID = "max(awardId)";
 	private static final String ASSOC_PREFIX = "associatedNegotiable";
     private static final String NEGOTIATION_TYPE_ATTR = "negotiationAssociationTypeId";
     private static final String ASSOCIATED_DOC_ID_ATTR = "associatedDocumentId";
@@ -240,13 +226,13 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         activeAwardSubCriteria.addIn(AwardConstants.AWARD_SEQUENCE_STATUS,
         	Arrays.asList(VersionStatus.ACTIVE.toString(), VersionStatus.PENDING.toString()));
         ReportQueryByCriteria activeAwardIdsQuery = QueryFactory.newReportQuery(Award.class, activeAwardSubCriteria);
-        activeAwardIdsQuery.setAttributes(new String[]{MAX_AWARD_ID});
-        activeAwardIdsQuery.addGroupBy(AWARD_NUMBER);
-        criteria.addIn(AWARD_ID, activeAwardIdsQuery);
+        activeAwardIdsQuery.setAttributes(new String[]{ AwardConstants.MAX_AWARD_ID });
+        activeAwardIdsQuery.addGroupBy(AwardConstants.AWARD_NUMBER);
+        criteria.addIn(AwardConstants.AWARD_ID, activeAwardIdsQuery);
 
         Criteria negotiationCrit = new Criteria();
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(Award.class, criteria);
-        subQuery.setAttributes(new String[] {AWARD_NUMBER});
+        subQuery.setAttributes(new String[] { AwardConstants.AWARD_NUMBER });
         negotiationCrit.addIn(ASSOCIATED_DOC_ID_ATTR, subQuery);
         negotiationCrit.addEqualTo(NEGOTIATION_TYPE_ATTR, 
                 getNegotiationService().getNegotiationAssociationType(NegotiationAssociationType.AWARD_ASSOCIATION).getId());

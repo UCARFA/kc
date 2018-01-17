@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
@@ -180,6 +171,12 @@
                 <bean parent="Uif-MessageField" p:messageText="Are you sure you want to approve this document?" p:order="10"/>
                 <bean parent="Uif-InputField" p:propertyName="actionReason" p:order="20"
                       p:fieldLabel.labelText="Approval Comment" p:required="false"/>
+                <bean parent="Uif-InputField" p:propertyName="actionFile" p:order="30"
+                      p:fieldLabel.labelText="Attachment">
+                    <property name="control">
+                        <bean parent="Uif-FileControl"/>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="footer.items">
@@ -276,7 +273,7 @@
                         <bean parent="PropDev-SubmitPage-UnitCollectionGroup" />
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.certifiedBy != null and #line.isQuestionnairesCompleted()?'complete':'incomplete'} [0]"
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getCertifiedBy(#line) != null and #line.isQuestionnairesCompleted()?'complete':'incomplete'} [0]"
                       p:fieldLabel.labelText="Proposal Person Certification"
                       p:order="40">
                     <property name="inlineComponents">

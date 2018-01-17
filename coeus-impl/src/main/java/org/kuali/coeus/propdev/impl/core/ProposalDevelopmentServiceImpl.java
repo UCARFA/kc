@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.core;
 
@@ -22,10 +11,16 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.coi.framework.Project;
+import org.kuali.coeus.coi.framework.ProjectPublisher;
+import org.kuali.coeus.coi.framework.ProjectRetrievalService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonCertificationDetails;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
@@ -34,6 +29,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -52,6 +48,7 @@ import java.util.*;
 @Component("proposalDevelopmentService")
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
 
+    public static final String PROPOSAL_NUMBER = "proposalNumber";
     protected final Log LOG = LogFactory.getLog(ProposalDevelopmentServiceImpl.class);
 
     @Autowired
@@ -85,6 +82,12 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     @Autowired
     @Qualifier("proposalTypeService")
     private ProposalTypeService proposalTypeService;
+
+    @Autowired
+    @Qualifier("propDevProjectRetrievalService")
+    private ProjectRetrievalService projectRetrievalService;
+
+    private ProjectPublisher projectPublisher;
 
     /**
      * This method gets called from the "save" action. It initializes the applicant org. on the first save; it also sets the
@@ -173,15 +176,32 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 && StringUtils.equals(devProposal.getSponsor().getSponsorTypeCode(), federalSponsorTypeCode);
     }
 
+
+    private void handleProjectPush(String sourceIdentifier) {
+        Project project = projectRetrievalService.retrieveProject(sourceIdentifier);
+        project.setActive(false);
+        getProjectPublisher().publishProject(project);
+    }
+
     @Override
     public ProposalDevelopmentDocument deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
 
+        handleProjectPush(proposalDocument.getDevelopmentProposal().getProposalNumber());
+        deleteCertDetails(proposalDocument.getDevelopmentProposal());
         dataObjectService.delete(proposalDocument.getDevelopmentProposal());
+
         proposalDocument.setDevelopmentProposal(null);
         proposalDocument.setProposalDeleted(true);
 
         proposalDocument = (ProposalDevelopmentDocument)getDocumentService().saveDocument(proposalDocument);
         return (ProposalDevelopmentDocument) getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
+    }
+
+    protected void deleteCertDetails(DevelopmentProposal proposal) {
+        HashMap<String, String> criteria = new HashMap<>();
+        criteria.put(PROPOSAL_NUMBER, proposal.getProposalNumber());
+        dataObjectService.deleteMatching(ProposalPersonCertificationDetails.class, QueryByCriteria.Builder.andAttributes(criteria).build());
+        proposal.getProposalPersons().forEach(proposalPerson -> proposalPerson.setCertificationDetails(null));
     }
 
     protected DocumentService getDocumentService() {
@@ -346,5 +366,26 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public void setProposalTypeService(ProposalTypeService proposalTypeService) {
         this.proposalTypeService = proposalTypeService;
+    }
+
+    public ProjectRetrievalService getProjectRetrievalService() {
+        return projectRetrievalService;
+    }
+
+    public void setProjectRetrievalService(ProjectRetrievalService projectRetrievalService) {
+        this.projectRetrievalService = projectRetrievalService;
+    }
+
+    public ProjectPublisher getProjectPublisher() {
+        //since COI is loaded last and @Lazy does not work, we have to use the ServiceLocator
+        if (projectPublisher == null) {
+            projectPublisher = KcServiceLocator.getService(ProjectPublisher.class);
+        }
+
+        return projectPublisher;
+    }
+
+    public void setProjectPublisher(ProjectPublisher projectPublisher) {
+        this.projectPublisher = projectPublisher;
     }
 }

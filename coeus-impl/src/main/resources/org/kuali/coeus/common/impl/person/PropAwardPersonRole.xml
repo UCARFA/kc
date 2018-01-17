@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="PropAwardPersonRole" parent="PropAwardPersonRole-parentBean" />
@@ -39,6 +30,8 @@
         <ref bean="PropAwardPersonRole-certificationRequired" />
         <ref bean="PropAwardPersonRole-sponsorHierarchyName" />
         <ref bean="PropAwardPersonRole-unitDetailsRequired" />
+        <ref bean="PropAwardPersonRole-autoPopulateUnitsCode" />
+        <ref bean="PropAwardPersonRole-selectedUnitSources" />
       </list>
     </property>
   </bean>
@@ -108,6 +101,87 @@
           p:summary="Unit Details Required"
           p:description="Unit Details Required" />
 
+    <bean id="PropAwardPersonRole-autoPopulateUnitsCode" parent="PropAwardPersonRole-autoPopulateUnitsCode-parentBean" />
+    <bean id="PropAwardPersonRole-autoPopulateUnitsCode-parentBean" abstract="true" parent="AttributeDefinition"
+          p:name="autoPopulateUnitsCode"
+          p:alternateDisplayAttributeName="unitPopulationBehavior.description"
+          p:label="Unit Auto-Population"
+          p:shortLabel="Unit Auto-Population"
+          p:summary="Unit Auto-Population"
+          p:description="Unit Auto-Population"
+          p:required="true"
+          p:maxLength="20">
+        <property name="validationPattern">
+            <bean parent="AlphaValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.framework.person.UnitPopulationBehaviorValuesFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.common.framework.person.UnitPopulationBehaviorValuesFinder" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl" />
+        </property>
+    </bean>
+
+    <bean id="PropAwardPersonRole-selectedUnitSources" parent="PropAwardPersonRole-selectedUnitSources-parentBean" />
+    <bean id="PropAwardPersonRole-selectedUnitSources-parentBean" abstract="true" parent="AttributeDefinition"
+          p:name="selectedUnitSources"
+          p:label="Selected Units Source"
+          p:shortLabel="Selected Units Source"
+          p:summary="Selected Units Source"
+          p:description="Selected Units Source"
+          p:required="false"
+          p:maxLength="300">
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.sys.framework.keyvalue.GroupedValuesFinder">
+                <property name="subValuesFinders">
+                    <map>
+                        <entry key="Affiliations">
+                            <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
+                                <property name="businessObjectClass" value="org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationTypeBo"/>
+                                <property name="keyAttributeName" value="code"/>
+                                <property name="labelAttributeName" value="name"/>
+                                <property name="includeBlankRow" value="false"/>
+                            </bean>
+                        </entry>
+                        <entry key="Appointments">
+                            <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
+                                <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.personnel.AppointmentType"/>
+                                <property name="keyAttributeName" value="appointmentTypeCode"/>
+                                <property name="labelAttributeName" value="description"/>
+                                <property name="includeBlankRow" value="false"/>
+                            </bean>
+                        </entry>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-AdvancedMultiSelectControl">
+                <property name="templateOptions">
+                    <map>
+                        <entry key="&quot;liveSearch&quot;" value="false"/>
+                        <entry key="&quot;selectedTextFormat&quot;" value="count > 6"/>
+                        <entry key="&quot;multipleSeparator&quot;" value="#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).UNIT_SOURCE_SEPARATOR} "/>
+                        <entry key="&quot;actionsBox&quot;" value="true"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
     <bean id="PropAwardPersonRole-sponsorHierarchyName" parent="PropAwardPersonRole-sponsorHierarchyName-parentBean"/>
     <bean id="PropAwardPersonRole-sponsorHierarchyName-parentBean" abstract="true" parent="AttributeDefinition"
         p:name="sponsorHierarchyName"
@@ -162,6 +236,9 @@
                             <bean p:propertyName="readOnly" parent="Uif-DataField" p:order="40" />
                             <bean p:propertyName="certificationRequired" parent="Uif-DataField" p:order="50" />
                             <bean p:propertyName="unitDetailsRequired" parent="Uif-DataField" p:order="60" />
+                            <bean p:propertyName="autoPopulateUnitsCode" parent="Uif-DataField" p:order="70" />
+                            <bean p:propertyName="selectedUnitSources" parent="Uif-ValuesFinderDisplayInputField"
+                                  p:readOnly="true" p:order="80" />
                         </list>
                     </property>
                 </bean>
@@ -202,6 +279,7 @@
                 <bean p:propertyName="readOnly" parent="Uif-LookupCriteriaInputField" p:order="40" />
                 <bean p:propertyName="certificationRequired" parent="Uif-LookupCriteriaInputField" p:order="50" />
                 <bean p:propertyName="unitDetailsRequired" parent="Uif-LookupCriteriaInputField" p:order="60" />
+                <bean p:propertyName="autoPopulateUnitsCode" parent="Uif-LookupCriteriaInputField" p:order="70" />
             </list>
         </property>
         <property name="resultFields">
@@ -212,6 +290,9 @@
                 <bean p:propertyName="readOnly" parent="Uif-DataField" p:order="40" />
                 <bean p:propertyName="certificationRequired" parent="Uif-DataField" p:order="50" />
                 <bean p:propertyName="unitDetailsRequired" parent="Uif-DataField" p:order="60" />
+                <bean p:propertyName="autoPopulateUnitsCode" parent="Uif-DataField" p:order="70" />
+                <bean p:propertyName="selectedUnitSources" parent="Uif-ValuesFinderDisplayInputField"
+                      p:readOnly="true" p:order="80" />
             </list>
         </property>
     </bean>

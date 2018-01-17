@@ -1,32 +1,23 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
  *
- * Copyright 2005-2016 Kuali, Inc.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.award.dto;
 
 
 import com.codiform.moo.annotation.CollectionProperty;
 import com.codiform.moo.annotation.Property;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
 import org.kuali.coeus.instprop.impl.api.customSerializers.ScaleTwoDecimalSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.json.JsonFormats;
 
 import java.sql.Date;
 import java.util.List;
@@ -41,6 +32,7 @@ public class BudgetLineItemDto {
     private String budgetJustification;
     private String groupName;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date endDate;
     @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal lineItemCost;
@@ -51,6 +43,7 @@ public class BudgetLineItemDto {
     private Boolean onOffCampusFlag;
     private Integer quantity;
     @JsonDeserialize(using = CustomSqlDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
     private Date startDate;
     @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal underrecoveryAmount;

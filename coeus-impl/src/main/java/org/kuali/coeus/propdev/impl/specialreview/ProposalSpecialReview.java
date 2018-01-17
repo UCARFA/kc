@@ -1,26 +1,16 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.specialreview;
 
-import java.util.List;
-
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReview;
+import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
+import org.kuali.coeus.common.framework.compliance.exemption.SpecialReviewExemption;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
@@ -28,6 +18,8 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Defines a Special Review for a Development Proposal.
@@ -57,8 +49,14 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
 
     @OneToMany(mappedBy="proposalSpecialReview", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalSpecialReviewExemption> specialReviewExemptions;
-    
-	public void setId(Long id) {
+
+    @OneToOne (cascade=CascadeType.ALL)
+    @JoinColumn(name="PROPOSAL_SPECIAL_REVIEW_ATT_ID", unique= true, nullable=true, insertable=true, updatable=true)
+    private ProposalSpecialReviewAttachment specialReviewAttachment;
+
+
+
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -93,6 +91,16 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         proposalSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
         proposalSpecialReviewExemption.setProposalSpecialReview(this);
         return proposalSpecialReviewExemption;
+    }
+
+    @Override
+    public ProposalSpecialReviewAttachment getSpecialReviewAttachment() {
+        return specialReviewAttachment;
+    }
+
+
+    public void setSpecialReviewAttachment(ProposalSpecialReviewAttachment specialReviewAttachment) {
+        this.specialReviewAttachment = specialReviewAttachment;
     }
 
     public int hierarchyHashCode() {
@@ -166,6 +174,13 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
     public List<ProposalSpecialReviewExemption> getSpecialReviewExemptions() {
 		return specialReviewExemptions;
 	}
+
+	public String getSpecialReviewExemptionsForDisplay() {
+        return CollectionUtils.isEmpty(specialReviewExemptions) ? " " : specialReviewExemptions.stream()
+                .map(SpecialReviewExemption::getExemptionType)
+                .map(ExemptionType::getDescription)
+                .collect(Collectors.joining(", "));
+    }
 
 	@Override
     public void setSpecialReviewExemptions(List<ProposalSpecialReviewExemption> specialReviewExemptions) {

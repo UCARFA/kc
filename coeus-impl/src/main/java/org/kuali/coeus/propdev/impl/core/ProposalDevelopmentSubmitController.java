@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.core;
 
@@ -84,6 +73,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.QUESTIONNAIRE_PAGE_ID;
 
 @Controller
 public class ProposalDevelopmentSubmitController extends
@@ -102,6 +92,7 @@ public class ProposalDevelopmentSubmitController extends
 
     private static final String AUTO_SUBMIT_TO_SPONSOR_ON_FINAL_APPROVAL = "autoSubmitToSponsorOnFinalApproval";
 	private static final String SUBMIT_TO_SPONSOR = "submitToSponsor";
+    private static final String PROPOSAL_APPROVAL_ATTACHMENT = "Proposal approval attachment.";
 
     @Autowired
     @Qualifier("kualiConfigurationService")
@@ -178,6 +169,7 @@ public class ProposalDevelopmentSubmitController extends
             return getNavigationControllerService().returnToHub(form);
         }
     }
+
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitForReview")
     public  ModelAndView submitForReview(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
        populateAdHocRecipients(form.getProposalDevelopmentDocument());
@@ -208,10 +200,11 @@ public class ProposalDevelopmentSubmitController extends
         form.setEvaluateFlagsAndModes(true);
         if (ProposalState.REVISIONS_REQUESTED.equals(form.getDevelopmentProposal().getProposalStateTypeCode())) {
         	if (workflowDoc.isApprovalRequested()) {
-        		workflowDoc.approve("Revisions Requested Re-Submit");
+                workflowDoc.approve("Revisions Requested Re-Submit");
         	} else {
         		form.getProposalDevelopmentDocument().getActionRequests().stream()
-        			.filter(actionRequest -> ProposalDevelopmentConstants.KewConstants.AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION.equals(actionRequest.getAnnotation()))
+                        .filter(actionRequest -> ProposalDevelopmentConstants.KewConstants.AGGREGATORS_REQUEST_FOR_REVIEW_ANNOTATION.equals(actionRequest.getAnnotation()) ||
+                                ProposalDevelopmentConstants.KewConstants.SUBMITTER_REQUEST_FOR_REVIEW_ANNOTATION.equals(actionRequest.getAnnotation()))
         			.map(actionRequest -> getActionRequestService().findByActionRequestId(actionRequest.getId()))
         			.forEach(actionRequest -> getActionRequestService().deactivateRequest(null, actionRequest));
         		getTransactionalDocumentControllerService().route(form);
@@ -234,7 +227,8 @@ public class ProposalDevelopmentSubmitController extends
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-SubmitPage"})
     public ModelAndView navigateToSubmit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(form);
+        Boolean shouldPopulateQuestionnaire = !StringUtils.equals(form.getPageId(), QUESTIONNAIRE_PAGE_ID);
+        ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(form, shouldPopulateQuestionnaire);
         return super.navigate(form, result, request, response);
     }
 
@@ -669,10 +663,18 @@ public class ProposalDevelopmentSubmitController extends
 			}
 		}
 
-        List<NotificationTypeRecipient> recipients = getRelatedApproversFromActionRequest(form.getProposalDevelopmentDocument().getDocumentNumber(), getGlobalVariableService().getUserSession().getPrincipalId()).stream()
+        List<NotificationTypeRecipient> recipients = getRelatedApproversFromActionRequest(form.getProposalDevelopmentDocument().getDocumentNumber(), getGlobalVariableService().getUserSession().getPrincipalId())
+                .stream()
                 .map(this::createRecipientFromPerson).collect(toList());
 
         getTransactionalDocumentControllerService().performWorkflowAction(form, UifConstants.WorkflowAction.APPROVE);
+
+        if (approvalComments) {
+            final String narrativeTypeCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.APPROVE_NARRATIVE_TYPE_CODE_PARAM);
+            final DevelopmentProposal pbo = getProposalHierarchyService().getDevelopmentProposal(form.getDevelopmentProposal().getProposalNumber());
+            final ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(pbo.getProposalDocument().getDocumentNumber());
+            getProposalHierarchyService().createAndSaveActionNarrative(form.getProposalDevelopmentApprovalBean().getActionReason(), PROPOSAL_APPROVAL_ATTACHMENT, form.getProposalDevelopmentApprovalBean().getActionFile(), narrativeTypeCode, pDoc);
+        }
 
         if (recipients.size() != 0) {
             sendAnotherUserApprovedNotification(form, recipients);

@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.web.struts.action;
 
@@ -36,6 +25,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ValidRates;
@@ -451,14 +441,18 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     }
 
     public ActionForward sendNotice(ActionMapping mapping, ActionForm form,
-                                    HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
 
+        if (!awardForm.getEditingMode().containsKey(AwardDocumentAuthorizer.CAN_SEND_AWARD_NOTICE)) {
+            GlobalVariables.getMessageMap().putError(KeyConstants.NO_PERMISSION_TO_SEND_NOTICE, KeyConstants.NO_PERMISSION_TO_SEND_NOTICE);
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+
         AwardNoticePrintout awardPrintout = createAwardNoticePrintout(award, awardForm.getAwardPrintNotice());
 
-        AwardNoticeNotificationRenderer noticeRenderer = new AwardNoticeNotificationRenderer(awardPrintout.getAwardNoticeId(), award.getAwardNumber());
+        AwardNoticeNotificationRenderer noticeRenderer = new AwardNoticeNotificationRenderer(awardPrintout.getAwardNoticeId(), award);
         AwardNotificationContext noticeContext = new AwardNotificationContext(award, AWARD_NOTICE_ACTION_CODE,
                 AWARD_NOTICE, noticeRenderer, Constants.MAPPING_AWARD_ACTIONS_PAGE);
 

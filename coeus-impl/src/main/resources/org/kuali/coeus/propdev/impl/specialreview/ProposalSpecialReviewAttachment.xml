@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans                            http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="ProposalSpecialReviewAttachment" parent="ProposalSpecialReviewAttachment-parentBean"/>
+    <bean id="ProposalSpecialReviewAttachment-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewAttachment"/>
+        <property name="objectLabel" value="Proposal Special Review Attachment Attachment"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+                <ref bean="ProposalSpecialReviewAttachment-id"/>
+                <ref bean="ProposalSpecialReviewAttachment-clinicalTrial"/>
+                <ref bean="ProposalSpecialReviewAttachment-studyTitle"/>
+                <ref bean="ProposalSpecialReviewAttachment-isAttachmentDelayedOnset"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="ProposalSpecialReviewAttachment-id" parent="ProposalSpecialReviewAttachment-id-parentBean"/>
+    <bean id="ProposalSpecialReviewAttachment-id-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="id"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Proposal Special Review Attachment Id"/>
+        <property name="shortLabel" value="Proposal Special Review Attachment Id"/>
+        <property name="maxLength" value="22"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Proposal Special Review Attachment Id"/>
+        <property name="description" value="Proposal Special Review Attachment Id"/>
+    </bean>
+
+    <bean id="ProposalSpecialReviewAttachment-clinicalTrial" parent="ProposalSpecialReviewAttachment-clinicalTrial-parentBean"/>
+    <bean abstract="true" id="ProposalSpecialReviewAttachment-clinicalTrial-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="clinicalTrial"/>
+        <property name="required" value="false"/>
+        <property name="label" value="Clinical Trial"/>
+        <property name="shortLabel" value="Clinical Trial"/>
+        <property name="summary" value="Clinical Trial"/>
+        <property name="description" value="Clinical Trial"/>
+    </bean>
+
+    <bean id="ProposalSpecialReviewAttachment-studyTitle" parent="ProposalSpecialReviewAttachment-studyTitle-parentBean"/>
+    <bean abstract="true" id="ProposalSpecialReviewAttachment-studyTitle-parentBean" parent="AttributeDefinition">
+        <property name="name" value="studyTitle"/>
+        <property name="required" value="false"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Study Title"/>
+        <property name="shortLabel" value="Study Title"/>
+        <property name="maxLength" value="600"/>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:rows="2" p:cols="120"/>
+        </property>
+        <property name="controlField">
+            <bean p:rows="2" p:cols="120" parent="Uif-TextAreaControl"/>
+        </property>
+        <property name="summary" value="Study Title"/>
+        <property name="description" value="Study Title"/>
+    </bean>
+
+    <bean id="ProposalSpecialReviewAttachment-isAttachmentDelayedOnset" parent="ProposalSpecialReviewAttachment-isAttachmentDelayedOnset-parentBean"/>
+    <bean abstract="true" id="ProposalSpecialReviewAttachment-isAttachmentDelayedOnset-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="isAttachmentDelayedOnset"/>
+        <property name="required" value="false"/>
+        <property name="label" value="Is Attachment Delayed Onset"/>
+        <property name="shortLabel" value="Is Attachment Delayed Onset"/>
+        <property name="summary" value="Is Attachment Delayed Onset"/>
+        <property name="description" value="Is Attachment Delayed Onset"/>
+    </bean>
+
+</beans>

@@ -1,24 +1,13 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.iacuc.onlinereview.authorization;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
@@ -85,7 +74,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
         for (IacucCommitteeScheduleMinute minute : this.getCommitteeScheduleService().getMinutesByProtocol(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolId())) {
             Long minuteOnlineReviewId =  minute.getProtocolOnlineReviewIdFk();
             Long onlineReviewId = protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolOnlineReviewId();
-            if (ObjectUtils.equals(minuteOnlineReviewId, onlineReviewId)) {
+            if (Objects.equals(minuteOnlineReviewId, onlineReviewId)) {
                 boolean isCreator = StringUtils.equalsIgnoreCase(minute.getCreateUser(), GlobalVariables.getUserSession().getPrincipalName());
                 minute.setReadOnly(!(editModes.contains(CAN_SAVE) && (canAdministerCommitteeScheduleMinutes || isCreator)));
             }
@@ -98,7 +87,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     
     /**
      * Does the user have permission to execute the given task for a Iacuc Protocol?
-     * @param username the user's username
+     * @param userId the user's userId
      * @param doc the Iacuc Protocol document
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
@@ -138,7 +127,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     
     /**
      * Does the user have permission to execute the given task for a protocol?
-     * @param username the user's username
+     * @param userId the user's userId
      * @param doc the protocol document
      * @param taskName the name of the task
      * @return true if has permission; otherwise false

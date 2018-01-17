@@ -1,24 +1,13 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.negotiations.bo;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -154,7 +143,7 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
     }
 
     public void setLocationId(Long locationId) {
-        if (!ObjectUtils.equals(this.locationId, locationId)) {
+        if (!Objects.equals(this.locationId, locationId)) {
             updated = true;
         }
         this.locationId = locationId;
@@ -165,7 +154,7 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
     }
 
     public void setLocation(NegotiationLocation location) {
-        if (!ObjectUtils.equals(this.location, location)) {
+        if (!Objects.equals(this.location, location)) {
             updated = true;
         }
         this.location = location;
@@ -176,7 +165,7 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
     }
 
     public void setActivityTypeId(Long activityTypeId) {
-        if (!ObjectUtils.equals(this.activityTypeId, activityTypeId)) {
+        if (!Objects.equals(this.activityTypeId, activityTypeId)) {
             updated = true;
         }
         this.activityTypeId = activityTypeId;
@@ -195,7 +184,7 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
     }
 
     public void setStartDate(Date startDate) {
-        if (!ObjectUtils.equals(this.startDate, startDate)) {
+        if (!Objects.equals(this.startDate, startDate)) {
             updated = true;
         }
         this.startDate = startDate;
@@ -206,7 +195,7 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
     }
 
     public void setEndDate(Date endDate) {
-        if (!ObjectUtils.equals(this.endDate, endDate)) {
+        if (!Objects.equals(this.endDate, endDate)) {
             updated = true;
         }
         this.endDate = endDate;
@@ -225,7 +214,7 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
     }
 
     public void setFollowupDate(Date followupDate) {
-        if (!ObjectUtils.equals(this.followupDate, followupDate)) {
+        if (!Objects.equals(this.followupDate, followupDate)) {
             updated = true;
         }
         this.followupDate = followupDate;
@@ -265,7 +254,7 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
     }
 
     public void setDescription(String description) {
-        if (!ObjectUtils.equals(this.description, description)) {
+        if (!Objects.equals(this.description, description)) {
             updated = true;
         }
         this.description = description;
@@ -276,7 +265,7 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
     }
 
     public void setRestricted(Boolean restricted) {
-        if (!ObjectUtils.equals(this.restricted, restricted)) {
+        if (!Objects.equals(this.restricted, restricted)) {
             updated = true;
         }
         this.restricted = restricted;

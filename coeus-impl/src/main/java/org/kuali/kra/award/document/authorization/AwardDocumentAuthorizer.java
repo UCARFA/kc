@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.document.authorization;
 
@@ -23,6 +12,7 @@ import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
@@ -65,6 +55,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     public static final String AWARD_SYNC = "awardSync";
     public static final String CAN_MAINTAIN_AWARD_ATTACHMENTS = "CAN_MAINTAIN_AWARD_ATTACHMENTS";
     public static final String CAN_VIEW_AWARD_ATTACHMENTS = "CAN_VIEW_AWARD_ATTACHMENTS";
+    public static final String CAN_SEND_AWARD_NOTICE = "sendAwardNotice";
     private static final String VIEW_ACCOUNT_ELEMENT = "viewAccountElement";
     private static final String VIEW_CHART_OF_ACCOUNTS_ELEMENT = "viewChartOfAccountsElement";
 
@@ -143,6 +134,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             if (editModes.contains(CAN_MAINTAIN_AWARD_ATTACHMENTS) ||
                     canViewAwardAttachments(awardDocument, user)) {
                 editModes.add(CAN_VIEW_AWARD_ATTACHMENTS);
+            }
+            if (canSendAwardNotice(user.getPrincipalId())) {
+                editModes.add(CAN_SEND_AWARD_NOTICE);
             }
         }
 
@@ -241,6 +235,11 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         }
         return hasPermission;
     }
+
+    public boolean canSendAwardNotice(String principalId) {
+        return getPermissionService().hasPermission(principalId, KraAuthorizationConstants.KC_AWARD_NAMESPACE, AwardPermissionConstants.SEND_AWARD_NOTICE.getAwardPermission());
+    }
+
     @Override
     public boolean canOpen(Document document, Person user) {
         AwardDocument awardDocument = (AwardDocument) document;

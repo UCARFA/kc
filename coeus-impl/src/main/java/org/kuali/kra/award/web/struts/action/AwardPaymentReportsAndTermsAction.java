@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.web.struts.action;
 
@@ -310,38 +299,25 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             (awardForm.getAwardReportsBean()).deleteAwardReportTermItem(getLineToDelete(request));
         ActionForward af = this.confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, newReport, 
                 AWARD_REPORT_TERM_PROPERTY, null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));
-        List<ReportTracking> reportTrackings = this.getReportTrackingService().getReportTacking(newReport);
+        List<ReportTracking> reportTrackings = this.getReportTrackingService().getReportTracking(newReport);
         awardForm.getReportTrackingsToDelete().addAll(reportTrackings);
         return af;
     }
-    
-    public ActionForward deleteReportTrackingRecord(ActionMapping mapping, ActionForm form,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm =(AwardForm) form;
-        int reportTrackingRecordToDelete = getLineToDelete(request);
-        int awardReportTermRecord = getSelectedAwardTermRecord(request);
-        AwardReportTerm art = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(awardReportTermRecord);
-        ReportTracking rt = art.getReportTrackings().get(reportTrackingRecordToDelete);
-        art.getReportTrackings().remove(reportTrackingRecordToDelete);
-        awardForm.getReportTrackingsToDelete().add(rt);
+
+    /**
+     * This method deletes a ReportTracking entry from the list of AwardReportTerm objects.
+     */
+    public ActionForward deleteReportTrackingRecord(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        awardForm.getAwardReportsBean().deleteAwardReportTermTracking(getAwardReportTermItemIndex(request), getLineToDelete(request))
+                .ifPresent(deletedTracking -> awardForm.getReportTrackingsToDelete().add(deletedTracking));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
-    protected int getSelectedAwardTermRecord(HttpServletRequest request) {
-        int selectedLine = -1;
-        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-        if (StringUtils.isNotBlank(parameterName)) {
-            String lineNumber = StringUtils.substringBetween(parameterName, ".awardReportTermItems", ".");
-            selectedLine = Integer.parseInt(lineNumber);
-        }
 
-        return selectedLine;
-    }
-    
     /**
-     * 
+     *
      * This method adds an AwardCloseout Item.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -534,6 +510,17 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         if (StringUtils.isNotBlank(parameterName)) {
             String awardReportTermIndexString = StringUtils.substringBetween(parameterName, ".awardReportTerm", PERIOD);
             awardReportTermIndex= Integer.parseInt(awardReportTermIndexString);
+        }
+
+        return awardReportTermIndex;
+    }
+
+    protected int getAwardReportTermItemIndex(HttpServletRequest request) {
+        int awardReportTermIndex = -1;
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            String awardReportTermIndexString = StringUtils.substringBetween(parameterName, ".awardReportTermItems", PERIOD);
+            awardReportTermIndex = Integer.parseInt(awardReportTermIndexString);
         }
 
         return awardReportTermIndex;

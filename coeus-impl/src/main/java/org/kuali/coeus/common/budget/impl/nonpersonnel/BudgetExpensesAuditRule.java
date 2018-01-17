@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.common.budget.impl.nonpersonnel;
 
@@ -47,6 +36,7 @@ import java.util.List;
 public class BudgetExpensesAuditRule extends BudgetAuditRuleBase {
 
     private static final String WARN_NEGATIVE_UNRECOVERED_F_AND_A_PARM = "WARN_NEGATIVE_UNRECOVERED_F_AND_A";
+    public static final String BUDGET_MODULAR_KEY = "budget.modular";
     @Autowired
 	@Qualifier("budgetExpenseService")
 	private BudgetExpenseService budgetExpenseService;
@@ -179,6 +169,9 @@ public class BudgetExpensesAuditRule extends BudgetAuditRuleBase {
         for (BudgetPersonnelDetails budgetPersonnelDetails : budget.getBudgetPersonnelDetails()) {
         	auditRulePassed &= verifyPersonnelDetails(budgetPersonnelDetails);
         }
+        
+        auditRulePassed &= verifyModularBudgetStatus(budget);
+        
         return auditRulePassed;
     }
 
@@ -238,6 +231,32 @@ public class BudgetExpensesAuditRule extends BudgetAuditRuleBase {
         }
         return passed;
 	}
+	
+
+    protected boolean verifyModularBudgetStatus(Budget budget) {
+        boolean validBudgetCompletion = true;
+        if (budget.getModularBudgetFlag() == true) {
+            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                if (budgetPeriod != null) {
+                    if (budgetPeriod.getBudgetModular() == null || budgetPeriod.getBudgetModular().getTotalDirectCost() == null) {
+                        validBudgetCompletion = false;
+                    }
+                    else if ((budgetPeriod.getBudgetModular().getTotalDirectCost().equals(ScaleTwoDecimal.ZERO))
+                            && budgetPeriod.getTotalDirectCost().isGreaterThan(ScaleTwoDecimal.ZERO)) {
+                        validBudgetCompletion = false;
+                    }
+                    if (!validBudgetCompletion) {
+                        final BudgetConstants.BudgetAuditRules budgetModularRule = BudgetConstants.BudgetAuditRules.MODULAR_BUDGET;
+                        List<AuditError> auditErrors = getAuditErrors(budgetModularRule, true);
+                        auditErrors.add(new AuditError(BUDGET_MODULAR_KEY, KeyConstants.ERROR_MODULARBUDGET_NOT_SYNCED,
+                                budgetModularRule.getPageId()));
+                        break;
+                    }
+                }
+            }
+        }
+        return validBudgetCompletion;
+    }	
 	
 	protected BudgetExpenseService getBudgetExpenseService() {
 		return budgetExpenseService;

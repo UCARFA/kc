@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.person;
 
@@ -23,30 +12,30 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.kuali.coeus.common.framework.person.attr.PersonTraining;
-import org.kuali.coeus.common.framework.person.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
+import org.kuali.coeus.common.framework.person.attr.PersonTraining;
+import org.kuali.coeus.common.framework.person.editable.PersonEditable;
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
+import org.kuali.coeus.propdev.impl.person.creditsplit.NamedCreditSplitable;
+import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
-import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
-import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
-import org.kuali.coeus.propdev.impl.person.creditsplit.NamedCreditSplitable;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
-import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -55,11 +44,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -111,14 +98,8 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     @Column(name = "PROP_PERSON_ROLE_ID")
     private String proposalPersonRoleId;
 
-	@Column(name = "CERTIFIED_BY")
-	private String certifiedBy;
-
 	@Column(name = "LAST_NOTIFICATION")
 	private Timestamp lastNotification;
-
-	@Column(name = "CERTIFIED_TIME")
-	private Timestamp certifiedTime;
 
     @OneToOne(cascade = { CascadeType.REFRESH })
     @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
@@ -142,6 +123,13 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     @OneToMany(mappedBy="proposalPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalPersonCreditSplit> creditSplits;
+
+    @OneToOne(cascade = { CascadeType.REFRESH })
+    @PrimaryKeyJoinColumns({
+            @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"),
+            @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER")
+    })
+    private ProposalPersonCertificationDetails certificationDetails;
 
     @Transient
     private List<PersonTraining> personTrainings;
@@ -365,6 +353,9 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     @Column(name = "ERA_COMMONS_USER_NAME")
     private String eraCommonsUserName;
 
+    @Column(name = "NSF_ID")
+    private String nsfId;
+
     @Column(name = "DIVISION")
     private String division;
 
@@ -414,12 +405,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     
     @Transient
     private transient PropAwardPersonRoleService propAwardPersonRoleService;
-
-    @Transient
-    private transient String  certifiedPersonName;
-    
-    @Transient
-    private transient String  certifiedTimeStamp;
 
     @Transient
     private Timestamp createTimestamp;
@@ -1467,6 +1452,17 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
         this.eraCommonsUserName = argEraCommonsUserName;
     }
 
+    public String getNsfId() {
+        if (nsfId == null && personId != null) {
+            this.nsfId = getKcPersonService().getKcPersonByPersonId(personId).getExtendedAttributes().getNsfId();
+        }
+        return nsfId;
+    }
+
+    public void setNsfId(String nsfId) {
+        this.nsfId = nsfId;
+    }
+
     @Override
     public String getDivision() {
         return division;
@@ -1548,6 +1544,14 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
         this.developmentProposal = developmentProposal;
+    }
+
+    public ProposalPersonCertificationDetails getCertificationDetails() {
+        return certificationDetails;
+    }
+
+    public void setCertificationDetails(ProposalPersonCertificationDetails certificationDetails) {
+        this.certificationDetails = certificationDetails;
     }
 
     @Override
@@ -1750,54 +1754,13 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 	public void setCreateTimestamp(Timestamp createTimestamp) {
 		this.createTimestamp = createTimestamp;
 	}
-	
-	public String getCertifiedBy() {
-		
-		return certifiedBy;
-	}
 
-	public void setCertifiedBy(String certifiedBy) {
-		this.certifiedBy = certifiedBy;
-	}
-	
 	public Timestamp getLastNotification() {
 		return lastNotification;
 	}
 
 	public void setLastNotification(Timestamp lastNotification) {
 		this.lastNotification = lastNotification;
-	}
-
-	public Timestamp getCertifiedTime() {
-		
-		return certifiedTime;
-	}
-
-	public void setCertifiedTime(Timestamp certifiedTime) {
-		this.certifiedTime = certifiedTime;
-	}
-	
-	public String getCertifiedPersonName() {
-		if(this.certifiedBy!=null){
-			 this.certifiedPersonName = getKcPersonService().getKcPersonByPersonId(certifiedBy).getUserName();
-			}
-		return certifiedPersonName;
-	}
-
-	public void setCertifiedPersonName(String certifiedPersonName) {
-		this.certifiedPersonName = certifiedPersonName;
-	}
-	
-	public String getCertifiedTimeStamp() {
-		if(this.certifiedTime != null){
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.MM_DD_YYYY_HH_MM_A_DATE_FORMAT);
-            certifiedTimeStamp = simpleDateFormat.format(certifiedTime);
-		}
-		return certifiedTimeStamp;
-	}
-
-	public void setCertifiedTimeStamp(String certifiedTimeStamp) {
-		this.certifiedTimeStamp = certifiedTimeStamp;
 	}
 
     public Boolean getIncludeInCreditAllocation() {

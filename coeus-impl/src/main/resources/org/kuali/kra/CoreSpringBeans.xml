@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -507,6 +498,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalRoleTemplate.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/location/ProposalSite.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReview.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReviewAttachment.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReviewExemption.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/state/ProposalState.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/PropAwardPersonRole.xml</value>
@@ -629,6 +621,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/ScheduleAgenda.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ScheduleStatus.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SchoolCode.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/SentReportNotification.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/keyword/ScienceKeyword.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReview.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReviewApprovalType.xml</value>
@@ -679,6 +672,11 @@
                 <value>classpath:org/kuali/kra/datadictionary/UnitAdministratorPersonMassChange.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/admin/UnitAdministratorType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/crrspndnt/UnitCorrespondent.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/sync/SourceUnitInfo.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/sync/TargetRoleInfo.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/sync/UnitRole.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/sync/UnitRoleSync.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/sync/UnitRoleSyncMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/rate/UnitFormulatedCost.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/UserAttachedFormsXMLReorder.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidAwardBasisPayment.xml</value>
@@ -979,6 +977,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/KcComponents.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/LandingPageView.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/KcPropertyEditors.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/common/UifValuesFinderDisplayInputField.xml</value>
                 <value>classpath:org/kuali/coeus/common/questionnaire/impl/core/QuestionnaireView.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifNavigationBar.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifMultiSelect.xml</value>

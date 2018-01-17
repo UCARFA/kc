@@ -1,94 +1,83 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.core;
 
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.*;
-
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.coi.framework.DisclosureProjectStatus;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
+import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.print.KcAttachmentDataSource;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchResult;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchService;
+import org.kuali.coeus.common.impl.KcViewHelperServiceImpl;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
+import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
+import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.attachment.MultipartFileValidationService;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.auth.ProposalDevelopmentDocumentAuthorizer;
 import org.kuali.coeus.propdev.impl.auth.ProposalDevelopmentDocumentViewAuthorizer;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
-import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
-import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
-import org.kuali.coeus.propdev.impl.person.*;
-import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
-import org.kuali.coeus.propdev.impl.s2s.S2sRevisionTypeConstants;
-import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
-import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
-import org.kuali.coeus.propdev.impl.state.ProposalState;
-import org.kuali.coeus.sys.framework.controller.KcFileService;
-import org.kuali.coeus.sys.framework.validation.AuditHelper;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.protocol.actions.ProtocolStatusBase;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.impl.KcViewHelperServiceImpl;
-import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
-import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.impl.validation.DataValidationItem;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.location.AddProposalCongressionalDistrictEvent;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
+import org.kuali.coeus.propdev.impl.person.*;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitConstants;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.S2sRevisionTypeConstants;
+import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
-import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
-import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
+import org.kuali.coeus.propdev.impl.state.ProposalState;
+import org.kuali.coeus.sys.framework.controller.KcFileService;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.sys.impl.lock.KcPessimisticLockService;
+import org.kuali.coeus.sys.impl.validation.DataValidationItem;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.krad.file.FileMeta;
-import org.kuali.rice.krad.util.*;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.file.FileMeta;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -97,10 +86,17 @@ import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Service("proposalDevelopmentViewHelperService")
 @Scope("prototype")
@@ -114,6 +110,9 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public static final String AD_HOC_NOTIFICATION = "Ad-Hoc Notification";
     public static final String PROPOSAL_PERSON_CANNOT_BE_RETRIEVED_FROM_DEVELOPMENT_PROPOSAL = "proposal person cannot be retrieved from development proposal";
     public static final String DOCUMENT_DEVELOPMENT_PROPOSAL_INSTITUTE_ATTACHMENTS = "document.developmentProposal.instituteAttachments";
+    private static final String INFO_PROPOSAL_CERTIFIED = "All questions answered.";
+    private static final String WARN_PROPOSAL_CERTIFIED = "Please answer all questions in order to certify proposal.";
+    public static final String CERTIFICATION_DETAILS = "certificationDetails";
 
     @Autowired
     @Qualifier("dateTimeService")
@@ -126,10 +125,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("noteService")
     private NoteService noteService;
-
-    @Autowired
-	@Qualifier("parameterService")
-	private ParameterService parameterService;
 
     @Autowired
     @Qualifier("personService")
@@ -204,6 +199,22 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("rolodexService")
     private RolodexService rolodexService;
+
+    @Autowired
+    @Qualifier("kcPessimisticLockService")
+    private KcPessimisticLockService kcPessimisticLockService;
+
+    @Autowired
+    @Qualifier("questionnaireAnswerService")
+    private QuestionnaireAnswerService questionnaireAnswerService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
+    @Autowired
+    @Qualifier("medusaService")
+    private MedusaService medusaService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -553,12 +564,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-    protected ParameterService getParameterService (){
-    	return parameterService;
-    }
 
     public boolean isCreditSplitEnabled(){
     	return getKeyPersonnelService().isCreditSplitEnabled();
@@ -647,11 +652,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public boolean isPersonnelCreditSplitOptInFeatureEnabled() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                 CreditSplitConstants.ENABLE_OPT_IN_PERSONNEL_CREDIT_SPLIT_FUNCTIONALITY);
-    }
-
-    public boolean isDataValidationSectionEnabled() {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
-                Constants.SHOW_SECTION_IN_DATA_VALIDATION);
     }
 
     public void populateCreditSplits(ProposalDevelopmentDocumentForm form) {
@@ -777,6 +777,18 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return false;
     }
 
+    public boolean hasSpecialReviewAttachment(ProposalSpecialReview proposalSpecialReview) {
+        return proposalSpecialReview.getSpecialReviewAttachment()!= null && proposalSpecialReview.getSpecialReviewAttachment().getFileDataId() != null;
+    }
+
+    public String showFileAttachmentName(ProposalSpecialReview proposalSpecialReview) {
+        return proposalSpecialReview.getSpecialReviewAttachment()!= null ? proposalSpecialReview.getSpecialReviewAttachment().getName() : "";
+    }
+
+    public boolean isSpecialReviewAttachmentRequired(ProposalDevelopmentDocument document, ProposalSpecialReview specialReview) {
+        return document.getDevelopmentProposal().getS2sOpportunity() != null && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode());
+    }
+
     public String displayFullName(String userName){
         if (ObjectUtils.isNull(userName)) {
             return "";
@@ -834,6 +846,63 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
                 .orElse(new DisclosureProjectStatus());
     }
 
+    public String getCertifiedBy(ProposalPerson person) {
+        if (person.getCertificationDetails() == null) {
+            refreshDetails(person);
+        }
+        return person.getCertificationDetails() == null ? "" : person.getCertificationDetails().getCertifiedBy();
+    }
+
+    public String getCertifiedPersonName(ProposalPerson person) {
+        if (person.getCertificationDetails() == null) {
+            refreshDetails(person);
+        }
+        return person.getCertificationDetails() == null ? "" : person.getCertificationDetails().getCertifiedPersonName();
+    }
+
+    public String getCertifiedTimeStamp(ProposalPerson person) {
+        if (person.getCertificationDetails() == null) {
+            refreshDetails(person);
+        }
+        return person.getCertificationDetails() == null ? "" : person.getCertificationDetails().getCertifiedTimeStamp();
+    }
+
+    public void refreshDetails(ProposalPerson person) {
+        ProposalPersonCertificationDetails.ProposalPersonCertificationDetailsId id = new ProposalPersonCertificationDetails.ProposalPersonCertificationDetailsId();
+        id.setProposalNumber(person.getProposalNumber());
+        id.setProposalPersonNumber(person.getProposalPersonNumber());
+        ProposalPersonCertificationDetails details = dataObjectService.find(ProposalPersonCertificationDetails.class, id);
+        person.setCertificationDetails(details);
+    }
+
+    public String certifyModalMessage() {
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm)ViewLifecycle.getModel();
+        boolean complete = isQuestionnaireComplete(form.getProposalPersonQuestionnaireHelper());
+
+        if (complete && getGlobalVariableService().getMessageMap().hasNoErrors()) {
+            return INFO_PROPOSAL_CERTIFIED;
+        } else {
+            return WARN_PROPOSAL_CERTIFIED;
+        }
+    }
+
+    public boolean hasPersonnelLocks() {
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm)ViewLifecycle.getModel();
+        return kcPessimisticLockService.hasPersonnelLocks(form.getDocument().getDocumentNumber());
+    }
+
+    public boolean isQuestionnaireComplete(ProposalPersonQuestionnaireHelper helper) {
+        boolean retVal = true;
+        if (helper != null && helper.getAnswerHeaders() != null) {
+            for (AnswerHeader ah : helper.getAnswerHeaders()) {
+                boolean complete = questionnaireAnswerService.isQuestionnaireAnswerComplete(ah.getAnswers());
+                ah.setCompleted(complete);
+                retVal &= complete;
+            }
+        }
+        return retVal;
+    }
+
     public boolean isCoiDisclosureStatusEnabled() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 Constants.PARAMETER_COMPONENT_DOCUMENT,
@@ -857,9 +926,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
                         getGlobalVariableService().getUserSession().getPerson().getPrincipalId(), person.getPersonId());
     }
 
-    public void prepareSummaryPage(ProposalDevelopmentDocumentForm form) {
+    public void prepareSummaryPage(ProposalDevelopmentDocumentForm form, Boolean forcePopulateQuestionnaire) {
       populateCreditSplits(form);
-        populateQuestionnaires(form);
+      if (forcePopulateQuestionnaire) {
+          populateQuestionnaires(form);
+      }
         getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship(DEADLINE_TYPE_REF);
         ProposalDevelopmentNotificationRenderer renderer = new ProposalDevelopmentNotificationRenderer(form.getDevelopmentProposal());
         ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getDevelopmentProposal(), null, AD_HOC_NOTIFICATION, renderer);
@@ -1079,6 +1150,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     
     public boolean syncAllRequiresEndDateExtension(DevelopmentProposal hierarchyProposal) {
     	return getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal);
+    }
+
+    public boolean isReactMedusaEnabled() {
+        return medusaService.isReactMedusaEnabled();
     }
 
     public SponsorSearchService getSponsorSearchService() {

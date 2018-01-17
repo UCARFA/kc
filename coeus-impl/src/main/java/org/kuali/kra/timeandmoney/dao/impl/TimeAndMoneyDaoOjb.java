@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.timeandmoney.dao.impl;
 
@@ -39,9 +28,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeAndMoneyDao {
 
@@ -118,11 +105,17 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
 
     @Override
     public List<TransactionDetail> getTransactionDetailsForDocument(String documentNumber) {
-        Map<String, Object> criteria = new HashMap<>();
-        criteria.put(TIME_AND_MONEY_DOCUMENT_NUMBER, documentNumber);
-        criteria.put(TRANSACTION_DETAIL_TYPE, TransactionDetailType.PRIMARY.toString());
 
-        return ((List<TransactionDetail>) businessObjectService.findMatching(TransactionDetail.class, criteria));
+        Criteria crit = new Criteria();
+        crit.addEqualTo(TIME_AND_MONEY_DOCUMENT_NUMBER, documentNumber);
+        Criteria types = new Criteria();
+        types.addEqualTo(TRANSACTION_DETAIL_TYPE, TransactionDetailType.PRIMARY.toString());
+        types.addEqualTo(TRANSACTION_DETAIL_TYPE, TransactionDetailType.DATE.toString());
+        crit.addOrCriteria(types);
+
+        QueryByCriteria criteria = new QueryByCriteria(TransactionDetail.class, crit);
+
+        return new ArrayList<TransactionDetail>(getPersistenceBrokerTemplate().getCollectionByQuery(criteria));
     }
 
 }

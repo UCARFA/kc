@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
  xmlns:p="http://www.springframework.org/schema/p" 
@@ -43,6 +34,7 @@
     	<ref bean="SubAwardPrintAgreement-attachment4"/>
     	<ref bean="SubAwardPrintAgreement-afosrSponsor"/>
     	<ref bean="SubAwardPrintAgreement-amrmcSponsor"/>
+    	<ref bean="SubAwardPrintAgreement-amraaSponsor"/>
     	<ref bean="SubAwardPrintAgreement-aroSponsor"/>
     	<ref bean="SubAwardPrintAgreement-doeSponsor"/>
     	<ref bean="SubAwardPrintAgreement-epaSponsor"/>
@@ -128,6 +120,15 @@
     <property name="shortLabel" value="AMRMC Sponsor Attachment" />
     <property name="summary" value="AMRMC Sponsor Attachment" />
     <property name="description" value="AMRMC Sponsor Attachment" />
+  </bean>
+
+  <bean id="SubAwardPrintAgreement-amraaSponsor" parent="SubAwardPrintAgreement-amraaSponsor-parentBean" />
+  <bean id="SubAwardPrintAgreement-amraaSponsor-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="amraaSponsor" />
+    <property name="label" value="AMRAA Sponsor Attachment" />
+    <property name="shortLabel" value="AMRAA Sponsor Attachment" />
+    <property name="summary" value="AMRAA Sponsor Attachment" />
+    <property name="description" value="AMRAA Sponsor Attachment" />
   </bean>
   
   <bean id="SubAwardPrintAgreement-aroSponsor" parent="SubAwardPrintAgreement-aroSponsor-parentBean" />

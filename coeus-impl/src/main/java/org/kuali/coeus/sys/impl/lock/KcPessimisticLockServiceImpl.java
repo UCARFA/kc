@@ -1,26 +1,17 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.sys.impl.lock;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -28,6 +19,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.PessimisticLockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -44,7 +36,7 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
     private static final Log LOG = LogFactory.getLog(KcPessimisticLockServiceImpl.class);
 
     /**
-     * Convert minutes to milliseconds.
+     * Convert minutes to milliseconds
      */
     private static final long MINUTES_TO_MILLISECONDS = 60L * 1000L;
     
@@ -65,6 +57,9 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
 
+    @Autowired
+    @Qualifier("pessimisticLockService")
+    private PessimisticLockService pessimisticLockService;
 
     /**
      * Retrieve all of the locks from the database.  Delete those that
@@ -85,6 +80,14 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
         }
     }
 
+    @Override
+    public boolean hasPersonnelLocks(String documentNumber) {
+        List<PessimisticLock> locks = pessimisticLockService.getPessimisticLocksForDocument(documentNumber);
+        boolean lockAlreadyExists = locks.stream().anyMatch(
+                lock -> StringUtils.countMatches(lock.getLockDescriptor(), KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL) > 0
+        );
+        return lockAlreadyExists;
+    }
 
     @Override
     public boolean isPessimisticLockNeeded(ProposalDevelopmentDocument document, Person user, boolean canEdit, String customLockDescriptor) {

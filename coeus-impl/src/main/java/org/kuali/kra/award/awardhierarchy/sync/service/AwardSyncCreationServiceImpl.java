@@ -1,24 +1,13 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
@@ -98,7 +87,7 @@ public class AwardSyncCreationServiceImpl implements AwardSyncCreationService {
      */
     protected boolean sameObject(AwardSyncXmlExport change1, AwardSyncXmlExport change2) {
         if (StringUtils.equals(change1.getClassName(), change2.getClassName())
-                && ObjectUtils.equals(change1.getKeys(), change2.getKeys())) {
+                && Objects.equals(change1.getKeys(), change2.getKeys())) {
             boolean result = true;
             for (Map.Entry<String, Object> entry : change1.getValues().entrySet()) {
                 if (entry.getValue() instanceof AwardSyncXmlExport

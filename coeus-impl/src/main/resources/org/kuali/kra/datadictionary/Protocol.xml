@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="Protocol" parent="Protocol-parentBean" />
@@ -76,6 +67,7 @@
 				<ref bean="Protocol-lookupActionNotifyIRBProtocol" />
 				<ref bean="Protocol-lookupActionRequestProtocol" />
 				<ref bean="Protocol-lookupProtocolPersonId" />
+				<ref bean="Protocol-createTimestamp"/>
 			</list>
 		</property>
 	</bean>
@@ -845,7 +837,20 @@
         <property name="summary" value="All My Protocols" />
         <property name="description" value="All My Protocols" />
     </bean>
-	
+
+	<bean id="Protocol-createTimestamp" parent="Protocol-createTimestamp-parentBean"/>
+	<bean id="Protocol-createTimestamp-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+		<property name="name" value="createTimestamp"/>
+		<property name="label" value="Protocol Create Date"/>
+		<property name="shortLabel" value="Protocol Create Date"/>
+		<property name="controlField">
+			<bean parent="Uif-DateControl" p:size="12"/>
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+		<property name="summary" value="Protocol Create Date"/>
+		<property name="description" value="Protocol Create Date"/>
+	</bean>
+
 	<!-- Business Object Inquiry Definition -->
 	<bean id="Protocol-inquiryDefinition" parent="Protocol-inquiryDefinition-parentBean" />
   <bean id="Protocol-InquiryView" parent="Protocol-InquiryView-parentBean"/>
@@ -960,6 +965,7 @@
         <bean parent="FieldDefinition" p:attributeName="lookupActionNotifyIRBProtocol" p:noLookup="true" p:hidden="true"/>
         <bean parent="FieldDefinition" p:attributeName="lookupActionRequestProtocol" p:noLookup="true" p:hidden="true"/>
         <bean parent="FieldDefinition" p:attributeName="lookupProtocolPersonId" p:noLookup="true" p:hidden="true"/>
+				<bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -977,6 +983,7 @@
         <bean parent="FieldDefinition" p:attributeName="leadUnitNumber"/>
         <bean parent="FieldDefinition" p:attributeName="leadUnitName"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
+				<bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
 			</list>
 		</property>
  	</bean>
@@ -1010,6 +1017,7 @@
         <bean p:propertyName="lookupActionNotifyIRBProtocol" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="lookupActionRequestProtocol" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="lookupProtocolPersonId" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
+		  <bean p:propertyName="createTimestamp" parent="Uif-LookupCriteriaInputField" p:ranged="true"/>
       </list>
     </property>
     <property name="resultFields">
@@ -1027,6 +1035,7 @@
         <bean p:propertyName="leadUnitNumber" parent="Uif-DataField"/>
         <bean p:propertyName="leadUnitName" parent="Uif-DataField"/>
         <bean p:propertyName="active" parent="Uif-DataField"/>
+		  <bean p:propertyName="createTimestamp" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

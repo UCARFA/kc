@@ -1,20 +1,9 @@
 <%--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ You may use and modify this code under the terms of the Kuali, Inc.
+ Pre-Release License Agreement. You may not distribute it.
+ You should have received a copy of the Kuali, Inc. Pre-Release License
+ Agreement with this file. If not, please write to license@kuali.co.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
@@ -75,7 +64,7 @@
     <div id="debugLog" style="position: relative; overflow-y: auto; height: 15em; display:none; text-align: left; width:100%;"><a href="javascript: $('#loading').hide(); return false;" style="position: absolute; top: 0; right: 0;">Hide Loading</a></div>
     </div>
     
-	<c:forEach items="${KualiForm.awardHierarchyBean.hierarchy}" var="tempNode" varStatus="status">
+	<c:forEach items="${KualiForm.awardHierarchyBean.currentAwardHierarchy}" var="tempNode" varStatus="status">
 		<c:set var="createChildProperty" value="methodToCall.create.awardNumber${tempNode.key}" />  
 		<c:set var="copyAwardProperty" value="methodToCall.copyAward.awardNumber${tempNode.key}" />
 		${kfunc:registerEditableProperty(KualiForm, createChildProperty)}  
@@ -87,7 +76,7 @@
     <input type="hidden" id ="currentSeqNumber" name="document.awardList[0].sequenceNumber" value="${KualiForm.document.awardList[0].sequenceNumber}">
     <input type="hidden" id = "selectedAwardNumber" name="selectedAwardNumber" value="${(param.selectedAwardNumber == '' or param.selectedAwardNumber == null) ? selectedAwardNumber : param.selectedAwardNumber}">
 	
-	<c:forEach var="i" begin="1" end="${fn:length(KualiForm.awardHierarchyBean.hierarchy)}" step="1" varStatus ="status">
+	<c:forEach var="i" begin="1" end="${fn:length(KualiForm.awardHierarchyBean.currentAwardHierarchy)}" step="1" varStatus ="status">
 		<input type="hidden" id = "awardHierarchyTempObject[${i}].awardNumber1" name="awardHierarchyTempObject[${i}].awardNumber1" value="${KualiForm.awardHierarchyTempObjects[i].awardNumber1}">
 		<c:set var="lookupAwardNumber1" value="methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject[${i}].awardNumber1,awardHierarchyTempObject[${i}].awardNumber1:awardNumber))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))" />
 		${kfunc:registerEditableProperty(KualiForm, lookupAwardNumber1)}

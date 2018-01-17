@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.timeandmoney.service.impl;
 
@@ -32,7 +21,6 @@ import org.kuali.kra.award.service.AwardDirectFandADistributionService;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
@@ -100,7 +88,6 @@ public class TimeAndMoneyServiceImpl implements TimeAndMoneyService {
     private static final String PROJECT_END_COMMENT = "Project End";
     private static final String OBLIGATED_END_COMMENT = "Obligated End";
     private static final String OBLIGATED_START_COMMENT = "Obligated Start";
-    private static final Integer NO_COST_EXTENSION_CODE = 10;
     public static final String SINGLE_NODE_MONEY_TRANSACTION_COMMENT = "Single Node Money Transaction";
     public static final String TRANSACTION_SEQUENCE = "SEQ_TRANSACTION_ID";
     private TransactionRuleImpl transactionRuleImpl;
@@ -233,7 +220,7 @@ public class TimeAndMoneyServiceImpl implements TimeAndMoneyService {
             businessObjectService.delete(award.getAwardDirectFandADistributions());
 
             Boolean autoGenerate = parameterService.getParameterValueAsBoolean(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT,
-                    KeyConstants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS);
+                    Constants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS);
             if (autoGenerate) {
                 award.setAwardDirectFandADistributions(awardDirectFandADistributionService.
                         generateDefaultAwardDirectFandADistributionPeriods(award));
@@ -276,6 +263,11 @@ public class TimeAndMoneyServiceImpl implements TimeAndMoneyService {
         return Integer.parseInt(nodeIndex);
     }
 
+    private String getNoCostExtensionCode() {
+        return parameterService.getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT,
+                Constants.NO_COST_EXTENSION_CODE);
+    }
+
     @Override
     public void captureDateChangeTransactions(TimeAndMoneyDocument timeAndMoneyDocument, List<AwardHierarchyNode> awardHierarchyNodeItems) throws WorkflowException {
         //save rules have not been applied yet so there needs to be a null check on transaction type code before testing the value.
@@ -283,7 +275,7 @@ public class TimeAndMoneyServiceImpl implements TimeAndMoneyService {
         if (timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null) {
             isNoCostExtension = false;
         }else {
-            isNoCostExtension = timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode().equals(NO_COST_EXTENSION_CODE);//Transaction type code for No Cost Extension
+            isNoCostExtension = timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode().equals(Integer.parseInt(getNoCostExtensionCode()));//Transaction type code for No Cost Extension
         }
         //if Dates have changed in a node in hierarchy view and the Transaction Type is a No Cost Extension,
         //we need to record this as a transaction in history.
@@ -363,10 +355,12 @@ public class TimeAndMoneyServiceImpl implements TimeAndMoneyService {
                 && !awardHierarchyNodeItems.get(index).getFinalExpirationDate().equals(awardAmountInfo.getFinalExpirationDate())){
             if (isNoCostExtension &&
                     awardHierarchyNodeItems.get(index).getFinalExpirationDate().after(awardAmountInfo.getFinalExpirationDate())) {
+
                 awardAmountInfo = getNewAwardAmountInfoForDateChangeTransaction(awardAmountInfo, award, timeAndMoneyDocument.getDocumentNumber());
                 awardAmountInfo.setFinalExpirationDate(awardHierarchyNodeItems.get(index).getFinalExpirationDate());
                 awardHierarchyNode.getValue().setFinalExpirationDate(awardHierarchyNodeItems.get(index).getFinalExpirationDate());
                 award.getAwardAmountInfos().add(awardAmountInfo);
+
                 TransactionDetail transactionDetail = createTransDetailForDateChanges(awardAmountInfo.getAwardNumber(), awardAmountInfo.getAwardNumber(), awardAmountInfo.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
                         timeAndMoneyDocument.getDocumentNumber(), PROJECT_END_COMMENT);
                 awardAmountInfo.setTransactionId(transactionDetail.getTransactionId());

@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
  *
- * Copyright 2005-2016 Kuali, Inc.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.sys.framework.util;
 
@@ -26,6 +15,8 @@ import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
+import org.apache.pdfbox.pdmodel.PDResources;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.interactive.form.*;
 
 import java.io.IOException;
@@ -48,6 +39,8 @@ public final class PdfBoxUtils {
     private static final String COMMA_SEPARATOR = ",  ";
     private static final String VAL_START = "<";
     private static final String VAL_END = ">";
+    private static final COSName ARIAL_MT = COSName.getPDFName("ArialMT");
+    private static final COSName HELVETICA = COSName.getPDFName("Helvetica");
 
     private PdfBoxUtils() {
         throw new UnsupportedOperationException("do not call");
@@ -234,6 +227,14 @@ public final class PdfBoxUtils {
         return value;
     }
 
+    /**
+     * for some reason flattened pdfs have a font of ArialMT and Helvetica which is not available in the default resources.
+     */
+    private static void doMissingDefaultResourcesWorkaround(PDResources resources) {
+        resources.put(ARIAL_MT, PDType1Font.HELVETICA);
+        resources.put(HELVETICA, PDType1Font.HELVETICA);
+    }
+
     private static String booleanToStr(boolean value) {
         return value ? "Yes" : "Off";
     }
@@ -248,6 +249,10 @@ public final class PdfBoxUtils {
 
         if (pdfDocument == null) {
             throw new IllegalArgumentException("pdfDocument is null");
+        }
+
+        if (pdfDocument.getDocumentCatalog().getAcroForm().getDefaultResources() != null) {
+            doMissingDefaultResourcesWorkaround(pdfDocument.getDocumentCatalog().getAcroForm().getDefaultResources());
         }
 
         try {

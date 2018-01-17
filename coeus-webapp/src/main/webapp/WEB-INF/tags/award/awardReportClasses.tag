@@ -1,20 +1,9 @@
 <%--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ You may use and modify this code under the terms of the Kuali, Inc.
+ Pre-Release License Agreement. You may not distribute it.
+ You should have received a copy of the Kuali, Inc. Pre-Release License
+ Agreement with this file. If not, please write to license@kuali.co.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <script>
@@ -35,6 +24,14 @@
 <jsp:useBean id="paramMap3" class="java.util.HashMap"/>
 <c:set target="${paramMap1}" property="reportClassCode" value="${reportClassKey}" />
 <c:set target="${paramMap2}" property="reportClassCode" value="${reportClassKey}" />
+
+<%-- Cache option values based on their keys for reuse throughout the request --%>
+<jsp:useBean id="reportClassCodeValues" class="java.util.HashMap" scope="request"/>
+<c:if test="${!reportClassCodeValues.containsKey(reportClassKey)}">
+	<c:set target="${reportClassCodeValues}" property="${reportClassKey}" value="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder', paramMap1)}" />
+</c:if>
+<jsp:useBean id="frequencyCodeValues" class="java.util.HashMap" scope="request"/>
+<jsp:useBean id="frequencyBaseCodeValues" class="java.util.HashMap" scope="request"/>
 
 <%-- The logic in the updateBaseDateDisplay function is duplicated in ReportTrackingServiceImpl.calculateBaseDate.
 If you update one, please update the other. --%>
@@ -88,7 +85,7 @@ function updateBaseDateDisplay(selectBox) {
 <c:if test="${empty noShowHideButton}">
 	<c:set var="noShowHideButton" value="false" />
 </c:if>
-	                        
+
 <kul:innerTab parentTab="Report Classes" tabItemCount="${tabItemCount}" defaultOpen="${defaultOpenForTab}" tabTitle="${reportClassLabel}" tabErrorKey="awardReportsBean.newAwardReportTerms[${index}]*,${tabErrorKeyString}" noShowHideButton="${noShowHideButton}" >
     <table border="0" cellpadding="0" cellspacing="0" summary="">
         <tr>
@@ -108,11 +105,11 @@ function updateBaseDateDisplay(selectBox) {
 			    <c:out value="Add:" />
 			</th>
             <td nowrap width="5%" valign="middle" class="infoline">
-            
+
             <div align="center">                        
                 <html:select property="awardReportsBean.newAwardReportTerms[${index}].reportCode" tabindex="0" 
                 onchange="javascript: loadFrequencyCode('${reportClassKey}', 'awardReportsBean.newAwardReportTerms[${index}].reportCode','awardReportsBean.newAwardReportTerms[${index}].frequencyCode');return false" >                                              
-                <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder', paramMap1)}" var="option">
+                <c:forEach items="${reportClassCodeValues[reportClassKey]}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.awardReportsBean.newAwardReportTerms[index].reportCode == option.key}">
 	                        <option value="${option.key}" selected>${option.value}</option>
@@ -133,11 +130,15 @@ function updateBaseDateDisplay(selectBox) {
             </div>
 			</td>
 			<c:set target="${paramMap2}" property="reportCode" value="${KualiForm.awardReportsBean.newAwardReportTerms[index].reportCode}" />
+			<c:set var="frequencyCodeKey" value="${reportClassKey}~${paramMap2.reportCode}" />
+			<c:if test="${!frequencyCodeValues.containsKey(frequencyCodeKey)}">
+				<c:set target="${frequencyCodeValues}" property="${frequencyCodeKey}" value="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder', paramMap2)}" />
+			</c:if>
             <td nowrap width="5%" valign="middle" class="infoline">
             <div align="center">                
                 <html:select property="awardReportsBean.newAwardReportTerms[${index}].frequencyCode" tabindex="0" 
                 onchange="javascript: loadFrequencyBaseCode('awardReportsBean.newAwardReportTerms[${index}].frequencyCode','awardReportsBean.newAwardReportTerms[${index}].frequencyBaseCode');return false" >                
-                <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder', paramMap2)}" var="option">
+                <c:forEach items="${frequencyCodeValues[frequencyCodeKey]}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.awardReportsBean.newAwardReportTerms[index].frequencyCode == option.key}">
 	                        <option value="${option.key}" selected>${option.value}</option>
@@ -159,9 +160,13 @@ function updateBaseDateDisplay(selectBox) {
 			</td>
             <td nowrap width="5%" valign="middle" class="infoline">
             <c:set target="${paramMap3}" property="frequencyCode" value="${KualiForm.awardReportsBean.newAwardReportTerms[index].frequencyCode}" />
+			<c:set var="frequencyBaseCodeKey" value="~${paramMap3.frequencyCode}~" />
+			<c:if test="${!frequencyBaseCodeValues.containsKey(frequencyBaseCodeKey)}">
+				<c:set target="${frequencyBaseCodeValues}" property="${frequencyBaseCodeKey}" value="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder', paramMap3)}" />
+			</c:if>
             <div align="center">
                 <html:select property="awardReportsBean.newAwardReportTerms[${index}].frequencyBaseCode" tabindex="0" onchange="updateBaseDateDisplay(this);">                
-                <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder', paramMap3)}" var="option">
+                <c:forEach items="${frequencyBaseCodeValues[frequencyBaseCodeKey]}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.awardReportsBean.newAwardReportTerms[index].frequencyBaseCode == option.key}">
 	                        <option value="${option.key}" selected>${option.value}</option>
@@ -199,7 +204,7 @@ function updateBaseDateDisplay(selectBox) {
         </tr>  
         </tbody>
         </c:if>      
-        	                                            
+
         <c:forEach var="awardReportTerm" items="${krafn:copy(KualiForm.document.award.awardReportTermItems)}" varStatus="status">
 	        <c:if test="${awardReportTerm.reportClassCode == reportClassKey }" >
 	        <c:set var="counterReport" value="${counterReport + 1}" />
@@ -215,7 +220,7 @@ function updateBaseDateDisplay(selectBox) {
   				</c:if>                
                 <html:select property="document.awardList[0].awardReportTermItems[${status.index}].reportCode" tabindex="0" style="${textStyle}" 
                              onchange="javascript: loadFrequencyCode('${reportClassKey}', 'document.awardList[0].awardReportTermItems[${status.index}].reportCode','document.awardList[0].awardReportTermItems[${status.index}].frequencyCode');return false" disabled="${readOnly}">                                             
-                <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder', paramMap1)}" var="option">                	
+                <c:forEach items="${reportClassCodeValues[reportClassKey]}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].reportCode == option.key}">
 	                        <option value="${option.key}" selected>${option.value}</option>
@@ -232,7 +237,11 @@ function updateBaseDateDisplay(selectBox) {
 	            <c:set var="textStyle" value=""/>
 			</div>
 			</td>
-			<c:set target="${paramMap2}" property="reportCode" value="${KualiForm.document.awardList[0].awardReportTermItems[status.index].reportCode}" />			
+			<c:set target="${paramMap2}" property="reportCode" value="${KualiForm.document.awardList[0].awardReportTermItems[status.index].reportCode}" />
+			<c:set var="frequencyCodeKey" value="${reportClassKey}~${paramMap2.reportCode}" />
+			<c:if test="${!frequencyCodeValues.containsKey(frequencyCodeKey)}">
+				<c:set target="${frequencyCodeValues}" property="${frequencyCodeKey}" value="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder', paramMap2)}" />
+			</c:if>
 	        <td nowrap width="5%" valign="middle">
 			<div align="center">
 				<kul:checkErrors keyMatch="document.awardList[0].awardReportTermItems[${status.index}].frequencyCode" auditMatch="${property}"/>				
@@ -241,7 +250,7 @@ function updateBaseDateDisplay(selectBox) {
   				</c:if> 
                 <html:select property="document.awardList[0].awardReportTermItems[${status.index}].frequencyCode" tabindex="0" style="${textStyle}" 
                 	onchange="javascript: loadFrequencyBaseCode('document.awardList[0].awardReportTermItems[${status.index}].frequencyCode','document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode');return false" disabled="${readOnly}">                
-                <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder', paramMap2)}" var="option">                	
+                <c:forEach items="${frequencyCodeValues[frequencyCodeKey]}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].frequencyCode == option.key}">
 	                        <option value="${option.key}" selected>${option.value}</option>
@@ -259,6 +268,10 @@ function updateBaseDateDisplay(selectBox) {
 			</div>
 			</td>
 			<c:set target="${paramMap3}" property="frequencyCode" value="${KualiForm.document.awardList[0].awardReportTermItems[status.index].frequencyCode}" />
+			<c:set var="frequencyBaseCodeKey" value="~${paramMap3.frequencyCode}~" />
+			<c:if test="${!frequencyBaseCodeValues.containsKey(frequencyBaseCodeKey)}">
+				<c:set target="${frequencyBaseCodeValues}" property="${frequencyBaseCodeKey}" value="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder', paramMap3)}" />
+			</c:if>
 	        <td nowrap width="5%" valign="middle">
 			<div align="center">
 				<kul:checkErrors keyMatch="document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode" auditMatch="${property}"/>				
@@ -266,7 +279,7 @@ function updateBaseDateDisplay(selectBox) {
     				<c:set var="textStyle" value="background-color:#FFD5D5"/>
   				</c:if>                 
                 <html:select property="document.awardList[0].awardReportTermItems[${status.index}].frequencyBaseCode" tabindex="0" style="${textStyle}" disabled="${readOnly}" onchange="updateBaseDateDisplay(this);">                
-                <c:forEach items="${krafn:getOptionList('org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder', paramMap3)}" var="option">
+                <c:forEach items="${frequencyBaseCodeValues[frequencyBaseCodeKey]}" var="option">
 	                <c:choose>                    	
 	                	<c:when test="${KualiForm.document.awardList[0].awardReportTermItems[status.index].frequencyBaseCode == option.key}">
 	                        <option value="${option.key}" selected>${option.value}</option>

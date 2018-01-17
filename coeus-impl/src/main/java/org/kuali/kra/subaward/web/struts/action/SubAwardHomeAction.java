@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.subaward.web.struts.action;
 
@@ -24,7 +13,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.sys.api.model.KcFile;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.subaward.SubAwardForm;
@@ -33,42 +21,20 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SubAwardHomeAction extends SubAwardAction{
 
     private static final String SUBAWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.subaward.version.editpending.prompt";
     private static final String PENDING = "PENDING";
-    private static final int FDP_SPONSOR_ATTACHMENT_TYPE = 2;
+
     private static final String SUB_AWARD_AMOUNT_INFO = "subAwardAmountInfo";
-
-    @Override
-    public ActionForward execute(ActionMapping mapping,
-    ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        ActionForward actionForward =
-        super.execute(mapping, form, request, response);
-        SubAwardForm subAwardForm = (SubAwardForm) form;
-        List<SubAwardForms> subAwardList = new ArrayList<>();
-        Collection<SubAwardForms> subAwardForms = KcServiceLocator.getService(BusinessObjectService.class).findAll(SubAwardForms.class);
-        subAwardList.addAll(subAwardForms.stream()
-                .filter(subAwardFormValues -> subAwardFormValues.getTemplateTypeCode().equals(FDP_SPONSOR_ATTACHMENT_TYPE))
-                .collect(Collectors.toList()));
-        subAwardForm.getSubAward().setSubAwardForms(subAwardList);
-        return actionForward;
-    }
-
-
 
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form,

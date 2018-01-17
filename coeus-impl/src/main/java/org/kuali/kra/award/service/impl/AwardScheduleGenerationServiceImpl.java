@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.service.impl;
 
@@ -85,9 +74,9 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     @Override
     public List<Date> generateSchedules(Award award, List<AwardReportTerm> awardReportTerms, boolean isThisNotPaymentPanel) throws ParseException{
         List<Date> dates = new ArrayList<Date>();
-        Map<String, java.util.Date> mapOfDates = new HashMap<String, java.util.Date>();
+        Map<String, java.util.Date> mapOfDates = new HashMap<>();
         
-        initializeDatesForThisAward(award, mapOfDates);        
+        initializeDatesForThisAward(award, mapOfDates);
         refreshAwardReportTerms(awardReportTerms);
         
         int index = 0;
@@ -102,7 +91,8 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     }
     
     /**
-     * This is a helper method. This method calls evaluates the frequency and frequency base and generates dates either by calling the scheduling service or
+     * This is a helper method. This method calls evaluates the frequency and frequency base and generates dates
+     * either by calling the scheduling service or
      * without that.
      * 
      * @param awardReportTerm     
@@ -129,7 +119,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
             startDate = getStartDate(awardReportTerm, mapOfDates);
         }
         if (StringUtils.isNotBlank(awardReportTerm.getFrequencyBaseCode())) {
-            endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate, mapOfDates);
+            endDate = getEndDate(awardReportTerm, startDate, mapOfDates);
         }
         
         if (startDate != null && endDate != null) {
@@ -259,20 +249,23 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * 
      * If frequency base code is 4(Final Expiration Date), it adds 1 year to the start date and returns it.
      * otherwise it returns the final expiration date itself.
-     * 
-     * @param frequencyBaseCode
+     *
+     * @param awardReportTerm
      * @param startDate
      * @return
      */
-    protected Date getEndDate(String frequencyBaseCode, Date startDate, Map<String, java.util.Date> mapOfDates){
+    protected Date getEndDate(AwardReportTerm awardReportTerm, Date startDate, Map<String, java.util.Date> mapOfDates){
         Calendar calendar = new GregorianCalendar();
         
-        if(frequencyBaseCode.equals(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase())){
+        if(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase().equals(awardReportTerm.getFrequencyBaseCode())){
             calendar.setTime(startDate);   
             calendar.add(Calendar.YEAR, Integer.parseInt(this.getParameterService().getParameterValueAsString(AwardDocument.class
                     ,KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE)));            
         }else{
             calendar.setTime(mapOfDates.get(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase()));
+            Optional<Frequency> frequency = Optional.ofNullable(awardReportTerm.getFrequency());
+            frequency.map(Frequency::getNumberOfMonths).ifPresent(months -> calendar.add(Calendar.MONTH, months));
+            frequency.map(Frequency::getNumberOfDays).ifPresent(days -> calendar.add(Calendar.DAY_OF_YEAR, days));
         }
         return calendar.getTime();
     }

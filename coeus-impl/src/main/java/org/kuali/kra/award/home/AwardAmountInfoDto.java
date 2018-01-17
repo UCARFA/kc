@@ -1,27 +1,18 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.home;
 
 import java.sql.Date;
 
 import com.codiform.moo.annotation.Property;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.json.JsonFormats;
 
 public class AwardAmountInfoDto {
 
@@ -30,11 +21,14 @@ public class AwardAmountInfoDto {
     private String timeAndMoneyDocumentNumber;
     private ScaleTwoDecimal anticipatedTotalAmount;
     private ScaleTwoDecimal antDistributableAmount;
-    private Date finalExpirationDate;
-    private Date currentFundEffectiveDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
+	private Date finalExpirationDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
+	private Date currentFundEffectiveDate;
     private ScaleTwoDecimal amountObligatedToDate;
     private ScaleTwoDecimal obliDistributableAmount;
-    private Date obligationExpirationDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonFormats.SERIALIZED_SQL_DATE_FORMAT)
+	private Date obligationExpirationDate;
     private ScaleTwoDecimal anticipatedChange;
     private ScaleTwoDecimal obligatedChange;
     private ScaleTwoDecimal obligatedChangeDirect;

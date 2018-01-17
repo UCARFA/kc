@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -120,12 +111,26 @@
 	<bean id="PropDev-BudgetVersions-GenericActions-parentBean" abstract="true" parent="Kc-Dropdown-Button">
 		<property name="listPrototype.items">
 			<list>
-				<bean parent="Uif-ActionLink" p:actionLabel="View Summary" p:methodToCall="populateBudgetSummary" p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-eye-open" p:order="10"/>
+				<bean parent="Uif-ActionLink" p:actionLabel="View Summary" p:methodToCall="populateBudgetSummary" p:iconClass="icon-eye-open" p:order="10">
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="budgetId" value="@{#line.budgetId}"/>
+							<entry key="viewOnly" value="@{#parent.readOnly}"/>
+						</map>
+					</property>
+				</bean>
 				<bean parent="Uif-ActionLink" p:actionLabel="Copy" p:iconClass="icon-copy" p:render="@{#view.editModes.containsKey(#budgetAuthConsts.ADD_BUDGET_EDIT_MODE) and !viewOnly and canEdit}"
 					p:actionScript="showDialog('PropDev-BudgetPage-CopyBudgetDialog', {showHandler: function(e) {Kc.PropDev.Budget.copyBudget(@{#line.budgetId}, e)}})"
 					p:order="20"/>
-				<bean parent="Uif-ActionLink" p:actionLabel="Print" p:methodToCall="populatePrintForms" p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-print" p:order="30" />
-                <bean parent="Uif-ActionLink" p:actionLabel="Complete Budget" p:methodToCall="markBudgetVersionComplete"
+				<bean parent="Uif-ActionLink" p:actionLabel="Print" p:methodToCall="populatePrintForms" p:iconClass="icon-print" p:order="30">
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="budgetId" value="@{#line.budgetId}"/>
+							<entry key="viewOnly" value="@{#parent.readOnly}"/>
+						</map>
+					</property>
+				</bean>
+				<bean parent="Uif-ActionLink" p:actionLabel="Complete Budget" p:methodToCall="markBudgetVersionComplete"
                       p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-check"
                       p:hidden="@{#lp.isBudgetComplete() or viewOnly or !canEdit}" p:order="35">
                     <property name="confirmationDialog">

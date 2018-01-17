@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses />.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.coeus</groupId>
     <artifactId>coeus</artifactId>
-    <version>1708.0006-SNAPSHOT</version>
+    <version>1801.0025-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Kuali Coeus</name>
     <description>
@@ -40,8 +31,7 @@
 
     <licenses>
         <license>
-            <name>GNU Affero General Public License, Version 3</name>
-            <url>${kuali.agpl3.license.url}</url>
+            <name>${kuali.license}</name>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -63,8 +53,8 @@
         <bouncycastle.version>1.57</bouncycastle.version>
         <cas-client-core.version>3.4.1</cas-client-core.version>
         <cglib.version>3.2.5</cglib.version>
-        <coeus-api-all.version>1706.0001</coeus-api-all.version>
-        <coeus-s2sgen.version>1708.0001</coeus-s2sgen.version>
+        <coeus-api-all.version>1801.0003</coeus-api-all.version>
+        <coeus-s2sgen.version>1801.0004</coeus-s2sgen.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -78,7 +68,7 @@
         <commons-net.version>3.6</commons-net.version>
         <commons-pool.version>1.6</commons-pool.version>
         <commons-validator.version>1.6</commons-validator.version>
-        <cxf.version>2.7.18</cxf.version>
+        <cxf.version>3.1.12</cxf.version>
         <db-ojb.version>1.0.4-patch9</db-ojb.version>
         <displaytag.version>1.2</displaytag.version>
         <drools.version>7.0.0.Final</drools.version>
@@ -86,17 +76,18 @@
         <ecj.version>4.6.1</ecj.version>
         <ehcache.version>2.6.11</ehcache.version>
         <el.version>2.2.1</el.version>
+        <esapi.version>2.1.0</esapi.version>
         <fop.version>1.1</fop.version>
         <guava.version>21.0</guava.version>
         <hamcrest.version>1.3</hamcrest.version>
         <httpclient.version>4.5.3</httpclient.version>
         <hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
         <itext.version>2.1.7</itext.version>
-        <jackson.version>1.9.13</jackson.version>
+        <jackson.version>2.9.0</jackson.version>
         <javamelody-core.version>1.67.0</javamelody-core.version>
         <javax.mail.version>1.5.6</javax.mail.version>
         <javax.persistence.version>2.1.0</javax.persistence.version>
-        <jaxb-impl.version>2.2.6</jaxb-impl.version>
+        <jaxb.version>2.2.11</jaxb.version>
         <jose4j.version>0.5.8</jose4j.version>
         <jmock.version>2.8.3</jmock.version>
         <joda-time.version>2.9.9</joda-time.version>
@@ -108,14 +99,13 @@
         <junit.version>4.12</junit.version>
         <kuali-cm.version>1.2.8</kuali-cm.version>
         <log4j.version>1.2.17</log4j.version>
-        <mockito.version>2.8.47</mockito.version>
+        <mockito.version>2.12.0</mockito.version>
         <moo-mvel.version>2.0</moo-mvel.version>
         <mysql.groupId>mysql</mysql.groupId>
         <mysql.artifactId>mysql-connector-java</mysql.artifactId>
         <mysql.version>5.1.40</mysql.version>
         <mvel.version>2.2.4.Final</mvel.version>
         <objenesis.version>2.5.1</objenesis.version>
-        <opensaml.version>2.6.4</opensaml.version>
         <oracle.groupId>com.oracle</oracle.groupId>
         <oracle.artifactId>ojdbc7</oracle.artifactId>
         <oracle.version>12.1.0.2</oracle.version>
@@ -124,29 +114,27 @@
         <!-- do not update due to incompatibility with tomcat 7.0.57.  Newer versions of tomcat are not incompatible -->
         <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
         <pdfbox.version>2.0.6</pdfbox.version>
-        <quartz.version>1.8.4</quartz.version>
-        <schemaspy.version>1611.0001</schemaspy.version>
-        <rice.version>2.5.3.1707.0002-kualico</rice.version>
+        <powermock.version>2.0.0-beta.5</powermock.version>
+        <quartz.version>2.3.0</quartz.version>
+        <schemaspy.version>1710.0002</schemaspy.version>
+        <rice.version>2.5.3.1711.0001-kualico</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring.version>3.2.18.RELEASE</spring.version>
-        <spring-security.version>3.2.10.RELEASE</spring-security.version>
+        <spring.version>4.3.10.RELEASE</spring.version>
+        <spring-security.version>4.2.3.RELEASE</spring-security.version>
         <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
         <struts.version>1.3.11-kuali-1</struts.version>
-        <tomcat.version>7.0.65</tomcat.version>
+        <tomcat.version>8.5.20</tomcat.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <velocity.version>1.7</velocity.version>
-        <wss4j.version>1.6.19</wss4j.version>
         <xalan.version>2.7.2</xalan.version>
-        <xercesImpl.version>2.11.0</xercesImpl.version>
-        <xml-apis.version>1.4.01</xml-apis.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
-        <xmlsec.version>1.5.8</xmlsec.version>
+        <xmlsec.version>2.0.8</xmlsec.version>
         <xstream.version>1.2.2</xstream.version>
 
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
-        <jspc-maven-plugin.version>2.0.2</jspc-maven-plugin.version>
+        <jspc-maven-plugin.version>2.2.0</jspc-maven-plugin.version>
         <license-maven-plugin.version>1.6.3</license-maven-plugin.version>
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
@@ -163,8 +151,6 @@
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>2.20</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.1.0</maven-war-plugin.version>
-        <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
-        <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
         <xmlbeans-maven-plugin.version>2.3.3</xmlbeans-maven-plugin.version>
 
         <db.groupId>${mysql.groupId}</db.groupId>
@@ -213,9 +199,11 @@
         <!-- defaults to dev unless overriden -->
         <build.environment>dev</build.environment>
         <build.spring.profiles.active />
+        <frontend.timestamp>${maven.build.timestamp}</frontend.timestamp>
+        <maven.build.timestamp.format>yyyyMMdd.hh.mm.ss</maven.build.timestamp.format>
 
         <!-- This is used in the licenses section as well as the jar/war plugins -->
-        <kuali.agpl3.license.url>http://www.gnu.org/licenses/agpl-3.0.txt</kuali.agpl3.license.url>
+        <kuali.license>PRE-RELEASE LICENSE AGREEMENT</kuali.license>
 
         <maven.skip.packaging>false</maven.skip.packaging>
         <scm.connection>scm:git:git://github.com/kuali/kc.git</scm.connection>
@@ -293,7 +281,7 @@
                             <manifestEntries>
                                 <Bundle-Version>${project.version}</Bundle-Version>
                                 <Bundle-Name>${project.name}</Bundle-Name>
-                                <Bundle-License>${kuali.agpl3.license.url}</Bundle-License>
+                                <Bundle-License>${kuali.license}</Bundle-License>
                                 <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
                                 <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
                                 <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
@@ -415,7 +403,7 @@
                             <manifestEntries>
                                 <Bundle-Version>${project.version}</Bundle-Version>
                                 <Bundle-Name>${project.name}</Bundle-Name>
-                                <Bundle-License>${kuali.agpl3.license.url}</Bundle-License>
+                                <Bundle-License>${kuali.license}</Bundle-License>
                                 <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
                                 <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
                                 <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
@@ -424,12 +412,6 @@
                             </manifestEntries>
                         </archive>
                     </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.tomcat.maven</groupId>
-                    <artifactId>tomcat7-maven-plugin</artifactId>
-                    <version>${tomcat7-maven-plugin.version}</version>
                 </plugin>
 
                 <plugin>
@@ -583,11 +565,18 @@
                 <version>${db.version}</version>
             </dependency>
 
-            <!-- Required for jdk7 -->
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-core</artifactId>
+                <version>${jaxb.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
             <dependency>
                 <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-impl</artifactId>
-                <version>${jaxb-impl.version}</version>
+                <version>${jaxb.version}</version>
+                <scope>runtime</scope>
             </dependency>
 
             <dependency>
@@ -875,24 +864,24 @@
 
             <dependency>
                 <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-api</artifactId>
+                <artifactId>cxf-core</artifactId>
                 <version>${cxf.version}</version>
                 <exclusions>
                     <exclusion>
-                        <artifactId>commons-logging</artifactId>
-                        <groupId>commons-logging</groupId>
+                        <groupId>asm</groupId>
+                        <artifactId>asm</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>org.apache.geronimo.specs</groupId>
                         <artifactId>geronimo-javamail_1.4_spec</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>org.apache.velocity</groupId>
-                        <artifactId>velocity</artifactId>
+                        <groupId>com.sum.xml.bind</groupId>
+                        <artifactId>jaxb-core</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>asm</groupId>
-                        <artifactId>asm</artifactId>
+                        <groupId>com.sum.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -907,7 +896,7 @@
                         <artifactId>geronimo-javamail_1.4_spec</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>asm</groupId>
+                        <groupId>org.ow2.asm</groupId>
                         <artifactId>asm</artifactId>
                     </exclusion>
                 </exclusions>
@@ -917,6 +906,12 @@
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-simple</artifactId>
                 <version>${cxf.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -949,16 +944,11 @@
                 </exclusions>
             </dependency>
 
+            <!-- to resolve dependency convergence between opensaml & xmlsec -->
             <dependency>
                 <groupId>org.apache.santuario</groupId>
                 <artifactId>xmlsec</artifactId>
                 <version>${xmlsec.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
@@ -1025,13 +1015,6 @@
 
             <dependency>
                 <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-logging-log4j</artifactId>
-                <version>${tomcat.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
                 <artifactId>tomcat-embed-websocket</artifactId>
                 <version>${tomcat.version}</version>
                 <scope>test</scope>
@@ -1042,22 +1025,6 @@
                 <artifactId>tomcat-embed-el</artifactId>
                 <version>${tomcat.version}</version>
                 <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.ws.security</groupId>
-                <artifactId>wss4j</artifactId>
-                <version>${wss4j.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>commons-logging</artifactId>
-                        <groupId>commons-logging</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.bouncycastle</groupId>
-                        <artifactId>bcprov-jdk14</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
@@ -1139,9 +1106,76 @@
             </dependency>
 
             <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-mapper-asl</artifactId>
+                <groupId>org.owasp.esapi</groupId>
+                <artifactId>esapi</artifactId>
+                <version>${esapi.version}</version>
+                <!-- exclude as much as we can from esapi transitive dependencies so we don't get a bunch of junk -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-digester</groupId>
+                        <artifactId>commons-digester</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-beanutils</groupId>
+                        <artifactId>commons-beanutils-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xom</groupId>
+                        <artifactId>xom</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.beanshell</groupId>
+                        <artifactId>bsh-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.owasp.antisamy</groupId>
+                        <artifactId>antisamy</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.xmlgraphics</groupId>
+                        <artifactId>batik-css</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
                 <version>${jackson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- declaring for aws s3 client to keep jackson version up to date -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-cbor</artifactId>
+                <version>${jackson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                <artifactId>jackson-jaxrs-json-provider</artifactId>
+                <version>${jackson.version}</version>
+                <scope>compile</scope>
             </dependency>
 
             <dependency>
@@ -1182,12 +1216,6 @@
                         <artifactId>ecj</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>xml-apis</groupId>
-                <artifactId>xml-apis</artifactId>
-                <version>${xml-apis.version}</version>
             </dependency>
 
             <dependency>
@@ -1478,6 +1506,10 @@
                         <groupId>org.eclipse.persistence</groupId>
                         <artifactId>org.eclipse.persistence.oracle</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1598,6 +1630,10 @@
                         <groupId>org.eclipse.persistence</groupId>
                         <artifactId>org.eclipse.persistence.oracle</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1618,6 +1654,10 @@
                         <groupId>org.apache.velocity</groupId>
                         <artifactId>velocity</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1625,12 +1665,24 @@
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-ksb-web</artifactId>
                 <version>${rice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-legacy-web</artifactId>
                 <version>${rice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -1654,23 +1706,31 @@
             </dependency>
 
             <dependency>
-                <groupId>org.opensaml</groupId>
-                <artifactId>opensaml</artifactId>
-                <version>${opensaml.version}</version>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
                 <exclusions>
                     <exclusion>
-                        <groupId>xerces</groupId>
-                        <artifactId>xercesImpl</artifactId>
+                        <groupId>org.javassist</groupId>
+                        <artifactId>javassist</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>org.bouncycastle</groupId>
-                        <artifactId>bcprov-jdk15</artifactId>
+                        <groupId>net.bytebuddy</groupId>
+                        <artifactId>byte-buddy-agent</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>xalan</groupId>
-                        <artifactId>serializer</artifactId>
+                        <groupId>net.bytebuddy</groupId>
+                        <artifactId>byte-buddy</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito2</artifactId>
+                <version>${powermock.version}</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>
@@ -1744,8 +1804,8 @@
                 <version>${spring.version}</version>
                 <exclusions>
                     <exclusion>
-                        <artifactId>commons-logging</artifactId>
                         <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -1868,11 +1928,11 @@
 
             <properties>
                 <build.spring.profiles.active>grm</build.spring.profiles.active>
-
-                <rsmart.cx.token.auth.version>1507.1</rsmart.cx.token.auth.version>
-                <rsmart.hr.rest.version>1707.0004</rsmart.hr.rest.version>
-                <kc-s3.version>1705.0001</kc-s3.version>
-                <kc-sql.version>1705.0001</kc-sql.version>
+                <commons-dbcp2.version>2.1.1</commons-dbcp2.version>
+                <rsmart.cx.token.auth.version>1509.0001</rsmart.cx.token.auth.version>
+                <rsmart.hr.rest.version>1801.0002</rsmart.hr.rest.version>
+                <kc-s3.version>1709.0002</kc-s3.version>
+                <kc-sql.version>1801.0001</kc-sql.version>
 
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>
@@ -1914,6 +1974,12 @@
                         <artifactId>kc-s3</artifactId>
                         <version>${kc-s3.version}</version>
                         <scope>runtime</scope>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>commons-logging</groupId>
+                                <artifactId>commons-logging</artifactId>
+                            </exclusion>
+                        </exclusions>
                     </dependency>
 
                     <dependency>
@@ -1930,24 +1996,28 @@
                         <scope>runtime</scope>
                         <exclusions>
                             <exclusion>
-                                <groupId>log4j</groupId>
-                                <artifactId>log4j</artifactId>
+                                <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                                <artifactId>jackson-jaxrs-base</artifactId>
                             </exclusion>
                             <exclusion>
-                                <groupId>org.codehaus.jackson</groupId>
-                                <artifactId>jackson-core-asl</artifactId>
-                            </exclusion>
-                            <exclusion>
-                                <groupId>asm</groupId>
-                                <artifactId>asm</artifactId>
+                                <groupId>org.javassist</groupId>
+                                <artifactId>javassist</artifactId>
                             </exclusion>
                             <exclusion>
                                 <groupId>javax.ws.rs</groupId>
                                 <artifactId>jsr311-api</artifactId>
                             </exclusion>
+                        </exclusions>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.commons</groupId>
+                        <artifactId>commons-dbcp2</artifactId>
+                        <version>${commons-dbcp2.version}</version>
+                        <scope>runtime</scope>
+                        <exclusions>
                             <exclusion>
-                                <groupId>org.hibernate</groupId>
-                                <artifactId>hibernate-validator</artifactId>
+                                <groupId>commons-logging</groupId>
+                                <artifactId>commons-logging</artifactId>
                             </exclusion>
                         </exclusions>
                     </dependency>
@@ -2191,6 +2261,7 @@
                                                     <exclude>javax.xml.bind</exclude>
                                                     <exclude>org.apache.geronimo.specs:geronimo-jaxb_2.1_spec</exclude>
                                                     <exclude>org.apache.geronimo.specs:geronimo-jaxb_2.2_spec</exclude>
+                                                    <exclude>com.sun.xml.bind:jaxb-core</exclude>
                                                     <exclude>com.sun.xml.bind:jaxb-impl</exclude>
 
                                                     <!-- jaxws apis - in jdk 6 -->
@@ -2255,6 +2326,10 @@
                                                     <exclude>org.apache.ant</exclude>
                                                     <!-- only include cglib-nodep -->
                                                     <exclude>cglib:cglib</exclude>
+                                                    <exclude>xml-apis:xml-apis</exclude>
+                                                    <exclude>xerces:xercesImpl</exclude>
+                                                    <exclude>org.codehaus.jackson</exclude>
+                                                    <exclude>org.opensaml:opensaml</exclude>
                                                 </excludes>
 
                                                 <includes>
@@ -2263,11 +2338,11 @@
                                                     <include>org.bouncycastle:bcpkix-jdk15on:${bouncycastle.version}</include>
                                                     <include>org.slf4j:*:${slf4j.version}</include>
                                                     <include>net.sf.ehcache:*:${ehcache.version}:jar:runtime</include>
-                                                    <include>com.sun.xml.bind:jaxb-impl:${jaxb-impl.version}</include>
+                                                    <include>com.sun.xml.bind:jaxb-core:${jaxb.version}</include>
+                                                    <include>com.sun.xml.bind:jaxb-impl:${jaxb.version}</include>
                                                     <include>commons-collections:commons-collections:${commons-collections.version}:jar:runtime</include>
                                                     <!-- some versions of commons-fileupload have security exploits... only allow a specific version -->
                                                     <include>commons-fileupload:commons-fileupload:${commons-fileupload.version}</include>
-                                                    <include>org.apache.ws.security:wss4j:${wss4j.version}</include>
 
                                                     <include>commons-collections:commons-collections:${commons-collections.version}</include>
 
@@ -2352,7 +2427,7 @@
             </activation>
 
             <properties>
-                <error_prone_core.version>2.0.21</error_prone_core.version>
+                <error_prone_core.version>2.1.1</error_prone_core.version>
                 <plexus-compiler-javac.version>2.8.1</plexus-compiler-javac.version>
                 <plexus-compiler-javac-errorprone.version>2.8.1</plexus-compiler-javac-errorprone.version>
             </properties>

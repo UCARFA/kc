@@ -1,28 +1,17 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.questionnaire;
-
 
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
@@ -44,10 +33,12 @@ public class QuestionnaireTabGroup extends TabGroup {
 
     @Override
     public void performInitialization(Object model) {
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
+        boolean readOnly = form.getEditModes() == null || !form.getEditModes().containsKey(AuthorizationConstants.EditMode.FULL_ENTRY);
         List<Component> tabs = new ArrayList<Component>();
-        String formKey =  ((ProposalDevelopmentDocumentForm)model).getFormKey();
-        tabs.addAll(createTabs(((ProposalDevelopmentDocumentForm)model).getQuestionnaireHelper().getAnswerHeaders(),"questionnaireHelper",formKey));
-        tabs.addAll(createTabs(((ProposalDevelopmentDocumentForm)model).getS2sQuestionnaireHelper().getAnswerHeaders(),"s2sQuestionnaireHelper",formKey));
+        String formKey = form.getFormKey();
+        tabs.addAll(createTabs(form.getQuestionnaireHelper().getAnswerHeaders(),"questionnaireHelper", formKey, readOnly));
+        tabs.addAll(createTabs(form.getS2sQuestionnaireHelper().getAnswerHeaders(),"s2sQuestionnaireHelper", formKey, readOnly));
 
         Collections.sort(tabs, new Comparator<Component>(){
             @Override
@@ -61,11 +52,11 @@ public class QuestionnaireTabGroup extends TabGroup {
         super.performInitialization(model);
     }
 
-    private List<Component> createTabs(List<AnswerHeader> answerHeaders, String helper, String formKey) {
+    private List<Component> createTabs(List<AnswerHeader> answerHeaders, String helper, String formKey, boolean isReadOnly) {
         List<Component> tabs = new ArrayList<Component>();
         int index = 0;
         for (AnswerHeader answerHeader : answerHeaders) {
-            if (answerHeader.isActive()) {
+            if (answerHeader.isActive() || (isReadOnly && answerHeader.isHasVisibleQuestion())) {
                 GroupBase group = (GroupBase) ComponentFactory.getNewComponentInstance("Uif-VerticalBoxGroup");
                 group.setHeader((Header)ComponentFactory.getNewComponentInstance("Uif-SectionHeader"));
                 group.setId("PropDev-QuestionnairePage-" + StringUtils.removePattern(answerHeader.getLabel(),"([^0-9a-zA-Z\\-_])"));

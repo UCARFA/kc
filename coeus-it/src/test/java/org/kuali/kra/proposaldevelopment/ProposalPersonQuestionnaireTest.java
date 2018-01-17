@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.proposaldevelopment;
 
@@ -23,27 +12,30 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
-import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
-import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
-import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
+import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.util.List;
@@ -55,6 +47,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
     private QuestionnaireAnswerService questionnaireAnswerService;
     private DocumentService documentService;
     private ProposalDevelopmentService proposalDevelopmentService;
+    private KcAuthorizationService kcAuthorizationService;
     private DevelopmentProposal proposal;
     private ProposalPersonQuestionnaireHelper questionnaireHelper;
     
@@ -71,6 +64,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         documentService = KcServiceLocator.getService(DocumentService.class);
         proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+        kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         proposal = getDocument().getDevelopmentProposal();
         questionnaireHelper = new ProposalPersonQuestionnaireHelper(getPerson());
     }
@@ -78,9 +72,9 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
     @After
     public void tearDown() throws Exception {
         questionnaireAnswerService  = null;
-
         documentService = null;
         proposalDevelopmentService = null;
+        kcAuthorizationService = null;
         proposal = null;
         questionnaireHelper = null;
     }
@@ -115,6 +109,8 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         }
 
         documentService.saveDocument(document);
+
+        kcAuthorizationService.addDocumentLevelRole(GlobalVariables.getUserSession().getPrincipalId(), RoleConstants.AGGREGATOR, document);
 
         ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
 

@@ -1,32 +1,22 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.sys.framework.model;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
+import org.kuali.coeus.common.questionnaire.framework.core.MultiQuestionableFormInterface;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionableFormInterface;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.SoftError;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.coeus.common.questionnaire.framework.core.MultiQuestionableFormInterface;
-import org.kuali.coeus.common.questionnaire.framework.core.QuestionableFormInterface;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
@@ -59,7 +49,7 @@ public abstract class KcTransactionalDocumentFormBase extends KualiTransactional
     private Map<String, Boolean> personEditableFields;
     
     private List<String> unitRulesMessages = new ArrayList<String>();
-   
+
     public String getActionName() {
         return actionName;
     }
@@ -388,5 +378,13 @@ public abstract class KcTransactionalDocumentFormBase extends KualiTransactional
 
     protected ConfigurationService getConfigurationService() {
         return KcServiceLocator.getService(ConfigurationService.class);
+    }
+
+    public boolean isReactMedusaEnabled() {
+        return getMedusaService().isReactMedusaEnabled();
+    }
+
+    protected MedusaService getMedusaService() {
+        return KcServiceLocator.getService(MedusaService.class);
     }
 }

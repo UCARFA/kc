@@ -1,23 +1,13 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.krms;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,6 +15,7 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.AppointmentType;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReview;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
@@ -57,6 +48,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -126,6 +118,21 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         return FALSE;
         
     }
+
+    /**
+     * This method checks an s2s opportunity exists and if there is a human subjects compliance entry.
+     *
+     * @return 'true' if true
+     */
+    @Override
+    public String s2sHumanSubjectExists(DevelopmentProposal developmentProposal) {
+        return developmentProposal.getS2sOpportunity() != null
+                && developmentProposal.getPropSpecialReviews()
+                .stream()
+                .map(SpecialReview::getSpecialReviewTypeCode)
+                .anyMatch(SpecialReviewType.HUMAN_SUBJECTS::equals) ? TRUE : FALSE;
+    }
+
     /**
      * 
      * This method checks if the passed in forms are included.
@@ -134,8 +141,8 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      * @return 'true' if true
      */
     @Override
-    public String s2sBudgetRule(DevelopmentProposal developmentProposal, String formNames){
-        /**
+    public String s2sBudgetRule(DevelopmentProposal developmentProposal, String formNames) {
+        /*
          * F.FORM_NAME in ('RR Budget V1-1','RR SubAward Budget V1.2','RR_FedNonFed_SubawardBudget-V1.2',
          * 'RR_FedNonFed_SubawardBudget-V1.1','RR SubAward Budget V1.1','PHS398 Modular Budget V1-1', 'PHS398 Modular Budget V1-2')
          */
@@ -164,8 +171,8 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      * @return 'true' if true
      */
     @Override
-    public String monitoredSponsorRule(DevelopmentProposal developmentProposal, String monitoredSponsorHirearchies) {
-        String[] sponsoredHierarchyArray = buildArrayFromCommaList(monitoredSponsorHirearchies);
+    public String monitoredSponsorRule(DevelopmentProposal developmentProposal, String monitoredSponsorHierarchies) {
+        String[] sponsoredHierarchyArray = buildArrayFromCommaList(monitoredSponsorHierarchies);
         ArrayList<SponsorHierarchy> hierarchies = new ArrayList<>();
         for (String hierarchyName : sponsoredHierarchyArray) {
             Map<String, String> fieldValues = new HashMap<>();
@@ -174,7 +181,8 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         for (SponsorHierarchy sh : hierarchies) {
             if (StringUtils.equalsIgnoreCase(sh.getSponsorCode(), developmentProposal.getSponsor().getSponsorCode())
-                    || StringUtils.equalsIgnoreCase(sh.getSponsorCode(), developmentProposal.getPrimeSponsor().getSponsorCode())) {
+                    || (developmentProposal.getPrimeSponsor() != null &&
+						StringUtils.equalsIgnoreCase(sh.getSponsorCode(), developmentProposal.getPrimeSponsor().getSponsorCode()))) {
                 return TRUE;
             }
         }
@@ -420,7 +428,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     @Override
     public String s2sSubawardRule(DevelopmentProposal developmentProposal, String rrFormNames, String phsFromNames) {
         
-        /**
+        /*
          * And     F.FORM_NAME in ('RR SubAward Budget V1.2','RR_FedNonFed_SubawardBudget-V1.2',
          * 'RR_FedNonFed_SubawardBudget-V1.1','RR SubAward Budget V1.1')
          * 
@@ -525,7 +533,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     @Override
     public String costElement(DevelopmentProposal developmentProposal, String costElement) {
         for (Budget budgetVersion : developmentProposal.getBudgets()) {
-            Map<String, Object> values = new HashMap<String, Object>();
+            Map<String, Object> values = new HashMap<>();
             values.put("costElement", costElement);
             values.put("budgetId", budgetVersion.getBudgetId());
             List<BudgetLineItem> matchingLineItems = 
@@ -642,7 +650,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         return Stream.of(costShareTypeCodes.split(","))
                 .map(String::trim)
                 .filter(StringUtils::isNotEmpty)
-                .anyMatch(code -> costShareTypesInBudget.contains(code));
+                .anyMatch(costShareTypesInBudget::contains);
     }
 
     @Override
@@ -658,7 +666,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         return Stream.of(costShareUnits.split(","))
                 .map(String::trim)
                 .filter(StringUtils::isNotEmpty)
-                .anyMatch(unit -> costShareUnitsInBudget.contains(unit));
+                .anyMatch(costShareUnitsInBudget::contains);
     }
 
     @Override
@@ -674,7 +682,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         return Stream.of(costShareSourceAccounts.split(","))
                 .map(String::trim)
                 .filter(StringUtils::isNotEmpty)
-                .anyMatch(account -> costShareSourceAccountsInBudget.contains(account));
+                .anyMatch(costShareSourceAccountsInBudget::contains);
     }
 
     @Override
@@ -760,7 +768,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
 
     @Override
     public String s2sModularBudgetRule(DevelopmentProposal developmentProposal) {
-        List<String> allowedForms = Arrays.asList(new String[]{"PHS398 Modular Budget V1-1", "PHS398 Modular Budget V1-2"});
+        List<String> allowedForms = Arrays.asList("PHS398 Modular Budget V1-1", "PHS398 Modular Budget V1-2");
         boolean s2sProp = (developmentProposal.getS2sOpportunity() != null);
         Budget finalBudgetVersion = developmentProposal.getFinalBudget();
         if (s2sProp && finalBudgetVersion != null && finalBudgetVersion.getModularBudgetFlag()) {
@@ -1149,7 +1157,25 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
 		 .filter(actionRequest -> actionRequest.getActionTaken() != null)
 		 .anyMatch(actionRequest -> actionRequest.getActionTaken().getActionTaken().equals(ActionType.RETURN_TO_PREVIOUS)) ? FALSE : TRUE;
     }
-    
+
+    @Override
+    public String humanSubjectsSpecialReviewContainsPropertyValue(DevelopmentProposal developmentProposal, String propertyName, String propertyValue) {
+        return developmentProposal.getPropSpecialReviews().stream()
+                .filter(specialReview -> SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()))
+                .anyMatch(specialReview -> {
+            try {
+                Object value = PropertyUtils.getProperty(specialReview, propertyName);
+                if (NULL_VALUES.stream().anyMatch(nullValue -> nullValue.equalsIgnoreCase(propertyValue))) {
+                    return value == null || StringUtils.isEmpty(String.valueOf(value));
+                }
+                return String.valueOf(value).equals(propertyValue);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                LOG.error(String.format("Failed to access special review property '%s'", propertyName), e);
+            }
+            return false;
+        }) ? TRUE : FALSE;
+    }
+
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }

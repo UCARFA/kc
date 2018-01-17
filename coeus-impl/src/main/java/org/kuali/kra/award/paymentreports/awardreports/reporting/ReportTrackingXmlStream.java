@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 
 package org.kuali.kra.award.paymentreports.awardreports.reporting;
@@ -88,13 +77,13 @@ public class ReportTrackingXmlStream implements XmlStream {
         if(reportTracking.getPiName()!=null)
         searchValues.put("piName", reportTracking.getPiName());
         if(reportTracking.getFrequencyBaseCode()!=null)
-        searchValues.put("frequencyBaseCode", reportTracking.getFrequencyBaseCode());
+        searchValues.put(ReportTrackingConstants.FREQUENCY_BASE_CODE, reportTracking.getFrequencyBaseCode());
         if(reportTracking.getFrequencyCode()!=null)
-        searchValues.put("frequencyCode", reportTracking.getFrequencyCode());
+        searchValues.put(ReportTrackingConstants.FREQUENCY_CODE, reportTracking.getFrequencyCode());
         if(reportTracking.getReportClassCode()!=null)
-        searchValues.put("reportClassCode", reportTracking.getReportClassCode());
+        searchValues.put(ReportTrackingConstants.REPORT_CLASS_CODE, reportTracking.getReportClassCode());
         if(reportTracking.getReportCode()!=null)
-        searchValues.put("reportCode", reportTracking.getReportCode());
+        searchValues.put(ReportTrackingConstants.REPORT_CODE, reportTracking.getReportCode());
         if(reportTracking.getBaseDate()!=null)
         searchValues.put("baseDate", getDateTimeService().toDateString(reportTracking.getBaseDate()));
         if(reportTracking.getSponsorCode()!=null)
@@ -112,7 +101,7 @@ public class ReportTrackingXmlStream implements XmlStream {
         if(reportTracking.getComments()!=null)
         searchValues.put("comments", reportTracking.getComments());
         if (reportTracking.getOspDistributionCode() != null) {
-            searchValues.put("ospDistributionCode", reportTracking.getOspDistributionCode());
+            searchValues.put(ReportTrackingConstants.OSP_DISTRIBUTION_CODE, reportTracking.getOspDistributionCode());
         }            
         
         List<String> detailFields = new ArrayList<String>();

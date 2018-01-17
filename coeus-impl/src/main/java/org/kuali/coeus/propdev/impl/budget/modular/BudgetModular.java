@@ -1,27 +1,19 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.budget.modular;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -31,6 +23,8 @@ import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 @Entity
 @Table(name = "BUDGET_MODULAR")
 public class BudgetModular extends KcPersistableBusinessObjectBase implements BudgetModularContract {
+
+    private static final ScaleTwoDecimal TDC_NEXT_INCREMENT = new ScaleTwoDecimal(25000);
 
     @Column(name = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false)
     private Long budgetPeriodId;
@@ -61,7 +55,6 @@ public class BudgetModular extends KcPersistableBusinessObjectBase implements Bu
     @OneToMany(mappedBy="budgetModular", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetModularIdc> budgetModularIdcs;
 
-    // Derived properties
     @Transient
     private ScaleTwoDecimal totalRequestedCost;
 
@@ -70,7 +63,7 @@ public class BudgetModular extends KcPersistableBusinessObjectBase implements Bu
 
     public BudgetModular() {
         super();
-        budgetModularIdcs = new ArrayList<BudgetModularIdc>();
+        budgetModularIdcs = new ArrayList<>();
         directCostLessConsortiumFna = new ScaleTwoDecimal(0);
         consortiumFna = new ScaleTwoDecimal(0);
         totalDirectCost = new ScaleTwoDecimal(0);
@@ -199,23 +192,76 @@ public class BudgetModular extends KcPersistableBusinessObjectBase implements Bu
         this.setTotalRequestedCost(requestedCost);
     }
 
-    public void addNewBudgetModularIdc(BudgetModularIdc budgetModularIdc) {
+    public void addNewBudgetModularIdcBaseUnrounded(BudgetModularIdc budgetModularIdc) {
         budgetModularIdc.setBudgetId(this.getBudgetId());
         budgetModularIdc.setBudgetPeriod(this.getBudgetPeriod());
         /*if List <budgetModularIdc> contains the budgetModularIdc being passed with same rate and description, then add its idcBase to that budgetModularIdc.
          * otherwise add it to the list.
          */
-        for (BudgetModularIdc testBudgetModularIdc : this.getBudgetModularIdcs()) {
-            if (testBudgetModularIdc.getIdcRate().equals(budgetModularIdc.getIdcRate()) && testBudgetModularIdc.getDescription().equals(budgetModularIdc.getDescription())) {
-                if (testBudgetModularIdc.getIdcBase() == null) {
-                    testBudgetModularIdc.setIdcBase(budgetModularIdc.getIdcBase());
+        for (BudgetModularIdc currentModularIdc : this.getBudgetModularIdcs()) {
+            if (currentModularIdc.getIdcRate().equals(budgetModularIdc.getIdcRate()) &&
+                    currentModularIdc.getDescription().equals(budgetModularIdc.getDescription())) {
+
+                if (currentModularIdc.getIdcBase() == null) {
+                    currentModularIdc.setIdcBase(budgetModularIdc.getIdcBase());
                 } else {
-                    testBudgetModularIdc.setIdcBase(testBudgetModularIdc.getIdcBase().add(budgetModularIdc.getIdcBase()));
+                    currentModularIdc.setIdcBase(currentModularIdc.getIdcBase().add(budgetModularIdc.getIdcBase()));
                 }
-                if (testBudgetModularIdc.getFundsRequested() == null) {
-                    testBudgetModularIdc.setFundsRequested(budgetModularIdc.getFundsRequested());
+                if (currentModularIdc.getFundsRequested() == null) {
+                    currentModularIdc.setFundsRequested(budgetModularIdc.getFundsRequested());
                 } else {
-                    testBudgetModularIdc.setFundsRequested(testBudgetModularIdc.getFundsRequested().add(budgetModularIdc.getFundsRequested()));
+                    currentModularIdc.setFundsRequested(currentModularIdc.getFundsRequested().add(budgetModularIdc.getFundsRequested()));
+                }
+                return;
+            }
+        }
+        this.getBudgetModularIdcs().add(budgetModularIdc);
+    }
+
+    public void addNewBudgetModularIdcBaseRounded(BudgetModularIdc budgetModularIdc) {
+        budgetModularIdc.setBudgetId(getBudgetId());
+        budgetModularIdc.setBudgetPeriod(getBudgetPeriod());
+        /*if List <budgetModularIdc> contains the budgetModularIdc being passed with same rate and description, then add its idcBase to that budgetModularIdc.
+         * otherwise add it to the list.
+         */
+        for (BudgetModularIdc currentModularIdc : getBudgetModularIdcs()) {
+            if (currentModularIdc.getIdcRate().equals(budgetModularIdc.getIdcRate()) &&
+                    currentModularIdc.getDescription().equals(budgetModularIdc.getDescription())) {
+                // Just set the IDC base equal to the new value; it's going to get recalculated anyway
+                currentModularIdc.setIdcBase(budgetModularIdc.getIdcBase());
+                if (budgetModularIdc.getStartDate() != null && budgetModularIdc.getStartDate().before(currentModularIdc.getStartDate())) {
+                	currentModularIdc.setStartDate(budgetModularIdc.getStartDate());
+                }
+                if (budgetModularIdc.getEndDate() != null && budgetModularIdc.getEndDate().after(currentModularIdc.getEndDate())) {
+                	currentModularIdc.setEndDate(budgetModularIdc.getEndDate());
+                }
+                if (currentModularIdc.getHierarchyProposalNumber() == null) {
+                	currentModularIdc.setHierarchyProposalNumber(budgetModularIdc.getHierarchyProposalNumber());
+                }
+                else {
+                    //   If there are multiple proposal numbers for the same Idc, concatenate them to show both
+                    String currentProps = currentModularIdc.getHierarchyProposalNumber();
+                	String thisProp = budgetModularIdc.getHierarchyProposalNumber();
+                	List<String> propNums = new ArrayList<String>(Arrays.asList(currentProps.split(",")));
+                	if (!propNums.contains(thisProp)) {
+                		propNums.add(thisProp);
+                		Collections.sort(propNums);
+                		currentModularIdc.setHierarchyProposalNumber(StringUtils.join(propNums, ","));
+                	}
+                }
+
+                if (currentModularIdc.getIdcBaseUnrounded() == null) {
+                    currentModularIdc.setIdcBaseUnrounded(budgetModularIdc.getIdcBaseUnrounded());
+                }
+                else {
+                    currentModularIdc.setIdcBaseUnrounded(currentModularIdc.getIdcBaseUnrounded().add(budgetModularIdc.getIdcBaseUnrounded()));
+                }
+
+                if (currentModularIdc.getFundsRequested() == null) {
+                    currentModularIdc.setFundsRequested(budgetModularIdc.getFundsRequested());
+                }
+                else {
+                    currentModularIdc.calculateFundsRequested();
                 }
                 return;
             }

@@ -1,25 +1,15 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.paymentreports.ReportTrackingView;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,11 +38,11 @@ public class ReportTrackingSearchViews {
         reportTrackingViews = new ArrayList<ReportTrackingView>();
         allFields = new ArrayList<String>();
         displayViewConversions = new HashMap<String, String>();
-        displayViewConversions.put("reportClass.description", "reportClassCode");
-        displayViewConversions.put("report.description", "reportCode");
-        displayViewConversions.put("frequency.description", "frequencyCode");
-        displayViewConversions.put("frequencyBase.description", "frequencyBaseCode");
-        displayViewConversions.put("distribution.description", "ospDistributionCode");
+        displayViewConversions.put("reportClass.description", ReportTrackingConstants.REPORT_CLASS_CODE);
+        displayViewConversions.put("report.description", ReportTrackingConstants.REPORT_CODE);
+        displayViewConversions.put("frequency.description", ReportTrackingConstants.FREQUENCY_CODE);
+        displayViewConversions.put("frequencyBase.description", ReportTrackingConstants.FREQUENCY_BASE_CODE);
+        displayViewConversions.put("distribution.description", ReportTrackingConstants.OSP_DISTRIBUTION_CODE);
         displayViewConversions.put("reportStatus.description", "statusCode");
         displayViewConversions.put("sponsor.sponsorName", "sponsorCode");
         displayViewConversions.put("leadUnit.unitName", "leadUnitNumber");

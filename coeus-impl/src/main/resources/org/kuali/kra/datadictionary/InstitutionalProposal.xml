@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="InstitutionalProposal" parent="InstitutionalProposal-parentBean" />
@@ -746,10 +737,15 @@
     	<property name="description" value="The number of paper copies of the proposal that should be mailed to the agency/sponsor."/>
   </bean>
 	<bean id="InstitutionalProposal-createTimestamp" parent="InstitutionalProposal-createTimestamp-parentBean" />
-    <bean id="InstitutionalProposal-createTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+    <bean id="InstitutionalProposal-createTimestamp-parentBean" abstract="true"
+          parent="AttributeReferenceDummy-genericDate">
         <property name="name" value="createTimestamp" />
         <property name="label" value="Proposal Create Date" />
         <property name="shortLabel" value="Proposal Create Date" />
+        <property name="controlField">
+            <bean parent="Uif-DateControl" p:size="12"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
         <property name="summary" value="Proposal Create Date" />
         <property name="description" value="Proposal Create Date" />
     </bean>
@@ -1257,6 +1253,7 @@
         <bean parent="FieldDefinition" p:attributeName="projectPersons.institutionalProposalContactId" p:hidden="true"/>
         <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
         <bean parent="FieldDefinition" p:noLookup="true" p:noDirectInquiry="true" p:attributeName="sponsor.sponsorName"/>
+                <bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
       </list>
     </property>
     <property name="resultFields">
@@ -1281,6 +1278,7 @@
         <bean parent="FieldDefinition" p:attributeName="totalDirectCostTotal"/>
         <bean parent="FieldDefinition" p:attributeName="totalIndirectCostInitial"/>
         <bean parent="FieldDefinition" p:attributeName="totalIndirectCostTotal"/>
+          <bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
       </list>
     </property>
   </bean>
@@ -1301,6 +1299,7 @@
         <bean p:propertyName="projectPersons.institutionalProposalContactId" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="sponsor.sponsorName" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
+          <bean p:propertyName="createTimestamp" parent="Uif-LookupCriteriaInputField" p:ranged="true"/>
             </list>
         </property>
         <property name="resultFields" >
@@ -1325,6 +1324,7 @@
         <bean p:propertyName="totalDirectCostTotal" parent="Uif-DataField"/>
         <bean p:propertyName="totalIndirectCostInitial" parent="Uif-DataField"/>
         <bean p:propertyName="totalIndirectCostTotal" parent="Uif-DataField"/>
+                <bean p:propertyName="createTimestamp" parent="Uif-DataField"/>
             </list>
         </property>
     </bean>

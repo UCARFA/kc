@@ -1,24 +1,15 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.budget.modular;
 
 import java.io.Serializable;
+import java.sql.Date;
+
 import javax.persistence.*;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
@@ -62,6 +53,10 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
     @Column(name = "IDC_BASE")
     @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal idcBase;
+    
+    @Column(name = "IDC_BASE_UNROUNDED")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal idcBaseUnrounded;
 
     @Column(name = "FUNDS_REQUESTED")
     @Convert(converter = ScaleTwoDecimalConverter.class)
@@ -74,6 +69,15 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER")
     private BudgetModular budgetModular;
+    
+    @Column(name = "START_DATE")
+    private Date startDate;
+    
+    @Column(name = "END_DATE")
+    private Date endDate;
+    
+    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
+    private String hierarchyProposalNumber;
 
     public BudgetModularIdc() {
         idcRate = new ScaleTwoDecimal(0.0);
@@ -126,6 +130,16 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
         this.idcBase = idcBase;
     }
 
+    public ScaleTwoDecimal getIdcBaseUnrounded()
+    {
+        return idcBaseUnrounded;
+    }
+
+    public void setIdcBaseUnrounded(ScaleTwoDecimal idcBaseUnrounded)
+    {
+        this.idcBaseUnrounded = idcBaseUnrounded;
+    } 
+
     @Override
     public ScaleTwoDecimal getIdcRate() {
         return idcRate;
@@ -168,6 +182,22 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
 
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
+    }
+    
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public static final class BudgetModularIdcId implements Serializable, Comparable<BudgetModularIdcId> {
@@ -219,10 +249,19 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
             return new CompareToBuilder().append(this.budgetPeriodId, other.budgetPeriodId).append(this.rateNumber, other.rateNumber).toComparison();
         }
     }
+
     public BudgetModular getBudgetModular() { return budgetModular; }
 
     public void setBudgetModular(BudgetModular budgetModular) {
         this.budgetModular = budgetModular;
+    }
+    
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
+    }
+
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
     }
 
 }

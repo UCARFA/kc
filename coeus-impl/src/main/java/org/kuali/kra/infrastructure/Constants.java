@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 
 package org.kuali.kra.infrastructure;
@@ -37,7 +26,7 @@ public interface Constants {
     
     String KEY_PERSON_ROLE = "KP";
     String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
-    String ALL_INVESTIGATORS = "Investigators";
+    String ALL_INVESTIGATORS = "All Personnel";
     String PRINCIPAL_INVESTIGATOR = "Principle Investigator";
     String MULTI_PI_ROLE ="MPI";
     String CO_INVESTIGATOR_ROLE = "COI";
@@ -140,6 +129,7 @@ public interface Constants {
     String PROPOSAL_PAGE = "proposal";
     String CUSTOM_ATTRIBUTES_PAGE = "customData";
     String CERTIFICATION_PAGE = "PropDev-CertificationView-Page";
+    String CERTIFICATION_VIEW = "PropDev-CertificationView";
     String QUESTIONS_PAGE = "PropDev-QuestionnairePage";
     String PROP_DEV_PERMISSIONS_PAGE = "PropDev-PermissionsPage";
     String PERMISSIONS_PAGE = "permissions";
@@ -914,6 +904,10 @@ public interface Constants {
     String SUBAWARD_MODULE = "subaward";
     String IRB_MODULE = "irb";
     String IACUC_MODULE = "iacuc";
+
+    String APP_CONTEXT_NAME = "app.context.name";
+    String FRONTEND_TIMESTAMP = "frontend.timestamp";
+    String RICE_VERSION = "rice.version";
     
     String PD_INITIATED_ROUTE_NODE_NAME = "Initiated";
 
@@ -945,7 +939,6 @@ public interface Constants {
     String BEARER_TOKEN = "Bearer ";
     String SUB_AWARD_CODE = "subAwardCode";
     String CORRECTION_MODE = "correctionMode";
-    String ALL_SPONSOR_HIERARCHY_AS_NIH = "ALL_SPONSOR_HIERARCHY_AS_NIH";
     String KC_SYS = "KC-SYS";
     String PENDING = "PENDING";
     String ENABLE_COST_SHARE_ACCOUNT_VALIDATION = "ENABLE_COST_SHARE_ACCOUNT_VALIDATION";
@@ -987,7 +980,16 @@ public interface Constants {
     String PROP_DEV_CREDIT_ALLOCATION_PAGE = "PropDev-CreditAllocationPage";
     String PROP_DEV_SUPPLEMENTAL_SECTION = "PropDev-Supplemental-Section";
     String PROP_DEV_SUPPLEMENTAL_PAGE = "PropDev-SupplementalPage";
+    
+    String DISPLAY_UNROUNDED_MODULAR_FNA = "Display_Unrounded_Modular_FNA";
     String SHOW_SECTION_IN_DATA_VALIDATION = "Show_Section_In_Data_Validation";
+    String ALL_SPONSOR_HIERARCHY_AS_NIH = "ALL_SPONSOR_HIERARCHY_AS_NIH";
 
+    String NO_COST_EXTENSION_CODE = "No_Cost_Extension_Transaction_Type_Code";
+    String AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS = "AUTO_GENERATE_TIME_AND_MONEY_FUNDS_DIST_PERIODS";
+    String AWARD_COST_SHARING_PARM = "AWARD_COST_SHARING";
+    String AWARD_ACTIVE_STATUS_CODES_PARM = "AWARD_ACTIVE_STATUS_CODES";
+    String AWARD_FABRICATED_EQUPIMENT_PARM = "AWARD_FABRICATED_EQUIPMENT";
+    String ROUND_F_AND_A_BASE = "ModularBudget_Round_F_and_A_Base";
 }
 

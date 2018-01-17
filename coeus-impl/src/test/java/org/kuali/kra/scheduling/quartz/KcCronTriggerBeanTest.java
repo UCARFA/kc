@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.scheduling.quartz;
 
@@ -29,7 +18,7 @@ import org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.impl.datetime.DateTimeServiceImpl;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.quartz.JobDetail;
+import org.quartz.impl.JobDetailImpl;
 
 import java.text.ParseException;
 
@@ -70,7 +59,7 @@ public class KcCronTriggerBeanTest {
         });
         cronTrigger.setParameterService(parameterService);
 
-        JobDetail jobDetail = new JobDetail();
+        JobDetailImpl jobDetail = new JobDetailImpl();
         jobDetail.setName("test");
         cronTrigger.setBeanName("test");
         cronTrigger.setJobDetail(jobDetail);
@@ -80,6 +69,6 @@ public class KcCronTriggerBeanTest {
         cronTrigger.setDateTimeService(new DateTimeServiceImpl());
         cronTrigger.afterPropertiesSet();
         
-        assertEquals(CRON_EXPRESSION, cronTrigger.getCronExpression());
+        assertEquals(CRON_EXPRESSION, cronTrigger.getObject().getCronExpression());
     }
 }

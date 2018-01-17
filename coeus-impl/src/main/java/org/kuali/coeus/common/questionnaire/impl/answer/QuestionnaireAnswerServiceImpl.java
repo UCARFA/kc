@@ -1,25 +1,16 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.common.questionnaire.impl.answer;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
@@ -53,16 +44,18 @@ import org.springframework.stereotype.Component;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component("questionnaireAnswerService")
 public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerService {
 
+    private static final Log LOG = LogFactory.getLog(QuestionnaireAnswerServiceImpl.class);
     private static final String MODULE_ITEM_CODE = "moduleItemCode";
     private static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
     private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
-    public static final String SEQUENCE_NUMBER = "sequenceNumber";
-    public static final String QUESTIONNAIRE_AGENDA_TYPE_ID = "KC1004";
+    private static final String SEQUENCE_NUMBER = "sequenceNumber";
+    private static final String QUESTIONNAIRE_AGENDA_TYPE_ID = "KC1004";
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -264,12 +257,32 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
         List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap);
         for (AnswerHeader answerHeader : answerHeaders) {
+            List<QuestionnaireQuestion> questionsWithoutAnswers = findQuestionsWithoutAnswers(answerHeader);
+            if (!questionsWithoutAnswers.isEmpty()) {
+                answerHeader.getAnswers().addAll(questionsWithoutAnswers
+                        .stream()
+                        .flatMap(q -> setupAnswersForQuestion(q).stream())
+                        .collect(Collectors.toList()));
+                setupChildAnswerIndicator(answerHeader);
+            }
+
             answerHeader.getAnswers().sort(new AnswerComparator());
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
             answerHeader.setHasVisibleQuestion(hasVisibleQuestion(answerHeader.getAnswers()));
         }
 
         return answerHeaders;
+    }
+
+    protected List<QuestionnaireQuestion> findQuestionsWithoutAnswers(AnswerHeader answerHeader) {
+        return answerHeader.getQuestionnaire().getQuestionnaireQuestions()
+                .stream()
+                .filter(questionnaireQuestion -> !answerHeader.getAnswers()
+                        .stream()
+                        .map(Answer::getQuestionId)
+                        .collect(Collectors.toSet())
+                        .contains(questionnaireQuestion.getQuestionId()))
+                .collect(Collectors.toList());
     }
 
     protected List<AnswerHeader> retrieveAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean) {
@@ -704,7 +717,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             }
             else {
                 // if one of the parents answer is entered
-                valid = valid && StringUtils.isBlank(answer.getAnswer());
+                valid = StringUtils.isBlank(answer.getAnswer());
                 if (!valid) {
                     break;
                 }
@@ -770,9 +783,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 Date date2 = new Date(dateFormat.parse(conditionValue).getTime());
                 valid = (ConditionType.BEFORE_DATE.getCondition().equals(condition) && (date1.before(date2)))
                         || (ConditionType.AFTER_DATE.getCondition().equals(condition) && (date1.after(date2)));
-            }
-            catch (Exception e) {
-
+            } catch (Exception e) {
+                LOG.warn(e.getMessage(), e);
             }
 
         } 
@@ -804,11 +816,11 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public List<AnswerHeader> getPrintAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber, QuestionnaireHelperBase questionnaireHelper) {
 
         boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
-        String originalProtocolNumber = protocolNumber;
+
         questionnaireHelper.populatePrintAnswers();        
         List<AnswerHeader> printAnswerHeaders = questionnaireHelper.getPrintAnswerHeaders();
         if (isAmendmentOrRenewal) {
-            originalProtocolNumber = protocolNumber.substring(0, 10);
+            String originalProtocolNumber = protocolNumber.substring(0, 10);
             List<AnswerHeader> headers = new ArrayList<>();
             for (AnswerHeader printAnswerHeader : printAnswerHeaders) {
                 if (!(CoeusSubModule.PROTOCOL_SUBMISSION.equals(printAnswerHeader.getModuleSubItemCode()) && printAnswerHeader.getModuleItemKey().equals(originalProtocolNumber))

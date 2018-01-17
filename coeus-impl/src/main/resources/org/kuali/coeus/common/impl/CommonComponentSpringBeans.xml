@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -54,9 +45,11 @@
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportEndpointSpringBeans.xml" />
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportSimpleCrudRestSpringBeans.xml" />
 
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
-        p:prefix="/WEB-INF/client/" p:suffix=".html" />
-    
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+        p:prefix="/WEB-INF/client/" p:suffix=".html" p:order="0" />
+
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" p:order="1" />
     
     <!-- Load Business Rules for this module -->
     <bean id="commonKcBusinessRulesHandler" class="org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesHandler"/>
@@ -238,26 +231,17 @@
                 <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
-                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="fileAttachmentConversionJob" class="org.kuali.coeus.common.impl.attachment.KcAttachmentDataDaoConversionImpl">
-		<property name="kcAttachmentDataDao" ref="kcAttachmentDataDao"/>
-    	<property name="tableName" value="ATTACHMENT_FILE"/>
-    	<property name="blobColumn" value="FILE_DATA"/>
-    	<property name="fileDataIdColumn" value="FILE_DATA_ID"/>
-    	<property name="primaryKeyColumn" value="FILE_ID"/>
-    	<property name="dataSource" ref="dataSource"/>
-    </bean>
     
-    <bean id="fileAttachmentConversionJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-    	<property name="targetObject" ref="fileAttachmentConversionJob"/>
-    	<property name="targetMethod" value="execute" />
-    	<property name="concurrent" value="false" />
+    <bean id="fileAttachmentConversionJobDetail" class="org.quartz.impl.JobDetailImpl">
+        <property name="jobClass" value="org.kuali.coeus.common.impl.attachment.KcAttachmentDataDaoConversionImpl" />
+        <property name="name" value="fileAttachmentConversionJobDetail" />
+        <property name="durability" value="true" />
     </bean>
 
     <bean id="fileAttachmentConversionCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
@@ -270,10 +254,26 @@
         <property name="parameterComponent" value="All" />
     </bean>
 
-    <bean id="citiJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="citiJob"/>
-        <property name="targetMethod" value="execute" />
-        <property name="concurrent" value="false" />
+    <bean id="unitRoleSyncJobDetail" class="org.quartz.impl.JobDetailImpl">
+        <property name="jobClass" value="org.kuali.coeus.common.impl.unit.sync.UnitRoleSyncJobImpl"/>
+        <property name="name" value="unitRoleSyncJobDetail"/>
+        <property name="durability" value="true"/>
+    </bean>
+
+    <bean id="unitRoleSyncCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="unitRoleSyncJobDetail"/>
+        <property name="parameterService" ref="parameterService"/>
+        <property name="dateTimeService" ref="dateTimeService"/>
+        <property name="cronExpressionParameterName" value="unit.role.sync.job.cronExpression"/>
+        <property name="triggerEnabledParameterName" value="unit.role.sync.job.enabled"/>
+        <property name="parameterNamespace" value="KC-SYS"/>
+        <property name="parameterComponent" value="All"/>
+    </bean>
+
+    <bean id="citiJobDetail" class="org.quartz.impl.JobDetailImpl">
+        <property name="jobClass" value="org.kuali.coeus.common.impl.person.citi.CitiJobImpl" />
+        <property name="name" value="citiJobDetail" />
+        <property name="durability" value="true" />
     </bean>
 
     <bean id="citiCronTrigger" class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
@@ -286,19 +286,75 @@
         <property name="parameterComponent" value="All" />
     </bean>
 
-    <bean id="kcCommonQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="schedulerName" value="CommonScheduler"/>
         <property name="exposeSchedulerInRepository" value="true" />
         <property name="triggers">
             <list merge="true">
-                <ref bean="fileAttachmentConversionCronTrigger" />
                 <ref bean="citiCronTrigger" />
+                <ref bean="fileAttachmentConversionCronTrigger" />
+                <ref bean="unitRoleSyncCronTrigger"/>
             </list>
         </property>
+        <!--
+            Injecting these services into the scheduler factory so it can be added to the job context
+            which is passed to the executeInternal method of the job class.
+        -->
+        <property name= "schedulerContextAsMap">
+            <map>
+                <entry key="kcAttachmentDataDao">
+                    <ref bean="kcAttachmentDataDao" />
+                </entry>
+                <entry key="dataSource">
+                    <ref bean="dataSource" />
+                </entry>
+                <entry key="tableName" value="ATTACHMENT_FILE"/>
+                <entry key="blobColumn" value="FILE_DATA"/>
+                <entry key="fileDataIdColumn" value="FILE_DATA_ID"/>
+                <entry key="primaryKeyColumn" value="FILE_ID"/>
+
+                <entry key="citiDataProcessingService" >
+                    <ref bean="citiDataProcessingService" />
+                </entry>
+                <entry key="globalVariableService" >
+                    <ref bean="globalVariableService" />
+                </entry>
+                <entry key="citiDataLoadingService" >
+                    <ref bean="citiDataLoadingService" />
+                </entry>
+                <entry key="unitRoleSyncService">
+                    <ref bean="unitRoleSyncService"/>
+                </entry>
+            </map>
+        </property>
+
+        <property name="quartzProperties">
+            <props>
+                <prop key="org.quartz.jobStore.tablePrefix">${kcQuartzDatabasePrefix}</prop>
+                <prop key="org.quartz.jobStore.isClustered">${kc.org.quartz.jobStore.isClustered}</prop>
+                <prop key="org.quartz.scheduler.instanceId">${kc.org.quartz.scheduler.instanceId}</prop>
+                <prop key="org.quartz.jobStore.misfireThreshold">${kc.org.quartz.jobStore.misfireThreshold}</prop>
+                <prop key="org.quartz.jobStore.clusterCheckinInterval">${kc.org.quartz.jobStore.clusterCheckinInterval}</prop>
+                <prop key="org.quartz.jobStore.maxMisfiresToHandleAtATime">${kc.org.quartz.jobStore.maxMisfiresToHandleAtATime}</prop>
+                
+            </props>
+        </property>
+        <property name="dataSource" ref="dataSource" />
+        <!--
+            This is set to true so that the tables are modified when the job is modified, otherwise
+            manual deletion of values from tables will be required every time job is changed
+        -->
+        <property name="overwriteExistingJobs" value="true" />
     </bean>
-    
+
+
     <util:map id="tableBlobsToWatch">
     	<entry key="attachment_file" value="file_data"/>
     </util:map>
+
+    <bean id="unitRoleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="unitRoleLookupableHelperService"/>
+    </bean>
 
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.answer.Answer" />
     <bean parent="simpleCrudMapBasedRestController" p:dataObjectClazz="org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader" />

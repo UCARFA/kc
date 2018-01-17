@@ -1,26 +1,15 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
  *
- * Copyright 2005-2016 Kuali, Inc.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.common.budget.impl.print;
 
 import static org.mockito.Mockito.*;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Test;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
@@ -672,7 +661,7 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         List<ReportType> reportList = new ArrayList<>();
         stream.setReportTypeForBudgetSalarySummary(reportList);
         Assert.assertEquals(1, reportList.size());
-        Assert.assertEquals(new ScaleTwoDecimal(40L).doubleValue(), reportList.get(0).getFringe());
+        Assert.assertEquals(new ScaleTwoDecimal(40L), new ScaleTwoDecimal(reportList.get(0).getFringe()));
     }
     
     @Test
@@ -711,7 +700,7 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         List<ReportType> reportList = new ArrayList<>();
         stream.setReportTypeForBudgetSalarySummary(reportList);
         Assert.assertEquals(1, reportList.size());
-        Assert.assertEquals(new ScaleTwoDecimal(40L).doubleValue(), reportList.get(0).getFringe());
+        Assert.assertEquals(new ScaleTwoDecimal(40L), new ScaleTwoDecimal(reportList.get(0).getFringe()));
     }
     
     @Test
@@ -766,8 +755,8 @@ public class BudgetSummaryPrintTest extends BudgetPrintTestBase {
         List<ReportType> reportList = new ArrayList<>();
         stream.setReportTypeForBudgetSalarySummary(reportList);
         Assert.assertEquals(2, reportList.size());
-        Assert.assertEquals(new ScaleTwoDecimal(40L).doubleValue(), reportList.get(0).getFringe());
-        Assert.assertEquals(new ScaleTwoDecimal(80L).doubleValue(), reportList.get(1).getFringe());
+        Assert.assertEquals(new ScaleTwoDecimal(40L), new ScaleTwoDecimal(reportList.get(0).getFringe()));
+        Assert.assertEquals(new ScaleTwoDecimal(80L), new ScaleTwoDecimal(reportList.get(1).getFringe()));
     }    
     
     protected BudgetLineItem getSummaryPersonnelLineItem(BudgetPeriod budgetPeriod, Date startDate, Date endDate) {

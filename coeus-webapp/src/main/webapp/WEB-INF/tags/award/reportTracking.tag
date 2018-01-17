@@ -1,20 +1,9 @@
 <%--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ You may use and modify this code under the terms of the Kuali, Inc.
+ Pre-Release License Agreement. You may not distribute it.
+ You should have received a copy of the Kuali, Inc. Pre-Release License
+ Agreement with this file. If not, please write to license@kuali.co.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
@@ -137,49 +126,52 @@
 			<tr>
 				<td>
 					<c:if test="${!reportTrackingReadOnly}">
-					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].multiEditSelected" 
+					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].multiEditSelected"
 							attributeEntry="${reportTrackingAttributes.multiEditSelected}" readOnly="${reportTrackingReadOnly }"  />
 					</c:if>
 				</td>
 				<td>
-					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].dueDate" 
+					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].dueDate"
 						attributeEntry="${reportTrackingAttributes.dueDate}" readOnly="${reportTrackingReadOnly}"  />
 				</td>
 				<td>
-					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].overdue" 
+					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].overdue"
 						attributeEntry="${reportTrackingAttributes.overdue}" readOnly="${true }"  />
 				</td>
 				<td>
-					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerName" 
+					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerName"
 					onblur="loadContactPersonName('document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerName',
 										'preparer[${status.index}]',
 										'na',
 										'na',
 										'na',
-										'sub.reportTrackingBeans.div');"	attributeEntry="${reportTrackingAttributes.preparerName}" readOnly="${reportTrackingReadOnly }"  />
+										'preparer[${status.index}].id');"	attributeEntry="${reportTrackingAttributes.preparerName}" readOnly="${reportTrackingReadOnly }"  />
 					<c:if test="${!reportTrackingReadOnly}">
-	                	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson" 
+	                	<kul:lookup boClassName="org.kuali.coeus.common.framework.person.KcPerson"
 	                                fieldConversions="userName:document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerName,personId:document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" />
-                   </c:if>	
-                    <kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" 
+                   </c:if>
+                    <kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId"
 						attributeEntry="${reportTrackingAttributes.preparerId}" readOnly="${reportTrackingReadOnly }"  />
                     <kul:directInquiry boClassName="org.kuali.coeus.common.framework.person.KcPerson" inquiryParameters="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId:personId" />
-                    <html:hidden styleId ="sub.reportTrackingBeans.div" property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" />
+
+					<c:set var="preparerIdProp" value="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId"/>
+					${kfunc:registerEditableProperty(KualiForm, preparerIdProp)}
+					<html:hidden styleId ="preparer[${status.index}].id" property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].preparerId" />
 					<br/>
 					<span id="preparer[${status.index}]">
-                    &nbsp;
+						<c:out value="${reportTracking.preparerFullname}" />
 					</span>
 				</td>
 				<td>
-					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].statusCode" 
+					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].statusCode"
 						attributeEntry="${reportTrackingAttributes.statusCode}" readOnly="${reportTrackingReadOnly }"  />
 				</td>
 				<td>
-					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].activityDate" 
+					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].activityDate"
 						attributeEntry="${reportTrackingAttributes.activityDate}" readOnly="${reportTrackingReadOnly }"  />
 				</td>
 				<td>
-					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].comments" 
+					<kul:htmlControlAttribute property="document.award.awardReportTermItems[${index}].reportTrackings[${status.index}].comments"
 						attributeEntry="${reportTrackingAttributes.comments}" readOnly="${reportTrackingReadOnly }"  />
 				</td>
 				<td>
@@ -189,11 +181,11 @@
 					</c:if>
 				</td>
 				<td>
-					<c:if test="${reportTracking.displayDeleteButton}">
+					<c:if test="${!reportTracking.autoGenerated}">
 						<html:image property="methodToCall.deleteReportTrackingRecord.awardReportTermItems${index}.line${status.index}.anchor${currentTabIndex}"
-				        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
-				        onclick="return confirm('Are you sure you want to delete this report tracking detail?  Note, this record may be regenerated on the next save, based on the selected frequency and frequency base.')"/>
-			        </c:if>
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
+									onclick="return confirm('Are you sure you want to delete this report tracking detail?  Note, this record may be regenerated on the next save, based on the selected frequency and frequency base.')"/>
+					</c:if>
 				</td>
 			</tr>			
 		</c:forEach>

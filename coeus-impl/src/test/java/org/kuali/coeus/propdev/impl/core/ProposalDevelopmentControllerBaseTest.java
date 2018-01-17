@@ -1,56 +1,93 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
  *
- * Copyright 2005-2016 Kuali, Inc.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 
 package org.kuali.coeus.propdev.impl.core;
 
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
+import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
+import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentMatchers;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static org.hamcrest.Matchers.any;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class ProposalDevelopmentControllerBaseTest {
 
-    ProposalDevelopmentController pdController;
+    private BusinessObjectService businessObjectService;
+    private GlobalVariableService globalVariablesService;
+    private KeyPersonnelService keyPersonnelService;
+    private LegacyDataAdapter legacyDataAdapter;
+    private MessageMap messageMap;
+    private ParameterService parameterService;
+    private PessimisticLockService pessimisticLockService;
+
+    private ProposalDevelopmentController pdController;
 
     class ProposalDevelopmentController extends ProposalDevelopmentControllerBase {}
 
     @Before
     public void setup() {
         pdController = new ProposalDevelopmentController();
+        globalVariablesService = mock(GlobalVariableService.class);
+        messageMap = new MessageMap();
+        when(globalVariablesService.getMessageMap()).thenReturn(messageMap);
+        businessObjectService = mock(BusinessObjectService.class);
+        keyPersonnelService = mock(KeyPersonnelService.class);
+        legacyDataAdapter = mock(LegacyDataAdapter.class);
+        pessimisticLockService = mock(PessimisticLockService.class);
+        parameterService = mock(ParameterService.class);
+        pdController.setBusinessObjectService(businessObjectService);
+        pdController.setGlobalVariableService(globalVariablesService);
+        ReflectionTestUtils.setField(pdController, "keyPersonnelService", keyPersonnelService);
+        pdController.setLegacyDataAdapter(legacyDataAdapter);
+        pdController.setPessimisticLockService(pessimisticLockService);
+        pdController.setParameterService(parameterService);
     }
 
     @Test
     public void testSubmitAnswers() {
         AnswerHeader newAnswerHeader = null;
         AnswerHeader currentAnswerHeader = null;
-        Assert.assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
 
         currentAnswerHeader = new AnswerHeader();
-        Assert.assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
 
         newAnswerHeader = new AnswerHeader();
-        Assert.assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
-        Assert.assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
 
         List<Answer> newAnswers = new ArrayList<>();
         Answer answer1 = new Answer();
@@ -63,7 +100,7 @@ public class ProposalDevelopmentControllerBaseTest {
         newAnswers.add(answer2);
         newAnswerHeader.setAnswers(newAnswers);
         newAnswerHeader.setCompleted(false);
-        Assert.assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         newAnswerHeader.setAnswers(new ArrayList<>());
         currentAnswerHeader.setAnswers(new ArrayList<>());
 
@@ -77,7 +114,7 @@ public class ProposalDevelopmentControllerBaseTest {
         currentAnswers.add(currentAnswer1);
         currentAnswers.add(currentAnswer2);
         currentAnswerHeader.setAnswers(currentAnswers);
-        Assert.assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         newAnswerHeader.setAnswers(new ArrayList<>());
 
         newAnswers = new ArrayList<>();
@@ -89,7 +126,7 @@ public class ProposalDevelopmentControllerBaseTest {
         newAnswers.add(answer2);
         newAnswerHeader.setAnswers(newAnswers);
         newAnswerHeader.setCompleted(true);
-        Assert.assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         newAnswerHeader.setAnswers(new ArrayList<>());
 
 
@@ -102,7 +139,7 @@ public class ProposalDevelopmentControllerBaseTest {
         newAnswers.add(answer2);
         newAnswerHeader.setAnswers(newAnswers);
         newAnswerHeader.setCompleted(false);
-        Assert.assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         newAnswerHeader.setAnswers(new ArrayList<>());
 
         newAnswers = new ArrayList<>();
@@ -114,7 +151,7 @@ public class ProposalDevelopmentControllerBaseTest {
         newAnswers.add(answer2);
         newAnswerHeader.setAnswers(newAnswers);
         newAnswerHeader.setCompleted(true);
-        Assert.assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         newAnswerHeader.setAnswers(new ArrayList<>());
 
         newAnswers = new ArrayList<>();
@@ -125,7 +162,7 @@ public class ProposalDevelopmentControllerBaseTest {
         newAnswers.add(answer2);
         newAnswerHeader.setAnswers(newAnswers);
         newAnswerHeader.setCompleted(false);
-        Assert.assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         newAnswerHeader.setAnswers(new ArrayList<>());
 
         newAnswers = new ArrayList<>();
@@ -136,7 +173,7 @@ public class ProposalDevelopmentControllerBaseTest {
         newAnswers.add(answer2);
         newAnswerHeader.setAnswers(newAnswers);
         newAnswerHeader.setCompleted(true);
-        Assert.assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         newAnswerHeader.setAnswers(new ArrayList<>());
 
         newAnswers = new ArrayList<>();
@@ -154,7 +191,7 @@ public class ProposalDevelopmentControllerBaseTest {
         currentAnswers.add(currentAnswer1);
         currentAnswers.add(currentAnswer2);
         currentAnswerHeader.setAnswers(currentAnswers);
-        Assert.assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         currentAnswerHeader.setAnswers(new ArrayList<>());
         newAnswerHeader.setAnswers(new ArrayList<>());
 
@@ -177,7 +214,7 @@ public class ProposalDevelopmentControllerBaseTest {
         currentAnswers.add(currentAnswer1);
         currentAnswers.add(currentAnswer2);
         currentAnswerHeader.setAnswers(currentAnswers);
-        Assert.assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         currentAnswerHeader.setAnswers(new ArrayList<>());
         newAnswerHeader.setAnswers(new ArrayList<>());
 
@@ -200,7 +237,7 @@ public class ProposalDevelopmentControllerBaseTest {
         currentAnswers.add(currentAnswer1);
         currentAnswers.add(currentAnswer2);
         currentAnswerHeader.setAnswers(currentAnswers);
-        Assert.assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         currentAnswerHeader.setAnswers(new ArrayList<>());
         newAnswerHeader.setAnswers(new ArrayList<>());
 
@@ -221,7 +258,7 @@ public class ProposalDevelopmentControllerBaseTest {
         currentAnswers.add(currentAnswer1);
         currentAnswers.add(currentAnswer2);
         currentAnswerHeader.setAnswers(currentAnswers);
-        Assert.assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         currentAnswerHeader.setAnswers(new ArrayList<>());
         newAnswerHeader.setAnswers(new ArrayList<>());
 
@@ -238,7 +275,7 @@ public class ProposalDevelopmentControllerBaseTest {
         currentAnswer1.setAnswer(null);
         currentAnswers.add(currentAnswer1);
         currentAnswerHeader.setAnswers(currentAnswers);
-        Assert.assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertTrue(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         currentAnswerHeader.setAnswers(new ArrayList<>());
         newAnswerHeader.setAnswers(new ArrayList<>());
 
@@ -255,8 +292,107 @@ public class ProposalDevelopmentControllerBaseTest {
         currentAnswer1.setAnswer("Y");
         currentAnswers.add(currentAnswer1);
         currentAnswerHeader.setAnswers(currentAnswers);
-        Assert.assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
+        assertFalse(pdController.answersIncompleteOrUnchanged(newAnswerHeader, currentAnswerHeader));
         currentAnswerHeader.setAnswers(new ArrayList<>());
         newAnswerHeader.setAnswers(new ArrayList<>());
     }
+
+    @Test
+    public void testCertificationLockOnlyPreventsSavingCertificationQuestions() {
+        final String proposalNumber = "123";
+        final String documentNumber = "456";
+
+        ProposalDevelopmentDocumentForm pdForm = new ProposalDevelopmentDocumentForm() {
+            @Override
+            protected void instantiateDocument() { setDocument(new ProposalDevelopmentDocument()); }
+        };
+        ProposalDevelopmentDocument pdDoc = new ProposalDevelopmentDocument();
+        pdDoc.setDocumentNumber(documentNumber);
+        DevelopmentProposal pd = new DevelopmentProposal();
+        pd.setProposalNumber(proposalNumber);
+        pdDoc.setDevelopmentProposal(pd);
+        pd.setProposalDocument(pdDoc);
+        pdForm.setDocument(pdDoc);
+
+        AnswerHeader certificationHeader = new AnswerHeader();
+        Long certHeaderId = 1L;
+        certificationHeader.setId(certHeaderId);
+        certificationHeader.setVersionNumber(1L);
+        certificationHeader.setModuleItemCode(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE);
+        certificationHeader.setModuleSubItemCode(CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION);
+        ProposalPersonQuestionnaireHelper personQuestionnaireHelper = mock(ProposalPersonQuestionnaireHelper.class);
+        when(personQuestionnaireHelper.getAnswerHeaders()).thenReturn(Collections.singletonList(certificationHeader));
+        pdForm.setProposalPersonQuestionnaireHelper(personQuestionnaireHelper);
+
+        ProposalPerson pdPerson = mock(ProposalPerson.class);
+        when(pdPerson.getQuestionnaireHelper()).thenReturn(personQuestionnaireHelper);
+        pd.setProposalPersons(Collections.singletonList(pdPerson));
+
+        AnswerHeader normalHeader = new AnswerHeader();
+        Long normalHeaderId = 2L;
+        normalHeader.setId(normalHeaderId);
+        normalHeader.setVersionNumber(1L);
+        normalHeader.setModuleItemCode(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE);
+        normalHeader.setModuleSubItemCode(CoeusSubModule.ZERO_SUBMODULE);
+        ProposalDevelopmentQuestionnaireHelper pdQuestionnaireHelper = mock(ProposalDevelopmentQuestionnaireHelper.class);
+        when(pdQuestionnaireHelper.getAnswerHeaders()).thenReturn(Collections.singletonList(normalHeader));
+        pdForm.setQuestionnaireHelper(pdQuestionnaireHelper);
+
+        ProposalDevelopmentS2sQuestionnaireHelper s2sQuestionnaireHelper = mock(ProposalDevelopmentS2sQuestionnaireHelper.class);
+        when(s2sQuestionnaireHelper.getAnswerHeaders()).thenReturn(Collections.emptyList());
+        pdForm.setS2sQuestionnaireHelper(s2sQuestionnaireHelper);
+
+        PessimisticLock certificationLock = mock(PessimisticLock.class);
+        when(certificationLock.getDocumentNumber()).thenReturn(documentNumber);
+        when(certificationLock.getLockDescriptor()).thenReturn(KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL);
+        Person lockOwner = mock(Person.class);
+        when(lockOwner.getName()).thenReturn("quickstart");
+        when(certificationLock.getOwnedByUser()).thenReturn(lockOwner);
+
+        when(parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,
+                ProposalDevelopmentConstants.Parameters.NOTIFY_ALL_CERTIFICATIONS_COMPLETE)).thenReturn(false);
+
+        // Presence of a Personnel section lock blocks saving certification questionnaires
+        when(pessimisticLockService.getPessimisticLocksForDocument(documentNumber)).thenReturn(Collections.singletonList(certificationLock));
+        pdForm.setPageId(Constants.KEY_PERSONNEL_PAGE);
+        pdController.saveAnswerHeaderIfNotLocked(pdForm, pdDoc);
+        assertTrue(messageMap.getWarningMessagesForProperty(KRADConstants.GLOBAL_ERRORS).stream().anyMatch(err -> KeyConstants.KC_ERROR_PERSONNEL_LOCKED.equals(err.getErrorKey())));
+        verify(legacyDataAdapter, never()).save(any(AnswerHeader.class));
+
+        // Personnel section lock does not block saving normal questionnaires
+        reset(legacyDataAdapter);
+        when(businessObjectService.findByPrimaryKey(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(normalHeader);
+        messageMap.getWarningMessages().clear();
+        pdForm.setPageId(Constants.QUESTIONS_PAGE);
+        pdController.saveAnswerHeaderIfNotLocked(pdForm, pdDoc);
+        assertNull(messageMap.getWarningMessagesForProperty(KRADConstants.GLOBAL_ERRORS));
+        verify(legacyDataAdapter, times(1)).save(argThat(new AnswerHeaderMatcher(normalHeaderId)));
+        verify(legacyDataAdapter, never()).save(argThat(new AnswerHeaderMatcher(certHeaderId)));
+
+        // Certification questionnaires still save if there is no lock
+        reset(legacyDataAdapter);
+        when(pessimisticLockService.getPessimisticLocksForDocument(documentNumber)).thenReturn(Collections.emptyList());
+        when(businessObjectService.findByPrimaryKey(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(certificationHeader);
+        messageMap.getWarningMessages().clear();
+        pdForm.setPageId(Constants.KEY_PERSONNEL_PAGE);
+        pdController.saveAnswerHeaderIfNotLocked(pdForm, pdDoc);
+        assertNull(messageMap.getWarningMessagesForProperty(KRADConstants.GLOBAL_ERRORS));
+        verify(legacyDataAdapter, times(1)).save(argThat(new AnswerHeaderMatcher(certHeaderId)));
+        verify(legacyDataAdapter, never()).save(argThat(new AnswerHeaderMatcher(normalHeaderId)));
+    }
+
+    private class AnswerHeaderMatcher implements ArgumentMatcher<AnswerHeader> {
+
+        private Long id;
+
+        AnswerHeaderMatcher(Long id) {
+            this.id = id;
+        }
+
+        @Override
+        public boolean matches(AnswerHeader argument) {
+            return id.equals(argument.getId());
+        }
+    }
+
 }

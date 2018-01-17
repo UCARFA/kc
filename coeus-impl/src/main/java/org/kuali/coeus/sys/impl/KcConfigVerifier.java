@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.sys.impl;
 
@@ -45,6 +34,12 @@ public class KcConfigVerifier implements InitializingBean {
     private static final String TOMCAT_INSTRUMENTATION_CLASS_LOADER_CLASS_NAME = "org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader";
     private static final String INSTRUMENTATION_AGENT_CLASS_NAME = "org.springframework.instrument.InstrumentationSavingAgent";
     private static final String GET_INSTRUMENTATION_METHOD = "getInstrumentation";
+    private static final String TOMCAT_SERVER_INFO_CLASS_NAME = "org.apache.catalina.util.ServerInfo";
+    private static final String TOMCAT_7_VERSION_PREFIX = "7.0";
+    private static final String TOMCAT_GET_SERVER_NUMBER_METHOD = "getServerNumber";
+    private static final String TOMCAT_8_VERSION_PREFIX = "8.0";
+    private static final String TOMCAT_85_VERSION_PREFIX = "8.5";
+    private static final String INTEGRATION_TEST_CLASS = "org.kuali.kra.test.infrastructure.ApplicationServer";
 
     @Autowired
     @Qualifier("kualiConfigurationService")
@@ -79,7 +74,35 @@ public class KcConfigVerifier implements InitializingBean {
             LOG.warn("Both the Spring Tomcat Instrumenting ClassLoader and the Spring Instrumentation Agent are on the classpath but only one is needed.");
         }
 
-        if (runningOnTomcat()) {
+        if (runningOnTomcat8Or85() && !runningOnTomcat85FromJunit()) {
+            if (tomcatInstrumentingClassLoaderAvailable()) {
+                if (hardError()) {
+                    throw new RuntimeException("The Spring Tomcat Instrumenting ClassLoader is on the classpath but the Tomcat Application Server 8.x is detected.");
+                }
+            }
+
+            if (genericInstrumentationAgentAvailable()) {
+                if (hardError()) {
+                    throw new RuntimeException("The Spring Instrumentation Agent is on the but the Tomcat Application Server 8.x is detected.");
+                }
+            }
+        } else if (runningOnTomcat85FromJunit()) {
+            if (tomcatInstrumentingClassLoaderAvailable()) {
+                if (hardError()) {
+                    throw new RuntimeException("The Spring Tomcat Instrumenting ClassLoader is on the classpath but the Tomcat Application Server 8.5.x Embedded is detected.");
+                }
+            }
+
+            if (!genericInstrumentationAgentAvailable()) {
+                if (hardError()) {
+                    throw new RuntimeException("The Spring Instrumentation Agent is not on the classpath but is needed.");
+                }
+            } else if (genericInstrumentationAgentAvailable() && !genericInstrumentationAgentConfigured()) {
+                if (hardError()) {
+                    throw new RuntimeException("The Spring Instrumentation Agent is on the classpath but is not properly configured as a jvm javaagent.");
+                }
+            }
+        } else if (runningOnTomcat7()) {
             if (!tomcatInstrumentingClassLoaderAvailable() && !genericInstrumentationAgentAvailable()) {
                 if (hardError()) {
                     throw new RuntimeException("Neither the Spring Tomcat Instrumenting ClassLoader or the Spring Instrumentation Agent are on the classpath and one is needed.");
@@ -110,14 +133,48 @@ public class KcConfigVerifier implements InitializingBean {
         }
     }
 
+    private String getTomcatServerNumber() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        final Class<?> serverInfo = Class.forName(TOMCAT_SERVER_INFO_CLASS_NAME);
+        final Method getServerNumber = serverInfo.getDeclaredMethod(TOMCAT_GET_SERVER_NUMBER_METHOD);
+        return (String) getServerNumber.invoke(null);
+    }
+
     /**
-     * Checks for the tomcat server class which would only be available if running on tomcat.
+     * Checks for the tomcat server class which would only be available if running on tomcat along with the version number.
      */
-    protected boolean runningOnTomcat() {
+    protected boolean runningOnTomcat7() {
         try {
             Class.forName(TOMCAT_SERVER_CLASS_NAME);
-            return true;
-        } catch (ClassNotFoundException e) {
+            return getTomcatServerNumber().startsWith(TOMCAT_7_VERSION_PREFIX);
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks for the tomcat server class which would only be available if running on tomcat along with the version number.
+     */
+    protected boolean runningOnTomcat8Or85() {
+        try {
+            Class.forName(TOMCAT_SERVER_CLASS_NAME);
+            final String serverNumber = getTomcatServerNumber();
+            return serverNumber.startsWith(TOMCAT_8_VERSION_PREFIX) || serverNumber.startsWith(TOMCAT_85_VERSION_PREFIX);
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks for the tomcat server class which would only be available if running on tomcat embedded along with the
+     * version number.  This indicates the embedded server in our integration tests.
+     */
+    protected boolean runningOnTomcat85FromJunit() {
+        try {
+            Class.forName(TOMCAT_SERVER_CLASS_NAME);
+            Class.forName(INTEGRATION_TEST_CLASS);
+            final String serverNumber = getTomcatServerNumber();
+            return serverNumber.startsWith(TOMCAT_85_VERSION_PREFIX);
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             return false;
         }
     }

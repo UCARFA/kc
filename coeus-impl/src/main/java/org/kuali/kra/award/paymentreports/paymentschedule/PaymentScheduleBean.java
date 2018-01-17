@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.paymentreports.paymentschedule;
 
@@ -144,10 +133,10 @@ public class PaymentScheduleBean implements Serializable {
         art.refreshReferenceObject("frequencyBase");
         
         String description = "";
-        description += StringUtils.isNotEmpty(art.getReport().getDescription()) ?  art.getReport().getDescription() : "";
-        description += StringUtils.isNotEmpty(art.getFrequency().getDescription()) ?  "-" + art.getFrequency().getDescription() : "";
-        description += StringUtils.isNotEmpty(art.getFrequencyBase().getDescription()) ?  "-" + art.getFrequencyBase().getDescription() : "";
-        description += StringUtils.isNotEmpty(art.getDistribution().getDescription()) ?  "-" + art.getDistribution().getDescription() : "";
+        description += art.getReport() != null && StringUtils.isNotEmpty(art.getReport().getDescription()) ?  art.getReport().getDescription() : "";
+        description += art.getFrequency() != null && StringUtils.isNotEmpty(art.getFrequency().getDescription()) ?  "-" + art.getFrequency().getDescription() : "";
+        description += art.getFrequencyBase() != null && StringUtils.isNotEmpty(art.getFrequencyBase().getDescription()) ?  "-" + art.getFrequencyBase().getDescription() : "";
+        description += art.getDistribution() != null && StringUtils.isNotEmpty(art.getDistribution().getDescription()) ?  "-" + art.getDistribution().getDescription() : "";
         description += ObjectUtils.isNotNull(art.getDueDate()) ?  "-" + art.getDueDate() : "";
 
         return description;

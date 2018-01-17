@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
@@ -37,14 +26,14 @@ import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.propdev.impl.s2s.nih.NihSubmissionValidationService;
+import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
+import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.api.generate.FormGenerationResult;
+import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
-import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
-import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.criteria.QueryResults;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -411,15 +400,15 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         s2Opportunity.setCfdaNumber(oppInfo.getCFDANumber());
         s2Opportunity
                 .setClosingDate(oppInfo.getClosingDate() == null ? null
-                        : oppInfo.getClosingDate()
-                        .toGregorianCalendar());
+                        : endOfDay(oppInfo.getClosingDate()
+                        .toGregorianCalendar()));
 
         s2Opportunity.setCompetetionId(oppInfo.getCompetitionID());
         s2Opportunity.setInstructionUrl(oppInfo.getInstructionsURL());
         s2Opportunity
                 .setOpeningDate(oppInfo.getOpeningDate() == null ? null
-                        : oppInfo.getOpeningDate()
-                        .toGregorianCalendar());
+                        : endOfDay(oppInfo.getOpeningDate()
+                        .toGregorianCalendar()));
 
         s2Opportunity.setOpportunityId(oppInfo.getFundingOpportunityNumber());
         s2Opportunity.setOpportunityTitle(oppInfo.getFundingOpportunityTitle());
@@ -431,6 +420,17 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         s2Opportunity.setMultiProject(oppInfo.isIsMultiProject());
 
         return s2Opportunity;
+    }
+
+    /**
+     * Returns the given date at the last second of the day.
+     * @return GregorianCalendar with the time set to the last second of the day.
+     */
+    private GregorianCalendar endOfDay(GregorianCalendar date) {
+        date.set(date.HOUR_OF_DAY, 23);
+        date.set(date.MINUTE, 59);
+        date.set(date.SECOND, 59);
+        return date;
     }
 
     /**
@@ -486,9 +486,12 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
             for (S2sOppForms s2sOppForm : s2sOppForms) {
                 final S2sFormConfigurationContract cfg = getS2sFormConfigurationService().findS2sFormConfigurationByFormName(s2sOppForm.getFormName());
                 if (cfg != null) {
-                    s2sOppForm.setAvailable(s2sOppForm.getAvailable() && cfg.isActive());
+                    proposal.getS2sUserAttachedForms().stream()
+                            .filter(form -> StringUtils.equals(form.getNamespace(), s2sOppForm.getOppNameSpace()))
+                            .findFirst()
+                            .ifPresent(form -> s2sOppForm.setUserAttachedForm(true));
+                    s2sOppForm.setAvailable(s2sOppForm.getAvailable() && (cfg.isActive() || s2sOppForm.getUserAttachedForm()));
                 }
-
                 if (s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()) {
                     missingMandatoryForms.add(s2sOppForm.getFormName());
                 }

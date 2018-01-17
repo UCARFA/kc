@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.subaward.bo;
 
@@ -27,8 +16,6 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
     private String subAwardCode;
     private Integer sequenceNumber;
     private Long subAwardId;
-    private String sowOrSubProposalBudget="N";
-    private Date subProposalDate;
     private Integer invoiceOrPaymentContact;
     private Integer finalStmtOfCostscontact;
     private Integer changeRequestsContact;
@@ -64,6 +51,22 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
     private String humanDataExchangeTermsCd;
     private Boolean mpiAward = Boolean.FALSE;
     private String mpiLeadershipPlan;
+    private String additionalTerms;
+    private String treatmentOfIncome;
+    private String dataSharingAttachment;
+    private String finalStatementDueCd;
+
+    /**
+     * @deprecated no longer used but no deleted for backwards compatibility reasons
+     */
+    @Deprecated
+    private String sowOrSubProposalBudget;
+
+    /**
+     * @deprecated no longer used but no deleted for backwards compatibility reasons
+     */
+    @Deprecated
+    private Date subProposalDate;
 
     public String getMpiLeadershipPlan() {
         return mpiLeadershipPlan;
@@ -103,22 +106,6 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
 
     public void setSubAwardId(Long subAwardId) {
         this.subAwardId = subAwardId;
-    }
-
-    public String getSowOrSubProposalBudget() {
-        return sowOrSubProposalBudget;
-    }
-
-    public void setSowOrSubProposalBudget(String sowOrSubProposalBudget) {
-        this.sowOrSubProposalBudget = sowOrSubProposalBudget;
-    }
-
-    public Date getSubProposalDate() {
-        return subProposalDate;
-    }
-
-    public void setSubProposalDate(Date subProposalDate) {
-        this.subProposalDate = subProposalDate;
     }
 
     public Integer getInvoiceOrPaymentContact() {
@@ -383,5 +370,69 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
 
     public void setHumanDataExchangeTermsCd(String humanDataExchangeTermsCd) {
         this.humanDataExchangeTermsCd = humanDataExchangeTermsCd;
+    }
+
+    public String getAdditionalTerms() {
+        return additionalTerms;
+    }
+
+    public void setAdditionalTerms(String additionalTerms) {
+        this.additionalTerms = additionalTerms;
+    }
+
+    public String getTreatmentOfIncome() {
+        return treatmentOfIncome;
+    }
+
+    public void setTreatmentOfIncome(String treatmentOfIncome) {
+        this.treatmentOfIncome = treatmentOfIncome;
+    }
+
+    public String getDataSharingAttachment() {
+        return dataSharingAttachment;
+    }
+
+    public void setDataSharingAttachment(String dataSharingAttachment) {
+        this.dataSharingAttachment = dataSharingAttachment;
+    }
+
+    public String getFinalStatementDueCd() {
+        return finalStatementDueCd;
+    }
+
+    public void setFinalStatementDueCd(String finalStatementDueCd) {
+        this.finalStatementDueCd = finalStatementDueCd;
+    }
+
+    /**
+     * @deprecated no longer used but no deleted for backwards compatibility reasons
+     */
+    @Deprecated
+    public String getSowOrSubProposalBudget() {
+        return sowOrSubProposalBudget;
+    }
+
+    /**
+     * @deprecated no longer used but no deleted for backwards compatibility reasons
+     */
+    @Deprecated
+    public void setSowOrSubProposalBudget(String sowOrSubProposalBudget) {
+        this.sowOrSubProposalBudget = sowOrSubProposalBudget;
+    }
+
+    /**
+     * @deprecated no longer used but no deleted for backwards compatibility reasons
+     */
+    @Deprecated
+    public Date getSubProposalDate() {
+        return subProposalDate;
+    }
+
+    /**
+     * @deprecated no longer used but no deleted for backwards compatibility reasons
+     */
+    @Deprecated
+    public void setSubProposalDate(Date subProposalDate) {
+        this.subProposalDate = subProposalDate;
     }
 }

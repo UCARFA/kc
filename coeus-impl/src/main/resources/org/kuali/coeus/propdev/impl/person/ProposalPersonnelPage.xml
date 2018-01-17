@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
@@ -283,7 +274,8 @@
           p:layoutManager.summaryTitle="@{#lp.fullName}
 		                                (@{#lp.role != null ? #lp.role.description : #lp.proposalPersonRoleId}
                                             @{#lp.keyPerson eq true ? ': ' + #lp.projectRole : '' })
-                                                @{#lp.certifiedBy != null and #lp.isQuestionnairesCompleted() ? '(Certification Completed and Answered By '+ #lp.certifiedPersonName+' - ' + #lp.certifiedTimeStamp+')' : '(Certification Incomplete)'}"
+                                                @{#ViewHelper.getCertifiedBy(#line) != null and #lp.isQuestionnairesCompleted() ? '(Certification Completed and Answered By '+
+                                                #ViewHelper.getCertifiedPersonName(#line)+' - ' + #ViewHelper.getCertifiedTimeStamp(#line)+')' : '(Certification Incomplete)'}"
           p:renderAddLine="false"
           p:renderInactiveToggleButton="false">
         <property name="items">
@@ -412,8 +404,10 @@
                       p:order="70"/>
                 <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="eraCommonsUserName"
                       p:order="80"/>
+                <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="nsfId"
+                      p:order="90" />
                 <bean parent="Uif-CheckboxInputField" p:propertyName="includeInCreditAllocation" p:render="@{#ViewHelper.isPersonnelCreditSplitOptInFeatureEnabled()}"
-                      p:order="90">
+                      p:order="100">
                 </bean>
             </list>
         </property>
@@ -658,7 +652,7 @@
     <bean id="PropDev-PersonnelPage-Questionnaire" parent="PropDev-PersonnelPage-Questionnaire-parentBean" />
     <bean id="PropDev-PersonnelPage-Questionnaire-parentBean"
           abstract="true" parent="Uif-CssGridSection" p:id="personnelQuestionnaire"
-          p:render="@{#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0}"
+          p:render="@{#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0 and !#ViewHelper.hasPersonnelLocks()}"
           p:refreshWhenChangedPropertyNames="document.developmentProposal.proposalPersons[@{#index}].proposalPersonRoleId"
           p:progressiveRenderAndRefresh="true"
           p:headerText="@{(#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0 and #line.questionnaireHelper.answerHeaders[0].label != null) ? #line.questionnaireHelper.answerHeaders[0].label : 'None'}">

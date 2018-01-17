@@ -1,24 +1,13 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.copy;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +34,8 @@ import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.impl.repository.AgendaBoService;
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -72,6 +63,12 @@ public class ProposalWorkflowTest extends ProposalDevelopmentRuleTestBase {
     @Override
 	public void setUp() throws Exception {
         documentService = KRADServiceLocatorWeb.getDocumentService();
+        AgendaBoService agendaBoService = KcServiceLocator.getService(AgendaBoService.class);
+        AgendaDefinition agendaDefOrig = agendaBoService.getAgendaByAgendaId("KC10001");
+        AgendaDefinition.Builder builder = AgendaDefinition.Builder.create(agendaDefOrig);
+        builder.setActive(true);
+        AgendaDefinition updatedAgenda = builder.build();
+        agendaBoService.updateAgenda(updatedAgenda);
         updateParameterForTesting("KC-PD", "Document", "proposaldevelopment.creditsplit.enabled", "N");
         updateParameterForTesting("KC-PD", "Document", "KEY_PERSON_CERTIFICATION_DEFERRAL", "BA");
         Map<String, Object> questionnaireCriteria = new HashMap<>();
@@ -209,10 +206,13 @@ public class ProposalWorkflowTest extends ProposalDevelopmentRuleTestBase {
         ProposalCopyCriteria criteria = new ProposalCopyCriteria();
         criteria.setLeadUnitNumber(ORIGINAL_LEAD_UNIT);
         ProposalDevelopmentDocument copiedDocument = getProposalCopyService().copyProposal(oldDocument, criteria);
+        //ensure the create timestamp is set far enough past the bootstrap KRMS rule that it will trigger
+        copiedDocument.getDevelopmentProposal().setCreateTimestamp(new java.sql.Timestamp(System.currentTimeMillis() + 86400000));
+        getDocumentService().saveDocument(copiedDocument);
 
         RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(copiedDocument.getDocumentHeader().getWorkflowDocument().getDocumentId());
         DocumentDetail results1 = getWorkflowDocumentActionsService().executeSimulation(reportCriteriaBuilder.build());
-        Assert.assertTrue(results1.getActionRequests().size() == 5);
+        Assert.assertEquals(5, results1.getActionRequests().size());
 
 
         List<ActionRequest> peopleFlowRequests = results1.getActionRequests().stream().filter(actionRequest ->
@@ -220,13 +220,13 @@ public class ProposalWorkflowTest extends ProposalDevelopmentRuleTestBase {
                 actionRequest.getActionRequested().getCode().equalsIgnoreCase("A") &&
                 actionRequest.getStatus().getCode().equals(KewApiConstants.ActionRequestStatusVals.INITIALIZED)).collect(Collectors.toList());
 
-        Assert.assertTrue(peopleFlowRequests.size() == 3);
+        Assert.assertEquals(3, peopleFlowRequests.size());
 
         List<ActionRequest>  ospOffice = results1.getActionRequests().stream().filter(actionRequest ->
                 actionRequest.getNodeName().equalsIgnoreCase("OSPOfficeRouting") &&
                         actionRequest.getActionRequested().getCode().equalsIgnoreCase("A") &&
                         actionRequest.getStatus().getCode().equals(KewApiConstants.ActionRequestStatusVals.INITIALIZED)).collect(Collectors.toList());
-        Assert.assertTrue(ospOffice.size() == 1);
+        Assert.assertEquals(1, ospOffice.size());
 
     }
 

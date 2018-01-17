@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.common.impl;
 
@@ -26,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
@@ -35,6 +25,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
@@ -69,6 +64,14 @@ public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
         return dataValidationItems;
     }
 
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    protected ParameterService getParameterService () {
+        return parameterService;
+    }
+
     public String getErrorCssClass(String severity) {
         if (severity.endsWith(Constants.AUDIT_ERRORS)) {
             return "label-danger";
@@ -93,4 +96,8 @@ public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
 		this.globalVariableService = globalVariableService;
 	}
 
+    public boolean isDataValidationSectionEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                Constants.SHOW_SECTION_IN_DATA_VALIDATION);
+    }
 }

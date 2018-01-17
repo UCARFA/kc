@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.version.service.impl;
 
@@ -27,7 +16,9 @@ import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.home.AwardService;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -36,10 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Award Version Service implementation
@@ -122,12 +110,32 @@ public class AwardVersionServiceImpl extends PlatformAwareDaoBaseOjb implements 
     @Override
     public AwardDocument createAndSaveNewAwardVersion(AwardDocument awardDocument) throws Exception {
         awardDocument.getAward().setNewVersion(true);
+        refreshAwardReportTrackingRelationships(awardDocument.getAward());
         AwardDocument newAwardDocument = awardService.createNewAwardVersion(awardDocument);
         documentService.saveDocument(newAwardDocument);
+        versionAwardReportTracking(newAwardDocument.getAward());
         awardService.updateAwardSequenceStatus(newAwardDocument.getAward(), VersionStatus.PENDING);
         getVersionHistoryService().updateVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
                 globalVariableService.getUserSession().getPrincipalName());
         return newAwardDocument;
+    }
+
+    private void refreshAwardReportTrackingRelationships(Award award) {
+        award.getAwardReportTermItems().forEach(item -> {
+                    Map<String, Object> params = Collections.singletonMap(AwardConstants.AWARD_REPORT_TERM_ID, item.getAwardReportTermId());
+                    item.setReportTrackings(new ArrayList<>(getBusinessObjectService().findMatching(ReportTracking.class, params)));
+                });
+    }
+
+    private void versionAwardReportTracking(Award newAwardVersion) {
+        newAwardVersion.getAwardReportTermItems().forEach(awardReportTerm -> {
+            awardReportTerm.getReportTrackings().forEach(reportTracking -> {
+                reportTracking.setAwardReportTrackingId(null);
+                reportTracking.setAwardReportTermId(awardReportTerm.getAwardReportTermId());
+                reportTracking.setAwardId(newAwardVersion.getAwardId());
+            });
+            getBusinessObjectService().save(awardReportTerm.getReportTrackings());
+        });
     }
 
     private VersionHistory getPendingVersionHistory (List<VersionHistory> list) {

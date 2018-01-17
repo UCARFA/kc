@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.awardhierarchy;
 
@@ -26,6 +15,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.type.ActivityType;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
@@ -33,6 +24,8 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardServiceImpl;
+import org.kuali.kra.bo.NsfCode;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -264,6 +257,17 @@ public class AwardHierarchyServiceImplTest extends KcIntegrationTestBase {
             Assert.assertEquals(refMap.get(awardNumber), nodeMap.get(awardNumber));
         }
     }
+
+    @Test
+    public void testCopyAwardClearsFundingProposals() {
+        final String newAwardNumber = "100003-00001";
+        Award award = rootNodeA.getAward();
+        addFundingProposal(award);
+        addFundingProposal(award);
+        Award copiedAward = service.copyAward(award, newAwardNumber);
+        assertTrue(copiedAward.getFundingProposals().isEmpty());
+        assertTrue(copiedAward.getAllFundingProposals().isEmpty());
+    }
     
     private void addAwards(AwardHierarchy rootNode) throws Exception {
         List<AwardHierarchy> nodes = rootNode.getFlattenedListOfNodesInHierarchy();
@@ -350,6 +354,25 @@ public class AwardHierarchyServiceImplTest extends KcIntegrationTestBase {
         public void updateAwardSequenceStatus(Award award, VersionStatus status) {
             //do nothing.
         }
-    }    
+    }
+
+    private InstitutionalProposal addFundingProposal(Award award) {
+        Sponsor testSponsor = new Sponsor();
+        testSponsor.setSponsorCode("testsp");
+
+        InstitutionalProposal ip = new InstitutionalProposal();
+        ip.setProposalNumber(InstitutionalProposal.PROPOSAL_NUMBER_TEST_DEFAULT_STRING);
+        ip.setTitle("Test Title");
+        ip.setActivityTypeCode("RES");
+        ip.setCfdaNumber("11.111a");
+        ip.setNsfSequenceNumber(2);
+        ip.setActivityType(new ActivityType());
+        ip.setSponsor(testSponsor);
+        ip.setPrimeSponsor(testSponsor);
+        ip.setNsfCodeBo(new NsfCode());
+
+        award.add(ip);
+        return ip;
+    }
 
 }

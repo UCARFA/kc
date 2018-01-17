@@ -1,25 +1,13 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.budget;
 
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -326,7 +314,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
         for (AwardBudgetLimit limit : awardLimits) {
             AwardBudgetLimit budgetLimit = getBudgetLimit(limit.getLimitType(), budgetLimits);
-            if (!org.apache.commons.lang3.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
+            if (!Objects.equals(limit.getLimit(), budgetLimit.getLimit())) {
                 return false;
             }
         }
@@ -825,6 +813,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     
     protected void copyProposalBudgetLineItemsToAwardBudget(AwardBudgetPeriodExt awardBudgetPeriod, BudgetPeriod proposalBudgetPeriod) {
+        boolean changeLineItemDates = false;
     	boolean warnOfRateEffectiveDateChange = false;
     	final Budget awardBudget = awardBudgetPeriod.getBudget();
 		Date currentEffectiveDate = getEffectiveRateStartDate(awardBudget);
@@ -838,7 +827,11 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             BeanUtils.copyProperties(budgetLineItem, awardBudgetLineItem, ignoreProperties);
             awardBudgetLineItem.setLineItemNumber(awardBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             awardBudgetLineItem.setBudgetId(awardBudgetPeriod.getBudgetId());
-            boolean changeLineItemDates = adjustLineItemDatesIfNecessary(awardBudgetLineItem, awardBudgetPeriod.getStartDate(), awardBudgetPeriod.getEndDate());
+            // Remove budget-subaward linkage since it doesn't apply to award budget
+            awardBudgetLineItem.setSubAwardNumber(null);
+            // Always set line item start and end dates to period dates, since they can't be changed after copy
+            awardBudgetLineItem.setStartDate(awardBudgetPeriod.getStartDate());
+            awardBudgetLineItem.setEndDate(awardBudgetPeriod.getEndDate());
             
             List<BudgetPersonnelDetails> awardBudgetPersonnelLineItems = awardBudgetLineItem.getBudgetPersonnelDetailsList();
             List<BudgetPersonnelDetails> budgetPersonnelLineItems = budgetLineItem.getBudgetPersonnelDetailsList();
@@ -869,7 +862,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 awardBudgetPerDetails.setBudget(awardBudget);
                 awardBudgetPerDetails.setBudgetId(awardBudgetPeriod.getBudgetId());
                 awardBudgetPerDetails.setCostElement(awardBudgetLineItem.getCostElement());
-                changeLineItemDates &= adjustLineItemDatesIfNecessary(awardBudgetPerDetails, awardBudgetLineItem.getStartDate(), awardBudgetLineItem.getEndDate());
+                changeLineItemDates |= adjustLineItemDatesIfNecessary(awardBudgetPerDetails, awardBudgetLineItem.getStartDate(), awardBudgetLineItem.getEndDate());
                 awardBudgetPersonnelLineItems.add(awardBudgetPerDetails);
             }
             if (changeLineItemDates) {
@@ -1039,14 +1032,14 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     public void populateBudgetLimitSummary(BudgetLimitSummaryHelper summary, Award award) {
         
         AwardBudgetExt currentBudget = getCurrentBudget(award);
-        if (summary.getCurrentBudget() == null 
-                || !ObjectUtils.equals(summary.getCurrentBudget(), currentBudget)) {
+        if (summary.getCurrentBudget() == null
+                || !Objects.equals(summary.getCurrentBudget(), currentBudget)) {
             getAwardBudgetCalculationService().calculateBudgetSummaryTotals(currentBudget, false);
             summary.setCurrentBudget(currentBudget);
         }
         AwardBudgetExt prevBudget = getPreviousBudget(award);
         if (summary.getPreviousBudget() == null
-                || !ObjectUtils.equals(summary.getPreviousBudget(), prevBudget)) {
+                || !Objects.equals(summary.getPreviousBudget(), prevBudget)) {
             getAwardBudgetCalculationService().calculateBudgetSummaryTotals(prevBudget, true);
             summary.setPreviousBudget(prevBudget);
         }

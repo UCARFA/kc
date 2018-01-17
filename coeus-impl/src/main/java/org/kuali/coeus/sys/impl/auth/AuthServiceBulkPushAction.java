@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
  *
- * Copyright 2005-2016 Kuali, Inc.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.sys.impl.auth;
 
@@ -22,7 +11,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.auth.AuthServicePushService;
-import org.kuali.coeus.sys.framework.auth.AuthServicePushStatus;
+import org.kuali.coeus.sys.framework.auth.CoreUserPushService;
+import org.kuali.coeus.sys.framework.auth.CoreUsersPushStatus;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.RiceConstants;
@@ -37,7 +27,7 @@ public class AuthServiceBulkPushAction extends KualiAction {
     private static final String PUSH_MESSAGE_KEY = "info.user.bulk.push.complete";
     private static final String AUTH_SERVICE_BULK_PUSH = "AuthServiceBulkPush";
 
-    private transient AuthServicePushService authServicePushService;
+    private transient CoreUserPushService authServicePushService;
     private transient GlobalVariableService globalVariableService;
 
     public ActionForward pushAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -48,7 +38,7 @@ public class AuthServiceBulkPushAction extends KualiAction {
         } else if (AUTH_SERVICE_BULK_PUSH.equals(question)) {
             final String buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if (ConfirmationQuestion.YES.equals(buttonClicked)) {
-            	AuthServicePushStatus status = getAuthServicePushService().pushAllUsers();
+            	CoreUsersPushStatus status = getAuthServicePushService().pushAllUsers();
                 getGlobalVariableService().getMessageList().add(PUSH_MESSAGE_KEY, Integer.toString(status.getNumberOfUsers()),
                         Integer.toString(status.getNumberAdded()), Integer.toString(status.getNumberUpdated()),
                         Integer.toString(status.getNumberSame()), Integer.toString(status.getNumberRemoved()),
@@ -71,14 +61,14 @@ public class AuthServiceBulkPushAction extends KualiAction {
         this.globalVariableService = globalVariableService;
     }
 
-	public AuthServicePushService getAuthServicePushService() {
+	public CoreUserPushService getAuthServicePushService() {
 		if (authServicePushService == null) {
 			authServicePushService = KcServiceLocator.getService(AuthServicePushService.class);
 		}
 		return authServicePushService;
 	}
 
-	public void setAuthServicePushService(AuthServicePushService authServicePushService) {
+	public void setAuthServicePushService(CoreUserPushService authServicePushService) {
 		this.authServicePushService = authServicePushService;
 	}
 }

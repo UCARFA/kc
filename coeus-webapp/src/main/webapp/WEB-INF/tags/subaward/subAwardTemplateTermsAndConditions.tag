@@ -1,20 +1,9 @@
 <%--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   -
-   - Copyright 2005-2016 Kuali, Inc.
-   -
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   -
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   -
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ You may use and modify this code under the terms of the Kuali, Inc.
+ Pre-Release License Agreement. You may not distribute it.
+ You should have received a copy of the Kuali, Inc. Pre-Release License
+ Agreement with this file. If not, please write to license@kuali.co.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
@@ -26,7 +15,9 @@
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegulations*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].treatmentPrgmIncomeAdditive*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegsDate*,
-                                                                document.subAwardList[0].subAwardTemplateInfo[0].mpiLeadershipPlan*">
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].mpiLeadershipPlan*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].additionalTerms*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].treatmentOfIncome*">
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Terms and Conditions</span>
@@ -54,9 +45,11 @@
                 <td>
                     <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].automaticCarryForward" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.automaticCarryForward}"  />
                 </td>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.treatmentPrgmIncomeAdditive}" /></div></th>
+                <th>
+                    <div align="right">&nbsp;</div>
+                </th>
                 <td>
-                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].treatmentPrgmIncomeAdditive" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.treatmentPrgmIncomeAdditive}"  />
+                    &nbsp;
                 </td>
             </tr>
             <tr>
@@ -67,6 +60,45 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.mpiLeadershipPlan}" /></div></th>
                 <td>
                     <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].mpiLeadershipPlan" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.mpiLeadershipPlan}"  />
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <div align="right"><kul:htmlAttributeLabel
+                            attributeEntry="${subAwardTemplateInfoAttributes.treatmentPrgmIncomeAdditive}"/></div>
+                </th>
+                <td>
+                    <kul:htmlControlAttribute
+                            property="document.subAwardList[0].subAwardTemplateInfo[0].treatmentPrgmIncomeAdditive"
+                            readOnly="${readOnly}"
+                            attributeEntry="${subAwardTemplateInfoAttributes.treatmentPrgmIncomeAdditive}"/>
+                </td>
+                <th>
+                    <div align="right"><kul:htmlAttributeLabel
+                            attributeEntry="${subAwardTemplateInfoAttributes.treatmentOfIncome}"/></div>
+                </th>
+                <td>
+                    <kul:htmlControlAttribute
+                            property="document.subAwardList[0].subAwardTemplateInfo[0].treatmentOfIncome"
+                            readOnly="${readOnly}"
+                            attributeEntry="${subAwardTemplateInfoAttributes.treatmentOfIncome}"/>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <div align="right"><kul:htmlAttributeLabel
+                            attributeEntry="${subAwardTemplateInfoAttributes.additionalTerms}"/></div>
+                </th>
+                <td>
+                    <kul:htmlControlAttribute
+                            property="document.subAwardList[0].subAwardTemplateInfo[0].additionalTerms"
+                            readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.additionalTerms}"/>
+                </td>
+                <th>
+                    <div align="right">&nbsp;</div>
+                </th>
+                <td>
+                    &nbsp;
                 </td>
             </tr>
         </table>

@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.common.impl.krms;
 
@@ -39,9 +28,9 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public abstract class KcKrmsJavaFunctionTermServiceBase {
 
@@ -49,6 +38,7 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
 
     public static final String TRUE = "true";
     public static final String FALSE = "false";
+    public static final List<String> NULL_VALUES = Arrays.asList("null", "empty");
     public static final String[] restrictedElements = { " ", "`", "@", "#", "!", "$", "%", "^", "&", "*", "(", ")", "[", "]", "{",
             "}", "|", "\\", "/", "?", "<", ">", ",", ";", ":", "'", "\"", "`", "+" };
 
@@ -69,10 +59,10 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
     private VersionHistoryService versionHistoryService;
 
     public Boolean checkPropertyValueForAnyPreviousVersion(SequenceOwner<?> currentVersion, String property, String valueToCompare) {
-        return currentVersion.getVersionNameFieldValue() == null ? false:
-           getVersionHistories(currentVersion, currentVersion.getVersionNameFieldValue()).stream().filter(pastVersion ->
-                    isArchivedOrActive(pastVersion)).collect(Collectors.toList()).
-                    stream().anyMatch(pastVersion -> isPropertyValueMatches(currentVersion, property, valueToCompare, pastVersion));
+        return currentVersion.getVersionNameFieldValue() != null && getVersionHistories(currentVersion, currentVersion.getVersionNameFieldValue())
+                .stream()
+                .filter(this::isArchivedOrActive)
+                .anyMatch(pastVersion -> isPropertyValueMatches(currentVersion, property, valueToCompare, pastVersion));
     }
 
     protected boolean isPropertyValueMatches(SequenceOwner<?> currentVersion, String property, String valueToCompare, VersionHistory pastVersion) {
@@ -170,7 +160,7 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
     protected SequenceOwner<?> getLastActiveVersion(SequenceOwner<?> currentVersion) {
         SequenceOwner<?> highestActiveVersion = null;
         if (currentVersion.getVersionNameFieldValue() != null) {
-            for (VersionHistory pastVersion : getVersionHistories(currentVersion, currentVersion.getVersionNameFieldValue().toString())) {
+            for (VersionHistory pastVersion : getVersionHistories(currentVersion, currentVersion.getVersionNameFieldValue())) {
                 if (isHighestActiveVersion(highestActiveVersion, pastVersion, currentVersion)) {
                     highestActiveVersion = pastVersion.getSequenceOwner();
                 }
@@ -180,7 +170,7 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
     }
 
     private boolean isHighestActiveVersion(SequenceOwner<?> highestActiveVersion, VersionHistory pastVersion, SequenceOwner<?> currentVersion) {
-        return (pastVersion.getSequenceOwnerSequenceNumber() != currentVersion.getSequenceNumber() && isArchivedOrActive(pastVersion)) &&
+        return (!Objects.equals(pastVersion.getSequenceOwnerSequenceNumber(), currentVersion.getSequenceNumber()) && isArchivedOrActive(pastVersion)) &&
                 (highestActiveVersion == null || pastVersion.getSequenceOwnerSequenceNumber() > highestActiveVersion.getSequenceNumber());
     }
 

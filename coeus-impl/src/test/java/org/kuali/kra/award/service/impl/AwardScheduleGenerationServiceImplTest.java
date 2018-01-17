@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.award.service.impl;
 
@@ -148,18 +137,21 @@ public class AwardScheduleGenerationServiceImplTest extends AwardAmountInfoSetUp
     public final void testGetEndDate(){
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        
+
         final ParameterService parameterService = context.mock(ParameterService.class);
-        
+
         context.checking(new Expectations() {{
             one(parameterService).getParameterValueAsString(AwardDocument.class, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(PERIOD_IN_YEARS));
         }});
         awardScheduleGenerationServiceImpl.setParameterService(parameterService);
-        java.util.Date endDate = awardScheduleGenerationServiceImpl.getEndDate(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase()
-                                    , calendar.getTime(), mapOfDates);
-        calendar.add(Calendar.YEAR, 1);        
+        AwardReportTerm awardReportTerm = new AwardReportTerm();
+        awardReportTerm.setFrequencyBaseCode(FrequencyBaseConstants.FINAL_EXPIRATION_DATE.getfrequencyBase());
+        java.util.Date endDate = awardScheduleGenerationServiceImpl.getEndDate(awardReportTerm, calendar.getTime(), mapOfDates);
+        calendar.add(Calendar.YEAR, 1);
         Assert.assertEquals(calendar.getTime(),endDate);
-        endDate = awardScheduleGenerationServiceImpl.getEndDate(FrequencyBaseConstants.AWARD_EFFECTIVE_DATE.getfrequencyBase(), calendar.getTime(), mapOfDates);
+
+        awardReportTerm.setFrequencyBaseCode(FrequencyBaseConstants.AWARD_EFFECTIVE_DATE.getfrequencyBase());
+        endDate = awardScheduleGenerationServiceImpl.getEndDate(awardReportTerm, calendar.getTime(), mapOfDates);
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.SEPTEMBER, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         Assert.assertEquals(calendar.getTime(),endDate);
@@ -359,6 +351,31 @@ public class AwardScheduleGenerationServiceImplTest extends AwardAmountInfoSetUp
         
         awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);        
         Assert.assertEquals(DATES, awardScheduleGenerationServiceImpl.getDates(newAwardReportTerm, mapOfDates,0));
+    }
+
+    @Test
+    public void testGetEndDateWithOffsetAfterFinalExpirationDate() {
+        calendar.clear();
+        calendar.set(START_DATE_YEAR_2009, Calendar.SEPTEMBER, FIRST_DAY_OF_MONTH);
+        calendar.add(Calendar.MONTH, 3);
+        calendar.add(Calendar.DAY_OF_YEAR, 30);
+        java.util.Date expectedEndDate = calendar.getTime();
+
+        calendar.clear();
+        calendar.set(START_DATE_YEAR_2009, Calendar.JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+
+        Frequency quarterly30After = new Frequency();
+        quarterly30After.setNumberOfMonths(3);
+        quarterly30After.setNumberOfDays(30);
+        quarterly30After.setRepeatFlag(true);
+        quarterly30After.setActive(true);
+
+        AwardReportTerm awardReportTerm = new AwardReportTerm();
+        awardReportTerm.setFrequency(quarterly30After);
+        awardReportTerm.setFrequencyBaseCode("As Required");
+
+        java.util.Date endDate = awardScheduleGenerationServiceImpl.getEndDate(awardReportTerm, calendar.getTime(), mapOfDates);
+        Assert.assertEquals(expectedEndDate,endDate);
     }
     
 }

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.kuali.coeus</groupId>
+        <artifactId>coeus-db</artifactId>
+        <version>1801.0025-SNAPSHOT</version>
+    </parent>
+    <artifactId>coeus-db-client</artifactId>
+    <packaging>jar</packaging>
+    <name>Kuali Coeus Database Client</name>
+    <description>
+        For internal use only.
+    </description>
+
+    <properties>
+        <copy.javaagent.off>true</copy.javaagent.off>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>grm</id>
+            <!-- comment out activation section to turn this profile off permanently-->
+            <activation>
+                <property>
+                    <name>!grm.off</name>
+                </property>
+            </activation>
+            <properties>
+                <maven-shade-plugin.version>3.1.0</maven-shade-plugin.version>
+            </properties>
+
+            <dependencies>
+
+                <dependency>
+                    <groupId>co.kuali</groupId>
+                    <artifactId>kc-sql</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+                
+	            <dependency>
+	                <groupId>com.fasterxml.jackson.core</groupId>
+	                <artifactId>jackson-databind</artifactId>
+	                <scope>compile</scope>
+	            </dependency>             
+
+                <dependency>
+                    <groupId>${mysql.groupId}</groupId>
+                    <artifactId>${mysql.artifactId}</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>${oracle.groupId}</groupId>
+                    <artifactId>${oracle.artifactId}</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-dbcp2</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.kuali.coeus</groupId>
+                    <artifactId>coeus-db-data-conv</artifactId>
+                    <version>${project.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.kuali.coeus</groupId>
+                    <artifactId>coeus-db-sql</artifactId>
+                    <version>${project.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jul-to-slf4j</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+                
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>${maven-shade-plugin.version}</version>
+                        <executions>
+                            <execution>
+								<phase>package</phase>
+								<goals>
+									<goal>shade</goal>
+								</goals>
+								<configuration>
+									<transformers>
+										<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+											<mainClass>co.kuali.coeus.db.client.FlywayClient</mainClass>
+										</transformer>
+									</transformers>
+								</configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

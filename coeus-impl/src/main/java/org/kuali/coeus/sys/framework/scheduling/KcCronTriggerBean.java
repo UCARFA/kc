@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 
 package org.kuali.coeus.sys.framework.scheduling;
@@ -25,7 +14,8 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.springframework.scheduling.quartz.CronTriggerBean;
+import org.quartz.CronTrigger;
+import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,9 +27,11 @@ import java.util.Date;
  * the Cron Expression from the SpringBeans.xml file.  Rather,
  * we have to retrieve the Cron Expression from the System Parameters.
  */
-public class KcCronTriggerBean extends CronTriggerBean {
+public class KcCronTriggerBean extends CronTriggerFactoryBean {
 
     private static final Log LOG = LogFactory.getLog(KcCronTriggerBean.class);
+    
+    private static final int defaultMisfireInstruction = CronTrigger.MISFIRE_INSTRUCTION_FIRE_ONCE_NOW;
     
     private String defaultCronExpression = Constants.DEFAULT_CRON_EXPRESSION;
     private String parameterNamespace;
@@ -47,6 +39,7 @@ public class KcCronTriggerBean extends CronTriggerBean {
     private String cronExpressionParameterName;
     private String triggerEnabledParameterName;
     private String startTimeParameterName;
+    private String misfireSkipParameterName;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
 
@@ -54,9 +47,10 @@ public class KcCronTriggerBean extends CronTriggerBean {
      * We need to set the Cron Expression based upon the value in the system parameters.
      */
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() throws ParseException {
         setCronExpression(getSystemCronExpression());
         setStartTime(getCronStartTime());
+        setMisfireInstruction(getMisfireInstruction());
         super.afterPropertiesSet();
     }
     
@@ -108,7 +102,7 @@ public class KcCronTriggerBean extends CronTriggerBean {
                 //if we got an exception while getting or parsing the start time, use the disabled start time and log an error.
                 cronStartTime = disabledStartTime;
                 String defaultDateStr = dateFormat.format(cronStartTime);
-                LOG.error("Not able to get the starttime for " + this.getJobName() + " scheduler from system param table. Set it to " + defaultDateStr, e);
+                LOG.error("Not able to get the starttime for scheduler from system param table. Set it to " + defaultDateStr, e);
             }
         }
         return cronStartTime;
@@ -124,6 +118,16 @@ public class KcCronTriggerBean extends CronTriggerBean {
         } else {
             return true;
         }
+    }
+    
+    protected int getMisfireInstruction() {
+    	if (StringUtils.isNotBlank(misfireSkipParameterName)
+    			&& getParameterService().parameterExists(parameterNamespace, parameterComponent, misfireSkipParameterName)) {
+    		if (getParameterService().getParameterValueAsBoolean(parameterNamespace, parameterComponent, misfireSkipParameterName)) {
+    			return CronTrigger.MISFIRE_INSTRUCTION_DO_NOTHING;
+    		}
+    	}
+    	return defaultMisfireInstruction;
     }
 
     public String getDefaultCronExpression() {
@@ -189,4 +193,12 @@ public class KcCronTriggerBean extends CronTriggerBean {
     public void setParameterComponent(String parameterComponent) {
         this.parameterComponent = parameterComponent;
     }
+
+	public String getMisfireSkipParameterName() {
+		return misfireSkipParameterName;
+	}
+
+	public void setMisfireSkipParameterName(String misfireSkipParameterName) {
+		this.misfireSkipParameterName = misfireSkipParameterName;
+	}
 }

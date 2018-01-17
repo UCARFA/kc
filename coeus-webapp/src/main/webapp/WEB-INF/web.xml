@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
@@ -40,6 +31,11 @@
     <context-param>
         <param-name>web.bootstrap.config.file</param-name>
         <param-value>classpath:META-INF/kc-config.xml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>frontend.timestamp</param-name>
+        <param-value>@frontend.timestamp@</param-value>
     </context-param>
 
     <filter>
@@ -93,6 +89,24 @@
     <filter>
         <filter-name>DummyLoginFilter</filter-name>
         <filter-class>org.kuali.rice.krad.web.filter.DummyLoginFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>ShortTermStaticResourceCachingFilter</filter-name>
+        <filter-class>org.kuali.coeus.sys.framework.web.StaticResourceCachingFilter</filter-class>
+        <init-param>
+            <param-name>cacheDuration</param-name>
+            <param-value>300</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>LongTermStaticResourceCachingFilter</filter-name>
+        <filter-class>org.kuali.coeus.sys.framework.web.StaticResourceCachingFilter</filter-class>
+        <init-param>
+            <param-name>cacheDuration</param-name>
+            <param-value>31536000</param-value>
+        </init-param>
     </filter>
 
     <filter-mapping>
@@ -218,6 +232,22 @@
     <filter-mapping>
         <filter-name>ResponseOverrideFilter</filter-name>
         <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>ShortTermStaticResourceCachingFilter</filter-name>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.htm</url-pattern>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>LongTermStaticResourceCachingFilter</filter-name>
+        <url-pattern>*.gif</url-pattern>
+        <url-pattern>*.png</url-pattern>
+        <url-pattern>*.jpg</url-pattern>
+        <url-pattern>*.woff</url-pattern>
     </filter-mapping>
 
     <!-- ******************* Start Logging Filters ********************* -->

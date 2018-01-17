@@ -1,23 +1,13 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.kra.subaward.bo;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.custom.CustomDataContainer;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.org.Organization;
@@ -57,6 +47,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     private static final long serialVersionUID = 1L;
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
     public static final String NOTIFICATION_TYPE_SUBMIT = "501";
+    private static final int FDP_SPONSOR_ATTACHMENT_TYPE = 2;
  
     private Long subAwardId;
     private String subAwardCode;
@@ -161,8 +152,8 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     private List<SubAwardReports> subAwardReportList;
     private List<SubAwardTemplateInfo> subAwardTemplateInfo;
     private List<SubAwardPrintAgreement> subAwardPrintAgreement;
-    private List<SubAwardForms> subAwardForms;
-	private List<SubAwardFundingSource> subAwardFundingSourceList;
+    private transient List<SubAwardForms> subAwardForms;
+    private List<SubAwardFundingSource> subAwardFundingSourceList;
     private List<SubAwardAmountInfo> subAwardAmountInfoList;
     private List<SubAwardAmountInfo> allSubAwardAmountInfos;
     private List<SubAwardContact> subAwardContactsList;
@@ -175,17 +166,15 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 
     private VersionHistorySearchBo versionHistory;
 
-    public List<SubAwardForms> getSubAwardForms() {
-        return subAwardForms;
-    }
+    private transient BusinessObjectService businessObjectService;
 
-    public void setSubAwardForms(List<SubAwardForms> subAwardForms) {
-        this.subAwardForms = subAwardForms;
-    }
-    
-    public void addForms(SubAwardForms subAwardForms) {
-        this.getSubAwardForms().add(subAwardForms);
-       
+    public List<SubAwardForms> getSubAwardForms() {
+        if (CollectionUtils.isEmpty(subAwardForms)) {
+            subAwardForms = (List<SubAwardForms>) getBusinessObjectService().findMatching(SubAwardForms.class,
+                    Collections.singletonMap("templateTypeCode", FDP_SPONSOR_ATTACHMENT_TYPE));
+        }
+
+        return subAwardForms;
     }
 
     public List<SubAwardPrintAgreement> getSubAwardPrintAgreement() {
@@ -563,9 +552,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 
 	public Integer getSiteInvestigator() {
         if (siteInvestigator != null) {
-            BusinessObjectService businessObjectService = KcServiceLocator.
-            getService(BusinessObjectService.class);
-            this.rolodex = businessObjectService.
+            this.rolodex = getBusinessObjectService().
             findByPrimaryKey(Rolodex.class,
             getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
             this.siteInvestigatorId = rolodex.getRolodexId().toString();
@@ -577,9 +564,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 
     public void setSiteInvestigator(Integer siteInvestigator) {
         if (siteInvestigator != null) {
-            BusinessObjectService businessObjectService = KcServiceLocator.
-            getService(BusinessObjectService.class);
-            this.rolodex = businessObjectService.
+            this.rolodex = getBusinessObjectService().
             findByPrimaryKey(NonOrganizationalRolodex.class,
             getIdentifierMap(ROLODEX_ID_FIELD_NAME, siteInvestigator));
             this.siteInvestigatorId = rolodex.getRolodexId().toString();
@@ -639,7 +624,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 	}
 
     public Collection<SubAwardAmountReleased> getCreatedDate(Map<String, Object> values) {
-        return KcServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false);
+        return getBusinessObjectService().findMatchingOrderBy(SubAwardAmountReleased.class, values, "createdDate", false);
     }
 
     public void setSubAwardAmountReleasedList(List<SubAwardAmountReleased> subAwardAmountReleasedList) {
@@ -1169,5 +1154,17 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     @Override
     public List<? extends DocumentCustomData> getCustomDataList() {
         return getSubAwardCustomDataList();
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

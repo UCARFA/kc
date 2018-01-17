@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.specialreview;
 
@@ -26,6 +15,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.sys.framework.controller.ControllerFileUtils;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
@@ -44,12 +34,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopmentControllerBase {
@@ -74,7 +62,7 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
     @Autowired
     @Qualifier("kualiRuleService")
     private KualiRuleService kualiRuleService;
-    
+
     @ResponseBody
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=clearAddCompliance")
     public void clearAddCompliance(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm, BindingResult result,
@@ -181,7 +169,7 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
         ProposalSpecialReview proposalSpecialReview = ((ProposalSpecialReview)pdForm.getNewCollectionLines().get("document.developmentProposal.propSpecialReviews"));
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
 
-        if (!getKualiRuleService().applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(pdForm.getProposalDevelopmentDocument(),
+        if (!getKualiRuleService().applyRules(new AddSpecialReviewEvent<>(pdForm.getProposalDevelopmentDocument(),
                 proposalSpecialReview,pdForm.getDevelopmentProposal().getPropSpecialReviews(),
                 protocolNeedsToBeLinked(proposalSpecialReview.getSpecialReviewTypeCode()),
                 NEW_SPECIAL_REVIEW_PATH))) {
@@ -192,11 +180,10 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
 
         if (proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS) ||
                 proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.ANIMAL_USAGE)) {
-
             proposalSpecialReview.setDevelopmentProposal(proposalDevelopmentDocument.getDevelopmentProposal());
             pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(proposalSpecialReview);
 
-            // Invalid protrocol trying to be linked so blank out protocol info
+            // Invalid protocol trying to be linked so blank out protocol info
             if (protocolNeedsToBeLinked(proposalSpecialReview.getSpecialReviewTypeCode()) && !proposalSpecialReview.isLinkedToProtocol()) {
                 proposalSpecialReview.setProtocolStatus(null);
                 proposalSpecialReview.setProtocolNumber(null);
@@ -254,7 +241,38 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
     	}
     	return true;
     }
-    
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getSpecialReviewAttachmentFromLine")
+    public void getSpecialReviewAttachmentFromLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String selectedLine = request.getParameter(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isEmpty(selectedLine)) {
+            throw new RuntimeException("Selected line index was not set properly, cannot retrieve special review attachment");
+        }
+        int selectedIndex = Integer.parseInt(selectedLine);
+
+        ProposalSpecialReviewAttachment attachment = Optional.ofNullable(pdForm.getDevelopmentProposal().getPropSpecialReview(selectedIndex))
+                .map(ProposalSpecialReview::getSpecialReviewAttachment)
+                .orElseThrow(() -> new RuntimeException(String.format("No downloadable attachment for special review %d", selectedIndex)));
+        ControllerFileUtils.streamToResponse(attachment, response);
+    }
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=replaceSpecialReviewAttachment")
+    public ModelAndView replaceSpecialReviewAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm) throws Exception{
+        String selectedLine = pdForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isEmpty(selectedLine)) {
+            throw new RuntimeException("Selected line index was not set properly, cannot replace special review attachment");
+        }
+        int selectedIndex = Integer.parseInt(selectedLine);
+
+        ProposalSpecialReview specialReview = pdForm.getDevelopmentProposal().getPropSpecialReview(selectedIndex);
+        if (specialReview != null && specialReview.getSpecialReviewAttachment() != null && specialReview.getSpecialReviewAttachment().getMultipartFile() != null) {
+            prepareSpecialReviewAttachmentForSave(specialReview);
+            getDataObjectService().save(specialReview);
+        }
+
+        return getModelAndViewService().getModelAndView(pdForm);
+    }
+
     public ProposalDevelopmentSpecialReviewService getProposalDevelopmentSpecialReviewService() {
  		return proposalDevelopmentSpecialReviewService;
  	}

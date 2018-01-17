@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
- * Copyright 2005-2016 Kuali, Inc.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.common.budget.impl.struts;
 
@@ -33,6 +22,8 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiRuleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,10 +50,20 @@ public class BudgetModularBudgetAction extends BudgetAction {
         newBudgetModularIdc.setRateNumber(budget.getNextValue("rateNumber"));
         newBudgetModularIdc.calculateFundsRequested();
         BudgetModular budgetModular = budget.getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1).getBudgetModular();
-        budgetModular.addNewBudgetModularIdc(newBudgetModularIdc);
+        if (roundFandAbase()) {
+            budgetModular.addNewBudgetModularIdcBaseRounded(newBudgetModularIdc);
+        } else {
+            budgetModular.addNewBudgetModularIdcBaseUnrounded(newBudgetModularIdc);
+        }
         generateModularPeriod(budgetForm);
         budgetForm.setNewBudgetModularIdc(new BudgetModularIdc());
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public boolean roundFandAbase() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                Constants.ROUND_F_AND_A_BASE);
     }
 
     @Override
@@ -124,7 +125,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
             BudgetModularService budgetModularService = KcServiceLocator.getService(BudgetModularService.class);
             BudgetForm budgetForm = (BudgetForm) form;
             Budget budget = budgetForm.getBudgetDocument().getBudget();        
-            budgetModularService.synchModularBudget(budget);
+            budgetModularService.synchModularBudget(budget, false);
             budgetForm.setBudgetModularSummary(budgetModularService.processModularSummary(budget,false));
         }
         
@@ -155,6 +156,11 @@ public class BudgetModularBudgetAction extends BudgetAction {
     @Override
     protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
+    }
+
+    @Override
+    protected ParameterService getParameterService() {
+        return getService(ParameterService.class);
     }
     
 }

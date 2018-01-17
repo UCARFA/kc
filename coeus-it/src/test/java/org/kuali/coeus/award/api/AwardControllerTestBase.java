@@ -1,7 +1,7 @@
 package org.kuali.coeus.award.api;
 
-import junit.framework.Assert;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Assert;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.kuali.coeus.award.dto.AwardDto;
 import org.kuali.coeus.award.finance.timeAndMoney.api.TimeAndMoneyController;
 import org.kuali.coeus.award.finance.timeAndMoney.dto.TimeAndMoneyDto;

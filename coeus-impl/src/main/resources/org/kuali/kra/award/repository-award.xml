@@ -1,20 +1,11 @@
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <descriptor-repository version="1.0">
 	  
@@ -1522,6 +1513,7 @@
 		<field-descriptor name="awardReportTrackingId" column="AWARD_REPORT_TRACKING_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_REPORT_TRACKING_ID"/>
 		<field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERM_ID" jdbc-type="BIGINT" />
     	<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc_type="BIGINT"/>
     	<field-descriptor name="piPersonId" column="PI_PERSON_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="piRolodexId" column="PI_ROLODEX_ID" jdbc-type="INTEGER" />
     	<field-descriptor name="piName" column="PI_NAME" jdbc-type="VARCHAR" />
@@ -1578,16 +1570,16 @@
     
     <class-descriptor class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.SentReportNotification" table="AWARD_REPORT_NOTIFICATION_SENT">
 		<field-descriptor name="awardReportNotifSentId" column="AWARD_REPORT_NOTIF_SENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_REPORT_NOTIF_SENT_ID"/>
-		<field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERM_ID" jdbc-type="BIGINT" />
-		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />    	
-    	<field-descriptor name="dueDate" column="DUE_DATE" jdbc-type="DATE" />
-    	<field-descriptor name="actionCode" column="ACTION_CODE" jdbc-type="VARCHAR" />
-    	<field-descriptor name="dateSent" column="SENT_DATE" jdbc-type="DATE" />
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="reportClassCode" column="REPORT_CLASS_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="reportCode" column="REPORT_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="dueDate" column="DUE_DATE" jdbc-type="DATE" />
+		<field-descriptor name="actionCode" column="ACTION_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="dateSent" column="SENT_DATE" jdbc-type="DATE" />
     	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-    	
     </class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.award.notification.AwardNoticePrintout" table="AWARD_NOTICE">

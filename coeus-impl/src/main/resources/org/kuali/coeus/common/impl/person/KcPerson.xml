@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="KcPerson" parent="KcPerson-parentBean" />
@@ -99,6 +90,7 @@
         <ref bean="KcPerson-mobilePhoneNumber" />
         <ref bean="KcPerson-eraCommonsUserName" />
         <ref bean="KcPerson-extendedAttributes.eraCommonUserName" />
+        <ref bean="KcPerson-nsfId" />
         <ref bean="KcPerson-active" />
       <!-- these aren't searchable because they don't exist in the person search inside rice 
         <bean parent="FieldDefinition" p:attributeName="extendedAttributes.directoryTitle" />
@@ -767,6 +759,9 @@
     <property name="description" value="Era Commons User Name" />
   </bean>
 
+  <bean id="KcPerson-nsfId" parent="KcPerson-nsfId-parentBean"/>
+  <bean id="KcPerson-nsfId-parentBean" abstract="true" parent="KcPersonExtendedAttributes-nsfId"/>
+
   <bean id="KcPerson-active" parent="KcPerson-active-parentBean"/>
   <bean id="KcPerson-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="active" />
@@ -849,6 +844,7 @@
               <bean parent="FieldDefinition" p:attributeName="pagerNumber"/>
               <bean parent="FieldDefinition" p:attributeName="mobilePhoneNumber"/>
               <bean parent="FieldDefinition" p:attributeName="extendedAttributes.eraCommonUserName"/>
+              <bean parent="FieldDefinition" p:attributeName="nsfId"/>
               <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
@@ -928,6 +924,7 @@
               <bean p:propertyName="pagerNumber" parent="Uif-DataField"/>
               <bean p:propertyName="mobilePhoneNumber" parent="Uif-DataField"/>
               <bean p:propertyName="extendedAttributes.eraCommonUserName" parent="Uif-DataField"/>
+              <bean p:propertyName="nsfId" parent="Uif-DataField"/>
               <bean p:propertyName="active" parent="Uif-DataField"/>
             </list>
           </property>

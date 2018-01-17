@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
@@ -77,6 +68,7 @@
 				<ref bean="DevelopmentProposal-opportunityIdForGG" />
 				<ref bean="DevelopmentProposal-agencyRoutingIdentifier" />
 				<ref bean="DevelopmentProposal-prevGrantsGovTrackingID" />
+				<ref bean="DevelopmentProposal-createTimestamp"/>
 			</list>
 		</property>
 		<property name="collections">
@@ -562,14 +554,14 @@
 		<property name="label" value="Opportunity Title" />
 		<property name="shortLabel" value="Opportunity Title" />
 		<property name="maxLength" value="255" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+	  <property name="validationPattern">
+		  <bean parent="UTF8AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
+	  <property name="validCharactersConstraint">
+		  <bean parent="UTF8AnyCharacterPatternConstraint">
+			  <property name="allowWhitespace" value="true"/>
+		  </bean>
+	  </property>
 		<property name="required" value="false" />
 		<property name="control">
 			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
@@ -1116,6 +1108,20 @@
     <property name="description" value="Prev Grants.Gov Tracking ID "/>
 	</bean>
 
+	<bean id="DevelopmentProposal-createTimestamp" parent="DevelopmentProposal-createTimestamp-parentBean"/>
+	<bean id="DevelopmentProposal-createTimestamp-parentBean" abstract="true"
+		  parent="AttributeReferenceDummy-genericDate">
+		<property name="name" value="createTimestamp"/>
+		<property name="label" value="Proposal Create Date"/>
+		<property name="shortLabel" value="Proposal Create Date"/>
+		<property name="controlField">
+			<bean parent="Uif-DateControl" p:size="12"/>
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+		<property name="summary" value="Proposal Create Date"/>
+		<property name="description" value="Proposal Create Date"/>
+	</bean>
+
 	<!-- Business Object Lookup Definition -->
 	<bean id="DevelopmentProposal-lookupDefinition" parent="DevelopmentProposal-lookupDefinition-parentBean" />
   <bean id="DevelopmentProposal-LookupView" parent="DevelopmentProposal-LookupView-parentBean"/>
@@ -1145,6 +1151,7 @@
 				<bean parent="FieldDefinition" p:attributeName="opportunityIdForGG" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatus" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -1167,6 +1174,7 @@
 				<bean parent="FieldDefinition" p:attributeName="opportunityIdForGG" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatusName" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="createTimestamp"/>
 			</list>
 		</property>
 	</bean>
@@ -1272,6 +1280,7 @@
         <bean p:propertyName="currentAwardNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="programAnnouncementNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="hierarchyStatus" parent="Uif-LookupCriteriaInputField"/>
+		  <bean p:propertyName="createTimestamp" parent="Uif-LookupCriteriaInputField" p:ranged="true"/>
       </list>
     </property>
     <property name="resultFields">
@@ -1318,6 +1327,7 @@
         <bean p:propertyName="deadlineDate" parent="Uif-DataField"/>
         <bean p:propertyName="programAnnouncementNumber" parent="Uif-DataField"/>
         <bean p:propertyName="hierarchyStatusName" parent="Uif-DataField"/>
+		  <bean p:propertyName="createTimestamp" parent="Uif-DataField"/>
       </list>
     </property>
 	  <property name="resultsGroup.useServerPaging" value="true"/>
@@ -1348,15 +1358,21 @@
                   </property>
               </bean>
               <bean parent="Uif-ActionLink" p:actionLabel="medusa" p:order="40"
-                    p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-MedusaView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-MedusaDialog@{#lineSuffix}');"
+                    p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=@{#ViewHelper.isReactMedusaEnabled() ? 'PropDev-ReactMedusaView' : 'PropDev-MedusaView'}&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-MedusaDialog');"
                     p:render="@{!#view.renderReturnLink}"/>
-              <bean id="Development-Proposal-Lookup-MedusaDialog" parent="Uif-DialogGroup-Iframe"
-                    p:headerText="Medusa" p:retrieveViaAjax="true"/>
               <bean parent="Uif-Lookup-MaintenanceReturnLink"/>
           </list>
       </property>
   </bean>
-  
+
+	<bean id="Uif-DialogGroup-Iframe-XL" parent="Uif-DialogGroup-Iframe-parentBean">
+		<property name="dialogCssClass" value="modal-xl"/>
+	</bean>
+
+	<bean id="Development-Proposal-MedusaDialog" parent="Uif-DialogGroup-Iframe-XL" p:order="50"
+		  p:headerText="@{#ViewHelper.isReactMedusaEnabled() ? null : 'Medusa'}"
+		  p:retrieveViaAjax="@{#ViewHelper.isReactMedusaEnabled() ? false : true}" />
+
   <bean id="AllDevelopmentProposals-LookupViewId" parent="AllDevelopmentProposals-lookupView-parentBean" />
    <bean id="AllDevelopmentProposals-lookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView" p:viewName="AllLookupableDevelopmentProposals-LookupViewName" 
 	p:headerText="All Proposal Development Document Lookup" >
@@ -1364,7 +1380,7 @@
 
 
 <bean id="EnrouteDevelopmentProposals-LookupViewId" parent="EnrouteDevelopmentProposals-lookupView-parentBean"/>    
-<bean id="EnrouteDevelopmentProposals-lookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView"     p:viewName="EnrouteLookupableDevelopmentProposals-LookupViewName" p:headerText="Enroute Development Proposals Lookup" 
+<bean id="EnrouteDevelopmentProposals-lookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView" p:viewName="EnrouteLookupableDevelopmentProposals-LookupViewName" p:headerText="Enroute Development Proposals Lookup"
      p:viewHelperService="#{#getService('enrouteDevelopmentProposalLookupable')}">
      <property name="criteriaFields">
       <list>
@@ -1385,6 +1401,7 @@
         <bean p:propertyName="opportunityIdForGG" parent="Uif-LookupCriteriaInputField" p:order="100"/>
         <bean p:propertyName="hierarchyStatus" parent="Uif-LookupCriteriaInputField" p:order="110"/>
         <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-LookupCriteriaInputField" p:order="120"/>
+		  <bean p:propertyName="createTimestamp" parent="Uif-LookupCriteriaInputField" p:ranged="true" p:order="130"/>
       </list>
   </property>
        </bean>  
@@ -1429,7 +1446,6 @@
      </property>
 
  </bean>
-
 	<bean id="PropDev-S2SSubmissions-LookupView" parent="PropDev-S2SSubmissions-LookupView-parentBean" />
 	<bean id="PropDev-S2SSubmissions-LookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView" 
 		p:viewName="PropDev-S2SSubmissions-Lookup" p:headerText="View S2S Submission List" p:viewHelperService="#{#getService('s2sSubmissionProposalLookupable')}">
@@ -1504,10 +1520,8 @@
                     p:headerText="Submission Details" p:retrieveViaAjax="true" p:order="20"/>                    
               <bean parent="Development-Proposal-Lookup-result-ViewLink" p:order="30"/>
               <bean parent="Uif-ActionLink" p:actionLabel="medusa" p:order="40"
-                    p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-MedusaView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-MedusaDialog@{#lineSuffix}');"
+					p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=@{#ViewHelper.isReactMedusaEnabled() ? 'PropDev-ReactMedusaView' : 'PropDev-MedusaView'}&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-MedusaDialog');"
                     p:render="@{!#view.renderReturnLink}"/>
-              <bean id="Development-Proposal-Lookup-MedusaDialog" parent="Uif-DialogGroup-Iframe"
-                    p:headerText="Medusa" p:retrieveViaAjax="true" p:order="50"/>
               <bean parent="Uif-Lookup-MaintenanceReturnLink" p:order="60"/>
           </list>
       </property>		

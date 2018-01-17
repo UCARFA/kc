@@ -1,20 +1,9 @@
-/*
- * Kuali Coeus, a comprehensive research administration system for higher education.
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
  *
- * Copyright 2005-2016 Kuali, Inc.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
  */
 package org.kuali.coeus.propdev.impl.basic;
 
@@ -34,14 +23,17 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
 import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -112,6 +104,10 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     @Autowired
     @Qualifier("keyPersonnelService")
     private KeyPersonnelService keyPersonnelService;
+
+    @Autowired
+    @Qualifier("pessimisticLockService")
+    private PessimisticLockService pessimisticLockService;
 
 
    @MethodAccessible
@@ -214,6 +210,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=viewUtility")
     public ModelAndView viewUtility(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                     @RequestParam(value="userName",required = false) String userName) throws Exception {
+
         ProposalDevelopmentDocument document = null;
         boolean isDeleted = false;
 
@@ -230,10 +227,25 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
         } else {
             form.initialize();
             form.setDocument(document);
+
+            if (form.getViewId() != null && StringUtils.equalsIgnoreCase(form.getViewId(), Constants.CERTIFICATION_VIEW)) {
+                List<PessimisticLock> locks = pessimisticLockService.getPessimisticLocksForDocument(document.getDocumentNumber());
+                boolean lockAlreadyExists = locks.stream().anyMatch(
+                        lock -> StringUtils.countMatches(lock.getLockDescriptor(), KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL) > 0 &&
+                        lock.isOwnedByUser(getGlobalVariableService().getUserSession().getPerson())
+                );
+                if (!lockAlreadyExists) {
+                    pessimisticLockService.generateNewLock(document.getDocumentNumber(), document.getDocumentNumber() + "-" + KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL);
+                    document.refreshPessimisticLocks();
+                }
+            }
+
             WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
             form.setDocTypeName(workflowDocument.getDocumentTypeName());
             form.setProposalCopyCriteria(new ProposalCopyCriteria(document));
-            ((ProposalDevelopmentViewHelperServiceImpl)form.getView().getViewHelperService()).populateQuestionnaires(form);
+            if (form.getView().getViewHelperService() instanceof ProposalDevelopmentViewHelperServiceImpl) {
+                ((ProposalDevelopmentViewHelperServiceImpl) form.getView().getViewHelperService()).populateQuestionnaires(form);
+            }
 
              if (!this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,
                         getGlobalVariableService().getUserSession().getPerson())) {
@@ -403,7 +415,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
             }
 
            if (propDevForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
-               ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(propDevForm);
+               ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(propDevForm, true);
                propDevForm.getView().setEntryPageId(ProposalDevelopmentConstants.KradConstants.SUBMIT_PAGE);
            }
 
