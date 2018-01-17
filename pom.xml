@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
-   - Copyright 2005-2016 Kuali, Inc.
-   - 
-   - This program is free software: you can redistribute it and/or modify
-   - it under the terms of the GNU Affero General Public License as
-   - published by the Free Software Foundation, either version 3 of the
-   - License, or (at your option) any later version.
-   - 
-   - This program is distributed in the hope that it will be useful,
-   - but WITHOUT ANY WARRANTY; without even the implied warranty of
-   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   - GNU Affero General Public License for more details.
-   - 
-   - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses />.
+   - Copyright © 2005-2018 Kuali, Inc.
+   - All Rights Reserved
+   - You may use and modify this code under the terms of the Kuali, Inc.
+   - Pre-Release License Agreement. You may not distribute it.
+   -
+   - You should have received a copy of the Kuali, Inc. Pre-Release License
+   - Agreement with this file. If not, please write to license@kuali.co.
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.coeus</groupId>
     <artifactId>coeus</artifactId>
-    <version>1801.0023-SNAPSHOT</version>
+    <version>1801.0025-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Kuali Coeus</name>
     <description>
@@ -40,8 +31,7 @@
 
     <licenses>
         <license>
-            <name>GNU Affero General Public License, Version 3</name>
-            <url>${kuali.agpl3.license.url}</url>
+            <name>${kuali.license}</name>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -63,8 +53,8 @@
         <bouncycastle.version>1.57</bouncycastle.version>
         <cas-client-core.version>3.4.1</cas-client-core.version>
         <cglib.version>3.2.5</cglib.version>
-        <coeus-api-all.version>1801.0002</coeus-api-all.version>
-        <coeus-s2sgen.version>1801.0003</coeus-s2sgen.version>
+        <coeus-api-all.version>1801.0003</coeus-api-all.version>
+        <coeus-s2sgen.version>1801.0004</coeus-s2sgen.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -213,7 +203,7 @@
         <maven.build.timestamp.format>yyyyMMdd.hh.mm.ss</maven.build.timestamp.format>
 
         <!-- This is used in the licenses section as well as the jar/war plugins -->
-        <kuali.agpl3.license.url>http://www.gnu.org/licenses/agpl-3.0.txt</kuali.agpl3.license.url>
+        <kuali.license>PRE-RELEASE LICENSE AGREEMENT</kuali.license>
 
         <maven.skip.packaging>false</maven.skip.packaging>
         <scm.connection>scm:git:git://github.com/kuali/kc.git</scm.connection>
@@ -291,7 +281,7 @@
                             <manifestEntries>
                                 <Bundle-Version>${project.version}</Bundle-Version>
                                 <Bundle-Name>${project.name}</Bundle-Name>
-                                <Bundle-License>${kuali.agpl3.license.url}</Bundle-License>
+                                <Bundle-License>${kuali.license}</Bundle-License>
                                 <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
                                 <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
                                 <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
@@ -413,7 +403,7 @@
                             <manifestEntries>
                                 <Bundle-Version>${project.version}</Bundle-Version>
                                 <Bundle-Name>${project.name}</Bundle-Name>
-                                <Bundle-License>${kuali.agpl3.license.url}</Bundle-License>
+                                <Bundle-License>${kuali.license}</Bundle-License>
                                 <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
                                 <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
                                 <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>

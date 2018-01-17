@@ -1,6 +1,30 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1801.0023
+* Copyright intelli j (#2712)
+
+* RESKC-2703: xml files
+  * 
+* RESKC-2703: Java and js files
+  * 
+* RESKC-2703: More files with different type of copyright
+  * 
+* RESKC-2703: Mild changes to right header and more java changes
+  * 
+* RESKC-2703: xsl and more xml
+  * 
+* RESKC-2703: Other miscellaneous comment types
+  * 
+* RESKC-2703: License update
+  * 
+* RESKC-2703: Changing license in pom
+  * Gayathri Athreya on Tue, 16 Jan 2018 08:19:14 -0700 [View Commit](../../commit/34c042268acf79792d4d39d7a87aa942f000b06a)
+
+## coeus-1801.0022
 * RESKC-2653: Adding attachment 1 (#2708)
 
   * Gayathri Athreya on Fri, 12 Jan 2018 15:32:06 -0700 [View Commit](../../commit/e704eb7bf183b5904290831542eaaa1c5310eea3)
