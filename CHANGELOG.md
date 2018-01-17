@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* RESKC-2090: Revert fix (#2714)
+
+  * Gayathri Athreya on Wed, 17 Jan 2018 12:30:09 -0700 [View Commit](../../commit/b55b3a1ac52d73f0e59129621b075deb201c4c51)
+
+## coeus-1801.0024
 * No Changes
 
 
