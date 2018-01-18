@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2723: making attachments optional for Other Project Information form 1.3 and 1.4
+  * Travis Schneeberger on Thu, 18 Jan 2018 11:54:54 -0500 [View Commit](../../commit/594d56170c040817be0000b096e0f855ca236cdf)
+
+## coeus-1801.0025
 * RESKC-2090: Revert fix (#2714)
 
   * Gayathri Athreya on Wed, 17 Jan 2018 12:30:09 -0700 [View Commit](../../commit/b55b3a1ac52d73f0e59129621b075deb201c4c51)
