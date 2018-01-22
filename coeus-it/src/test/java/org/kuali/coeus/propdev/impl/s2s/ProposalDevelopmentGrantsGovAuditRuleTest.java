@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.coeus.propdev.impl.s2s;
 
 import gov.nih.era.svs.types.ValidationMessage;
@@ -11,13 +20,6 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
- * You may use and modify this code under the terms of the Kuali, Inc.
- * Pre-Release License Agreement. You may not distribute it.
- *
- * You should have received a copy of the Kuali, Inc. Pre-Release License
- * Agreement with this file. If not, please write to license@kuali.co.
- */
 public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTestBase {
 
     public static final String WARNINGS_KEY = "pageId.sectionId.Warnings.s2s";

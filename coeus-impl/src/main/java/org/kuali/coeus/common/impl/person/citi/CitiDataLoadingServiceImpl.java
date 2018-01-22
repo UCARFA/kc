@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.coeus.common.impl.person.citi;
 
 
@@ -86,7 +95,7 @@ public class CitiDataLoadingServiceImpl implements CitiDataLoadingService {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-            });
+                    });
         }
     }
 
@@ -122,6 +131,7 @@ public class CitiDataLoadingServiceImpl implements CitiDataLoadingService {
     private static class CitiTimestampEditor extends PropertyEditorSupport {
         private static final String TIMESTAMP_FORMAT1 = "MM/d/yyyy h:m:s a";
         private static final String TIMESTAMP_FORMAT2 = "MM/dd/yy";
+
         @Override
         public void setAsText(String value) {
             setValue(value);

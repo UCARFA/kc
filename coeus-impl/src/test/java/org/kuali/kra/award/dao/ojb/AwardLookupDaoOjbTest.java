@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.kra.award.dao.ojb;
 
 import static org.junit.Assert.*;
@@ -12,7 +21,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 public class AwardLookupDaoOjbTest {
-	
+
 	private static final String AWARD_NUMBER_2 = "2";
 	private static final String AWARD_NUMBER_1 = "1";
 
@@ -36,7 +45,7 @@ public class AwardLookupDaoOjbTest {
 		assertEquals(2, award1.getSequenceNumber().longValue());
 		assertEquals(3, award2.getSequenceNumber().longValue());
 	}
-	
+
 	@Test
 	public void testAwardSearchResults_final() {
 		List<Award> awardVersions = Arrays.asList(buildAward(AWARD_NUMBER_1, 1), buildAward(AWARD_NUMBER_2, 1));
@@ -50,7 +59,7 @@ public class AwardLookupDaoOjbTest {
 		assertEquals(1, award1.getSequenceNumber().longValue());
 		assertEquals(1, award2.getSequenceNumber().longValue());
 	}
-	
+
 	@Test
 	public void testAwardSearchResults_pending() {
 		List<Award> awardVersions = Arrays.asList(buildAward(AWARD_NUMBER_1, 2), buildAward(AWARD_NUMBER_2, 3));

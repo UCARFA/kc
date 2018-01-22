@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.kra.subawardReporting.printing.print;
 
 
@@ -742,8 +751,8 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
     @Override
     public Map<String, byte[]> sortPdfForms(Map<String, byte[]> forms) {
         final TreeMap<String, byte[]> sorted = new TreeMap<>(Comparator.comparing(FORM_ORDER::indexOf));
-       sorted.putAll(forms);
-       return sorted;
+        sorted.putAll(forms);
+        return sorted;
     }
 
     private boolean fromYN(String s) {

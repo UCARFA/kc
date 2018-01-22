@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.coeus.propdev.impl.attachment.institute;
 
 import static org.junit.Assert.*;
@@ -13,7 +22,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 public class InstituteAttachmentTypeValuesFinderTest {
 
 	List<NarrativeType> testNarrativeTypes;
-	
+
 	@Before
 	public void setup() {
 		testNarrativeTypes = new ArrayList<>();
@@ -21,14 +30,14 @@ public class InstituteAttachmentTypeValuesFinderTest {
 		testNarrativeTypes.add(createNarrativeType("2", "Test2"));
 		testNarrativeTypes.add(createNarrativeType("3", "Abc123"));
 	}
-	
+
 	private NarrativeType createNarrativeType(String code, String description) {
 		NarrativeType result = new NarrativeType();
 		result.setCode(code);
 		result.setDescription(description);
 		return result;
 	}
-	
+
 	@Test
 	public void testValuesFinder_notAlpha() {
 		InstituteAttachmentTypeValuesFinder valuesFinder = new InstituteAttachmentTypeValuesFinder() {
@@ -42,13 +51,13 @@ public class InstituteAttachmentTypeValuesFinderTest {
 				return new ArrayList<>(testNarrativeTypes);
 			}
 		};
-		
+
 		List<KeyValue> result = valuesFinder.getKeyValues();
 		assertEquals(3, result.size());
 		assertEquals(testNarrativeTypes.get(0).getCode(), result.get(0).getKey());
 		assertEquals(testNarrativeTypes.get(0).getDescription(), result.get(0).getValue());
 	}
-	
+
 	@Test
 	public void testValuesFinder_alphaOrdered() {
 		InstituteAttachmentTypeValuesFinder valuesFinder = new InstituteAttachmentTypeValuesFinder() {
@@ -62,11 +71,11 @@ public class InstituteAttachmentTypeValuesFinderTest {
 				return new ArrayList<>(testNarrativeTypes);
 			}
 		};
-		
+
 		List<KeyValue> result = valuesFinder.getKeyValues();
 		assertEquals(3, result.size());
 		assertEquals(testNarrativeTypes.get(2).getCode(), result.get(0).getKey());
 		assertEquals(testNarrativeTypes.get(2).getDescription(), result.get(0).getValue());
 	}
-	
+
 }

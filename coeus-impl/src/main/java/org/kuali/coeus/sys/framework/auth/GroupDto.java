@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.coeus.sys.framework.auth;
 
 import java.util.ArrayList;
@@ -18,75 +27,83 @@ public class GroupDto {
 	private String categoryId;
 	private List<GroupFields> fields = new ArrayList<>();
 	private List<Role> roles = new ArrayList<>();
-	
+
 	public static final class GroupFields {
 		private String id;
 		private String value;
-		
+
 		public GroupFields() {
-			
+
 		}
+
 		public GroupFields(String id, String value) {
 			this.id = id;
 			this.value = value;
 		}
-		
+
 		public String getId() {
 			return id;
 		}
+
 		public void setId(String id) {
 			this.id = id;
 		}
+
 		public String getValue() {
 			return value;
 		}
+
 		public void setValue(String value) {
 			this.value = value;
 		}
-		
+
 		@Override
 		public String toString() {
 			return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
-				.append("id", id)
-				.append("value", value)
-				.toString();
+					.append("id", id)
+					.append("value", value)
+					.toString();
 		}
 	}
-	
+
 	public static final class Role {
 		private String id;
 		private List<String> value;
-		
+
 		public Role() {
-			
+
 		}
+
 		public Role(String id, List<String> value) {
 			this.id = id;
 			this.value = value;
 		}
-		
+
 		public String getId() {
 			return id;
 		}
+
 		public void setId(String id) {
 			this.id = id;
 		}
+
 		public List<String> getValue() {
 			return value;
 		}
+
 		public void setValue(List<String> value) {
 			this.value = value;
 		}
-		
+
 		@Override
 		public String toString() {
 			return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
-				.append("id", id)
-				.append("value", value)
-				.toString();
+					.append("id", id)
+					.append("value", value)
+					.toString();
 		}
 	}
-	
+
 	@JsonIgnore
 	public String getId() {
 		return id;
@@ -128,16 +145,16 @@ public class GroupDto {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
-			.append("id", id)
-			.append("name", name)
-			.append("parentId", parentId)
-			.append("categoryId", categoryId)
-			.append("fields", fields)
-			.toString();
+				.append("id", id)
+				.append("name", name)
+				.append("parentId", parentId)
+				.append("categoryId", categoryId)
+				.append("fields", fields)
+				.toString();
 	}
 
 	public List<Role> getRoles() {
