@@ -407,6 +407,7 @@
         <field-descriptor name="sowOrSubProposalBudget" column="SOW_OR_SUB_PROPOSAL_BUDGET" jdbc-type="VARCHAR"/>
         <field-descriptor name="subProposalDate" column="SUB_PROPOSAL_DATE" jdbc-type="DATE" />
         <field-descriptor name="invoiceOrPaymentContact" column="INVOICE_OR_PAYMENT_CONTACT" jdbc-type="INTEGER"/>
+        <field-descriptor name="irbIacucContact" column="IRB_IACUC_CONTACT" jdbc-type="INTEGER"/>
         <field-descriptor name="finalStmtOfCostscontact" column="FINAL_STMT_OF_COSTS_CONTACT" jdbc-type="INTEGER" />
         <field-descriptor name="changeRequestsContact" column="CHANGE_REQUESTS_CONTACT" jdbc-type="INTEGER" />
         <field-descriptor name="terminationContact" column="TERMINATION_CONTACT" jdbc-type="INTEGER" />
@@ -446,6 +447,7 @@
         <field-descriptor name="additionalTerms" column="ADDITIONAL_TERMS" jdbc-type="VARCHAR"/>
         <field-descriptor name="treatmentOfIncome" column="TREATMENT_OF_INCOME" jdbc-type="VARCHAR"/>
         <field-descriptor name="dataSharingAttachment" column="DATA_SHARING_ATTACHMENT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="dataSharingCd" column="DATA_SHARING_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="finalStatementDueCd" column="FINAL_STATEMENT_DUE_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

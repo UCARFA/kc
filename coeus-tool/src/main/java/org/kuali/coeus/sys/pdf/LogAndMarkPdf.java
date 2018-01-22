@@ -22,9 +22,9 @@ public class LogAndMarkPdf {
         }
 
         try(PDDocument pdfDocument = PDDocument.load(source)) {
+
             PdfBoxUtils.logFields(pdfDocument);
             PdfBoxUtils.markFields(pdfDocument);
-
             pdfDocument.save(source.getParent() + File.separator + source.getName() + "-MARKED.pdf");
         }
     }

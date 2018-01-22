@@ -19,7 +19,8 @@
                                                                document.subAwardList[0].subAwardTemplateInfo[0].humanPteNrCd*,
                                                                document.subAwardList[0].subAwardTemplateInfo[0].humanDataExchangeAgreeCd*,
                                                                document.subAwardList[0].subAwardTemplateInfo[0].humanDataExchangeTermsCd*,
-                                                               document.subAwardList[0].subAwardTemplateInfo[0].dataSharingAttachment*">
+                                                               document.subAwardList[0].subAwardTemplateInfo[0].dataSharingAttachment*,
+                                                               document.subAwardList[0].subAwardTemplateInfo[0].dataSharingCd*">
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left">Compliance</span>
@@ -105,10 +106,14 @@
                                 attributeEntry="${subAwardTemplateInfoAttributes.dataSharingAttachment}"/>
                     </td>
                     <th>
-                        <div align="right">&nbsp;</div>
+                        <div align="right"><kul:htmlAttributeLabel
+                                attributeEntry="${subAwardTemplateInfoAttributes.dataSharingCd}"/></div>
                     </th>
                     <td>
-                        &nbsp;
+                        <kul:htmlControlAttribute
+                                property="document.subAwardList[0].subAwardTemplateInfo[0].dataSharingCd"
+                                readOnly="${readOnly}"
+                                attributeEntry="${subAwardTemplateInfoAttributes.dataSharingCd}"/>
                     </td>
                 </tr>
             </table>
