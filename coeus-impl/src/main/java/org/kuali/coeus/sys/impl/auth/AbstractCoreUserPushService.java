@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.coeus.sys.impl.auth;
 
 import java.io.StringWriter;
@@ -40,16 +49,16 @@ public abstract class AbstractCoreUserPushService<T> implements CoreUserPushServ
 	protected abstract AuthUser generateAuthUserFromPerson(T person, Map<String, String> groupIdsByUnitNumber);
 
 	protected abstract String getUserRole(T person, final List<String> admins);
-	
+
 	protected abstract List<String> getAdminUsers();
-	
+
 	protected abstract boolean validUserToPush(T person);
 
-	private static final Log LOG = LogFactory.getLog(AbstractCoreUserPushService.class); 
+	private static final Log LOG = LogFactory.getLog(AbstractCoreUserPushService.class);
 	private static final String LIMIT_PARAM = "limit";
 	private static final String AUTH_USER_PUSH_USE_DEV_PASSWORD = "auth.user.push.use.dev.password";
 	private static final String AUTH_USER_PUSH_DEV_PASSWORD = "auth.user.push.dev.password";
-	
+
 	@Autowired
 	@Qualifier("restOperations")
 	private RestOperations restOperations;
@@ -113,12 +122,12 @@ public abstract class AbstractCoreUserPushService<T> implements CoreUserPushServ
 		}
 		StringWriter infoMsg = new StringWriter();
 		infoMsg.append("Auth Service Bulk Push: Users Found: ").append(Integer.valueOf(status.getNumberOfUsers()).toString())
-			.append(", Users Added: ").append(Integer.valueOf(status.getNumberAdded()).toString())
-			.append(", Users Updated: ").append(Integer.valueOf(status.getNumberUpdated()).toString())
-			.append(", Users Deleted: ").append(Integer.valueOf(status.getNumberRemoved()).toString())
-			.append(", Users Errored: ").append(Integer.valueOf(status.getErrors().size()).toString());
+				.append(", Users Added: ").append(Integer.valueOf(status.getNumberAdded()).toString())
+				.append(", Users Updated: ").append(Integer.valueOf(status.getNumberUpdated()).toString())
+				.append(", Users Deleted: ").append(Integer.valueOf(status.getNumberRemoved()).toString())
+				.append(", Users Errored: ").append(Integer.valueOf(status.getErrors().size()).toString());
 		LOG.info(infoMsg.toString());
-		
+
 		return status;
 	}
 
@@ -140,14 +149,14 @@ public abstract class AbstractCoreUserPushService<T> implements CoreUserPushServ
 
 	protected List<AuthUser> getAllAuthServiceUsers() {
 		String uri = UriComponentsBuilder.fromHttpUrl(getUsersApiUrl()).queryParam(LIMIT_PARAM, NUMBER_OF_USERS_LIMIT).build().encode().toString();
-		ResponseEntity<List<AuthUser>> result = restOperations.exchange(uri, HttpMethod.GET, 
+		ResponseEntity<List<AuthUser>> result = restOperations.exchange(uri, HttpMethod.GET,
 				new HttpEntity<String>(authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()), new ParameterizedTypeReference<List<AuthUser>>() { });
 		return result.getBody();
 	}
 
 	protected void addUserToAuthService(AuthUser newUser, String userPassword) {
 		newUser.setPassword(userPassword);
-		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl(), HttpMethod.POST, 
+		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl(), HttpMethod.POST,
 				new HttpEntity<AuthUser>(newUser, authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()), String.class);
 		if (result.getStatusCode() != HttpStatus.CREATED) {
 			throw new RestClientException(result.getBody());
@@ -155,7 +164,7 @@ public abstract class AbstractCoreUserPushService<T> implements CoreUserPushServ
 	}
 
 	protected void updateUserInAuthService(AuthUser updatedUser, String userId) {
-		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl() + userId, HttpMethod.PUT, 
+		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl() + userId, HttpMethod.PUT,
 				new HttpEntity<AuthUser>(updatedUser, authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()), String.class);
 		if (result.getStatusCode() != HttpStatus.OK) {
 			throw new RestClientException(result.getBody());
@@ -164,7 +173,7 @@ public abstract class AbstractCoreUserPushService<T> implements CoreUserPushServ
 
 	protected void disableUserInAuthService(AuthUser disabledUser) {
 		disabledUser.setActive(false);
-		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl() + disabledUser.getId(), HttpMethod.PUT, 
+		ResponseEntity<String> result = restOperations.exchange(getUsersApiUrl() + disabledUser.getId(), HttpMethod.PUT,
 				new HttpEntity<AuthUser>(disabledUser, authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()), String.class);
 		if (result.getStatusCode() != HttpStatus.OK) {
 			throw new RestClientException(result.getBody());

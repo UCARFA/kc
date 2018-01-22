@@ -29,6 +29,7 @@
                 <ref bean="SubAwardTemplateInfo-sowOrSubProposalBudget" />
 		        <ref bean="SubAwardTemplateInfo-subProposalDate" />
 				<ref bean="SubAwardTemplateInfo-invoiceOrPaymentContact" />
+                  <ref bean="SubAwardTemplateInfo-irbIacucContact"/>
 		        <ref bean="SubAwardTemplateInfo-finalStmtOfCostscontact" />
 		        <ref bean="SubAwardTemplateInfo-changeRequestsContact" />
 		        <ref bean="SubAwardTemplateInfo-terminationContact" />
@@ -64,6 +65,7 @@
                   <ref bean="SubAwardTemplateInfo-additionalTerms"/>
                   <ref bean="SubAwardTemplateInfo-treatmentOfIncome"/>
                   <ref bean="SubAwardTemplateInfo-dataSharingAttachment"/>
+                  <ref bean="SubAwardTemplateInfo-dataSharingCd"/>
                   <ref bean="SubAwardTemplateInfo-finalStatementDueCd"/>
               </list>
 		     </property>
@@ -109,19 +111,31 @@
             	p:allowWhitespace="true" />
     </property>
     <property name="control" >
-    <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="contactTypeCode"
-            p:labelAttribute="description" />
+        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.SubawardTemplateContactFinder"/>
     </property>
     <property name="summary" value="Invoice / Payment Contact" />
     <property name="description" value="Invoice / Payment Contact" />    
   </bean>
-  
-  <bean id="SubAwardTemplateInfo-finalStmtOfCostscontact" parent="SubAwardTemplateInfo-finalStmtOfCostscontact-parentBean" />
+
+    <bean id="SubAwardTemplateInfo-irbIacucContact" parent="SubAwardTemplateInfo-irbIacucContact-parentBean"/>
+    <bean id="SubAwardTemplateInfo-irbIacucContact-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="irbIacucContact"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="IRB / IACUC Contact"/>
+        <property name="shortLabel" value="IRB / IACUC Contact"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"
+                  p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.SubawardTemplateContactFinder"/>
+        </property>
+        <property name="summary" value="IRB / IACUC Contact"/>
+        <property name="description" value="IRB / IACUC Contact"/>
+    </bean>
+
+    <bean id="SubAwardTemplateInfo-finalStmtOfCostscontact" parent="SubAwardTemplateInfo-finalStmtOfCostscontact-parentBean" />
    <bean id="SubAwardTemplateInfo-finalStmtOfCostscontact-parentBean" abstract="true" parent="AttributeDefinition">
        <property name="name" value="finalStmtOfCostscontact" />
     <property name="forceUppercase" value="false" />
@@ -133,13 +147,7 @@
             	p:allowWhitespace="true" />
     </property>
     <property name="control" >
-    <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="contactTypeCode"
-            p:labelAttribute="description" />
+        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.SubawardTemplateContactFinder"/>
     </property>
     <property name="summary" value="Final Statement of Costs Contact" />
     <property name="description" value="Final Statement of Costs Contact" />    
@@ -157,13 +165,7 @@
             	p:allowWhitespace="true" />
     </property>
     <property name="control" >
-    <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="contactTypeCode"
-            p:labelAttribute="description" />
+        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.SubawardTemplateContactFinder"/>
     </property>
     <property name="summary" value="Change Requests Contact" />
     <property name="description" value="Change Requests Contact" />    
@@ -181,13 +183,7 @@
             	p:allowWhitespace="true" />
     </property>
     <property name="control" >
-    <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="contactTypeCode"
-            p:labelAttribute="description" />
+        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.SubawardTemplateContactFinder"/>
     </property>
     <property name="summary" value="Termination Contact" />
     <property name="description" value="Termination Contact" />    
@@ -205,13 +201,7 @@
             	p:allowWhitespace="true" />
     </property>
     <property name="control" >
-    <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="contactTypeCode"
-            p:labelAttribute="description" />
+        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.SubawardTemplateContactFinder"/>
     </property>
     <property name="summary" value="No Cost Extension Contact" />
     <property name="description" value="No Cost Extension Contact" />    
@@ -347,13 +337,7 @@
             	p:allowWhitespace="true" />
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="contactTypeCode"
-            p:labelAttribute="description" />
+        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.SubawardTemplateContactFinder"/>
     </property>
     <property name="summary" value="Carry Forward Requests Sent To" />
     <property name="description" value="Carry Forward Requests Sent To" />    
@@ -748,6 +732,26 @@
         <property name="description" value="Data Sharing Attachment"/>
     </bean>
 
+    <bean id="SubAwardTemplateInfo-dataSharingCd" parent="SubAwardTemplateInfo-dataSharingCd-parentBean"/>
+    <bean id="SubAwardTemplateInfo-dataSharingCd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="dataSharingCd"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Data Sharing"/>
+        <property name="shortLabel" value="Data Sharing"/>
+        <property name="maxLength" value="4"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.subaward.lookup.keyvalue.DataSharingFinder"/>
+        </property>
+        <property name="summary" value="Data Sharing"/>
+        <property name="description" value="Data Sharing"/>
+    </bean>
+
     <bean id="SubAwardTemplateInfo-finalStatementDueCd" parent="SubAwardTemplateInfo-finalStatementDueCd-parentBean"/>
     <bean id="SubAwardTemplateInfo-finalStatementDueCd-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="finalStatementDueCd"/>
@@ -806,6 +810,7 @@
                     p:forceInquiry="true" />
             <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
             <bean p:attributeName="invoiceOrPaymentContact"   parent="FieldDefinition"/>
+          <bean p:attributeName="irbIacucContact" parent="FieldDefinition"/>
             <bean p:attributeName="finalStmtOfCostscontact"   parent="FieldDefinition"/>
             <bean p:attributeName="changeRequestsContact"   parent="FieldDefinition"/>
             <bean p:attributeName="terminationContact"   parent="FieldDefinition"/>
@@ -841,6 +846,7 @@
           <bean p:attributeName="additionalTerms" parent="FieldDefinition"/>
           <bean p:attributeName="treatmentOfIncome" parent="FieldDefinition"/>
           <bean p:attributeName="dataSharingAttachment" parent="FieldDefinition"/>
+          <bean p:attributeName="dataSharingCd" parent="FieldDefinition"/>
           <bean p:attributeName="finalStatementDueCd" parent="FieldDefinition"/>
 
       </list>
@@ -851,6 +857,7 @@
                 p:forceInquiry="true" />   
             <bean p:attributeName="subAwardCode"   parent="FieldDefinition"/>
             <bean p:attributeName="invoiceOrPaymentContact"   parent="FieldDefinition"/>
+          <bean p:attributeName="irbIacucContact" parent="FieldDefinition"/>
             <bean p:attributeName="finalStmtOfCostscontact"   parent="FieldDefinition"/>
             <bean p:attributeName="changeRequestsContact"   parent="FieldDefinition"/>
             <bean p:attributeName="terminationContact"   parent="FieldDefinition"/>
@@ -886,6 +893,7 @@
           <bean p:attributeName="additionalTerms" parent="FieldDefinition"/>
           <bean p:attributeName="treatmentOfIncome" parent="FieldDefinition"/>
           <bean p:attributeName="dataSharingAttachment" parent="FieldDefinition"/>
+          <bean p:attributeName="dataSharingCd" parent="FieldDefinition"/>
           <bean p:attributeName="finalStatementDueCd" parent="FieldDefinition"/>
       </list>
     </property>

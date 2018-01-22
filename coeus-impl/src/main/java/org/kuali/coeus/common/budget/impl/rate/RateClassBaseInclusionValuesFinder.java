@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.coeus.common.budget.impl.rate;
 
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
@@ -25,7 +34,7 @@ public class RateClassBaseInclusionValuesFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = getRateClasses().stream().map(rateClass -> new ConcreteKeyValue(rateClass.getCode(), rateClass.getDescription())
-                                    ).collect(Collectors.toList());
+        ).collect(Collectors.toList());
 
         keyValues.add(0, new ConcreteKeyValue(BASE_COST_CODE, BASE_COST));
         return keyValues;

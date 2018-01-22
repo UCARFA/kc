@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.coeus.common.questionnaire.impl.print;
 
 import static org.junit.Assert.*;
@@ -43,7 +52,7 @@ public class QuestionnaireXmlStreamTest {
 	private static final String DEMO_QUESTIONNAIRE = "Demo Questionnaire";
 	private static final String PRINCIPAL_INVESTIGATOR = "Principal Investigator";
 	private static final String CLARK_KENT = "Clark Kent";
-	
+
 	private Map<Integer, String> answerMap = new HashMap<>();
 
 	@Test
@@ -51,20 +60,20 @@ public class QuestionnaireXmlStreamTest {
 		BusinessObjectService boService = mock(BusinessObjectService.class);
 		final Questionnaire questionnaire = getQuestionnaire();
 		when(boService.findMatchingOrderBy(eq(Questionnaire.class), anyMap(), anyString(), anyBoolean())).thenReturn(Collections.singletonList(questionnaire));
-		
+
 		QuestionnaireAnswerServiceImpl questionnaireAnswerService = mock(QuestionnaireAnswerServiceImpl.class);
 		when(questionnaireAnswerService.getModuleSpecificBean(anyString(), anyString(), anyString(), anyString(), anyBoolean())).thenCallRealMethod();
 		when(questionnaireAnswerService.getQuestionnaireAnswer(anyObject())).thenReturn(Collections.singletonList(getAnswerHeader(questionnaire)));
-		
+
 		PropAwardPersonRoleService propAwardPersonRoleService = mock(PropAwardPersonRoleService.class);
 		final PropAwardPersonRole personRole = new PropAwardPersonRole();
 		personRole.setDescription(PRINCIPAL_INVESTIGATOR);
 		when(propAwardPersonRoleService.getRole(anyString(), anyString())).thenReturn(personRole);
-		
+
 		QuestionnaireXmlStream stream = new QuestionnaireXmlStream();
 		stream.setBusinessObjectService(boService);
 		stream.setQuestionnaireAnswerService(questionnaireAnswerService);
-		
+
 		ProposalPerson person = new ProposalPerson();
 		DevelopmentProposal proposal = new DevelopmentProposal();
 		proposal.setSponsorCode("000500");
@@ -74,20 +83,20 @@ public class QuestionnaireXmlStreamTest {
 		person.setProposalPersonRoleId("PI");
 		person.setFullName(CLARK_KENT);
 		person.setPropAwardPersonRoleService(propAwardPersonRoleService);
-		
+
 		Map<String, Object> reportParams = new HashMap<>();
 		reportParams.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, 1);
-		
+
 		QuestionnaireDocument xmlDocument = stream.getQuestionnaireData(person, reportParams);
 		assertNotNull(xmlDocument);
 		assertEquals(CLARK_KENT, xmlDocument.getQuestionnaire().getProposalInfoArray(0).getProposalPersonName());
 		assertEquals(PRINCIPAL_INVESTIGATOR, xmlDocument.getQuestionnaire().getProposalInfoArray(0).getProposalPersonRole());
-		
+
 		assertEquals(DEMO_QUESTIONNAIRE, xmlDocument.getQuestionnaire().getQuestionnaireName());
-		
+
 		assertEquals(QUESTION_1, xmlDocument.getQuestionnaire().getQuestionsArray(0).getQuestionInfoArray(0).getQuestion());
 		assertEquals("Yes" , xmlDocument.getQuestionnaire().getQuestionsArray(0).getQuestionInfoArray(0).getAnswerInfoArray(0).getAnswer());
-		
+
 		assertEquals(AFFIRMITIVE_TEXT, xmlDocument.getQuestionnaire().getQuestionsArray(0).getQuestionInfoArray(1).getQuestion());
 		assertEquals("Yes" , xmlDocument.getQuestionnaire().getQuestionsArray(0).getQuestionInfoArray(1).getAnswerInfoArray(0).getAnswer());
 
@@ -97,11 +106,11 @@ public class QuestionnaireXmlStreamTest {
 		final QuestionInfoType xmlQuestion4 = xmlDocument.getQuestionnaire().getQuestionsArray(0).getQuestionInfoArray(3);
 		assertEquals(QUESTION_4, xmlQuestion4.getQuestion());
 		assertEquals("Yes" , xmlQuestion4.getAnswerInfoArray(0).getAnswer());
-		
+
 		final QuestionInfoType xmlQuestion5 = xmlQuestion4.getQuestionInfoArray(0);
 		assertEquals(QUESTION_5, xmlQuestion5.getQuestion());
 		assertEquals("No" , xmlQuestion5.getAnswerInfoArray(0).getAnswer());
-		
+
 		assertEquals(0, xmlQuestion5.getQuestionInfoArray().length);
 
 	}
@@ -123,14 +132,14 @@ public class QuestionnaireXmlStreamTest {
 		question5.setParentQuestionNumber(4);
 		question5.setConditionValue(ANSWER_4);
 		questionnaire.getQuestionnaireQuestions().add(question5);
-		
+
 		final QuestionnaireQuestion question6 = getQuestionnaireQuestion(239L, 350L, 6, 128, QUESTION_6, null, questionnaire, false);
 		question6.setParentQuestionNumber(5);
 		question6.setConditionValue("Not the same answer");
 		questionnaire.getQuestionnaireQuestions().add(question6);
 		return questionnaire;
 	}
-	
+
 	protected QuestionnaireQuestion getQuestionnaireQuestion(Long id, Long questionId, Integer number, Integer questionSeqId, String questionText, String answer, Questionnaire questionnaire, boolean addExplanationText) {
 		QuestionnaireQuestion questionnaireQuestion = new QuestionnaireQuestion();
 		questionnaireQuestion.setId(id);
@@ -142,7 +151,7 @@ public class QuestionnaireXmlStreamTest {
 		answerMap.put(number, answer);
 		return questionnaireQuestion;
 	}
-	
+
 	protected Question getQuestion(Long questionId, Integer questionSeqId, String questionText, boolean addExplanationText) {
 		Question question = new Question();
 		question.setId(questionId);
@@ -166,7 +175,7 @@ public class QuestionnaireXmlStreamTest {
 		explanation.setExplanation(explanationText);
 		return explanation;
 	}
-	
+
 	protected AnswerHeader getAnswerHeader(Questionnaire questionnaire) {
 		AnswerHeader header = new AnswerHeader();
 		header.setQuestionnaire(questionnaire);
@@ -181,10 +190,10 @@ public class QuestionnaireXmlStreamTest {
 		answer5.setParentAnswers(new ArrayList<>());
 		answer5.getParentAnswers().add(answer4);
 		header.getAnswers().add(answer5);
-		
+
 		return header;
 	}
-	
+
 	protected Answer getAnswer(QuestionnaireQuestion questionnaireQuestion) {
 		Answer answer = new Answer();
 		answer.setAnswer(answerMap.get(questionnaireQuestion.getQuestionNumber()));

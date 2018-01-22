@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.coeus.common.impl.core.groups;
 
 import static org.kuali.coeus.sys.framework.auth.CoreGroupsService.ACTIVE_FIELD_ID;
@@ -75,7 +84,7 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 	@Autowired
 	@Qualifier("dataObjectService")
 	private DataObjectService dataObjectService;
-	
+
 	@Autowired
 	@Qualifier("coreGroupsService")
 	private CoreGroupsService coreGroupsService;
@@ -99,12 +108,12 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 	}
 
 	protected void syncGroups(List<Unit> units, GroupDto parentGroup, int level, CategoryDto parentCategory,
-			List<CategoryDto> categories, List<GroupDto> groups, List<UnitAdministratorType> unitAdminTypes,
-			List<Integer> levelsSynced, GroupsPushStatus status) {
+							  List<CategoryDto> categories, List<GroupDto> groups, List<UnitAdministratorType> unitAdminTypes,
+							  List<Integer> levelsSynced, GroupsPushStatus status) {
 		final Optional<CategoryDto> currentCategory = findChildCategory(parentCategory, categories);
 		CategoryDto category;
 		if (!currentCategory.isPresent() || !levelsSynced.contains(level)) {
-			 category = syncCategory(currentCategory, parentCategory, level,
+			category = syncCategory(currentCategory, parentCategory, level,
 					unitAdminTypes, status);
 			if (!currentCategory.isPresent()) {
 				categories.add(category);
@@ -146,27 +155,27 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 			}
 		});
 	}
-	
+
 	protected void addUnitAdmins(GroupDto group, Unit unit) {
 		Map<String, Set<String>> unitAdmins = unitService.retrieveUnitAdministratorsByUnitNumber(unit.getUnitNumber()).stream()
-			.collect(Collectors.groupingBy(
-				a -> a.getUnitAdministratorType().getDescription(), 
-				HashMap::new, 
-				Collectors.mapping(UnitAdministrator::getPersonId,  Collectors.toSet())
-			));
+				.collect(Collectors.groupingBy(
+						a -> a.getUnitAdministratorType().getDescription(),
+						HashMap::new,
+						Collectors.mapping(UnitAdministrator::getPersonId,  Collectors.toSet())
+				));
 		Map<String, GroupDto.Role> updatedRoles = unitAdmins.entrySet().stream()
-			.map(entry -> 
-				new GroupDto.Role(createRoleIdFromAdminTypeDescription(entry.getKey()),
-					entry.getValue().stream().map(this::getCoreUserId).filter(u -> u != null).collect(Collectors.toList())))
-			.collect(Collectors.toMap(GroupDto.Role::getId, Function.identity()));
+				.map(entry ->
+						new GroupDto.Role(createRoleIdFromAdminTypeDescription(entry.getKey()),
+								entry.getValue().stream().map(this::getCoreUserId).filter(u -> u != null).collect(Collectors.toList())))
+				.collect(Collectors.toMap(GroupDto.Role::getId, Function.identity()));
 		group.setRoles(Stream.concat(
 				group.getRoles().stream()
-					.filter(r -> !updatedRoles.containsKey(r.getId())), 
+						.filter(r -> !updatedRoles.containsKey(r.getId())),
 				updatedRoles.values().stream())
-			.collect(Collectors.toList()));
-		
+				.collect(Collectors.toList()));
+
 	}
-	
+
 	protected String getCoreUserId(String schoolId) {
 		String uri = UriComponentsBuilder.fromHttpUrl(getUsersApiUrl())
 				.queryParam("schoolId", schoolId)
@@ -190,7 +199,7 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 	}
 
 	protected CategoryDto syncCategory(Optional<CategoryDto> existingCategory, CategoryDto parentCategory, int level,
-			List<UnitAdministratorType> unitAdminTypes, GroupsPushStatus status) {
+									   List<UnitAdministratorType> unitAdminTypes, GroupsPushStatus status) {
 		CategoryDto updatedCategory = existingCategory.orElse(null);
 		if (updatedCategory == null) {
 			status.setCategoriesAdded(status.getCategoriesAdded() + 1);
@@ -216,14 +225,14 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 	}
 
 	protected void updateCategoryRoles(CategoryDto category, List<UnitAdministratorType> unitAdminTypes) {
-		Stream.concat(Stream.of(PREDEFINED_ROLE_IDS), 
-			unitAdminTypes.stream()
-				.map(UnitAdministratorType::getDescription)
-			).distinct().forEach(name -> {
+		Stream.concat(Stream.of(PREDEFINED_ROLE_IDS),
+				unitAdminTypes.stream()
+						.map(UnitAdministratorType::getDescription)
+		).distinct().forEach(name -> {
 			String id = createRoleIdFromAdminTypeDescription(name);
 			Optional<CategoryDto.RoleSchemaDto> roleSchema = category.getRoleSchemas().stream()
-				.filter(rs -> StringUtils.equals(rs.getId(), id))
-				.findFirst();
+					.filter(rs -> StringUtils.equals(rs.getId(), id))
+					.findFirst();
 			if (!roleSchema.isPresent()) {
 				category.getRoleSchemas().add(new CategoryDto.RoleSchemaDto(id, name));
 			}
@@ -233,8 +242,7 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 	private String createRoleIdFromAdminTypeDescription(String name) {
 		return name.toUpperCase().replaceAll("\\s+|\\.", "_");
 	}
-	
-	
+
 
 	protected Optional<CategoryDto> findChildCategory(CategoryDto parentCategory, List<CategoryDto> categories) {
 		String parentId = parentCategory == null ? null : parentCategory.getId();
@@ -249,8 +257,8 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 
 	protected List<CategoryDto> getAllCategories() {
 		String uri = UriComponentsBuilder.fromHttpUrl(coreGroupsService.getCategoriesApiUrl())
-			.queryParam(LIMIT_PARAM, NUMBER_OF_USERS_LIMIT)
-			.build().encode().toString();
+				.queryParam(LIMIT_PARAM, NUMBER_OF_USERS_LIMIT)
+				.build().encode().toString();
 		ResponseEntity<List<CategoryDto>> result = restOperations.exchange(uri, HttpMethod.GET,
 				new HttpEntity<String>(authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()),
 				new ParameterizedTypeReference<List<CategoryDto>>() {
@@ -264,10 +272,10 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 	protected List<GroupDto> getAllGroups() {
 		return coreGroupsService.getAllGroups();
 	}
-	
+
 	protected GroupDto getOneGroup(String groupId) {
 		String uri = UriComponentsBuilder.fromHttpUrl(coreGroupsService.getGroupsApiUrl() + groupId)
-			.build().encode().toString();
+				.build().encode().toString();
 		ResponseEntity<GroupDto> result = restOperations.exchange(uri, HttpMethod.GET,
 				new HttpEntity<String>(authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()),
 				GroupDto.class);
@@ -333,7 +341,7 @@ public class GroupsPushServiceImpl implements GroupsPushService {
 			throw new RestClientException(result.getBody());
 		}
 	}
-	
+
 	protected String getUsersApiUrl() {
 		return configurationService.getPropertyValueAsString(RestServiceConstants.Configuration.AUTH_USERS_URL) + "/";
 	}
