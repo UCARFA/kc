@@ -86,7 +86,7 @@
   </bean>
 
   <bean id="CostElement-unitNumber" parent="CostElement-unitNumber-parentBean" />
-  <bean id="CostElement-unitNumber-parentBean" parent="Unit-unitNumber-parentBean" />
+  <bean id="CostElement-unitNumber-parentBean" abstract="true" parent="Unit-unitNumber-parentBean" />
 
   <bean id="CostElement-financialObjectCode" parent="CostElement-financialObjectCode-parentBean" />
   <bean id="CostElement-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
