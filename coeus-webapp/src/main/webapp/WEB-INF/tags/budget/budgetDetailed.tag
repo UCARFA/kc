@@ -110,7 +110,9 @@
 			</h3>
         <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 		<c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCodeKey}" />
-		<c:if test="${budgetCategoryTypeCodeLabel eq 'Participant Support'}">
+        <c:set target="${paramMap}" property="unitNumber" value="${KualiForm.document.budget.unitNumber}" />
+
+            <c:if test="${budgetCategoryTypeCodeLabel eq 'Participant Support'}">
 			<table border="0" cellpadding=0 cellspacing=0 summary="">
         		<tr>
         			<th style="width : 15em;"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.numberOfParticipants}"/></th>

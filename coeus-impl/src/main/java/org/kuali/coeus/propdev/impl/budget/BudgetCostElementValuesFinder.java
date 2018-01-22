@@ -21,8 +21,8 @@ public class BudgetCostElementValuesFinder extends CostElementValuesFinder {
     public List<KeyValue> getKeyValues(ViewModel model) {
         String budgetCategoryCode = ((ProposalBudgetForm)model).getAddProjectBudgetLineItemHelper().getBudgetLineItem().getBudgetCategoryCode();
         String budgetCategoryTypeCode = ((ProposalBudgetForm)model).getAddProjectBudgetLineItemHelper().getBudgetCategoryTypeCode();
-
-        return super.getKeyValues(budgetCategoryTypeCode, true ,budgetCategoryCode);
+        String unitNumber = ((ProposalBudgetForm)model).getDevelopmentProposal().getUnitNumber();
+        return super.getKeyValues(budgetCategoryTypeCode, true ,budgetCategoryCode, unitNumber);
 
     }
 }

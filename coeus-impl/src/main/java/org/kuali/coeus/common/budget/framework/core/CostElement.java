@@ -7,29 +7,19 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import org.kuali.coeus.common.budget.api.core.CostElementContract;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.FilterGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "COST_ELEMENT")
@@ -56,6 +46,13 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
     @Column(name = "FIN_OBJECT_CODE")
     private String financialObjectCode;
 
+    @Column(name = "UNIT_NUMBER")
+    private String unitNumber;
+
+    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
+    private Unit unit;
+
     @OneToMany(mappedBy = "costElementBo", fetch = FetchType.EAGER)
     @FilterGenerator(attributeName = "active", attributeValue = "true")
     private List<ValidCeRateType> validCeRateTypes;
@@ -68,7 +65,7 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
     private String budgetCategoryTypeCode;
 
     public CostElement() {
-        validCeRateTypes = new ArrayList<ValidCeRateType>();
+        validCeRateTypes = new ArrayList<>();
     }
 
     @Override
@@ -133,6 +130,22 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
 
     public void setValidCeRateTypes(List<ValidCeRateType> validCeRateTypes) {
         this.validCeRateTypes = validCeRateTypes;
+    }
+
+    public String getUnitNumber() {
+        return unitNumber;
+    }
+
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 
     @Override

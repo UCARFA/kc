@@ -76,7 +76,6 @@
           	<tr>
           		<th width="5%"><div align="center">&nbsp;</div></th> 
           		<th width="20%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.personSequenceNumber}" noColon="true" /></div></th>
-          		<%--<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.jobCode}" noColon="true" /></div></th>--%>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.periodTypeCode}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.percentEffort}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.percentCharged}" noColon="true" /></div></th>
@@ -92,11 +91,6 @@
                 	<kul:htmlControlAttribute property="newBudgetPersonnelDetails.personSequenceNumber" attributeEntry="${budgetPersonnelDetailsAttributes.personSequenceNumber}"/>
                 	</div>
 				</td>
-				<%--<td valign="middle" class="infoline">
-                	<div align="center">
-                	<kul:htmlControlAttribute property="newBudgetPersonnelDetails.jobCode" attributeEntry="${budgetPersonnelDetailsAttributes.jobCode}"/>
-                	</div>
-				</td>--%>
 				<td valign="middle" class="infoline">
                 	<div align="center">
                 	<c:choose>

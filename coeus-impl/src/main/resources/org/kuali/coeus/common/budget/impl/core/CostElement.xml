@@ -23,6 +23,7 @@
     <property name="attributes" >
       <list>
         <ref bean="CostElement-costElement" />
+        <ref bean="CostElement-unitNumber" />
         <ref bean="CostElement-budgetCategoryCode" />
         <ref bean="CostElement-budgetCategory.description" />
         <ref bean="CostElement-description" />
@@ -84,8 +85,10 @@
     <property name="description" value="Budget Category Code" />
   </bean>
 
-  <bean id="CostElement-financialObjectCode" parent="CostElement-financialObjectCode-parentBean" />
+  <bean id="CostElement-unitNumber" parent="CostElement-unitNumber-parentBean" />
+  <bean id="CostElement-unitNumber-parentBean" parent="Unit-unitNumber-parentBean" />
 
+  <bean id="CostElement-financialObjectCode" parent="CostElement-financialObjectCode-parentBean" />
   <bean id="CostElement-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectCode" />
     <property name="forceUppercase" value="false" />
@@ -204,6 +207,7 @@
               <bean parent="FieldDefinition" p:attributeName="costElement" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="budgetCategory.description"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="unitNumber"/>
               <bean parent="FieldDefinition" p:attributeName="onOffCampusFlag"/>
               <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
@@ -236,6 +240,7 @@
               <bean p:propertyName="costElement" parent="Uif-DataField"/>
               <bean p:propertyName="budgetCategory.description" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
+              <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
               <bean p:propertyName="onOffCampusFlag" parent="Uif-DataField"/>
               <bean p:propertyName="active" parent="Uif-DataField"/>
             </list>
@@ -254,64 +259,68 @@
     </property>
   </bean>
 
-  <!-- Business Object Lookup Definition -->
-  <bean id="CostElement-lookupDefinition" parent="CostElement-lookupDefinition-parentBean" />
-  <bean id="CostElement-LookupView" parent="CostElement-LookupView-parentBean"/>
-  <bean id="CostElement-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Object Code Lookup" />
-    <property name="lookupableID" value="budgetExpenseLookupable" /><property name="defaultSort" >
-      <bean parent="SortDefinition"/>
+    <!-- Business Object Lookup Definition -->
+    <bean id="CostElement-lookupDefinition" parent="CostElement-lookupDefinition-parentBean" />
+    <bean id="CostElement-LookupView" parent="CostElement-LookupView-parentBean"/>
+    <bean id="CostElement-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Object Code Lookup" />
+        <property name="lookupableID" value="budgetExpenseLookupable" /><property name="defaultSort" >
+        <bean parent="SortDefinition"/>
     </property>
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="objectCodeMaintenanceHelp" p:parameterDetailType="Document"/>
-    </property>
-    <property name="lookupFields" >
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="costElement"/>
-        <bean parent="FieldDefinition" p:attributeName="description"/>
-        <bean parent="FieldDefinition" p:attributeName="onOffCampusFlag"/>
-        <bean parent="FieldDefinition" p:attributeName="budgetCategoryCode"/>
-        <bean parent="FieldDefinition" p:attributeName="budgetCategoryTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-      </list>
-    </property>
-    <property name="resultFields" >
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="costElement" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="budgetCategory.description"/>
-        <bean parent="FieldDefinition" p:attributeName="description"/>
-        <bean parent="FieldDefinition" p:attributeName="onOffCampusFlag"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-      </list>
-    </property>
-  </bean>
+        <property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="objectCodeMaintenanceHelp" p:parameterDetailType="Document"/>
+        </property>
+        <property name="lookupFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="costElement"/>
+                <bean parent="FieldDefinition" p:attributeName="description"/>
+                <bean parent="FieldDefinition" p:attributeName="unitNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="onOffCampusFlag"/>
+                <bean parent="FieldDefinition" p:attributeName="budgetCategoryCode"/>
+                <bean parent="FieldDefinition" p:attributeName="budgetCategoryTypeCode"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+                <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="costElement" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="budgetCategory.description"/>
+                <bean parent="FieldDefinition" p:attributeName="description"/>
+                <bean parent="FieldDefinition" p:attributeName="unitNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="onOffCampusFlag"/>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+                <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+            </list>
+        </property>
+    </bean>
 
-  <bean id="CostElement-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.CostElement"/>
-    <property name="headerText" value="Object Code Lookup"/>
-    <property name="criteriaFields">
-      <list>
-        <bean p:propertyName="costElement" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="onOffCampusFlag" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="budgetCategoryCode" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="budgetCategoryTypeCode" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="financialObjectCode" parent="Uif-LookupCriteriaInputField"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean p:propertyName="costElement" parent="Uif-DataField"/>
-        <bean p:propertyName="budgetCategory.description" parent="Uif-DataField"/>
-        <bean p:propertyName="description" parent="Uif-DataField"/>
-        <bean p:propertyName="onOffCampusFlag" parent="Uif-DataField"/>
-        <bean p:propertyName="active" parent="Uif-DataField"/>
-        <bean p:propertyName="financialObjectCode" parent="Uif-DataField"/>
-      </list>
-    </property>
-  </bean>
+    <bean id="CostElement-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+        <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.CostElement"/>
+        <property name="headerText" value="Object Code Lookup"/>
+        <property name="criteriaFields">
+            <list>
+                <bean p:propertyName="costElement" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="unitNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="onOffCampusFlag" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="budgetCategoryCode" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="budgetCategoryTypeCode" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="financialObjectCode" parent="Uif-LookupCriteriaInputField"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean p:propertyName="costElement" parent="Uif-DataField"/>
+                <bean p:propertyName="budgetCategory.description" parent="Uif-DataField"/>
+                <bean p:propertyName="unitNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="description" parent="Uif-DataField"/>
+                <bean p:propertyName="onOffCampusFlag" parent="Uif-DataField"/>
+                <bean p:propertyName="active" parent="Uif-DataField"/>
+                <bean p:propertyName="financialObjectCode" parent="Uif-DataField"/>
+            </list>
+        </property>
+    </bean>
 
 </beans>

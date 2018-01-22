@@ -976,6 +976,10 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return parmValue.equalsIgnoreCase(TRUE_FLAG);
     }
 
+    public String getUnitNumber() {
+        return getBudgetParent().getUnitNumber();
+    }
+
     public Map<Integer, ScaleTwoDecimal> mapProjectIncomeTotalsToBudgetPeriodNumbers() {
         Map<Integer, ScaleTwoDecimal> budgetPeriodProjectIncomeMap = new TreeMap<>();
         for (BudgetProjectIncome budgetProjectIncome : budgetProjectIncomes) {

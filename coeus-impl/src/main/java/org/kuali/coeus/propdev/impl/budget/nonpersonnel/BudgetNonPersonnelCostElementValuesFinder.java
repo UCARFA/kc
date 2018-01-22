@@ -31,16 +31,16 @@ public class BudgetNonPersonnelCostElementValuesFinder extends CostElementValues
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         String budgetCategoryCode = ((ProposalBudgetForm)model).getAddProjectBudgetLineItemHelper().getBudgetLineItem().getBudgetCategoryCode();
         String budgetCategoryTypeCode = ((ProposalBudgetForm)model).getAddProjectBudgetLineItemHelper().getBudgetCategoryTypeCode();
+        String unitNumber = ((ProposalBudgetForm)model).getDevelopmentProposal().getUnitNumber();
 
         boolean budgetCategoryTypeCodeEqual = true;
         if(StringUtils.isEmpty(budgetCategoryTypeCode)) {
             budgetCategoryTypeCode = getPersonnelBudgetCategoryTypeCode();
             budgetCategoryTypeCodeEqual = false;
         }
-        return super.getKeyValues(budgetCategoryTypeCode, budgetCategoryTypeCodeEqual ,budgetCategoryCode);
+        return super.getKeyValues(budgetCategoryTypeCode, budgetCategoryTypeCodeEqual ,budgetCategoryCode, unitNumber);
 
     }
 

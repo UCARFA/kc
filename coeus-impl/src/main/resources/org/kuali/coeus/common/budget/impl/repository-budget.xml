@@ -530,8 +530,12 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="unitNumber" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="unitNumber"/>
+        </reference-descriptor>
 		<collection-descriptor name="validCeRateTypes" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.rate.ValidCeRateType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<inverse-foreignkey field-ref="costElement"/>
 			<query-customizer
