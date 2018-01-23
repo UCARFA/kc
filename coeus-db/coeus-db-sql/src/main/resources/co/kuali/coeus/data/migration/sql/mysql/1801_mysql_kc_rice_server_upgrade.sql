@@ -21,4 +21,5 @@
 \. ./rice/bootstrap/V1801_004__fdp.sql
 \. ./rice/bootstrap/V1801_009__force_xsl_param.sql
 \. ./rice/bootstrap/V1801_011__remove_forms_errors.sql
+\. ./rice/bootstrap/V1801_013__fdp_parameters.sql
 commit;

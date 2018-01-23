@@ -1,6 +1,26 @@
 
 
 ## CURRENT
+* Change unitNumber to unit. (#2720)
+
+  * Gayathri Athreya on Tue, 23 Jan 2018 10:52:53 -0700 [View Commit](../../commit/ef128a77fda252474ed3dd3bdcdfe9d7ed55ab9e)
+* RESKC-2090: Don't add personnel summary totals twice
+  * Jeff Largent on Tue, 23 Jan 2018 11:09:00 -0500 [View Commit](../../commit/49157a7c9a785dd51e4f7080edcc1712fd7f31fd)
+* RESKC-2620:Fix tests (#2718)
+
+  * Gayathri Athreya on Mon, 22 Jan 2018 15:36:17 -0700 [View Commit](../../commit/e8971a118900255af63fb33dfbf78f29bb574451)
+* RESKC-2703: update copyright
+  * Travis Schneeberger on Mon, 22 Jan 2018 11:21:12 -0500 [View Commit](../../commit/29ba91c708e60d23268d80c799a67789043188d5)
+* RESKC-2719, RESKC-2651, RESKC-2654: updating fdp pdf forms
+  * Travis Schneeberger on Mon, 22 Jan 2018 11:12:08 -0500 [View Commit](../../commit/d57da4803d97a950de2808893c28314a22c3b6ee)
+* RESKC-2620: Add unit number to object codes table. (#2716)
+
+* RESKC-2620: Add unit number to object codes table.
+  * 
+* PR review
+  * Gayathri Athreya on Mon, 22 Jan 2018 14:16:34 -0700 [View Commit](../../commit/a0fb587e3958d22861295b0065de0c15173c9d7b)
+
+## coeus-1801.0029
 * No Changes
 
 
