@@ -40,7 +40,8 @@ public class AwardScheduleGenerationServiceImplTest extends AwardAmountInfoSetUp
     private static final int START_DATE_YEAR_2009 = 2009;
     private static final int START_DATE_YEAR_2011 = 2011;
     private static final int FIRST_DAY_OF_MONTH = 1;
-    private static final int ZERO =0;
+    private static final int ZERO = 0;
+    private static final int FIFTEEN_DAYS = 15;
     private static final int THIRTY_DAYS = 30;
     private static final int THREE_MONTHS = 3;
     private static final String ZERO_HOURS = "00:00";
@@ -170,26 +171,6 @@ public class AwardScheduleGenerationServiceImplTest extends AwardAmountInfoSetUp
         java.util.Date startDate = awardScheduleGenerationServiceImpl.getStartDateFromTheBaseDate(calendar, frequency);
         Assert.assertEquals(calendar1.getTime(),startDate);
         
-        frequency.setNumberOfDays(THIRTY_DAYS);
-        frequency.setNumberOfMonths(null);
-        frequency.setAdvanceNumberOfDays(null);
-        frequency.setAdvanceNumberOfMonths(null);
-        startDate = awardScheduleGenerationServiceImpl.getStartDateFromTheBaseDate(calendar, frequency);
-        calendar1.add(Calendar.DAY_OF_YEAR, THIRTY_DAYS);
-        Assert.assertEquals(calendar1.getTime(),startDate);
-        
-        calendar.clear();
-        calendar.set(START_DATE_YEAR_2009, Calendar.JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        calendar1.clear();
-        calendar1.set(START_DATE_YEAR_2009, Calendar.JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        frequency.setNumberOfDays(null);
-        frequency.setNumberOfMonths(null);
-        frequency.setAdvanceNumberOfDays(THIRTY_DAYS);
-        frequency.setAdvanceNumberOfMonths(null);
-        startDate = awardScheduleGenerationServiceImpl.getStartDateFromTheBaseDate(calendar, frequency);
-        calendar1.add(Calendar.DAY_OF_YEAR, -THIRTY_DAYS);
-        Assert.assertEquals(calendar1.getTime(),startDate);
-        
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.JULY, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         calendar1.clear();
@@ -204,33 +185,7 @@ public class AwardScheduleGenerationServiceImplTest extends AwardAmountInfoSetUp
     }
     
     @Test
-    public final void testAddOffSetPeriodToStartDate(){
-        frequency.setNumberOfDays(THIRTY_DAYS);
-        frequency.setNumberOfMonths(null);
-        frequency.setAdvanceNumberOfDays(null);
-        frequency.setAdvanceNumberOfMonths(null);
-        calendar.clear();
-        calendar.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        calendar1.clear();
-        calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        frequency.setNumberOfDays(THIRTY_DAYS);
-        awardScheduleGenerationServiceImpl.addOffSetPeriodToStartDate(frequency, calendar);        
-        calendar1.add(Calendar.DAY_OF_YEAR, THIRTY_DAYS);        
-        Assert.assertEquals(calendar1.getTime(),calendar.getTime());
-        
-        frequency.setNumberOfDays(null);
-        frequency.setNumberOfMonths(null);
-        frequency.setAdvanceNumberOfDays(THIRTY_DAYS);
-        frequency.setAdvanceNumberOfMonths(null);
-        calendar.clear();
-        calendar.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        calendar1.clear();
-        calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        frequency.setAdvanceNumberOfDays(THIRTY_DAYS);
-        awardScheduleGenerationServiceImpl.addOffSetPeriodToStartDate(frequency, calendar);        
-        calendar1.add(Calendar.DAY_OF_YEAR, -THIRTY_DAYS);        
-        Assert.assertEquals(calendar1.getTime(),calendar.getTime());
-        
+    public final void testAddOffSetMonthsToStartDate(){
         frequency.setNumberOfDays(null);
         frequency.setNumberOfMonths(null);
         frequency.setAdvanceNumberOfDays(null);
@@ -240,10 +195,10 @@ public class AwardScheduleGenerationServiceImplTest extends AwardAmountInfoSetUp
         calendar1.clear();
         calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         frequency.setAdvanceNumberOfMonths(THREE_MONTHS);
-        awardScheduleGenerationServiceImpl.addOffSetPeriodToStartDate(frequency, calendar);        
-        calendar1.add(Calendar.MONTH, -THREE_MONTHS);        
+        awardScheduleGenerationServiceImpl.addOffSetMonthsToStartDate(frequency, calendar);
+        calendar1.add(Calendar.MONTH, -THREE_MONTHS);
         Assert.assertEquals(calendar1.getTime(),calendar.getTime());
-        
+
         frequency.setNumberOfDays(null);
         frequency.setNumberOfMonths(null);
         frequency.setAdvanceNumberOfDays(null);
@@ -252,9 +207,47 @@ public class AwardScheduleGenerationServiceImplTest extends AwardAmountInfoSetUp
         calendar.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         calendar1.clear();
         calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
-        
-        awardScheduleGenerationServiceImpl.addOffSetPeriodToStartDate(frequency, calendar);
+
+        awardScheduleGenerationServiceImpl.addOffSetMonthsToStartDate(frequency, calendar);
         Assert.assertEquals(calendar1.getTime(),calendar.getTime());
+    }
+
+    @Test
+    public final void testOffsetDateByFrequencyDays(){
+        frequency.setNumberOfDays(THIRTY_DAYS);
+        frequency.setNumberOfMonths(null);
+        frequency.setAdvanceNumberOfDays(null);
+        frequency.setAdvanceNumberOfMonths(null);
+        calendar.clear();
+        calendar.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+        calendar1.clear();
+        calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+        frequency.setNumberOfDays(THIRTY_DAYS);
+        calendar1.add(Calendar.DAY_OF_YEAR, THIRTY_DAYS);
+        Assert.assertEquals(calendar1.getTime(), awardScheduleGenerationServiceImpl.offsetDateByFrequencyDays(frequency, calendar.getTime()));
+
+        frequency.setNumberOfDays(null);
+        frequency.setNumberOfMonths(null);
+        frequency.setAdvanceNumberOfDays(THIRTY_DAYS);
+        frequency.setAdvanceNumberOfMonths(null);
+        calendar.clear();
+        calendar.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+        calendar1.clear();
+        calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+        frequency.setAdvanceNumberOfDays(THIRTY_DAYS);
+        calendar1.add(Calendar.DAY_OF_YEAR, -THIRTY_DAYS);
+        Assert.assertEquals(calendar1.getTime(), awardScheduleGenerationServiceImpl.offsetDateByFrequencyDays(frequency, calendar.getTime()));
+
+        frequency.setNumberOfDays(null);
+        frequency.setNumberOfMonths(null);
+        frequency.setAdvanceNumberOfDays(null);
+        frequency.setAdvanceNumberOfMonths(null);
+        calendar.clear();
+        calendar.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+        calendar1.clear();
+        calendar1.set(START_DATE_YEAR_2011, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
+
+        Assert.assertEquals(calendar1.getTime(), awardScheduleGenerationServiceImpl.offsetDateByFrequencyDays(frequency, calendar.getTime()));
     }
     
     @Test
@@ -322,8 +315,7 @@ public class AwardScheduleGenerationServiceImplTest extends AwardAmountInfoSetUp
     }
     
     @Test
-    public void testGetDatesSuccessCaseWhenRepeatFlagIsFalse() throws ParseException{
-        
+    public void testGetDatesSuccessCaseWhenRepeatFlagIsFalse() throws ParseException {
         calendar.clear();
         calendar.set(START_DATE_YEAR_2009, Calendar.AUGUST, FIRST_DAY_OF_MONTH,ZERO,ZERO,ZERO);
         final java.util.Date START_DATE = calendar.getTime();
