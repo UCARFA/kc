@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.award.paymentreports.ValidClassReportFrequency;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -59,6 +60,14 @@ public class FrequencyCodeValuesFinderTest extends KcIntegrationTestBase {
             Assert.assertNotNull(KeyValue.getKey());
             Assert.assertNotNull(KeyValue.getValue());
         }
+    }
+
+    @Test
+    public final void testGetKeyValuesWithNoValidReports() {
+        FrequencyCodeValuesFinder invalidCodeValuesFinder = new FrequencyCodeValuesFinder("INVALID", "INVALID");
+        frequencyCodes = invalidCodeValuesFinder.getKeyValues();
+        Assert.assertEquals(1, frequencyCodes.size());
+        Assert.assertEquals(ValuesFinderUtils.getSelectOption(), frequencyCodes.get(0));
     }
     
 }
