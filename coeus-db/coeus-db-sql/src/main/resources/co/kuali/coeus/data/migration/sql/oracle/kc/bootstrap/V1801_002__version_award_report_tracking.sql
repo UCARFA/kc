@@ -21,7 +21,7 @@ alter table award_report_tracking add award_id number(22);
 
 update award_report_tracking art
 SET (art.award_id, art.award_report_term_id) = (
-	SELECT award_id, award_report_term_id
+	SELECT award_id, award_report_terms_id
 	from award_report_terms
 	where award_id in (
 		select award_id from award
@@ -33,4 +33,5 @@ SET (art.award_id, art.award_report_term_id) = (
 	and (art.frequency_base_code = frequency_base_code or
 		(art.frequency_base_code is null and frequency_base_code is null))
 	and (art.osp_distribution_code = osp_distribution_code or
-		(art.osp_distribution_code is null and osp_distribution_code is null)));
+		(art.osp_distribution_code is null and osp_distribution_code is null))
+	and (art.due_date = due_date or frequency_base_code in ('1', '2', '3', '4', '5')));
