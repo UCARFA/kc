@@ -1,6 +1,16 @@
 
 
 ## CURRENT
+* RESKC-2553: Apply day offsets to dates after schedule has been generated
+
+* This allows offsets to be applied correctly to months with different numbers of days
+  * Jeff Largent on Wed, 24 Jan 2018 11:33:34 -0500 [View Commit](../../commit/93dbd0b20da78f297646d338c0ebfdc932e8734d)
+* RESKC-2536: create barebones DD entry for KcNotificationDocument
+  * Travis Schneeberger on Wed, 24 Jan 2018 11:07:00 -0500 [View Commit](../../commit/5a7bd5c97b9ec01375da2d81b8df9db5bec8753e)
+* RESKC-2270: Protect against situations where no valid entries have been set up for report class / report / frequencies
+  * Jeff Largent on Fri, 12 Jan 2018 17:25:51 -0500 [View Commit](../../commit/2628363b3f3c35903b12fa80a5cde54bb5ea76d4)
+
+## coeus-1801.0031
 * No Changes
 
 
