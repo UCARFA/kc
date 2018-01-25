@@ -351,34 +351,34 @@
         <property name="menuItems">
             <list>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Periods &amp; Totals"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/periodstotals.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('budgetPeriodsAndTotalsHelp')}"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Rates"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/rates.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('budgetRatesHelp')}"/>
                 <bean parent="Uif-MenuDivider"/>
                 <bean parent="Uif-MenuHeader" p:messageText="Personnel Costs"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Project Personnel"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/projectpersonnel.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('budgetProjectPersonnelHelp')}"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Assign Personnel to Periods"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/assignpersonneltoperiods.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('budgetAssignPersonnelToPeriodsHelp')}"/>
                 <bean parent="Uif-MenuDivider"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Non-Personnel Costs"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/nonpersonnelcosts.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('budgetNonPersonnelCostsHelp')}"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Subawards"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/subawards.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('budgetSubawardsHelp')}"/>
                 <bean parent="Uif-MenuDivider"/>
                 <bean parent="Uif-MenuHeader" p:messageText="Institutional Commitments"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Cost Sharing"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/institutionalcommitments.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('budgetCostSharingHelp')}"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Project Income"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/projectincome.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('budgetProjectIncomeHelp')}"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Modular"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/modularbudget.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('budgetModularHelp')}"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Budget Notes"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/budgetnotes.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('budgetNotesHelp')}"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Budget Summary"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/budgetsummary.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('budgetSummaryHelp')}"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Glossary of Terms"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/glossaryofterms.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('budgetGlossaryOfTermsHelp')}"/>
             </list>
         </property>
     </bean>

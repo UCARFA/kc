@@ -45,7 +45,10 @@
           <li><a href="${ConfigProperties.application.url}" title="KRAD Portal">KRAD Portal</a></li>
 
           <li class="feedback right-nav">
-          <a class="portal_link" href="${ConfigProperties.feedback.link.url}" target="_blank" title="${ConfigProperties.feedback.link.text}">${ConfigProperties.feedback.link.text}</a>
+          <a class="portal_link" href="${krafn:getParameterValue('KC-GEN', 'All', 'feedback.link.url', ConfigProperties.feedback.link.url)}" target="_blank"
+             title="${krafn:getParameterValue('KC-GEN', 'All', 'feedback.link.text', ConfigProperties.feedback.link.text)}">
+            ${krafn:getParameterValue('KC-GEN', 'All', 'feedback.link.text', ConfigProperties.feedback.link.text)}
+          </a>
         </li>
       </ul>
     </div>

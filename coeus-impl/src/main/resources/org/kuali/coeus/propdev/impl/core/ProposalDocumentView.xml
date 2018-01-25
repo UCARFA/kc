@@ -312,39 +312,39 @@
         <property name="menuItems">
             <list>
                 <bean parent="Uif-MenuHeader" p:messageText="Basics"/>
-                <bean parent="Uif-Link" p:target="_blank" p:linkText="Proposal Details"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/proposaldetails.htm" />
+				<bean parent="Uif-Link" p:target="_blank" p:linkText="Proposal Details"
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentProposalDetailsHelp')}" />
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="S2S Opportunity Search"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/s2sopportunitysearch.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentS2sOpportunitySearchHelp')}" />
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Delivery Information"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/deliveryinfo.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentDeliveryInformationHelp')}" />
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Sponsor &amp; Program Information"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/sponsorprograminformation.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentSponsorProgramHelp')}" />
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Organization &amp; Location"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/organizationslocations.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentOrganizationLocationHelp')}" />
                 <bean parent="Uif-MenuDivider"/>
                 <bean parent="Uif-MenuHeader" p:messageText="Key Personnel"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Personnel"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/keypersonnel.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentPersonnelHelp')}" />
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Credit Allocation"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/creditallocation.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentCreditAllocationHelp')}" />
                 <bean parent="Uif-MenuDivider"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Compliance"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/compliance1.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentComplianceHelp')}" />
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Attachments"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/proposalattachmentstab.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentAttachmentsHelp')}" />
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Questionnaire"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/questionnaire.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentQuestionnaireHelp')}" />
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Budget"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/budgetversionsscreen.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentBudgetHelp')}" />
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Access"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/access1.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentAccessHelp')}" />
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Supplemental Information"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/supplementalinformation.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentSupplementalInformationHelp')}" />
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Summary/Submit"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/summarysubmit.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentSummarySubmitHelp')}" />
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Glossary of Terms"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/glossaryofterms.htm"/>
+					  p:href="@{#ViewHelper.getHelpLinkFromParameter('proposalDevelopmentGlossaryOfTermsHelp')}" />
             </list>
         </property>
     </bean>

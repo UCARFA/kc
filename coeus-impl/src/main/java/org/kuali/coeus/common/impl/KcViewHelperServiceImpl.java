@@ -7,24 +7,31 @@
  */
 package org.kuali.coeus.common.impl;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.*;
-
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.validator.routines.UrlValidator;
+import org.apache.log4j.Logger;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-import org.kuali.rice.krad.util.AuditCluster;
-import org.kuali.rice.krad.util.AuditError;
-import org.kuali.rice.krad.util.ErrorMessage;
-import org.kuali.rice.krad.util.KRADUtils;
+import org.kuali.rice.krad.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
 public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
+
+    private static final long serialVersionUID = 3335951799627228900L;
+    private static final Logger LOG = Logger.getLogger(KcViewHelperServiceImpl.class);
+    private static final String FEEDBACK_LINK_PARAMETER_NAME = "feedback.link.url";
 
     @Autowired
     @Qualifier("parameterService")
@@ -99,5 +106,23 @@ public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
     public boolean isDataValidationSectionEnabled() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                 Constants.SHOW_SECTION_IN_DATA_VALIDATION);
+    }
+
+    public String getHelpLinkFromParameter(String parameterName) {
+        String link = getParameterService().getParameterValueAsString(getParameterClass(), parameterName);
+        String relativeLink = String.format("%s/%s", getConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY), link);
+        if (new UrlValidator().isValid(link)) {
+            return link;
+        } else if (new UrlValidator(UrlValidator.ALLOW_2_SLASHES).isValid(relativeLink)) {
+            return  relativeLink;
+        } else {
+            LOG.warn(String.format("Help link \"%s\" for parameter \"%s\" does not exist or is not a valid URL", link, parameterName));
+            String feedbackLink = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_GEN, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, FEEDBACK_LINK_PARAMETER_NAME);
+            return StringUtils.isNotBlank(feedbackLink) ? feedbackLink : getConfigurationService().getPropertyValueAsString(FEEDBACK_LINK_PARAMETER_NAME);
+        }
+    }
+
+    protected Class<?> getParameterClass() {
+        return ProposalDevelopmentDocument.class;
     }
 }
