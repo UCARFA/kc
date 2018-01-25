@@ -10,9 +10,7 @@ package org.kuali.kra.subawardReporting.printing.print;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
-import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
-import org.apache.pdfbox.pdmodel.interactive.form.PDCheckBox;
-import org.apache.pdfbox.pdmodel.interactive.form.PDField;
+import org.apache.pdfbox.pdmodel.interactive.form.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
@@ -27,25 +25,30 @@ public class SubawardFdpPdfFormMappingTest {
 
     @Test
     public void test_mapping_attachment_2() throws Exception {
-        testMapping("classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf", AbstractSubawardFdp.Attachment2Pdf.Field.values());
+        testMapping("classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf", SubawardFdp.Attachment2Pdf.Field.values());
     }
 
     @Test
     public void test_mapping_agreement() throws Exception {
-        testMapping("classpath:org/kuali/kra/subawardReporting/printing/print/fdpAgreement.pdf", AbstractSubawardFdp.AgreementPdf.Field.values());
+        testMapping("classpath:org/kuali/kra/subawardReporting/printing/print/fdpAgreement.pdf", SubawardFdp.AgreementPdf.Field.values());
     }
 
     @Test
     public void test_mapping_agreement_certification() throws Exception {
-        testMapping("classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment1.pdf", AbstractSubawardFdp.AgreementCertificationPdf.Field.values());
+        testMapping("classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment1.pdf", SubawardFdp.AgreementCertificationPdf.Field.values());
     }
 
     @Test
     public void test_mapping_attachment_3a_() throws Exception {
-        testMapping("classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment3a.pdf", AbstractSubawardFdp.Attachment3aPdf.Field.values());
+        testMapping("classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment3a.pdf", SubawardFdp.Attachment3aPdf.Field.values());
     }
 
-    private void testMapping(String pdfFile, AbstractSubawardFdp.PdfField[] fields) throws IOException {
+    @Test
+    public void test_mapping_modification() throws Exception {
+        testMapping("classpath:org/kuali/kra/subawardReporting/printing/print/fdpModification.pdf", SubawardFdp.ModificationPdf.Field.values());
+    }
+
+    private void testMapping(String pdfFile, SubawardFdp.PdfField[] fields) throws IOException {
         final Resource pdf = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader()).getResource(pdfFile);
         try (PDDocument document = PDDocument.load(pdf.getInputStream())) {
             final PDDocumentCatalog docCatalog = document.getDocumentCatalog();
@@ -68,7 +71,7 @@ public class SubawardFdpPdfFormMappingTest {
         }
     }
 
-    private void setValue(PDAcroForm acroForm, AbstractSubawardFdp.PdfField pdfField) {
+    private void setValue(PDAcroForm acroForm, SubawardFdp.PdfField pdfField) {
         PDField field = acroForm.getField(pdfField.getfName());
         if (field == null) {
             throw new FieldException("field does not exist " + pdfField.getfName());
@@ -77,8 +80,14 @@ public class SubawardFdpPdfFormMappingTest {
         if (!pdfField.isReadOnly()) {
             if (!pdfField.getValues().isEmpty()) {
                 pdfField.getValues().forEach(v -> {
+                    if (field instanceof PDRadioButton) {
+                        Assert.assertTrue(((PDRadioButton) field).getOnValues().contains(v));
+                    }
+                    if (field instanceof PDChoice) {
+                        //Attachment 2 needs to be fixed before uncommenting
+                       // Assert.assertTrue(((PDChoice) field).getOptions().contains(v));
+                    }
                     try {
-
                         field.setValue(v);
                     } catch (IOException e) {
                         throw new FieldException("error setting value for field" + pdfField.getfName(), e);

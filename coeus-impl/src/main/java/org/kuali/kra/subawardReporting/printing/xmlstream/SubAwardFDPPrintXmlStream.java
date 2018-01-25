@@ -139,6 +139,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private static final String FDP_USDA_FCOI_GUIDANCE = "FDP_USDA_FCOI_Guidance";
 
     private static final String FDP_SUBAWARD_BILATERAL_AGREEMENTS = "FDP_Subaward_Bilateral_Agreements";
+    private static final String TYPE_CODE = "typeCode";
 
     private BusinessObjectService businessObjectService;
     private CountryService countryService;
@@ -1153,6 +1154,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         if(subaward.getSubAwardReportList() != null && !subaward.getSubAwardReportList().isEmpty()){
             for(SubAwardReports subAwardReports : subaward.getSubAwardReportList()) {
                 SubcontractReports subContractReports = SubcontractReports.Factory.newInstance();
+                subAwardReports.refreshReferenceObject(TYPE_CODE);
                 subAwardReportsType = subAwardReports.getTypeCode();
                 subContractReports.setReportTypeDescription(subAwardReportsType.getDescription());
                 subContractReportsList.add(subContractReports);

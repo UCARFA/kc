@@ -40,7 +40,7 @@ import static org.kuali.coeus.sys.framework.util.CollectionUtils.entriesToMap;
 import static org.kuali.coeus.sys.framework.util.CollectionUtils.entry;
 import static org.kuali.coeus.sys.framework.util.PdfBoxUtils.*;
 
-public abstract class AbstractSubawardFdp extends AbstractPrint {
+public abstract class SubawardFdp extends AbstractPrint {
 
     private static final String COPYRIGHTS_GRANT_CODE = "1";
     private static final String COPYRIGHTS_SHALL_GRANT_CODE = "2";
@@ -53,7 +53,8 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
 
     private static final String MM_DD_YYYY = "MM/dd/yyyy";
 
-    private static final List<String> FORM_ORDER = Stream.of(AgreementForm.FDP_AGREEMENT.getId(), SupplementalFormsForAgreement.FDP_ATTACHMENT_CERTIFICATION.getId(), "FDP Modification", "FDP Modification Unilateral",
+    private static final List<String> FORM_ORDER = Stream.of(AgreementForm.FDP_AGREEMENT.getId(), SupplementalFormsForAgreement.FDP_ATTACHMENT_CERTIFICATION.getId(),
+            ModificationForm.FDP_MODIFICATION.getId(), "FDP Modification Unilateral",
             Attachment2Form.FDP_AFOSR.getId(), Attachment2Form.FDP_AMRAA.getId(), Attachment2Form.FDP_AMRMC.getId(), Attachment2Form.FDP_ARO.getId(),
             Attachment2Form.FDP_DOE.getId(), Attachment2Form.FDP_EPA.getId(), Attachment2Form.FDP_NASA.getId(), Attachment2Form.FDP_NIH.getId(),
             Attachment2Form.FDP_NSF.getId(), Attachment2Form.FDP_ONR.getId(), Attachment2Form.FDP_USDA.getId(),
@@ -123,13 +124,19 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         final boolean attachment3a = Stream.of(Attachment3aForm.values())
                 .anyMatch(form -> form.getId().equals(selectedForm.getKey()));
 
+        final boolean modification = Stream.of(ModificationForm.values())
+                .anyMatch(form -> form.getId().equals(selectedForm.getKey()));
+
         if (agreement) {
             fillAgreementForm(pdfDocument, xmlObject);
         } else if (certification) {
             fillCertificationForm(pdfDocument, xmlObject);
         } else if (attachment3a) {
             fillAttachment3aForm(pdfDocument, xmlObject);
-        } else {
+        } else if (modification) {
+            fillModificationForm(pdfDocument, xmlObject);
+        }
+        else {
             Stream.of(Attachment2Form.values())
                     .filter(attachment2Form -> attachment2Form.getId().equals(selectedForm.getKey()))
                     .findFirst()
@@ -137,135 +144,62 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         }
     }
 
+    private void fillModificationForm(PDDocument pdfDocument, SubContractDataDocument xmlObject) {
+        final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() :
+                                                                                            SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
+        final AwardType award = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getAwardArray()) ? xmlObject.getSubContractData().getAwardArray()[0] : AwardType.Factory.newInstance();
+        
+        setSubrecipientInfo(pdfDocument, subcontractDetail);
+        setPteInfo(pdfDocument, xmlObject);
+        setAwardSubawardNumbers(pdfDocument, subcontractDetail, award);
+        setTitle(pdfDocument, award);
+        setDates(pdfDocument, xmlObject);
+        setAmounts(pdfDocument, xmlObject);
+        setTermsAndConditions(pdfDocument, xmlObject);
+        setMiscellaneousItems(pdfDocument, xmlObject);
+    }
+
+    protected abstract void setMiscellaneousItems(PDDocument pdfDocument, SubContractDataDocument xmlObject);
+
+    private void fillAgreementForm(PDDocument document, SubContractDataDocument xmlObject) {
+        final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
+        final AwardType award = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getAwardArray()) ? xmlObject.getSubContractData().getAwardArray()[0] : AwardType.Factory.newInstance();
+
+        setFederalAwardingAgency(document, award);
+        setPteInfo(document, xmlObject);
+        setSubrecipientInfo(document, subcontractDetail);
+        setAwardSubawardNumbers(document, subcontractDetail, award);
+        setTitle(document, award);
+        setDates(document, xmlObject);
+        setAmounts(document, xmlObject);
+        setTermsAndConditions(document, xmlObject);
+    }
+
     private void fillCertificationForm(PDDocument pdfDocument, SubContractDataDocument xmlObject) {
         final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
         setField(pdfDocument, AgreementCertificationPdf.Field.SUBAWARD_NO.getfName(), subcontractDetail.getFsrsSubawardNumber());
     }
 
-    private void fillAgreementForm(PDDocument document, SubContractDataDocument xmlObject) {
-        final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
-        final SubContractDataDocument.SubContractData.SubcontractAmountInfo amountInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractAmountInfoArray()) ? xmlObject.getSubContractData().getSubcontractAmountInfoArray()[0] : SubContractDataDocument.SubContractData.SubcontractAmountInfo.Factory.newInstance();
-        final SubContractDataDocument.SubContractData.PrimeRecipientContacts primeRecipientContacts = xmlObject.getSubContractData().getPrimeRecipientContacts() != null ? xmlObject.getSubContractData().getPrimeRecipientContacts() : SubContractDataDocument.SubContractData.PrimeRecipientContacts.Factory.newInstance();
-        final PersonDetailsType primePrincipalInvestigator = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getPrimePrincipalInvestigatorArray()) ? xmlObject.getSubContractData().getPrimePrincipalInvestigatorArray()[0] : PersonDetailsType.Factory.newInstance();
-        final AwardType award = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getAwardArray()) ? xmlObject.getSubContractData().getAwardArray()[0] : AwardType.Factory.newInstance();
-        final SubContractDataDocument.SubContractData.OtherConfigInfo configInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getOtherConfigInfoArray()) ? xmlObject.getSubContractData().getOtherConfigInfoArray(0) : SubContractDataDocument.SubContractData.OtherConfigInfo.Factory.newInstance();
-        final SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractTemplateInfoArray()) ? xmlObject.getSubContractData().getSubcontractTemplateInfoArray(0) : SubContractDataDocument.SubContractData.SubcontractTemplateInfo.Factory.newInstance();
-
-        setFederalAwardingAgency(document, award);
-        setPteInfo(document, primeRecipientContacts, primePrincipalInvestigator);
-        setSubrecipientInfo(document, subcontractDetail);
-        setAwardSubawardNumbers(document, subcontractDetail, award);
-        setTitle(document, award);
-        setDates(document, subcontractDetail, amountInfo);
-        setAmounts(document, amountInfo);
-        setTermsAndConditions(document, configInfo, templateInfo);
-    }
-
-    private void setFederalAwardingAgency(PDDocument document, AwardType award) {
+    protected void setFederalAwardingAgency(PDDocument document, AwardType award) {
 
         if (award.getAwardDetails() != null && award.getAwardDetails().getAwardHeader() != null && StringUtils.isNotBlank(award.getAwardDetails().getAwardHeader().getSponsorDescription())) {
             setField(document, AgreementPdf.Field.FEDERAL_AWARDING_AGENCY.getfName(), award.getAwardDetails().getAwardHeader().getSponsorDescription());
         }
     }
 
-    private void setPteInfo(PDDocument document, SubContractDataDocument.SubContractData.PrimeRecipientContacts primeRecipientContacts, PersonDetailsType primePrincipalInvestigator) {
-        if (primeRecipientContacts.getRequisitionerOrgDetails() != null) {
-            setField(document, AgreementPdf.Field.PASS_THROUGH_ENTITY.getfName(), primeRecipientContacts.getRequisitionerOrgDetails().getOrganizationName());
-        }
+    abstract protected void setPteInfo(PDDocument document, SubContractDataDocument xmlObject);
 
-        if (StringUtils.isNotBlank(primePrincipalInvestigator.getFullName())) {
-            setField(document, AgreementPdf.Field.PTE_PI.getfName(), primePrincipalInvestigator.getFullName());
-        }
-    }
+    abstract protected void setSubrecipientInfo(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail);
 
-    private void setSubrecipientInfo(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail) {
-        if (StringUtils.isNotBlank(subcontractDetail.getSubcontractorName())) {
-            setField(document, AgreementPdf.Field.SUBRECIPIENT.getfName(), subcontractDetail.getSubcontractorName());
-        }
+    abstract protected void setAwardSubawardNumbers(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail, AwardType award);
 
-        if (StringUtils.isNotBlank(subcontractDetail.getSiteInvestigator())) {
-            setField(document, AgreementPdf.Field.SUB_PI.getfName(), subcontractDetail.getSiteInvestigator());
-        }
-    }
+    abstract protected void setTitle(PDDocument document, AwardType award);
 
-    private void setAwardSubawardNumbers(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail, AwardType award) {
-        if (award.getAwardDetails() != null && award.getAwardDetails().getAwardHeader() != null && StringUtils.isNotBlank(award.getAwardDetails().getAwardHeader().getSponsorAwardNumber())) {
-            setField(document, AgreementPdf.Field.PTE_FEDERAL_AWARD_NO.getfName(), award.getAwardDetails().getAwardHeader().getSponsorAwardNumber());
-        }
+    abstract protected void setDates(PDDocument document, SubContractDataDocument xmlObject);
 
-        if (StringUtils.isNotBlank(subcontractDetail.getFsrsSubawardNumber())) {
-            setField(document, AgreementPdf.Field.SUBAWARD_NO.getfName(), subcontractDetail.getFsrsSubawardNumber());
-        }
-    }
+    abstract protected void setAmounts(PDDocument document, SubContractDataDocument xmlObject);
 
-    private void setTitle(PDDocument document, AwardType award) {
-        if (award.getAwardDetails() != null && award.getAwardDetails().getAwardHeader() != null && StringUtils.isNotBlank(award.getAwardDetails().getAwardHeader().getTitle())) {
-            setField(document, AgreementPdf.Field.PROJECT_TITLE.getfName(), award.getAwardDetails().getAwardHeader().getTitle());
-        }
-    }
-
-    private void setDates(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail, SubContractDataDocument.SubContractData.SubcontractAmountInfo amountInfo) {
-        if (amountInfo.getPerformanceStartDate() != null) {
-            setField(document, AgreementPdf.Field.POP_START.getfName(), formatDate(amountInfo.getPerformanceStartDate().getTime()));
-        }
-
-        if (amountInfo.getPerformanceEndDate() != null) {
-            setField(document, AgreementPdf.Field.POP_END.getfName(), formatDate(amountInfo.getPerformanceEndDate().getTime()));
-        }
-
-        hideField(document, AgreementPdf.Field.PROJECT_START_TIP.getfName());
-        if (subcontractDetail.getStartDate() != null) {
-            setField(document, AgreementPdf.Field.PROJECT_START.getfName(), formatDate(subcontractDetail.getStartDate().getTime()));
-        }
-
-        hideField(document, AgreementPdf.Field.PROJECT_END_TIP.getfName());
-        if (subcontractDetail.getEndDate() != null) {
-            setField(document, AgreementPdf.Field.PROJECT_END.getfName(), formatDate(subcontractDetail.getEndDate().getTime()));
-        }
-    }
-
-    private void setAmounts(PDDocument document, SubContractDataDocument.SubContractData.SubcontractAmountInfo amountInfo) {
-        if (amountInfo.getObligatedAmount() != null) {
-            setField(document, AgreementPdf.Field.AMOUNT_FUNDED_THIS_ACTION.getfName(), amountInfo.getObligatedAmount().toPlainString());
-        }
-
-        if (amountInfo.getAnticipatedAmount() != null) {
-            setField(document, AgreementPdf.Field.INCREMENTALLY_ESTIMATED_TOTAL.getfName(), amountInfo.getAnticipatedAmount().toPlainString());
-        }
-    }
-
-    private void setTermsAndConditions(PDDocument document, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
-        setField(document, AgreementPdf.Field.TERM_2_CONTACT.getfName(), "");
-        if (StringUtils.isNotBlank(templateInfo.getInvoiceOrPaymentContactDescription())) {
-            setField(document, AgreementPdf.Field.TERM_2_CONTACT.getfName(), templateInfo.getInvoiceOrPaymentContactDescription());
-        }
-
-        setField(document, AgreementPdf.Field.TERM_3_CONTACT.getfName(), "");
-        if (StringUtils.isNotBlank(templateInfo.getFinalStmtOfCostsContactDescription())) {
-            setField(document, AgreementPdf.Field.TERM_3_CONTACT.getfName(), templateInfo.getFinalStmtOfCostsContactDescription());
-        }
-
-        if (StringUtils.isNotBlank(templateInfo.getFinalStatementDueCd())) {
-            setField(document, AgreementPdf.Field.PROJECT_BUDGET_INVOICE_DROPDOWN.getfName(), FinalStatementDue.PTE.getCode().equals(templateInfo.getFinalStatementDueCd()) ? AgreementPdf.PROJECT_PERIOD_END_DATE_VALUE : AgreementPdf.BUDGET_PERIOD_END_DATE_VALUE);
-        }
-
-        setField(document, AgreementPdf.Field.TERM_6_CONTACT.getfName(), "");
-        if (StringUtils.isNotBlank(templateInfo.getChangeRequestsContactDescription())) {
-            setField(document, AgreementPdf.Field.TERM_6_CONTACT.getfName(), templateInfo.getChangeRequestsContactDescription());
-        }
-
-        setField(document, AgreementPdf.Field.UNI_BI_MOD_DROPOWN.getfName(), configInfo.getFdpSubawardBilateralAgreements() ? AgreementPdf.BILATERALLY_VALUE : AgreementPdf.UNILATERALLY_VALUE);
-
-        setField(document, AgreementPdf.Field.TERM_7_CONTACT.getfName(), "");
-        if (StringUtils.isNotBlank(templateInfo.getChangeRequestsContactDescription())) {
-            setField(document, AgreementPdf.Field.TERM_7_CONTACT.getfName(), templateInfo.getChangeRequestsContactDescription());
-        }
-
-        setField(document, AgreementPdf.Field.TERM_9_CONTACT.getfName(), "");
-        if (StringUtils.isNotBlank(templateInfo.getTerminationContactDescription())) {
-            setField(document, AgreementPdf.Field.TERM_9_CONTACT.getfName(), templateInfo.getTerminationContactDescription());
-        }
-    }
+    abstract protected void setTermsAndConditions(PDDocument document, SubContractDataDocument xmlObject);
 
     private void fillAttachment2Form(PDDocument document, SubContractDataDocument xmlObject, Attachment2Form formId) {
         final Attachment2SponsorFormType type = formId.getSponsorFormType();
@@ -755,11 +689,11 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         return sorted;
     }
 
-    private boolean fromYN(String s) {
+    protected boolean fromYN(String s) {
         return "Y".equals(s);
     }
 
-    private String formatDate(Date date) {
+    protected String formatDate(Date date) {
         return new SimpleDateFormat(MM_DD_YYYY).format(date);
     }
 
@@ -769,6 +703,20 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
         private final String id;
 
         AgreementForm(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+    }
+
+    private enum ModificationForm {
+        FDP_MODIFICATION("FDP Modification");
+
+        private final String id;
+
+        ModificationForm(String id) {
             this.id = id;
         }
 
@@ -788,6 +736,77 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
 
         public String getId() {
             return id;
+        }
+    }
+
+    static final class ModificationPdf {
+
+        enum Field implements PdfField {
+            SUBRECIPIENT("SubEntityName"),
+            SUBEMAIL("SubEmail"),
+            SUBPI("SubPI"),
+            PTE_ENTITY_NAME ("PTEEntityName"),
+            PTEPI ("PTEPI"),
+            PTE_EMAIL ("PTEEmail"),
+            PTE_FEDERAL_AWARD_NO ("PTEFederalAwardNo"),
+            FEDERAL_AWARDING_AGENCY ("FederalAwardingAgency"),
+            PROJECT_TITLE ("ProjectTitle"),
+            START_DATE ("StartDate"),
+            END_DATE ("EndDate"),
+            EFFECTIVE_DATE ("EffectiveDate"),
+            AMENDMENT_NUMBER ("AmendmentNumber"),
+            AMOUNT_FUNDED_THIS_ACTION ("AmountFundedThisAction"),
+            TOTAL_FEDERAL_FUNDS_OBLIGATED ("TotalFederalFundsObligated"),
+            ACTION ("Action"),
+            SUBAWARD_NUMBER ("SubawardNumber"),
+            SUBJECTO_FFATA ("SubjectoFFATA", Stream.of(YES, NO).collect(Collectors.toSet())),
+            CARRYOVER_RADIO_BUTTON("Carryover", Stream.of(CARRYOVER_YES, CARRYOVER_NO).collect(Collectors.toSet()));
+
+            private final String fName;
+            private final Set<String> values;
+            private final boolean readOnly;
+
+            Field(String fName, Set<String> values) {
+                this.fName = fName;
+                this.values = values;
+                this.readOnly = false;
+            }
+
+            Field(String fName) {
+                this.fName = fName;
+                this.values = Collections.emptySet();
+                this.readOnly = false;
+            }
+
+            Field(String fName, boolean readOnly) {
+                this.fName = fName;
+                this.values = Collections.emptySet();
+                this.readOnly = readOnly;
+            }
+
+            @Override
+            public String getfName() {
+                return fName;
+            }
+
+            @Override
+            public Set<String> getValues() {
+                return values;
+            }
+
+            @Override
+            public boolean isReadOnly() {
+                return readOnly;
+            }
+        }
+
+        protected static final String CARRYOVER_YES = "CarryoverYes";
+        protected static final String CARRYOVER_NO = "CarryoverNo";
+        protected static final String YES = "Yes";
+        protected static final String NO = "No";
+
+        private ModificationPdf() {
+            throw new UnsupportedOperationException("do not call");
         }
     }
 
@@ -856,11 +875,11 @@ public abstract class AbstractSubawardFdp extends AbstractPrint {
             }
         }
 
-        private static final String BUDGET_PERIOD_END_DATE_VALUE = "Budget Period end date.";
-        private static final String PROJECT_PERIOD_END_DATE_VALUE = "Project Period end date.";
+        protected static final String BUDGET_PERIOD_END_DATE_VALUE = "Budget Period end date.";
+        protected static final String PROJECT_PERIOD_END_DATE_VALUE = "Project Period end date.";
 
-        private static final String UNILATERALLY_VALUE = "Unilaterally";
-        private static final String BILATERALLY_VALUE = "Bilaterally";
+        protected static final String UNILATERALLY_VALUE = "Unilaterally";
+        protected static final String BILATERALLY_VALUE = "Bilaterally";
 
         private AgreementPdf() {
             throw new UnsupportedOperationException("do not call");
