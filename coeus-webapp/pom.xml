@@ -582,7 +582,7 @@
     	</profile>
 		<profile>
 			<!-- Production Environment -->
-			<id>kuali</id>
+			<id>kcprod</id>
 			<properties>
 				<!-- ADFS/SAML -->
 				<!-- Enable ADFS
@@ -608,7 +608,7 @@
 				<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
 				<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
 				<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kuali.fanda.ucar.edu:7443/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kuali.fanda.ucar.edu:1443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
 			</properties>
 		</profile>
