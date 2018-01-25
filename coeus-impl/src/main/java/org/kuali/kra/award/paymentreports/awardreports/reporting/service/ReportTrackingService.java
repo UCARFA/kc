@@ -8,6 +8,7 @@
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.paymentreports.ReportStatus;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingBean;
@@ -90,4 +91,9 @@ public interface ReportTrackingService {
      * @return
      */
     boolean shouldAlertReportTrackingDetailChange(Award award);
+
+    /**
+     * Returns the report status maintenance object associated with the "Pending" description
+     */
+    ReportStatus getPendingReportStatus();
 }
