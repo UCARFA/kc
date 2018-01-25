@@ -7,8 +7,10 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.notification.impl.bo.NotificationType;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.kra.award.home.Award;
@@ -16,8 +18,10 @@ import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.notification.AwardNotificationContext;
 import org.kuali.kra.award.notification.AwardReportTrackingNotificationRenderer;
+import org.kuali.kra.award.paymentreports.ReportStatus;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
+import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.rice.ken.api.notification.NotificationRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -31,11 +35,13 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
     private static final Log LOG = LogFactory.getLog(ReportTrackingNotificationServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private AwardService awardService;
+    private AwardVersionService awardVersionService;
     private KcNotificationService notificationService;
     private ReportTrackingDao reportTrackingDao;
+    private ReportTrackingService reportTrackingService;
     
     private List<ReportTrackingNotification> notifications;
-    
+
     public ReportTrackingNotificationServiceImpl() {
         notifications = new ArrayList<ReportTrackingNotification>();
     }
@@ -44,7 +50,7 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
     public List<ReportTrackingNotificationDetails> runReportTrackingNotifications() {
         List<ReportTrackingNotificationDetails> resultDetails = new ArrayList<>();
         AwardReportTrackingNotificationRenderer renderer = new AwardReportTrackingNotificationRenderer();
-        
+        ReportStatus pendingStatus = reportTrackingService.getPendingReportStatus();
 
         for (ReportTrackingNotification notification : notifications) {
             ReportTrackingNotificationDetails details = new ReportTrackingNotificationDetails();
@@ -83,23 +89,20 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
                         for (ReportTracking report : reports) {
                             //if the report's due date is between the checked for date and the scoped date, and a notification
                             //hasn't previously been sent for it, add it to the matched reports.
-
                             if (report.getDueDate() != null && doDatesMatch(report.getDueDate(), checkFor, until)
-                                    && !hasSentNotification(report, notification)) {
-                                recordsMatched++;
-                                Award curAward;
-                                if (report.getAwardId() != null) {
-                                    curAward = awardService.getAward(report.getAwardId());
-                                } else {
-                                    curAward = awardService.getActiveOrNewestAward(report.getAwardNumber());
+                                    && !hasSentNotification(report, notification)
+                                    && report.getStatusCode() != null && StringUtils.equalsIgnoreCase(report.getStatusCode(), pendingStatus.getReportStatusCode())) {
+                                Award curAward = awardService.getAward(report.getAwardId());
+                                if (isAwardActive(curAward)) {
+                                    recordsMatched++;
+                                    report.setAward(curAward);
+                                    List<ReportTracking> curReports = matchedReports.get(curAward);
+                                    if (curReports == null) {
+                                        curReports = new ArrayList<>();
+                                        matchedReports.put(curAward, curReports);
+                                    }
+                                    curReports.add(report);
                                 }
-                                report.setAward(curAward);
-                                List<ReportTracking> curReports = matchedReports.get(curAward);
-                                if (curReports == null) {
-                                    curReports = new ArrayList<>();
-                                    matchedReports.put(curAward, curReports);
-                                }
-                                curReports.add(report);
                             }
                         }
                         //rehash the reports per recipient found in the notification
@@ -175,7 +178,14 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         List<SentReportNotification> notifications = (List<SentReportNotification>) getBusinessObjectService().findMatching(SentReportNotification.class, values);
         return notifications != null && !notifications.isEmpty();
     }
-    
+
+    protected boolean isAwardActive(Award award) {
+        return award != null
+                && award.getStatusCode() != AwardConstants.AWARD_STATUS_PENDING_CODE
+                && award.getStatusCode() != AwardConstants.AWARD_STATUS_INACTIVE_CODE
+                && award.getAwardSequenceStatus().equals(VersionStatus.ACTIVE.name());
+    }
+
     protected void clearTimeFields(Calendar date) {
         date.set(Calendar.HOUR_OF_DAY, 0);
         date.set(Calendar.MINUTE, 0);
@@ -215,11 +225,27 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         this.awardService = awardService;
     }
 
+    public AwardVersionService getAwardVersionService() {
+        return awardVersionService;
+    }
+
+    public void setAwardVersionService(AwardVersionService awardVersionService) {
+        this.awardVersionService = awardVersionService;
+    }
+
     public ReportTrackingDao getReportTrackingDao() {
         return reportTrackingDao;
     }
 
     public void setReportTrackingDao(ReportTrackingDao reportTrackingDao) {
         this.reportTrackingDao = reportTrackingDao;
+    }
+
+    public ReportTrackingService getReportTrackingService() {
+        return reportTrackingService;
+    }
+
+    public void setReportTrackingService(ReportTrackingService reportTrackingService) {
+        this.reportTrackingService = reportTrackingService;
     }
 }

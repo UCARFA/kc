@@ -247,7 +247,8 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
                 .collect(Collectors.toList());
     }
 
-    protected ReportStatus getPendingReportStatus() {
+    @Override
+    public ReportStatus getPendingReportStatus() {
         Map<String, Object> params = Collections.singletonMap(DESCRIPTION, PENDING_STATUS_DESCRIPTION);
         return getBusinessObjectService().findByPrimaryKey(ReportStatus.class, params);
     }

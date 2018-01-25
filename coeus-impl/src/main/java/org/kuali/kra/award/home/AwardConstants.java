@@ -18,6 +18,9 @@ public final class AwardConstants {
 	public static final String AWARD_SEQUENCE_STATUS = "awardSequenceStatus";
 	public static final String MAX_AWARD_ID = "max(awardId)";
 
+	public static final int AWARD_STATUS_INACTIVE_CODE = 2;
+	public static final int AWARD_STATUS_PENDING_CODE = 3;
+
 	private AwardConstants() {
 		throw new UnsupportedOperationException();
 	}

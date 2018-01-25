@@ -982,7 +982,9 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="notificationService" ref="kcNotificationService" />
 		<property name="awardService" ref="awardService" />
+		<property name="awardVersionService" ref="awardVersionService" />
         <property name="reportTrackingDao" ref="reportTrackingDao" />
+        <property name="reportTrackingService" ref="reportTrackingService" />
 		<property name="notifications">
 			<list>
 			    <!-- add a new bean for each report tracking notification you wish to send
