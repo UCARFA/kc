@@ -1,6 +1,16 @@
 
 
 ## CURRENT
+* Reskc 2655 bilateral form (#2724)
+
+* RESKC-2655, RESKC-2504: Subaward Modification Bilateral template.
+  * 
+* RESKC-2655: Remove old artifacts
+  * Gayathri Athreya on Thu, 25 Jan 2018 11:34:46 -0700 [View Commit](../../commit/fd6a9ac5c275dc82e5cd298bc9ac81a084cedbef)
+* RESKC-1215: MIT fix to only send ART notifications for pending trackings associated with active awards
+  * Jeff Largent on Thu, 25 Jan 2018 13:17:57 -0500 [View Commit](../../commit/c1e14805356c34ddaea5f9000fb653c9187b41bc)
+
+## coeus-1801.0033
 * RESKC-2553: Apply day offsets to dates after schedule has been generated
 
 * This allows offsets to be applied correctly to months with different numbers of days
