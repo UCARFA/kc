@@ -160,10 +160,10 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
           parent="Uif-ListGroup" p:layoutManager.additionalCssClasses="nav,pull-right">
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:href="@{#ConfigProperties['feedback.link.url']}"
-                      p:wrapperCssClasses="pull-right" p:target="_new"
-                      p:render="@{#ConfigProperties['feedback.link.url'] != ''}"
-                      p:linkText="@{#ConfigProperties['feedback.link.text']}"/>
+                <bean parent="Uif-Link" p:wrapperCssClasses="pull-right" p:target="_new"
+                      p:href="@{#empty(#getParam('KC-GEN', 'All', 'feedback.link.url')) ? #ConfigProperties['feedback.link.url'] : #getParam('KC-GEN', 'All', 'feedback.link.url')}"
+                      p:render="@{(#empty(#getParam('KC-GEN', 'All', 'feedback.link.url')) ? #ConfigProperties['feedback.link.url'] : #getParam('KC-GEN', 'All', 'feedback.link.url')) != ''}"
+                      p:linkText="@{#empty(#getParam('KC-GEN', 'All', 'feedback.link.text')) ? #ConfigProperties['feedback.link.text'] : #getParam('KC-GEN', 'All', 'feedback.link.text')}"/>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-ActionListView"
                       p:wrapperCssClasses="pull-right" p:actionLabel="Action List"/>

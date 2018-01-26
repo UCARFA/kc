@@ -257,7 +257,7 @@
    	<param name="kc.kew.auto.ingestion.principalId" override="false">admin</param>
    	<param name="kc.kew.auto.ingestion.enabled" override="false">true</param>
 
-    <param name="feedback.link.url">https://jira.kuali.org/secure/CreateIssue.jspa?pid=10310&amp;issuetype=1</param>
+    <param name="feedback.link.url">https://kuali-research.zendesk.com</param>
     <param name="feedback.link.text">GET HELP</param>
 
     <param name="rsmart.report.shared.secret">SECRETKEYVALUE</param>

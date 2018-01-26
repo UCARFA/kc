@@ -79,4 +79,12 @@
         <function-signature>boolean getParameterValueAsBoolean(java.lang.String, java.lang.String, java.lang.String)</function-signature>
         <example>&lt;c:set var="enabled" value="${krafn:getParameterValueAsBoolean('KC-SYS', 'All', 'citi.job.enabled')}" /"&gt;</example>
     </function>
+
+    <function>
+        <description>Gets a Parameter Value as a String, or default value if the parameter doesn't exist or is blank</description>
+        <name>getParameterValue</name>
+        <function-class>org.kuali.coeus.sys.framework.view.JstlFunctions</function-class>
+        <function-signature>java.lang.String getParameterValue(java.lang.String, java.lang.String, java.lang.String, java.lang.String)</function-signature>
+        <example>&lt;c:set var="enabled" value="${krafn:getParameterValue('KC-SYS', 'All', 'feedback.link.text', 'GET HELP')}" /"&gt;</example>
+    </function>
 </taglib>
