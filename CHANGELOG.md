@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2645: Leave feedack link parameter blank to use current XML config value by default
+  * Jeff Largent on Fri, 26 Jan 2018 14:52:12 -0500 [View Commit](../../commit/9a050fd82a120a2f77c6fcef1256d2fc7994f76b)
+
+## coeus-1801.0037
 * RESKC-2645: Updated PD and Budget help links to be parameter-based and point to Zendesk
 
 * Also updated the portal "GET HELP" link to be parameterized as well
