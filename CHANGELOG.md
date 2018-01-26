@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-2645: Updated PD and Budget help links to be parameter-based and point to Zendesk
+
+* Also updated the portal "GET HELP" link to be parameterized as well
+  * Jeff Largent on Thu, 25 Jan 2018 15:36:29 -0500 [View Commit](../../commit/e409b04739042d84fffd3f18c6050d5cc8f95e00)
+
+## coeus-1801.0036
 * No Changes
 
 
