@@ -144,6 +144,6 @@ insert into krcr_parm_t (nmspc_cd, cmpnt_cd, parm_nm, obj_id, ver_nbr, parm_typ_
 values ('KC-B', 'Document', 'budgetGlossaryOfTermsHelp', uuid(), 1, 'HELP', 'https://kuali-research.zendesk.com/hc/en-us/articles/115016048547', 'Budget Glossary of Terms Help', 'A', 'KC');
 
 insert into krcr_parm_t (nmspc_cd, cmpnt_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, val, parm_desc_txt, eval_oprtr_cd, appl_id)
-values ('KC-GEN', 'All', 'feedback.link.text', uuid(), 1, 'CONFG', 'GET HELP', 'Portal help link display text', 'A', 'KC');
+values ('KC-GEN', 'All', 'feedback.link.text', uuid(), 1, 'CONFG', null, 'Portal help link display text', 'A', 'KC');
 insert into krcr_parm_t (nmspc_cd, cmpnt_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, val, parm_desc_txt, eval_oprtr_cd, appl_id)
-values ('KC-GEN', 'All', 'feedback.link.url', uuid(), 1, 'CONFG', 'https://kuali-research.zendesk.com', 'Portal help link url', 'A', 'KC');
+values ('KC-GEN', 'All', 'feedback.link.url', uuid(), 1, 'CONFG', null, 'Portal help link url', 'A', 'KC');
