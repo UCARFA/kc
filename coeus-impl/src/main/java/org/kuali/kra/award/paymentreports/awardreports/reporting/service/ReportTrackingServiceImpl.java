@@ -69,24 +69,26 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
 
             for (AwardReportTerm awardTerm : awardReportTermItems) {
                 awardTerm.refreshReferenceObject(REPORT_CLASS);
-                if (!awardTerm.getReportClass().getGenerateReportRequirements()) {
-                    continue;
-                }
-                /**
-                * creating this secondary AwardReportTerm List as we need to pass a List of AwardReportTerms to the dates generation
-                * service below, and we only want to be concerned with the current item, the whole list that we are looping through.
-                */
-                List<AwardReportTerm> awardReportTerms = new ArrayList<>();
-                awardReportTerms.add(awardTerm);
-                List<Date> dates = generateSchedules(award, awardReportTerms);
-                
                 if (awardTerm.getReportTrackings() == null) {
                     //pull the report tracking items from the database.
                     awardTerm.setReportTrackings(getReportTracking(awardTerm));
                 }
-                reportsToDelete.addAll(findOutdatedTrackings(awardTerm, dates));
-                synchronizeReportsWithDates(award, awardTerm, dates);
-                reportsToSave.addAll(awardTerm.getReportTrackings());
+                
+                if (!awardTerm.getReportClass().getGenerateReportRequirements()) {
+                    reportsToSave.addAll(awardTerm.getReportTrackings());
+                } else {
+                    /**
+                     * creating this secondary AwardReportTerm List as we need to pass a List of AwardReportTerms to the dates generation
+                     * service below, and we only want to be concerned with the current item, the whole list that we are looping through.
+                     */
+                    List<AwardReportTerm> awardReportTerms = new ArrayList<>();
+                    awardReportTerms.add(awardTerm);
+                    List<Date> dates = generateSchedules(award, awardReportTerms);
+
+                    reportsToDelete.addAll(findOutdatedTrackings(awardTerm, dates));
+                    synchronizeReportsWithDates(award, awardTerm, dates);
+                    reportsToSave.addAll(awardTerm.getReportTrackings());
+                }
             }
 
             /**
