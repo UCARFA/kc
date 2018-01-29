@@ -34,7 +34,8 @@
 			<description>Manage Award</description>
 			<label>KC Award</label>
 			<parent>KC</parent>
-			<postProcessorName>org.kuali.coeus.sys.framework.workflow.KcPostProcessor</postProcessorName>
+			<!-- SJW <postProcessorName>org.kuali.coeus.sys.framework.workflow.KcPostProcessor</postProcessorName> -->
+			<postProcessorName>edu.ucar.fanda.kuali.coeus.sys.framework.workflow.UcarAwardPostProcessorImpl</postProcessorName>
 			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
