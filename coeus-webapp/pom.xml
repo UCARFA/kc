@@ -604,9 +604,9 @@
 				<kualiRest.user>apiuser</kualiRest.user>
 				<kualiRest.password>BlueOrchid05</kualiRest.password>
 				<!-- JDBC -->
-				<jdbcKualiMySQL.url>jdbc:mysql://kuali_mysql:3306/coeus</jdbcKualiMySQL.url>
+				<jdbcKualiMySQL.url>jdbc:mysql://kcprod1_mysql:3306/coeus</jdbcKualiMySQL.url>
 				<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
-				<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
+				<jdbcKualiMySQL.password>MuleD33r#</jdbcKualiMySQL.password>
 				<!--  Tomcat deployment url -->
 				<tomcat.deployUrl>https://kuali.fanda.ucar.edu:1443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
