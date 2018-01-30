@@ -44,18 +44,34 @@ public class ProposalDevelopmentPersonnelControllerTest {
     }
 
     @Test
-    public void test_deletePerson(){
+    public void test_deletePersonBio(){
         final String SELECTED_COLLECTION_PATH ="document.developmentProposal.proposalPersons";
         final String SELECTED_LINE_INDEX = "0";
-        ProposalPerson deletedPerson = proposalDocument.getDevelopmentProposal().getProposalPerson(Integer.parseInt(SELECTED_LINE_INDEX));
+        final String REMAINING_LINE_INDEX = "0";
+        ProposalPersonBiography deletedProposalPersonBios = proposalDocument.getDevelopmentProposal().getPropPersonBio(Integer.parseInt(SELECTED_LINE_INDEX));
         try {
             proposalDevelopmentPersonnelController.deletePerson(proposalDocumentForm, SELECTED_COLLECTION_PATH, SELECTED_LINE_INDEX);
         }
         catch (Exception e){
             //No exception is explicitly thrown from deletePerson method.
         }
-        ProposalPerson currentPerson = proposalDocument.getDevelopmentProposal().getProposalPerson(Integer.parseInt(SELECTED_LINE_INDEX));
-        assertNotEquals(deletedPerson,currentPerson);
+        ProposalPersonBiography remainingProposalPersonBios = proposalDocument.getDevelopmentProposal().getPropPersonBio(Integer.parseInt(REMAINING_LINE_INDEX));
+        assertNotEquals(deletedProposalPersonBios,remainingProposalPersonBios);
+    }
+    @Test
+    public void test_deleteRolodexBio(){
+        final String SELECTED_COLLECTION_PATH ="document.developmentProposal.proposalPersons";
+        final String SELECTED_LINE_INDEX = "1";
+        final String REMAINING_LINE_INDEX = "0";
+        ProposalPersonBiography deletedProposalPersonBios = proposalDocument.getDevelopmentProposal().getPropPersonBio(Integer.parseInt(SELECTED_LINE_INDEX));
+        try {
+            proposalDevelopmentPersonnelController.deletePerson(proposalDocumentForm, SELECTED_COLLECTION_PATH, SELECTED_LINE_INDEX);
+        }
+        catch (Exception e){
+            //No exception is explicitly thrown from deletePerson method.
+        }
+        ProposalPersonBiography remainingProposalPersonBios = proposalDocument.getDevelopmentProposal().getPropPersonBio(Integer.parseInt(REMAINING_LINE_INDEX));
+        assertNotEquals(deletedProposalPersonBios,remainingProposalPersonBios);
     }
     public ProposalDevelopmentDocument createProposal() {
         ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
