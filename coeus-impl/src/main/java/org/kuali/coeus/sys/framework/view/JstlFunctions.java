@@ -8,6 +8,7 @@
 package org.kuali.coeus.sys.framework.view;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -57,6 +58,11 @@ public final class JstlFunctions {
 
     public static boolean getParameterValueAsBoolean(String namespaceCode, String componentCode, String parameterName) {
         return getParameterService().getParameterValueAsBoolean(namespaceCode, componentCode, parameterName);
+    }
+
+    public static String getParameterValue(String namespaceCode, String componentCode, String parameterName, String defaultValue) {
+        String parameterValue = getParameterService().getParameterValueAsString(namespaceCode, componentCode, parameterName);
+        return StringUtils.isBlank(parameterValue) ? defaultValue : parameterValue;
     }
 
     /**

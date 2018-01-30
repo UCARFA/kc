@@ -23,4 +23,7 @@ set sqlblanklines on
 spool 1801_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1801_004__fdp.sql
 @./rice/bootstrap/V1801_009__force_xsl_param.sql
+@./rice/bootstrap/V1801_011__remove_forms_errors.sql
+@./rice/bootstrap/V1801_013__fdp_parameters.sql
+@./rice/bootstrap/V1801_016__krad_help_parameters.sql
 commit;

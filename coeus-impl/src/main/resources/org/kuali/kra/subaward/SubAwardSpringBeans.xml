@@ -220,7 +220,7 @@
         <property name="serviceName" value="printingService" />
     </bean>
 
-    <bean id="abstractSubawardFdp" abstract="true" class="org.kuali.kra.subawardReporting.printing.print.AbstractSubawardFdp" scope="prototype">
+    <bean id="abstractSubawardFdp" abstract="true" class="org.kuali.kra.subawardReporting.printing.print.SubawardFdp" scope="prototype">
         <property name="xmlStream" ref="subAwardFDPPrintXmlStream" />
         <property name="pdfForms">
             <map>
@@ -237,6 +237,8 @@
                 <entry key="FDP_USDA" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment2.pdf" />
                 <entry key="FDP Template" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAgreement.pdf"/>
                 <entry key="FDP Attachment 1 Certification" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment1.pdf"/>
+                <entry key="FDP_ATT_3A" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment3a.pdf"/>
+                <entry key="FDP Modification" value="classpath:org/kuali/kra/subawardReporting/printing/print/fdpModification.pdf"/>
             </map>
         </property>
     </bean>

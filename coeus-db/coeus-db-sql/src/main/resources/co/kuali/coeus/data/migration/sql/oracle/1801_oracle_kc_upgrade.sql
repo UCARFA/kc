@@ -29,4 +29,7 @@ spool 1801_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1801_007__fdp.sql
 @./kc/bootstrap/V1801_008__nsf_cover_page_1_8.sql
 @./kc/bootstrap/V1801_010__base_art_notifications_on_report_params.sql
+@./kc/bootstrap/V1801_012__cost_element_unit.sql
+@./kc/bootstrap/V1801_014__fdp.sql
+@./kc/bootstrap/V1801_015__remove_modification.sql
 commit;

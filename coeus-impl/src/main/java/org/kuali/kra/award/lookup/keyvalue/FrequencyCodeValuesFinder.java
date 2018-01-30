@@ -7,6 +7,7 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.ValuesFinderUtils;
 import org.kuali.kra.award.paymentreports.Frequency;
@@ -78,11 +79,12 @@ public class FrequencyCodeValuesFinder extends UifKeyValuesFinderBase {
     }
 
     protected List<KeyValue> getKeyValues(List<String> validFrequencyCodes) {
-        return getKeyValuesService().findMatching(Frequency.class, Collections.singletonMap(ReportTrackingConstants.FREQUENCY_CODE, validFrequencyCodes))
-                .stream()
-                .map(frequency -> new ConcreteKeyValue(frequency.getFrequencyCode(), frequency.getDescription()))
-                .sorted(COMPARATOR)
-                .collect(Collectors.toList());
+        return CollectionUtils.isEmpty(validFrequencyCodes) ? Collections.emptyList() :
+                getKeyValuesService().findMatching(Frequency.class, Collections.singletonMap(ReportTrackingConstants.FREQUENCY_CODE, validFrequencyCodes))
+                        .stream()
+                        .map(frequency -> new ConcreteKeyValue(frequency.getFrequencyCode(), frequency.getDescription()))
+                        .sorted(COMPARATOR)
+                        .collect(Collectors.toList());
     }
 
     public String getReportClassCode() {

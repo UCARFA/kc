@@ -28,9 +28,6 @@ public class ValuesFinderUtils {
      * This method processes a list of KeyValue and converts them to a string separated
      * by semi-colons and comas.
      * This is used in both getFrequencyCodes and getFrequencyBaseCodes services.
-     *  
-     * @param KeyValueList
-     * @return
      */
     public static String processKeyValueList(List<KeyValue> KeyValueList){
         
@@ -54,8 +51,6 @@ public class ValuesFinderUtils {
 
     /**
      * This method returns a "select" option with a blank key for use in various
-     *
-     * @return
      */
     public static KeyValue getSelectOption() {
         return SELECT;

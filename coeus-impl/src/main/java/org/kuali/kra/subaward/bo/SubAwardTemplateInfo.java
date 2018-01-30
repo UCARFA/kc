@@ -17,6 +17,7 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
     private Integer sequenceNumber;
     private Long subAwardId;
     private Integer invoiceOrPaymentContact;
+    private Integer irbIacucContact;
     private Integer finalStmtOfCostscontact;
     private Integer changeRequestsContact;
     private Integer terminationContact;
@@ -54,6 +55,7 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
     private String additionalTerms;
     private String treatmentOfIncome;
     private String dataSharingAttachment;
+    private String dataSharingCd;
     private String finalStatementDueCd;
 
     /**
@@ -114,6 +116,14 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
 
     public void setInvoiceOrPaymentContact(Integer invoiceOrPaymentContact) {
         this.invoiceOrPaymentContact = invoiceOrPaymentContact;
+    }
+
+    public Integer getIrbIacucContact() {
+        return irbIacucContact;
+    }
+
+    public void setIrbIacucContact(Integer irbIacucContact) {
+        this.irbIacucContact = irbIacucContact;
     }
 
     public Integer getFinalStmtOfCostscontact() {
@@ -394,6 +404,14 @@ public class SubAwardTemplateInfo extends KcPersistableBusinessObjectBase {
 
     public void setDataSharingAttachment(String dataSharingAttachment) {
         this.dataSharingAttachment = dataSharingAttachment;
+    }
+
+    public String getDataSharingCd() {
+        return dataSharingCd;
+    }
+
+    public void setDataSharingCd(String dataSharingCd) {
+        this.dataSharingCd = dataSharingCd;
     }
 
     public String getFinalStatementDueCd() {

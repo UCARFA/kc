@@ -84,7 +84,8 @@
 		</h3>
         <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 		<c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCodeKey}" />
-        <table border="0" cellpadding=0 cellspacing=0 summary="">
+        <c:set target="${paramMap}" property="unitNumber" value="${KualiForm.document.budget.unitNumber}" />
+            <table border="0" cellpadding=0 cellspacing=0 summary="">
           	<tr>
           		<th width="20%" ><div align="center">${Constants.REQUIRED_FIELD_SYMBOL}&nbsp;<kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.personSequenceNumber}" noColon="true" /></div></th>
           		<th width="40%" ><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.costElement}" noColon="true" /></div></th>

@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.coeus.common.framework.workflow;
 
 import java.util.Map;
@@ -10,6 +19,6 @@ import org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService;
 public interface KcAttributeCapablePeopleFlowTypeService extends PeopleFlowTypeService {
 
 	Map<String, String> resolveRoleQualifiers(PeopleFlowDefinition peopleflowDefinition, String roleId, Document document,
-        DocumentContent documentContent);
+											  DocumentContent documentContent);
 
 }

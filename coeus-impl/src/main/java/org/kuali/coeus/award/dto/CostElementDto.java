@@ -13,6 +13,7 @@ public class CostElementDto {
     private String description;
     private Boolean onOffCampusFlag;
     private boolean active;
+    private String unitNumber;
 
     public String getCostElement() {
         return costElement;
@@ -44,5 +45,13 @@ public class CostElementDto {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getUnitNumber() {
+        return unitNumber;
+    }
+
+    public void setUnitNumber(String unitNumber) {
+        this.unitNumber = unitNumber;
     }
 }

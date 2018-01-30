@@ -1,6 +1,85 @@
 
 
 ## CURRENT
+* RESKC-2645: Leave feedack link parameter blank to use current XML config value by default
+  * Jeff Largent on Fri, 26 Jan 2018 14:52:12 -0500 [View Commit](../../commit/9a050fd82a120a2f77c6fcef1256d2fc7994f76b)
+
+## coeus-1801.0037
+* RESKC-2645: Updated PD and Budget help links to be parameter-based and point to Zendesk
+
+* Also updated the portal "GET HELP" link to be parameterized as well
+  * Jeff Largent on Thu, 25 Jan 2018 15:36:29 -0500 [View Commit](../../commit/e409b04739042d84fffd3f18c6050d5cc8f95e00)
+
+## coeus-1801.0036
+* No Changes
+
+
+## coeus-1801.0035
+* Reskc 2655 bilateral form (#2724)
+
+* RESKC-2655, RESKC-2504: Subaward Modification Bilateral template.
+  * 
+* RESKC-2655: Remove old artifacts
+  * Gayathri Athreya on Thu, 25 Jan 2018 11:34:46 -0700 [View Commit](../../commit/fd6a9ac5c275dc82e5cd298bc9ac81a084cedbef)
+* RESKC-1215: MIT fix to only send ART notifications for pending trackings associated with active awards
+  * Jeff Largent on Thu, 25 Jan 2018 13:17:57 -0500 [View Commit](../../commit/c1e14805356c34ddaea5f9000fb653c9187b41bc)
+
+## coeus-1801.0033
+* RESKC-2553: Apply day offsets to dates after schedule has been generated
+
+* This allows offsets to be applied correctly to months with different numbers of days
+  * Jeff Largent on Wed, 24 Jan 2018 11:33:34 -0500 [View Commit](../../commit/93dbd0b20da78f297646d338c0ebfdc932e8734d)
+* RESKC-2536: create barebones DD entry for KcNotificationDocument
+  * Travis Schneeberger on Wed, 24 Jan 2018 11:07:00 -0500 [View Commit](../../commit/5a7bd5c97b9ec01375da2d81b8df9db5bec8753e)
+* RESKC-2270: Protect against situations where no valid entries have been set up for report class / report / frequencies
+  * Jeff Largent on Fri, 12 Jan 2018 17:25:51 -0500 [View Commit](../../commit/2628363b3f3c35903b12fa80a5cde54bb5ea76d4)
+
+## coeus-1801.0031
+* No Changes
+
+
+## coeus-1801.0030
+* Change unitNumber to unit. (#2720)
+
+  * Gayathri Athreya on Tue, 23 Jan 2018 10:52:53 -0700 [View Commit](../../commit/ef128a77fda252474ed3dd3bdcdfe9d7ed55ab9e)
+* RESKC-2090: Don't add personnel summary totals twice
+  * Jeff Largent on Tue, 23 Jan 2018 11:09:00 -0500 [View Commit](../../commit/49157a7c9a785dd51e4f7080edcc1712fd7f31fd)
+* RESKC-2620:Fix tests (#2718)
+
+  * Gayathri Athreya on Mon, 22 Jan 2018 15:36:17 -0700 [View Commit](../../commit/e8971a118900255af63fb33dfbf78f29bb574451)
+* RESKC-2703: update copyright
+  * Travis Schneeberger on Mon, 22 Jan 2018 11:21:12 -0500 [View Commit](../../commit/29ba91c708e60d23268d80c799a67789043188d5)
+* RESKC-2719, RESKC-2651, RESKC-2654: updating fdp pdf forms
+  * Travis Schneeberger on Mon, 22 Jan 2018 11:12:08 -0500 [View Commit](../../commit/d57da4803d97a950de2808893c28314a22c3b6ee)
+* RESKC-2620: Add unit number to object codes table. (#2716)
+
+* RESKC-2620: Add unit number to object codes table.
+  * 
+* PR review
+  * Gayathri Athreya on Mon, 22 Jan 2018 14:16:34 -0700 [View Commit](../../commit/a0fb587e3958d22861295b0065de0c15173c9d7b)
+
+## coeus-1801.0029
+* No Changes
+
+
+## coeus-1801.0028
+* No Changes
+
+
+## coeus-1801.0027
+* No Changes
+
+
+## coeus-1801.0026
+* RESKC-2723: making attachments optional for Other Project Information form 1.3 and 1.4
+  * Travis Schneeberger on Thu, 18 Jan 2018 11:54:54 -0500 [View Commit](../../commit/594d56170c040817be0000b096e0f855ca236cdf)
+
+## coeus-1801.0025
+* RESKC-2090: Revert fix (#2714)
+
+  * Gayathri Athreya on Wed, 17 Jan 2018 12:30:09 -0700 [View Commit](../../commit/b55b3a1ac52d73f0e59129621b075deb201c4c51)
+
+## coeus-1801.0024
 * No Changes
 
 

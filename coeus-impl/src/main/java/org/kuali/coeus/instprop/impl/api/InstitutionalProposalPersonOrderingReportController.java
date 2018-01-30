@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.coeus.instprop.impl.api;
 
 import java.time.Instant;
@@ -26,16 +35,16 @@ public class InstitutionalProposalPersonOrderingReportController extends RestCon
 	@Autowired
 	@Qualifier("institutionalProposalDao")
 	private InstitutionalProposalDao institutionalProposalDao;
-	
+
 	@RequestMapping(method= RequestMethod.GET, value="/v1/institutional-proposal-person-ordering-report/",
-        consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+			consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody List<String> generateOrderingMismatchReport(@RequestParam(required=false) Instant startDate, @RequestParam(required=false) Instant endDate) {
 		return institutionalProposalDao.getProposalsModifiedBetween(Date.from(startDate), Date.from(endDate)).stream()
-			.filter(instProp -> {
-				List<InstitutionalProposalPerson> unsortedList = new ArrayList<>(instProp.getUnsortedProjectPersons());
-				List<InstitutionalProposalPerson> sortedList = instProp.getProjectPersons();
-				return !unsortedList.equals(sortedList);
-			}).map(InstitutionalProposal::getProposalNumber).distinct().collect(Collectors.toList());
+				.filter(instProp -> {
+					List<InstitutionalProposalPerson> unsortedList = new ArrayList<>(instProp.getUnsortedProjectPersons());
+					List<InstitutionalProposalPerson> sortedList = instProp.getProjectPersons();
+					return !unsortedList.equals(sortedList);
+				}).map(InstitutionalProposal::getProposalNumber).distinct().collect(Collectors.toList());
 	}
 
 	public InstitutionalProposalDao getInstitutionalProposalDao() {
@@ -45,5 +54,5 @@ public class InstitutionalProposalPersonOrderingReportController extends RestCon
 	public void setInstitutionalProposalDao(InstitutionalProposalDao institutionalProposalDao) {
 		this.institutionalProposalDao = institutionalProposalDao;
 	}
-	
+
 }

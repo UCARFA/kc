@@ -1,3 +1,12 @@
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
+
 package org.kuali.coeus.common.budget.impl.calculator;
 
 import static org.junit.Assert.*;
@@ -28,23 +37,23 @@ public class AbstractBudgetCalculatorTest {
 		RateType type = new RateType();
 		type.setRateClassCode(AWARD_MTDC_RATE_CLASS);
 		type.setRateTypeCode(TDC_RATE_TYPE);
-		
+
 		List<BudgetRate> budgetRates = new ArrayList<>();
 		budgetRates.add(createBudgetRate(OVERHEAD_RATE_CLASS_TYPE, AWARD_MTDC_RATE_CLASS, MTDC_RATE_TYPE, true, new ScaleTwoDecimal(20.00)));
 		budgetRates.add(createBudgetRate(OVERHEAD_RATE_CLASS_TYPE, AWARD_MTDC_RATE_CLASS, MTDC_RATE_TYPE, false, new ScaleTwoDecimal(20.00)));
 		AwardBudgetExt budget = mock(AwardBudgetExt.class);
 		when(budget.getBudgetRates()).thenReturn(budgetRates);
 		when(budget.getOhRatesNonEditable()).thenReturn(true);
-		
+
 		AwardBudgetLineItemExt lineItem = new AwardBudgetLineItemExt();
 		lineItem.setOnOffCampusFlag(true);
-		
+
 		LegacyDataAdapter dataAdapter = mock(LegacyDataAdapter.class);
 		when(dataAdapter.findBySinglePrimaryKey(FandaRateType.class, MTDC_RATE_TYPE)).thenReturn(new FandaRateType());
-		
+
 		LineItemCalculator calculator = new LineItemCalculator(budget, lineItem);
 		calculator.setLegacyDataAdapter(dataAdapter);
-		
+
 		calculator.addOHBudgetLineItemCalculatedAmountForAward(type.getRateClassCode(), type, OVERHEAD_RATE_CLASS_TYPE);
 		assertEquals(0, lineItem.getBudgetCalculatedAmounts().size());
 

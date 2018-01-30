@@ -9,10 +9,12 @@ package org.kuali.coeus.common.budget.impl.core;
 
 import java.util.List;
 
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -25,8 +27,9 @@ public class BudgetPersonnelCostElementValuesFinder extends CostElementValuesFin
     private ParameterService parameterService;
 	
     @Override
-    public List<KeyValue> getKeyValues() {
-        return super.getKeyValues(getPersonnelBudgetCategoryTypeCode(), true, null);
+    public List<KeyValue> getKeyValues(ViewModel model) {
+        String unitNumber = ((ProposalBudgetForm)model).getDevelopmentProposal().getUnitNumber();
+        return super.getKeyValues(getPersonnelBudgetCategoryTypeCode(), true, null, unitNumber);
     }
     
     private String getPersonnelBudgetCategoryTypeCode() {

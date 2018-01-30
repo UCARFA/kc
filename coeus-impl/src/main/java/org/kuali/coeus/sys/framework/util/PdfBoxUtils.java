@@ -41,6 +41,10 @@ public final class PdfBoxUtils {
     private static final String VAL_END = ">";
     private static final COSName ARIAL_MT = COSName.getPDFName("ArialMT");
     private static final COSName HELVETICA = COSName.getPDFName("Helvetica");
+    private static final COSName HELVETICA_BOLD = COSName.getPDFName("Helvetica-Bold");
+    private static final COSName HELVETICA_OBLIQUE = COSName.getPDFName("Helvetica-Oblique");
+    private static final String ON_VALUES_STR = "on_values=";
+    private static final String OPTIONS_STR = "options=";
 
     private PdfBoxUtils() {
         throw new UnsupportedOperationException("do not call");
@@ -228,11 +232,13 @@ public final class PdfBoxUtils {
     }
 
     /**
-     * for some reason flattened pdfs have a font of ArialMT and Helvetica which is not available in the default resources.
+     * for some reason flattened pdfs have a font of ArialMT, Helvetica, Helvetica-Bold, or Helvetica-Oblique which is not available in the default resources.
      */
     private static void doMissingDefaultResourcesWorkaround(PDResources resources) {
         resources.put(ARIAL_MT, PDType1Font.HELVETICA);
         resources.put(HELVETICA, PDType1Font.HELVETICA);
+        resources.put(HELVETICA_BOLD, PDType1Font.HELVETICA);
+        resources.put(HELVETICA_OBLIQUE, PDType1Font.HELVETICA);
     }
 
     private static String booleanToStr(boolean value) {
@@ -413,6 +419,11 @@ public final class PdfBoxUtils {
                     outputString.append(SEPARATOR).append(partialName);
                 }
                 outputString.append(FIELD_VAL_SEPARATOR).append(fieldValue).append(COMMA_SEPARATOR);
+                if (field instanceof PDButton) {
+                    outputString.append(ON_VALUES_STR).append(((PDButton) field).getOnValues()).append(COMMA_SEPARATOR);
+                } else if (field instanceof PDChoice) {
+                    outputString.append(OPTIONS_STR).append(((PDChoice) field).getOptions()).append(COMMA_SEPARATOR);
+                }
                 outputString.append(TYPE_STR).append(field.getClass().getName());
                 LOG.info(outputString);
             }

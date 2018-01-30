@@ -10,6 +10,7 @@
 <c:set var="subAwardTemplateInfoAttributes" value="${DataDictionary.SubAwardTemplateInfo.attributes}" />
 <c:set var="attachments" value="${KualiForm.document.subAwardList[0].subAwardTemplateInfo}"/>
 <kul:tabTop tabTitle="Contacts" defaultOpen="true" tabErrorKey="document.subAwardList[0].subAwardTemplateInfo[0].invoiceOrPaymentContact*,
+                                                                document.subAwardList[0].subAwardTemplateInfo[0].irbIacucContact*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].finalStmtOfCostscontact*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].changeRequestsContact*,
                                                                 document.subAwardList[0].subAwardTemplateInfo[0].terminationContact*,
@@ -56,19 +57,35 @@
                 </td>
             </tr>
             <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.invoicesEmailed}" /></div></th>
+                <th>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.irbIacucContact}"/></div>
+                </th>
                 <td>
-                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].invoicesEmailed" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.invoicesEmailed}"  />
+                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].irbIacucContact" readOnly="${readOnly}"
+                                              attributeEntry="${subAwardTemplateInfoAttributes.irbIacucContact}"/>
                 </td>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.invoiceEmailDifferent}" /></div></th>
+                <th>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.invoiceAddressDifferent}"/></div>
+                </th>
                 <td>
-                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].invoiceEmailDifferent" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.invoiceEmailDifferent}" />
+                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].invoiceAddressDifferent"
+                                              readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.invoiceAddressDifferent}"/>
                 </td>
             </tr>
             <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.invoiceAddressDifferent}" /></div></th>
+                <th>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.invoicesEmailed}"/></div>
+                </th>
                 <td>
-                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].invoiceAddressDifferent" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.invoiceAddressDifferent}"  />
+                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].invoicesEmailed" readOnly="${readOnly}"
+                                              attributeEntry="${subAwardTemplateInfoAttributes.invoicesEmailed}"/>
+                </td>
+                <th>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.invoiceEmailDifferent}"/></div>
+                </th>
+                <td>
+                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].invoiceEmailDifferent" readOnly="${readOnly}"
+                                              attributeEntry="${subAwardTemplateInfoAttributes.invoiceEmailDifferent}"/>
                 </td>
             </tr>
         </table>
