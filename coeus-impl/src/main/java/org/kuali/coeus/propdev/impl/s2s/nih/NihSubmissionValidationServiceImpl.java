@@ -8,6 +8,8 @@
 package org.kuali.coeus.propdev.impl.s2s.nih;
 
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import gov.nih.era.svs.SubmissionValidationServiceStub;
 import gov.nih.era.svs.ValidateApplicationError;
 import gov.nih.era.svs.types.*;
@@ -45,6 +47,9 @@ import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 @Component("nihSubmissionValidationService")
 public class NihSubmissionValidationServiceImpl implements NihSubmissionValidationService {
@@ -58,10 +63,16 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
     private static final String NIH_GOV_S2S_PORT = "nih.gov.s2s.port";
     private static final String NIH_GOV_S2S_TRUSTSTORE_PASSWORD = "nih.gov.s2s.truststore.password";
     private static final String ENABLE_NIH_VALIDATION_SERVICE = "Enable_NIH_Validation_Service";
+    private static final String ENABLE_NIH_VALIDATION_SERVICE_CACHING = "Enable_NIH_Validation_Service_Caching";
     private static final String APPLICATION_PDF = "application/pdf";
 
     private static final Log LOG = LogFactory.getLog(NihSubmissionValidationServiceImpl.class);
     private static final String ERROR_NIH_VALIDATION_SERVICE_UNKNOWN = "error.nih.validation.service.unknown";
+
+    private static final Cache<Integer, ValidateApplicationResponse> REQUEST_CACHE = CacheBuilder.newBuilder()
+            .maximumSize(500)
+            .expireAfterAccess(10, TimeUnit.MINUTES)
+            .build();
 
     @Autowired
     @Qualifier("s2SConfigurationService")
@@ -70,35 +81,47 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
     @Override
     public ValidateApplicationResponse validateApplication(String xmlText, List<AttachmentData> attachments, String dunsNumber) {
 
-        final ValidateApplicationResponse response;
-
         if (StringUtils.isBlank(xmlText) || !s2SConfigurationService.getValueAsBoolean(ENABLE_NIH_VALIDATION_SERVICE)) {
-            response = new ValidateApplicationResponse();
+            return createEmptyResponse();
         } else {
-            final ValidateApplicationRequest parameters = new ValidateApplicationRequest();
-            parameters.setGrantApplicationXML(xmlText);
-
-            if (attachments != null) {
-                final List<AttachmentMetaData> attachmentMetaDatas = parameters.getAttachmentMetaData();
-                attachments.stream().map(this::toAttachmentMetaData).forEach(attachmentMetaDatas::add);
-            }
-
-            try {
-                debugLogJaxbObject(ValidateApplicationRequest.class, parameters);
-
-                response = createConfiguredService(dunsNumber).validateApplication(parameters);
-
-                debugLogJaxbObject(ValidateApplicationResponse.class, response);
-            } catch (ValidateApplicationError|SOAPFaultException validateApplicationError) {
-                throw new S2sCommunicationException(ERROR_NIH_VALIDATION_SERVICE_UNKNOWN, validateApplicationError);
+            if (!s2SConfigurationService.getValueAsBoolean(ENABLE_NIH_VALIDATION_SERVICE_CACHING)) {
+                return callValidateApplication(xmlText, attachments, dunsNumber);
+            } else {
+                try {
+                    return REQUEST_CACHE.get(Objects.hash(xmlText, attachments, dunsNumber), () -> callValidateApplication(xmlText, attachments, dunsNumber));
+                } catch (ExecutionException e) {
+                    throw new S2sCommunicationException(ERROR_NIH_VALIDATION_SERVICE_UNKNOWN, e);
+                }
             }
         }
+    }
 
-        if (response.getValidationMessageList() == null) {
-            response.setValidationMessageList(new ValidationMessageList());
+    protected ValidateApplicationResponse callValidateApplication(String xmlText, List<AttachmentData> attachments, String dunsNumber) {
+        final ValidateApplicationRequest parameters = new ValidateApplicationRequest();
+        parameters.setGrantApplicationXML(xmlText);
+
+        if (attachments != null) {
+            final List<AttachmentMetaData> attachmentMetaDatas = parameters.getAttachmentMetaData();
+            attachments.stream().map(this::toAttachmentMetaData).forEach(attachmentMetaDatas::add);
         }
 
-        return response;
+        try {
+            debugLogJaxbObject(ValidateApplicationRequest.class, parameters);
+            final ValidateApplicationResponse response = createConfiguredService(dunsNumber).validateApplication(parameters);
+            if (response.getValidationMessageList() == null) {
+                response.setValidationMessageList(new ValidationMessageList());
+            }
+            debugLogJaxbObject(ValidateApplicationResponse.class, response);
+            return response;
+        } catch (ValidateApplicationError | SOAPFaultException validateApplicationError) {
+            throw new S2sCommunicationException(ERROR_NIH_VALIDATION_SERVICE_UNKNOWN, validateApplicationError);
+        }
+    }
+
+    private ValidateApplicationResponse createEmptyResponse() {
+        final ValidateApplicationResponse emptyResponse = new ValidateApplicationResponse();
+        emptyResponse.setValidationMessageList(new ValidationMessageList());
+        return emptyResponse;
     }
 
     private AttachmentMetaData toAttachmentMetaData(AttachmentData attachment) {
@@ -125,7 +148,7 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
         }
     }
 
-    private SubmissionValidationServiceStub createConfiguredService(String dunsNumber) {
+    SubmissionValidationServiceStub createConfiguredService(String dunsNumber) {
         final Boolean multiCampusEnabled = s2SConfigurationService.getValueAsBoolean(ConfigurationConstants.MULTI_CAMPUS_ENABLED);
 
         final SubmissionValidationServiceStub applicantWebService;
