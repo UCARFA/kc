@@ -16,6 +16,7 @@
 package edu.ucar.fanda.kuali.auth;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -28,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.saml.SAMLCredential;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -51,7 +53,32 @@ import java.util.stream.Collectors;
  * authentication ID to be entered (with testing password if option enabled)
  * Handles rest API key auth without core auth enabled.
  *
- * @author Kuali Rice Team (rice.collab@kuali.org)
+ * To use an AD role with SSO authentication, create the following parameters:
+
+ USE_AD_AUTH_ROLE
+ String adAuthRole = getParameterService().getParameterValueAsString("KC-GEN", "All", "AD_AUTH_ROLE");
+
+ Create and enable USE_AD_AUTH_ROLE Parameter in Kuali.
+ Example:
+ Namespace: KC-GEN
+ Component: All
+ Application ID: KC
+ Parameter Name: USE_AD_AUTH_ROLE
+ Parameter Value: true
+ Parameter Description: Enable use of Active Directory role with AD authentication
+ Parameter Type Code: Config
+ Parameter Constraint Code: Allowed
+
+ Create AD_AUTH_ROLE Parameter in Kuali.
+ Example (Kuali Users):
+ Namespace: KC-GEN
+ Component: All
+ Application ID: KC
+ Parameter Name: Kuali Users
+ Parameter Description: Active Directory role for AD authentication
+ Parameter Type Code: Config
+ Parameter Constraint Code: Allowed
+
  */
 public class UcarLoginFilter implements Filter {
     private String loginPath;
@@ -107,7 +134,7 @@ public class UcarLoginFilter implements Filter {
         	LOG.info("Session is: " + session);
 	        if (session == null) {
 	            loginRequired(request, response, chain);	
-	            return;	
+	            return;
 	        } else {
 	            // Perform request as signed in user
 	            request = new HttpServletRequestWrapper(request) {
@@ -204,13 +231,22 @@ public class UcarLoginFilter implements Filter {
 	        	SAMLCredential credential = (SAMLCredential) springAuth.getCredentials();
 	            userNameAttr = credential.getAttributeAsString("username");            
 	            groupAttr = credential.getAttributeAsStringArray("http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
-	            
-	            for (String groupName : groupAttr) {
-	            	if (groupName.equals("Kuali Users")) {
-	            		kualiUser = true;
-	            		break;
-	            	}
-	            }
+                Boolean useADAuthRole = getParameterService().getParameterValueAsBoolean("KC-GEN", "All", "USE_AD_AUTH_ROLE");
+                String adAuthRole = getParameterService().getParameterValueAsString("KC-GEN", "All", "AD_AUTH_ROLE");
+                LOG.info("UcarLoginFilter::performLoginAttempt - useADAuthRole: " + useADAuthRole + ", adAuthRole: " + adAuthRole);
+
+                if (useADAuthRole != null && useADAuthRole && adAuthRole != null) {
+                    LOG.info("UcarLoginFilter::performLoginAttempt - Using AD Auth Role");
+                    for (String groupName : groupAttr) {
+                        if (groupName.equals(adAuthRole)) {
+                            kualiUser = true;
+                            break;
+                        }
+                    }
+                } else {
+                    LOG.info("UcarLoginFilter::performLoginAttempt - NOT using AD Auth Role");
+                    kualiUser = true;
+                }
 	            
 	        	// check principal is valid in id service            
 	        	Principal principal = auth.getPrincipalByPrincipalName(userNameAttr);
@@ -389,6 +425,10 @@ public class UcarLoginFilter implements Filter {
     protected List<Pattern> buildRestUrlRegexPatterns(String restUrlPatterns) {
         return Arrays.asList(restUrlPatterns.split(","))
         		.stream().map(Pattern::compile).collect(Collectors.toList());
-}
+    }
+
+    private ParameterService getParameterService() {
+        return KcServiceLocator.getService(ParameterService.class);
+    }
 
 }
