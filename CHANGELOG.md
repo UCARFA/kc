@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2761: Caching NIH Validation Service responses in order to avoid remote calls when S2S relevant data hasn't changed.
+  * Travis Schneeberger on Wed, 31 Jan 2018 15:08:11 -0500 [View Commit](../../commit/3fe18adbf609891783c948a5d94477bc1c495c59)
+
+## coeus-1801.0038
 * RESKC-2645: Leave feedack link parameter blank to use current XML config value by default
   * Jeff Largent on Fri, 26 Jan 2018 14:52:12 -0500 [View Commit](../../commit/9a050fd82a120a2f77c6fcef1256d2fc7994f76b)
 
