@@ -46,10 +46,12 @@ import java.io.StringWriter;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Component("nihSubmissionValidationService")
 public class NihSubmissionValidationServiceImpl implements NihSubmissionValidationService {
@@ -79,16 +81,16 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
     private S2SConfigurationService s2SConfigurationService;
 
     @Override
-    public ValidateApplicationResponse validateApplication(String xmlText, List<AttachmentData> attachments, String dunsNumber) {
+    public List<ValidationMessageDto>  validateApplication(String xmlText, List<AttachmentData> attachments, String dunsNumber) {
 
         if (StringUtils.isBlank(xmlText) || !s2SConfigurationService.getValueAsBoolean(ENABLE_NIH_VALIDATION_SERVICE)) {
-            return createEmptyResponse();
+            return Collections.emptyList();
         } else {
             if (!s2SConfigurationService.getValueAsBoolean(ENABLE_NIH_VALIDATION_SERVICE_CACHING)) {
-                return callValidateApplication(xmlText, attachments, dunsNumber);
+                return toDtos(callValidateApplication(xmlText, attachments, dunsNumber));
             } else {
                 try {
-                    return REQUEST_CACHE.get(Objects.hash(xmlText, attachments, dunsNumber), () -> callValidateApplication(xmlText, attachments, dunsNumber));
+                    return toDtos(REQUEST_CACHE.get(Objects.hash(xmlText, attachments, dunsNumber), () -> callValidateApplication(xmlText, attachments, dunsNumber)));
                 } catch (ExecutionException e) {
                     throw new S2sCommunicationException(ERROR_NIH_VALIDATION_SERVICE_UNKNOWN, e);
                 }
@@ -118,10 +120,25 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
         }
     }
 
-    private ValidateApplicationResponse createEmptyResponse() {
-        final ValidateApplicationResponse emptyResponse = new ValidateApplicationResponse();
-        emptyResponse.setValidationMessageList(new ValidationMessageList());
-        return emptyResponse;
+    private List<ValidationMessageDto> toDtos(ValidateApplicationResponse response) {
+        if (response == null || response.getValidationMessageList() == null) {
+            return Collections.emptyList();
+        } else {
+            return response.getValidationMessageList().getValidationMessage()
+                    .stream()
+                    .map(vm -> {
+                        final ValidationMessageDto dto = new ValidationMessageDto();
+                        dto.setValidationSubApplicationGroupID(vm.getValidationSubApplicationGroupID());
+                        dto.setValidationSubApplicationID(vm.getValidationSubApplicationID());
+                        dto.setValidationRuleNumber(vm.getValidationRuleNumber());
+                        dto.setValidationSeverityCode(vm.getValidationSeverityCode());
+                        dto.setValidationMessageText(vm.getValidationMessageText());
+                        dto.setValidationMessageId(vm.getValidationMessageId());
+                        dto.setFormName(vm.getFormName());
+                        return dto;
+                    })
+                    .collect(Collectors.toList());
+        }
     }
 
     private AttachmentMetaData toAttachmentMetaData(AttachmentData attachment) {

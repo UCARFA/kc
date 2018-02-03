@@ -9,12 +9,12 @@
 
 package org.kuali.coeus.propdev.impl.s2s;
 
-import gov.nih.era.svs.types.ValidationMessage;
 import org.junit.Assert;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.s2s.nih.NihValidationMapping;
+import org.kuali.coeus.propdev.impl.s2s.nih.ValidationMessageDto;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.ArrayList;
@@ -22,12 +22,12 @@ import java.util.List;
 
 public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTestBase {
 
-    public static final String WARNINGS_KEY = "pageId.sectionId.Warnings.s2s";
-    public static final String ERROR_KEY = "pageId.sectionId.Error.s2s";
-    public static final String DEFAULT_WARNINGS_KEY = "S2S Opportunity Search.Opportunity.Warnings.s2s";
-    ProposalDevelopmentGrantsGovAuditRule rule;
-    public static final String ZUKO_SAYS = "My father says Azula was born lucky. He says I was lucky to be born.";
-    public static final String BOOMI = "Boomi is a mad genius.";
+    private static final String WARNINGS_KEY = "pageId.sectionId.Warnings.s2s";
+    private static final String ERROR_KEY = "pageId.sectionId.Error.s2s";
+    private static final String DEFAULT_WARNINGS_KEY = "S2S Opportunity Search.Opportunity.Warnings.s2s";
+    private ProposalDevelopmentGrantsGovAuditRule rule;
+    private static final String ZUKO_SAYS = "My father says Azula was born lucky. He says I was lucky to be born.";
+    private static final String BOOMI = "Boomi is a mad genius.";
     private static final String ERROR_CODE = "E";
 
     @Before
@@ -39,7 +39,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
     public void convertToAuditErrorsTestEmptyCustomMessage() {
         rule = new ProposalDevelopmentGrantsGovAuditRule() {
             @Override
-            protected List<NihValidationMapping> getNihValidationMappings(ValidationMessage msg) {
+            protected List<NihValidationMapping> getNihValidationMappings(ValidationMessageDto msg) {
                 List<NihValidationMapping> mappings = new ArrayList<>();
                 NihValidationMapping mapping1 = new NihValidationMapping();
                 mapping1.setRuleNumber("000.28");
@@ -54,7 +54,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
             }
         };
 
-        ValidationMessage msg = new ValidationMessage();
+        ValidationMessageDto msg = new ValidationMessageDto();
         msg.setValidationRuleNumber("000.28");
         msg.setValidationMessageId(100);
         msg.setValidationMessageText(ZUKO_SAYS);
@@ -62,10 +62,10 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
         msg.setFormName("SF424");
         msg.setValidationMessageId(1);
 
-        List<ValidationMessage> errors = new ArrayList<>();
+        List<ValidationMessageDto> errors = new ArrayList<>();
         errors.add(msg);
 
-        List<ValidationMessage> warnings = new ArrayList<>();
+        List<ValidationMessageDto> warnings = new ArrayList<>();
         rule.convertToAuditErrors(errors, warnings);
         Assert.assertFalse(rule.getGlobalVariableService().getAuditErrorMap().isEmpty());
         Assert.assertTrue(rule.getGlobalVariableService().getAuditErrorMap().get(WARNINGS_KEY) == null);
@@ -80,7 +80,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
     public void convertToAuditErrorsTestWithCustomMessageAppend() {
         rule = new ProposalDevelopmentGrantsGovAuditRule() {
             @Override
-            protected List<NihValidationMapping> getNihValidationMappings(ValidationMessage msg) {
+            protected List<NihValidationMapping> getNihValidationMappings(ValidationMessageDto msg) {
                 List<NihValidationMapping> mappings = new ArrayList<>();
                 NihValidationMapping mapping1 = new NihValidationMapping();
                 mapping1.setRuleNumber("000.28");
@@ -94,7 +94,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
             }
         };
 
-        ValidationMessage msg = new ValidationMessage();
+        ValidationMessageDto msg = new ValidationMessageDto();
         msg.setValidationRuleNumber("000.28");
         msg.setValidationMessageId(100);
         msg.setValidationMessageText(ZUKO_SAYS);
@@ -102,10 +102,10 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
         msg.setFormName("SF424");
         msg.setValidationMessageId(1);
 
-        List<ValidationMessage> errors = new ArrayList<>();
+        List<ValidationMessageDto> errors = new ArrayList<>();
         errors.add(msg);
 
-        List<ValidationMessage> warnings = new ArrayList<>();
+        List<ValidationMessageDto> warnings = new ArrayList<>();
         rule.convertToAuditErrors(errors, warnings);
         Assert.assertFalse(rule.getGlobalVariableService().getAuditErrorMap().isEmpty());
         Assert.assertTrue(rule.getGlobalVariableService().getAuditErrorMap().get(WARNINGS_KEY) == null);
@@ -119,7 +119,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
     public void convertToAuditErrorsTestWithCustomMessageDoNotAppend() {
         rule = new ProposalDevelopmentGrantsGovAuditRule() {
             @Override
-            protected List<NihValidationMapping> getNihValidationMappings(ValidationMessage msg) {
+            protected List<NihValidationMapping> getNihValidationMappings(ValidationMessageDto msg) {
                 List<NihValidationMapping> mappings = new ArrayList<>();
                 NihValidationMapping mapping1 = new NihValidationMapping();
                 mapping1.setRuleNumber("000.1.1.0");
@@ -133,9 +133,9 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
             }
         };
 
-        List<ValidationMessage> errors = new ArrayList<>();
+        List<ValidationMessageDto> errors = new ArrayList<>();
 
-        ValidationMessage warn1 = new ValidationMessage();
+        ValidationMessageDto warn1 = new ValidationMessageDto();
         warn1.setValidationRuleNumber("000.1.1.0");
         warn1.setValidationMessageId(300);
         warn1.setValidationMessageText(ZUKO_SAYS);
@@ -143,7 +143,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
         warn1.setValidationMessageId(3);
         warn1.setFormName("SF424");
 
-        List<ValidationMessage> warnings = new ArrayList<>();
+        List<ValidationMessageDto> warnings = new ArrayList<>();
         warnings.add(warn1);
         rule.convertToAuditErrors(errors, warnings);
         Assert.assertFalse(rule.getGlobalVariableService().getAuditErrorMap().isEmpty());
@@ -160,7 +160,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
     public void convertToAuditErrorsTestWithCustomMessageDoNotAppendUpgradeToError() {
         rule = new ProposalDevelopmentGrantsGovAuditRule() {
             @Override
-            protected List<NihValidationMapping> getNihValidationMappings(ValidationMessage msg) {
+            protected List<NihValidationMapping> getNihValidationMappings(ValidationMessageDto msg) {
                 List<NihValidationMapping> mappings = new ArrayList<>();
                 NihValidationMapping mapping1 = new NihValidationMapping();
                 mapping1.setRuleNumber("000.1.1.0");
@@ -175,9 +175,9 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
             }
         };
 
-        List<ValidationMessage> errors = new ArrayList<>();
+        List<ValidationMessageDto> errors = new ArrayList<>();
 
-        ValidationMessage warn1 = new ValidationMessage();
+        ValidationMessageDto warn1 = new ValidationMessageDto();
         warn1.setValidationRuleNumber("000.1.1.0");
         warn1.setValidationMessageId(300);
         warn1.setValidationMessageText(ZUKO_SAYS);
@@ -185,7 +185,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
         warn1.setValidationMessageId(3);
         warn1.setFormName("SF424");
 
-        List<ValidationMessage> warnings = new ArrayList<>();
+        List<ValidationMessageDto> warnings = new ArrayList<>();
         warnings.add(warn1);
         rule.convertToAuditErrors(errors, warnings);
         Assert.assertFalse(rule.getGlobalVariableService().getAuditErrorMap().isEmpty());
@@ -202,7 +202,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
     public void convertToAuditErrorsTestWithCustomMessageDoNotAppendEmptyPageId() {
         rule = new ProposalDevelopmentGrantsGovAuditRule() {
             @Override
-            protected List<NihValidationMapping> getNihValidationMappings(ValidationMessage msg) {
+            protected List<NihValidationMapping> getNihValidationMappings(ValidationMessageDto msg) {
                 List<NihValidationMapping> mappings = new ArrayList<>();
                 NihValidationMapping mapping1 = new NihValidationMapping();
                 mapping1.setRuleNumber("000.1.1.0");
@@ -216,9 +216,9 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
             }
         };
 
-        List<ValidationMessage> errors = new ArrayList<>();
+        List<ValidationMessageDto> errors = new ArrayList<>();
 
-        ValidationMessage warn1 = new ValidationMessage();
+        ValidationMessageDto warn1 = new ValidationMessageDto();
         warn1.setValidationRuleNumber("000.1.1.0");
         warn1.setValidationMessageId(300);
         warn1.setValidationMessageText(ZUKO_SAYS);
@@ -226,7 +226,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest extends KcIntegrationTest
         warn1.setValidationMessageId(3);
         warn1.setFormName("SF424");
 
-        List<ValidationMessage> warnings = new ArrayList<>();
+        List<ValidationMessageDto> warnings = new ArrayList<>();
         warnings.add(warn1);
         rule.convertToAuditErrors(errors, warnings);
         Assert.assertFalse(rule.getGlobalVariableService().getAuditErrorMap().isEmpty());

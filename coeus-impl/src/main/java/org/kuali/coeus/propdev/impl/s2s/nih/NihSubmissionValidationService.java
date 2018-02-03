@@ -7,7 +7,6 @@
  */
 package org.kuali.coeus.propdev.impl.s2s.nih;
 
-import gov.nih.era.svs.types.*;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 
 import java.util.List;
@@ -21,8 +20,8 @@ public interface NihSubmissionValidationService {
      * @param xmlText the xml that the s2s generators created.
      * @param attachments any attachments in the s2s submission
      * @param dunsNumber an optional duns number
-     * @return a validation response.  In the case that this service is not enabled or a blank xmlText is passed in an
-     * empty response will be returned
+     * @return a list of validation messages.  In the case that this service is not enabled or a blank xmlText is passed in an
+     * empty list will be returned
      */
-    ValidateApplicationResponse validateApplication(String xmlText, List<AttachmentData> attachments, String dunsNumber);
+    List<ValidationMessageDto> validateApplication(String xmlText, List<AttachmentData> attachments, String dunsNumber);
 }

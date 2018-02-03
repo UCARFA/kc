@@ -7,8 +7,6 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
-import gov.nih.era.svs.types.ValidateApplicationResponse;
-import gov.nih.era.svs.types.ValidationMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,6 +15,7 @@ import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.propdev.impl.s2s.nih.NihSubmissionValidationService;
 import org.kuali.coeus.propdev.impl.s2s.nih.NihValidationMapping;
 import org.kuali.coeus.propdev.impl.s2s.nih.NihValidationServiceUtils;
+import org.kuali.coeus.propdev.impl.s2s.nih.ValidationMessageDto;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -119,23 +118,20 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         boolean result;
 
         try {
-            final ValidateApplicationResponse response = getNihSubmissionValidationService().validateApplication(applicationXml, attachments, dunsNumber);
-            result = response.getValidationMessageList().getValidationMessage().isEmpty();
+            final List<ValidationMessageDto> response = getNihSubmissionValidationService().validateApplication(applicationXml, attachments, dunsNumber);
+            result = response.isEmpty();
 
-            final List<ValidationMessage> errors = response.getValidationMessageList().getValidationMessage()
-                    .stream()
+            final List<ValidationMessageDto> errors = response.stream()
                     .filter(msg -> ERROR_CODE.equals(msg.getValidationSeverityCode()))
                     .filter(msg -> !SCHEMA_ERROR_RULE_NUMBER.equals(msg.getValidationRuleNumber()))
                     .collect(Collectors.toList());
 
-            final List<ValidationMessage> warnings = response.getValidationMessageList().getValidationMessage()
-                    .stream()
+            final List<ValidationMessageDto> warnings = response.stream()
                     .filter(msg -> !ERROR_CODE.equals(msg.getValidationSeverityCode()))
                     .filter(msg -> !SCHEMA_ERROR_RULE_NUMBER.equals(msg.getValidationRuleNumber()))
                     .collect(Collectors.toList());
 
-            final boolean schemaFailure = response.getValidationMessageList().getValidationMessage()
-                    .stream()
+            final boolean schemaFailure = response.stream()
                     .anyMatch(msg -> SCHEMA_ERROR_RULE_NUMBER.equals(msg.getValidationRuleNumber()));
 
             convertToAuditErrors(errors, warnings);
@@ -153,7 +149,7 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         return result;
     }
 
-    protected void convertToAuditErrors(List<ValidationMessage> errors, List<ValidationMessage> warnings) {
+    protected void convertToAuditErrors(List<ValidationMessageDto> errors, List<ValidationMessageDto> warnings) {
         sortMessages(errors).forEach(error -> addToAuditErrors(error, getNihValidationMappings(error), ERROR));
 
         sortMessages(warnings).forEach(warning -> {
@@ -163,7 +159,7 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         });
     }
 
-    protected void addToAuditErrors(ValidationMessage error, List<NihValidationMapping> mapping, String errorType) {
+    protected void addToAuditErrors(ValidationMessageDto error, List<NihValidationMapping> mapping, String errorType) {
         String pageId;
         String sectionId;
         if (mapping.isEmpty() || StringUtils.isEmpty(mapping.get(0).getPageId())) {
@@ -176,28 +172,28 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         getAuditErrors(pageId, sectionId, VALIDATION_SERVICE, errorType).add(getCustomizedAuditError(error));
     }
 
-    protected Stream<ValidationMessage> sortMessages(List<ValidationMessage> messages) {
-        final Comparator<ValidationMessage> comparator = Comparator.comparing(ValidationMessage::getFormName)
-                .thenComparing(ValidationMessage::getValidationRuleNumber)
-                .thenComparingInt(ValidationMessage::getValidationMessageId)
-                .thenComparing(ValidationMessage::getValidationMessageText);
+    protected Stream<ValidationMessageDto> sortMessages(List<ValidationMessageDto> messages) {
+        final Comparator<ValidationMessageDto> comparator = Comparator.comparing(ValidationMessageDto::getFormName)
+                .thenComparing(ValidationMessageDto::getValidationRuleNumber)
+                .thenComparingInt(ValidationMessageDto::getValidationMessageId)
+                .thenComparing(ValidationMessageDto::getValidationMessageText);
 
         return messages.stream()
                 .sorted(comparator);
     }
 
-    protected org.kuali.rice.krad.util.AuditError getCustomizedAuditError(ValidationMessage msg) {
+    protected org.kuali.rice.krad.util.AuditError getCustomizedAuditError(ValidationMessageDto msg) {
         return createAuditErrorBasedOnMapping(msg, getNihValidationMappings(msg));
     }
 
-    protected List<NihValidationMapping> getNihValidationMappings(ValidationMessage msg) {
+    protected List<NihValidationMapping> getNihValidationMappings(ValidationMessageDto msg) {
         Map<String, Object> criteria = new HashMap<>();
         criteria.put(RULE_NUMBER, msg.getValidationRuleNumber());
         criteria.put(ACTIVE, Boolean.TRUE);
         return (List<NihValidationMapping>) getBusinessObjectService().findMatching(NihValidationMapping.class, criteria);
     }
 
-    protected org.kuali.rice.krad.util.AuditError createAuditErrorBasedOnMapping(ValidationMessage msg, List<NihValidationMapping> matches) {
+    protected org.kuali.rice.krad.util.AuditError createAuditErrorBasedOnMapping(ValidationMessageDto msg, List<NihValidationMapping> matches) {
         if (matches.isEmpty()) {
             return new org.kuali.rice.krad.util.AuditError(
                     Constants.S2S_PAGE_ID, Constants.GRANTS_GOV_GENERIC_ERROR_KEY, StringUtils.EMPTY,

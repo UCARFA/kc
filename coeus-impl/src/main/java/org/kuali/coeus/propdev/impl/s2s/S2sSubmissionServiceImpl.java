@@ -26,6 +26,7 @@ import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.propdev.impl.s2s.nih.NihSubmissionValidationService;
+import org.kuali.coeus.propdev.impl.s2s.nih.ValidationMessageDto;
 import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.api.generate.FormGenerationResult;
@@ -328,8 +329,8 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         if (result.isValid()) {
 
             try {
-                final ValidateApplicationResponse response = nihSubmissionValidationService.validateApplication(result.getApplicationXml(), result.getAttachments(), pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber());
-                result.setValid(response.getValidationMessageList().getValidationMessage().isEmpty());
+                final List<ValidationMessageDto> response = nihSubmissionValidationService.validateApplication(result.getApplicationXml(), result.getAttachments(), pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getDunsNumber());
+                result.setValid(response.isEmpty());
             } catch (S2sCommunicationException ex) {
                 result.setValid(false);
                 LOG.error("Error validating with nih.gov", ex);
@@ -427,9 +428,9 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      * @return GregorianCalendar with the time set to the last second of the day.
      */
     private GregorianCalendar endOfDay(GregorianCalendar date) {
-        date.set(date.HOUR_OF_DAY, 23);
-        date.set(date.MINUTE, 59);
-        date.set(date.SECOND, 59);
+        date.set(Calendar.HOUR_OF_DAY, 23);
+        date.set(Calendar.MINUTE, 59);
+        date.set(Calendar.SECOND, 59);
         return date;
     }
 
