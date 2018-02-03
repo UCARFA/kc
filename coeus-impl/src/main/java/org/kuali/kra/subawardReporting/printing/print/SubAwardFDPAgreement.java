@@ -21,6 +21,7 @@ import static org.kuali.coeus.sys.framework.util.PdfBoxUtils.setField;
 public class SubAwardFDPAgreement extends SubawardFdp {
 
 
+    @Override
     protected void setSubrecipientInfo(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail) {
         if (StringUtils.isNotBlank(subcontractDetail.getSubcontractorName())) {
             setField(document, AgreementPdf.Field.SUBRECIPIENT.getfName(), subcontractDetail.getSubcontractorName());
@@ -36,6 +37,7 @@ public class SubAwardFDPAgreement extends SubawardFdp {
 
     }
 
+    @Override
     protected void setPteInfo(PDDocument document, SubContractDataDocument xmlObject) {
 
         final SubContractDataDocument.SubContractData.PrimeRecipientContacts primeRecipientContacts = xmlObject.getSubContractData().getPrimeRecipientContacts() != null ? xmlObject.getSubContractData().getPrimeRecipientContacts() : SubContractDataDocument.SubContractData.PrimeRecipientContacts.Factory.newInstance();
@@ -50,6 +52,7 @@ public class SubAwardFDPAgreement extends SubawardFdp {
         }
     }
 
+    @Override
     protected void setAwardSubawardNumbers(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail, AwardType award) {
 
         if (award.getAwardDetails() != null && award.getAwardDetails().getAwardHeader() != null && StringUtils.isNotBlank(award.getAwardDetails().getAwardHeader().getSponsorAwardNumber())) {
@@ -61,12 +64,14 @@ public class SubAwardFDPAgreement extends SubawardFdp {
         }
     }
 
+    @Override
     protected void setTitle(PDDocument document, AwardType award) {
         if (award.getAwardDetails() != null && award.getAwardDetails().getAwardHeader() != null && StringUtils.isNotBlank(award.getAwardDetails().getAwardHeader().getTitle())) {
             setField(document, AgreementPdf.Field.PROJECT_TITLE.getfName(), award.getAwardDetails().getAwardHeader().getTitle());
         }
     }
 
+    @Override
     protected void setDates(PDDocument document, SubContractDataDocument xmlObject) {
         final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
         final SubContractDataDocument.SubContractData.SubcontractAmountInfo amountInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractAmountInfoArray()) ? xmlObject.getSubContractData().getSubcontractAmountInfoArray()[0] : SubContractDataDocument.SubContractData.SubcontractAmountInfo.Factory.newInstance();
@@ -90,6 +95,7 @@ public class SubAwardFDPAgreement extends SubawardFdp {
         }
     }
 
+    @Override
     protected void setAmounts(PDDocument document, SubContractDataDocument xmlObject) {
         final SubContractDataDocument.SubContractData.SubcontractAmountInfo amountInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractAmountInfoArray()) ? xmlObject.getSubContractData().getSubcontractAmountInfoArray()[0] : SubContractDataDocument.SubContractData.SubcontractAmountInfo.Factory.newInstance();
 
@@ -102,41 +108,48 @@ public class SubAwardFDPAgreement extends SubawardFdp {
         }
     }
 
+    @Override
     protected void setTermsAndConditions(PDDocument document, SubContractDataDocument xmlObject) {
         final SubContractDataDocument.SubContractData.OtherConfigInfo configInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getOtherConfigInfoArray()) ? xmlObject.getSubContractData().getOtherConfigInfoArray(0) : SubContractDataDocument.SubContractData.OtherConfigInfo.Factory.newInstance();
         final SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractTemplateInfoArray()) ? xmlObject.getSubContractData().getSubcontractTemplateInfoArray(0) : SubContractDataDocument.SubContractData.SubcontractTemplateInfo.Factory.newInstance();
 
-        setField(document, AgreementPdf.Field.TERM_2_CONTACT.getfName(), "");
-        if (StringUtils.isNotBlank(templateInfo.getInvoiceOrPaymentContactDescription())) {
-            setField(document, AgreementPdf.Field.TERM_2_CONTACT.getfName(), templateInfo.getInvoiceOrPaymentContactDescription());
-        }
+        final SubContractDataDocument.SubContractData.PrimeAuthorizedOfficial primeAuthorizedOfficial = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getPrimeAuthorizedOfficialArray()) ? xmlObject.getSubContractData().getPrimeAuthorizedOfficialArray()[0] : SubContractDataDocument.SubContractData.PrimeAuthorizedOfficial.Factory.newInstance();
+        final PersonDetailsType primePrincipalInvestigator = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getPrimePrincipalInvestigatorArray()) ? xmlObject.getSubContractData().getPrimePrincipalInvestigatorArray()[0] : PersonDetailsType.Factory.newInstance();
+        final SubContractDataDocument.SubContractData.PrimeAdministrativeContact primeAdministrativeContact = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getPrimeAdministrativeContactArray()) ? xmlObject.getSubContractData().getPrimeAdministrativeContactArray()[0] : SubContractDataDocument.SubContractData.PrimeAdministrativeContact.Factory.newInstance();
+        final SubContractDataDocument.SubContractData.PrimeFinancialContact primeFinancialContact = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getPrimeFinancialContactArray()) ? xmlObject.getSubContractData().getPrimeFinancialContactArray()[0] : SubContractDataDocument.SubContractData.PrimeFinancialContact.Factory.newInstance();
 
-        setField(document, AgreementPdf.Field.TERM_3_CONTACT.getfName(), "");
-        if (StringUtils.isNotBlank(templateInfo.getFinalStmtOfCostsContactDescription())) {
-            setField(document, AgreementPdf.Field.TERM_3_CONTACT.getfName(), templateInfo.getFinalStmtOfCostsContactDescription());
-        }
+        setField(document, AgreementPdf.Field.TERM_2_CONTACT.getfName(), getTermContactFromCode(templateInfo.getInvoiceOrPaymentContactCd(), primeAuthorizedOfficial, primePrincipalInvestigator, primeAdministrativeContact, primeFinancialContact));
+        setField(document, AgreementPdf.Field.TERM_3_CONTACT.getfName(), getTermContactFromCode(templateInfo.getFinalStmtOfCostsContactCd(), primeAuthorizedOfficial, primePrincipalInvestigator, primeAdministrativeContact, primeFinancialContact));
 
         if (StringUtils.isNotBlank(templateInfo.getFinalStatementDueCd())) {
-            setField(document, AgreementPdf.Field.PROJECT_BUDGET_INVOICE_DROPDOWN.getfName(), FinalStatementDue.PTE.getCode().equals(templateInfo.getFinalStatementDueCd()) ? AgreementPdf.PROJECT_PERIOD_END_DATE_VALUE : AgreementPdf.BUDGET_PERIOD_END_DATE_VALUE);
+            setField(document, AgreementPdf.Field.PROJECT_BUDGET_INVOICE_DROPDOWN.getfName(), FinalStatementDue.PTE.getCode().equals(templateInfo.getFinalStatementDueCd()) ? AgreementPdf.Field.PROJECT_PERIOD_END_DATE_VALUE : AgreementPdf.Field.BUDGET_PERIOD_END_DATE_VALUE);
         }
 
-        setField(document, AgreementPdf.Field.TERM_6_CONTACT.getfName(), "");
-        if (StringUtils.isNotBlank(templateInfo.getChangeRequestsContactDescription())) {
-            setField(document, AgreementPdf.Field.TERM_6_CONTACT.getfName(), templateInfo.getChangeRequestsContactDescription());
-        }
-
-        setField(document, AgreementPdf.Field.UNI_BI_MOD_DROPOWN.getfName(), configInfo.getFdpSubawardBilateralAgreements() ? AgreementPdf.BILATERALLY_VALUE : AgreementPdf.UNILATERALLY_VALUE);
-
-        setField(document, AgreementPdf.Field.TERM_7_CONTACT.getfName(), "");
-        if (StringUtils.isNotBlank(templateInfo.getChangeRequestsContactDescription())) {
-            setField(document, AgreementPdf.Field.TERM_7_CONTACT.getfName(), templateInfo.getChangeRequestsContactDescription());
-        }
-
-        setField(document, AgreementPdf.Field.TERM_9_CONTACT.getfName(), "");
-        if (StringUtils.isNotBlank(templateInfo.getTerminationContactDescription())) {
-            setField(document, AgreementPdf.Field.TERM_9_CONTACT.getfName(), templateInfo.getTerminationContactDescription());
-        }
+        setField(document, AgreementPdf.Field.TERM_6_CONTACT.getfName(), getTermContactFromCode(templateInfo.getChangeRequestsContactCd(), primeAuthorizedOfficial, primePrincipalInvestigator, primeAdministrativeContact, primeFinancialContact));
+        setField(document, AgreementPdf.Field.UNI_BI_MOD_DROPOWN.getfName(), configInfo.getFdpSubawardBilateralAgreements() ? AgreementPdf.Field.BILATERALLY_VALUE : AgreementPdf.Field.UNILATERALLY_VALUE);
+        setField(document, AgreementPdf.Field.TERM_7_CONTACT.getfName(), getTermContactFromCode(templateInfo.getChangeRequestsContactCd(), primeAuthorizedOfficial, primePrincipalInvestigator, primeAdministrativeContact, primeFinancialContact));
+        setField(document, AgreementPdf.Field.TERM_9_CONTACT.getfName(), getTermContactFromCode(templateInfo.getTerminationContactCd(), primeAuthorizedOfficial, primePrincipalInvestigator, primeAdministrativeContact, primeFinancialContact));
     }
 
+
+    private String getTermContactFromCode(String contactCode,
+                                          SubContractDataDocument.SubContractData.PrimeAuthorizedOfficial primeAuthorizedOfficial, PersonDetailsType primePrincipalInvestigator,
+                                          SubContractDataDocument.SubContractData.PrimeAdministrativeContact primeAdministrativeContact, SubContractDataDocument.SubContractData.PrimeFinancialContact primeFinancialContact) {
+        final String termContact;
+        if (StringUtils.isBlank(contactCode)) {
+            termContact = "";
+        } else if (contactCode.equals(primeAuthorizedOfficial.getContactTypeCode())) {
+            termContact = AgreementPdf.Field.TERM_CONTACT_AUTH;
+        } else if (contactCode.equals("?")) {
+            termContact = AgreementPdf.Field.TERM_CONTACT_PI;
+        } else if (contactCode.equals(primeAdministrativeContact.getContactTypeCode())) {
+            termContact = AgreementPdf.Field.TERM_CONTACT_ADMIN;
+        } else if (contactCode.equals(primeFinancialContact.getContactTypeCode())) {
+            termContact = AgreementPdf.Field.TERM_CONTACT_FINANCIAL;
+        } else {
+            termContact = "";
+        }
+        return termContact;
+    }
 
 }

@@ -47,8 +47,6 @@ import org.kuali.rice.location.api.state.StateService;
 import java.math.BigDecimal;
 import java.util.*;
 
-
-
 public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private static final String ORGANIZATION_ID = "organizationId";
     private static final String FDP_ORG_FROM_REQUISITIONER_UNIT = "FDP_ORG_FROM_REQUISITIONER_UNIT";
@@ -66,10 +64,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     public static final String FCOI = "fcoi";
     public static final String FAIN = "fain";
     public static final String FFATA = "ffata";
-    public static final String RANDD = "randd";
-    public static final String COSTSHARE = "costshare";
     public static final String PRIME_SPONSOR_NAME = "primeSponsorName";
     public static final String NOTICE_DATE = "noticeDate";
+    public static final String FED_AWARD_DATE = "fedAwardDate";
     public static final String OBLIGATED_TOTAL = "obligatedTotal";
     public static final String ANTICIPATED_TOTAL = "anticipatedTotal";
     public static final String INVOICES_EMAILED = "invoicesEmailed";
@@ -155,13 +152,12 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private String modificationType;
     private Boolean fcoi;
     private Boolean ffata;
-    private Boolean randd;
-    private Boolean costshare;
     private Boolean invoicesEmailed;
     private Boolean invoiceAddressDifferent;
     private Boolean invoiceEmailDifferent;
     private String primeSponsorName;
     private Calendar noticeDate;
+    private Calendar fedAwardDate;
     private BigDecimal obligatedTotal;
     private BigDecimal anticipatedTotal;
     private List<SubAwardForms> sponsorTemplates;
@@ -182,13 +178,12 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         this.fcoi = (Boolean) reportParameters.get(FCOI);
         this.fain = (String) reportParameters.get(FAIN);
         this.ffata = (Boolean) reportParameters.get(FFATA);
-        this.randd = (Boolean) reportParameters.get(RANDD);
-        this.costshare = (Boolean) reportParameters.get(COSTSHARE);
         this.invoicesEmailed = (Boolean) reportParameters.get(INVOICES_EMAILED);
         this.invoiceAddressDifferent = (Boolean) reportParameters.get(INVOICE_ADDRESS_DIFFERENT);
         this.invoiceEmailDifferent = (Boolean) reportParameters.get(INVOICE_EMAIL_DIFFERENT);
         this.primeSponsorName = (String) reportParameters.get(PRIME_SPONSOR_NAME);
         this.noticeDate = (Calendar) reportParameters.get(NOTICE_DATE);
+        this.fedAwardDate = (Calendar) reportParameters.get(FED_AWARD_DATE);
         this.obligatedTotal = (BigDecimal) reportParameters.get(OBLIGATED_TOTAL);
         this.anticipatedTotal = (BigDecimal) reportParameters.get(ANTICIPATED_TOTAL);
 
@@ -198,7 +193,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         setOtherConfigInfo(subContractData);
 
         setSubcontractTemplateInfo(subContractData,subaward);
-        setFundingSource(subContractData);
         setSubcontractDetail(subContractData,subaward);
         setSubcontractAmountInfo(subContractData,subaward);
         setAwardHeader(subContractData);
@@ -435,24 +429,24 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             Collection<ContactType> contact = getBusinessObjectService().findAll(ContactType.class);
             for(ContactType contactType : contact){
                 if(subawardTemplate.getInvoiceOrPaymentContact()!= null && contactType.getContactTypeCode().equals(subawardTemplate.getInvoiceOrPaymentContact().toString())) {
-                    subContractTemplateInfo.setInvoiceOrPaymentContactDescription(contactType.getDescription());
+                    subContractTemplateInfo.setInvoiceOrPaymentContactCd(contactType.getContactTypeCode());
                 }
 
                 if (subawardTemplate.getIrbIacucContact() != null && contactType.getContactTypeCode().equals(subawardTemplate.getIrbIacucContact().toString())) {
-                    subContractTemplateInfo.setIrbIacucContactDescription(contactType.getDescription());
+                    subContractTemplateInfo.setIrbIacucContactCd(contactType.getContactTypeCode());
                 }
 
                 if(subawardTemplate.getFinalStmtOfCostscontact()!=null && contactType.getContactTypeCode().equals(subawardTemplate.getFinalStmtOfCostscontact().toString())) {
-                    subContractTemplateInfo.setFinalStmtOfCostsContactDescription(contactType.getDescription());
+                    subContractTemplateInfo.setFinalStmtOfCostsContactCd(contactType.getContactTypeCode());
                 }
                 if(subawardTemplate.getChangeRequestsContact()!= null && contactType.getContactTypeCode().equals(subawardTemplate.getChangeRequestsContact().toString())) {
-                    subContractTemplateInfo.setChangeRequestsContactDescription(contactType.getDescription());
+                    subContractTemplateInfo.setChangeRequestsContactCd(contactType.getContactTypeCode());
                 }
                 if(subawardTemplate.getTerminationContact()!= null && contactType.getContactTypeCode().equals(subawardTemplate.getTerminationContact().toString())) {
-                    subContractTemplateInfo.setTerminationContactDescription(contactType.getDescription());
+                    subContractTemplateInfo.setTerminationContactCd(contactType.getContactTypeCode());
                 }
                 if(subawardTemplate.getNoCostExtensionContact() != null && contactType.getContactTypeCode().equals(subawardTemplate.getNoCostExtensionContact().toString())) {
-                    subContractTemplateInfo.setNoCostExtensionContactDescription(contactType.getDescription());
+                    subContractTemplateInfo.setNoCostExtensionContactCd(contactType.getContactTypeCode());
                 }
             }
             subContractTemplateInfo.setExemptFromRprtgExecComp(subawardTemplate.getExemptFromRprtgExecComp());
@@ -480,26 +474,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             if(subawardTemplate.getTreatmentPrgmIncomeAdditive() != null) {
                 subContractTemplateInfo.setTreatmentPrgmIncomeAdditive(subawardTemplate.getTreatmentPrgmIncomeAdditive());
             }
-            if(subawardTemplate.getApplicableProgramRegulations() != null) {
-                subContractTemplateInfo.setApplicableProgramRegulations(subawardTemplate.getApplicableProgramRegulations());
-            }
-            if(subawardTemplate.getApplicableProgramRegsDate() != null) {
-                subContractTemplateInfo.setApplicableProgramRegsDate(getDateTimeService().getCalendar(subawardTemplate.getApplicableProgramRegsDate()));
-            }
-            if(subawardTemplate.getCarryForwardRequestsSentTo() != null) {
-                ContactType contactTypeCode = getBusinessObjectService().findBySinglePrimaryKey(ContactType.class, subawardTemplate.getCarryForwardRequestsSentTo());
-                if(contactTypeCode.getDescription() != null) {
-                    subContractTemplateInfo.setCarryForwardRequestsSentToDescription(contactTypeCode.getDescription());
-                    subContractTemplateInfo.setCarryForwardRequestsSentTo(contactTypeCode.getContactTypeCode());
-                }
-
-            }
 
             subContractTemplateInfo.setRAndD(toFlag(subawardTemplate.getrAndD()));
-            subContractTemplateInfo.setIncludesCostSharing(toFlag(subawardTemplate.getIncludesCostSharing()));
-            subContractTemplateInfo.setFcio(toFlag(subawardTemplate.getFcio()));
-            subContractTemplateInfo.setInvoicesEmailed(toFlag(subawardTemplate.getInvoicesEmailed()));
-            subContractTemplateInfo.setInvoiceAddressDifferent(toFlag(subawardTemplate.getInvoiceAddressDifferent()));
 
             if (subawardTemplate.getFcioSubrecPolicyCd() != null) {
                 subContractTemplateInfo.setFcioSubrecPolicyCd(subawardTemplate.getFcioSubrecPolicyCd());
@@ -560,15 +536,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         subContractData.setSubcontractTemplateInfoArray(templateDataList.toArray(new SubcontractTemplateInfo[0]));
     }
 
-    public void setFundingSource(SubContractData subContractData) {
-        FundingSource fundingSource = FundingSource.Factory.newInstance();
-        List<FundingSource> fundingSourceList = new ArrayList<>();
-        fundingSource.setAwardNumber(awardNumber);
-        fundingSource.setSponsor(sponsorName);
-        fundingSourceList.add(fundingSource);
-        subContractData.setFundingSourceArray(fundingSourceList.toArray(new FundingSource[0]));
-    }
-
     public void setSubcontractDetail(SubContractData subContractData, SubAward subaward) {
         SubcontractDetail subcontractDetail = SubcontractDetail.Factory.newInstance();
         RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
@@ -595,7 +562,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         }
         subcontractDetail.setPONumber(subaward.getPurchaseOrderNum());
         subcontractDetail.setFsrsSubawardNumber(subaward.getFsrsSubawardNumber());
-        subcontractDetail.setSubContractCode(subaward.getSubAwardCode());
         if (subaward.getOrganization() != null){
             subcontractDetail.setSubcontractorName(subaward.getOrganization().getOrganizationName());
             rolodexDetailsType.setAddress1(subaward.getOrganization().getRolodex().getAddressLine1());
@@ -635,14 +601,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             subcontractDetail.setFFATA(toFlag(ffata));
         }
 
-        if (randd != null) {
-            subcontractDetail.setRANDD(toFlag(randd));
-        }
-
-        if (costshare != null) {
-            subcontractDetail.setCOSTSHARE(toFlag(costshare));
-        }
-
         subContractData.setSubcontractDetail(subcontractDetail);
     }
 
@@ -675,9 +633,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             if (lastSubAwardAmountInfo.getObligatedChange() != null) {
                 subContractAmountInfo.setObligatedChange(lastSubAwardAmountInfo.getObligatedChange().bigDecimalValue());
             }
-            if (lastSubAwardAmountInfo.getAnticipatedChange() != null) {
-                subContractAmountInfo.setAnticipatedChange(lastSubAwardAmountInfo.getAnticipatedChange().bigDecimalValue());
-            }
+
             if (lastSubAwardAmountInfo.getObligatedChangeDirect() != null) {
                 subContractAmountInfo.setObligatedChangeDirect(lastSubAwardAmountInfo.getObligatedChangeDirect().bigDecimalValue());
                 subContractAmountInfo.setObligatedChange(lastSubAwardAmountInfo.getObligatedChangeDirect().bigDecimalValue());
@@ -686,15 +642,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 subContractAmountInfo.setObligatedChangeIndirect(lastSubAwardAmountInfo.getObligatedChangeIndirect().bigDecimalValue());
                 subContractAmountInfo.setObligatedChange(subContractAmountInfo.getObligatedChange().add(lastSubAwardAmountInfo.getObligatedChangeIndirect().bigDecimalValue()));
             }
-            if (lastSubAwardAmountInfo.getAnticipatedChangeDirect() != null) {
-                subContractAmountInfo.setAnticipatedChangeDirect(lastSubAwardAmountInfo.getAnticipatedChangeDirect().bigDecimalValue());
-            }
-            if (lastSubAwardAmountInfo.getAnticipatedChangeIndirect() != null) {
-                subContractAmountInfo.setAnticipatedChangeIndirect(lastSubAwardAmountInfo.getAnticipatedChangeIndirect().bigDecimalValue());
-            }
-            if (lastSubAwardAmountInfo.getRate() != null) {
-                subContractAmountInfo.setRate(lastSubAwardAmountInfo.getRate().bigDecimalValue());
-            }
+
             if (subaward.getStartDate()  != null){
                 subContractAmountInfo.setPerformanceStartDate(getDateTimeService().getCalendar(subaward.getStartDate()));
             }
@@ -741,6 +689,10 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
 
         if(noticeDate != null) {
             otherDetails.setLastUpdate(noticeDate);
+        }
+
+        if(fedAwardDate != null) {
+            otherDetails.setFAID(fedAwardDate);
         }
 
         if(obligatedTotal != null) {

@@ -222,6 +222,12 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
                         reportParameters.put("noticeDate", noticeDate);
                     }
 
+                    if (award.getFedAwardDate() != null) {
+                        final Calendar fedAwardDate = Calendar.getInstance();
+                        fedAwardDate.setTime(award.getFedAwardDate());
+                        reportParameters.put("fedAwardDate", fedAwardDate);
+                    }
+
                     break;
                 }
             }
@@ -237,8 +243,6 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
 
         if (!subAward.getSubAwardTemplateInfo().isEmpty()) {
             reportParameters.put("fcoi", subAward.getSubAwardTemplateInfo().get(0).getFcio());
-            reportParameters.put("costshare", subAward.getSubAwardTemplateInfo().get(0).getIncludesCostSharing());
-            reportParameters.put("randd", subAward.getSubAwardTemplateInfo().get(0).getrAndD());
             reportParameters.put("invoicesEmailed", subAward.getSubAwardTemplateInfo().get(0).getInvoicesEmailed());
             reportParameters.put("invoiceAddressDifferent", subAward.getSubAwardTemplateInfo().get(0).getInvoiceAddressDifferent());
             reportParameters.put("invoiceEmailDifferent", subAward.getSubAwardTemplateInfo().get(0).getInvoiceEmailDifferent());
