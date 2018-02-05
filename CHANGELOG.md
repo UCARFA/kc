@@ -1,6 +1,16 @@
 
 
 ## CURRENT
+* RESKC-2723: Move scripts to the correct folder
+  * Travis Schneeberger on Mon, 5 Feb 2018 12:56:43 -0500 [View Commit](../../commit/9156abf0b0b762ccb5de5ea9efa75e7b122d24f6)
+* Fix Oracle (#2736)
+
+  * Gayathri Athreya on Mon, 5 Feb 2018 10:34:43 -0700 [View Commit](../../commit/a716aabc0e3c89c1933910045ddd70b18dc6e33b)
+* Fix mysql (#2735)
+
+  * Gayathri Athreya on Mon, 5 Feb 2018 10:04:50 -0700 [View Commit](../../commit/943f6fee4b9553358563f266a733abab0fb1944f)
+
+## coeus-1802.0003
 * RESKC-2762: NIH validation messages (#2731)
 
   * Gayathri Athreya on Mon, 5 Feb 2018 08:32:40 -0700 [View Commit](../../commit/4af984ce71936af919d999110cfba3ac53717c43)
