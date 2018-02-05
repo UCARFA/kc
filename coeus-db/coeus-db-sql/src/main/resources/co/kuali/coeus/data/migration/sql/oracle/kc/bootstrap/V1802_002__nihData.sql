@@ -119,25 +119,25 @@ SECTION_ID, ACTIVE, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID) values
 
 insert into NIH_VALIDATION_MAPPING (ID, RULE_NUMBER, CUSTOM_MSG, FORCE_ERROR, APPEND_TO_ORIGINAL, PAGE_ID,
 SECTION_ID, ACTIVE, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID) values
-(SEQ_NIH_VALIDATION.NEXTVAL, '034.6.6', 'Review the Compliance Section for human subject study where Recruitment and Retention Plan attachment is not provided when response to question 1.2 is ''Yes' and E4 is not the only exemption number selected and answer to question 1.4a is "Yes".',
+(SEQ_NIH_VALIDATION.NEXTVAL, '034.6.6', 'Review the Compliance Section for human subject study where Recruitment and Retention Plan attachment is not provided when response to question 1.2 is ''Yes'' and E4 is not the only exemption number selected and answer to question 1.4a is "Yes".',
 'N', 'Y', 'PropDev-CompliancePage', 'PropDev-CompliancePage-Section', 'Y', 'admin', SYSDATE, '1', SYS_GUID());
 
 
 insert into NIH_VALIDATION_MAPPING (ID, RULE_NUMBER, CUSTOM_MSG, FORCE_ERROR, APPEND_TO_ORIGINAL, PAGE_ID,
 SECTION_ID, ACTIVE, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID) values
-(SEQ_NIH_VALIDATION.NEXTVAL, '034.6.7', 'Review the Compliance Section for human subject study where Recruitment and Retention Plan attachment is not provided when response to question 1.2 is ''Yes' and E4 is not the only exemption number selected and answer to question 1.4a is "Yes".',
+(SEQ_NIH_VALIDATION.NEXTVAL, '034.6.7', 'Review the Compliance Section for human subject study where Recruitment and Retention Plan attachment is not provided when response to question 1.2 is ''Yes'' and E4 is not the only exemption number selected and answer to question 1.4a is "Yes".',
 'N', 'Y', 'PropDev-CompliancePage', 'PropDev-CompliancePage-Section', 'Y', 'admin', SYSDATE, '1', SYS_GUID());
 
 
 insert into NIH_VALIDATION_MAPPING (ID, RULE_NUMBER, CUSTOM_MSG, FORCE_ERROR, APPEND_TO_ORIGINAL, PAGE_ID,
 SECTION_ID, ACTIVE, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID) values
-(SEQ_NIH_VALIDATION.NEXTVAL, '034.6.8', 'Review the Compliance Section for human subject study where Study Timeline attachment is not provided when response to question 1.2 is ''Yes' and E4 is not the only exemption number selected and answer to question 1.4a is "Yes".',
+(SEQ_NIH_VALIDATION.NEXTVAL, '034.6.8', 'Review the Compliance Section for human subject study where Study Timeline attachment is not provided when response to question 1.2 is ''Yes'' and E4 is not the only exemption number selected and answer to question 1.4a is "Yes".',
 'N', 'Y', 'PropDev-CompliancePage', 'PropDev-CompliancePage-Section', 'Y', 'admin', SYSDATE, '1', SYS_GUID());
 
 
 insert into NIH_VALIDATION_MAPPING (ID, RULE_NUMBER, CUSTOM_MSG, FORCE_ERROR, APPEND_TO_ORIGINAL, PAGE_ID,
 SECTION_ID, ACTIVE, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID) values
-(SEQ_NIH_VALIDATION.NEXTVAL, '034.6.9', 'Review the Compliance Section for human subject study where Enrollment of First Subject is not provided when response to question 1.2 is ''Yes' and E4 is not the only exemption number selected and answer to  question 1.4a is "Yes".',
+(SEQ_NIH_VALIDATION.NEXTVAL, '034.6.9', 'Review the Compliance Section for human subject study where Enrollment of First Subject is not provided when response to question 1.2 is ''Yes'' and E4 is not the only exemption number selected and answer to  question 1.4a is "Yes".',
 'N', 'Y', 'PropDev-CompliancePage', 'PropDev-CompliancePage-Section', 'Y', 'admin', SYSDATE, '1', SYS_GUID());
 
 
