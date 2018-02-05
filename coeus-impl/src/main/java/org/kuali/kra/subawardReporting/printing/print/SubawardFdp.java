@@ -45,12 +45,6 @@ public abstract class SubawardFdp extends AbstractPrint {
     private static final String COPYRIGHTS_GRANT_CODE = "1";
     private static final String COPYRIGHTS_SHALL_GRANT_CODE = "2";
 
-    private static final String ADMIN_CONTACT_TYPE_CODE_1 = "13";
-    private static final String ADMIN_CONTACT_TYPE_CODE_2 = "22";
-    private static final String FIN_CONTACT_TYPE_CODE = "38";
-    private static final String PI_TYPE_CODE = "?";
-    private static final String AUTH_OFFICIAL_TYPE_CODE = "37";
-
     private static final String MM_DD_YYYY = "MM/dd/yyyy";
 
     private static final List<String> FORM_ORDER = Stream.of(AgreementForm.FDP_AGREEMENT.getId(), SupplementalFormsForAgreement.FDP_ATTACHMENT_CERTIFICATION.getId(),
@@ -208,14 +202,19 @@ public abstract class SubawardFdp extends AbstractPrint {
         final SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractTemplateInfoArray()) ? xmlObject.getSubContractData().getSubcontractTemplateInfoArray(0) : SubContractDataDocument.SubContractData.SubcontractTemplateInfo.Factory.newInstance();
         final AwardType award = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getAwardArray()) ? xmlObject.getSubContractData().getAwardArray(0) : AwardType.Factory.newInstance();
 
+        final SubContractDataDocument.SubContractData.PrimeAuthorizedOfficial primeAuthorizedOfficial = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getPrimeAuthorizedOfficialArray()) ? xmlObject.getSubContractData().getPrimeAuthorizedOfficialArray()[0] : SubContractDataDocument.SubContractData.PrimeAuthorizedOfficial.Factory.newInstance();
+        final PersonDetailsType primePrincipalInvestigator = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getPrimePrincipalInvestigatorArray()) ? xmlObject.getSubContractData().getPrimePrincipalInvestigatorArray()[0] : PersonDetailsType.Factory.newInstance();
+        final SubContractDataDocument.SubContractData.PrimeAdministrativeContact primeAdministrativeContact = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getPrimeAdministrativeContactArray()) ? xmlObject.getSubContractData().getPrimeAdministrativeContactArray()[0] : SubContractDataDocument.SubContractData.PrimeAdministrativeContact.Factory.newInstance();
+        final SubContractDataDocument.SubContractData.PrimeFinancialContact primeFinancialContact = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getPrimeFinancialContactArray()) ? xmlObject.getSubContractData().getPrimeFinancialContactArray()[0] : SubContractDataDocument.SubContractData.PrimeFinancialContact.Factory.newInstance();
+
         setHeaderInformation(document, subcontractDetail);
         setRequiredDataElements(document, subcontractDetail, templateInfo, award);
-        setGenTermsAndConditions(document, configInfo, templateInfo, type);
+        setGenTermsAndConditions(document, configInfo, templateInfo, primeAuthorizedOfficial, primePrincipalInvestigator, primeAdministrativeContact, primeFinancialContact, type);
         setMpiInfo(document, templateInfo, type);
         setStcCopyrights(document, templateInfo);
         setDataSharingPubAccessPolicy(document, templateInfo);
         setPromotingObjectivityFcio(document, templateInfo, configInfo, type);
-        setHumanAnimalSubjects(document, templateInfo);
+        setHumanAnimalSubjects(document, templateInfo, primeAuthorizedOfficial, primePrincipalInvestigator, primeAdministrativeContact, primeFinancialContact);
         setHumanPteVerification(document, templateInfo);
         setAnimalPteVerification(document, templateInfo);
         setHumanSubjectsDataExchange(document, templateInfo);
@@ -365,7 +364,9 @@ public abstract class SubawardFdp extends AbstractPrint {
         }
     }
 
-    private void setHumanAnimalSubjects(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
+    private void setHumanAnimalSubjects(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo,
+                                        SubContractDataDocument.SubContractData.PrimeAuthorizedOfficial primeAuthorizedOfficial, PersonDetailsType primePrincipalInvestigator,
+                                        SubContractDataDocument.SubContractData.PrimeAdministrativeContact primeAdministrativeContact, SubContractDataDocument.SubContractData.PrimeFinancialContact primeFinancialContact) {
         final boolean human = fromYN(templateInfo.getHumanFlag());
         final boolean animal = fromYN(templateInfo.getAnimalFlag());
 
@@ -391,15 +392,25 @@ public abstract class SubawardFdp extends AbstractPrint {
         }
 
         if (human || animal) {
-            if (ADMIN_CONTACT_TYPE_CODE_1.equals(templateInfo.getIrbIacucContact()) || ADMIN_CONTACT_TYPE_CODE_2.equals(templateInfo.getIrbIacucContact())) {
-                setField(document, Attachment2Pdf.Field.PTE_VERIFICATION_CONTACT.getfName(), Attachment2Pdf.Field.VERIFICATION_CONTACT_ADMINISTRATIVE_CONTACT_VALUE);
-            } else if (FIN_CONTACT_TYPE_CODE.equals(templateInfo.getIrbIacucContact())) {
-                setField(document, Attachment2Pdf.Field.PTE_VERIFICATION_CONTACT.getfName(), Attachment2Pdf.Field.VERIFICATION_CONTACT_FINANCIAL_CONTACT_VALUE);
-            } else if (PI_TYPE_CODE.equals(templateInfo.getIrbIacucContact())) {
-                setField(document, Attachment2Pdf.Field.PTE_VERIFICATION_CONTACT.getfName(), Attachment2Pdf.Field.VERIFICATION_CONTACT_PI_VALUE);
-            } else if (AUTH_OFFICIAL_TYPE_CODE.equals(templateInfo.getIrbIacucContact())) {
-                setField(document, Attachment2Pdf.Field.PTE_VERIFICATION_CONTACT.getfName(), Attachment2Pdf.Field.VERIFICATION_CONTACT_AUTHORIZED_OFFICIAL_VALUE);
+            showField(document, Attachment2Pdf.Field.PTE_VERIFICATION_CONTACT.getfName());
+            setField(document, Attachment2Pdf.Field.PTE_VERIFICATION_CONTACT.getfName(), "");
+
+            final String pteVerContact;
+            if (StringUtils.isBlank(templateInfo.getIrbIacucContactCd())) {
+                pteVerContact = "";
+            } else if (templateInfo.getIrbIacucContactCd().equals(primeAuthorizedOfficial.getContactTypeCode())) {
+                pteVerContact = Attachment2Pdf.Field.VERIFICATION_CONTACT_AUTHORIZED_OFFICIAL_VALUE;
+            } else if (templateInfo.getIrbIacucContactCd().equals("?")) {
+                pteVerContact = Attachment2Pdf.Field.VERIFICATION_CONTACT_PI_VALUE;
+            } else if (templateInfo.getIrbIacucContactCd().equals(primeAdministrativeContact.getContactTypeCode())) {
+                pteVerContact = Attachment2Pdf.Field.VERIFICATION_CONTACT_ADMINISTRATIVE_CONTACT_VALUE;
+            } else if (templateInfo.getIrbIacucContactCd().equals(primeFinancialContact.getContactTypeCode())) {
+                pteVerContact = Attachment2Pdf.Field.VERIFICATION_CONTACT_FINANCIAL_CONTACT_VALUE;
+            } else {
+                pteVerContact = "";
             }
+
+            setField(document, Attachment2Pdf.Field.PTE_VERIFICATION_CONTACT.getfName(), pteVerContact);
         }
     }
 
@@ -428,28 +439,47 @@ public abstract class SubawardFdp extends AbstractPrint {
         }
     }
 
-    private void setGenTermsAndConditions(PDDocument document, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, Attachment2SponsorFormType type) {
+    private void setGenTermsAndConditions(PDDocument document, SubContractDataDocument.SubContractData.OtherConfigInfo configInfo, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo,
+                                          SubContractDataDocument.SubContractData.PrimeAuthorizedOfficial primeAuthorizedOfficial, PersonDetailsType primePrincipalInvestigator,
+                                          SubContractDataDocument.SubContractData.PrimeAdministrativeContact primeAdministrativeContact, SubContractDataDocument.SubContractData.PrimeFinancialContact primeFinancialContact,
+                                          Attachment2SponsorFormType type) {
+
+        final String nceContact;
+        if (StringUtils.isBlank(templateInfo.getNoCostExtensionContactCd())) {
+            nceContact = "";
+        } else if (templateInfo.getNoCostExtensionContactCd().equals(primeAuthorizedOfficial.getContactTypeCode())) {
+            nceContact = Attachment2Pdf.Field.NCE_CONTACT_AUTHORIZED_OFFICIAL;
+        } else if (templateInfo.getNoCostExtensionContactCd().equals("?")) {
+            nceContact = Attachment2Pdf.Field.NCE_CONTACT_PI;
+        } else if (templateInfo.getNoCostExtensionContactCd().equals(primeAdministrativeContact.getContactTypeCode())) {
+            nceContact = Attachment2Pdf.Field.NCE_CONTACT_ADMINISTRATIVE;
+        } else if (templateInfo.getNoCostExtensionContactCd().equals(primeFinancialContact.getContactTypeCode())) {
+            nceContact = Attachment2Pdf.Field.NCE_CONTACT_FINANCIAL;
+        } else {
+            nceContact = "";
+        }
+
         //General Terms and Conditions
         if (type == Attachment2SponsorFormType.NIH) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpNihPolicy(), configInfo.getFdpNihGrantsPolicyStatement(), configInfo.getFdpNihInterimResearchTerms(), configInfo.getFdpNihAgencyRequirements(), configInfo.getFdpNihCfr());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNihPolicy(), configInfo.getFdpNihCfr(), configInfo.getFdpNihGrantsPolicyStatement(), configInfo.getFdpNihAgencyRequirements(), nceContact);
         } else if (type == Attachment2SponsorFormType.NSF) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpNsfPolicy(), configInfo.getFdpNsfGrantsPolicyStatement(), configInfo.getFdpNsfInterimResearchTerms(), configInfo.getFdpNsfAgencyRequirements(), configInfo.getFdpNsfCfr());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNsfPolicy(), configInfo.getFdpNsfCfr(), configInfo.getFdpNsfGrantsPolicyStatement(), configInfo.getFdpNsfAgencyRequirements(), nceContact);
         } else if (type == Attachment2SponsorFormType.NASA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpNasaPolicy(), configInfo.getFdpNasaGrantsPolicyStatement(), configInfo.getFdpNasaInterimResearchTerms(), configInfo.getFdpNasaAgencyRequirements(), configInfo.getFdpNasaCfr());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNasaPolicy(), configInfo.getFdpNasaCfr(), configInfo.getFdpNasaGrantsPolicyStatement(), configInfo.getFdpNasaAgencyRequirements(), nceContact);
         } else if (type == Attachment2SponsorFormType.ONR) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpOnrPolicy(), configInfo.getFdpOnrGrantsPolicyStatement(), configInfo.getFdpOnrInterimResearchTerms(), configInfo.getFdpOnrAgencyRequirements(), configInfo.getFdpOnrCfr());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpOnrPolicy(), configInfo.getFdpOnrCfr(), configInfo.getFdpOnrGrantsPolicyStatement(), configInfo.getFdpOnrAgencyRequirements(), nceContact);
         } else if (type == Attachment2SponsorFormType.ARO) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAroPolicy(), configInfo.getFdpAroGrantsPolicyStatement(), configInfo.getFdpAroInterimResearchTerms(), configInfo.getFdpAroAgencyRequirements(), configInfo.getFdpAroCfr());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAroPolicy(), configInfo.getFdpAroCfr(), configInfo.getFdpAroGrantsPolicyStatement(), configInfo.getFdpAroAgencyRequirements(), nceContact);
         } else if (type == Attachment2SponsorFormType.AFOSR) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAfosrPolicy(), configInfo.getFdpAfosrGrantsPolicyStatement(), configInfo.getFdpAfosrInterimResearchTerms(), configInfo.getFdpAfosrAgencyRequirements(), configInfo.getFdpAfosrCfr());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAfosrPolicy(), configInfo.getFdpAfosrCfr(), configInfo.getFdpAfosrGrantsPolicyStatement(), configInfo.getFdpAfosrAgencyRequirements(), nceContact);
         } else if (type == Attachment2SponsorFormType.EPA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpEpaPolicy(), configInfo.getFdpEpaGrantsPolicyStatement(), configInfo.getFdpEpaInterimResearchTerms(), configInfo.getFdpEpaAgencyRequirements(), configInfo.getFdpEpaCfr());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpEpaPolicy(), configInfo.getFdpEpaCfr(), configInfo.getFdpEpaGrantsPolicyStatement(), configInfo.getFdpEpaAgencyRequirements(), nceContact);
         } else if (type == Attachment2SponsorFormType.AMRMC) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAmrmcPolicy(), configInfo.getFdpAmrmcGrantsPolicyStatement(), configInfo.getFdpAmrmcInterimResearchTerms(), configInfo.getFdpAmrmcAgencyRequirements(), configInfo.getFdpAmrmcCfr());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAmrmcPolicy(), configInfo.getFdpAmrmcCfr(),  configInfo.getFdpAmrmcGrantsPolicyStatement(), configInfo.getFdpAmrmcAgencyRequirements(), nceContact);
         } else if (type == Attachment2SponsorFormType.AMRAA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAmraaPolicy(), configInfo.getFdpAmraaGrantsPolicyStatement(), configInfo.getFdpAmraaInterimResearchTerms(), configInfo.getFdpAmraaAgencyRequirements(), configInfo.getFdpAmraaCfr());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAmraaPolicy(), configInfo.getFdpAmraaCfr(), configInfo.getFdpAmraaGrantsPolicyStatement(), configInfo.getFdpAmraaAgencyRequirements(), nceContact);
         } else if (type == Attachment2SponsorFormType.USADA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpUsdaPolicy(), configInfo.getFdpUsdaGrantsPolicyStatement(), configInfo.getFdpUsdaInterimResearchTerms(), configInfo.getFdpUsdaAgencyRequirements(), configInfo.getFdpUsdaCfr());
+            setGenTermsAndConditions1To4(document, configInfo.getFdpUsdaPolicy(), configInfo.getFdpUsdaCfr(), configInfo.getFdpUsdaGrantsPolicyStatement(), configInfo.getFdpUsdaAgencyRequirements(), nceContact);
         } else {
             setGenTermsAndConditions1To4(document, "", "", "", "", "");
         }
@@ -466,15 +496,15 @@ public abstract class SubawardFdp extends AbstractPrint {
         }
     }
 
-    private void setGenTermsAndConditions1To4(PDDocument document, String policy, String policyStatement, String terms, String requirements, String cfr) {
+    private void setGenTermsAndConditions1To4(PDDocument document, String policy, String cfr, String policyStatement, String requirements, String nceContact) {
         setField(document, Attachment2Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), policy);
         if (StringUtils.isNotBlank(cfr)) {
             showField(document, Attachment2Pdf.Field.AGENCY_IMPLEMENTATION.getfName());
             setField(document, Attachment2Pdf.Field.AGENCY_IMPLEMENTATION.getfName(), cfr);
         }
         setField(document, Attachment2Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), policyStatement);
-        setField(document, Attachment2Pdf.Field.RES_TERMS_COND.getfName(), terms);
-        setField(document, Attachment2Pdf.Field.REQUIREMENTS.getfName(), requirements);
+        setField(document, Attachment2Pdf.Field.RES_TERMS_COND.getfName(), requirements);
+        setField(document, Attachment2Pdf.Field.NO_COST_EXT_CONTACT.getfName(), nceContact);
     }
 
     private void setRequiredDataElements(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo, AwardType award) {
@@ -486,8 +516,8 @@ public abstract class SubawardFdp extends AbstractPrint {
         setField(document, Attachment2Pdf.Field.SUBJECT_TO_FFATA.getfName(), fromYN(subcontractDetail.getFFATA()));
 
         if (award.getAwardDetails() != null && award.getAwardDetails().getOtherHeaderDetails() != null) {
-            if (award.getAwardDetails().getOtherHeaderDetails().getLastUpdate() != null) {
-                setField(document, Attachment2Pdf.Field.FAID.getfName(), formatDate(award.getAwardDetails().getOtherHeaderDetails().getLastUpdate().getTime()));
+            if (award.getAwardDetails().getOtherHeaderDetails().getFAID() != null) {
+                setField(document, Attachment2Pdf.Field.FAID.getfName(), formatDate(award.getAwardDetails().getOtherHeaderDetails().getFAID().getTime()));
             }
 
             if (StringUtils.isNotBlank(award.getAwardDetails().getOtherHeaderDetails().getFAIN())) {
@@ -600,15 +630,15 @@ public abstract class SubawardFdp extends AbstractPrint {
 
         if (primeAuthorizedOfficial.getRolodexDetails() != null) {
             if (StringUtils.isNotBlank(primeAuthorizedOfficial.getRolodexDetails().getRolodexName())) {
-                setField(document, Attachment3aPdf.Field.PTE_CONTACTS_FIN_NAME.getfName(), primeAuthorizedOfficial.getRolodexDetails().getRolodexName());
+                setField(document, Attachment3aPdf.Field.PTE_CONTACTS_AUTH_OFFICIAL_NAME.getfName(), primeAuthorizedOfficial.getRolodexDetails().getRolodexName());
             }
 
             if (StringUtils.isNotBlank(primeAuthorizedOfficial.getRolodexDetails().getEmail())) {
-                setField(document, Attachment3aPdf.Field.PTE_CONTACTS_FIN_EMAIL.getfName(), primeAuthorizedOfficial.getRolodexDetails().getEmail());
+                setField(document, Attachment3aPdf.Field.PTE_CONTACTS_AUTH_OFFICIAL_EMAIL.getfName(), primeAuthorizedOfficial.getRolodexDetails().getEmail());
             }
 
             if (StringUtils.isNotBlank(primeAuthorizedOfficial.getRolodexDetails().getPhoneNumber())) {
-                setField(document, Attachment3aPdf.Field.PTE_CONTACTS_FIN_PHONE.getfName(), primeAuthorizedOfficial.getRolodexDetails().getPhoneNumber());
+                setField(document, Attachment3aPdf.Field.PTE_CONTACTS_AUTH_OFFCIAL_PHONE.getfName(), primeAuthorizedOfficial.getRolodexDetails().getPhoneNumber());
             }
         }
 
@@ -759,8 +789,13 @@ public abstract class SubawardFdp extends AbstractPrint {
             TOTAL_FEDERAL_FUNDS_OBLIGATED ("TotalFederalFundsObligated"),
             ACTION ("Action"),
             SUBAWARD_NUMBER ("SubawardNumber"),
-            SUBJECTO_FFATA ("SubjectoFFATA", Stream.of(YES, NO).collect(Collectors.toSet())),
-            CARRYOVER_RADIO_BUTTON("Carryover", Stream.of(CARRYOVER_YES, CARRYOVER_NO).collect(Collectors.toSet()));
+            SUBJECTO_FFATA ("SubjectoFFATA", Stream.of(Field.YES, Field.NO).collect(Collectors.toSet())),
+            CARRYOVER_RADIO_BUTTON("Carryover", Stream.of(Field.CARRYOVER_YES, Field.CARRYOVER_NO).collect(Collectors.toSet()));
+
+            protected static final String CARRYOVER_YES = "CarryoverYes";
+            protected static final String CARRYOVER_NO = "CarryoverNo";
+            protected static final String YES = "Yes";
+            protected static final String NO = "No";
 
             private final String fName;
             private final Set<String> values;
@@ -799,11 +834,6 @@ public abstract class SubawardFdp extends AbstractPrint {
                 return readOnly;
             }
         }
-
-        protected static final String CARRYOVER_YES = "CarryoverYes";
-        protected static final String CARRYOVER_NO = "CarryoverNo";
-        protected static final String YES = "Yes";
-        protected static final String NO = "No";
 
         private ModificationPdf() {
             throw new UnsupportedOperationException("do not call");
@@ -829,13 +859,25 @@ public abstract class SubawardFdp extends AbstractPrint {
             PROJECT_END_TIP("EndDateTooltip", true),
             AMOUNT_FUNDED_THIS_ACTION("AmountFundedThisAction"),
             INCREMENTALLY_ESTIMATED_TOTAL("IncrementallyEstimatedTotal"),
-            TERM_2_CONTACT("Term2Contact"),
-            TERM_3_CONTACT("Term3Contact"),
-            PROJECT_BUDGET_INVOICE_DROPDOWN("ProjectBudgetInvoiceDrop", Stream.of(PROJECT_PERIOD_END_DATE_VALUE, BUDGET_PERIOD_END_DATE_VALUE).collect(Collectors.toSet())),
-            TERM_6_CONTACT("Term6Contact"),
-            UNI_BI_MOD_DROPOWN("UniBiModDrop", Stream.of(UNILATERALLY_VALUE, BILATERALLY_VALUE).collect(Collectors.toSet())),
-            TERM_7_CONTACT("Term7Contact"),
-            TERM_9_CONTACT("Term9Contact");
+            TERM_2_CONTACT("Term2Contact", Stream.of(Field.TERM_CONTACT_FINANCIAL, Field.TERM_CONTACT_ADMIN, Field.TERM_CONTACT_PI, Field.TERM_CONTACT_AUTH).collect(Collectors.toSet())),
+            TERM_3_CONTACT("Term3Contact", Stream.of(Field.TERM_CONTACT_FINANCIAL, Field.TERM_CONTACT_ADMIN, Field.TERM_CONTACT_PI, Field.TERM_CONTACT_AUTH).collect(Collectors.toSet())),
+            PROJECT_BUDGET_INVOICE_DROPDOWN("ProjectBudgetInvoiceDrop", Stream.of(Field.PROJECT_PERIOD_END_DATE_VALUE, Field.BUDGET_PERIOD_END_DATE_VALUE).collect(Collectors.toSet())),
+            TERM_6_CONTACT("Term6Contact", Stream.of(Field.TERM_CONTACT_FINANCIAL, Field.TERM_CONTACT_ADMIN, Field.TERM_CONTACT_PI, Field.TERM_CONTACT_AUTH).collect(Collectors.toSet())),
+            UNI_BI_MOD_DROPOWN("UniBiModDrop", Stream.of(Field.UNILATERALLY_VALUE, Field.BILATERALLY_VALUE).collect(Collectors.toSet())),
+            TERM_7_CONTACT("Term7Contact", Stream.of(Field.TERM_CONTACT_FINANCIAL, Field.TERM_CONTACT_ADMIN, Field.TERM_CONTACT_PI, Field.TERM_CONTACT_AUTH).collect(Collectors.toSet())),
+            TERM_9_CONTACT("Term9Contact", Stream.of(Field.TERM_CONTACT_FINANCIAL, Field.TERM_CONTACT_ADMIN, Field.TERM_CONTACT_PI, Field.TERM_CONTACT_AUTH).collect(Collectors.toSet()));
+
+            protected static final String BUDGET_PERIOD_END_DATE_VALUE = "Budget Period end date.";
+            protected static final String PROJECT_PERIOD_END_DATE_VALUE = "Project Period end date.";
+
+            protected static final String UNILATERALLY_VALUE = "Unilaterally";
+            protected static final String BILATERALLY_VALUE = "Bilaterally";
+
+            protected static final String TERM_CONTACT_FINANCIAL = "Financial";
+            protected static final String TERM_CONTACT_ADMIN = "Administrative";
+            protected static final String TERM_CONTACT_PI = "Principal Investigator";
+            protected static final String TERM_CONTACT_AUTH = "Authorized Official";
+
 
             private final String fName;
             private final Set<String> values;
@@ -874,12 +916,6 @@ public abstract class SubawardFdp extends AbstractPrint {
                 return readOnly;
             }
         }
-
-        protected static final String BUDGET_PERIOD_END_DATE_VALUE = "Budget Period end date.";
-        protected static final String PROJECT_PERIOD_END_DATE_VALUE = "Project Period end date.";
-
-        protected static final String UNILATERALLY_VALUE = "Unilaterally";
-        protected static final String BILATERALLY_VALUE = "Bilaterally";
 
         private AgreementPdf() {
             throw new UnsupportedOperationException("do not call");
@@ -1010,7 +1046,7 @@ public abstract class SubawardFdp extends AbstractPrint {
             AGENCY_IMPLEMENTATION("AgencyImplementation"),
             GRANTS_POLICY_STATEMENT("GrantsPolicy"),
             RES_TERMS_COND("RTC"),
-            REQUIREMENTS("NCEContact", Stream.of(Field.REQUIREMENTS_CONTACT_ADMINISTRATIVE, Field.REQUIREMENTS_CONTACT_AUTHORIZED_OFFICIAL, Field.REQUIREMENTS_CONTACT_FINANCIAL, Field.REQUIREMENTS_CONTACT_PI).collect(Collectors.toSet())),
+            NO_COST_EXT_CONTACT("NCEContact", Stream.of(Field.NCE_CONTACT_ADMINISTRATIVE, Field.NCE_CONTACT_AUTHORIZED_OFFICIAL, Field.NCE_CONTACT_FINANCIAL, Field.NCE_CONTACT_PI).collect(Collectors.toSet())),
             TREATMENT_OF_PROGRAM_INCOME("ProgramIncome", Stream.of(Field.TPI_ADDITIVE_VALUE, Field.TPI_OTHER_VALUE, Field.TPI_UNSELECTED_VALUE).collect(Collectors.toSet())),
             TREATMENT_OF_PROGRAM_INCOME_OTHER_SPECIFY("ProgramIncomeText");
 
@@ -1050,10 +1086,10 @@ public abstract class SubawardFdp extends AbstractPrint {
             private static final String FCOI_SUBRECIPIENT = "Subrecipient";
             private static final String FCOI_PTE = "PTE";
 
-            private static final String REQUIREMENTS_CONTACT_ADMINISTRATIVE = "Administrative";
-            private static final String REQUIREMENTS_CONTACT_AUTHORIZED_OFFICIAL = "Authorized Official";
-            private static final String REQUIREMENTS_CONTACT_FINANCIAL = "Financial";
-            private static final String REQUIREMENTS_CONTACT_PI = "Principal Investigator";
+            private static final String NCE_CONTACT_ADMINISTRATIVE = "Administrative";
+            private static final String NCE_CONTACT_AUTHORIZED_OFFICIAL = "Authorized Official";
+            private static final String NCE_CONTACT_FINANCIAL = "Financial";
+            private static final String NCE_CONTACT_PI = "Principal Investigator";
 
             private final String fName;
             private final Set<String> values;

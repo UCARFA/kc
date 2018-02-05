@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 
 public enum HumanPteSendNotRequiredReason implements org.kuali.rice.core.api.mo.common.Coded, Coded, Describable {
-    PTE_AS_IRB("PI", "PTE is acting as the IRB"),
+    PTE_AS_IRB("PI", "PTE is acting as the sIRB"),
     IRB_DESIGNATED("ID", "There is an sIRB designated"),
     EXEMPT("EX", "Exempt"),
     APPROVAL_YEAR_ONE("AYO", "Approval will be sought after year 1.");

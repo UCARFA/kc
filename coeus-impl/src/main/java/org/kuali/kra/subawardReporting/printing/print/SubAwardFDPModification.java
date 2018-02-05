@@ -20,6 +20,7 @@ public class SubAwardFDPModification extends SubawardFdp {
 
     private static final String NO = "N";
 
+    @Override
     protected void setSubrecipientInfo(PDDocument document, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail) {
         if (StringUtils.isNotBlank(subcontractDetail.getSubcontractorName())) {
             setField(document, ModificationPdf.Field.SUBRECIPIENT.getfName(), subcontractDetail.getSubcontractorName());
@@ -34,6 +35,7 @@ public class SubAwardFDPModification extends SubawardFdp {
         }
     }
 
+    @Override
     protected void setPteInfo(PDDocument document, SubContractDataDocument xmlObject) {
         final SubContractDataDocument.SubContractData.PrimeRecipientContacts primeRecipientContacts = xmlObject.getSubContractData().getPrimeRecipientContacts() != null ? xmlObject.getSubContractData().getPrimeRecipientContacts() : SubContractDataDocument.SubContractData.PrimeRecipientContacts.Factory.newInstance();
         final PersonDetailsType primePrincipalInvestigator = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getPrimePrincipalInvestigatorArray()) ? xmlObject.getSubContractData().getPrimePrincipalInvestigatorArray()[0] : PersonDetailsType.Factory.newInstance();
@@ -51,6 +53,7 @@ public class SubAwardFDPModification extends SubawardFdp {
         }
     }
 
+    @Override
     protected void setAwardSubawardNumbers(PDDocument pdfDocument, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail, AwardType award) {
         setField(pdfDocument, ModificationPdf.Field.PTE_FEDERAL_AWARD_NO.getfName(), award.getAwardDetails().getAwardHeader().getSponsorAwardNumber());
         setField(pdfDocument, ModificationPdf.Field.FEDERAL_AWARDING_AGENCY.getfName(), award.getAwardDetails().getAwardHeader().getSponsorDescription());
@@ -61,6 +64,7 @@ public class SubAwardFDPModification extends SubawardFdp {
         setField(pdfDocument, ModificationPdf.Field.PROJECT_TITLE.getfName(), award.getAwardDetails().getAwardHeader().getTitle());
     }
 
+    @Override
     protected void setDates(PDDocument document, SubContractDataDocument xmlObject) {
         final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ?
                 xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
@@ -85,6 +89,7 @@ public class SubAwardFDPModification extends SubawardFdp {
         }
     }
 
+    @Override
     protected void setAmounts(PDDocument document, SubContractDataDocument xmlObject) {
         final SubContractDataDocument.SubContractData.SubcontractAmountInfo amountInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractAmountInfoArray()) ? xmlObject.getSubContractData().getSubcontractAmountInfoArray()[0] : SubContractDataDocument.SubContractData.SubcontractAmountInfo.Factory.newInstance();
 
@@ -97,6 +102,7 @@ public class SubAwardFDPModification extends SubawardFdp {
         }
     }
 
+    @Override
     protected void setTermsAndConditions(PDDocument document, SubContractDataDocument xmlObject) {
         final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ?
                 xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
@@ -105,6 +111,7 @@ public class SubAwardFDPModification extends SubawardFdp {
         }
     }
 
+    @Override
     protected void setMiscellaneousItems(PDDocument pdfDocument, SubContractDataDocument xmlObject) {
         final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ?
                 xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
@@ -115,9 +122,9 @@ public class SubAwardFDPModification extends SubawardFdp {
         }
 
         setField(pdfDocument, ModificationPdf.Field.SUBJECTO_FFATA.getfName(), subcontractDetail.getFFATA() == null ||
-                subcontractDetail.getFFATA().equalsIgnoreCase(NO) ? ModificationPdf.NO : ModificationPdf.YES);
+                subcontractDetail.getFFATA().equalsIgnoreCase(NO) ? ModificationPdf.Field.NO : ModificationPdf.Field.YES);
         setField(pdfDocument, ModificationPdf.Field.CARRYOVER_RADIO_BUTTON.getfName(), templateInfo.getAutomaticCarryForward() == null ||
-                templateInfo.getAutomaticCarryForward().equalsIgnoreCase(NO) ? ModificationPdf.CARRYOVER_NO : ModificationPdf.CARRYOVER_YES);
+                templateInfo.getAutomaticCarryForward().equalsIgnoreCase(NO) ? ModificationPdf.Field.CARRYOVER_NO : ModificationPdf.Field.CARRYOVER_YES);
 
     }
 }

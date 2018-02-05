@@ -8,6 +8,7 @@
 package org.kuali.kra.subawardReporting.printing.print;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.interactive.form.*;
@@ -81,16 +82,20 @@ public class SubawardFdpPdfFormMappingTest {
             if (!pdfField.getValues().isEmpty()) {
                 pdfField.getValues().forEach(v -> {
                     if (field instanceof PDRadioButton) {
-                        Assert.assertTrue(((PDRadioButton) field).getOnValues().contains(v));
+                        if (!((PDRadioButton) field).getOnValues().contains(v)) {
+                            throw new FieldException("error setting value [" + v + "] for field " + pdfField.getfName() + " not a valid on value " + ((PDRadioButton) field).getOnValues());
+                        }
+
                     }
-                    if (field instanceof PDChoice) {
-                        //Attachment 2 needs to be fixed before uncommenting
-                       // Assert.assertTrue(((PDChoice) field).getOptions().contains(v));
+                    if (field instanceof PDChoice && StringUtils.isNotBlank(v)) {
+                        if (((PDChoice) field).getOptions().stream().noneMatch(opt -> opt.contains(v))) {
+                            throw new FieldException("error setting value [" + v + "] for field " + pdfField.getfName() + " not a valid option " + ((PDChoice) field).getOptions());
+                        }
                     }
                     try {
                         field.setValue(v);
                     } catch (IOException e) {
-                        throw new FieldException("error setting value for field" + pdfField.getfName(), e);
+                        throw new FieldException("error setting value [" + v + "] for field " + pdfField.getfName(), e);
                     }
                 });
             } else {
