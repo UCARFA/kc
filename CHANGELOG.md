@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2678: Update award close dates on every save rather than just on the reports tab
+  * Jeff Largent on Mon, 5 Feb 2018 15:38:41 -0500 [View Commit](../../commit/60f3740ddf57ca5fe6dc5d01ac4a86f64614919f)
+
+## coeus-1802.0006
 * No Changes
 
 
