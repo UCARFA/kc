@@ -26,6 +26,7 @@ import org.kuali.kra.award.service.AwardScheduleGenerationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.LegacyAppFrameworkAdapterService;
+import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
@@ -190,6 +191,56 @@ public class ReportTrackingServiceImplTest {
                         StringUtils.equals(awardTerm.getOspDistributionCode(), rt.getOspDistributionCode())));
     }
 
+    @Test
+    public void noTrackingsGeneratedIfReportClassGenerationFlagIsOff() throws Exception {
+        Award award = setupAward(createTerm());
+        AwardReportTerm awardTerm = award.getAwardReportTermItems().get(0);
+        awardTerm.getReportClass().setGenerateReportRequirements(false);
+
+        when(awardScheduleGenerationService.generateSchedules(award, award.getAwardReportTermItems(), true))
+                .thenReturn(generateScheduleDates(START_DATE, LocalDate.of(2020, 3, 1), QUARTERLY));
+        reportTrackingService.generateReportTrackingAndSave(award, true);
+        assertEquals(0, awardTerm.getReportTrackings().size());
+        verify(businessObjectService).save(Collections.emptyList());
+    }
+
+    @Test
+    public void trackingChangesAreSavedWithReportClassGenerationFlagOff() throws Exception {
+        Award award = setupAward(createTerm(createReportTracking(), createReportTracking()));
+        AwardReportTerm awardTerm = award.getAwardReportTermItems().get(0);
+        awardTerm.getReportClass().setGenerateReportRequirements(false);
+        List<ReportTracking> expectedDeletes = new ArrayList<>(awardTerm.getReportTrackings());
+
+        java.sql.Date activityDate = java.sql.Date.valueOf(LocalDate.of(2019, 1, 1));
+        String comment = "This is a comment";
+        String preparerId = "50";
+        String preparerName = "Preparer";
+        awardTerm.getReportTrackings().get(0).setActivityDate(activityDate);
+        awardTerm.getReportTrackings().get(0).setComments(comment);
+        awardTerm.getReportTrackings().get(1).setPreparerId(preparerId);
+        awardTerm.getReportTrackings().get(1).setPreparerName(preparerName);
+
+        when(awardScheduleGenerationService.generateSchedules(award, award.getAwardReportTermItems(), true))
+                .thenReturn(generateScheduleDates(START_DATE, LocalDate.of(2020, 3, 1), QUARTERLY));
+        reportTrackingService.generateReportTrackingAndSave(award, true);
+        assertEquals(2, awardTerm.getReportTrackings().size());
+        verify(businessObjectService).save(argThat(new ArgumentMatcher<List<ReportTracking>>() {
+            @Override
+            public boolean matches(List<ReportTracking> trackings) {
+                return trackings.get(0).getComments().equals(comment) &&
+                        trackings.get(0).getActivityDate().equals(activityDate) &&
+                        trackings.get(1).getPreparerId().equals(preparerId) &&
+                        trackings.get(1).getPreparerName().equals(preparerName);
+            }
+        }));
+    }
+
+    private ReportTracking createReportTracking() {
+        ReportTracking tracking = new ReportTracking();
+        tracking.setStatusCode(PENDING_STATUS_CODE);
+        return tracking;
+    }
+
     private AwardReportTerm createTerm(ReportTracking... reportTrackings) {
         AwardReportTerm term = new AwardReportTerm();
         ReportClass reportClass = new ReportClass();
@@ -197,6 +248,10 @@ public class ReportTrackingServiceImplTest {
         term.setReportClass(reportClass);
         term.setReportTrackings(Arrays.stream(reportTrackings)
                 .peek(tracking -> tracking.setAwardReportTermId(term.getAwardReportTermId()))
+                .peek(tracking -> tracking.setReportClassCode(term.getReportClassCode()))
+                .peek(tracking -> tracking.setReportCode(term.getReportCode()))
+                .peek(tracking -> tracking.setFrequencyCode(term.getFrequencyCode()))
+                .peek(tracking -> tracking.setFrequencyBaseCode(term.getFrequencyBaseCode()))
                 .collect(Collectors.toList()));
         return term;
     }
@@ -231,10 +286,14 @@ public class ReportTrackingServiceImplTest {
         List<Date> dates = new ArrayList<>();
         LocalDate nextDate = startDate.plus(schedule);
         while(!nextDate.isAfter(endDate)) {
-            dates.add(Date.from(nextDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            dates.add(convertLocalDate(nextDate));
             nextDate = nextDate.plus(schedule);
         }
         return dates;
+    }
+
+    private Date convertLocalDate(LocalDate date) {
+        return Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
 }
