@@ -1,6 +1,18 @@
 
 
 ## CURRENT
+* RESKC-2729: Update award report tracking versioning script to disambiguate as required terms based on due date
+  * Jeff Largent on Wed, 24 Jan 2018 14:34:32 -0500 [View Commit](../../commit/bfff4984eaa13b1651747cc2a4a0fe920103d427)
+* RESKC-2763: Duplicate messages show up with caching enabled when using custom messages
+  * Travis Schneeberger on Sat, 3 Feb 2018 08:14:57 -0500 [View Commit](../../commit/0b411c0b786db5dfd4608f10bf14d191b14d16e8)
+* RESKC-2733, RESKC-2734, RESKC-2735, RESKC-2737, RESKC-2738: bug fixes, cleaning up unused elements in the fdp xml document.
+  * Travis Schneeberger on Sat, 3 Feb 2018 08:13:10 -0500 [View Commit](../../commit/c5e2f9f159beb97fa028879c1ff0f3ce6ec4b6bf)
+* RESKC-724: Allow updating existing report trackings even if report class...
+
+  * ...is set to not generate reporting requirements. This way historical trackings can still be updated after that flag has been changed.
+  * Jeff Largent on Fri, 26 Jan 2018 15:16:41 -0500 [View Commit](../../commit/5bbdb4768cf0f0f629fc7fd99af8c4ada38ae3a6)
+
+## coeus-1802.0001
 * RESKC-2761: Caching NIH Validation Service responses in order to avoid remote calls when S2S relevant data hasn't changed.
   * Travis Schneeberger on Wed, 31 Jan 2018 15:08:11 -0500 [View Commit](../../commit/3fe18adbf609891783c948a5d94477bc1c495c59)
 
