@@ -7,11 +7,11 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
-import gov.nih.era.svs.types.ValidationMessage;
 import org.junit.Assert;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.s2s.nih.NihValidationMapping;
+import org.kuali.coeus.propdev.impl.s2s.nih.ValidationMessageDto;
 import org.kuali.kra.infrastructure.Constants;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest {
     public void testGetAuditError() {
         // 0 matches
         ProposalDevelopmentGrantsGovAuditRule rule = new ProposalDevelopmentGrantsGovAuditRule();
-        ValidationMessage msg = new ValidationMessage();
+        ValidationMessageDto msg = new ValidationMessageDto();
         msg.setValidationRuleNumber("000.28");
         msg.setValidationMessageId(100);
         msg.setValidationMessageText(ZUKO_SAYS);
@@ -39,7 +39,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest {
         Assert.assertTrue(StringUtils.equalsAnyIgnoreCase(error.getLink(), StringUtils.EMPTY));
 
         // non 0 matches non empty custom message append to original
-        msg = new ValidationMessage();
+        msg = new ValidationMessageDto();
         msg.setValidationRuleNumber("000.28");
         msg.setValidationMessageId(100);
         msg.setValidationMessageText(ZUKO_SAYS);
@@ -53,7 +53,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest {
         Assert.assertTrue(error.getParams()[0].contains(BOOMI));
 
         // non 0 matches non empty custom message do not append to original
-        msg = new ValidationMessage();
+        msg = new ValidationMessageDto();
         msg.setValidationRuleNumber("000.28");
         msg.setValidationMessageId(100);
         msg.setValidationMessageText(ZUKO_SAYS);
@@ -67,7 +67,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest {
         Assert.assertTrue(error.getParams()[0].contains(BOOMI));
 
         // non 0 matches empty custom message
-        msg = new ValidationMessage();
+        msg = new ValidationMessageDto();
         msg.setValidationRuleNumber("000.28");
         msg.setValidationMessageId(100);
         msg.setValidationMessageText(ZUKO_SAYS);
@@ -81,7 +81,7 @@ public class ProposalDevelopmentGrantsGovAuditRuleTest {
         Assert.assertTrue(error.getErrorKey().contains(Constants.S2S_PAGE_ID));
 
         // non 0 matches empty custom message non empty page id
-        msg = new ValidationMessage();
+        msg = new ValidationMessageDto();
         msg.setValidationRuleNumber("000.28");
         msg.setValidationMessageId(100);
         msg.setValidationMessageText(ZUKO_SAYS);

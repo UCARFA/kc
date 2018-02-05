@@ -7,8 +7,6 @@
  */
 package org.kuali.coeus.propdev.impl.s2s.nih;
 
-
-import gov.nih.era.svs.types.ValidationMessage;
 import org.apache.commons.lang3.StringUtils;
 
 public final class NihValidationServiceUtils {
@@ -20,7 +18,7 @@ public final class NihValidationServiceUtils {
         throw new UnsupportedOperationException("do not call");
     }
 
-    public static String toMessageString(ValidationMessage message) {
+    public static String toMessageString(ValidationMessageDto message) {
         String msg = StringUtils.replaceChars(StringUtils.replaceChars(message.getValidationMessageText(), StringUtils.LF, " "), StringUtils.CR, "");
         if (message.getValidationMessageText().contains(STACKTRACE_START)) {
             msg = message.getValidationMessageText().substring(0, message.getValidationMessageText().indexOf(STACKTRACE_START));
