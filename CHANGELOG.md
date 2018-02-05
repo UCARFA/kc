@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2760: updating s2s.  updating other minor build dependencies
+  * Travis Schneeberger on Mon, 5 Feb 2018 13:45:07 -0500 [View Commit](../../commit/d5e7277413a007a81f37b9ba84121a9044dc216a)
+
+## coeus-1802.0004
 * RESKC-2723: Move scripts to the correct folder
   * Travis Schneeberger on Mon, 5 Feb 2018 12:56:43 -0500 [View Commit](../../commit/9156abf0b0b762ccb5de5ea9efa75e7b122d24f6)
 * Fix Oracle (#2736)
