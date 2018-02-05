@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1802.0005
 * RESKC-2760: updating s2s.  updating other minor build dependencies
   * Travis Schneeberger on Mon, 5 Feb 2018 13:45:07 -0500 [View Commit](../../commit/d5e7277413a007a81f37b9ba84121a9044dc216a)
 
