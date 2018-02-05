@@ -34,5 +34,6 @@ update award_report_tracking art
 		(art.frequency_base_code is null and terms.frequency_base_code is null))
 	and (art.osp_distribution_code = terms.osp_distribution_code or
 		(art.osp_distribution_code is null and terms.osp_distribution_code is null))
+	and (art.due_date = due_date or frequency_base_code in ('1', '2', '3', '4', '5'))
 set art.award_id = terms.award_id,
 	art.award_report_term_id = terms.award_report_terms_id;
