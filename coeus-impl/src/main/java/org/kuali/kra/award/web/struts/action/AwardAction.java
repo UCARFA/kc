@@ -48,6 +48,7 @@ import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
+import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutService;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
 import org.kuali.kra.award.service.AwardDirectFandADistributionService;
 import org.kuali.kra.award.service.AwardReportsService;
@@ -139,6 +140,7 @@ public class AwardAction extends BudgetParentActionBase {
     private TimeAndMoneyService timeAndMoneyService;
     private TimeAndMoneyExistenceService timeAndMoneyExistenceService;
     private AwardAccountService awardAccountService;
+    private AwardCloseoutService awardCloseoutService;
 
     private enum SuperUserAction {
         SUPER_USER_APPROVE, TAKE_SUPER_USER_ACTIONS
@@ -429,6 +431,7 @@ public class AwardAction extends BudgetParentActionBase {
          * deal with the award report tracking generation business.
          */
         getReportTrackingService().generateReportTrackingAndSave(award, false);
+        getAwardCloseoutService().updateCloseoutDueDatesBeforeSave(award);
 
         final Project project = getProjectRetrievalService().retrieveProject(awardForm.getAwardDocument().getAward().getAwardNumber());
 
@@ -1497,4 +1500,14 @@ public class AwardAction extends BudgetParentActionBase {
         this.projectRetrievalService = projectRetrievalService;
     }
 
+    public AwardCloseoutService getAwardCloseoutService() {
+        if (awardCloseoutService == null) {
+            awardCloseoutService = KcServiceLocator.getService(AwardCloseoutService.class);
+        }
+        return awardCloseoutService;
+    }
+
+    public void setAwardCloseoutService(AwardCloseoutService awardCloseoutService) {
+        this.awardCloseoutService = awardCloseoutService;
+    }
 }

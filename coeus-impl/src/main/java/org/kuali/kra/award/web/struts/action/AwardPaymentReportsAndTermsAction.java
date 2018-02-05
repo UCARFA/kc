@@ -597,8 +597,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         } else {
             awardForm.getAwardDocument().getAward().setPaymentScheduleIndicator(Constants.YES_FLAG);
         }
-        
-        getAwardCloseoutService().updateCloseoutDueDatesBeforeSave(awardDocument.getAward());
+
         if (new AwardDocumentRule().processAwardReportTermBusinessRules(awardDocument) && new AwardDocumentRule().processAwardReportTermSaveRules(awardForm)) {
             
             /**
@@ -626,10 +625,6 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         } else {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
-    }
-    
-    protected AwardCloseoutService getAwardCloseoutService(){
-        return KcServiceLocator.getService(AwardCloseoutService.class);
     }
     
     /**
