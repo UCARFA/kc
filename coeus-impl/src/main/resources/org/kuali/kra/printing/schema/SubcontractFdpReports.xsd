@@ -30,16 +30,13 @@
                             <xs:element name="SubcontractorName" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="StartDate" type="xs:date" nillable="true" minOccurs="0"/>
                             <xs:element name="EndDate" type="xs:date" nillable="true" minOccurs="0"/>
-                            <xs:element name="PONumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="PHSFCOI" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FFATA" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="ModificationType" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="Comments" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="SiteInvestigator" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FsrsSubawardNumber" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SubcontractorDetails" type="subcontract:OrganizationType" nillable="true" minOccurs="0"/>
                             <xs:element name="SubcontractorOrgRolodexDetails" type="subcontract:RolodexDetailsType" nillable="true" minOccurs="0"/>
-                            <xs:element name="SiteInvestigatorDetails" type="subcontract:RolodexDetailsType" nillable="true" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
@@ -86,12 +83,6 @@
                             <xs:element name="ChangeRequestsContactCd" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="TerminationContactCd" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="NoCostExtensionContactCd" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="PerfSiteDiffFromOrgAddr" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="PerfSiteSameAsSubPiAddr" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="SubRegisteredInCcr" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ParentDunsNumber" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ParentCongressionalDistrict" type="xs:string" nillable="true" minOccurs="0"/>
-                            <xs:element name="ExemptFromRprtgExecComp" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="CopyRights" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="CopyRightsDescription" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="AutomaticCarryForward" type="xs:string" nillable="true" minOccurs="0"/>

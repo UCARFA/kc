@@ -449,22 +449,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                     subContractTemplateInfo.setNoCostExtensionContactCd(contactType.getContactTypeCode());
                 }
             }
-            subContractTemplateInfo.setExemptFromRprtgExecComp(subawardTemplate.getExemptFromRprtgExecComp());
-            subContractTemplateInfo.setSubRegisteredInCcr(subawardTemplate.getSubRegisteredInCcr());
 
-            if(subawardTemplate.getPerfSiteDiffFromOrgAddr() != null){
-                subContractTemplateInfo.setPerfSiteDiffFromOrgAddr(subawardTemplate.getPerfSiteDiffFromOrgAddr());
-            }
-            if(subawardTemplate.getPerfSiteSameAsSubPiAddr() != null){
-                subContractTemplateInfo.setPerfSiteSameAsSubPiAddr(subawardTemplate.getPerfSiteSameAsSubPiAddr());
-            }
-
-            if(subawardTemplate.getParentDunsNumber() != null) {
-                subContractTemplateInfo.setParentDunsNumber(subawardTemplate.getParentDunsNumber());
-            }
-            if(subawardTemplate.getParentCongressionalDistrict() != null) {
-                subContractTemplateInfo.setParentCongressionalDistrict(subawardTemplate.getParentCongressionalDistrict());
-            }
             if(subawardTemplate.getCopyRightType() != null) {
                 subContractTemplateInfo.setCopyRights(subawardTemplate.getCopyRightType().toString());
             }
@@ -538,29 +523,10 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
 
     public void setSubcontractDetail(SubContractData subContractData, SubAward subaward) {
         SubcontractDetail subcontractDetail = SubcontractDetail.Factory.newInstance();
-        RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
         RolodexDetailsType rolodexDetailsType = RolodexDetailsType.Factory.newInstance();
-        OrganizationType organisation =OrganizationType.Factory.newInstance();
         if(subaward.getRolodex() != null ){
             subcontractDetail.setSiteInvestigator(subaward.getRolodex().getFullName());
-            if(subaward.getRolodex().getFullName() != null && subaward.getRolodex().getFullName().length() > 0){
-                rolodexDetails.setRolodexName(subaward.getRolodex().getFullName());
-            } else{
-                rolodexDetails.setRolodexName(subaward.getRolodex().getOrganization());
-            }
-            rolodexDetails.setAddress1(subaward.getRolodex().getAddressLine1());
-            rolodexDetails.setAddress2(subaward.getRolodex().getAddressLine2());
-            rolodexDetails.setAddress3(subaward.getRolodex().getAddressLine3());
-            rolodexDetails.setCity(subaward.getRolodex().getCity());
-            String countryCode = subaward.getRolodex().getCountryCode();
-            String stateName = subaward.getRolodex().getState();
-            rolodexDetails.setStateDescription(getStateName(countryCode, stateName));
-            rolodexDetails.setPincode(subaward.getRolodex().getPostalCode());
-            rolodexDetails.setPhoneNumber(subaward.getRolodex().getPhoneNumber());
-            rolodexDetails.setFax(subaward.getRolodex().getFaxNumber());
-            rolodexDetails.setEmail(subaward.getRolodex().getEmailAddress());
         }
-        subcontractDetail.setPONumber(subaward.getPurchaseOrderNum());
         subcontractDetail.setFsrsSubawardNumber(subaward.getFsrsSubawardNumber());
         if (subaward.getOrganization() != null){
             subcontractDetail.setSubcontractorName(subaward.getOrganization().getOrganizationName());
@@ -572,9 +538,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             String stateName = subaward.getOrganization().getRolodex().getState();
             rolodexDetailsType.setStateDescription(getStateName(countryCode, stateName));
             rolodexDetailsType.setPincode(subaward.getOrganization().getRolodex().getPostalCode());
-            organisation.setFedralEmployerId(subaward.getOrganization().getFederalEmployerId());
-            organisation.setDunsNumber(subaward.getOrganization().getDunsNumber());
-            organisation.setCongressionalDistrict(subaward.getOrganization().getCongressionalDistrict());
         }
 
         getPeriodOfPerformanceStartDate(subaward).ifPresent(date -> subcontractDetail.setStartDate(getDateTimeService().getCalendar(date)));
@@ -589,9 +552,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         }
 
         subcontractDetail.setSubcontractorOrgRolodexDetails(rolodexDetailsType);
-        subcontractDetail.setSiteInvestigatorDetails(rolodexDetails);
-        subcontractDetail.setSubcontractorDetails(organisation);
-
 
         if (fcoi != null) {
             subcontractDetail.setPHSFCOI(toFlag(fcoi));
