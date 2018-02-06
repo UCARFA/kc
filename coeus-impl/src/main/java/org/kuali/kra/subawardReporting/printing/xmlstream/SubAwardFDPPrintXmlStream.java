@@ -750,6 +750,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
                 for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
                     if(subAwardContact.getContactTypeCode().equals(administrativeContactCode)) {
+                        primeAdministrativeContact.setContactTypeCode(administrativeContactCode);
                         final Rolodex rolodex = subAwardContact.getRolodex();
                         if( rolodex.getFullName() == null ) {
                             rolodexdetails.setRolodexName(rolodex.getOrganization());
@@ -852,6 +853,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
                 for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
                     if(subAwardContact.getContactTypeCode().equals(administrativeFinancialCode)) {
+                        primeFinancialContact.setContactTypeCode(administrativeFinancialCode);
                         Rolodex rolodex = subAwardContact.getRolodex();
                         if( rolodex.getFullName() == null) {
                             rolodexDetails.setRolodexName(rolodex.getOrganization());
@@ -904,7 +906,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
                 for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
                     if(subAwardContact.getContactTypeCode().equals(auhtorisedOfficialCode)) {
-
+                        primeAuthorisedOfficial.setContactTypeCode(auhtorisedOfficialCode);
                         Rolodex rolodex = subAwardContact.getRolodex();
                         if( rolodex.getFullName()==null) {
                             rolodexDetails.setRolodexName(rolodex.getOrganization());
@@ -948,8 +950,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         if(contactUsage.getModuleCode().equals(CoeusModule.SUBCONTRACTS_MODULE_CODE)){
             if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
                 for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
-                    if(subAwardContact.getContactTypeCode().equals(administrativeCode))
-                    {
+                    if(subAwardContact.getContactTypeCode().equals(administrativeCode)) {
+                        administrativeContact.setContactTypeCode(administrativeCode);
                         Rolodex rolodex = subAwardContact.getRolodex();
                         String organization = rolodex.getOrganization();
                         String fullName = rolodex.getFullName();
@@ -990,6 +992,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()) {
                 for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
                     if(subAwardContact.getContactTypeCode().equals(financialContactCode)) {
+                        financialContact.setContactTypeCode(financialContactCode);
+
                         Rolodex rolodex = subAwardContact.getRolodex();
                         String organization = rolodex.getOrganization();
                         String fullName = rolodex.getFullName();
@@ -1032,6 +1036,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
                 for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
                     if(subAwardContact.getContactTypeCode().equals(financialContactCode)) {
+                        authorizedOfficial.setContactTypeCode(financialContactCode);
+
                         Rolodex rolodex = subAwardContact.getRolodex();
                         String organization = rolodex.getOrganization();
                         String fullName = rolodex.getFullName();
