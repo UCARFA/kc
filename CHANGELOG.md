@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2733, RESKC-2734, RESKC-2735, RESKC-2737, RESKC-2738: fix contact mappings based on contact code
+  * Travis Schneeberger on Tue, 6 Feb 2018 14:13:55 -0500 [View Commit](../../commit/8cd90b16f853f0f03f2b08b6bf54ec4b28386716)
+* RESKC-1763, RESKC-2765: updating fdp forms attachment 3b and attachment 3b page2
+  * Travis Schneeberger on Tue, 6 Feb 2018 11:58:01 -0500 [View Commit](../../commit/7fedb349369587ec7e5aa271d8cd738b23fcea75)
+* RESKC-2729: Fix ambiguous column issue in mysql ART update script
+  * Jeff Largent on Tue, 6 Feb 2018 11:41:25 -0500 [View Commit](../../commit/940512d4938a47708072dc671c7a21082a91826e)
+
+## coeus-1802.0007
 * RESKC-2678: Update award close dates on every save rather than just on the reports tab
   * Jeff Largent on Mon, 5 Feb 2018 15:38:41 -0500 [View Commit](../../commit/60f3740ddf57ca5fe6dc5d01ac4a86f64614919f)
 
