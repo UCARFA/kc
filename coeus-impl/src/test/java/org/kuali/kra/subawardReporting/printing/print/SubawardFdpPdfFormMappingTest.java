@@ -40,8 +40,18 @@ public class SubawardFdpPdfFormMappingTest {
     }
 
     @Test
-    public void test_mapping_attachment_3a_() throws Exception {
+    public void test_mapping_attachment_3a() throws Exception {
         testMapping("classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment3a.pdf", SubawardFdp.Attachment3aPdf.Field.values());
+    }
+
+    @Test
+    public void test_mapping_attachment_3b() throws Exception {
+        testMapping("classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment3b.pdf", SubawardFdp.Attachment3bPdf.Field.values());
+    }
+
+    @Test
+    public void test_mapping_attachment_3b_page2() throws Exception {
+        testMapping("classpath:org/kuali/kra/subawardReporting/printing/print/fdpAttachment3bPage2.pdf", SubawardFdp.Attachment3bPage2Pdf.Field.values());
     }
 
     @Test

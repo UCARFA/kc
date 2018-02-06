@@ -52,7 +52,7 @@ public abstract class SubawardFdp extends AbstractPrint {
             Attachment2Form.FDP_AFOSR.getId(), Attachment2Form.FDP_AMRAA.getId(), Attachment2Form.FDP_AMRMC.getId(), Attachment2Form.FDP_ARO.getId(),
             Attachment2Form.FDP_DOE.getId(), Attachment2Form.FDP_EPA.getId(), Attachment2Form.FDP_NASA.getId(), Attachment2Form.FDP_NIH.getId(),
             Attachment2Form.FDP_NSF.getId(), Attachment2Form.FDP_ONR.getId(), Attachment2Form.FDP_USDA.getId(),
-            Attachment3aForm.ATTACHMENT_3A.getId(), "FDP_ATT_3B", "FDP_ATT_3B_2", "FDP_ATT_4")
+            Attachment3aForm.ATTACHMENT_3A.getId(), Attachment3bForm.ATTACHMENT_3B.getId(), Attachment3bPage2Form.ATTACHMENT_3B_PAGE2.getId(), "FDP_ATT_4")
             .collect(Collectors.toList());
 
     private Map<String, Resource> pdfForms;
@@ -118,6 +118,12 @@ public abstract class SubawardFdp extends AbstractPrint {
         final boolean attachment3a = Stream.of(Attachment3aForm.values())
                 .anyMatch(form -> form.getId().equals(selectedForm.getKey()));
 
+        final boolean attachment3b = Stream.of(Attachment3bForm.values())
+                .anyMatch(form -> form.getId().equals(selectedForm.getKey()));
+
+        final boolean attachment3bPage2 = Stream.of(Attachment3bPage2Form.values())
+                .anyMatch(form -> form.getId().equals(selectedForm.getKey()));
+
         final boolean modification = Stream.of(ModificationForm.values())
                 .anyMatch(form -> form.getId().equals(selectedForm.getKey()));
 
@@ -127,6 +133,10 @@ public abstract class SubawardFdp extends AbstractPrint {
             fillCertificationForm(pdfDocument, xmlObject);
         } else if (attachment3a) {
             fillAttachment3aForm(pdfDocument, xmlObject);
+        } else if (attachment3b) {
+            fillAttachment3bForm(pdfDocument, xmlObject);
+        } else if (attachment3bPage2) {
+            fillAttachment3bPage2Form(pdfDocument, xmlObject);
         } else if (modification) {
             fillModificationForm(pdfDocument, xmlObject);
         }
@@ -712,6 +722,28 @@ public abstract class SubawardFdp extends AbstractPrint {
         return address.toString();
     }
 
+    private void fillAttachment3bForm(PDDocument document, SubContractDataDocument xmlObject) {
+        final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() :
+                SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
+
+        setField(document, Attachment3bPdf.Field.SUBAWARD_NUMBER.getfName(), subcontractDetail.getFsrsSubawardNumber());
+    }
+
+    private void fillAttachment3bPage2Form(PDDocument document, SubContractDataDocument xmlObject) {
+        final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() :
+                SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
+
+        setField(document, Attachment3bPage2Pdf.Field.SUBAWARD_NUMBER.getfName(), subcontractDetail.getFsrsSubawardNumber());
+
+        if (StringUtils.isNotBlank(subcontractDetail.getSubcontractorName())) {
+            setField(document, Attachment3bPage2Pdf.Field.ENTITY_NAME.getfName(), subcontractDetail.getSubcontractorName());
+        }
+
+        if (StringUtils.isNotBlank(subcontractDetail.getSiteInvestigator())) {
+            setField(document, Attachment3bPage2Pdf.Field.PI_NAME.getfName(), subcontractDetail.getSiteInvestigator());
+        }
+    }
+
     @Override
     public Map<String, byte[]> sortPdfForms(Map<String, byte[]> forms) {
         final TreeMap<String, byte[]> sorted = new TreeMap<>(Comparator.comparing(FORM_ORDER::indexOf));
@@ -1213,6 +1245,132 @@ public abstract class SubawardFdp extends AbstractPrint {
         }
 
         private Attachment3aPdf() {
+            throw new UnsupportedOperationException("do not call");
+        }
+    }
+
+    private enum Attachment3bForm {
+        ATTACHMENT_3B("FDP_ATT_3B");
+
+        private final String id;
+
+        Attachment3bForm(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+    }
+
+    static final class Attachment3bPdf {
+
+        enum Field implements PdfField {
+            SUBAWARD_NUMBER("SubawardNumber");
+
+            private final String fName;
+            private final Set<String> values;
+            private final boolean readOnly;
+
+            Field(String fName, Set<String> values) {
+                this.fName = fName;
+                this.values = values;
+                this.readOnly = false;
+            }
+
+            Field(String fName) {
+                this.fName = fName;
+                this.values = Collections.emptySet();
+                this.readOnly = false;
+            }
+
+            Field(String fName, boolean readOnly) {
+                this.fName = fName;
+                this.values = Collections.emptySet();
+                this.readOnly = readOnly;
+            }
+
+            @Override
+            public String getfName() {
+                return fName;
+            }
+
+            @Override
+            public Set<String> getValues() {
+                return values;
+            }
+
+            @Override
+            public boolean isReadOnly() {
+                return readOnly;
+            }
+        }
+
+        private Attachment3bPdf() {
+            throw new UnsupportedOperationException("do not call");
+        }
+    }
+
+    private enum Attachment3bPage2Form {
+        ATTACHMENT_3B_PAGE2("FDP_ATT_3B_2");
+
+        private final String id;
+
+        Attachment3bPage2Form(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+    }
+
+    static final class Attachment3bPage2Pdf {
+
+        enum Field implements PdfField {
+            SUBAWARD_NUMBER("SubawardNumber"),
+            ENTITY_NAME("SubEntityName"),
+            PI_NAME("SubPIName");
+
+            private final String fName;
+            private final Set<String> values;
+            private final boolean readOnly;
+
+            Field(String fName, Set<String> values) {
+                this.fName = fName;
+                this.values = values;
+                this.readOnly = false;
+            }
+
+            Field(String fName) {
+                this.fName = fName;
+                this.values = Collections.emptySet();
+                this.readOnly = false;
+            }
+
+            Field(String fName, boolean readOnly) {
+                this.fName = fName;
+                this.values = Collections.emptySet();
+                this.readOnly = readOnly;
+            }
+
+            @Override
+            public String getfName() {
+                return fName;
+            }
+
+            @Override
+            public Set<String> getValues() {
+                return values;
+            }
+
+            @Override
+            public boolean isReadOnly() {
+                return readOnly;
+            }
+            }
+
+        private Attachment3bPage2Pdf() {
             throw new UnsupportedOperationException("do not call");
         }
     }
