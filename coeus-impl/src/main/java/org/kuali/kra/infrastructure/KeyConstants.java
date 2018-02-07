@@ -1158,6 +1158,7 @@ public final class KeyConstants {
 
     public static final String XML_REORDER_WARNING = "info.grantsgov.form.xml.reorder";
     public static final String ERROR_MODULARBUDGET_NOT_SYNCED = "error.modularBudget.not.synced";
+    public static final String MESSAGE_DOCUMENT_VERSION_ANOTHER_USER_EDITING = "message.document.version.another.user.editing";
 
     /**
      * private utility class ctor.

@@ -12,17 +12,23 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
+import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.common.framework.keyword.KeywordsService;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersioningService;
-import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
-import org.kuali.coeus.common.framework.keyword.KeywordsService;
-import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
-import org.kuali.kra.institutionalproposal.home.*;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
@@ -42,6 +48,7 @@ import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Attachment;
 import org.kuali.rice.krad.exception.AuthenticationException;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,6 +72,8 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     private VersioningService versioningService;
     private InstitutionalProposalVersioningService institutionalProposalVersioningService;
     private ProposalLogService proposalLogService;
+    private VersionHistoryService versionHistoryService;
+    private GlobalVariableService globalVariableService;
 
     public InstitutionalProposalHomeAction() {
     }
@@ -91,7 +100,6 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
      */
     public ActionForward updateNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-       
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -207,20 +215,33 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument institutionalProposalDocument = institutionalProposalForm.getInstitutionalProposalDocument();
         InstitutionalProposal institutionalProposal = institutionalProposalDocument.getInstitutionalProposal();
-
         if (institutionalProposal.getProposalSequenceStatus().equalsIgnoreCase(PENDING)) {
             response.sendRedirect(buildForwardUrl(institutionalProposalForm.getDocId()));
             return null;
         }
 
         InstitutionalProposal pendingProposal = findPendingVersion(institutionalProposal.getProposalNumber());
-
         ActionForward forward;
         if (pendingProposal != null) {
             Object question = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             forward = question == null ? showPromptForEditingPendingVersion(mapping, institutionalProposalForm, request, response) :
-                                         processPromptForEditingPendingVersionResponse(mapping, request, response, institutionalProposalForm, pendingProposal);
-        } else {
+                    processPromptForEditingPendingVersionResponse(mapping, request, response, institutionalProposalForm, pendingProposal);
+
+        }
+        else if (getVersionHistoryService().isAnotherUserEditingDocument(institutionalProposalDocument.getDocumentNumber())) {
+            getGlobalVariableService().getMessageMap().putError(Constants.DOCUMENT_NUMBER_FIELD, KeyConstants.MESSAGE_DOCUMENT_VERSION_ANOTHER_USER_EDITING,
+                    Constants.INSTITUTIONAL_PROPOSAL,
+                    globalVariableService.getUserSession().getPerson().getFirstName(),
+                    globalVariableService.getUserSession().getPerson().getLastName(),
+                    globalVariableService.getUserSession().getPrincipalName());
+            forward = mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        else {
+            getPessimisticLockService().generateNewLock(
+                    institutionalProposalDocument.getDocumentNumber(),
+                    getVersionHistoryService().getVersionLockDescriptor(institutionalProposalDocument.getDocumentTypeCode(),
+                            institutionalProposalDocument.getDocumentNumber()),
+                    GlobalVariables.getUserSession().getPerson());
             forward = createAndSaveNewVersion(response, institutionalProposalForm, institutionalProposalDocument, institutionalProposal);
         }
         return forward;
@@ -313,8 +334,20 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
        
         return new ActionRedirect(buildForwardUrl(newInstitutionalProposalDocument.getDocumentNumber()));
     }
-    
-    
+
+
+    public VersionHistoryService getVersionHistoryService() {
+        if (versionHistoryService == null) {
+            versionHistoryService = KcServiceLocator.getService(VersionHistoryService.class);
+        }
+        return versionHistoryService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;    }
     
     public InstitutionalProposalService getInstitutionalProposalService() {
         if (institutionalProposalService == null) {
@@ -322,8 +355,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         }
         return institutionalProposalService;
     }
-    
-    
+
     /**
      * This method prepares the AwardForm with the document found via the Award lookup
      * Because the helper beans may have preserved a different AwardForm, we need to reset these too

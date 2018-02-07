@@ -137,7 +137,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private static final String AWARD_NUMBER = "awardNumber";
     private static final String DOCUMENT_NUMBER = "documentNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    private static final String AWARD = "Award";
     private static final String CG_2 = "CG2";
     private static final String CG_1 = "CG1";
     private static final String CG_3 = "CG3";
@@ -2579,7 +2578,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     @Override
     public String getParentTypeName(){
-        return AWARD;
+        return Constants.AWARD;
     }
 
     @Override

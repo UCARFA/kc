@@ -8,12 +8,17 @@
 package org.kuali.coeus.common.impl.version.history;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,10 +35,22 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
     public static final String SEQUENCE_OWNER_REFERENCE_VERSION_NAME = "sequenceOwnerVersionNameValue";
     public static final String SEQUENCE_OWNER_REFERENCE_SEQ_NUMBER = "sequenceOwnerSequenceNumber";
     public static final String SEQUENCE_OWNER_SEQUENCE_NUMBER_FIELD = "sequenceOwnerSequenceNumber";
-    
+
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService bos;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("pessimisticLockService")
+    private PessimisticLockService pessimisticLockService;
     
     protected VersionHistory createVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId) {
         VersionHistory versionHistory = new VersionHistory(sequenceOwner, versionStatus, userId, new Date(new java.util.Date().getTime()));
@@ -48,7 +65,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
     public VersionHistory findPendingVersion(Award award) {
         List<VersionHistory> histories = loadVersionHistory(Award.class, award.getAwardNumber());
         VersionHistory foundPending = null;
-        for(VersionHistory history: histories) {
+        for (VersionHistory history : histories) {
             if (history.getStatus() == VersionStatus.PENDING && award.getSequenceNumber() < history.getSequenceOwnerSequenceNumber()) {
                 foundPending = history;
                 break;
@@ -85,7 +102,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
             }
         }
     }
-    
+
     protected VersionHistory getVersionHistory(Class klass, String versionName, Integer sequenceNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(SEQUENCE_OWNER_CLASS_NAME_FIELD, klass.getName());
@@ -97,6 +114,22 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean isVersionLockOn() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_GEN, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ENABLE_LOCK_ON_DOCUMENT_VERSION);
+    }
+
+    @Override
+    public boolean isAnotherUserEditingDocument(String documentNumber) {
+        return isVersionLockOn() ? pessimisticLockService.getPessimisticLocksForDocument(documentNumber).stream().
+                anyMatch(lock -> lock.getLockDescriptor().contains(Constants.VERSION_LOCK)) : false;
+    }
+
+    @Override
+    public String getVersionLockDescriptor(String documentTypeCode, String documentNumber) {
+        return documentTypeCode + Constants.VERSION_LOCK + "-" + documentNumber + "-" + globalVariableService.getUserSession().getPrincipalId();
     }
 
     @Override
@@ -171,8 +204,6 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         
         return pendingVersionHistory;
     }
-    
-    
 
     @SuppressWarnings("unchecked")
     protected Map<String, Object> buildFieldValueMapForActiveVersionHistory(Class<? extends SequenceOwner> klass, String versionName) {

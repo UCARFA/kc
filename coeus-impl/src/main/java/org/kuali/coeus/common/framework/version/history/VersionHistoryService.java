@@ -24,7 +24,13 @@ public interface VersionHistoryService {
      * @return
      */
     VersionHistory updateVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId);
-    
+
+    boolean isVersionLockOn();
+
+    boolean isAnotherUserEditingDocument(String documentNumber);
+
+    String getVersionLockDescriptor(String documentTypeCode, String documentNumber);
+
     /**
      * Find the active VersionHistory for a given SequenceOwner type and version name
      * @param klass

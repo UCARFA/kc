@@ -11,10 +11,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.common.framework.keyword.KeywordsService;
-import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewService;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
+import org.kuali.coeus.common.framework.keyword.KeywordsService;
+import org.kuali.coeus.common.framework.version.history.VersionHistory;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
@@ -24,10 +27,8 @@ import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.home.rules.AwardAddCfdaEvent;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.FundingSourceType;
-import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -38,7 +39,6 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +55,7 @@ public class AwardHomeAction extends AwardAction {
 
     private ApprovedSubawardActionHelper approvedSubawardActionHelper;
     private ParameterService parameterService;
+    private GlobalVariableService globalVariableService;
 
     public AwardHomeAction(){
         approvedSubawardActionHelper = new ApprovedSubawardActionHelper();
@@ -333,25 +334,44 @@ public class AwardHomeAction extends AwardAction {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         
-        if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(award, awardForm.getAwardHierarchyBean().getRootNode().getAwardNumber())) {
+        if (getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(award, awardForm.getAwardHierarchyBean().getRootNode().getAwardNumber())) {
             if (award.getAwardSequenceStatus().equalsIgnoreCase(Constants.PENDING)) {
                 response.sendRedirect(buildForwardUrl(awardForm.getDocId()));
                 return null;
             }
-            VersionHistory foundPending = getVersionHistoryService().findPendingVersion(award);
-            cleanUpUserSession();
-            if(foundPending != null) {
-                Object question = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-                forward = question == null ? showPromptForEditingPendingVersion(mapping, form, request, response) :
-                                             processPromptForEditingPendingVersionResponse(mapping, request, response, awardForm, foundPending);
-            } else {
-                AwardDocument newAwardDocument = getAwardVersionService().createAndSaveNewAwardVersion(awardForm.getAwardDocument());
-                reinitializeAwardForm(awardForm, newAwardDocument);
-                return new ActionForward(buildForwardUrl(newAwardDocument.getDocumentNumber()), true);
-            }    
-        }else{
+
+            forward = checkVersionAndEdit(mapping, form, request, response, awardForm, award);
+        } else{
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        }
+        return forward;
+    }
+
+    public ActionForward checkVersionAndEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, AwardForm awardForm, Award award) throws Exception {
+        ActionForward forward;
+        VersionHistory foundPending = getVersionHistoryService().findPendingVersion(award);
+        cleanUpUserSession();
+        if (foundPending != null) {
+                Object question = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+                forward = question == null ? showPromptForEditingPendingVersion(mapping, form, request, response) :
+                        processPromptForEditingPendingVersionResponse(mapping, request, response, awardForm, foundPending);
+        }
+        else if (getVersionHistoryService().isAnotherUserEditingDocument(award.getAwardDocument().getDocumentNumber())) {
+            getGlobalVariableService().getMessageMap().putError(Constants.DOCUMENT_NUMBER_FIELD, KeyConstants.MESSAGE_DOCUMENT_VERSION_ANOTHER_USER_EDITING,
+                    Constants.AWARD, globalVariableService.getUserSession().getPerson().getFirstName(),
+                    globalVariableService.getUserSession().getPerson().getLastName(),
+                    globalVariableService.getUserSession().getPrincipalName());
+            forward = mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        else {
+            getPessimisticLockService().generateNewLock(award.getAwardDocument().getDocumentNumber(),
+                    getVersionHistoryService().getVersionLockDescriptor(award.getAwardDocument().getDocumentTypeCode(), award.getAwardDocument().getDocumentNumber()),
+                    getGlobalVariableService().getUserSession().getPerson());
+
+            AwardDocument newAwardDocument = getAwardVersionService().createAndSaveNewAwardVersion(awardForm.getAwardDocument());
+            reinitializeAwardForm(awardForm, newAwardDocument);
+            forward = new ActionForward(buildForwardUrl(newAwardDocument.getDocumentNumber()), true);
         }
         return forward;
     }
@@ -460,5 +480,13 @@ public class AwardHomeAction extends AwardAction {
       
         return null;
     }
+
+    public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;
+    }
+
 
 }

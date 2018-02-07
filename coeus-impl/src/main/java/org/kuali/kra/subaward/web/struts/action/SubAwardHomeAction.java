@@ -13,8 +13,11 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.sys.api.model.KcFile;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.subaward.document.SubAwardDocument;
@@ -23,9 +26,9 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -35,6 +38,7 @@ public class SubAwardHomeAction extends SubAwardAction{
     private static final String PENDING = "PENDING";
 
     private static final String SUB_AWARD_AMOUNT_INFO = "subAwardAmountInfo";
+    private GlobalVariableService globalVariableService;
 
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form,
@@ -86,7 +90,19 @@ public class SubAwardHomeAction extends SubAwardAction{
             } else {
                 forward = processPromptForEditingPendingVersionResponse(mapping, request, response, subAwardForm, foundPending);
             }
-        } else {
+        }
+        else if (getVersionHistoryService().isAnotherUserEditingDocument(subAwardDocument.getDocumentNumber())) {
+            getGlobalVariableService().getMessageMap().putError(Constants.DOCUMENT_NUMBER_FIELD, KeyConstants.MESSAGE_DOCUMENT_VERSION_ANOTHER_USER_EDITING,
+                    Constants.SUBAWARD_PANEL_NAME, globalVariableService.getUserSession().getPerson().getFirstName(),
+                    globalVariableService.getUserSession().getPerson().getLastName(),
+                    globalVariableService.getUserSession().getPrincipalName());
+            forward = mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        else {
+            getPessimisticLockService().generateNewLock(
+                    subAwardDocument.getDocumentNumber(),
+                    getVersionHistoryService().getVersionLockDescriptor(subAwardDocument.getDocumentTypeCode(), subAwardDocument.getDocumentNumber()),
+                    GlobalVariables.getUserSession().getPerson());
             forward = createAndSaveNewSubAwardVersion(response, subAwardForm, subAwardDocument, subaward);
         }
 
@@ -352,5 +368,12 @@ public ActionForward deselectAllSubAwardPrintNoticeItems(ActionMapping mapping, 
             }
         }
         return null;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;
     }
 }
