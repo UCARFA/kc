@@ -1,6 +1,32 @@
 
 
 ## CURRENT
+* RESKC-2732: Prevent duplicate version creation in award, subaward and IP (#2745)
+
+* RESKC-2732: Prevent duplicate version creation in award, subaward and IP
+  * 
+* Refactored
+  * Gayathri Athreya on Wed, 7 Feb 2018 07:45:43 -0700 [View Commit](../../commit/224fb86a5a7a485cfce25c4f4598331e5f42babe)
+* RESKC-2721: code cleanup
+  * Travis Schneeberger on Wed, 7 Feb 2018 09:38:44 -0500 [View Commit](../../commit/0f4c34d7c62d3067791ea06b0f4a6e21f6c93e8c)
+* RESKC-2721: Fixed logic that resulted in NPE when deleting personnel
+  * Tyler Wilson on Wed, 17 Jan 2018 12:09:35 -0700 [View Commit](../../commit/86e128c993cad9ab0610c7466e0bfc15e06f6126)
+* RESKC-1813: Updated files per PR comments
+  * Tyler Wilson on Wed, 2 Aug 2017 15:49:52 -0600 [View Commit](../../commit/9734e190cf77c5737dccb1998081e2e212e0b4e3)
+* RSISSUES-332: Updated contrib with upstream/master and proposal award lookup fix
+  * Tyler Wilson on Wed, 2 Aug 2017 13:06:54 -0600 [View Commit](../../commit/545ee5ee794ad0a7f432d9286d16d2b2a7ead4cd)
+* RESKC-111: Changed validation to check for existence of award rather than the sponsor award id field within the award
+  * aakers on Wed, 2 Aug 2017 12:52:33 -0600 [View Commit](../../commit/611dfce607c1be3fdaccc6b9ac12be3c6cbf1c7a)
+* Updated CORE.md to include default values for parameters as found in kc-config-defaults.xml
+  * Tyler Wilson on Fri, 2 Jun 2017 12:16:36 -0600 [View Commit](../../commit/64d5fa5a5f787c5549d056820c7b70994530936c)
+* Updated CORE.md based on feedback
+  * Tyler Wilson on Fri, 2 Jun 2017 09:00:48 -0600 [View Commit](../../commit/4f2ec94df40922790a6e0e12dd7b975bf76ec36b)
+* Core Auth implementation in monolith
+  * Tyler Wilson on Thu, 27 Apr 2017 16:30:23 -0600 [View Commit](../../commit/7ae397646e182427ce5f81160c1ef596a8e63fed)
+* Core Auth implementation in monolith
+  * Tyler Wilson on Thu, 27 Apr 2017 16:30:23 -0600 [View Commit](../../commit/15b165b46455effbc35ec84005748bdf960ba135)
+
+## coeus-1802.0011
 * No Changes
 
 

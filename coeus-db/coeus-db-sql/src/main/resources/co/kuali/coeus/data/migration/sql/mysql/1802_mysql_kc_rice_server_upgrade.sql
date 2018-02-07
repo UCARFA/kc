@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1802_001__nih_validation_service_caching.sql
+\. ./rice/bootstrap/V1802_004__version_lock_feature.sql
 commit;
