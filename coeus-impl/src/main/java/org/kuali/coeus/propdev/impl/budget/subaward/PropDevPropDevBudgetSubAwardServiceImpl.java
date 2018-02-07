@@ -14,7 +14,6 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.xpath.XPathAPI;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.s2sgen.api.core.InfastructureConstants;
@@ -36,11 +35,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.*;
 
-import javax.xml.transform.TransformerException;
-
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -334,7 +333,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
      * extracts XML from PDF
      */
     @Override
-    public byte[] getXMLFromPDF(PdfReader reader) throws IOException, TransformerException {
+    public byte[] getXMLFromPDF(PdfReader reader) throws IOException, XPathExpressionException {
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
         if (domDocument==null) {
@@ -352,9 +351,9 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         return XfaForm.serializeDoc(budgetElement);
     }
 
-    private Node getBudgetElement(Element xmlElement) throws TransformerException {
+    private Node getBudgetElement(Element xmlElement) throws XPathExpressionException {
         Node budgetNode = xmlElement;
-        NodeList budgetAttachments =  XPathAPI.selectNodeList(xmlElement,"//*[local-name(.) = 'BudgetAttachments']");
+        NodeList budgetAttachments =  (NodeList) XPathFactory.newInstance().newXPath().evaluate("//*[local-name(.) = 'BudgetAttachments']", xmlElement, XPathConstants.NODESET);
         if(budgetAttachments!=null && budgetAttachments.getLength()>0){
             Element budgetAttachment = (Element)budgetAttachments.item(0);
             if(budgetAttachment.hasChildNodes()){
@@ -381,7 +380,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         javax.xml.parsers.DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(xmlContents);
         org.w3c.dom.Document document = domParser.parse(byteArrayInputStream);
-        NodeList budgetYearList =  XPathAPI.selectNodeList(document, BUDGET_YEAR_XPATH);
+        NodeList budgetYearList = (NodeList) XPathFactory.newInstance().newXPath().evaluate(BUDGET_YEAR_XPATH, document, XPathConstants.NODESET);
 
         boolean fnfForm = StringUtils.contains(budgetSubAward.getFormName(), RR_FED_NON_FED_BUDGET);
         
@@ -390,13 +389,13 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         
         for (int i = 0; i < budgetYearList.getLength(); i++) {
             Node budgetYear = budgetYearList.item(i);
-            Node startDateNode = XPathAPI.selectSingleNode(budgetYear, "BudgetPeriodStartDate");
+            Node startDateNode = (Node) XPathFactory.newInstance().newXPath().evaluate("BudgetPeriodStartDate", budgetYear, XPathConstants.NODE);
             if (startDateNode == null) {
-                startDateNode = XPathAPI.selectSingleNode(budgetYear, "PeriodStartDate");
+                startDateNode = (Node) XPathFactory.newInstance().newXPath().evaluate("PeriodStartDate", budgetYear, XPathConstants.NODE);
             }
-            Node endDateNode = XPathAPI.selectSingleNode(budgetYear, "BudgetPeriodEndDate");
+            Node endDateNode = (Node) XPathFactory.newInstance().newXPath().evaluate("BudgetPeriodEndDate", budgetYear, XPathConstants.NODE);
             if(endDateNode == null) {
-                endDateNode = XPathAPI.selectSingleNode(budgetYear, "PeriodEndDate");
+                endDateNode = (Node) XPathFactory.newInstance().newXPath().evaluate("PeriodEndDate", budgetYear, XPathConstants.NODE);
             }
             DateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
             Date startDate = dateFormat.parse(startDateNode.getTextContent());
@@ -406,18 +405,18 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             if (periodDetail != null) {
                 Node directCostNode, indirectCostNode, costShareNode = null;
                 if (fnfForm) {
-                    directCostNode = XPathAPI.selectSingleNode(budgetYear, "DirectCosts/FederalSummary");
-                    indirectCostNode = XPathAPI.selectSingleNode(budgetYear, "IndirectCosts/TotalIndirectCosts/FederalSummary");
-                    costShareNode = XPathAPI.selectSingleNode(budgetYear, "TotalCosts/NonFederalSummary");
+                    directCostNode = (Node) XPathFactory.newInstance().newXPath().evaluate("DirectCosts/FederalSummary", budgetYear, XPathConstants.NODE);
+                    indirectCostNode = (Node) XPathFactory.newInstance().newXPath().evaluate("IndirectCosts/TotalIndirectCosts/FederalSummary", budgetYear, XPathConstants.NODE);
+                    costShareNode = (Node) XPathFactory.newInstance().newXPath().evaluate("TotalCosts/NonFederalSummary", budgetYear, XPathConstants.NODE);
                 } else {
-                    directCostNode = XPathAPI.selectSingleNode(budgetYear, "DirectCosts");
+                    directCostNode = (Node) XPathFactory.newInstance().newXPath().evaluate("DirectCosts", budgetYear, XPathConstants.NODE);
                     if (directCostNode == null) {
-                        directCostNode = XPathAPI.selectSingleNode(budgetYear, "TotalDirectCostsRequested");
+                        directCostNode = (Node) XPathFactory.newInstance().newXPath().evaluate("TotalDirectCostsRequested", budgetYear, XPathConstants.NODE);
                     }
 
-                    indirectCostNode = XPathAPI.selectSingleNode(budgetYear, "IndirectCosts/TotalIndirectCosts");
+                    indirectCostNode = (Node) XPathFactory.newInstance().newXPath().evaluate("IndirectCosts/TotalIndirectCosts", budgetYear, XPathConstants.NODE);
                     if (indirectCostNode == null) {
-                        indirectCostNode = XPathAPI.selectSingleNode(budgetYear, "TotalIndirectCostsRequested");
+                        indirectCostNode = (Node) XPathFactory.newInstance().newXPath().evaluate("TotalIndirectCostsRequested", budgetYear, XPathConstants.NODE);
                     }
                 }
                 if (directCostNode != null) {
@@ -433,7 +432,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
                 }
                 periodDetail.computeTotal();
             } else {
-                Node budgetPeriodNode = XPathAPI.selectSingleNode(budgetYear, BUDGET_PERIOD);
+                Node budgetPeriodNode = (Node) XPathFactory.newInstance().newXPath().evaluate(BUDGET_PERIOD, budgetYear, XPathConstants.NODE);
                 String budgetPeriod = null;
                 if (budgetPeriodNode != null) {
                     budgetPeriod = budgetPeriodNode.getTextContent();
@@ -504,10 +503,10 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         removeAllEmptyNodes(document,xpathEmptyNodes,0);
         changeDataTypeForNumberOfOtherPersons(document);
         
-        NodeList budgetYearList =  XPathAPI.selectNodeList(document, BUDGET_YEAR_XPATH);
+        NodeList budgetYearList =  (NodeList) XPathFactory.newInstance().newXPath().evaluate(BUDGET_YEAR_XPATH, document, XPathConstants.NODESET);
         for(int i=0;i<budgetYearList.getLength();i++){
             Node bgtYearNode = budgetYearList.item(i);
-            String period = getValue(XPathAPI.selectSingleNode(bgtYearNode, BUDGET_PERIOD));
+            String period = getValue((Node) XPathFactory.newInstance().newXPath().evaluate(BUDGET_PERIOD, bgtYearNode, XPathConstants.NODE));
             if(FED_NON_FED_FORMS.contains(namespace)){
                 Element newBudgetYearElement = copyElementToName((Element)bgtYearNode,bgtYearNode.getNodeName());
                 bgtYearNode.getParentNode().replaceChild(newBudgetYearElement,bgtYearNode);
@@ -609,8 +608,8 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         }
     }
 
-    protected void removeAllEmptyNodes(Document document,String xpath,int parentLevel) throws TransformerException {
-        NodeList emptyElements =  XPathAPI.selectNodeList(document,xpath);
+    protected void removeAllEmptyNodes(Document document,String xpath,int parentLevel) throws XPathExpressionException {
+        NodeList emptyElements =  (NodeList) XPathFactory.newInstance().newXPath().evaluate(xpath, document, XPathConstants.NODESET);
         
         for (int i = emptyElements.getLength()-1; i > -1; i--){
               Node nodeToBeRemoved = emptyElements.item(i);
@@ -620,7 +619,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
               }
               nodeToBeRemoved.getParentNode().removeChild(nodeToBeRemoved);
         }
-        NodeList moreEmptyElements =  XPathAPI.selectNodeList(document,xpath);
+        NodeList moreEmptyElements =  (NodeList) XPathFactory.newInstance().newXPath().evaluate(xpath, document, XPathConstants.NODESET);
         if(moreEmptyElements.getLength()>0){
             removeAllEmptyNodes(document,xpath,parentLevel);
         }
@@ -640,7 +639,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     }
 
     private void changeDataTypeForNumberOfOtherPersons(Document document) throws Exception{
-        NodeList otherPesronsCountNodes =  XPathAPI.selectNodeList(document,"//*[local-name(.)='OtherPersonnelTotalNumber']");
+        NodeList otherPesronsCountNodes =  (NodeList) XPathFactory.newInstance().newXPath().evaluate("//*[local-name(.)='OtherPersonnelTotalNumber']", document, XPathConstants.NODESET);
         for (int i = 0; i < otherPesronsCountNodes.getLength(); i++) {
             Node countNode = otherPesronsCountNodes.item(i);
             String value = getValue(countNode);
