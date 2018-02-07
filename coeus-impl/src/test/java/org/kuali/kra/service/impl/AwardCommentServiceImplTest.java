@@ -78,7 +78,7 @@ public class AwardCommentServiceImplTest {
         final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE;
         MOCKED_BUSINESS_OBJECT_SERVICE = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(MOCKED_BUSINESS_OBJECT_SERVICE).findMatching(CommentType.class, queryMap); 
+            oneOf(MOCKED_BUSINESS_OBJECT_SERVICE).findMatching(CommentType.class, queryMap); 
             will(returnValue(commentTypeList));
         }});
         awardCommentServiceImpl.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);

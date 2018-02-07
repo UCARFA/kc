@@ -82,7 +82,7 @@ public class AwardBudgetServiceImplTest {
         
         final DataObjectService doService = context.mock(DataObjectService.class);
         context.checking(new Expectations() {{
-            one(doService).find(DevelopmentProposal.class, devProposalNumber);
+            oneOf(doService).find(DevelopmentProposal.class, devProposalNumber);
             will(returnValue(temp));
         }});
         ((AwardBudgetServiceImpl)awardBudgetService).setDataObjectService(doService);
@@ -96,7 +96,7 @@ public class AwardBudgetServiceImplTest {
         tempAward.setAwardId(awardId);
         final AwardService awardService = context.mock(AwardService.class);
         context.checking(new Expectations() {{
-        	one(awardService).getActiveOrNewestAward(testAwardNumber);
+        	oneOf(awardService).getActiveOrNewestAward(testAwardNumber);
         	will(returnValue(tempAward));
         }});
         ((AwardBudgetServiceImpl) awardBudgetService).setAwardService(awardService);

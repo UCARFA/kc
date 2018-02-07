@@ -49,7 +49,7 @@ public class ProposalCountryServiceImplTest {
 		final ProposalCountryServiceImpl proposalCountryServiceImpl = new ProposalCountryServiceImpl();		
 		context.checking(new Expectations() {
 			{
-				one(countryService).getCountryByAlternateCode(null);
+				oneOf(countryService).getCountryByAlternateCode(null);
 				will(returnValue(""));
 			}
 		});
@@ -63,7 +63,7 @@ public class ProposalCountryServiceImplTest {
 		final ProposalCountryServiceImpl proposalCountryServiceImpl = new ProposalCountryServiceImpl();
 		context.checking(new Expectations() {
 			{
-				one(countryService).getCountryByAlternateCode("");
+				oneOf(countryService).getCountryByAlternateCode("");
 				will(returnValue(""));
 			}
 		});
@@ -77,7 +77,7 @@ public class ProposalCountryServiceImplTest {
 		final ProposalCountryServiceImpl proposalCountryServiceImpl = new ProposalCountryServiceImpl();		
 		context.checking(new Expectations() {
 			{
-				one(countryService).getCountryByAlternateCode("USA");
+				oneOf(countryService).getCountryByAlternateCode("USA");
 				will(returnValue(null));
 			}
 		});
@@ -91,7 +91,7 @@ public class ProposalCountryServiceImplTest {
 		final ProposalCountryServiceImpl proposalCountryServiceImpl = new ProposalCountryServiceImpl();		
 		context.checking(new Expectations() {
 			{
-				one(countryService).getCountryByAlternateCode("AUS");
+				oneOf(countryService).getCountryByAlternateCode("AUS");
 				will(returnValue(countryListBuilder.build()));
 			}
 		});

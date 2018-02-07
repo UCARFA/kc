@@ -125,7 +125,7 @@ public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
         fieldValues.put("committeeId", "test");
         fieldValues.put(COMMITTEE_DOCUMENT_STATUS_CODE, KewApiConstants.ROUTE_HEADER_FINAL_CD);
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(Committee.class, fieldValues);
+            oneOf(businessObjectService).findMatching(Committee.class, fieldValues);
             will(returnValue(getCommittees(false)));
         }});
         committeeService.setBusinessObjectService(businessObjectService);
@@ -148,7 +148,7 @@ public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
         fieldValues.put("committeeId", "test");
         fieldValues.put(COMMITTEE_DOCUMENT_STATUS_CODE, KewApiConstants.ROUTE_HEADER_FINAL_CD);
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(Committee.class, fieldValues);
+            oneOf(businessObjectService).findMatching(Committee.class, fieldValues);
             will(returnValue(getCommittees(true)));
         }});
         committeeService.setBusinessObjectService(businessObjectService);

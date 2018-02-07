@@ -92,7 +92,7 @@ public class CommitteeScheduleServiceImplTest  {
             CronSpecialChars dayOfWeek = ScheduleData.getDayOfWeek(scheduleData.getYearlySchedule().getSelectedDayOfWeek());
             CronSpecialChars month = ScheduleData.getMonthOfWeek(scheduleData.getYearlySchedule().getSelectedOption2Month());
             int frequency = scheduleData.getYearlySchedule().getOption2Year();
-            one(scheduleService).getScheduledDates(dt,endDt,time, weekOfMonth, dayOfWeek, month, frequency, null);will(returnValue(dates));
+            oneOf(scheduleService).getScheduledDates(dt,endDt,time, weekOfMonth, dayOfWeek, month, frequency, null);will(returnValue(dates));
         }});
 
         scheduleData.getYearlySchedule().setYearOption(YearlyScheduleDetails.yearOptionValues.CMPLX.toString());
@@ -117,7 +117,7 @@ public class CommitteeScheduleServiceImplTest  {
             CronSpecialChars month = ScheduleData.getMonthOfWeek(scheduleData.getYearlySchedule().getSelectedOption1Month());
             int day = scheduleData.getYearlySchedule().getDay();
             int frequency = scheduleData.getYearlySchedule().getOption1Year();
-            one(scheduleService).getScheduledDates(dt, endDt, time, month, day, frequency, null);
+            oneOf(scheduleService).getScheduledDates(dt, endDt, time, month, day, frequency, null);
             will(returnValue(dates));
         }});
         
@@ -160,7 +160,7 @@ public class CommitteeScheduleServiceImplTest  {
             CronSpecialChars weekOfMonth = ScheduleData.getWeekOfMonth(scheduleData.getMonthlySchedule().getSelectedMonthsWeek());
             CronSpecialChars dayOfWeek = ScheduleData.getDayOfWeek(scheduleData.getMonthlySchedule().getSelectedDayOfWeek());
             int frequency = scheduleData.getMonthlySchedule().getOption2Month();
-            one(scheduleService).getScheduledDates(dt, endDt, time, dayOfWeek, weekOfMonth, frequency, null);
+            oneOf(scheduleService).getScheduledDates(dt, endDt, time, dayOfWeek, weekOfMonth, frequency, null);
             will(returnValue(dates));
         }});
         
@@ -188,7 +188,7 @@ public class CommitteeScheduleServiceImplTest  {
             Time24HrFmt time = new Time24HrFmt(TIME24HR_0_1);
             int day = scheduleData.getMonthlySchedule().getDay();
             int frequency = scheduleData.getMonthlySchedule().getOption1Month();
-            one(scheduleService).getScheduledDates(dt, endDt, time, day, frequency, null);
+            oneOf(scheduleService).getScheduledDates(dt, endDt, time, day, frequency, null);
             will(returnValue(dates));
         }});
         
@@ -243,7 +243,7 @@ public class CommitteeScheduleServiceImplTest  {
                 dow = ScheduleData.convertToWeekdays(scheduleData.getWeeklySchedule().getDaysOfWeek().toArray(new String[scheduleData.getWeeklySchedule().getDaysOfWeek().size()]));
             }
             ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new DefaultScheduleSequence(), scheduleData.getWeeklySchedule().getWeek(), dow.length);
-            one(scheduleService).getScheduledDates(dt, endDt, time, dow, scheduleSequence);
+            oneOf(scheduleService).getScheduledDates(dt, endDt, time, dow, scheduleSequence);
             will(returnValue(dates));
         }});
         
@@ -271,7 +271,7 @@ public class CommitteeScheduleServiceImplTest  {
             Time24HrFmt time = new Time24HrFmt(TIME24HR_0_1);
             CronSpecialChars[] dow = ScheduleData.convertToWeekdays(scheduleData.getDailySchedule().getDaysOfWeek());
             ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new DefaultScheduleSequence(), 1, dow.length);
-            one(scheduleService).getScheduledDates(dt, endDt, time, dow, scheduleSequence);
+            oneOf(scheduleService).getScheduledDates(dt, endDt, time, dow, scheduleSequence);
             will(returnValue(dates));
         }});
         
@@ -308,7 +308,7 @@ public class CommitteeScheduleServiceImplTest  {
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             Time24HrFmt time = new Time24HrFmt(TIME24HR_23_59);
-            one(scheduleService).getScheduledDates(dt, dt, time, null);
+            oneOf(scheduleService).getScheduledDates(dt, dt, time, null);
             will(returnValue(dates));
         }});
         
@@ -338,7 +338,7 @@ public class CommitteeScheduleServiceImplTest  {
             dates.add(DateUtils.addDays(new Date(), 2));
             Time24HrFmt time = new Time24HrFmt(TIME24HR_0_1);
             int day = scheduleData.getDailySchedule().getDay();
-            one(scheduleService).getIntervalInDaysScheduledDates(dt, endDt, time, day);
+            oneOf(scheduleService).getIntervalInDaysScheduledDates(dt, endDt, time, day);
             will(returnValue(dates));
         }});
         scheduleData.getDailySchedule().setDayOption(DailyScheduleDetails.optionValues.XDAY.toString());
@@ -363,7 +363,7 @@ public class CommitteeScheduleServiceImplTest  {
             dates.add(DateUtils.addDays(new Date(), 2));
             Time24HrFmt time = new Time24HrFmt(TIME24HR_0_1);
             int day = scheduleData.getDailySchedule().getDay();
-            one(scheduleService).getIntervalInDaysScheduledDates(dt, endDt, time, day);
+            oneOf(scheduleService).getIntervalInDaysScheduledDates(dt, endDt, time, day);
             will(returnValue(dates));
         }});
     }
@@ -384,7 +384,7 @@ public class CommitteeScheduleServiceImplTest  {
             List<Date> dates = new LinkedList<Date>();
             dates.add(new Date());
             Time24HrFmt time = new Time24HrFmt(TIME24HR_23_59);
-            one(scheduleService).getScheduledDates(dt, dt, time, null);
+            oneOf(scheduleService).getScheduledDates(dt, dt, time, null);
             will(returnValue(dates));
         }});
         

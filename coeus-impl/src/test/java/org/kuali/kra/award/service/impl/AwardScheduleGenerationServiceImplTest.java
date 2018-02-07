@@ -142,7 +142,7 @@ public class AwardScheduleGenerationServiceImplTest extends AwardAmountInfoSetUp
         final ParameterService parameterService = context.mock(ParameterService.class);
 
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValueAsString(AwardDocument.class, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(PERIOD_IN_YEARS));
+            oneOf(parameterService).getParameterValueAsString(AwardDocument.class, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(PERIOD_IN_YEARS));
         }});
         awardScheduleGenerationServiceImpl.setParameterService(parameterService);
         AwardReportTerm awardReportTerm = new AwardReportTerm();
@@ -300,12 +300,12 @@ public class AwardScheduleGenerationServiceImplTest extends AwardAmountInfoSetUp
         final ParameterService parameterService = context.mock(ParameterService.class);
         
         context.checking(new Expectations() {{
-            one(scheduleService).getScheduledDates(with(equal(START_DATE)), with(equal(END_DATE)), with(equal(new Time24HrFmt(ZERO_HOURS)))
+            oneOf(scheduleService).getScheduledDates(with(equal(START_DATE)), with(equal(END_DATE)), with(equal(new Time24HrFmt(ZERO_HOURS)))
                     , with(any(ScheduleSequence.class)), with(equal(DAY_OF_MONTH)));will(returnValue(DATES));
         }});
         
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValueAsString(AwardDocument.class, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(PERIOD_IN_YEARS));
+            oneOf(parameterService).getParameterValueAsString(AwardDocument.class, KeyConstants.PERIOD_IN_YEARS_WHEN_FREQUENCY_BASE_IS_FINAL_EXPIRATION_DATE);will(returnValue(PERIOD_IN_YEARS));
         }});
                         
         awardScheduleGenerationServiceImpl.setScheduleService(scheduleService);

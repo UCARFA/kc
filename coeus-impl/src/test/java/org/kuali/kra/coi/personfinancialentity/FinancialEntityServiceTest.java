@@ -73,11 +73,11 @@ public class FinancialEntityServiceTest {
                 fieldValues.put("personId", PERSON_ID);
                 fieldValues.put("statusCode", "1");     
                 fieldValues.put("currentFlag", "Y");     
-                one(businessObjectService).findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues, "entityName", true);
+                oneOf(businessObjectService).findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues, "entityName", true);
                 will(returnValue(activeEntities));
                 Map fieldValues1 = new HashMap();
                 fieldValues1.put("entityNumber", ENTITY_NUMBER);
-                one(businessObjectService).findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues1, "sequenceNumber", false);
+                oneOf(businessObjectService).findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues1, "sequenceNumber", false);
                 will(returnValue(activeEntities));
 
 
@@ -112,11 +112,11 @@ public class FinancialEntityServiceTest {
                 fieldValues.put("personId", PERSON_ID);
                 fieldValues.put("statusCode", "2");     
                 fieldValues.put("currentFlag", "Y");     
-                one(businessObjectService).findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues, "entityName", true);
+                oneOf(businessObjectService).findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues, "entityName", true);
                 will(returnValue(activeEntities));
                 Map fieldValues1 = new HashMap();
                 fieldValues1.put("entityNumber", ENTITY_NUMBER);
-                one(businessObjectService).findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues1, "sequenceNumber", false);
+                oneOf(businessObjectService).findMatchingOrderBy(PersonFinIntDisclosure.class, fieldValues1, "sequenceNumber", false);
                 will(returnValue(activeEntities));
 
 
@@ -160,7 +160,7 @@ public class FinancialEntityServiceTest {
                 Map fieldValues = new HashMap();
                 fieldValues.put("personId", PERSON_ID);
                 fieldValues.put("reporterRoleId", "FER");     
-                one(businessObjectService).findMatching(FinancialEntityReporter.class, fieldValues);
+                oneOf(businessObjectService).findMatching(FinancialEntityReporter.class, fieldValues);
                 will(returnValue(reporters));
 
 
@@ -190,7 +190,7 @@ public class FinancialEntityServiceTest {
             {
                 Map fieldValues = new HashMap();
                 fieldValues.put("active", "Y");
-                one(businessObjectService).findMatchingOrderBy(FinIntEntityRelType.class, fieldValues, "sortId", true);
+                oneOf(businessObjectService).findMatchingOrderBy(FinIntEntityRelType.class, fieldValues, "sortId", true);
                 will(returnValue(relationTypes));
 
 
@@ -219,7 +219,7 @@ public class FinancialEntityServiceTest {
             {
                 Map fieldValues = new HashMap();
                 fieldValues.put("active", "Y");
-                one(businessObjectService).findMatchingOrderBy(FinIntEntityRelType.class, fieldValues, "sortId", true);
+                oneOf(businessObjectService).findMatchingOrderBy(FinIntEntityRelType.class, fieldValues, "sortId", true);
                 will(returnValue(relationTypes));
 
 
@@ -229,7 +229,7 @@ public class FinancialEntityServiceTest {
         final List<FinEntitiesDataGroup> dataGroups = getDataGroups();
         context.checking(new Expectations() {
             {
-                one(businessObjectService).findAll(FinEntitiesDataGroup.class);
+                oneOf(businessObjectService).findAll(FinEntitiesDataGroup.class);
                 will(returnValue(dataGroups));
 
 
@@ -268,7 +268,7 @@ public class FinancialEntityServiceTest {
             {
                 Map fieldValues = new HashMap();
                 fieldValues.put("active", "Y");
-                one(businessObjectService).findMatchingOrderBy(FinIntEntityRelType.class, fieldValues, "sortId", true);
+                oneOf(businessObjectService).findMatchingOrderBy(FinIntEntityRelType.class, fieldValues, "sortId", true);
                 will(returnValue(relationTypes));
 
 
@@ -278,7 +278,7 @@ public class FinancialEntityServiceTest {
         final List<FinEntitiesDataGroup> dataGroups = getDataGroups();
         context.checking(new Expectations() {
             {
-                one(businessObjectService).findAll(FinEntitiesDataGroup.class);
+                oneOf(businessObjectService).findAll(FinEntitiesDataGroup.class);
                 will(returnValue(dataGroups));
 
 
@@ -317,9 +317,9 @@ public class FinancialEntityServiceTest {
             {
                 Map fieldValues = new HashMap();
                 fieldValues.put("active", "Y");
-                one(businessObjectService).findMatchingOrderBy(FinIntEntityRelType.class, fieldValues, "sortId", true);
+                oneOf(businessObjectService).findMatchingOrderBy(FinIntEntityRelType.class, fieldValues, "sortId", true);
                 will(returnValue(relationTypes));
-                one(businessObjectService).findMatchingOrderBy(FinIntEntityRelType.class, fieldValues, "sortId", true);
+                oneOf(businessObjectService).findMatchingOrderBy(FinIntEntityRelType.class, fieldValues, "sortId", true);
                 will(returnValue(relationTypes));
 
 
@@ -329,9 +329,9 @@ public class FinancialEntityServiceTest {
         final List<FinEntitiesDataGroup> dataGroups = getDataGroups();
         context.checking(new Expectations() {
             {
-                one(businessObjectService).findAll(FinEntitiesDataGroup.class);
+                oneOf(businessObjectService).findAll(FinEntitiesDataGroup.class);
                 will(returnValue(dataGroups));
-                one(businessObjectService).findAll(FinEntitiesDataGroup.class);
+                oneOf(businessObjectService).findAll(FinEntitiesDataGroup.class);
                 will(returnValue(dataGroups));
 
 
@@ -371,7 +371,7 @@ public class FinancialEntityServiceTest {
        context.checking(new Expectations() {
            {
                final PersonFinIntDisclosure newPersonFinIntDisclosure = getPersonFinancialEntityDiscl();     
-               one(versioningService).createNewVersion(personFinIntDisclosure);
+               oneOf(versioningService).createNewVersion(personFinIntDisclosure);
                will(returnValue(newPersonFinIntDisclosure));
 
 
@@ -381,9 +381,9 @@ public class FinancialEntityServiceTest {
            {
                Map<String, Object> fieldValues = new HashMap<String, Object>();
                fieldValues.put("personFinIntDisclosureId", 1L);
-               one(businessObjectService).findByPrimaryKey(PersonFinIntDisclosure.class, fieldValues);
+               oneOf(businessObjectService).findByPrimaryKey(PersonFinIntDisclosure.class, fieldValues);
                will(returnValue(personFinIntDisclosure));
-               one(businessObjectService).save(personFinIntDisclosure);
+               oneOf(businessObjectService).save(personFinIntDisclosure);
                
 
 

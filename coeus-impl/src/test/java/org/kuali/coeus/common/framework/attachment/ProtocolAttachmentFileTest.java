@@ -61,13 +61,13 @@ public class ProtocolAttachmentFileTest {
         final String fileType = "fileType";
         
         this.context.checking(new Expectations() {{
-            one(formFile).getFileName();
+            oneOf(formFile).getFileName();
             will(returnValue(fileName));
             
-            one(formFile).getContentType();
+            oneOf(formFile).getContentType();
             will(returnValue(fileType));
             
-            one(formFile).getFileData();
+            oneOf(formFile).getFileData();
             will(throwException(new IOException()));
         }});
         
@@ -88,13 +88,13 @@ public class ProtocolAttachmentFileTest {
         final FormFile formFile = this.context.mock(FormFile.class);
         
         this.context.checking(new Expectations() {{
-            one(formFile).getFileName();
+            oneOf(formFile).getFileName();
             will(returnValue(fileName));
             
-            one(formFile).getContentType();
+            oneOf(formFile).getContentType();
             will(returnValue(type));
             
-            one(formFile).getFileData();
+            oneOf(formFile).getFileData();
             will(returnValue(data));
         }});
         

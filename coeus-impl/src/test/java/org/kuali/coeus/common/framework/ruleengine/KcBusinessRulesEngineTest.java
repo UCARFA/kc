@@ -34,7 +34,7 @@ public class KcBusinessRulesEngineTest {
 		final KcTestRule rule = context.mock(KcTestRule.class);
 		final KcTestEvent1 event = new KcTestEvent1();
         context.checking(new Expectations() {{
-            one(rule).kcTestMethod1(event); will(returnValue(true));
+            oneOf(rule).kcTestMethod1(event); will(returnValue(true));
         }});
 		kcBusinessRuleEngineImpl.registerEvent("Test Rule", rule, rule.getClass().getMethod("kcTestMethod1", KcTestEvent1.class));
 		kcBusinessRuleEngineImpl.registerEvent("Test Rule", rule, rule.getClass().getMethod("kcTestMethod2", KcTestEvent2.class));
@@ -46,8 +46,8 @@ public class KcBusinessRulesEngineTest {
 		final KcTestRule rule = context.mock(KcTestRule.class);
 		final KcTestEvent2 event = new KcTestEvent2();
         context.checking(new Expectations() {{
-            one(rule).kcTestMethod1(event); will(returnValue(true));
-            one(rule).kcTestMethod2(event); will(returnValue(false));
+            oneOf(rule).kcTestMethod1(event); will(returnValue(true));
+            oneOf(rule).kcTestMethod2(event); will(returnValue(false));
         }});
 		kcBusinessRuleEngineImpl.registerEvent("Test Rule", rule, rule.getClass().getMethod("kcTestMethod1", KcTestEvent1.class));
 		kcBusinessRuleEngineImpl.registerEvent("Test Rule", rule, rule.getClass().getMethod("kcTestMethod2", KcTestEvent2.class));

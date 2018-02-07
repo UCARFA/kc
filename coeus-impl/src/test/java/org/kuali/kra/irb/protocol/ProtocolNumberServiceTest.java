@@ -50,7 +50,7 @@ public class ProtocolNumberServiceTest {
         final SequenceAccessorService sequenceAccessorService = context.mock(SequenceAccessorService.class);
         context.checking(new Expectations() {
             {
-                one(sequenceAccessorService).getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID", Protocol.class);
+                oneOf(sequenceAccessorService).getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID", Protocol.class);
                 will(returnValue(sequenceNumber));
             }
         });

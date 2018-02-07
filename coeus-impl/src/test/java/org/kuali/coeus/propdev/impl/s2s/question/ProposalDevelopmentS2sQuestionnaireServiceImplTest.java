@@ -335,7 +335,7 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		final List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
 		context.checking(new Expectations() {
 			{
-				one(questionnaireAnswerService).getQuestionnaireAnswer(questionnaireBean);
+				oneOf(questionnaireAnswerService).getQuestionnaireAnswer(questionnaireBean);
 				will(returnValue(answerHeaders));
 			}
 		});

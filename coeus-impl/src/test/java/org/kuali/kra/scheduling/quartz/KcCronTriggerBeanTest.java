@@ -49,10 +49,10 @@ public class KcCronTriggerBeanTest {
         final ParameterService parameterService = context.mock(ParameterService.class);
         context.checking(new Expectations() {
             {
-                one(parameterService).parameterExists("KC-PD", "Document",
+                oneOf(parameterService).parameterExists("KC-PD", "Document",
                         KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION);
                 will(returnValue(true));
-                one(parameterService).getParameterValueAsString("KC-PD", "Document",
+                oneOf(parameterService).getParameterValueAsString("KC-PD", "Document",
                         KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION);
                 will(returnValue(CRON_EXPRESSION));
             }

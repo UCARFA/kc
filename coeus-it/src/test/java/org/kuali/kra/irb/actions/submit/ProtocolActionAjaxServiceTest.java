@@ -75,7 +75,7 @@ public class ProtocolActionAjaxServiceTest extends KcIntegrationTestBase {
         
         final CommitteeService committeeService = context.mock(CommitteeService.class);
         context.checking(new Expectations() {{
-            one(committeeService).getAvailableCommitteeDates("foo"); will(returnValue(list));
+            oneOf(committeeService).getAvailableCommitteeDates("foo"); will(returnValue(list));
         }});
         protocolActionAjaxService.setCommitteeService(committeeService);
   
@@ -152,7 +152,7 @@ String s = "0;dog;1;cat";
         
         final BusinessObjectService businessObjectService1 = context.mock(BusinessObjectService.class, "name1");
         context.checking(new Expectations() {{
-            one(businessObjectService1).findMatching(Protocol.class, hm1); will(returnValue(l1));
+            oneOf(businessObjectService1).findMatching(Protocol.class, hm1); will(returnValue(l1));
         }});
         
         final BusinessObjectService businessObjectService2 = context.mock(BusinessObjectService.class, "name2");
@@ -194,7 +194,7 @@ s = "dn;Don;N;nncy;Nancy;N;2;Joe;Y;5;Joanna;Y";
         
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(businessObjectService).findAll(ProtocolReviewerType.class); will(returnValue(reviewerTypes));
+            oneOf(businessObjectService).findAll(ProtocolReviewerType.class); will(returnValue(reviewerTypes));
         }});
         protocolActionAjaxService.setBusinessObjectService(businessObjectService);
         

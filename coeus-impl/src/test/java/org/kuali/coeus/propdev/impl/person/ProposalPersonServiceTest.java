@@ -81,7 +81,7 @@ public class ProposalPersonServiceTest {
 
 		context.checking(new Expectations() {
 			{
-				one(unitService).getUnitHierarchyForUnit("000001");
+				oneOf(unitService).getUnitHierarchyForUnit("000001");
 				will(returnValue(units));
 			}
 		});
@@ -108,7 +108,7 @@ public class ProposalPersonServiceTest {
 
 		context.checking(new Expectations() {
 			{
-				one(unitService).getUnitHierarchyForUnit("000001");
+				oneOf(unitService).getUnitHierarchyForUnit("000001");
 				will(returnValue(units));
 			}
 		});
@@ -126,7 +126,7 @@ public class ProposalPersonServiceTest {
 
 		context.checking(new Expectations() {
 			{
-				one(dataObjectService).findMatching(ProposalPerson.class,
+				oneOf(dataObjectService).findMatching(ProposalPerson.class,
 						criteria.build()).getResults();
 				will(returnValue(proposalPersonListBuilder.build()));
 			}
@@ -146,7 +146,7 @@ public class ProposalPersonServiceTest {
 
 		context.checking(new Expectations() {
 			{
-				one(dataObjectService).findMatching(ProposalPerson.class,
+				oneOf(dataObjectService).findMatching(ProposalPerson.class,
 						criteria.build()).getResults();
 				will(returnValue(proposalPersonListBuilder.build()));
 			}
@@ -186,7 +186,7 @@ public class ProposalPersonServiceTest {
 		};
 		context.checking(new Expectations() {
 			{
-				one(kcPersonService).getKcPersonByPersonId("123");
+				oneOf(kcPersonService).getKcPersonByPersonId("123");
 				will(returnValue(person));
 			}
 		});
@@ -211,10 +211,10 @@ public class ProposalPersonServiceTest {
 		};
 		context.checking(new Expectations() {
 			{
-				one(dataObjectService).findMatching(ProposalPerson.class,
+				oneOf(dataObjectService).findMatching(ProposalPerson.class,
 						criteria.build()).getResults();
 				will(returnValue(proposalPersonListBuilder.build()));
-				one(kcPersonService).getKcPersonByPersonId("123");
+				oneOf(kcPersonService).getKcPersonByPersonId("123");
 				will(returnValue(person));
 			}
 		});

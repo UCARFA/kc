@@ -104,7 +104,7 @@ public class QuestionnaireServiceTest {
             final Map<String, Object> fieldValues = new HashMap<>();
             fieldValues.put("name", "exist name");
             context.checking(new Expectations() {{
-                one(businessObjectService).findMatching(Questionnaire.class, fieldValues);
+                oneOf(businessObjectService).findMatching(Questionnaire.class, fieldValues);
                 will(returnValue(questionnaires));
             }});
 
@@ -128,7 +128,7 @@ public class QuestionnaireServiceTest {
             final Map<String, Object> fieldValues = new HashMap<>();
             fieldValues.put("name", "exist name");
             context.checking(new Expectations() {{
-                one(businessObjectService).findMatching(Questionnaire.class, fieldValues);
+                oneOf(businessObjectService).findMatching(Questionnaire.class, fieldValues);
                 will(returnValue(questionnaires));
             }});
 
@@ -148,7 +148,7 @@ public class QuestionnaireServiceTest {
             fieldValues.put("name", "not exist name");
             final List<Questionnaire> questionnaires = new ArrayList<>();
             context.checking(new Expectations() {{
-                one(businessObjectService).findMatching(Questionnaire.class, fieldValues);
+                oneOf(businessObjectService).findMatching(Questionnaire.class, fieldValues);
                 will(returnValue(questionnaires));
             }});
 

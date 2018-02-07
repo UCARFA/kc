@@ -114,9 +114,9 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         Proxy.getInvocationHandler(questionnaireLookupableHelperServiceImpl).invoke(questionnaireLookupableHelperServiceImpl, m, new Object[] {questionnaireAuthorizationService});
 
         context.checking(new Expectations() {{
-            one(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
+            oneOf(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
             will(returnValue(false));
-            one(questionnaireAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
+            oneOf(questionnaireAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
             will(returnValue(true));
         }});
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
@@ -148,9 +148,9 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         Proxy.getInvocationHandler(questionnaireLookupableHelperServiceImpl).invoke(questionnaireLookupableHelperServiceImpl, m, new Object[] {questionnaireAuthorizationService});
 
         context.checking(new Expectations() {{
-            one(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
+            oneOf(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
             will(returnValue(true));
-            one(questionnaireAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
+            oneOf(questionnaireAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
             will(returnValue(true));
         }});
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
@@ -183,9 +183,9 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         Proxy.getInvocationHandler(questionnaireLookupableHelperServiceImpl).invoke(questionnaireLookupableHelperServiceImpl, m, new Object[] {questionnaireAuthorizationService});
 
         context.checking(new Expectations() {{
-            one(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
+            oneOf(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
             will(returnValue(false));
-            one(questionnaireAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
+            oneOf(questionnaireAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
             will(returnValue(false));
         }});
   

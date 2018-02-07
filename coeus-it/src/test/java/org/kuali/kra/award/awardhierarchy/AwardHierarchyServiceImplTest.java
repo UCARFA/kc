@@ -338,7 +338,7 @@ public class AwardHierarchyServiceImplTest extends KcIntegrationTestBase {
         final AwardNumberService service = context.mock(AwardNumberService.class);
         
         context.checking(new Expectations() {{
-            one(service).getNextAwardNumber();
+            oneOf(service).getNextAwardNumber();
             will(returnValue(NEXT_AWARD_NUMBER_FOR_NEW_HIERARCHY));
         }});
         

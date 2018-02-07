@@ -67,9 +67,9 @@ public class IacucProtocolSubmissionLookupHelperServiceTest extends ProtocolLook
         final KcAuthorizationService kraAuthorizationService = context.mock(KcAuthorizationService.class);
         final String principalId = GlobalVariables.getUserSession().getPrincipalId();
         context.checking(new Expectations() {{
-            one(kraAuthorizationService).hasPermission(principalId, protocolSubmission.getProtocol(), PermissionConstants.MODIFY_IACUC_PROTOCOL);
+            oneOf(kraAuthorizationService).hasPermission(principalId, protocolSubmission.getProtocol(), PermissionConstants.MODIFY_IACUC_PROTOCOL);
             will(returnValue(true));
-            one(kraAuthorizationService).hasPermission(principalId, protocolSubmission.getProtocol(), PermissionConstants.VIEW_IACUC_PROTOCOL);
+            oneOf(kraAuthorizationService).hasPermission(principalId, protocolSubmission.getProtocol(), PermissionConstants.VIEW_IACUC_PROTOCOL);
             will(returnValue(true));
         }});
         protocolSubmissionLookupableHelperServiceImpl.setKraAuthorizationService(kraAuthorizationService);
@@ -94,7 +94,7 @@ public class IacucProtocolSubmissionLookupHelperServiceTest extends ProtocolLook
         final KcPersonService kcPersonService = context.mock(KcPersonService.class);
         final String principalId = GlobalVariables.getUserSession().getPrincipalId();
         context.checking(new Expectations() {{
-            one(kcPersonService).getKcPersonByPersonId(principalId);
+            oneOf(kcPersonService).getKcPersonByPersonId(principalId);
             will(returnValue(KcPerson.fromPersonId(principalId)));
         }});
         protocolSubmissionLookupableHelperServiceImpl.setKcPersonService(kcPersonService);

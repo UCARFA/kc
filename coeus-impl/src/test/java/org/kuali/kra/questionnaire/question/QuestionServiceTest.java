@@ -53,7 +53,7 @@ public class QuestionServiceTest {
             
             final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
             context.checking(new Expectations() {{
-                one(businessObjectService).findByPrimaryKey(Question.class, fieldValues); will(returnValue(question));
+                oneOf(businessObjectService).findByPrimaryKey(Question.class, fieldValues); will(returnValue(question));
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
@@ -80,7 +80,7 @@ public class QuestionServiceTest {
             
             final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
             context.checking(new Expectations() {{
-                one(businessObjectService).findByPrimaryKey(Question.class, fieldValues); will(returnValue(null));
+                oneOf(businessObjectService).findByPrimaryKey(Question.class, fieldValues); will(returnValue(null));
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
@@ -111,7 +111,7 @@ public class QuestionServiceTest {
             
             final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
             context.checking(new Expectations() {{
-                one(businessObjectService).findMatching(Question.class, fieldValues); will(returnValue(questions));
+                oneOf(businessObjectService).findMatching(Question.class, fieldValues); will(returnValue(questions));
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
@@ -140,7 +140,7 @@ public class QuestionServiceTest {
             
             final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
             context.checking(new Expectations() {{
-                one(businessObjectService).findMatching(Question.class, fieldValues); will(returnValue(questions));
+                oneOf(businessObjectService).findMatching(Question.class, fieldValues); will(returnValue(questions));
             }});
             questionService.setBusinessObjectService(businessObjectService);
             

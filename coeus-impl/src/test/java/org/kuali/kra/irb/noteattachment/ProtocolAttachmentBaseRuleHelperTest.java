@@ -99,7 +99,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
             type.setCode("9");
             type.setDescription("not Other");
             
-            one(paService).getTypeFromCode("9");
+            oneOf(paService).getTypeFromCode("9");
             will(returnValue(type));
         }});
         
@@ -130,7 +130,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         protocol.setProtocolId(1L);
         
         this.context.checking(new Expectations() {{         
-            one(ddService).isBusinessObjectValid(attachment, "fooPrefix");
+            oneOf(ddService).isBusinessObjectValid(attachment, "fooPrefix");
             will(returnValue(true));
         }});
         
@@ -184,7 +184,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
             aType.setCode("9");
             types.add(aType);
             
-            one(paService).getTypesForGroup(attachment.getGroupCode());
+            oneOf(paService).getTypesForGroup(attachment.getGroupCode());
             will(returnValue(types));
         }});
         
@@ -218,14 +218,14 @@ public class ProtocolAttachmentBaseRuleHelperTest {
                 aType.setCode("12");
                 types.add(aType);
             }
-            one(paService).getTypesForGroup(attachment.getGroupCode());
+            oneOf(paService).getTypesForGroup(attachment.getGroupCode());
             will(returnValue(types));
             
             ProtocolAttachmentType aType2 = new ProtocolAttachmentType();
             aType2.setCode("9");
             aType2.setDescription("a desc");
             
-            one(paService).getTypeFromCode("9");
+            oneOf(paService).getTypeFromCode("9");
             will(returnValue(aType2));
         }});
         helper.setErrorReporter(new ErrorReporterImpl());
@@ -257,10 +257,10 @@ public class ProtocolAttachmentBaseRuleHelperTest {
             aType.setCode("12");
             types.add(aType);
             
-            one(paService).getTypesForGroup(attachment.getGroupCode());
+            oneOf(paService).getTypesForGroup(attachment.getGroupCode());
             will(returnValue(types));
             
-            one(paService).getTypeFromCode("9");
+            oneOf(paService).getTypeFromCode("9");
             will(returnValue(null));
         }});
         
@@ -289,7 +289,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         attachment.setDocumentId(1);
         
         this.context.checking(new Expectations() {{         
-            one(ddService).isBusinessObjectValid(attachment, "fooPrefix");
+            oneOf(ddService).isBusinessObjectValid(attachment, "fooPrefix");
             will(returnValue(false));
         }});
         
