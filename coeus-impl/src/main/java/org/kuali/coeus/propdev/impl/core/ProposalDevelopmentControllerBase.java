@@ -239,7 +239,7 @@ public abstract class ProposalDevelopmentControllerBase {
     }
     
     @ModelAttribute(value = "KualiForm")
-    public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) {
         return  getKcCommonControllerService().initForm(this.createInitialForm(request), request, response);
     }
      
@@ -273,11 +273,11 @@ public abstract class ProposalDevelopmentControllerBase {
      }
 
      public ModelAndView save(ProposalDevelopmentDocumentForm form, BindingResult result,
-             HttpServletRequest request, HttpServletResponse response) throws Exception {
+             HttpServletRequest request, HttpServletResponse response) {
     	 return save(form);
      }
      
-     public ModelAndView save(ProposalDevelopmentDocumentForm form) throws Exception {
+     public ModelAndView save(ProposalDevelopmentDocumentForm form) {
          ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) form.getDocument();
 
          if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.PROP_DEV_PERMISSIONS_PAGE)) {
@@ -403,7 +403,7 @@ public abstract class ProposalDevelopmentControllerBase {
     }
 
     public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-             HttpServletRequest request, HttpServletResponse response, Class<? extends DocumentEventBase> eventClazz) throws Exception {
+             HttpServletRequest request, HttpServletResponse response, Class<? extends DocumentEventBase> eventClazz) {
          ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
          ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
          proposalDevelopmentService.initializeUnitOrganizationLocation(
@@ -459,7 +459,7 @@ public abstract class ProposalDevelopmentControllerBase {
          }
      }
      
-     protected ModelAndView navigate(ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+     protected ModelAndView navigate(ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)  {
          if (form.getDevelopmentProposal().getS2sOpportunity() != null && !getProposalDevelopmentService().isGrantsGovEnabledForProposal(form.getDevelopmentProposal())) {
              ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).clearOpportunity(form.getDevelopmentProposal());
          }
@@ -777,7 +777,7 @@ public abstract class ProposalDevelopmentControllerBase {
     }
 
     @InitBinder
-    protected void initBinder(WebDataBinder binder) throws Exception {
+    protected void initBinder(WebDataBinder binder)  {
         binder.registerCustomEditor(List.class, "document.developmentProposal.propScienceKeywords", new PropScienceKeywordEditor());
         binder.registerCustomEditor(List.class, "document.developmentProposal.propSpecialReviews.specialReviewExemptions", new PropSpecialReviewExemptionTypeEditor());
 

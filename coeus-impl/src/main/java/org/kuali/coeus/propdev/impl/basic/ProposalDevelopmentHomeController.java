@@ -268,14 +268,14 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
     @Override
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
-    public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+    public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
        return super.save(form);
     }
 
     @Override
     @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
     public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                 HttpServletRequest request, HttpServletResponse response) {
 
         refreshDocumentLevelPermissions(form);
 

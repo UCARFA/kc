@@ -1,44 +1,87 @@
+/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+ * You may use and modify this code under the terms of the Kuali, Inc.
+ * Pre-Release License Agreement. You may not distribute it.
+ *
+ * You should have received a copy of the Kuali, Inc. Pre-Release License
+ * Agreement with this file. If not, please write to license@kuali.co.
+ */
 package org.kuali.coeus.propdev.impl.person;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
 
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
-//import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyServiceImpl;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krad.web.service.CollectionControllerService;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProposalDevelopmentPersonnelControllerTest {
-//    private ProposalPersonBiographyServiceImpl proposalPersonBiographyService;
     private ProposalDevelopmentPersonnelController proposalDevelopmentPersonnelController;
-    private Mockery context;
     private ProposalDevelopmentDocument proposalDocument;
     private ProposalDevelopmentDocumentForm proposalDocumentForm;
 
     @Before
     public void setUp() {
-        context = new JUnit4Mockery() {
-            {
-                setThreadingPolicy(new Synchroniser());
-            }
-        };
         proposalDocumentForm = new ProposalDevelopmentDocumentForm() {
             @Override
             protected void instantiateDocument() { setDocument(new ProposalDevelopmentDocument()); }
         };
         proposalDevelopmentPersonnelController = new ProposalDevelopmentPersonnelController();
+        proposalDevelopmentPersonnelController.setCollectionControllerService(new CollectionControllerService() {
+            @Override
+            public ModelAndView addLine(UifFormBase form) {
+                return null;
+            }
+
+            @Override
+            public ModelAndView addBlankLine(UifFormBase form) {
+                return null;
+            }
+
+            @Override
+            public ModelAndView retrieveEditLineDialog(UifFormBase form) {
+                return null;
+            }
+
+            @Override
+            public ModelAndView editLine(UifFormBase form) {
+                return null;
+            }
+
+            @Override
+            public ModelAndView closeEditLineDialog(UifFormBase form) {
+                return null;
+            }
+
+            @Override
+            public ModelAndView saveLine(UifFormBase form) {
+                return null;
+            }
+
+            @Override
+            public ModelAndView deleteLine(UifFormBase form) {
+                return null;
+            }
+
+            @Override
+            public ModelAndView retrieveCollectionPage(UifFormBase form) {
+                return null;
+            }
+
+            @Override
+            public ModelAndView tableJsonRetrieval(UifFormBase form) {
+                return null;
+            }
+        });
         proposalDocument = createProposal();
         proposalDocumentForm.setDocument(proposalDocument);
     }
@@ -49,12 +92,7 @@ public class ProposalDevelopmentPersonnelControllerTest {
         final String SELECTED_LINE_INDEX = "0";
         final String REMAINING_LINE_INDEX = "0";
         ProposalPersonBiography deletedProposalPersonBios = proposalDocument.getDevelopmentProposal().getPropPersonBio(Integer.parseInt(SELECTED_LINE_INDEX));
-        try {
-            proposalDevelopmentPersonnelController.deletePerson(proposalDocumentForm, SELECTED_COLLECTION_PATH, SELECTED_LINE_INDEX);
-        }
-        catch (Exception e){
-            //No exception is explicitly thrown from deletePerson method.
-        }
+        proposalDevelopmentPersonnelController.deletePerson(proposalDocumentForm, SELECTED_COLLECTION_PATH, SELECTED_LINE_INDEX);
         ProposalPersonBiography remainingProposalPersonBios = proposalDocument.getDevelopmentProposal().getPropPersonBio(Integer.parseInt(REMAINING_LINE_INDEX));
         assertNotEquals(deletedProposalPersonBios,remainingProposalPersonBios);
     }
@@ -64,19 +102,14 @@ public class ProposalDevelopmentPersonnelControllerTest {
         final String SELECTED_LINE_INDEX = "1";
         final String REMAINING_LINE_INDEX = "0";
         ProposalPersonBiography deletedProposalPersonBios = proposalDocument.getDevelopmentProposal().getPropPersonBio(Integer.parseInt(SELECTED_LINE_INDEX));
-        try {
-            proposalDevelopmentPersonnelController.deletePerson(proposalDocumentForm, SELECTED_COLLECTION_PATH, SELECTED_LINE_INDEX);
-        }
-        catch (Exception e){
-            //No exception is explicitly thrown from deletePerson method.
-        }
+        proposalDevelopmentPersonnelController.deletePerson(proposalDocumentForm, SELECTED_COLLECTION_PATH, SELECTED_LINE_INDEX);
         ProposalPersonBiography remainingProposalPersonBios = proposalDocument.getDevelopmentProposal().getPropPersonBio(Integer.parseInt(REMAINING_LINE_INDEX));
         assertNotEquals(deletedProposalPersonBios,remainingProposalPersonBios);
     }
     public ProposalDevelopmentDocument createProposal() {
         ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
         document.getDevelopmentProposal().setProposalNumber("11");
-        List<ProposalPersonBiography> biographies = new ArrayList<ProposalPersonBiography>();
+        List<ProposalPersonBiography> biographies = new ArrayList<>();
         ProposalPersonBiography proposalPersonBiography = createPersonBiography(document);
         biographies.add(proposalPersonBiography);
         ProposalPersonBiography proposalRolodexBiography = createRolodexBiography(document);
@@ -139,7 +172,7 @@ public class ProposalDevelopmentPersonnelControllerTest {
         proposalPersonBiography.setDocumentTypeCode("11");
         proposalPersonBiography.getPropPerDocType().setCode(
                 proposalPersonBiography.getDocumentTypeCode());
-        final List<DocumentNextvalue> documentNextvalues = new ArrayList<DocumentNextvalue>();
+        final List<DocumentNextvalue> documentNextvalues = new ArrayList<>();
         final DocumentNextvalue nextvalue = new DocumentNextvalue();
         nextvalue.setPropertyName(Constants.PROP_PERSON_BIO_NUMBER);
         nextvalue.setNextValue(13);

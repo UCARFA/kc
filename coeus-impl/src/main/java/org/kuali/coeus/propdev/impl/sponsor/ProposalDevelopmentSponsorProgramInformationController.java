@@ -38,7 +38,7 @@ public class ProposalDevelopmentSponsorProgramInformationController extends Prop
 
     @Override
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = {"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-SponsorProgramInfoPage"})
-    public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         if (StringUtils.isNotEmpty(form.getDevelopmentProposal().getContinuedFrom()) &&
                 StringUtils.isEmpty(form.getDevelopmentProposal().getPrevGrantsGovTrackingID())) {
             String instProposalId = getInstitutionalProposalId(form.getDevelopmentProposal().getContinuedFrom());
