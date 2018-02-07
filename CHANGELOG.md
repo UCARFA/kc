@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1802.0012
 * RESKC-2732: Prevent duplicate version creation in award, subaward and IP (#2745)
 
 * RESKC-2732: Prevent duplicate version creation in award, subaward and IP
