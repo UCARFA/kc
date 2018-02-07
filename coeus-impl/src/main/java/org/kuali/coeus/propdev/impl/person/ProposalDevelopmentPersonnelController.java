@@ -244,12 +244,12 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         for (ProposalPersonBiography biography : proposal.getPropPersonBios()) {
             if (personIdOfDeletedLine == null) {
                 Integer rolodexId = deleteLine.getRolodexId();
-                if (biography.getRolodexId() == null || rolodexId.compareTo(biography.getRolodexId()) != 0) {
+                if (!(rolodexId != null && rolodexId.equals(biography.getRolodexId()))) {
                     tmpBios.add(biography);
                 }
             }
             else {
-                if (!biography.getPersonId().equals(personIdOfDeletedLine))
+                if (!personIdOfDeletedLine.equals(biography.getPersonId()))
                     tmpBios.add(biography);
             }
         }
