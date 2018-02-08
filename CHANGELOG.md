@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2607:When versioning an IP from PD the Proposal Type is Changed by
+  * PD.IP version should pull all data except the Proposal Type.  * vineeth on Tue, 6 Feb 2018 15:47:01 -0500 [View Commit](../../commit/1e38449d709fa2c6ea4858e298d06e0195dc77d7)
+
+## coeus-1802.0013
 * No Changes
 
 
