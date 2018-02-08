@@ -96,6 +96,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private static final String SEPARATOR = ",";
     private static final String TRUE_INDICATOR_VALUE = "1";
     private static final String FALSE_INDICATOR_VALUE = "0";
+    private static final int VERSION_1 = 1;
 
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
@@ -473,7 +474,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     }
 
     protected void doBaseFieldsDataFeed(InstitutionalProposal institutionalProposal, DevelopmentProposal developmentProposal) {
-        institutionalProposal.setProposalTypeCode(convertToInstitutionalProposalTypeCode(developmentProposal.getProposalTypeCode()));
+    	if (institutionalProposal.getSequenceNumber() == VERSION_1) {
+			institutionalProposal.setProposalTypeCode(convertToInstitutionalProposalTypeCode(developmentProposal.getProposalTypeCode()));
+		}
         institutionalProposal.setActivityTypeCode(developmentProposal.getActivityTypeCode());
         if (developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isDisapproved()) {
             //if rejected set status code to WITHDRAWN
