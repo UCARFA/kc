@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2724: Adding generator tests
+  * Travis Schneeberger on Thu, 8 Feb 2018 13:18:35 -0500 [View Commit](../../commit/43c1f68ed44287e8e2702ff47eab3173caf4f07c)
+
+## coeus-1802.0015
 * replace xalan with official xpath in the jdk
   * Travis Schneeberger on Wed, 7 Feb 2018 16:42:50 -0500 [View Commit](../../commit/d3e09c0f9d3cb3b795b263133ab4478ba1e43ade)
 * RESKC-2724: support Other form 1.2
