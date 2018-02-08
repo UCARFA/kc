@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* replace xalan with official xpath in the jdk
+  * Travis Schneeberger on Wed, 7 Feb 2018 16:42:50 -0500 [View Commit](../../commit/d3e09c0f9d3cb3b795b263133ab4478ba1e43ade)
+* RESKC-2724: support Other form 1.2
+  * Travis Schneeberger on Wed, 7 Feb 2018 16:35:30 -0500 [View Commit](../../commit/778aa652272d2df403cc4883f4bbf822c3a7e8c8)
+
+## coeus-1802.0014
 * RESKC-2607:When versioning an IP from PD the Proposal Type is Changed by
   * PD.IP version should pull all data except the Proposal Type.  * vineeth on Tue, 6 Feb 2018 15:47:01 -0500 [View Commit](../../commit/1e38449d709fa2c6ea4858e298d06e0195dc77d7)
 
