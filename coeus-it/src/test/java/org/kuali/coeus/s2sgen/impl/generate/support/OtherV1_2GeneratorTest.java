@@ -1,4 +1,5 @@
-/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
  * You may use and modify this code under the terms of the Kuali, Inc.
  * Pre-Release License Agreement. You may not distribute it.
  *
@@ -7,10 +8,10 @@
  */
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
-public class OtherV1_1GeneratorTest extends OtherBaseGeneratorTest {
+public class OtherV1_2GeneratorTest extends OtherBaseGeneratorTest {
 
     @Override
     protected String getFormGeneratorName() {
-        return OtherV1_1Generator.class.getSimpleName();
+        return OtherV1_2Generator.class.getSimpleName();
     }
 }
