@@ -97,7 +97,7 @@ public class RestMessageConsumerTest {
                 will(returnValue("http://www.google.com"));
                 oneOf(jwtService).createToken();
                 will(returnValue("top_secret_key"));
-                one(restOperations).exchange("http://www.google.com", org.springframework.http.HttpMethod.POST, HttpEntity.EMPTY, Void.class, Collections.emptyMap());
+                oneOf(restOperations).exchange("http://www.google.com", org.springframework.http.HttpMethod.POST, HttpEntity.EMPTY, Void.class, Collections.emptyMap());
                 will(throwException(response));
             }
         });
@@ -116,7 +116,7 @@ public class RestMessageConsumerTest {
                 will(returnValue("http://www.google.com"));
                 oneOf(jwtService).createToken();
                 will(returnValue("top_secret_key"));
-                one(restOperations).exchange("http://www.google.com", org.springframework.http.HttpMethod.POST, HttpEntity.EMPTY, Void.class, Collections.emptyMap());
+                oneOf(restOperations).exchange("http://www.google.com", org.springframework.http.HttpMethod.POST, HttpEntity.EMPTY, Void.class, Collections.emptyMap());
                 will(returnValue(response));
             }
         });

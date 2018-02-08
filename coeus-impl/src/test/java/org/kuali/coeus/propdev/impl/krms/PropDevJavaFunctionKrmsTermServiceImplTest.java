@@ -130,7 +130,7 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 		developmentProposal.setSponsor(createSponsor());
 		context.checking(new Expectations() {
 			{
-				one(businessObjectService).findMatching(SponsorHierarchy.class, fieldValues);
+				oneOf(businessObjectService).findMatching(SponsorHierarchy.class, fieldValues);
 				will(returnValue(hierarchies));
 			}
 		});
@@ -156,7 +156,7 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 		developmentProposal.setSponsor(createSponsor());
 		context.checking(new Expectations() {
 			{
-				one(businessObjectService).findMatching(SponsorHierarchy.class, fieldValues);
+				oneOf(businessObjectService).findMatching(SponsorHierarchy.class, fieldValues);
 				will(returnValue(hierarchies));
 			}
 		});

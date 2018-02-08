@@ -12,6 +12,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 import java.util.Map;
 
@@ -24,5 +25,5 @@ public interface FormUtilityService {
 
     void reorderXmlElements(Document doc);
 
-    void removeAllEmptyNodes(Document document, String xpath, int parentLevel) throws TransformerException;
+    void removeAllEmptyNodes(Document document, String xpath, int parentLevel) throws XPathExpressionException;
 }

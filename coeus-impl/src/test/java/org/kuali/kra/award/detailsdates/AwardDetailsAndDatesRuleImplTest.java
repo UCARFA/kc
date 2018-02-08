@@ -74,7 +74,7 @@ public class AwardDetailsAndDatesRuleImplTest {
     private BusinessObjectService getMockBusinessObjectServiceReturnsNull() {
         final BusinessObjectService MOCK_BO_SERVICE = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(MOCK_BO_SERVICE).retrieve(sponsor); 
+            oneOf(MOCK_BO_SERVICE).retrieve(sponsor); 
             will(returnValue(null));
         }});
         return MOCK_BO_SERVICE;
@@ -83,7 +83,7 @@ public class AwardDetailsAndDatesRuleImplTest {
     private BusinessObjectService getMockBusinessObjectServiceReturnsSponsor() {
         final BusinessObjectService MOCK_BO_SERVICE = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(MOCK_BO_SERVICE).retrieve(sponsor); 
+            oneOf(MOCK_BO_SERVICE).retrieve(sponsor); 
             will(returnValue(sponsor));
         }});
         return MOCK_BO_SERVICE;

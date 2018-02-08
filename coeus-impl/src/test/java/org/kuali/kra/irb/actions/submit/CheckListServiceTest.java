@@ -49,7 +49,7 @@ public class CheckListServiceTest {
         
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(businessObjectService).findAll(ExpeditedReviewCheckListItem.class); will(returnValue(list));
+            oneOf(businessObjectService).findAll(ExpeditedReviewCheckListItem.class); will(returnValue(list));
         }});
         checkListService.setBusinessObjectService(businessObjectService);
         
@@ -71,7 +71,7 @@ public class CheckListServiceTest {
         
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(businessObjectService).findAll(ExemptStudiesCheckListItem.class); will(returnValue(list));
+            oneOf(businessObjectService).findAll(ExemptStudiesCheckListItem.class); will(returnValue(list));
         }});
         checkListService.setBusinessObjectService(businessObjectService);
         

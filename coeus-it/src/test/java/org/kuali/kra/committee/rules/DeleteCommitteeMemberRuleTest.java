@@ -102,7 +102,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
         final Map fieldValues = new HashMap();
         fieldValues.put("committeeId", "test");
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(ProtocolSubmission.class, fieldValues);
+            oneOf(businessObjectService).findMatching(ProtocolSubmission.class, fieldValues);
             will(returnValue(getProtocolSubmissions(false)));
         }});
         committeeMembershipService.setBusinessObjectService(businessObjectService);
@@ -111,7 +111,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
 
         final CommitteeService committeeService = context.mock(CommitteeService.class);
         context.checking(new Expectations() {{
-            one(committeeService).getCommitteeById("test");
+            oneOf(committeeService).getCommitteeById("test");
             will(returnValue(activeCommittee));
         }});
         committeeMembershipService.setCommitteeService(committeeService);
@@ -143,7 +143,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
         final Map fieldValues = new HashMap();
         fieldValues.put("committeeId", "test");
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(ProtocolSubmission.class, fieldValues);
+            oneOf(businessObjectService).findMatching(ProtocolSubmission.class, fieldValues);
             will(returnValue(getProtocolSubmissions(true)));
         }});
         committeeMembershipService.setBusinessObjectService(businessObjectService);
@@ -152,7 +152,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
 
         final CommitteeService committeeService = context.mock(CommitteeService.class);
         context.checking(new Expectations() {{
-            one(committeeService).getCommitteeById("test");
+            oneOf(committeeService).getCommitteeById("test");
             will(returnValue(activeCommittee));
         }});
         committeeMembershipService.setCommitteeService(committeeService);
@@ -186,7 +186,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
         final Map fieldValues = new HashMap();
         fieldValues.put("committeeId", "test");
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(ProtocolSubmission.class, fieldValues);
+            oneOf(businessObjectService).findMatching(ProtocolSubmission.class, fieldValues);
             will(returnValue(getProtocolSubmissions(false)));
         }});
         committeeMembershipService.setBusinessObjectService(businessObjectService);
@@ -203,7 +203,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
         activeCommittee.setCommitteeSchedules(schedules);
         final CommitteeService committeeService = context.mock(CommitteeService.class);
         context.checking(new Expectations() {{
-            one(committeeService).getCommitteeById("test");
+            oneOf(committeeService).getCommitteeById("test");
             will(returnValue(activeCommittee));
         }});
         committeeMembershipService.setCommitteeService(committeeService);

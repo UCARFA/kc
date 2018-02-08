@@ -64,7 +64,7 @@ public class OrganizationServiceTest {
         final Organization organization = getOrganization(validOrganization);
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(businessObjectService).findByPrimaryKey(Organization.class, fieldValues); will(returnValue(organization));
+            oneOf(businessObjectService).findByPrimaryKey(Organization.class, fieldValues); will(returnValue(organization));
         }});
         organizationServiceImpl.setBusinessObjectService(businessObjectService);
         

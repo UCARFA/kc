@@ -79,15 +79,15 @@ public class InstitutionalProposalUnrecoveredFanARuleTest {
         final BusinessObjectService MOCKED_BUSINESS_OBJECT_SERVICE;
         MOCKED_BUSINESS_OBJECT_SERVICE = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(MOCKED_BUSINESS_OBJECT_SERVICE).countMatching(IndirectcostRateType.class, queryMap); 
+            oneOf(MOCKED_BUSINESS_OBJECT_SERVICE).countMatching(IndirectcostRateType.class, queryMap); 
             will(returnValue(1));
         }});
         final ParameterService MOCKED_PARAMETER_SERVICE;
         MOCKED_PARAMETER_SERVICE = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            one(MOCKED_PARAMETER_SERVICE).getParameterValueAsBoolean(Budget.class, Constants.BUDGET_UNRECOVERED_F_AND_A_ENFORCEMENT_FLAG);
+            oneOf(MOCKED_PARAMETER_SERVICE).getParameterValueAsBoolean(Budget.class, Constants.BUDGET_UNRECOVERED_F_AND_A_ENFORCEMENT_FLAG);
             will(returnValue(true));
-            one(MOCKED_PARAMETER_SERVICE).getParameterValueAsBoolean(Budget.class, Constants.BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG);
+            oneOf(MOCKED_PARAMETER_SERVICE).getParameterValueAsBoolean(Budget.class, Constants.BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG);
             will(returnValue(true));
         }});
         institutionalProposalUnrecoveredFandARuleImpl.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);

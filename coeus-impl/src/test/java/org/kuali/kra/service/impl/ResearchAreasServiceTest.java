@@ -51,12 +51,12 @@ public class ResearchAreasServiceTest {
         context.checking(new Expectations() {{
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("researchAreaCode", "03.99");
-            one(businessObjectService).findByPrimaryKey(ResearchArea.class, fieldValues);
+            oneOf(businessObjectService).findByPrimaryKey(ResearchArea.class, fieldValues);
             will(returnValue(new ResearchArea("03.99","03.","", true)));
 
             fieldValues = new HashMap<String, Object>();
             fieldValues.put("parentResearchAreaCode", "03.");
-            one(businessObjectService).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true);
+            oneOf(businessObjectService).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true);
             will(returnValue(getSubResearchAreasFor03()));
             
         }});
@@ -77,17 +77,17 @@ public class ResearchAreasServiceTest {
         context.checking(new Expectations() {{
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("researchAreaCode", "04.99");
-            one(businessObjectService).findByPrimaryKey(ResearchArea.class, fieldValues);
+            oneOf(businessObjectService).findByPrimaryKey(ResearchArea.class, fieldValues);
             will(returnValue(new ResearchArea("04.99","04.","", true)));
 
             fieldValues = new HashMap<String, Object>();
             fieldValues.put("parentResearchAreaCode", "03.");
-            one(businessObjectService).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true);
+            oneOf(businessObjectService).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true);
             will(returnValue(getSubResearchAreasFor03()));
             
             fieldValues = new HashMap<String, Object>();
             fieldValues.put("parentResearchAreaCode", "03.99");
-            one(businessObjectService).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true);
+            oneOf(businessObjectService).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true);
             will(returnValue(new ArrayList<ResearchArea>()));
         }});
         researchAreasService.setBusinessObjectService(businessObjectService);
@@ -107,7 +107,7 @@ public class ResearchAreasServiceTest {
         context.checking(new Expectations() {{
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("parentResearchAreaCode", "04.");
-            one(businessObjectService).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true);
+            oneOf(businessObjectService).findMatchingOrderBy(ResearchArea.class, fieldValues, "researchAreaCode", true);
             will(returnValue(getSubResearchAreasFor04()));
         }});
         researchAreasService.setBusinessObjectService(businessObjectService);
@@ -524,7 +524,7 @@ public class ResearchAreasServiceTest {
         context.checking(new Expectations() {{
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("researchAreaCode", "TEST");
-            one(businessObjectService).findMatching(ProtocolResearchArea.class, fieldValues); will(returnValue(protocolResearchAreaList));
+            oneOf(businessObjectService).findMatching(ProtocolResearchArea.class, fieldValues); will(returnValue(protocolResearchAreaList));
         }});
         
         ResearchAreasServiceImpl researchAreasService = new ResearchAreasServiceImpl();
@@ -573,13 +573,13 @@ public class ResearchAreasServiceTest {
         context.checking(new Expectations() {{
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("researchAreaCode", "TEST");
-            one(businessObjectService).findMatching(CommitteeResearchArea.class, fieldValues); will(returnValue(committeeResearchAreaList));
+            oneOf(businessObjectService).findMatching(CommitteeResearchArea.class, fieldValues); will(returnValue(committeeResearchAreaList));
         }});
         
         context.checking(new Expectations() {{
-            one(businessObjectService).findBySinglePrimaryKey(Committee.class, 1L); will(returnValue(c1));
-            one(businessObjectService).findBySinglePrimaryKey(Committee.class, 2L); will(returnValue(c2));
-            one(businessObjectService).findBySinglePrimaryKey(Committee.class, 3L); will(returnValue(c3));
+            oneOf(businessObjectService).findBySinglePrimaryKey(Committee.class, 1L); will(returnValue(c1));
+            oneOf(businessObjectService).findBySinglePrimaryKey(Committee.class, 2L); will(returnValue(c2));
+            oneOf(businessObjectService).findBySinglePrimaryKey(Committee.class, 3L); will(returnValue(c3));
             never(businessObjectService).findBySinglePrimaryKey(Committee.class, 4L);
         }});
         
@@ -683,20 +683,20 @@ public class ResearchAreasServiceTest {
         context.checking(new Expectations() {{
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("researchAreaCode", "TEST");
-            one(businessObjectService).findMatching(CommitteeMembershipExpertise.class, fieldValues); will(returnValue(committeeMembershipExpertiseList));
+            oneOf(businessObjectService).findMatching(CommitteeMembershipExpertise.class, fieldValues); will(returnValue(committeeMembershipExpertiseList));
         }});
         
         context.checking(new Expectations() {{
-            one(businessObjectService).findBySinglePrimaryKey(CommitteeMembership.class, 1L); will(returnValue(cm1));
-            one(businessObjectService).findBySinglePrimaryKey(CommitteeMembership.class, 2L); will(returnValue(cm2));
-            one(businessObjectService).findBySinglePrimaryKey(CommitteeMembership.class, 3L); will(returnValue(cm3));
+            oneOf(businessObjectService).findBySinglePrimaryKey(CommitteeMembership.class, 1L); will(returnValue(cm1));
+            oneOf(businessObjectService).findBySinglePrimaryKey(CommitteeMembership.class, 2L); will(returnValue(cm2));
+            oneOf(businessObjectService).findBySinglePrimaryKey(CommitteeMembership.class, 3L); will(returnValue(cm3));
             never(businessObjectService).findBySinglePrimaryKey(CommitteeMembership.class, 4L);
         }});        
         
         context.checking(new Expectations() {{
-            one(businessObjectService).findBySinglePrimaryKey(Committee.class, 11L); will(returnValue(c1));
+            oneOf(businessObjectService).findBySinglePrimaryKey(Committee.class, 11L); will(returnValue(c1));
             never(businessObjectService).findBySinglePrimaryKey(Committee.class, 22L); // cm2 is not active
-            one(businessObjectService).findBySinglePrimaryKey(Committee.class, 33L); will(returnValue(c3));
+            oneOf(businessObjectService).findBySinglePrimaryKey(Committee.class, 33L); will(returnValue(c3));
             never(businessObjectService).findBySinglePrimaryKey(Committee.class, 44L);
         }});
         

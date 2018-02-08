@@ -54,7 +54,7 @@
         <cas-client-core.version>3.4.1</cas-client-core.version>
         <cglib.version>3.2.5</cglib.version>
         <coeus-api-all.version>1801.0003</coeus-api-all.version>
-        <coeus-s2sgen.version>1802.0003</coeus-s2sgen.version>
+        <coeus-s2sgen.version>1802.0004</coeus-s2sgen.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -1906,6 +1906,7 @@
                         <groupId>xml-apis</groupId>
                     </exclusion>
                 </exclusions>
+                <scope>runtime</scope>
             </dependency>
 
             <dependency>

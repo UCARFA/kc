@@ -10,7 +10,6 @@ package org.kuali.coeus.propdev.impl.s2s;
 import com.lowagie.text.pdf.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.xpath.XPathAPI;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +23,9 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -165,8 +167,8 @@ public class FormUtilityServiceImpl implements FormUtilityService {
     }
 
     @Override
-    public void removeAllEmptyNodes(Document document, String xpath, int parentLevel) throws TransformerException {
-        NodeList emptyElements = XPathAPI.selectNodeList(document, xpath);
+    public void removeAllEmptyNodes(Document document, String xpath, int parentLevel) throws XPathExpressionException {
+        NodeList emptyElements = (NodeList) XPathFactory.newInstance().newXPath().evaluate(xpath, document, XPathConstants.NODESET);
         for (int i = emptyElements.getLength() - 1; i > -1; i--) {
             Node nodeToBeRemoved = emptyElements.item(i);
             int hierLevel = parentLevel;
@@ -175,7 +177,7 @@ public class FormUtilityServiceImpl implements FormUtilityService {
             }
             nodeToBeRemoved.getParentNode().removeChild(nodeToBeRemoved);
         }
-        NodeList moreEmptyElements = XPathAPI.selectNodeList(document, xpath);
+        NodeList moreEmptyElements = (NodeList) XPathFactory.newInstance().newXPath().evaluate(xpath, document, XPathConstants.NODESET);
         if (moreEmptyElements.getLength() > 0) {
             removeAllEmptyNodes(document, xpath, parentLevel);
         }

@@ -167,7 +167,7 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl {
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
               
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValueAsString(AwardDocument.class
+            oneOf(parameterService).getParameterValueAsString(AwardDocument.class
                     ,KeyConstants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES);will(returnValue(P_AND_I_PARAM));
         }});
         
@@ -176,7 +176,7 @@ public class AwardReportsServiceImplTest extends AwardReportsServiceImpl {
         primaryKeyField.put(ReportTrackingConstants.REPORT_CLASS_CODE, P_AND_I_PARAM);
         
         context.checking(new Expectations() {{
-            one(businessObjectService).findByPrimaryKey(ReportClass.class, primaryKeyField);will(returnValue(reportClass));
+            oneOf(businessObjectService).findByPrimaryKey(ReportClass.class, primaryKeyField);will(returnValue(reportClass));
         }});
 
         service.setParameterService(parameterService);

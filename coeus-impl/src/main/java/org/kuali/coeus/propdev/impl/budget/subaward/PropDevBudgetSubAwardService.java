@@ -11,7 +11,7 @@ import com.lowagie.text.pdf.PdfReader;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 
-import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 import java.util.List;
 
@@ -35,6 +35,6 @@ public interface PropDevBudgetSubAwardService {
      */
     void updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards budgetSubAward, List<String[]> errors) throws Exception;
 
-    byte[] getXMLFromPDF(PdfReader reader) throws IOException, TransformerException;
+    byte[] getXMLFromPDF(PdfReader reader) throws IOException, XPathExpressionException;
 
     }

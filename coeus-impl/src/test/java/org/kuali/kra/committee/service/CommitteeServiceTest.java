@@ -78,7 +78,7 @@ public class CommitteeServiceTest {
         
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(Committee.class, fieldValues); will(returnValue(committees));
+            oneOf(businessObjectService).findMatching(Committee.class, fieldValues); will(returnValue(committees));
         }});
         committeeService.setBusinessObjectService(businessObjectService);
         
@@ -107,7 +107,7 @@ public class CommitteeServiceTest {
         
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(Committee.class, fieldValues); will(returnValue(committees));
+            oneOf(businessObjectService).findMatching(Committee.class, fieldValues); will(returnValue(committees));
         }});
         committeeService.setBusinessObjectService(businessObjectService);
         
@@ -312,7 +312,7 @@ public class CommitteeServiceTest {
         
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(Committee.class, fieldValues); will(returnValue(committees));
+            oneOf(businessObjectService).findMatching(Committee.class, fieldValues); will(returnValue(committees));
         }});
         committeeService.setBusinessObjectService(businessObjectService);
     }
@@ -357,9 +357,9 @@ public class CommitteeServiceTest {
         
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(Committee.class, fieldValues); will(returnValue(committees));
-            one(businessObjectService).delete(oldSchedules);
-            one(businessObjectService).delete(newSchedules);
+            oneOf(businessObjectService).findMatching(Committee.class, fieldValues); will(returnValue(committees));
+            oneOf(businessObjectService).delete(oldSchedules);
+            oneOf(businessObjectService).delete(newSchedules);
         }});
         committeeService.setBusinessObjectService(businessObjectService);
         List<CommitteeSchedule> schedules = committeeService.mergeCommitteeSchedule(newCommittee);

@@ -85,7 +85,7 @@ public class AwardSubcontractingGoalsExpendituresRuleTest {
         final String awardNumber = BLANK_INPUT;
         // the positive expectations in this case for dictionaryValidationService are that validateAttributeRequired() will be called exactly once
         context.checking(new Expectations() {{
-            one(rule.getDictionaryValidationService()).validateAttributeRequired(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, false, AWARD_NUMBER); 
+            oneOf(rule.getDictionaryValidationService()).validateAttributeRequired(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, false, AWARD_NUMBER); 
             // 'will' side-effect custom action to add dummy error message to global error map, since rule checks that map.
             GlobalVariables.getMessageMap().putError(BLANK_FORMAT_PROPERTY_KEY, BLANK_FORMAT_ERROR_KEY);
         }});
@@ -102,8 +102,8 @@ public class AwardSubcontractingGoalsExpendituresRuleTest {
         final String awardNumber = BAD_FORMAT_INPUT;
         // the positive expectations in this case are that validateAttributeRequired() and validateAttributeFormat() will be both called exactly once
         context.checking(new Expectations() {{
-            one(rule.getDictionaryValidationService()).validateAttributeRequired(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, false, AWARD_NUMBER);
-            one(rule.getDictionaryValidationService()).validateAttributeFormat(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, AWARD_NUMBER); 
+            oneOf(rule.getDictionaryValidationService()).validateAttributeRequired(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, false, AWARD_NUMBER);
+            oneOf(rule.getDictionaryValidationService()).validateAttributeFormat(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, AWARD_NUMBER); 
             // 'will' side-effect custom action to add dummy error message to global error map, since rule checks that map.
             will(new CustomAction("Add random value to list") {
                 @Override
@@ -127,13 +127,13 @@ public class AwardSubcontractingGoalsExpendituresRuleTest {
         final String awardNumber = NO_VALID_AWARD_INPUT;
         // the positive expectations in this case are that validateAttributeRequired(), validateAttributeFormat() and getSearchResults() will be called exactly once
         context.checking(new Expectations() {{
-            one(rule.getDictionaryValidationService()).validateAttributeRequired(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, false, AWARD_NUMBER);
-            one(rule.getDictionaryValidationService()).validateAttributeFormat(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, AWARD_NUMBER);
+            oneOf(rule.getDictionaryValidationService()).validateAttributeRequired(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, false, AWARD_NUMBER);
+            oneOf(rule.getDictionaryValidationService()).validateAttributeFormat(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, AWARD_NUMBER);
             
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(SUB_PLAN_FLAG, SUB_PLAN_FLAG_VAL);
             fieldValues.put(AWARD_NUMBER, awardNumber);            
-            one(rule.getAwardLookupable()).getSearchResults(fieldValues);
+            oneOf(rule.getAwardLookupable()).getSearchResults(fieldValues);
             will(returnValue(new ArrayList<Award>()));
         }});
         Assert.assertFalse(rule.validateAwardNumber(awardNumber));
@@ -148,8 +148,8 @@ public class AwardSubcontractingGoalsExpendituresRuleTest {
         final String awardNumber = VALID_AWARD_INPUT;
         // the positive expectations in this case are that validateAttributeRequired(), validateAttributeFormat() and getSearchResults() will be called exactly once
         context.checking(new Expectations() {{
-            one(rule.getDictionaryValidationService()).validateAttributeRequired(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, false, AWARD_NUMBER);
-            one(rule.getDictionaryValidationService()).validateAttributeFormat(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, AWARD_NUMBER);
+            oneOf(rule.getDictionaryValidationService()).validateAttributeRequired(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, false, AWARD_NUMBER);
+            oneOf(rule.getDictionaryValidationService()).validateAttributeFormat(DD_ENTRY_NAME, AWARD_NUMBER, awardNumber, AWARD_NUMBER);
             
             Award foundAward = new Award();
             foundAward.setAwardId(AWARD_ID_VAL);
@@ -160,7 +160,7 @@ public class AwardSubcontractingGoalsExpendituresRuleTest {
             List<Award> awardResults = new ArrayList<Award>();            
             awardResults.add(foundAward);
             
-            one(rule.getAwardLookupable()).getSearchResults(fieldValues);
+            oneOf(rule.getAwardLookupable()).getSearchResults(fieldValues);
             will(returnValue(awardResults));
         }});
 

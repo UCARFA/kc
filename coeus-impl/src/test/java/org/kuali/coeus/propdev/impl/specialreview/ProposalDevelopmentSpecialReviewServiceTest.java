@@ -289,7 +289,7 @@ public class ProposalDevelopmentSpecialReviewServiceTest {
 				new ProposalDevelopmentSpecialReviewServiceImpl();
 		context.checking(new Expectations() {
 			{
-				one(proposalDevelopmentProtocolDocumentService).isAuthorizedCreateProtocol(document);
+				oneOf(proposalDevelopmentProtocolDocumentService).isAuthorizedCreateProtocol(document);
 				will(returnValue(true));
 			}
 		});
@@ -304,7 +304,7 @@ public class ProposalDevelopmentSpecialReviewServiceTest {
 				new ProposalDevelopmentSpecialReviewServiceImpl();
 		context.checking(new Expectations() {
 			{
-				one(iacucProtocolProposalDevelopmentProtocolDocumentService).isAuthorizedCreateProtocol(document);
+				oneOf(iacucProtocolProposalDevelopmentProtocolDocumentService).isAuthorizedCreateProtocol(document);
 				will(returnValue(true));
 			}
 		});

@@ -44,17 +44,17 @@ public class AwardFnaDistributionServiceImplTest {
     private ParameterService getParameterService(final String parmVal) {
         final ParameterService parameterService = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValueAsString(AwardFnaDistributionServiceImpl.AWARD_FNA_DISTRIBUTION_NAMESPACE, 
+            oneOf(parameterService).getParameterValueAsString(AwardFnaDistributionServiceImpl.AWARD_FNA_DISTRIBUTION_NAMESPACE, 
                     AwardFnaDistributionServiceImpl.AWARD_FNA_DISTRIBUTION_COMPONENT, 
                     AwardFnaDistributionServiceImpl.AWARD_FNA_DISTRIBUTION_PARAMETER_NAME);will(returnValue(parmVal));
         }});
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValueAsString(AwardFnaDistributionServiceImpl.AWARD_FNA_DISTRIBUTION_NAMESPACE, 
+            oneOf(parameterService).getParameterValueAsString(AwardFnaDistributionServiceImpl.AWARD_FNA_DISTRIBUTION_NAMESPACE, 
                     AwardFnaDistributionServiceImpl.AWARD_FNA_DISTRIBUTION_COMPONENT, 
                     AwardFnaDistributionServiceImpl.AWARD_FNA_DISTRIBUTION_PARAMETER_NAME);will(returnValue(parmVal));
         }});
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValueAsString(AwardFnaDistributionServiceImpl.AWARD_FNA_DISTRIBUTION_NAMESPACE, 
+            oneOf(parameterService).getParameterValueAsString(AwardFnaDistributionServiceImpl.AWARD_FNA_DISTRIBUTION_NAMESPACE, 
                     AwardFnaDistributionServiceImpl.AWARD_FNA_DISTRIBUTION_COMPONENT, 
                     AwardFnaDistributionServiceImpl.AWARD_FNA_DISTRIBUTION_PARAMETER_NAME);will(returnValue(parmVal));
         }});

@@ -68,7 +68,7 @@ public class FundingSourceTypeServiceTest {
         final FundingSourceType fundingSourceType = getFundingSourceType(valid);
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(businessObjectService).findByPrimaryKey(FundingSourceType.class, fieldValues); will(returnValue(fundingSourceType));
+            oneOf(businessObjectService).findByPrimaryKey(FundingSourceType.class, fieldValues); will(returnValue(fundingSourceType));
         }});
         funSrcTypeServiceImpl.setBusinessObjectService(businessObjectService);
         

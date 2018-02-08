@@ -117,7 +117,7 @@ public class ProtocolCorrespondenceTemplateServiceTest extends KcIntegrationTest
                 Map fieldValues = new HashMap();
                 fieldValues.put("committeeId", COMMITTEE_ID);
                 fieldValues.put("protoCorrespTypeCode", AGENDA_TYPE);
-                one(businessObjectService).findMatching(ProtocolCorrespondenceTemplate.class, fieldValues);
+                oneOf(businessObjectService).findMatching(ProtocolCorrespondenceTemplate.class, fieldValues);
                 will(returnValue(templates));
 
 

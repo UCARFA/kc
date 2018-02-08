@@ -85,7 +85,7 @@ public class MeetingAddMinuteRuleTest extends KcIntegrationTestBase {
                 context.checking(new Expectations() {{
                     Map<String, String> queryMap = new HashMap<String, String>();
                     queryMap.put("protocolContingencyCode", "111");
-                    one(businessObjectService).findByPrimaryKey(ProtocolContingency.class, queryMap);
+                    oneOf(businessObjectService).findByPrimaryKey(ProtocolContingency.class, queryMap);
                     will(returnValue(null));
                     
                 }});

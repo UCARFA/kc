@@ -107,9 +107,9 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         final QuestionAuthorizationService questionAuthorizationService = context.mock(QuestionAuthorizationService.class);
         questionLookupableHelperServiceImpl.setQuestionAuthorizationService(questionAuthorizationService);
         context.checking(new Expectations() {{
-            one(questionAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTION);
+            oneOf(questionAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTION);
             will(returnValue(false));
-            one(questionAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTION);
+            oneOf(questionAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTION);
             will(returnValue(true));
         }});
   
@@ -139,9 +139,9 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         final QuestionAuthorizationService questionAuthorizationService = context.mock(QuestionAuthorizationService.class);
         questionLookupableHelperServiceImpl.setQuestionAuthorizationService(questionAuthorizationService);
         context.checking(new Expectations() {{
-            one(questionAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTION);
+            oneOf(questionAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTION);
             will(returnValue(true));
-            one(questionAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTION);
+            oneOf(questionAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTION);
             will(returnValue(false));
         }});
   
@@ -178,9 +178,9 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         final QuestionAuthorizationService questionAuthorizationService = context.mock(QuestionAuthorizationService.class);
         questionLookupableHelperServiceImpl.setQuestionAuthorizationService(questionAuthorizationService);
         context.checking(new Expectations() {{
-            one(questionAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTION);
+            oneOf(questionAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTION);
             will(returnValue(false));
-            one(questionAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTION);
+            oneOf(questionAuthorizationService).hasPermission(PermissionConstants.VIEW_QUESTION);
             will(returnValue(false));
         }});
   

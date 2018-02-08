@@ -8,6 +8,8 @@
 package org.kuali.kra.proposaldevelopment.budget.service.impl;
 
 import java.util.Objects;
+
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -82,13 +84,13 @@ public class PropDevBudgetSubAwardServiceTest {
         final ParameterService parmService = context.mock(ParameterService.class);
         sponsorHierarchyService = context.mock(SponsorHierarchyService.class);
         context.checking(new Expectations(){{
-            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
+            oneOf(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
             will(returnValue(directLt));
-            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_GT_25K_PARAM);
+            oneOf(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_GT_25K_PARAM);
             will(returnValue(directGt));
-            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
+            oneOf(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
             will(returnValue(indirectLt));
-            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
+            oneOf(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
             will(returnValue(indirectGt));
         }});
         service.setParameterService(parmService);
@@ -97,9 +99,9 @@ public class PropDevBudgetSubAwardServiceTest {
     }
     
     @Test
-    public void testExample1WithNoLineItems() throws Exception {
+    public void testExample1WithNoLineItems() {
         context.checking(new Expectations(){{
-            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            oneOf(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
             will(returnValue(true));
         }});
         
@@ -108,7 +110,7 @@ public class PropDevBudgetSubAwardServiceTest {
         subAward.getBudgetSubAwardPeriodDetails().get(1).setDirectCost(new ScaleTwoDecimal(150000L));
         subAward.getBudgetSubAwardPeriodDetails().get(1).setIndirectCost(new ScaleTwoDecimal(75000L));
         
-        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<Map<String, ScaleTwoDecimal>>();
+        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<>();
         expectedResults.add(new HashMap<>());
         expectedResults.add(new HashMap<>());
         expectedResults.add(new HashMap<>());
@@ -126,9 +128,9 @@ public class PropDevBudgetSubAwardServiceTest {
     }
     
     @Test
-    public void testExample2WithNoLineItems() throws Exception {
+    public void testExample2WithNoLineItems() {
         context.checking(new Expectations(){{
-            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            oneOf(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
             will(returnValue(true));
         }});
         
@@ -137,7 +139,7 @@ public class PropDevBudgetSubAwardServiceTest {
         subAward.getBudgetSubAwardPeriodDetails().get(1).setDirectCost(new ScaleTwoDecimal(15000L));
         subAward.getBudgetSubAwardPeriodDetails().get(1).setIndirectCost(new ScaleTwoDecimal(7500L));
         
-        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<Map<String, ScaleTwoDecimal>>();
+        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<>();
         expectedResults.add(new HashMap<>());
         expectedResults.add(new HashMap<>());
         expectedResults.add(new HashMap<>());
@@ -155,9 +157,9 @@ public class PropDevBudgetSubAwardServiceTest {
     }
     
     @Test
-    public void testExample3WithNoLineItems() throws Exception {
+    public void testExample3WithNoLineItems() {
         context.checking(new Expectations(){{
-            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            oneOf(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
             will(returnValue(true));
         }});
         
@@ -166,7 +168,7 @@ public class PropDevBudgetSubAwardServiceTest {
         subAward.getBudgetSubAwardPeriodDetails().get(1).setDirectCost(new ScaleTwoDecimal(20000));
         subAward.getBudgetSubAwardPeriodDetails().get(1).setIndirectCost(new ScaleTwoDecimal(10000));
         
-        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<Map<String, ScaleTwoDecimal>>();
+        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<>();
         expectedResults.add(new HashMap<>());
         expectedResults.add(new HashMap<>());
         expectedResults.add(new HashMap<>());
@@ -184,9 +186,9 @@ public class PropDevBudgetSubAwardServiceTest {
     } 
     
     @Test
-    public void testExample1WithCostShare() throws Exception {
+    public void testExample1WithCostShare() {
         context.checking(new Expectations(){{
-            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            oneOf(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
             will(returnValue(true));
         }});
         
@@ -250,9 +252,9 @@ public class PropDevBudgetSubAwardServiceTest {
 
     
     @Test
-    public void testExample1WithLineItems() throws Exception {
+    public void testExample1WithLineItems() {
         context.checking(new Expectations(){{
-            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            oneOf(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
             will(returnValue(true));
         }});
         
@@ -270,15 +272,15 @@ public class PropDevBudgetSubAwardServiceTest {
             newLineItem.setCostElement(directLt);
             newLineItem.setLineItemNumber(1);
             period.getBudgetLineItems().add(newLineItem);
-            newLineItem = (BudgetLineItem) org.kuali.rice.krad.util.ObjectUtils.deepCopy(newLineItem);
+            newLineItem = SerializationUtils.clone(newLineItem);
             newLineItem.setCostElement(directGt);
             newLineItem.setLineItemNumber(2);
             period.getBudgetLineItems().add(newLineItem);
-            newLineItem = (BudgetLineItem) org.kuali.rice.krad.util.ObjectUtils.deepCopy(newLineItem);
+            newLineItem = SerializationUtils.clone(newLineItem);
             newLineItem.setCostElement(indirectLt);
             newLineItem.setLineItemNumber(3);
             period.getBudgetLineItems().add(newLineItem);
-            newLineItem = (BudgetLineItem) org.kuali.rice.krad.util.ObjectUtils.deepCopy(newLineItem);
+            newLineItem = SerializationUtils.clone(newLineItem);
             newLineItem.setCostElement(indirectGt);
             newLineItem.setLineItemNumber(4);
             period.getBudgetLineItems().add(newLineItem);
@@ -322,12 +324,7 @@ public class PropDevBudgetSubAwardServiceTest {
 
     protected void assertCostShare(long costShareAmount) {
         for (BudgetPeriod period : budget.getBudgetPeriods()) {
-            Collections.sort(period.getBudgetLineItems(), new Comparator<BudgetLineItem>() {
-                @Override
-                public int compare(BudgetLineItem arg0, BudgetLineItem arg1) {
-                    return arg0.getLineItemNumber().compareTo(arg1.getLineItemNumber());
-                }
-            });
+            period.getBudgetLineItems().sort(Comparator.comparing(BudgetLineItem::getLineItemNumber));
             Assert.assertEquals(new ScaleTwoDecimal(costShareAmount), period.getBudgetLineItems().get(0).getCostSharingAmount());
             for (int i = 1; i < period.getBudgetLineItems().size(); i++) {
                 Assert.assertEquals(ScaleTwoDecimal.ZERO, period.getBudgetLineItems().get(i).getCostSharingAmount());
@@ -346,9 +343,9 @@ public class PropDevBudgetSubAwardServiceTest {
     }
     
     @Test
-    public void testExample1WithNonNih() throws Exception {
+    public void testExample1WithNonNih() {
         context.checking(new Expectations(){{
-            one(sponsorHierarchyService).isSponsorNihMultiplePi(NON_NIH_SPONSOR_CODE);
+            oneOf(sponsorHierarchyService).isSponsorNihMultiplePi(NON_NIH_SPONSOR_CODE);
             will(returnValue(false));
         }});
         budget.getDevelopmentProposal().setSponsorCode(NON_NIH_SPONSOR_CODE);

@@ -127,8 +127,8 @@ public class MeetingServiceTest extends KcIntegrationTestBase {
         deletedOtherActions.add(actItem);
         context.checking(new Expectations() {
             {
-                one(businessObjectService).delete(deletedOtherActions);
-                one(businessObjectService).save(committeeSchedule);
+                oneOf(businessObjectService).delete(deletedOtherActions);
+                oneOf(businessObjectService).save(committeeSchedule);
 
 
             }
@@ -159,7 +159,7 @@ public class MeetingServiceTest extends KcIntegrationTestBase {
             {
                 Map<String, String> queryMap = new HashMap<String, String>();
                 queryMap.put("protocolContingencyCode", "1");
-                one(businessObjectService).findByPrimaryKey(ProtocolContingency.class, queryMap);
+                oneOf(businessObjectService).findByPrimaryKey(ProtocolContingency.class, queryMap);
                 will(returnValue(protocolContingency));
 
             }
@@ -171,7 +171,7 @@ public class MeetingServiceTest extends KcIntegrationTestBase {
             {
                 Map<String, String> queryMap = new HashMap<String, String>();
                 queryMap.put("protocolContingencyCode", "2");
-                one(businessObjectService).findByPrimaryKey(ProtocolContingency.class, queryMap);
+                oneOf(businessObjectService).findByPrimaryKey(ProtocolContingency.class, queryMap);
                 will(returnValue(null));
 
             }
@@ -190,7 +190,7 @@ public class MeetingServiceTest extends KcIntegrationTestBase {
         newOtherAction.setScheduleActItemTypeCode("1");
         context.checking(new Expectations() {
             {
-                one(sequenceAccessorService).getNextAvailableSequenceNumber("SEQ_MEETING_ID", newOtherAction.getClass());
+                oneOf(sequenceAccessorService).getNextAvailableSequenceNumber("SEQ_MEETING_ID", newOtherAction.getClass());
                 will(returnValue(newOtherAction.getCommScheduleActItemsId()));
 
             }
@@ -446,7 +446,7 @@ public class MeetingServiceTest extends KcIntegrationTestBase {
         MeetingServiceImpl meetingService = new MeetingServiceImpl();
         final DateTimeService dateTimeService = context.mock(DateTimeService.class);
         context.checking(new Expectations() {{
-            one(dateTimeService).getCurrentTimestamp();
+            oneOf(dateTimeService).getCurrentTimestamp();
             will(returnValue(new Timestamp(System.currentTimeMillis())));
         }});
         meetingService.setDateTimeService(dateTimeService);
@@ -542,18 +542,18 @@ public class MeetingServiceTest extends KcIntegrationTestBase {
             {
                 Map queryMap = new HashMap();
                 queryMap.put("scheduleIdFk", 1L);
-                one(businessObjectService).findMatchingOrderBy(ScheduleAgenda.class, queryMap, "createTimestamp", true);
+                oneOf(businessObjectService).findMatchingOrderBy(ScheduleAgenda.class, queryMap, "createTimestamp", true);
                 ;
                 will(returnValue(agendas));
-                one(businessObjectService).findMatchingOrderBy(ScheduleAgenda.class, queryMap, "createTimestamp", true);
+                oneOf(businessObjectService).findMatchingOrderBy(ScheduleAgenda.class, queryMap, "createTimestamp", true);
                 ;
                 will(returnValue(agendas));
-                one(businessObjectService).findMatchingOrderBy(CommScheduleMinuteDoc.class, queryMap, "createTimestamp", true);
+                oneOf(businessObjectService).findMatchingOrderBy(CommScheduleMinuteDoc.class, queryMap, "createTimestamp", true);
                 ;
                 will(returnValue(minuteDocs));
                 Map queryMap1 = new HashMap();
                 queryMap1.put("protocolId", 1L);
-                one(businessObjectService).findMatching(ProtocolCorrespondence.class, queryMap1);
+                oneOf(businessObjectService).findMatching(ProtocolCorrespondence.class, queryMap1);
                 ;
                 will(returnValue(correspondences));
 

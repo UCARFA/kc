@@ -84,7 +84,7 @@ public class KcPessimisticLockServiceImplTest {
          */
         final ParameterService parameterService = context.mock(ParameterService.class);
         context.checking(new Expectations() {{
-            one(parameterService).getParameterValueAsString(Constants.MODULE_NAMESPACE_SYSTEM, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+            oneOf(parameterService).getParameterValueAsString(Constants.MODULE_NAMESPACE_SYSTEM, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                                                         Constants.PESSIMISTIC_LOCKING_EXPIRATION_AGE); 
             will(returnValue("1440"));
         }});
@@ -96,7 +96,7 @@ public class KcPessimisticLockServiceImplTest {
          */
         final DateTimeService dateTimeService = context.mock(DateTimeService.class);
         context.checking(new Expectations() {{
-            one(dateTimeService).getCurrentTimestamp(); will(returnValue(cronJobTime));
+            oneOf(dateTimeService).getCurrentTimestamp(); will(returnValue(cronJobTime));
         }});
         pessimisticLockService.setDateTimeService(dateTimeService);
         
@@ -108,9 +108,9 @@ public class KcPessimisticLockServiceImplTest {
         context.checking(new Expectations() {{
             final Builder<PessimisticLock> qr = Builder.<PessimisticLock>create();
             qr.setResults(locks);
-            one(dataObjectService).findMatching(PessimisticLock.class, QueryByCriteria.Builder.create().build()); will(returnValue(qr.build()));
-            one(dataObjectService).delete(locks.get(1));
-            one(dataObjectService).delete(locks.get(3));
+            oneOf(dataObjectService).findMatching(PessimisticLock.class, QueryByCriteria.Builder.create().build()); will(returnValue(qr.build()));
+            oneOf(dataObjectService).delete(locks.get(1));
+            oneOf(dataObjectService).delete(locks.get(3));
         }});
         pessimisticLockService.setDataObjectService(dataObjectService);
         

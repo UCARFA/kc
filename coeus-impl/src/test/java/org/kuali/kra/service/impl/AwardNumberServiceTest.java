@@ -81,7 +81,7 @@ public class AwardNumberServiceTest {
         final SequenceAccessorService sequenceAccessorService = context.mock(SequenceAccessorService.class);
         context.checking(new Expectations() {
             {
-                one(sequenceAccessorService).getNextAvailableSequenceNumber(Constants.AWARD_SEQUENCE_AWARD_NUMBER, Award.class);
+                oneOf(sequenceAccessorService).getNextAvailableSequenceNumber(Constants.AWARD_SEQUENCE_AWARD_NUMBER, Award.class);
                 will(returnValue(SEQUENCE_NUMBER));
             }
         });

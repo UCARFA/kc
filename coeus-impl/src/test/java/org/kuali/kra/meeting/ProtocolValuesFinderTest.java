@@ -59,7 +59,7 @@ public class ProtocolValuesFinderTest {
          context.checking(new Expectations() {{
              Map fieldValues = new HashMap();
              fieldValues.put("scheduleIdFk", "1");
-             one(businessObjectService).findMatching(ProtocolSubmissionLite.class, fieldValues);
+             oneOf(businessObjectService).findMatching(ProtocolSubmissionLite.class, fieldValues);
              will(returnValue(protocolSubmissions));
              
          }});

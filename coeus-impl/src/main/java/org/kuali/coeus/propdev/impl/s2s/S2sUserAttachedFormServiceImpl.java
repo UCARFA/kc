@@ -34,6 +34,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -75,7 +76,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
 
     @Override
     public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(ProposalDevelopmentDocument developmentProposal,
-                                                                   S2sUserAttachedForm s2sUserAttachedForm) throws TransformerException, IOException, SAXException, ParserConfigurationException {
+                                                                   S2sUserAttachedForm s2sUserAttachedForm) throws TransformerException, IOException, SAXException, ParserConfigurationException, XPathExpressionException {
         PdfReader reader = null;
         final List<S2sUserAttachedForm> formBeans;
         try{
@@ -108,7 +109,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         throw s2sException;
     }
 
-    protected List<S2sUserAttachedForm> extractAndPopulateXml(ProposalDevelopmentDocument developmentProposal, PdfReader reader, S2sUserAttachedForm userAttachedForm, Map<String, byte[]> attachments) throws TransformerException, IOException, SAXException, ParserConfigurationException {
+    protected List<S2sUserAttachedForm> extractAndPopulateXml(ProposalDevelopmentDocument developmentProposal, PdfReader reader, S2sUserAttachedForm userAttachedForm, Map<String, byte[]> attachments) throws TransformerException, IOException, SAXException, ParserConfigurationException, XPathExpressionException {
         List<S2sUserAttachedForm> formBeans = new ArrayList<>();
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Document domDocument = xfaForm.getDomDocument();
@@ -187,7 +188,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     }
 
     protected void addForm(ProposalDevelopmentDocument developmentProposal, List<S2sUserAttachedForm> formBeans, Element form,
-                           S2sUserAttachedForm userAttachedFormBean, Map<String, byte[]> attachments) throws TransformerException {
+                           S2sUserAttachedForm userAttachedFormBean, Map<String, byte[]> attachments) throws TransformerException, XPathExpressionException {
         S2sUserAttachedForm userAttachedForm = processForm(developmentProposal, form,userAttachedFormBean,attachments);
         if(userAttachedForm!=null){
             formBeans.add(userAttachedForm);
@@ -208,7 +209,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         }
     }
 
-    private S2sUserAttachedForm processForm(ProposalDevelopmentDocument developmentProposal, Element form, S2sUserAttachedForm userAttachedForm, Map<String, byte[]> attachments) throws TransformerException {
+    private S2sUserAttachedForm processForm(ProposalDevelopmentDocument developmentProposal, Element form, S2sUserAttachedForm userAttachedForm, Map<String, byte[]> attachments) throws TransformerException, XPathExpressionException {
         
         String formname;
         String namespaceUri;

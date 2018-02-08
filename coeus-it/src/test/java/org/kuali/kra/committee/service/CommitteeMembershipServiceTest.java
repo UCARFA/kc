@@ -189,7 +189,7 @@ public class CommitteeMembershipServiceTest extends KcIntegrationTestBase {
         final Map fieldValues = new HashMap();
         fieldValues.put("committeeId", "test");
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(ProtocolSubmission.class, fieldValues);
+            oneOf(businessObjectService).findMatching(ProtocolSubmission.class, fieldValues);
             will(returnValue(getProtocolSubmissions()));
         }});
         committeeMembershipService.setBusinessObjectService(businessObjectService);
@@ -220,7 +220,7 @@ public class CommitteeMembershipServiceTest extends KcIntegrationTestBase {
         activeCommittee.setCommitteeSchedules(schedules);
         final CommitteeService committeeService = context.mock(CommitteeService.class);
         context.checking(new Expectations() {{
-            one(committeeService).getCommitteeById("test");
+            oneOf(committeeService).getCommitteeById("test");
             will(returnValue(activeCommittee));
         }});
         committeeMembershipService.setCommitteeService(committeeService);

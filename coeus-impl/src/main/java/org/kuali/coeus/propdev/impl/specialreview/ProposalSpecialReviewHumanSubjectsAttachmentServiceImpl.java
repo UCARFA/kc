@@ -26,6 +26,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -104,7 +105,7 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
                     fileData.put(CONTENT, xml);
                 }
             }
-        } catch (IOException | ParserConfigurationException | SAXException | TransformerException exception) {
+        } catch (IOException | ParserConfigurationException | SAXException | TransformerException | XPathExpressionException exception) {
             fileData = null;
             LOG.error("Cannot parse attachment." + exception.getMessage(), exception);
         } finally {
@@ -115,7 +116,7 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
     }
 
 
-    private String processForm(Element form) throws TransformerException {
+    private String processForm(Element form) throws TransformerException, XPathExpressionException {
 
         String formXML;
         Document doc = formUtilityService.node2Dom(form);

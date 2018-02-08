@@ -222,7 +222,7 @@ public class AddProtocolFundingSourceTest extends KcIntegrationTestBase {
         context.checking(new Expectations() {{
           allowing(protocolFundingSourceService).isValidIdForType(fundingSource); 
           will(returnValue(true));
-          one(protocolFundingSourceService).isValidIdForType(badFundingSource); 
+          oneOf(protocolFundingSourceService).isValidIdForType(badFundingSource); 
           will(returnValue(false));
           allowing(protocolFundingSourceService).isEditable(fundingSource.getFundingSourceTypeCode());
           will(returnValue(true));

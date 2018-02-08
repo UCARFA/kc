@@ -151,8 +151,8 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
            QuestionnairePrint questionnairePrint = new QuestionnairePrint();
            QuestionnairePrintingServiceImpl qnPrintingServiceImpl = new QuestionnairePrintingServiceImpl();
             context.checking(new Expectations() {{
-                one(businessObjectService).findByPrimaryKey(Questionnaire.class, pkMap); will(returnValue(questionnaire));
-                one(businessObjectService).findMatching(Protocol.class, keyValues); will(returnValue(protocols));
+                oneOf(businessObjectService).findByPrimaryKey(Questionnaire.class, pkMap); will(returnValue(questionnaire));
+                oneOf(businessObjectService).findMatching(Protocol.class, keyValues); will(returnValue(protocols));
             }});
             qnPrintingServiceImpl.setBusinessObjectService(businessObjectService);
             qnPrintingServiceImpl.setQuestionnairePrint(questionnairePrint);

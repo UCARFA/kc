@@ -63,7 +63,7 @@ public class PropAwardPersonRoleServiceTest {
     	final PropAwardPersonRoleServiceImpl roleService = new PropAwardPersonRoleServiceImpl();
     	final DataObjectService dataObjectService = context.mock(DataObjectService.class);
         context.checking(new Expectations() {{
-            one(dataObjectService).find(PropAwardPersonRole.class, 1L);
+            oneOf(dataObjectService).find(PropAwardPersonRole.class, 1L);
             will(returnValue(null));
         }});
         
@@ -78,7 +78,7 @@ public class PropAwardPersonRoleServiceTest {
     	final PropAwardPersonRole role = new PropAwardPersonRole();
     	role.setId(1L);
         context.checking(new Expectations() {{
-            one(dataObjectService).find(PropAwardPersonRole.class, 1L);
+            oneOf(dataObjectService).find(PropAwardPersonRole.class, 1L);
             will(returnValue(role));
         }});
         
@@ -109,9 +109,9 @@ public class PropAwardPersonRoleServiceTest {
 				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", "PI"), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
 		final PropAwardPersonRole role = createTestRole(3L, "PI", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         context.checking(new Expectations() {{
-        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
+        	oneOf(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
         	will(returnValue(true));
-        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteria.build());
+        	oneOf(dataObjectService).findUnique(PropAwardPersonRole.class, criteria.build());
         	will(returnValue(role));
         }});
         
@@ -132,15 +132,15 @@ public class PropAwardPersonRoleServiceTest {
 				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", "PI"), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
 		final PropAwardPersonRole role = createTestRole(3L, "PI", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         context.checking(new Expectations() {{
-        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
+        	oneOf(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
         	will(returnValue(false));
-        	one(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
+        	oneOf(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
         	will(returnValue(new ArrayList<String>(){{
         		add(PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         	}}));
-        	one(hierarchyService).isSponsorInHierarchy("000340", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        	oneOf(hierarchyService).isSponsorInHierarchy("000340", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         	will(returnValue(true));
-        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteria.build());
+        	oneOf(dataObjectService).findUnique(PropAwardPersonRole.class, criteria.build());
         	will(returnValue(role));
         }});
         
@@ -161,15 +161,15 @@ public class PropAwardPersonRoleServiceTest {
 				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", "PI"), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.DEFAULT_SPONSOR_HIERARCHY_NAME));
 		final PropAwardPersonRole role = createTestRole(1L, "PI", PropAwardPersonRoleServiceImpl.DEFAULT_SPONSOR_HIERARCHY_NAME);
         context.checking(new Expectations() {{
-        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
+        	oneOf(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
         	will(returnValue(false));
-        	one(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
+        	oneOf(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
         	will(returnValue(new ArrayList<String>(){{
         		add(PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         	}}));
-        	one(hierarchyService).isSponsorInHierarchy("000500", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        	oneOf(hierarchyService).isSponsorInHierarchy("000500", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         	will(returnValue(false));
-        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteria.build());
+        	oneOf(dataObjectService).findUnique(PropAwardPersonRole.class, criteria.build());
         	will(returnValue(role));
         }});
         
@@ -189,15 +189,15 @@ public class PropAwardPersonRoleServiceTest {
 		final QueryByCriteria.Builder criteria = 
 				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", "MPI"), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.DEFAULT_SPONSOR_HIERARCHY_NAME));
         context.checking(new Expectations() {{
-        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
+        	oneOf(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
         	will(returnValue(false));
-        	one(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
+        	oneOf(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
         	will(returnValue(new ArrayList<String>(){{
         		add(PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         	}}));
-        	one(hierarchyService).isSponsorInHierarchy("000500", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        	oneOf(hierarchyService).isSponsorInHierarchy("000500", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         	will(returnValue(false));
-        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteria.build());
+        	oneOf(dataObjectService).findUnique(PropAwardPersonRole.class, criteria.build());
         	will(returnValue(null));
         }});
         
@@ -221,9 +221,9 @@ public class PropAwardPersonRoleServiceTest {
     	final SponsorHierarchyService hierarchyService = context.mock(SponsorHierarchyService.class);
 
         context.checking(new Expectations() {{
-        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
+        	oneOf(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
         	will(returnValue(true));
-        	one(dataObjectService).findMatching(PropAwardPersonRole.class, QueryByCriteria.Builder.forAttribute("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY).build());
+        	oneOf(dataObjectService).findMatching(PropAwardPersonRole.class, QueryByCriteria.Builder.forAttribute("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY).build());
         	will(returnValue(roleListBuilder.build()));
         }});
         
@@ -241,15 +241,15 @@ public class PropAwardPersonRoleServiceTest {
     	final SponsorHierarchyService hierarchyService = context.mock(SponsorHierarchyService.class);
 
         context.checking(new Expectations() {{
-        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
+        	oneOf(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
         	will(returnValue(false));
-        	one(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
+        	oneOf(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
         	will(returnValue(new ArrayList<String>(){{
         		add(PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         	}}));
-        	one(hierarchyService).isSponsorInHierarchy("000340", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        	oneOf(hierarchyService).isSponsorInHierarchy("000340", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         	will(returnValue(true));
-        	one(dataObjectService).findMatching(PropAwardPersonRole.class, QueryByCriteria.Builder.forAttribute("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY).build()).getResults();
+        	oneOf(dataObjectService).findMatching(PropAwardPersonRole.class, QueryByCriteria.Builder.forAttribute("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY).build()).getResults();
         	will(returnValue(roleListBuilder.build()));
         }});
         
@@ -267,15 +267,15 @@ public class PropAwardPersonRoleServiceTest {
     	final SponsorHierarchyService hierarchyService = context.mock(SponsorHierarchyService.class);
 
         context.checking(new Expectations() {{
-        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
+        	oneOf(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
         	will(returnValue(false));
-        	one(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
+        	oneOf(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
         	will(returnValue(new ArrayList<String>(){{
         		add(PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         	}}));
-        	one(hierarchyService).isSponsorInHierarchy("000500", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        	oneOf(hierarchyService).isSponsorInHierarchy("000500", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         	will(returnValue(false));
-        	one(dataObjectService).findMatching(PropAwardPersonRole.class, QueryByCriteria.Builder.forAttribute("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.DEFAULT_SPONSOR_HIERARCHY_NAME).build()).getResults();
+        	oneOf(dataObjectService).findMatching(PropAwardPersonRole.class, QueryByCriteria.Builder.forAttribute("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.DEFAULT_SPONSOR_HIERARCHY_NAME).build()).getResults();
         	will(returnValue(roleListBuilder.build()));
         }});
         
@@ -293,18 +293,18 @@ public class PropAwardPersonRoleServiceTest {
     	final SponsorHierarchyService hierarchyService = context.mock(SponsorHierarchyService.class);
 
         context.checking(new Expectations() {{
-        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
+        	oneOf(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
         	will(returnValue(false));
-        	one(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
+        	oneOf(parameterService).getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PropAwardPersonRoleServiceImpl.SPONSOR_HIERARCHIES_PARM);
         	will(returnValue(new ArrayList<String>(){{
         		add(PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         		add("New Custom Role");
         	}}));
-        	one(hierarchyService).isSponsorInHierarchy("000500", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        	oneOf(hierarchyService).isSponsorInHierarchy("000500", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
         	will(returnValue(false));
-        	one(hierarchyService).isSponsorInHierarchy("000500", "New Custom Role");
+        	oneOf(hierarchyService).isSponsorInHierarchy("000500", "New Custom Role");
         	will(returnValue(true));
-        	one(dataObjectService).findMatching(PropAwardPersonRole.class, QueryByCriteria.Builder.forAttribute("sponsorHierarchyName", "New Custom Role").build()).getResults();
+        	oneOf(dataObjectService).findMatching(PropAwardPersonRole.class, QueryByCriteria.Builder.forAttribute("sponsorHierarchyName", "New Custom Role").build()).getResults();
         	will(returnValue(roleListBuilder.build()));
         }});
         
@@ -322,9 +322,9 @@ public class PropAwardPersonRoleServiceTest {
     	final SponsorHierarchyService hierarchyService = context.mock(SponsorHierarchyService.class);
 
         context.checking(new Expectations() {{
-        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
+        	oneOf(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
         	will(returnValue(false));
-        	one(hierarchyService).isSponsorNihOsc("000500");
+        	oneOf(hierarchyService).isSponsorNihOsc("000500");
         	will(returnValue(true));
         }});
         
@@ -342,7 +342,7 @@ public class PropAwardPersonRoleServiceTest {
     	final SponsorHierarchyService hierarchyService = context.mock(SponsorHierarchyService.class);
 
         context.checking(new Expectations() {{
-        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
+        	oneOf(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ALL_SPONSOR_HIERARCHY_AS_NIH);
         	will(returnValue(true));
         }});
         

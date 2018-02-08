@@ -97,7 +97,7 @@ public class AwardHierarchyBeanTest {
 
         context.checking(new Expectations() {{
             Map<String, Object> fieldValues = Collections.<String,Object>singletonMap("documentDescription", AwardDocument.PLACEHOLDER_DOC_DESCRIPTION);
-            one(service).findMatching(DocumentHeader.class, fieldValues);
+            oneOf(service).findMatching(DocumentHeader.class, fieldValues);
             will(returnValue(new ArrayList<DocumentHeader>()));
 
             Map<String, Object> primaryKeys = CollectionUtils.zipMap(new String[]{"awardNumber", "active"}, new Object[]{ROOT_AWARD_NUMBER, Boolean.TRUE});
@@ -112,7 +112,7 @@ public class AwardHierarchyBeanTest {
         final DocumentService service = context.mock(DocumentService.class);
         
         context.checking(new Expectations() {{
-            one(service).getNewDocument(AwardDocument.class);
+            oneOf(service).getNewDocument(AwardDocument.class);
             will(returnValue(null));
         }});
         

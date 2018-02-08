@@ -84,9 +84,9 @@ public class QuestionnaireAnswerServiceTest {
         final QuestionnaireDao questionnaireDao = context.mock(QuestionnaireDao.class);
         questionnaireServiceImpl.setQuestionnaireDao(questionnaireDao);
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues);
+            oneOf(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues);
             will(returnValue(usages));
-            one(questionnaireDao).getCurrentQuestionnaireSequenceNumber(questionnairenew.getQuestionnaireSeqId());
+            oneOf(questionnaireDao).getCurrentQuestionnaireSequenceNumber(questionnairenew.getQuestionnaireSeqId());
             will(returnValue(questionnairenew.getSequenceNumber()));
         }});
 
@@ -225,11 +225,11 @@ public class QuestionnaireAnswerServiceTest {
         final QuestionnaireDao questionnaireDao = context.mock(QuestionnaireDao.class);
         questionnaireServiceImpl.setQuestionnaireDao(questionnaireDao);
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(AnswerHeader.class, fieldValues);
+            oneOf(businessObjectService).findMatching(AnswerHeader.class, fieldValues);
             will(returnValue(headers));
-            one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues2);
+            oneOf(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues2);
             will(returnValue(usages));
-            one(questionnaireDao).getCurrentQuestionnaireSequenceNumber(questionnaire.getQuestionnaireSeqId());
+            oneOf(questionnaireDao).getCurrentQuestionnaireSequenceNumber(questionnaire.getQuestionnaireSeqId());
             will(returnValue(questionnaire.getSequenceNumber()));
         }});
 
@@ -373,7 +373,7 @@ public class QuestionnaireAnswerServiceTest {
         protocol.setSequenceNumber(0);
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(AnswerHeader.class, fieldValues); will(returnValue(headers));
+            oneOf(businessObjectService).findMatching(AnswerHeader.class, fieldValues); will(returnValue(headers));
         }});
         
         final Map <String, String> fieldValues1 = new HashMap<String, String>();
@@ -403,13 +403,13 @@ public class QuestionnaireAnswerServiceTest {
         final QuestionnaireDao questionnaireDao = context.mock(QuestionnaireDao.class);
         questionnaireServiceImpl.setQuestionnaireDao(questionnaireDao);
         context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues1);
+            oneOf(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues1);
             will(returnValue(usages));
-            one(questionnaireDao).getCurrentQuestionnaireSequenceNumber(questionnaire.getQuestionnaireSeqId());
+            oneOf(questionnaireDao).getCurrentQuestionnaireSequenceNumber(questionnaire.getQuestionnaireSeqId());
             will(returnValue(questionnaire.getSequenceNumber()));
             exactly(2).of(questionnaireDao).getCurrentQuestionnaireSequenceNumber(questionnairenew.getQuestionnaireSeqId());
             will(returnValue(questionnairenew.getSequenceNumber()));
-            one(globalVariableService).getUserSession();
+            oneOf(globalVariableService).getUserSession();
             will(returnValue(null));
         }});
 

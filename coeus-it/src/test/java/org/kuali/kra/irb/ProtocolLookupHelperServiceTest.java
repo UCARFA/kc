@@ -106,7 +106,7 @@ public class ProtocolLookupHelperServiceTest extends ProtocolLookupHelperService
         final KcPersonService kcPersonService = context.mock(KcPersonService.class);
         final String principalId = GlobalVariables.getUserSession().getPrincipalId();
         context.checking(new Expectations() {{
-            one(kcPersonService).getKcPersonByPersonId(principalId);
+            oneOf(kcPersonService).getKcPersonByPersonId(principalId);
             will(returnValue(KcPerson.fromPersonId(principalId)));
         }});
         protocolLookupableHelperServiceImpl.setKcPersonService(kcPersonService);
@@ -142,9 +142,9 @@ public class ProtocolLookupHelperServiceTest extends ProtocolLookupHelperService
         context.checking(new Expectations() {{
             Map<String, String> fieldValues = new HashMap<String, String>();
 
-            one(kraAuthorizationService).hasPermission(principalId, protocol, PermissionConstants.MODIFY_PROTOCOL);
+            oneOf(kraAuthorizationService).hasPermission(principalId, protocol, PermissionConstants.MODIFY_PROTOCOL);
             will(returnValue(true));
-            one(kraAuthorizationService).hasPermission(principalId, protocol, PermissionConstants.VIEW_PROTOCOL);
+            oneOf(kraAuthorizationService).hasPermission(principalId, protocol, PermissionConstants.VIEW_PROTOCOL);
             will(returnValue(true));
         }});
         protocolLookupableHelperServiceImpl.setKraAuthorizationService(kraAuthorizationService);

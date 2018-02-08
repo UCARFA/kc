@@ -102,9 +102,9 @@ public class CommitteeScheduleLookupableHelperServiceTest extends KcIntegrationT
         final TaskAuthorizationService service = context.mock(TaskAuthorizationService.class);
         final String user = GlobalVariables.getUserSession().getPrincipalId();
         context.checking(new Expectations() {{
-            one(service).isAuthorized(with(user), with(taskMatcher(modify)));
+            oneOf(service).isAuthorized(with(user), with(taskMatcher(modify)));
             will(returnValue(true));
-            one(service).isAuthorized(with(user), with(taskMatcher(view)));
+            oneOf(service).isAuthorized(with(user), with(taskMatcher(view)));
             will(returnValue(true));
         }});
         

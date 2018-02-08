@@ -67,7 +67,7 @@ public class ProposalAdminDetailsServiceImplTest {
 		final List<ProposalAdminDetails> details = new ArrayList<ProposalAdminDetails>();
 		context.checking(new Expectations() {
 			{
-				one(businessObjectService).findMatching(ProposalAdminDetails.class, fieldValues);
+				oneOf(businessObjectService).findMatching(ProposalAdminDetails.class, fieldValues);
 				will(returnValue(details));
 			}
 		});
@@ -82,7 +82,7 @@ public class ProposalAdminDetailsServiceImplTest {
 		final List<ProposalAdminDetails> details = null;
 		context.checking(new Expectations() {
 			{
-				one(businessObjectService).findMatching(ProposalAdminDetails.class, fieldValues);
+				oneOf(businessObjectService).findMatching(ProposalAdminDetails.class, fieldValues);
 				will(returnValue(details));
 			}
 		});
