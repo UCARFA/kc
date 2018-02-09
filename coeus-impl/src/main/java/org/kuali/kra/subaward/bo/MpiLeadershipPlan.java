@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 public enum MpiLeadershipPlan implements org.kuali.rice.core.api.mo.common.Coded, Coded, Describable {
     REQUEST("0", "The PTE will make the MPI plan available upon request"),
-    ATTACHED("1", "The MPI plan is attached as part of Attachment 2");
+    ATTACHED("1", "The MPI plan is attached as part of Attachment 6");
 
     private final String code;
     private final String description;
