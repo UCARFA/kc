@@ -75,7 +75,7 @@
 	    </tbody>         
 	    </c:if>
 	    		            
-	    <c:forEach var="awardReportTermRecipient" items="${KualiForm.document.award.awardReportTermItems[index].awardReportTermRecipients}" varStatus="status">					            
+	    <c:forEach var="awardReportTermRecipient" items="${krafn:copy(KualiForm.document.award.awardReportTermItems[index].awardReportTermRecipients)}" varStatus="status">
 	    <tr>
 	        <th width="5%" class="infoline" >
 		        <c:out value="${status.index+1}" />
