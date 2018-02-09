@@ -329,14 +329,16 @@ public abstract class SubawardFdp extends AbstractPrint {
     private void setAnimalPteVerification(PDDocument document, SubContractDataDocument.SubContractData.SubcontractTemplateInfo templateInfo) {
         if (fromYN(templateInfo.getAnimalFlag())) {
             showField(document, Attachment2Pdf.Field.PTE_IACUC_DROPDOWN.getfName());
-            if (PteSend.UPON_REQUEST.getCode().equals(templateInfo.getHumanPteSendCd())) {
-                setField(document, Attachment2Pdf.Field.PTE_IACUC_NOT_REQUIRED_REASON.getfName(), Attachment2Pdf.Field.PTE_UPON_REQUEST);
-            } else if (PteSend.PRIOR_TO_EXECUTION.getCode().equals(templateInfo.getHumanPteSendCd())) {
-                setField(document, Attachment2Pdf.Field.PTE_IACUC_NOT_REQUIRED_REASON.getfName(), Attachment2Pdf.Field.PTE_PRIOR_TO_EXECUTION_OF_THIS_AGREEMENT);
-            } else if (PteSend.PRIOR_TO_EXECUTION_AND_ANNUALLY.getCode().equals(templateInfo.getHumanPteSendCd())) {
-                setField(document, Attachment2Pdf.Field.PTE_IACUC_NOT_REQUIRED_REASON.getfName(), Attachment2Pdf.Field.PTE_PRIOR_TO_EXECUTION_OF_THIS_AGREEMENT_ANNUALLY);
-            } else if (PteSend.NOT_REQUIRED.getCode().equals(templateInfo.getHumanPteSendCd())) {
-                setField(document, Attachment2Pdf.Field.PTE_IACUC_NOT_REQUIRED_REASON.getfName(), Attachment2Pdf.Field.PTE_NOT_REQUIRED);
+            if (PteSend.UPON_REQUEST.getCode().equals(templateInfo.getAnimalPteSendCd())) {
+                setField(document, Attachment2Pdf.Field.PTE_IACUC_DROPDOWN.getfName(), Attachment2Pdf.Field.PTE_UPON_REQUEST);
+            } else if (PteSend.PRIOR_TO_EXECUTION.getCode().equals(templateInfo.getAnimalPteSendCd())) {
+                setField(document, Attachment2Pdf.Field.PTE_IACUC_DROPDOWN.getfName(), Attachment2Pdf.Field.PTE_PRIOR_TO_EXECUTION_OF_THIS_AGREEMENT);
+            } else if (PteSend.PRIOR_TO_EXECUTION_AND_ANNUALLY.getCode().equals(templateInfo.getAnimalPteSendCd())) {
+                setField(document, Attachment2Pdf.Field.PTE_IACUC_DROPDOWN.getfName(), Attachment2Pdf.Field.PTE_PRIOR_TO_EXECUTION_OF_THIS_AGREEMENT_ANNUALLY);
+            } else if (PteSend.NOT_REQUIRED.getCode().equals(templateInfo.getAnimalPteSendCd())) {
+                setField(document, Attachment2Pdf.Field.PTE_IACUC_DROPDOWN.getfName(), Attachment2Pdf.Field.PTE_NOT_REQUIRED);
+            } else {
+                setField(document, Attachment2Pdf.Field.PTE_IACUC_DROPDOWN.getfName(), "");
             }
 
             //Work Involving Humans or Animal Subjects (PTE requires verification - Animal section) - Not Required Reason
@@ -354,13 +356,15 @@ public abstract class SubawardFdp extends AbstractPrint {
         if (fromYN(templateInfo.getHumanFlag())) {
             showField(document, Attachment2Pdf.Field.PTE_IRB_DROPDOWN.getfName());
             if (PteSend.UPON_REQUEST.getCode().equals(templateInfo.getHumanPteSendCd())) {
-                setField(document, Attachment2Pdf.Field.PTE_IRB_NOT_REQUIRED_REASON.getfName(), Attachment2Pdf.Field.PTE_UPON_REQUEST);
+                setField(document, Attachment2Pdf.Field.PTE_IRB_DROPDOWN.getfName(), Attachment2Pdf.Field.PTE_UPON_REQUEST);
             } else if (PteSend.PRIOR_TO_EXECUTION.getCode().equals(templateInfo.getHumanPteSendCd())) {
-                setField(document, Attachment2Pdf.Field.PTE_IRB_NOT_REQUIRED_REASON.getfName(), Attachment2Pdf.Field.PTE_PRIOR_TO_EXECUTION_OF_THIS_AGREEMENT);
+                setField(document, Attachment2Pdf.Field.PTE_IRB_DROPDOWN.getfName(), Attachment2Pdf.Field.PTE_PRIOR_TO_EXECUTION_OF_THIS_AGREEMENT);
             } else if (PteSend.PRIOR_TO_EXECUTION_AND_ANNUALLY.getCode().equals(templateInfo.getHumanPteSendCd())) {
-                setField(document, Attachment2Pdf.Field.PTE_IRB_NOT_REQUIRED_REASON.getfName(), Attachment2Pdf.Field.PTE_PRIOR_TO_EXECUTION_OF_THIS_AGREEMENT_ANNUALLY);
+                setField(document, Attachment2Pdf.Field.PTE_IRB_DROPDOWN.getfName(), Attachment2Pdf.Field.PTE_PRIOR_TO_EXECUTION_OF_THIS_AGREEMENT_ANNUALLY);
             } else if (PteSend.NOT_REQUIRED.getCode().equals(templateInfo.getHumanPteSendCd())) {
-                setField(document, Attachment2Pdf.Field.PTE_IRB_NOT_REQUIRED_REASON.getfName(), Attachment2Pdf.Field.PTE_NOT_REQUIRED);
+                setField(document, Attachment2Pdf.Field.PTE_IRB_DROPDOWN.getfName(), Attachment2Pdf.Field.PTE_NOT_REQUIRED);
+            } else {
+                setField(document, Attachment2Pdf.Field.PTE_IRB_DROPDOWN.getfName(), "");
             }
 
             //Work Involving Humans or Animal Subjects (PTE requires verification - Human section) - Not Required Reason
@@ -439,12 +443,18 @@ public abstract class SubawardFdp extends AbstractPrint {
         toggleFieldVisibility(document, Attachment2Pdf.Field.MPI_SECTION_BLANK.getfName(), type == Attachment2SponsorFormType.NIH);
         if (type == Attachment2SponsorFormType.NIH) {
             if (fromYN(templateInfo.getMpiAward())) {
+                setField(document, Attachment2Pdf.Field.MPI_SECTION_SELECT.getfName(), Attachment2Pdf.Field.MPI_IS_SUBJECT);
+                showField(document, Attachment2Pdf.Field.MPI_PLAN_SELECT.getfName());
                 final MpiLeadershipPlan mpiLeadershipPlan = MpiLeadershipPlan.fromCode(templateInfo.getMpiLeadershipPlan());
-                if (mpiLeadershipPlan == null) {
-                    setField(document, Attachment2Pdf.Field.MPI_SECTION_SELECT.getfName(), Attachment2Pdf.Field.MPI_NOT_SUBJECT);
+                if (MpiLeadershipPlan.ATTACHED == mpiLeadershipPlan) {
+                    setField(document, Attachment2Pdf.Field.MPI_PLAN_SELECT.getfName(), Attachment2Pdf.Field.MPI_PLAN_ATTACHED);
+                } else if (MpiLeadershipPlan.REQUEST == mpiLeadershipPlan) {
+                    setField(document, Attachment2Pdf.Field.MPI_PLAN_SELECT.getfName(), Attachment2Pdf.Field.MPI_PLAN_UPON_REQUEST);
                 } else {
-                    setField(document, Attachment2Pdf.Field.MPI_SECTION_SELECT.getfName(), Attachment2Pdf.Field.MPI_IS_SUBJECT);
+                    setField(document, Attachment2Pdf.Field.MPI_PLAN_SELECT.getfName(), "");
                 }
+            } else {
+                setField(document, Attachment2Pdf.Field.MPI_SECTION_SELECT.getfName(), Attachment2Pdf.Field.MPI_NOT_SUBJECT);
             }
         }
     }
@@ -471,25 +481,25 @@ public abstract class SubawardFdp extends AbstractPrint {
 
         //General Terms and Conditions
         if (type == Attachment2SponsorFormType.NIH) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpNihPolicy(), configInfo.getFdpNihCfr(), configInfo.getFdpNihGrantsPolicyStatement(), configInfo.getFdpNihAgencyRequirements(), nceContact);
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNihPolicy(), configInfo.getFdpNihCfr(), configInfo.getFdpNihGrantsPolicyStatement(), configInfo.getFdpNihInterimResearchTerms(), nceContact);
         } else if (type == Attachment2SponsorFormType.NSF) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpNsfPolicy(), configInfo.getFdpNsfCfr(), configInfo.getFdpNsfGrantsPolicyStatement(), configInfo.getFdpNsfAgencyRequirements(), nceContact);
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNsfPolicy(), configInfo.getFdpNsfCfr(), configInfo.getFdpNsfGrantsPolicyStatement(), configInfo.getFdpNsfInterimResearchTerms(), nceContact);
         } else if (type == Attachment2SponsorFormType.NASA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpNasaPolicy(), configInfo.getFdpNasaCfr(), configInfo.getFdpNasaGrantsPolicyStatement(), configInfo.getFdpNasaAgencyRequirements(), nceContact);
+            setGenTermsAndConditions1To4(document, configInfo.getFdpNasaPolicy(), configInfo.getFdpNasaCfr(), configInfo.getFdpNasaGrantsPolicyStatement(), configInfo.getFdpNasaInterimResearchTerms(), nceContact);
         } else if (type == Attachment2SponsorFormType.ONR) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpOnrPolicy(), configInfo.getFdpOnrCfr(), configInfo.getFdpOnrGrantsPolicyStatement(), configInfo.getFdpOnrAgencyRequirements(), nceContact);
+            setGenTermsAndConditions1To4(document, configInfo.getFdpOnrPolicy(), configInfo.getFdpOnrCfr(), configInfo.getFdpOnrGrantsPolicyStatement(), configInfo.getFdpOnrInterimResearchTerms(), nceContact);
         } else if (type == Attachment2SponsorFormType.ARO) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAroPolicy(), configInfo.getFdpAroCfr(), configInfo.getFdpAroGrantsPolicyStatement(), configInfo.getFdpAroAgencyRequirements(), nceContact);
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAroPolicy(), configInfo.getFdpAroCfr(), configInfo.getFdpAroGrantsPolicyStatement(), configInfo.getFdpAroInterimResearchTerms(), nceContact);
         } else if (type == Attachment2SponsorFormType.AFOSR) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAfosrPolicy(), configInfo.getFdpAfosrCfr(), configInfo.getFdpAfosrGrantsPolicyStatement(), configInfo.getFdpAfosrAgencyRequirements(), nceContact);
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAfosrPolicy(), configInfo.getFdpAfosrCfr(), configInfo.getFdpAfosrGrantsPolicyStatement(), configInfo.getFdpAfosrInterimResearchTerms(), nceContact);
         } else if (type == Attachment2SponsorFormType.EPA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpEpaPolicy(), configInfo.getFdpEpaCfr(), configInfo.getFdpEpaGrantsPolicyStatement(), configInfo.getFdpEpaAgencyRequirements(), nceContact);
+            setGenTermsAndConditions1To4(document, configInfo.getFdpEpaPolicy(), configInfo.getFdpEpaCfr(), configInfo.getFdpEpaGrantsPolicyStatement(), configInfo.getFdpEpaInterimResearchTerms(), nceContact);
         } else if (type == Attachment2SponsorFormType.AMRMC) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAmrmcPolicy(), configInfo.getFdpAmrmcCfr(),  configInfo.getFdpAmrmcGrantsPolicyStatement(), configInfo.getFdpAmrmcAgencyRequirements(), nceContact);
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAmrmcPolicy(), configInfo.getFdpAmrmcCfr(),  configInfo.getFdpAmrmcGrantsPolicyStatement(), configInfo.getFdpAmrmcInterimResearchTerms(), nceContact);
         } else if (type == Attachment2SponsorFormType.AMRAA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpAmraaPolicy(), configInfo.getFdpAmraaCfr(), configInfo.getFdpAmraaGrantsPolicyStatement(), configInfo.getFdpAmraaAgencyRequirements(), nceContact);
+            setGenTermsAndConditions1To4(document, configInfo.getFdpAmraaPolicy(), configInfo.getFdpAmraaCfr(), configInfo.getFdpAmraaGrantsPolicyStatement(), configInfo.getFdpAmraaInterimResearchTerms(), nceContact);
         } else if (type == Attachment2SponsorFormType.USADA) {
-            setGenTermsAndConditions1To4(document, configInfo.getFdpUsdaPolicy(), configInfo.getFdpUsdaCfr(), configInfo.getFdpUsdaGrantsPolicyStatement(), configInfo.getFdpUsdaAgencyRequirements(), nceContact);
+            setGenTermsAndConditions1To4(document, configInfo.getFdpUsdaPolicy(), configInfo.getFdpUsdaCfr(), configInfo.getFdpUsdaGrantsPolicyStatement(), configInfo.getFdpUsdaInterimResearchTerms(), nceContact);
         } else {
             setGenTermsAndConditions1To4(document, "", "", "", "", "");
         }
@@ -506,14 +516,14 @@ public abstract class SubawardFdp extends AbstractPrint {
         }
     }
 
-    private void setGenTermsAndConditions1To4(PDDocument document, String policy, String cfr, String policyStatement, String requirements, String nceContact) {
+    private void setGenTermsAndConditions1To4(PDDocument document, String policy, String cfr, String policyStatement, String intTerms, String nceContact) {
         setField(document, Attachment2Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), policy);
         if (StringUtils.isNotBlank(cfr)) {
             showField(document, Attachment2Pdf.Field.AGENCY_IMPLEMENTATION.getfName());
             setField(document, Attachment2Pdf.Field.AGENCY_IMPLEMENTATION.getfName(), cfr);
         }
         setField(document, Attachment2Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), policyStatement);
-        setField(document, Attachment2Pdf.Field.RES_TERMS_COND.getfName(), requirements);
+        setField(document, Attachment2Pdf.Field.RES_TERMS_COND.getfName(), intTerms);
         setField(document, Attachment2Pdf.Field.NO_COST_EXT_CONTACT.getfName(), nceContact);
     }
 
@@ -615,7 +625,7 @@ public abstract class SubawardFdp extends AbstractPrint {
         }
 
         if (StringUtils.isNotBlank(primeAdministrativeContact.getCoiContactEmail())) {
-            setField(document, Attachment3aPdf.Field.PTE_CONTACTS_COI_EMAIL.getfName(), primeAdministrativeContact.getRolodexDetails().getEmail());
+            setField(document, Attachment3aPdf.Field.PTE_CONTACTS_COI_EMAIL.getfName(), primeAdministrativeContact.getCoiContactEmail());
         }
 
         if (primeFinancialContact.getRolodexDetails() != null) {
@@ -1043,6 +1053,7 @@ public abstract class SubawardFdp extends AbstractPrint {
             MPI_SECTION_HELP("MPITooltip", true),
             MPI_SECTION_BLANK("BlankMPI"),
             MPI_SECTION_SELECT("MPIYesNo", Stream.of(Field.MPI_NOT_SUBJECT, Field.MPI_IS_SUBJECT, "").collect(Collectors.toSet())),
+            MPI_PLAN_SELECT("MPIPlan", Stream.of(Field.MPI_PLAN_ATTACHED, Field.MPI_PLAN_UPON_REQUEST, "").collect(Collectors.toSet())),
             ANIMAL_SUBJECTS_CHECKBOX("VertebrateAnimals"),
             HUMAN_SUBJECTS_CHECKBOX("HumanSubjects"),
             NO_HUMAN_ANIMAL_SUBJECTS_CHECKBOX("NeitherHumanAnimal"),
@@ -1099,6 +1110,9 @@ public abstract class SubawardFdp extends AbstractPrint {
 
             private static final String MPI_NOT_SUBJECT = "This subaward is not subject to an MPI Leadership Plan.";
             private static final String MPI_IS_SUBJECT = "This subaward is subject to an MPI Leadership Plan. Both parties will follow the finalized MPI Leadership Plan.";
+
+            private static final String MPI_PLAN_ATTACHED = "The MPI plan is attached as part of Attachment 6.";
+            private static final String MPI_PLAN_UPON_REQUEST = "The PTE will make the MPI plan available upon request.";
 
             private static final String PTE_UPON_REQUEST = "Upon Request";
             private static final String PTE_PRIOR_TO_EXECUTION_OF_THIS_AGREEMENT = "Prior to execution of this agreement";

@@ -419,7 +419,7 @@ public final class PdfBoxUtils {
                     outputString.append(SEPARATOR).append(partialName);
                 }
                 outputString.append(FIELD_VAL_SEPARATOR).append(fieldValue).append(COMMA_SEPARATOR);
-                if (field instanceof PDButton) {
+                if (field instanceof PDCheckBox || field instanceof PDRadioButton) {
                     outputString.append(ON_VALUES_STR).append(((PDButton) field).getOnValues()).append(COMMA_SEPARATOR);
                 } else if (field instanceof PDChoice) {
                     outputString.append(OPTIONS_STR).append(((PDChoice) field).getOptions()).append(COMMA_SEPARATOR);
