@@ -51,4 +51,7 @@
 
         <!-- SchemaSpy -->
         <param name="kc.schemaspy.enabled">false</param>
+
+        <!-- Get Help URL -->
+        <param name="feedback.link.url">https://www2.fin.ucar.edu/opex/kuali/learning-resources</param>
 </config>
