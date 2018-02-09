@@ -248,7 +248,7 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
                 "{BEGIN_DIGEST_TABLE}<table><tr><th>Report Class</th><th>Report Type</th><th>Due Date</th></tr>" +
                 "{BEGIN_REPEAT_SECTION}<tr><td>{REPORT_CLASS}</td><td>{REPORT_TYPE}</td><td>{REPORT_DUE_DATE}</td></tr>{END_REPEAT_SECTION}" +
                 "</table>{END_DIGEST_TABLE}";
-        String digestActionCode = "-1";
+        String digestActionCode = "-99";
         String notificationName = "Digest Test";
         NotificationType digestNotification = getDigestNotification(digestActionCode, digestSubject, digestMessage, "KC-AWARD:PI");
         boService.save(digestNotification);
