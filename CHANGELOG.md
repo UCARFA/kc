@@ -1,6 +1,15 @@
 
 
 ## CURRENT
+* RESKC-2478: updating s2s  * Travis Schneeberger on Fri, 9 Feb 2018 16:04:39 -0500 [View Commit](../../commit/3c2920b9c1435f19fd465148d6a2beccaf9d9678)
+* RESKC-2681: Fix Oracle script name
+  * Jeff Largent on Fri, 9 Feb 2018 15:48:01 -0500 [View Commit](../../commit/f5aadf8e97f62cddca355c9dbb91c06c1ed63783)
+* RESKC-2772: Make sure to update award-related properties on reports
+
+  * This ensures that changes to the PI or Sponsor after reports are created or copied from another Award are reflected in the Report Tracking search screen.
+  * Jeff Largent on Fri, 9 Feb 2018 12:04:56 -0500 [View Commit](../../commit/ffca8acef4ef808c6e825fd9caaeb20dd3862bf3)
+
+## coeus-1802.0018
 * No Changes
 
 
