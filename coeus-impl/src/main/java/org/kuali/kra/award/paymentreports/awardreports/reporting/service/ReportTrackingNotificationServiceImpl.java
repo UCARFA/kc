@@ -10,6 +10,7 @@ package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.notification.impl.bo.NotificationType;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
@@ -17,6 +18,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.notification.AwardNotificationContext;
+import org.kuali.kra.award.notification.AwardReportTrackingDigestNotificationRenderer;
 import org.kuali.kra.award.notification.AwardReportTrackingNotificationRenderer;
 import org.kuali.kra.award.paymentreports.ReportStatus;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
@@ -31,8 +33,9 @@ import java.util.*;
  * Service to handle sending report tracking notifications.
  */
 public class ReportTrackingNotificationServiceImpl implements ReportTrackingNotificationService {
-    
+
     private static final Log LOG = LogFactory.getLog(ReportTrackingNotificationServiceImpl.class);
+
     private BusinessObjectService businessObjectService;
     private AwardService awardService;
     private AwardVersionService awardVersionService;
@@ -43,7 +46,7 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
     private List<ReportTrackingNotification> notifications;
 
     public ReportTrackingNotificationServiceImpl() {
-        notifications = new ArrayList<ReportTrackingNotification>();
+        notifications = new ArrayList<>();
     }
     
     @Override
@@ -59,9 +62,7 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
             resultDetails.add(details);
             try {
                 NotificationType notificationType = notificationService.getNotificationType("1", notification.getActionCode());
-                if (notificationType != null && notificationType.isActive()
-                        && notificationType.getNotificationTypeRecipients() != null
-                        && !notificationType.getNotificationTypeRecipients().isEmpty()) {
+                if (canSendNotifications(notificationType)) {
                     details.setNotificationActive(true);
                     details.setNotificationRecipients(notificationType.getNotificationTypeRecipients().size());
                     int recordsFound = 0;
@@ -148,6 +149,40 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         return resultDetails;
     }
 
+    @Override
+    public ReportTrackingNotificationDetails runReportDigestNotification(String actionCode, String notificationName, boolean includeDue, boolean includeOverdue) {
+        AwardReportTrackingDigestNotificationRenderer renderer = new AwardReportTrackingDigestNotificationRenderer();
+        renderer.setIncludeDue(includeDue);
+        renderer.setIncludeOverdue(includeOverdue);
+        ReportStatus dueStatus = reportTrackingService.getDueReportStatus();
+        ReportTrackingNotificationDetails details = new ReportTrackingNotificationDetails();
+        details.setNotificationName(notificationName);
+        details.setActionCode(actionCode);
+
+        NotificationType notificationType = notificationService.getNotificationType(CoeusModule.AWARD_MODULE_CODE, actionCode);
+        if (canSendNotifications(notificationType)) {
+            details.setNotificationActive(true);
+            try {
+                Map<String, String> dueCriteria = Collections.singletonMap(ReportTrackingConstants.STATUS_CODE, dueStatus.getReportStatusCode());
+                List<ReportTracking> dueReports = getReportTrackingDao().getDetailResults(dueCriteria, Collections.emptyList());
+                Map<String, Set<ReportTracking>> reportsByRecipient = groupReportsByRecipient(dueReports, actionCode, notificationName);
+                
+                reportsByRecipient.forEach((recipientId, reports) -> {
+                    renderer.setDigestReports(reports);
+                    String message = renderer.render(notificationType.getMessage());
+                    String subject = renderer.render(notificationType.getSubject());
+                    notificationService.sendNotification(notificationName, subject, message, Collections.singletonList(recipientId));
+                });
+                populateReportDetails(reportsByRecipient, details);
+            } catch (Exception e) {
+                LOG.error("Error sending report tracking digest notification for " + actionCode, e);
+                details.setErrorMessage(e.getMessage());
+            }
+        }
+
+        return details;
+    }
+
     /**
      * Is date1 after from and before until?
      * @param date1
@@ -191,6 +226,35 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         date.set(Calendar.MINUTE, 0);
         date.set(Calendar.SECOND, 0);
         date.set(Calendar.MILLISECOND, 0);
+    }
+
+    protected boolean canSendNotifications(NotificationType notificationType) {
+        return notificationType != null && notificationType.isActive()
+                && notificationType.getNotificationTypeRecipients() != null
+                && !notificationType.getNotificationTypeRecipients().isEmpty();
+    }
+
+    protected Map<String, Set<ReportTracking>> groupReportsByRecipient(Collection<ReportTracking> reports, String actionCode, String notificationName) {
+        Map<String, Set<ReportTracking>> reportsByRecipient = new HashMap<>();
+        for (ReportTracking report : reports) {
+            report.setAward(awardService.getAward(report.getAwardId()));
+            if (isAwardActive(report.getAward())) {
+                notificationService.getNotificationRecipients(new AwardNotificationContext(report.getAward(), actionCode, notificationName))
+                        .forEach(recipient -> {
+                            Set<ReportTracking> recipientReports = reportsByRecipient.getOrDefault(recipient.getRecipientId(), new HashSet<>());
+                            recipientReports.add(report);
+                            reportsByRecipient.put(recipient.getRecipientId(), recipientReports);
+                });
+            }
+        }
+        return reportsByRecipient;
+    }
+
+    protected void populateReportDetails(Map<String, Set<ReportTracking>> reportsByRecipient, ReportTrackingNotificationDetails details) {
+        details.setNotificationRecipients(reportsByRecipient.size());
+        details.setNotificationsSent(details.getNotificationRecipients());
+        details.setTrackingRecordsMatched(reportsByRecipient.values().stream().mapToInt(Set::size).sum());
+        details.setTrackingRecordsFound(details.getTrackingRecordsMatched());
     }
 
     protected BusinessObjectService getBusinessObjectService() {

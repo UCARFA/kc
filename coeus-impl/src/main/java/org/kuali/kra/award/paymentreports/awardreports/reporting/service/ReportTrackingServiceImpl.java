@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
  */
 public class ReportTrackingServiceImpl implements ReportTrackingService {
 
+    public static final String DUE_STATUS_DESCRIPTION = "Due";
     public static final String PENDING_STATUS_DESCRIPTION = "Pending";
     public static final String REPORT_CLASS = "reportClass";
     public static final String REPORT_STATUS_CODE = "REPORT_STATUS_CODE";
@@ -247,6 +248,12 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         return getAwardScheduleGenerationService().generateSchedules(award, awardReportTerms, true).stream()
                 .map(date -> new Date(date.getTime()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ReportStatus getDueReportStatus() {
+        Map<String, Object> params = Collections.singletonMap(DESCRIPTION, DUE_STATUS_DESCRIPTION);
+        return getBusinessObjectService().findByPrimaryKey(ReportStatus.class, params);
     }
 
     @Override

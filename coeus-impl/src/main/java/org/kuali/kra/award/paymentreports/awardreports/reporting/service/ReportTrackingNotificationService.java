@@ -12,4 +12,6 @@ import java.util.List;
 public interface ReportTrackingNotificationService {
 
     List<ReportTrackingNotificationDetails> runReportTrackingNotifications();
+
+    ReportTrackingNotificationDetails runReportDigestNotification(String actionCode, String notificationName, boolean includeDue, boolean includeOverdue);
 }

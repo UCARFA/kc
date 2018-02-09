@@ -60,16 +60,8 @@ public class ReportTrackingNotificationJobDetail extends QuartzJobBean {
                 LOG.error("Error running report tracking notification service.", e);
                 builder.append("Message: Error running report tracking notification service. See log for more details. " + e.getMessage());
             }
-            
-            String message = builder.toString();
-            
-            LOG.info(message);
-            
-            String recipient = getRecipient();
-            // Send notification only if recipient has been set in the param
-            if (StringUtils.isNotEmpty(recipient)) {
-                kcNotificationService.sendNotification(CONTEXT_NAME, SUBJECT, message, Collections.singletonList(recipient));
-            }
+
+            logAndSendResults(builder.toString());
         }
     }
     
@@ -92,6 +84,16 @@ public class ReportTrackingNotificationJobDetail extends QuartzJobBean {
                 builder.append("Report Tracking Notifications sent : " + detail.getNotificationsSent() + BREAK);
             }
             builder.append(BREAK);
+        }
+    }
+
+    protected void logAndSendResults(String message) {
+        LOG.info(message);
+
+        String recipient = getRecipient();
+        // Send notification only if recipient has been set in the param
+        if (StringUtils.isNotEmpty(recipient)) {
+            kcNotificationService.sendNotification(CONTEXT_NAME, SUBJECT, message, Collections.singletonList(recipient));
         }
     }
     

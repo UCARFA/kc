@@ -93,6 +93,11 @@ public interface ReportTrackingService {
     boolean shouldAlertReportTrackingDetailChange(Award award);
 
     /**
+     * Returns the report status maintenance object associated with the "Due" description
+     */
+    ReportStatus getDueReportStatus();
+
+    /**
      * Returns the report status maintenance object associated with the "Pending" description
      */
     ReportStatus getPendingReportStatus();

@@ -9,6 +9,7 @@ package org.kuali.kra.award.notification;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
+import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -17,10 +18,9 @@ import java.util.Map;
 public class AwardReportTrackingNotificationRenderer extends AwardNotificationRenderer {
 
     private static final long serialVersionUID = -2035058699415467934L;
-    private static final String START_REPEAT_SECTION = "{BEGIN_REPEAT_SECTION}";
-    private static final String END_REPEAT_SECTION = "{END_REPEAT_SECTION}";
+    protected static final String START_REPEAT_SECTION = "{BEGIN_REPEAT_SECTION}";
+    protected static final String END_REPEAT_SECTION = "{END_REPEAT_SECTION}";
     private static final String MM_DD_YYYY = "MM/dd/yyyy";
-    private static final String REPORT = "report";
 
     private List<ReportTracking> reports;
     
@@ -36,8 +36,12 @@ public class AwardReportTrackingNotificationRenderer extends AwardNotificationRe
     protected Map<String, String> getReportReplacementParameters(ReportTracking report) {
         Map<String, String> result = getAwardReplacementParameters(report.getAward());
         SimpleDateFormat dateFormatter = new SimpleDateFormat(MM_DD_YYYY);
+        if (report.getReportClass() == null) {
+            report.refreshReferenceObject(ReportTrackingConstants.REPORT_CLASS);
+        }
+        result.put("{REPORT_CLASS}", report.getReportClass().getDescription());
         if (report.getReport() == null) {
-            report.refreshReferenceObject(REPORT);
+            report.refreshReferenceObject(ReportTrackingConstants.REPORT);
         }
         result.put("{REPORT_TYPE}", report.getReport().getDescription());
         result.put("{REPORT_DUE_DATE}", dateFormatter.format(report.getDueDate()));

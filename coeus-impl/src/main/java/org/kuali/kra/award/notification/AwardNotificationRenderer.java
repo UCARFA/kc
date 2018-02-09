@@ -48,6 +48,7 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
     public Map<String, String> getAwardReplacementParameters(Award award) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat(MM_DD_YYYY);
         Map<String, String> result = super.getDefaultReplacementParameters();
+        result.put("{DOCUMENT_NUMBER}", award.getAwardDocument().getDocumentNumber());
         result.put("{AWARD_NUMBER}", award.getAwardNumber());
         result.put("{SEQUENCE_NUMBER}", award.getSequenceNumber().toString());
         result.put("{AWARD_TITLE}", award.getTitle());
