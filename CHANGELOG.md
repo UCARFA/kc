@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1802.0019
 * RESKC-2478: updating s2s  * Travis Schneeberger on Fri, 9 Feb 2018 16:04:39 -0500 [View Commit](../../commit/3c2920b9c1435f19fd465148d6a2beccaf9d9678)
 * RESKC-2681: Fix Oracle script name
   * Jeff Largent on Fri, 9 Feb 2018 15:48:01 -0500 [View Commit](../../commit/f5aadf8e97f62cddca355c9dbb91c06c1ed63783)
