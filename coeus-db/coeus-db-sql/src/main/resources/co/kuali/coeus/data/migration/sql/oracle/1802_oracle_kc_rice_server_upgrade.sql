@@ -23,4 +23,5 @@ set sqlblanklines on
 spool 1802_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1802_001__nih_validation_service_caching.sql
 @./rice/bootstrap/V1802_004__version_lock_feature.sql
+@./rice/bootstrap/V1802_007__art_pi_digest_cron_trigger.sql
 commit;

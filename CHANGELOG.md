@@ -1,6 +1,16 @@
 
 
 ## CURRENT
+* RESKC-2651: fdp fixes
+  * Travis Schneeberger on Fri, 9 Feb 2018 12:24:47 -0500 [View Commit](../../commit/785ba1fce1c646b0ba6704978e66fab033902894)
+* RESKC-2681: Fix IT
+  * Jeff Largent on Fri, 9 Feb 2018 11:43:50 -0500 [View Commit](../../commit/c0b3e0511f36f715d56922fe702fc5f94c341675)
+* RESKC-2681: Added Award Report Tracking digest notification for PIs (#2748)
+
+  * This notification can be configured to send a digest email to PIs or other recipients on any Quartz-schedulable interval to inform them of any due or overdue reports associated with awards relevant to them. 
+  * Jeff Largent on Fri, 9 Feb 2018 11:06:40 -0500 [View Commit](../../commit/93f296573abfde57383338de3ec9a8982b617097)
+
+## coeus-1802.0016
 * RESKC-2724: Adding generator tests
   * Travis Schneeberger on Thu, 8 Feb 2018 13:18:35 -0500 [View Commit](../../commit/43c1f68ed44287e8e2702ff47eab3173caf4f07c)
 

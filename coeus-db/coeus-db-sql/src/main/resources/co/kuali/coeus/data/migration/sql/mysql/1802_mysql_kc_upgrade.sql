@@ -21,4 +21,5 @@
 \. ./kc/bootstrap/V1802_002__nihData.sql
 \. ./kc/bootstrap/V1802_003__fdp.sql
 \. ./kc/bootstrap/V1802_005__form_other.sql
+\. ./kc/bootstrap/V1802_006__art_pi_digest_notification.sql
 commit;
