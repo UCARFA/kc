@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2343: add test
+  * Travis Schneeberger on Mon, 12 Feb 2018 11:48:21 -0500 [View Commit](../../commit/6525607110886d25574cf37ef20da491f14c1c3e)
+
+## coeus-1802.0020
 * No Changes
 
 
