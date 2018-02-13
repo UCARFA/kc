@@ -29,7 +29,8 @@ public class AwardReportTrackingDigestNotificationRenderer extends NotificationR
     private static final String OVERDUE_HEADER = "OVERDUE";
     private static final String DUE_HEADER = "DUE";
     private static final String PI_NAME_REPLACEMENT_PARAM = "{PI_NAME}";
-    private static final String PI_NAME_DELIMITER = ", ";
+    private static final String UNIT_NAME_REPLACEMENT_PARAM = "{LEAD_UNIT_NAME}";
+    private static final String LIST_DELIMITER = ", ";
     private static final Pattern DIGEST_TABLE_PATTERN = Pattern.compile("(\\{BEGIN_DIGEST_TABLE}(.*)\\{END_DIGEST_TABLE})");
 
     private LocalDate comparisonDate = LocalDate.now();
@@ -77,30 +78,34 @@ public class AwardReportTrackingDigestNotificationRenderer extends NotificationR
 
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
-        Map<String, String> replacementParams = super.getDefaultReplacementParameters();
+        Map<String, String> params = super.getDefaultReplacementParameters();
         if (CollectionUtils.isNotEmpty(digestReports)) {
-            String piNames = digestReports.stream()
-                    .map(ReportTracking::getAward)
-                    .map(Award::getPrincipalInvestigatorName)
-                    .distinct()
-                    .collect(Collectors.joining(PI_NAME_DELIMITER));
-            replacementParams.put(PI_NAME_REPLACEMENT_PARAM, makePiNamesGrammaticallyCorrect(piNames));
+            params.put(PI_NAME_REPLACEMENT_PARAM, getAwardReplacementParamList(Award::getPrincipalInvestigatorName));
+            params.put(UNIT_NAME_REPLACEMENT_PARAM, getAwardReplacementParamList(Award::getLeadUnitName));
         }
-        return replacementParams;
+        return params;
     }
 
-    protected String makePiNamesGrammaticallyCorrect(String piNames) {
-        if (StringUtils.isBlank(piNames)) {
+    protected String getAwardReplacementParamList(Function<Award, String> awardFunction) {
+        return makeListGrammaticallyCorrect(digestReports.stream()
+                .map(ReportTracking::getAward)
+                .map(awardFunction)
+                .distinct()
+                .collect(Collectors.joining(LIST_DELIMITER)));
+    }
+
+    protected String makeListGrammaticallyCorrect(String delimitedList) {
+        if (StringUtils.isBlank(delimitedList)) {
             return "";
         }
-        int numCommas = StringUtils.countMatches(piNames, PI_NAME_DELIMITER);
+        int numCommas = StringUtils.countMatches(delimitedList, LIST_DELIMITER);
         if (numCommas == 1) {
-            piNames = piNames.replace(PI_NAME_DELIMITER, " and ");
+            delimitedList = delimitedList.replace(LIST_DELIMITER, " and ");
         } else if (numCommas > 1) {
-            int lastCommaIndex = piNames.lastIndexOf(PI_NAME_DELIMITER);
-            piNames = piNames.substring(0, lastCommaIndex) + PI_NAME_DELIMITER + "and " + piNames.substring(lastCommaIndex + 2);
+            int lastCommaIndex = delimitedList.lastIndexOf(LIST_DELIMITER);
+            delimitedList = delimitedList.substring(0, lastCommaIndex) + LIST_DELIMITER + "and " + delimitedList.substring(lastCommaIndex + 2);
         }
-        return piNames;
+        return delimitedList;
     }
 
     public void setComparisonDate(LocalDate comparisonDate) {

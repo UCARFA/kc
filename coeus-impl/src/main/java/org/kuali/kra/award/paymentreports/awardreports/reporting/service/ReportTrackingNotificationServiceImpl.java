@@ -20,6 +20,7 @@ import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.notification.AwardNotificationContext;
 import org.kuali.kra.award.notification.AwardReportTrackingDigestNotificationRenderer;
 import org.kuali.kra.award.notification.AwardReportTrackingNotificationRenderer;
+import org.kuali.kra.award.notification.AwardUnitHierarchyDescendingNotificationContext;
 import org.kuali.kra.award.paymentreports.ReportStatus;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
@@ -239,7 +240,10 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         for (ReportTracking report : reports) {
             report.setAward(awardService.getAward(report.getAwardId()));
             if (isAwardActive(report.getAward())) {
-                notificationService.getNotificationRecipients(new AwardNotificationContext(report.getAward(), actionCode, notificationName))
+                AwardUnitHierarchyDescendingNotificationContext notificationContext =
+                        new AwardUnitHierarchyDescendingNotificationContext(report.getAward(), actionCode, notificationName);
+                notificationContext.setDescendsHierarchy(true);
+                notificationService.getNotificationRecipients(notificationContext)
                         .forEach(recipient -> {
                             Set<ReportTracking> recipientReports = reportsByRecipient.getOrDefault(recipient.getRecipientId(), new HashSet<>());
                             recipientReports.add(report);

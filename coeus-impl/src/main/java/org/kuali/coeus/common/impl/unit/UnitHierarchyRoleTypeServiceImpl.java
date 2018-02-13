@@ -28,6 +28,10 @@ import java.util.*;
 @Component("unitHierarchyRoleTypeService")
 public class UnitHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
 
+    public static final String DESCENDS_HIERARCHY_N = "N";
+    public static final String DESCENDS_HIERARCHY_Y = "Y";
+    public static final String DESCENDS_HIERARCHY_YES = "Yes";
+    public static final String UNIT_NUMBER_WILDCARD = "*";
     private static final String KIM_UI_CHECKBOX_DEFAULT_VALUE = "no";
 
     @Autowired
@@ -102,12 +106,12 @@ public class UnitHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
     
     
     protected boolean descendsSubunits(Map<String,String> roleQualifier) {
-        return StringUtils.equalsIgnoreCase("Y", roleQualifier.get(KcKimAttributes.SUBUNITS)) ||
-                StringUtils.equalsIgnoreCase("Yes", roleQualifier.get(KcKimAttributes.SUBUNITS));
+        return StringUtils.equalsIgnoreCase(DESCENDS_HIERARCHY_Y, roleQualifier.get(KcKimAttributes.SUBUNITS)) ||
+                StringUtils.equalsIgnoreCase(DESCENDS_HIERARCHY_YES, roleQualifier.get(KcKimAttributes.SUBUNITS));
     }
     
     protected boolean performWildCardMatching(Map<String,String> qualification, Map<String,String> roleQualifier) {
-        if(qualification.get(KcKimAttributes.UNIT_NUMBER).equalsIgnoreCase("*")) {
+        if(qualification.get(KcKimAttributes.UNIT_NUMBER).equalsIgnoreCase(UNIT_NUMBER_WILDCARD)) {
             return true;
         }
         //If necessary, we can include logic for other pattern matching later.
