@@ -40,6 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -152,7 +153,10 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
             }
         }
         
-        return dates;
+  //SJW      return dates;
+        return dates.stream()
+                .map(date -> offsetDateByFrequencyDays(awardReportTerm.getFrequency(), date))
+                .collect(Collectors.toList());
     }
     /*
     protected void reportError(String errorKey) {
@@ -212,11 +216,41 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      */
     protected Date getStartDateFromTheBaseDate(Calendar calendar, Frequency frequency) {
         
-        addOffSetPeriodToStartDate(frequency, calendar);
+   //SJW     addOffSetPeriodToStartDate(frequency, calendar);
+        addOffSetMonthsToStartDate(frequency, calendar);
         
         addNumberOfMonthsToStartDate(frequency, calendar);
         
         return calendar.getTime();
+    }
+
+    /**
+     * Offsets the base start date by an advance number of months as specified by the frequency.
+     */
+    protected void addOffSetMonthsToStartDate(Frequency frequency, Calendar calendar) {
+        if (frequency != null && frequency.getAdvanceNumberOfMonths() != null) {
+            calendar.add(Calendar.MONTH, -frequency.getAdvanceNumberOfMonths());
+        }
+    }
+
+
+    /**
+     * Offsets a date forward or backwards by the number of days as specified by the frequency.
+     * This must be applied to all dates after the schedule has been generated so that the different number
+     * of days per month is handled properly.
+     */
+    protected Date offsetDateByFrequencyDays(Frequency frequency, Date date) {
+        if (frequency != null) {
+            Calendar offsetCal = Calendar.getInstance();
+            offsetCal.setTime(date);
+            if (frequency.getNumberOfDays() != null) {
+                offsetCal.add(Calendar.DAY_OF_YEAR, frequency.getNumberOfDays());
+            } else if (frequency.getAdvanceNumberOfDays() != null) {
+                offsetCal.add(Calendar.DAY_OF_YEAR, -frequency.getAdvanceNumberOfDays());
+            }
+            return offsetCal.getTime();
+        }
+        return date;
     }
 
     /**
@@ -227,6 +261,8 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * @param frequency
      * @param calendar
      */
+
+    /* SJW
     protected void addOffSetPeriodToStartDate(Frequency frequency, Calendar calendar) {
         if (frequency != null) {
             if(frequency.getNumberOfDays()!=null) {
@@ -238,6 +274,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
             }    
         }
     }
+    */
 
     /**
      * If the frequency is x monthly, numberOfMonths field in Frequency BO specifies the same.
