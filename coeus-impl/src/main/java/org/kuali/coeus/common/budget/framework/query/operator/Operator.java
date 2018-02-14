@@ -14,11 +14,14 @@ package org.kuali.coeus.common.budget.framework.query.operator;
  */
 public interface Operator {
 
+    Operator TRUE = baseBean -> true;
+    Operator FALSE = baseBean -> false;
+
     /** true if operation succeeds, else return false.
      * @param baseBean BaseBean
      * @return true if operation succeeds, else return false.
      */    
-    public boolean getResult(Object baseBean);
+    boolean getResult(Object baseBean);
 
 }
 
