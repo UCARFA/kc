@@ -152,8 +152,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
                 dates.add(startDate);
             }
         }
-        
-  //SJW      return dates;
+
         return dates.stream()
                 .map(date -> offsetDateByFrequencyDays(awardReportTerm.getFrequency(), date))
                 .collect(Collectors.toList());
@@ -215,8 +214,6 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
      * @return
      */
     protected Date getStartDateFromTheBaseDate(Calendar calendar, Frequency frequency) {
-        
-   //SJW     addOffSetPeriodToStartDate(frequency, calendar);
 
         addOffSetMonthsToStartDate(frequency, calendar);
         
@@ -253,29 +250,6 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         }
         return date;
     }
-
-    /**
-     * numberOfDays,AdvanceNumberOfDays and AdvanceNumberOfMonths fields of Frequency BO represent any offset from the base date, if present.
-     * 
-     * Only 1 out of the three can be not null for any frequency. This method determines it and adds the required offset to the base date.
-     * 
-     * @param frequency
-     * @param calendar
-     */
-
-    /* SJW
-    protected void addOffSetPeriodToStartDate(Frequency frequency, Calendar calendar) {
-        if (frequency != null) {
-            if(frequency.getNumberOfDays()!=null) {
-                calendar.add(Calendar.DAY_OF_YEAR,frequency.getNumberOfDays());
-            }else if(frequency.getAdvanceNumberOfDays()!=null){
-                calendar.add(Calendar.DAY_OF_YEAR,-frequency.getAdvanceNumberOfDays());
-            }else if(frequency.getAdvanceNumberOfMonths()!=null){
-                calendar.add(Calendar.MONTH,-frequency.getAdvanceNumberOfMonths());
-            }    
-        }
-    }
-    */
 
     /**
      * If the frequency is x monthly, numberOfMonths field in Frequency BO specifies the same.
