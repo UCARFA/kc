@@ -988,6 +988,7 @@
 		<property name="notificationService" ref="kcNotificationService" />
 		<property name="awardService" ref="awardService" />
 		<property name="awardVersionService" ref="awardVersionService" />
+        <property name="parameterService" ref="parameterService" />
         <property name="reportTrackingDao" ref="reportTrackingDao" />
         <property name="reportTrackingService" ref="reportTrackingService" />
 		<property name="notifications">

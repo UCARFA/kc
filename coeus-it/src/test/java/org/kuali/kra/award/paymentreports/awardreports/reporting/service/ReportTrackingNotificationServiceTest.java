@@ -7,10 +7,12 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.notification.impl.bo.NotificationType;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
@@ -18,13 +20,15 @@ import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardFixtureFactory;
 import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.*;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardConstants;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
-import org.kuali.kra.award.version.service.AwardVersionService;
-import org.kuali.kra.award.version.service.impl.AwardVersionServiceImpl;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -33,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -44,9 +49,15 @@ import static org.mockito.Mockito.verify;
 public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase {
 
     private static final SimpleDateFormat DUE_DATE_FORMATTER = new SimpleDateFormat("MM/dd/yyyy");
+    private static final String ROW_TEMPLATE = "<tr><td>%s</td><td>%s</td><td>%s</td></tr>";
     private static final String DUE_REPORT_STATUS_CODE = "4";
     private static final String PENDING_REPORT_STATUS_CODE = "1";
     private static final String NON_PENDING_REPORT_STATUS_CODE = "5";
+
+    private static final String AWARD_NUMBER_1 = "555555-00000";
+    private static final String AWARD_NUMBER_2 = "555556-00000";
+    private static final String JTESTER_PRINCIPAL_ID = "10000000002";
+    private static final String MAJORS_PRINCIPAL_ID = "10000000004";
 
     private ReportTrackingNotificationServiceImpl service;
     private BusinessObjectService boService;
@@ -61,38 +72,13 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
         service = (ReportTrackingNotificationServiceImpl) KcServiceLocator.getService(ReportTrackingNotificationService.class);
         boService = KcServiceLocator.getService(BusinessObjectService.class);
         documentService = KcServiceLocator.getService(DocumentService.class);
+        award = saveNewAward(documentService, AWARD_NUMBER_1, JTESTER_PRINCIPAL_ID, null).getAward();
         notificationServiceSpy = spy(KcServiceLocator.getService(KcNotificationService.class));
-        AwardDocument awardDoc = (AwardDocument) documentService.getNewDocument(AwardDocument.class);
-        award = AwardFixtureFactory.createAwardFixture();
-        award.setAwardSequenceStatus(VersionStatus.ACTIVE.name());
-        setPI(award);
-        awardDoc.setAward(award);
-        awardDoc.getDocumentHeader().setDocumentDescription("Testing");
-        documentService.saveDocument(awardDoc);
-        AwardService mockAwardService = new AwardServiceImpl() {
-
-            @Override
-            public Award getAward(Long awardId) {
-                return award;
-            }
-
-        };
-        service.setAwardService(mockAwardService);
-        AwardVersionService mockAwardVersionService = new AwardVersionServiceImpl() {
-
-            @Override
-            public Award getActiveAwardVersion(String awardNumber) {
-                return award;
-            }
-        };
-        service.setAwardVersionService(mockAwardVersionService);
         service.setNotificationService(notificationServiceSpy);
     }
 
     @After
     public void tearDown() throws Exception {
-        service.setAwardService(KcServiceLocator.getService(AwardService.class));
-        service.setAwardVersionService(KcServiceLocator.getService(AwardVersionService.class));
         service.setNotificationService(KcServiceLocator.getService(KcNotificationService.class));
     }
     
@@ -269,15 +255,20 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
             getNewReportTracking(award, "2", "4", due5, PENDING_REPORT_STATUS_CODE));
         boService.save(reports);
 
+        List<Function<ReportTracking, String>> propertyGetters = Arrays.asList(
+                tracking -> tracking.getReportClass().getDescription(),
+                tracking -> tracking.getReport().getDescription(),
+                tracking -> DUE_DATE_FORMATTER.format(tracking.getDueDate())
+        );
         String renderedMessage = "<p>Testing Digest Notifications</p>" +
                 "<h3>OVERDUE</h3>" +
                 "<table><tr><th>Report Class</th><th>Report Type</th><th>Due Date</th></tr>" +
-                getExpectedRenderedRowForReport(reports.get(3)) +
-                getExpectedRenderedRowForReport(reports.get(1)) + "</table>" +
+                getExpectedRenderedRowForReport(reports.get(3), ROW_TEMPLATE, propertyGetters) +
+                getExpectedRenderedRowForReport(reports.get(1), ROW_TEMPLATE, propertyGetters) + "</table>" +
                 "<h3>DUE</h3>" +
                 "<table><tr><th>Report Class</th><th>Report Type</th><th>Due Date</th></tr>" +
-                getExpectedRenderedRowForReport(reports.get(0)) +
-                getExpectedRenderedRowForReport(reports.get(2)) + "</table>";
+                getExpectedRenderedRowForReport(reports.get(0), ROW_TEMPLATE, propertyGetters) +
+                getExpectedRenderedRowForReport(reports.get(2), ROW_TEMPLATE, propertyGetters) + "</table>";
         ReportTrackingNotificationDetails details = service.runReportDigestNotification(digestActionCode, notificationName, true, true);
         assertEquals(4, details.getTrackingRecordsFound());
         assertEquals(4, details.getTrackingRecordsMatched());
@@ -285,6 +276,66 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
         assertEquals(1, details.getNotificationRecipients());
         verify(notificationServiceSpy).sendNotification(eq(notificationName), eq(digestSubject), eq(renderedMessage),
                 eq(Collections.singletonList(award.getPrincipalInvestigator().getPerson().getUserName())));
+    }
+
+    @Test
+    public void testUnitAdminDigestSentForOverdueReports() throws WorkflowException {
+        String unitAdminTypeCode = "3";
+        String digestSubject = "Testing Overdue Reports";
+        String digestMessage = "<p>Overdue reports for {LEAD_UNIT_NAME}</p>" +
+                "{BEGIN_DIGEST_TABLE}<table><tr><th>Principal Investigator</th><th>Report Class</th><th>Due Date</th></tr>" +
+                "{BEGIN_REPEAT_SECTION}<tr><td>{PI_NAME}</td><td>{REPORT_CLASS}</td><td>{REPORT_DUE_DATE}</td></tr>{END_REPEAT_SECTION}" +
+                "</table>{END_DIGEST_TABLE}";
+        String digestActionCode = "-99";
+        String notificationName = "Digest Test";
+        NotificationType digestNotification = getDigestNotification(digestActionCode, digestSubject, digestMessage, "KC-AWARD:All Unit Administrators");
+        digestNotification.getNotificationTypeRecipients().get(0).setRoleSubQualifier(unitAdminTypeCode);
+        boService.save(digestNotification);
+
+        Award award2 = saveNewAward(documentService, AWARD_NUMBER_2, MAJORS_PRINCIPAL_ID, "IN-MDEP").getAward();
+
+        LocalDate now = LocalDate.now();
+        Date overdue3 = java.sql.Date.valueOf(now.minus(3, ChronoUnit.MONTHS));
+        Date overdue1 = java.sql.Date.valueOf(now.minus(1, ChronoUnit.MONTHS));
+        Date due2 = java.sql.Date.valueOf(now.plus(2, ChronoUnit.MONTHS));
+
+        List<ReportTracking> reports = Arrays.asList(
+                getNewReportTracking(award2, "4", "4", due2, DUE_REPORT_STATUS_CODE),
+                getNewReportTracking(award, "4", "4", overdue1, DUE_REPORT_STATUS_CODE),
+                getNewReportTracking(award2, "1", "4", overdue3, DUE_REPORT_STATUS_CODE),
+                getNewReportTracking(award, "4", "4", overdue1, PENDING_REPORT_STATUS_CODE),
+                getNewReportTracking(award, "1", "4", due2, NON_PENDING_REPORT_STATUS_CODE));
+        boService.save(reports);
+
+        List<Function<ReportTracking, String>> propertyGetters = Arrays.asList(
+                tracking -> tracking.getAward().getPiName(),
+                tracking -> tracking.getReportClass().getDescription(),
+                tracking -> DUE_DATE_FORMATTER.format(tracking.getDueDate())
+        );
+        String renderedMessage = "<p>Overdue reports for MEDICINE DEPT and University</p>" +
+                "<h3>OVERDUE</h3>" +
+                "<table><tr><th>Principal Investigator</th><th>Report Class</th><th>Due Date</th></tr>" +
+                getExpectedRenderedRowForReport(reports.get(2), ROW_TEMPLATE, propertyGetters) +
+                getExpectedRenderedRowForReport(reports.get(1), ROW_TEMPLATE, propertyGetters) + "</table>";
+        ReportTrackingNotificationDetails details = service.runReportDigestNotification(digestActionCode, notificationName, false, true);
+        assertEquals(3, details.getTrackingRecordsFound());
+        assertEquals(3, details.getTrackingRecordsMatched());
+        assertEquals(2, details.getNotificationsSent());
+        assertEquals(2, details.getNotificationRecipients());
+
+        Map<String, Object> criteria = new HashMap<>();
+        criteria.put("unitAdministratorTypeCode", unitAdminTypeCode);
+        criteria.put("unitNumber", "000001");
+        boService.findMatching(UnitAdministrator.class, criteria).forEach(unitAdmin ->
+                verify(notificationServiceSpy).sendNotification(eq(notificationName), eq(digestSubject), eq(renderedMessage),
+                        eq(Collections.singletonList(unitAdmin.getPerson().getUserName()))));
+
+        String inMedOnlyMessage = renderedMessage.replace(" and University", "")
+                .replace(getExpectedRenderedRowForReport(reports.get(1), ROW_TEMPLATE, propertyGetters), "");
+        criteria.put("unitNumber", "IN-MDEP");
+        boService.findMatching(UnitAdministrator.class, criteria).forEach(unitAdmin ->
+                verify(notificationServiceSpy).sendNotification(eq(notificationName), eq(digestSubject), eq(inMedOnlyMessage),
+                        eq(Collections.singletonList(unitAdmin.getPerson().getUserName()))));
     }
 
     public ReportTracking getNewReportTracking(Award award, String reportClassCode, String frequencyBaseCode, Date dueDate) {
@@ -296,6 +347,7 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
         result.setAwardReportTermId(currentTermId++);
         result.setAwardNumber(award.getAwardNumber());
         result.setAwardId(award.getAwardId());
+        result.setAward(award);
         result.setPiName("Quickstart Quickstart");
         result.setLeadUnitNumber("000001");
         result.setReportClassCode(reportClassCode);
@@ -310,13 +362,6 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
         result.setDueDate(new java.sql.Date(dueDate.getTime()));
         result.setStatusCode(reportStatusCode == null ? PENDING_REPORT_STATUS_CODE : reportStatusCode);
         return result;
-    }
-
-    private void setPI(Award award) {
-        AwardPerson pi = new AwardPerson();
-        pi.setPersonId("10000000002");
-        pi.setContactRoleCode(ContactRole.PI_CODE);
-        award.add(pi);
     }
 
     private NotificationType getDigestNotification(String actionCode, String subject, String message, String... recipientRoles) {
@@ -337,11 +382,34 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
         return digestNotification;
     }
 
-    private String getExpectedRenderedRowForReport(ReportTracking report) {
-         String dueDate = DUE_DATE_FORMATTER.format(report.getDueDate());
+    private String getExpectedRenderedRowForReport(ReportTracking report, String template, List<Function<ReportTracking, String>> propertyGetters) {
          report.refreshReferenceObject(ReportTrackingConstants.REPORT_CLASS);
          report.refreshReferenceObject(ReportTrackingConstants.REPORT);
-         return String.format("<tr><td>%s</td><td>%s</td><td>%s</td></tr>", report.getReportClass().getDescription(), report.getReport().getDescription(), dueDate);
+         return String.format(template, propertyGetters.stream().map(getter -> getter.apply(report)).toArray());
     }
 
+    private AwardDocument saveNewAward(DocumentService documentService, String awardNumber, String piId, String unitNumber) throws WorkflowException {
+        AwardDocument awardDoc = (AwardDocument) documentService.getNewDocument(AwardDocument.class);
+        Award award = AwardFixtureFactory.createAwardFixture();
+        award.setAwardNumber(awardNumber);
+        award.setAwardSequenceStatus(VersionStatus.ACTIVE.name());
+        if (StringUtils.isNotBlank(unitNumber)) {
+            award.setUnitNumber(unitNumber);
+        }
+        setPI(award, piId);
+        awardDoc.setAward(award);
+        awardDoc.getDocumentHeader().setDocumentDescription("Testing");
+        return (AwardDocument) documentService.saveDocument(awardDoc);
+    }
+
+    private void setPI(Award award, String personId) {
+        AwardPerson pi = new AwardPerson();
+        AwardPersonUnit unit = new AwardPersonUnit();
+        unit.setLeadUnit(true);
+        unit.setUnitNumber(award.getUnitNumber());
+        pi.add(unit);
+        pi.setPersonId(personId);
+        pi.setContactRoleCode(ContactRole.PI_CODE);
+        award.add(pi);
+    }
 }
