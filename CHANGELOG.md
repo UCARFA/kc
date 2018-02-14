@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* fixing Serialization issues.
+  * Travis Schneeberger on Tue, 13 Feb 2018 19:20:58 -0500 [View Commit](../../commit/2d4681f5001cdfb3cb4518baf770b27ebc481af2)
+* preventing NPE when missing inflation rate type during budget calculation
+  * Travis Schneeberger on Tue, 13 Feb 2018 19:20:37 -0500 [View Commit](../../commit/2a5263074f8b11c2ba1acdc6dc80b9d4f7802f07)
+* preventing NPE on certain KRAD lookups
+  * Travis Schneeberger on Tue, 13 Feb 2018 19:19:20 -0500 [View Commit](../../commit/1ea3c078e904a8d5061afb1b81a4af7eb3c7e157)
+
+## coeus-1802.0022
 * No Changes
 
 
