@@ -40,11 +40,11 @@ public class SalaryCalculator {
     private static final ScaleTwoDecimal DEFAULT_WORKING_MONTHS = new ScaleTwoDecimal(12);
     private static final String APPOINTMENT_TYPE = "appointmentType";
 
-    private Budget budget;
-    private BudgetPersonnelDetails personnelLineItem;
+    private final Budget budget;
+    private final BudgetPersonnelDetails personnelLineItem;
+
     private Date startDate;
     private Date endDate;
-
     private QueryList<BudgetRate> inflationRates;
 
     private DateTimeService dateTimeService;
@@ -106,8 +106,9 @@ public class SalaryCalculator {
                 return iInflationRCEquals && iInflationRTEquals && startDateLtEqualsEndDate && startDateGtEqualsStartDate && onOffCampusEquals;
             };
 
-            return new QueryList<>((getInflationRates() == null ? getBudgetRates().stream().filter(dateAndRateAndOnOffCampusFlag)
-                     : getInflationRates().stream().filter(dateAndRateAndOnOffCampusFlag)).collect(Collectors.toList()));
+            return (getInflationRates() == null ? getBudgetRates().stream().filter(dateAndRateAndOnOffCampusFlag)
+                    : getInflationRates().stream().filter(dateAndRateAndOnOffCampusFlag))
+                    .collect(Collectors.toCollection(QueryList::new));
         } else {
             return new QueryList<>();
         }
@@ -163,7 +164,7 @@ public class SalaryCalculator {
             final boolean effectiveDateEquals = Objects.compare(person.getEffectiveDate(), first.get().getEffectiveDate(), Comparator.naturalOrder()) == 0;
             final boolean seqNotEquals = person.getPersonSequenceNumber().intValue() != first.get().getPersonSequenceNumber();
             return effectiveDateLtEqualsStartDate && !(effectiveDateEquals && seqNotEquals);
-        }).sorted(Comparator.comparing(BudgetPerson::getEffectiveDate).reversed()).findFirst();
+        }).max(Comparator.comparing(BudgetPerson::getEffectiveDate));
 
         if (tmpFirst.isPresent()) {
             filteredPersons.clear();
