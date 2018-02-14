@@ -217,6 +217,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     protected Date getStartDateFromTheBaseDate(Calendar calendar, Frequency frequency) {
         
    //SJW     addOffSetPeriodToStartDate(frequency, calendar);
+
         addOffSetMonthsToStartDate(frequency, calendar);
         
         addNumberOfMonthsToStartDate(frequency, calendar);
