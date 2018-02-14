@@ -7,10 +7,11 @@
  */
 package org.kuali.coeus.propdev.impl.person.creditsplit;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProposalCreditSplitListDto {
+public class ProposalCreditSplitListDto implements Serializable {
     private String description;
     private String lineType;
     private List<CreditSplit> creditSplits;

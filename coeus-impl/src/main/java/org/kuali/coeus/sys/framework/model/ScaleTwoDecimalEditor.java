@@ -8,13 +8,14 @@
 package org.kuali.coeus.sys.framework.model;
 
 import java.beans.PropertyEditorSupport;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
-public class ScaleTwoDecimalEditor extends PropertyEditorSupport {
+public class ScaleTwoDecimalEditor extends PropertyEditorSupport implements Serializable {
 
 	private DecimalFormat numberFormat;
 	private boolean allowEmpty;

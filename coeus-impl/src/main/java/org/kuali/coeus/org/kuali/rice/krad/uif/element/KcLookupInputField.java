@@ -12,6 +12,11 @@ import org.kuali.rice.krad.lookup.LookupInputField;
 
 public class KcLookupInputField extends LookupInputField {
 
+    public KcLookupInputField() {
+        //prevent NPE when required is not set
+        this.setRequired(Boolean.FALSE);
+    }
+
     @Override
     public void copyFromAttributeDefinition(AttributeDefinition attributeDefinition) {
         this.setUppercaseValue(attributeDefinition.getForceUppercase());

@@ -40,11 +40,11 @@ public class SalaryCalculator {
     private static final ScaleTwoDecimal DEFAULT_WORKING_MONTHS = new ScaleTwoDecimal(12);
     private static final String APPOINTMENT_TYPE = "appointmentType";
 
-    private Budget budget;
-    private BudgetPersonnelDetails personnelLineItem;
+    private final Budget budget;
+    private final BudgetPersonnelDetails personnelLineItem;
+
     private Date startDate;
     private Date endDate;
-
     private QueryList<BudgetRate> inflationRates;
 
     private DateTimeService dateTimeService;
@@ -106,8 +106,9 @@ public class SalaryCalculator {
                 return iInflationRCEquals && iInflationRTEquals && startDateLtEqualsEndDate && startDateGtEqualsStartDate && onOffCampusEquals;
             };
 
-            return new QueryList<>((getInflationRates() == null ? getBudgetRates().stream().filter(dateAndRateAndOnOffCampusFlag)
-                     : getInflationRates().stream().filter(dateAndRateAndOnOffCampusFlag)).collect(Collectors.toList()));
+            return (getInflationRates() == null ? getBudgetRates().stream().filter(dateAndRateAndOnOffCampusFlag)
+                    : getInflationRates().stream().filter(dateAndRateAndOnOffCampusFlag))
+                    .collect(Collectors.toCollection(QueryList::new));
         } else {
             return new QueryList<>();
         }
@@ -134,8 +135,8 @@ public class SalaryCalculator {
         return costElementBO;
     }
 
-    private ValidCeRateType getInflationRateType(CostElement costElement) {
-        return costElement.getValidCeRateTypes().stream().filter(t -> t.getRateClassType().equals(RateClassType.INFLATION.getRateClassType())).findFirst().get();
+    private Optional<ValidCeRateType> getInflationRateType(CostElement costElement) {
+        return costElement.getValidCeRateTypes().stream().filter(t -> t.getRateClassType().equals(RateClassType.INFLATION.getRateClassType())).findFirst();
     }
 
     private QueryList<BudgetPerson> filterBudgetPersons() {
@@ -163,7 +164,7 @@ public class SalaryCalculator {
             final boolean effectiveDateEquals = Objects.compare(person.getEffectiveDate(), first.get().getEffectiveDate(), Comparator.naturalOrder()) == 0;
             final boolean seqNotEquals = person.getPersonSequenceNumber().intValue() != first.get().getPersonSequenceNumber();
             return effectiveDateLtEqualsStartDate && !(effectiveDateEquals && seqNotEquals);
-        }).sorted(Comparator.comparing(BudgetPerson::getEffectiveDate).reversed()).findFirst();
+        }).max(Comparator.comparing(BudgetPerson::getEffectiveDate));
 
         if (tmpFirst.isPresent()) {
             filteredPersons.clear();
@@ -649,59 +650,56 @@ public class SalaryCalculator {
     }
 
     private QueryList<BudgetRate> filterInflationRates(Date sDate, Date eDate) {
-        final CostElement costElement = getCostElement(personnelLineItem.getCostElementBO(), personnelLineItem.getCostElement());
-        final ValidCeRateType inflationRateType = getInflationRateType(costElement);
-
-        Equals eInflationRC;
-        Equals eInflationRT;
-        And inflRCandRT = null;
-
-        if (inflationRateType != null) {
-            eInflationRC = new Equals("rateClassCode", inflationRateType.getRateClassCode());
-            eInflationRT = new Equals("rateTypeCode", inflationRateType.getRateTypeCode());
-            inflRCandRT = new And(eInflationRC, eInflationRT);
-        }
-
-        LesserThan ltStartDate = new LesserThan("startDate", sDate);
-        And ltStartDateAndRate = new And(inflRCandRT, ltStartDate);
-        Equals onOffCampus = new Equals("onOffCampusFlag", costElement.getOnOffCampusFlag());
-        And ltStartDateAndRateAndOnOffCampusFlag = new And(ltStartDateAndRate, onOffCampus);
-
-        LesserThan ltEndDate = new LesserThan("startDate", eDate);
-        Equals eEndDate = new Equals("startDate", eDate);
-        Or ltOrEqEndDate = new Or(ltEndDate, eEndDate);
-
-        GreaterThan gtStartDate = new GreaterThan("startDate", sDate);
-        Equals eStartDate = new Equals("startDate", sDate);
-        Or gtOrEqStartDate = new Or(gtStartDate, eStartDate);
-
-        And gtOrEqStartDateAndltOrEqEndDate = new And(gtOrEqStartDate, ltOrEqEndDate);
-        And dateAndRate = new And(inflRCandRT, gtOrEqStartDateAndltOrEqEndDate);
-
-        // Equals onOffCampus = new Equals("onOffCampusFlag", costElement.getOnOffCampusFlag());
-        And dateAndRateAndOnOffCampusFlag = new And(dateAndRate, onOffCampus);
-
         if (personnelLineItem.getApplyInRateFlag()) {
-            QueryList<BudgetRate> inflationRatesList;
-            QueryList<BudgetRate> prevInflationRatesList;
+
+            final CostElement costElement = getCostElement(personnelLineItem.getCostElementBO(), personnelLineItem.getCostElement());
+            final Optional<ValidCeRateType> inflationRateType = getInflationRateType(costElement);
+
+            final And inflRCandRT;
+            if (inflationRateType.isPresent()) {
+                final Equals eInflationRC = new Equals("rateClassCode", inflationRateType.get().getRateClassCode());
+                final Equals eInflationRT = new Equals("rateTypeCode", inflationRateType.get().getRateTypeCode());
+                inflRCandRT = new And(eInflationRC, eInflationRT);
+            } else {
+                inflRCandRT = new And(Operator.FALSE, Operator.FALSE);
+            }
+
+            final LesserThan ltStartDate = new LesserThan("startDate", sDate);
+            final And ltStartDateAndRate = new And(inflRCandRT, ltStartDate);
+            final Equals onOffCampus = new Equals("onOffCampusFlag", costElement.getOnOffCampusFlag());
+            final And ltStartDateAndRateAndOnOffCampusFlag = new And(ltStartDateAndRate, onOffCampus);
+
+            final LesserThan ltEndDate = new LesserThan("startDate", eDate);
+            final Equals eEndDate = new Equals("startDate", eDate);
+            final Or ltOrEqEndDate = new Or(ltEndDate, eEndDate);
+
+            final GreaterThan gtStartDate = new GreaterThan("startDate", sDate);
+            final Equals eStartDate = new Equals("startDate", sDate);
+            final Or gtOrEqStartDate = new Or(gtStartDate, eStartDate);
+
+            final And gtOrEqStartDateAndltOrEqEndDate = new And(gtOrEqStartDate, ltOrEqEndDate);
+            final And dateAndRate = new And(inflRCandRT, gtOrEqStartDateAndltOrEqEndDate);
+
+            final And dateAndRateAndOnOffCampusFlag = new And(dateAndRate, onOffCampus);
+
+            final QueryList<BudgetRate> inflationRatesList;
+            final QueryList<BudgetRate> prevInflationRatesList;
             if (getInflationRates() == null) {
                 inflationRatesList = new QueryList<>(getBudgetRates()).filter(dateAndRateAndOnOffCampusFlag);
-                prevInflationRatesList = new QueryList<>(getBudgetRates())
-                        .filter(ltStartDateAndRateAndOnOffCampusFlag);
-            }
-            else {
+                prevInflationRatesList = new QueryList<>(getBudgetRates()).filter(ltStartDateAndRateAndOnOffCampusFlag);
+            } else {
                 inflationRatesList = getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
                 prevInflationRatesList = getInflationRates().filter(ltStartDateAndRateAndOnOffCampusFlag);
             }
+
             if (!prevInflationRatesList.isEmpty()) {
                 prevInflationRatesList.sort("startDate", false);
-                BudgetRate prevInflationRate = prevInflationRatesList.get(0);
+                final BudgetRate prevInflationRate = prevInflationRatesList.get(0);
                 inflationRatesList.add(prevInflationRate);
                 inflationRatesList.sort("startDate");
             }
             return inflationRatesList;
-        }
-        else {
+        } else {
             return new QueryList<>();
         }
     }
