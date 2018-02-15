@@ -237,11 +237,13 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             forward = mapping.findForward(Constants.MAPPING_BASIC);
         }
         else {
-            getPessimisticLockService().generateNewLock(
-                    institutionalProposalDocument.getDocumentNumber(),
-                    getVersionHistoryService().getVersionLockDescriptor(institutionalProposalDocument.getDocumentTypeCode(),
-                            institutionalProposalDocument.getDocumentNumber()),
-                    GlobalVariables.getUserSession().getPerson());
+            if (getVersionHistoryService().isVersionLockOn()) {
+                getPessimisticLockService().generateNewLock(
+                        institutionalProposalDocument.getDocumentNumber(),
+                        getVersionHistoryService().getVersionLockDescriptor(institutionalProposalDocument.getDocumentTypeCode(),
+                                institutionalProposalDocument.getDocumentNumber()),
+                        GlobalVariables.getUserSession().getPerson());
+            }
             forward = createAndSaveNewVersion(response, institutionalProposalForm, institutionalProposalDocument, institutionalProposal);
         }
         return forward;

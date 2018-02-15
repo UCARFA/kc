@@ -365,10 +365,11 @@ public class AwardHomeAction extends AwardAction {
             forward = mapping.findForward(Constants.MAPPING_BASIC);
         }
         else {
-            getPessimisticLockService().generateNewLock(award.getAwardDocument().getDocumentNumber(),
-                    getVersionHistoryService().getVersionLockDescriptor(award.getAwardDocument().getDocumentTypeCode(), award.getAwardDocument().getDocumentNumber()),
-                    getGlobalVariableService().getUserSession().getPerson());
-
+            if (getVersionHistoryService().isVersionLockOn()) {
+                getPessimisticLockService().generateNewLock(award.getAwardDocument().getDocumentNumber(),
+                        getVersionHistoryService().getVersionLockDescriptor(award.getAwardDocument().getDocumentTypeCode(), award.getAwardDocument().getDocumentNumber()),
+                        getGlobalVariableService().getUserSession().getPerson());
+            }
             AwardDocument newAwardDocument = getAwardVersionService().createAndSaveNewAwardVersion(awardForm.getAwardDocument());
             reinitializeAwardForm(awardForm, newAwardDocument);
             forward = new ActionForward(buildForwardUrl(newAwardDocument.getDocumentNumber()), true);

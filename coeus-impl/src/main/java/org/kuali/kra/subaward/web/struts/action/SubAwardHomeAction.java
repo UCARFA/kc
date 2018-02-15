@@ -99,10 +99,12 @@ public class SubAwardHomeAction extends SubAwardAction{
             forward = mapping.findForward(Constants.MAPPING_BASIC);
         }
         else {
-            getPessimisticLockService().generateNewLock(
-                    subAwardDocument.getDocumentNumber(),
-                    getVersionHistoryService().getVersionLockDescriptor(subAwardDocument.getDocumentTypeCode(), subAwardDocument.getDocumentNumber()),
-                    GlobalVariables.getUserSession().getPerson());
+            if (getVersionHistoryService().isVersionLockOn()) {
+                getPessimisticLockService().generateNewLock(
+                        subAwardDocument.getDocumentNumber(),
+                        getVersionHistoryService().getVersionLockDescriptor(subAwardDocument.getDocumentTypeCode(), subAwardDocument.getDocumentNumber()),
+                        GlobalVariables.getUserSession().getPerson());
+            }
             forward = createAndSaveNewSubAwardVersion(response, subAwardForm, subAwardDocument, subaward);
         }
 
