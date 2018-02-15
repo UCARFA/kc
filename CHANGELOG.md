@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* RESKC-2732: Adding the FF around the lock creating code as well (#2758)
+
+  * Gayathri Athreya on Wed, 14 Feb 2018 17:21:12 -0700 [View Commit](../../commit/a0244e145d1aa1f03ee55d6a06a893f49323f6c0)
+
+## coeus-1802.0023
 * fixing Serialization issues.
   * Travis Schneeberger on Tue, 13 Feb 2018 19:20:58 -0500 [View Commit](../../commit/2d4681f5001cdfb3cb4518baf770b27ebc481af2)
 * preventing NPE when missing inflation rate type during budget calculation
