@@ -872,6 +872,7 @@
                 <ref bean="cfdaTrigger"/>
 				<ref bean="reportTrackingNotificationTrigger"/>
                 <ref bean="reportTrackingPIDigestNotificationTrigger"/>
+                <ref bean="reportTrackingUnitAdminsDigestNotificationTrigger"/>
             </list>
         </property>
         <!-- 
@@ -987,6 +988,7 @@
 		<property name="notificationService" ref="kcNotificationService" />
 		<property name="awardService" ref="awardService" />
 		<property name="awardVersionService" ref="awardVersionService" />
+        <property name="parameterService" ref="parameterService" />
         <property name="reportTrackingDao" ref="reportTrackingDao" />
         <property name="reportTrackingService" ref="reportTrackingService" />
 		<property name="notifications">
@@ -1177,6 +1179,7 @@
 		<property name="parameterNamespace" value="KC-AWARD" />
 		<property name="parameterComponent" value="Document" />
 		<property name="cronExpressionParameterName" value="REPORT_TRACKING_NOTIFICATIONS_BATCH_CRON_TRIGGER" />
+        <property name="triggerEnabledParameterName" value="REPORT_TRACKING_NOTIFICATIONS_BATCH_ENABLED" />
 		<property name="jobDetail" ref="reportTrackingNotificationJobDetail" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="dateTimeService" ref="dateTimeService" />
@@ -1201,11 +1204,29 @@
         <property name="cronExpressionParameterName" value="Report_Tracking_PI_Digest_Notification_Cron_Trigger" />
         <property name="jobDetail" ref="reportTrackingPIDigestNotificationJobDetail" />
     </bean>
+
+    <bean id="reportTrackingUnitAdminsDigestNotificationJobDetail" class="org.quartz.impl.JobDetailImpl" >
+        <property name="jobClass" value="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingDigestNotificationJobDetail" />
+        <property name="name" value="reportTrackingUnitAdminsDigestNotificationJobDetail" />
+        <property name="durability" value="true" />
+        <property name="jobDataMap">
+            <map>
+                <entry key="actionCode" value="-2" />
+                <entry key="notificationName" value="Unit Overdue Reports" />
+                <entry key="includeDue" value="false" />
+                <entry key="includeOverdue" value="true" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="reportTrackingUnitAdminsDigestNotificationTrigger" parent="reportTrackingNotificationTrigger">
+        <property name="cronExpressionParameterName" value="Report_Tracking_UNIT_Digest_Notification_Cron_Trigger" />
+        <property name="jobDetail" ref="reportTrackingUnitAdminsDigestNotificationJobDetail" />
+    </bean>
 	
 	<bean id="awardFactBuilderService" class="org.kuali.kra.award.AwardFactBuilderServiceImpl">
         <property name="documentService" ref="documentService" />
     </bean>
-    
     
     <bean id="awardSubcontractingGoalsExpendituresService" class="org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpendituresServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />

@@ -8,21 +8,23 @@
 package org.kuali.kra.award;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministrator;
+import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministratorDerivedRoleTypeService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministratorDerivedRoleTypeService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.kuali.coeus.common.impl.unit.UnitHierarchyRoleTypeServiceImpl.*;
 
 public class AwardAllUnitAdministratorDerivedRoleTypeServiceImpl extends AbstractUnitAdministratorDerivedRoleTypeService
         implements RoleTypeService {
@@ -41,15 +43,14 @@ public class AwardAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abstrac
     @Override
     public List<? extends AbstractUnitAdministrator> getUnitAdministrators(Map<String, String> qualifiers) {
         String awardIdStr = qualifiers.get(KcKimAttributes.AWARD);
+        boolean ascendsHierarchy = shouldAscendHierarchy(qualifiers);
         List<UnitAdministrator> result = new ArrayList<UnitAdministrator>();
         if (StringUtils.isNotBlank(awardIdStr) && awardIdStr.matches("\\d+")) {
             Long awardId = Long.valueOf(awardIdStr);
             Award award = getAwardService().getAward(awardId);
             HashSet<String> units = new HashSet<String>();
             for (AwardPerson person : award.getProjectPersons()) {
-                for (AwardPersonUnit unit : person.getUnits()) {
-                    units.add(unit.getUnitNumber());
-                }
+                units.addAll(getUnitsForPerson(person, ascendsHierarchy));
             }
         
             for (String unit : units) {
@@ -59,6 +60,27 @@ public class AwardAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abstrac
             }
         }   
         return result;
+    }
+
+    protected Set<String> getUnitsForPerson(AwardPerson person, boolean ascendsHierarchy) {
+        return person.getUnits().stream()
+                .map(AwardPersonUnit::getUnitNumber).distinct()
+                .flatMap(unitNumber -> {
+                    if (ascendsHierarchy) {
+                        return unitService.getUnitHierarchyForUnit(unitNumber).stream().map(Unit::getUnitNumber);
+                    } else {
+                        return Stream.of(unitNumber);
+                    }
+                })
+                .collect(Collectors.toSet());
+    }
+
+    protected boolean shouldAscendHierarchy(Map<String, String> qualifiers) {
+        String subunitsString = qualifiers.getOrDefault(KcKimAttributes.SUBUNITS, DESCENDS_HIERARCHY_N);
+        if (DESCENDS_HIERARCHY_Y.equals(subunitsString) || DESCENDS_HIERARCHY_YES.equals(subunitsString)) {
+            return true;
+        }
+        return false;
     }
 
     protected AwardService getAwardService() {

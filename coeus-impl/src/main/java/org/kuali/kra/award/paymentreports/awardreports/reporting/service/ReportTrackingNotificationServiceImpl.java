@@ -14,16 +14,19 @@ import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.notification.impl.bo.NotificationType;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.notification.AwardNotificationContext;
 import org.kuali.kra.award.notification.AwardReportTrackingDigestNotificationRenderer;
 import org.kuali.kra.award.notification.AwardReportTrackingNotificationRenderer;
+import org.kuali.kra.award.notification.AwardUnitHierarchyDescendingNotificationContext;
 import org.kuali.kra.award.paymentreports.ReportStatus;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
 import org.kuali.kra.award.version.service.AwardVersionService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.ken.api.notification.NotificationRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -35,11 +38,13 @@ import java.util.*;
 public class ReportTrackingNotificationServiceImpl implements ReportTrackingNotificationService {
 
     private static final Log LOG = LogFactory.getLog(ReportTrackingNotificationServiceImpl.class);
+    private static final String ASCEND_UNIT_HIERARCHY_FOR_DIGEST_NOTIFICATIONS_PARAM = "Ascend_Unit_Hierarchy_For_Report_Tracking_Digest_Unit_Admins";
 
     private BusinessObjectService businessObjectService;
     private AwardService awardService;
     private AwardVersionService awardVersionService;
     private KcNotificationService notificationService;
+    private ParameterService parameterService;
     private ReportTrackingDao reportTrackingDao;
     private ReportTrackingService reportTrackingService;
     
@@ -173,7 +178,7 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
                     String subject = renderer.render(notificationType.getSubject());
                     notificationService.sendNotification(notificationName, subject, message, Collections.singletonList(recipientId));
                 });
-                populateReportDetails(reportsByRecipient, details);
+                populateReportDetails(reportsByRecipient, dueReports, details);
             } catch (Exception e) {
                 LOG.error("Error sending report tracking digest notification for " + actionCode, e);
                 details.setErrorMessage(e.getMessage());
@@ -239,7 +244,10 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         for (ReportTracking report : reports) {
             report.setAward(awardService.getAward(report.getAwardId()));
             if (isAwardActive(report.getAward())) {
-                notificationService.getNotificationRecipients(new AwardNotificationContext(report.getAward(), actionCode, notificationName))
+                AwardUnitHierarchyDescendingNotificationContext notificationContext =
+                        new AwardUnitHierarchyDescendingNotificationContext(report.getAward(), actionCode, notificationName);
+                notificationContext.setDescendsHierarchy(shouldNotificationContextDescendHierarchy());
+                notificationService.getNotificationRecipients(notificationContext)
                         .forEach(recipient -> {
                             Set<ReportTracking> recipientReports = reportsByRecipient.getOrDefault(recipient.getRecipientId(), new HashSet<>());
                             recipientReports.add(report);
@@ -250,11 +258,15 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
         return reportsByRecipient;
     }
 
-    protected void populateReportDetails(Map<String, Set<ReportTracking>> reportsByRecipient, ReportTrackingNotificationDetails details) {
+    protected void populateReportDetails(Map<String, Set<ReportTracking>> reportsByRecipient, List<ReportTracking> foundReports, ReportTrackingNotificationDetails details) {
         details.setNotificationRecipients(reportsByRecipient.size());
         details.setNotificationsSent(details.getNotificationRecipients());
-        details.setTrackingRecordsMatched(reportsByRecipient.values().stream().mapToInt(Set::size).sum());
+        details.setTrackingRecordsMatched(foundReports.size());
         details.setTrackingRecordsFound(details.getTrackingRecordsMatched());
+    }
+
+    protected boolean shouldNotificationContextDescendHierarchy() {
+        return getParameterService().getParameterValueAsBoolean(AwardDocument.class, ASCEND_UNIT_HIERARCHY_FOR_DIGEST_NOTIFICATIONS_PARAM, true);
     }
 
     protected BusinessObjectService getBusinessObjectService() {
@@ -263,6 +275,14 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     protected KcNotificationService getNotificationService() {

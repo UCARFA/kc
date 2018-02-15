@@ -36,21 +36,19 @@ public class ReportTrackingDigestNotificationJobDetail extends ReportTrackingNot
         String notificationName = getNotificationName(context);
         boolean includeDue = isIncludeDue(context);
         boolean includeOverdue = isIncludeOverdue(context);
-        if (batchProcessEnabled()) {
-            globalVariableService.doInNewGlobalVariables(new UserSession(user), () -> {
-                StringBuilder builder = new StringBuilder();
-                try {
-                    ReportTrackingNotificationDetails results = getReportTrackingNotificationService().runReportDigestNotification(actionCode, notificationName, includeDue, includeOverdue);
-                    buildMessage(builder, Collections.singletonList(results));
-                } catch (Exception e) {
-                    LOG.error("Error running report tracking digest notifications", e);
-                    builder.append("Message: Error running report tracking digest notifications. See log for more details. " + e.getMessage());
-                }
+        globalVariableService.doInNewGlobalVariables(new UserSession(user), () -> {
+            StringBuilder builder = new StringBuilder();
+            try {
+                ReportTrackingNotificationDetails results = getReportTrackingNotificationService().runReportDigestNotification(actionCode, notificationName, includeDue, includeOverdue);
+                buildMessage(builder, Collections.singletonList(results));
+            } catch (Exception e) {
+                LOG.error("Error running report tracking digest notifications", e);
+                builder.append("Message: Error running report tracking digest notifications. See log for more details. " + e.getMessage());
+            }
 
-                logAndSendResults(builder.toString());
-                return null;
-            });
-        }
+            logAndSendResults(builder.toString());
+            return null;
+        });
     }
 
     protected GlobalVariableService getGlobalVariableService() {
