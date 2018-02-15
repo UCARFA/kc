@@ -1,6 +1,22 @@
 
 
 ## CURRENT
+* RESKC-2680: Ensure that digest parameter lists always render in lexicographical order
+  * Jeff Largent on Thu, 15 Feb 2018 11:34:27 -0500 [View Commit](../../commit/5512a2653a3cb052b1c0c32c4d110fd16d606751)
+* RESKC-2680: Fix typo in parameter value
+  * Jeff Largent on Thu, 15 Feb 2018 10:50:17 -0500 [View Commit](../../commit/d372d9d42a9146f5fb73c806db389757a49dfe44)
+* RESKC-2680: Moved trigger enabled param to spring definition
+  * Jeff Largent on Thu, 15 Feb 2018 10:20:05 -0500 [View Commit](../../commit/2fde4fd08e1b7efca65a11a10893a8be9ddb0676)
+* RESKC-1680: Added Oracle scripts
+  * Jeff Largent on Wed, 14 Feb 2018 15:36:06 -0500 [View Commit](../../commit/411e0e93f13c8fdb3eea32ec99cb2f4437db7b58)
+* RESKC-2680: Added tests and parameter for ascending unit hierarchy for unit admin digests
+  * Jeff Largent on Wed, 14 Feb 2018 14:41:44 -0500 [View Commit](../../commit/4a31a3b63ec75cc55384b331f5d13e3a06b7fa5b)
+* RESKC-2680: Added ART digest notification for Unit Admins
+
+* Also added the ability for the AwardAllUnitAdministratorDerivedRoleTypeService to ascend the hierarchy if an appropriate `subunits` qualifier is provided.
+  * Jeff Largent on Tue, 13 Feb 2018 13:35:42 -0500 [View Commit](../../commit/2aa6a028c3e59bb3507f82eda5c41871f623ee2b)
+
+## coeus-1802.0024
 * RESKC-2732: Adding the FF around the lock creating code as well (#2758)
 
   * Gayathri Athreya on Wed, 14 Feb 2018 17:21:12 -0700 [View Commit](../../commit/a0244e145d1aa1f03ee55d6a06a893f49323f6c0)

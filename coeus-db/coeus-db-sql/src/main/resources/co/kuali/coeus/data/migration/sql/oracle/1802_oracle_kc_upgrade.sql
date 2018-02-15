@@ -25,4 +25,5 @@ spool 1802_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1802_003__fdp.sql
 @./kc/bootstrap/V1802_005__form_other.sql
 @./kc/bootstrap/V1802_006__art_pi_digest_notification.sql
+@./kc/bootstrap/V1802_008__art_unit_admin_digest_notification.sql
 commit;
