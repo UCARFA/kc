@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1802.0025
 * RESKC-2680: Ensure that digest parameter lists always render in lexicographical order
   * Jeff Largent on Thu, 15 Feb 2018 11:34:27 -0500 [View Commit](../../commit/5512a2653a3cb052b1c0c32c4d110fd16d606751)
 * RESKC-2680: Fix typo in parameter value
