@@ -49,6 +49,8 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
 
     private String awardNumber;
 
+    private Long awardId;
+
     private String piPersonId;
 
     private Integer piRolodexId;
@@ -117,7 +119,7 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
     //item count is used during the search and returning grouped results.
     private transient int itemCount;
     private transient KcPersonService kcPersonService;
-    //used to make notifications easier 
+    //used to make notifications easier
     private transient Award award;
 
     private transient BusinessObjectService businessObjectService;
@@ -145,6 +147,14 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
 
     public void setAwardNumber(String awardNumber) {
         this.awardNumber = awardNumber;
+    }
+
+    public Long getAwardId() {
+        return awardId;
+    }
+
+    public void setAwardId(Long awardId) {
+        this.awardId = awardId;
     }
 
     public String getPiName() {
@@ -481,9 +491,9 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
     public void setItemCount(int itemCount) {
         this.itemCount = itemCount;
     }
-    
+
     /**
-     * 
+     *
      * This method checks the fields available on the UI and if any of those fields are different than the DB version, it returns true.
      */
     public boolean hasBeenUpdated(ReportTracking dbReportTracking) {
@@ -501,7 +511,7 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
         }
         return retVal;
     }
-    
+
     private boolean dateEquals(Date date1, Date date2) {
         boolean retVal = false;
         if (date1 == null && date2 == null) {
@@ -511,9 +521,9 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
         }
         return retVal;
     }
-    
+
     /**
-     * 
+     *
      * This method returns true if the report is in pending status, the reports regeneration type is add only.
      * Note, that there is no way of determining if this report is based on the same frequency date as is currently set in the award,
      * so this record MAY be generated on the next save.
@@ -523,7 +533,7 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
         //only pending reports
         if (StringUtils.equals("1", getStatusCode())) {
             //only should delete report tracking records that won't be automatically deleted with the regeneration routines.
-            if (this.getFrequencyBase() != null && StringUtils.equals(ReportRegenerationType.ADDONLY.getDescription(), 
+            if (this.getFrequencyBase() != null && StringUtils.equals(ReportRegenerationType.ADDONLY.getDescription(),
                     this.getFrequencyBase().getReportRegenerationType().getDescription())) {
                 retVal = true;
             }
