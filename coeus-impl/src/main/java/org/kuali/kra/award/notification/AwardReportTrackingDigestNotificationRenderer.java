@@ -91,6 +91,7 @@ public class AwardReportTrackingDigestNotificationRenderer extends NotificationR
                 .map(ReportTracking::getAward)
                 .map(awardFunction)
                 .distinct()
+                .sorted()
                 .collect(Collectors.joining(LIST_DELIMITER)));
     }
 
