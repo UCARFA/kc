@@ -1179,6 +1179,7 @@
 		<property name="parameterNamespace" value="KC-AWARD" />
 		<property name="parameterComponent" value="Document" />
 		<property name="cronExpressionParameterName" value="REPORT_TRACKING_NOTIFICATIONS_BATCH_CRON_TRIGGER" />
+        <property name="triggerEnabledParameterName" value="REPORT_TRACKING_NOTIFICATIONS_BATCH_ENABLED" />
 		<property name="jobDetail" ref="reportTrackingNotificationJobDetail" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="dateTimeService" ref="dateTimeService" />

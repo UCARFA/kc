@@ -47,22 +47,20 @@ public class ReportTrackingNotificationJobDetail extends QuartzJobBean {
      */
     @Override
     @Transactional
-    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        if (batchProcessEnabled()) {
-            StringBuilder builder = new StringBuilder();
-            // The cron job runs as this user
-            UserSession userSession = new UserSession(user);
-            GlobalVariables.setUserSession(userSession);        
-            try {
-                List<ReportTrackingNotificationDetails> results = reportTrackingNotificationService.runReportTrackingNotifications();
-                buildMessage(builder, results);
-            } catch (Exception e) {
-                LOG.error("Error running report tracking notification service.", e);
-                builder.append("Message: Error running report tracking notification service. See log for more details. " + e.getMessage());
-            }
-
-            logAndSendResults(builder.toString());
+    protected void executeInternal(JobExecutionContext context) {
+        StringBuilder builder = new StringBuilder();
+        // The cron job runs as this user
+        UserSession userSession = new UserSession(user);
+        GlobalVariables.setUserSession(userSession);
+        try {
+            List<ReportTrackingNotificationDetails> results = reportTrackingNotificationService.runReportTrackingNotifications();
+            buildMessage(builder, results);
+        } catch (Exception e) {
+            LOG.error("Error running report tracking notification service.", e);
+            builder.append("Message: Error running report tracking notification service. See log for more details. " + e.getMessage());
         }
+
+        logAndSendResults(builder.toString());
     }
     
     protected void buildMessage(StringBuilder builder, List<ReportTrackingNotificationDetails> details) {
@@ -105,10 +103,6 @@ public class ReportTrackingNotificationJobDetail extends QuartzJobBean {
     protected String getRecipient() {
         return parameterService.getParameterValueAsString(AwardDocument.class,
                 Constants.REPORT_TRACKING_NOTIFICATIONS_BATCH_RECIPIENT);  
-    }
-    
-    protected boolean batchProcessEnabled() {
-        return parameterService.getParameterValueAsBoolean(AwardDocument.class, Constants.REPORT_TRACKING_NOTIFICATIONS_BATCH_ENABLED);
     }
     
     /**
