@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2759: Added report.finalFlag as ART lookup criteria
+  * Jeff Largent on Thu, 15 Feb 2018 16:52:40 -0500 [View Commit](../../commit/aeaa8106966a1d567c8e9b7b01e95b6179e40618)
+
+## coeus-1802.0026
 * No Changes
 
 
