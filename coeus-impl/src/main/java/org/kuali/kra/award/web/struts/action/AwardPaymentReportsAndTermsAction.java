@@ -615,12 +615,12 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
                     item.setLastUpdateUser(lastUpdateUser);
                 }
             }
-            
-            ActionForward forward = super.save(mapping, form, request, response);
+
             if (!awardForm.getReportTrackingsToDelete().isEmpty()) {
                 this.getBusinessObjectService().delete(awardForm.getReportTrackingsToDelete());
-                awardForm.setReportTrackingsToDelete(new ArrayList<ReportTracking>());
+                awardForm.setReportTrackingsToDelete(new ArrayList<>());
             }
+            ActionForward forward = super.save(mapping, form, request, response);
             return forward;
         } else {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
