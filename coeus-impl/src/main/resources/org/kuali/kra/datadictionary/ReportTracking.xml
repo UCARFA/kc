@@ -52,6 +52,7 @@
                 <ref bean="ReportTracking-lastUpdateDate" />
                 <ref bean="ReportTracking-versionNumber" />
                 <ref bean="ReportTracking-multiEditSelected"/>
+                <ref bean="ReportTracking-report.finalReportFlag"/>
             </list>
         </property>
     </bean>
@@ -402,8 +403,13 @@
         <property name="shortLabel" value="Last Updated Date" />
         <property name="summary" value="Last Updated Date" />
         <property name="description" value="Last Updated Date" />
-    </bean>    
-    
+    </bean>
+
+    <bean id="ReportTracking-report.finalReportFlag" parent="ReportTracking-report.finalReportFlag-parentBean" />
+    <bean id="ReportTracking-report.finalReportFlag-parentBean" abstract="true" parent="Report-finalReportFlag" >
+        <property name="name" value="report.finalReportFlag" />
+    </bean>
+
     <!-- Business Object Lookup Definition -->
     <bean id="ReportTracking-lookupDefinition" parent="ReportTracking-lookupDefinition-parentBean" />
   <bean id="ReportTracking-LookupView" parent="ReportTracking-LookupView-parentBean"/>
@@ -434,6 +440,7 @@
         <bean parent="FieldDefinition" p:attributeName="sponsorCode"/>
         <bean parent="FieldDefinition" p:attributeName="sponsor.sponsorName"/>
         <bean parent="FieldDefinition" p:attributeName="sponsorAwardNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="report.finalReportFlag"/>
             </list>
         </property>
         <property name="resultFields" >
