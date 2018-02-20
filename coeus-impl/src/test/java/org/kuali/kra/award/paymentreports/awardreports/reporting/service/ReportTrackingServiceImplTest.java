@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -209,7 +210,6 @@ public class ReportTrackingServiceImplTest {
         Award award = setupAward(createTerm(createReportTracking(), createReportTracking()));
         AwardReportTerm awardTerm = award.getAwardReportTermItems().get(0);
         awardTerm.getReportClass().setGenerateReportRequirements(false);
-        List<ReportTracking> expectedDeletes = new ArrayList<>(awardTerm.getReportTrackings());
 
         java.sql.Date activityDate = java.sql.Date.valueOf(LocalDate.of(2019, 1, 1));
         String comment = "This is a comment";
@@ -233,6 +233,17 @@ public class ReportTrackingServiceImplTest {
                         trackings.get(1).getPreparerName().equals(preparerName);
             }
         }));
+    }
+
+    @Test
+    public void overdueCounterCalculatesCorrectly() {
+        ReportTracking report = createReportTracking();
+        Integer days = 5;
+        report.setDueDate(java.sql.Date.valueOf(LocalDate.now().minus(days, ChronoUnit.DAYS)));
+        assertEquals(days, report.getOverdue());
+
+        report.setDueDate(java.sql.Date.valueOf(LocalDate.now().plus(days, ChronoUnit.DAYS)));
+        assertEquals(new Integer(0), report.getOverdue());
     }
 
     private ReportTracking createReportTracking() {

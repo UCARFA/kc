@@ -1526,7 +1526,6 @@
     	<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="VARCHAR" />
     	<field-descriptor name="baseDate" column="BASE_DATE" jdbc-type="DATE" />
     	<field-descriptor name="dueDate" column="DUE_DATE" jdbc-type="DATE" />
-    	<field-descriptor name="overdue" column="OVERDUE" jdbc-type="INTEGER" />
     	<field-descriptor name="activityDate" column="ACTIVITY_DATE" jdbc-type="DATE" />
     	<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
     	<field-descriptor name="preparerId" column="PREPARER_ID" jdbc-type="VARCHAR" />
