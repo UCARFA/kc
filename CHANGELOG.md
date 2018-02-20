@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2729: Fix ART ITs to abide by new constraints
+  * Jeff Largent on Tue, 20 Feb 2018 12:03:04 -0500 [View Commit](../../commit/5a82545131e5b383537b12d27def294ffadd4e40)
+* RESKC-2729: Clean up report tracking data that violates referential integrity
+
+  * These scripts clean up report tracking data that was unable to to be re-mapped to the report terms associated with the latest award versions as part of commit 37e771ee9b066fc541a2bb8c39952adbf05feecd. A lot of this data was likely duplicated due to consistency issues in legacy report tracking code, such as tracking data being incorrectly copied across versions and failing to properly update report tracking properties when the associated award and award term properties were changed. Report tracking data that was unable to be adapted to the new consistency constraints will be moved to a new `award_report_tracking_backup` table. That way these entries can be examined to see if they need to be manually re-associated with award report terms or if they can be safely ignored/deleted.
+  * Jeff Largent on Fri, 16 Feb 2018 16:23:35 -0500 [View Commit](../../commit/9a2c4c1cf3b6822caefb36b19f69fab068d45f09)
+
+## coeus-1802.0027
 * RESKC-2759: Added report.finalFlag as ART lookup criteria
   * Jeff Largent on Thu, 15 Feb 2018 16:52:40 -0500 [View Commit](../../commit/aeaa8106966a1d567c8e9b7b01e95b6179e40618)
 
