@@ -12,8 +12,8 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -25,6 +25,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 
 public class ReportTracking extends KcPersistableBusinessObjectBase implements Comparable<ReportTracking> {
@@ -63,8 +65,6 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
     private Date baseDate;
 
     private Date dueDate;
-
-    private Integer overdue;
 
     private Date activityDate;
 
@@ -229,11 +229,11 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
     }
 
     public Integer getOverdue() {
-        return overdue;
-    }
-
-    public void setOverdue(Integer overdue) {
-        this.overdue = overdue;
+        if (dueDate != null) {
+            long differenceInDays = ChronoUnit.DAYS.between(dueDate.toLocalDate(), LocalDate.now());
+            return Math.max(Math.toIntExact(differenceInDays), 0);
+        }
+        return 0;
     }
 
     public Date getActivityDate() {

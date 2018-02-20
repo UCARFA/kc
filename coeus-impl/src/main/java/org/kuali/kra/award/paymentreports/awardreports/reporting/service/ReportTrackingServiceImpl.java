@@ -183,7 +183,6 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         reportTracking.setDueDate(dueDate);
         reportTracking.setLastUpdateDate(new Timestamp(new java.util.Date().getTime()));
         reportTracking.setLastUpdateUser(null);
-        reportTracking.setOverdue(0);
         ReportStatus pending = getPendingReportStatus();
         reportTracking.setReportStatus(pending);
         reportTracking.setStatusCode(pending.getReportStatusCode());
@@ -276,7 +275,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         Collections.sort(reportTrackings);
         return reportTrackings;
     }
-    
+
     @Override
     public List<ReportTracking> getReportTracking(Award award) {
         Map<String, Object> params = Collections.singletonMap(AwardConstants.AWARD_ID, award.getAwardId());
