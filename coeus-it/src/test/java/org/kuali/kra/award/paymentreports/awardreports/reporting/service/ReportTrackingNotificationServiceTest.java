@@ -25,6 +25,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -84,10 +85,10 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
     
     @Test
     public void tstRunReportTrackingNotifications() {
-        boService.save(getNewReportTracking(award, "4", "4", Calendar.getInstance().getTime()));
+        saveNewReportTracking(award, "4", "4", Calendar.getInstance().getTime());
         Calendar newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_MONTH, -40);
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        saveNewReportTracking(award, "4", "4", newDate.getTime());
         
         service.getNotifications().clear();
         service.getNotifications().add(new ReportTrackingNotification("Test", "401", true, 30, 30, "4"));
@@ -104,10 +105,10 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
     
     @Test
     public void tstRunReportTrackingNotificationsPreviouslySent() {
-        boService.save(getNewReportTracking(award, "4", "4", Calendar.getInstance().getTime()));
+        saveNewReportTracking(award, "4", "4", Calendar.getInstance().getTime());
         Calendar newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_MONTH, -40);
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime())); 
+        saveNewReportTracking(award, "4", "4", newDate.getTime());
         
         service.getNotifications().clear();
         service.getNotifications().add(new ReportTrackingNotification("Test", "401", true, 30, 30, "4"));        
@@ -127,31 +128,31 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
     
     @Test
     public void tstDateBarriers() {
-        boService.save(getNewReportTracking(award, "4", "4", Calendar.getInstance().getTime()));
+        saveNewReportTracking(award, "4", "4", Calendar.getInstance().getTime());
         Calendar newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_YEAR, -29);
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        saveNewReportTracking(award, "4", "4", newDate.getTime());
         newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_YEAR, -30);
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        saveNewReportTracking(award, "4", "4", newDate.getTime());
         newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_YEAR, -59);
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        saveNewReportTracking(award, "4", "4", newDate.getTime());
         newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_YEAR, -60);
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        saveNewReportTracking(award, "4", "4", newDate.getTime());
         newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_YEAR, 10);
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        saveNewReportTracking(award, "4", "4", newDate.getTime());
         newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_YEAR, 30);
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        saveNewReportTracking(award, "4", "4", newDate.getTime());
         newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_YEAR, 60);
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        saveNewReportTracking(award, "4", "4", newDate.getTime());
         newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_YEAR, 61);
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        saveNewReportTracking(award, "4", "4", newDate.getTime());
 
         service.getNotifications().clear();
         service.getNotifications().add(new ReportTrackingNotification("Test", "401", true, 30, 30, "4"));
@@ -197,7 +198,7 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
 
         Calendar newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_MONTH, -40);
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime(), NON_PENDING_REPORT_STATUS_CODE));
+        saveNewReportTracking(award, "4", "4", newDate.getTime(), NON_PENDING_REPORT_STATUS_CODE);
         details = service.runReportTrackingNotifications();
         assertEquals(1, details.size());
         assertEquals(1, details.get(0).getTrackingRecordsFound());
@@ -207,7 +208,7 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
         assertEquals(0, notificationsSent.size());
 
         award.setAwardSequenceStatus(VersionStatus.PENDING.name());
-        boService.save(getNewReportTracking(award, "4", "4", newDate.getTime()));
+        saveNewReportTracking(award, "4", "4", newDate.getTime());
         details = service.runReportTrackingNotifications();
         assertEquals(1, details.size());
         assertEquals(2, details.get(0).getTrackingRecordsFound());
@@ -246,14 +247,13 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
         Date due5 = java.sql.Date.valueOf(now.plus(5, ChronoUnit.MONTHS));
 
         List<ReportTracking> reports = Arrays.asList(
-            getNewReportTracking(award, "4", "4", due2, DUE_REPORT_STATUS_CODE),
-            getNewReportTracking(award, "4", "4", overdue1, DUE_REPORT_STATUS_CODE),
-            getNewReportTracking(award, "4", "4", due5, DUE_REPORT_STATUS_CODE),
-            getNewReportTracking(award, "1", "4", overdue3, DUE_REPORT_STATUS_CODE),
-            getNewReportTracking(award, "4", "4", overdue1, PENDING_REPORT_STATUS_CODE),
-            getNewReportTracking(award, "1", "4", due2, NON_PENDING_REPORT_STATUS_CODE),
-            getNewReportTracking(award, "2", "4", due5, PENDING_REPORT_STATUS_CODE));
-        boService.save(reports);
+            saveNewReportTracking(award, "4", "4", due2, DUE_REPORT_STATUS_CODE),
+            saveNewReportTracking(award, "4", "4", overdue1, DUE_REPORT_STATUS_CODE),
+            saveNewReportTracking(award, "4", "4", due5, DUE_REPORT_STATUS_CODE),
+            saveNewReportTracking(award, "1", "4", overdue3, DUE_REPORT_STATUS_CODE),
+            saveNewReportTracking(award, "4", "4", overdue1, PENDING_REPORT_STATUS_CODE),
+            saveNewReportTracking(award, "1", "4", due2, NON_PENDING_REPORT_STATUS_CODE),
+            saveNewReportTracking(award, "2", "4", due5, PENDING_REPORT_STATUS_CODE));
 
         List<Function<ReportTracking, String>> propertyGetters = Arrays.asList(
                 tracking -> tracking.getReportClass().getDescription(),
@@ -300,12 +300,11 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
         Date due2 = java.sql.Date.valueOf(now.plus(2, ChronoUnit.MONTHS));
 
         List<ReportTracking> reports = Arrays.asList(
-                getNewReportTracking(award2, "4", "4", due2, DUE_REPORT_STATUS_CODE),
-                getNewReportTracking(award, "4", "4", overdue1, DUE_REPORT_STATUS_CODE),
-                getNewReportTracking(award2, "1", "4", overdue3, DUE_REPORT_STATUS_CODE),
-                getNewReportTracking(award, "4", "4", overdue1, PENDING_REPORT_STATUS_CODE),
-                getNewReportTracking(award, "1", "4", due2, NON_PENDING_REPORT_STATUS_CODE));
-        boService.save(reports);
+                saveNewReportTracking(award2, "4", "4", due2, DUE_REPORT_STATUS_CODE),
+                saveNewReportTracking(award, "4", "4", overdue1, DUE_REPORT_STATUS_CODE),
+                saveNewReportTracking(award2, "1", "4", overdue3, DUE_REPORT_STATUS_CODE),
+                saveNewReportTracking(award, "4", "4", overdue1, PENDING_REPORT_STATUS_CODE),
+                saveNewReportTracking(award, "1", "4", due2, NON_PENDING_REPORT_STATUS_CODE));
 
         List<Function<ReportTracking, String>> propertyGetters = Arrays.asList(
                 tracking -> tracking.getAward().getPiName(),
@@ -338,11 +337,11 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
                         eq(Collections.singletonList(unitAdmin.getPerson().getUserName()))));
     }
 
-    public ReportTracking getNewReportTracking(Award award, String reportClassCode, String frequencyBaseCode, Date dueDate) {
-         return getNewReportTracking(award, reportClassCode, frequencyBaseCode, dueDate, null);
+    public ReportTracking saveNewReportTracking(Award award, String reportClassCode, String frequencyBaseCode, Date dueDate) {
+         return saveNewReportTracking(award, reportClassCode, frequencyBaseCode, dueDate, null);
     }
 
-    public ReportTracking getNewReportTracking(Award award, String reportClassCode, String frequencyBaseCode, Date dueDate, String reportStatusCode) {
+    public ReportTracking saveNewReportTracking(Award award, String reportClassCode, String frequencyBaseCode, Date dueDate, String reportStatusCode) {
         ReportTracking result = new ReportTracking();
         result.setAwardReportTermId(currentTermId++);
         result.setAwardNumber(award.getAwardNumber());
@@ -361,7 +360,21 @@ public class ReportTrackingNotificationServiceTest extends KcIntegrationTestBase
         result.setFrequencyBaseCode(frequencyBaseCode);
         result.setDueDate(new java.sql.Date(dueDate.getTime()));
         result.setStatusCode(reportStatusCode == null ? PENDING_REPORT_STATUS_CODE : reportStatusCode);
+        award.add(getNewReportTerm(award, result));
+        boService.save(award);
+        boService.save(result);
         return result;
+    }
+
+    public AwardReportTerm getNewReportTerm(Award award, ReportTracking reportTracking) {
+        AwardReportTerm awardReportTerm = new AwardReportTerm();
+        awardReportTerm.setAward(award);
+        awardReportTerm.setAwardReportTermId(reportTracking.getAwardReportTermId());
+        awardReportTerm.setReportClassCode(reportTracking.getReportClassCode());
+        awardReportTerm.setReportCode(reportTracking.getReportCode());
+        awardReportTerm.setFrequencyBaseCode(reportTracking.getFrequencyBaseCode());
+        awardReportTerm.setFrequencyCode(reportTracking.getFrequencyCode());
+        return awardReportTerm;
     }
 
     private NotificationType getDigestNotification(String actionCode, String subject, String message, String... recipientRoles) {
