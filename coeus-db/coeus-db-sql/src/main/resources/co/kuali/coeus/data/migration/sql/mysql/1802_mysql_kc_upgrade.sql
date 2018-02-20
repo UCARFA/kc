@@ -24,4 +24,5 @@
 \. ./kc/bootstrap/V1802_006__art_pi_digest_notification.sql
 \. ./kc/bootstrap/V1802_008__art_unit_admin_digest_notification.sql
 \. ./kc/bootstrap/V1802_010__clean_up_report_tracking_relationships.sql
+\. ./kc/bootstrap/V1802_011__remove_art_overdue_column.sql
 commit;

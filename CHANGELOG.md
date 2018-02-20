@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2766: Change overdue to a dynamically calculated property
+  * Jeff Largent on Tue, 20 Feb 2018 13:54:00 -0500 [View Commit](../../commit/234e82bdd018f835f228f4e777569558df9abb7d)
+
+## coeus-1802.0028
 * RESKC-2729: Fix ART ITs to abide by new constraints
   * Jeff Largent on Tue, 20 Feb 2018 12:03:04 -0500 [View Commit](../../commit/5a82545131e5b383537b12d27def294ffadd4e40)
 * RESKC-2729: Clean up report tracking data that violates referential integrity
