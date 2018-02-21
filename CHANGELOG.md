@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2791: Update ART notifications param to send weekly
+  * Jeff Largent on Wed, 21 Feb 2018 14:12:26 -0500 [View Commit](../../commit/fbd76245fe6169cd58023200bc2024bf3826e10a)
+
+## coeus-1802.0029
 * RESKC-2766: Change overdue to a dynamically calculated property
   * Jeff Largent on Tue, 20 Feb 2018 13:54:00 -0500 [View Commit](../../commit/234e82bdd018f835f228f4e777569558df9abb7d)
 
