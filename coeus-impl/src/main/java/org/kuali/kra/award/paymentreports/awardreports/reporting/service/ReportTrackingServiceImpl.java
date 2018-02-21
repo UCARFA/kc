@@ -46,6 +46,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     public static final String REPORT_CLASS = "reportClass";
     private static final String AWARD_REPORT_TRACKING_ID = "awardReportTrackingId";
     public static final String REPORT_STATUS_CODE = "REPORT_STATUS_CODE";
+    public static final String AWARD_NUMBER = "AWARD_NUMBER";
     public static final String OSP_DISTRIBUTION_CODE = "ospDistributionCode";
     public static final String FREQUENCY_BASE_CODE = "frequencyBaseCode";
     public static final String FREQUENCY_CODE = "frequencyCode";
@@ -198,7 +199,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         awardTerm.refresh();
         ReportTracking reportTracking = new ReportTracking();
         reportTracking.setAwardNumber(award.getAwardNumber());
-        reportTracking.setAwardId(award.getAwardId());
+//        reportTracking.setAwardId(award.getAwardId());
         reportTracking.setAwardReportTermId(awardTerm.getAwardReportTermId());
         reportTracking.setDueDate(awardTerm.getDueDate());
         reportTracking.setFrequency(awardTerm.getFrequency());
@@ -284,14 +285,14 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     public List<ReportTracking> getReportTacking(AwardReportTerm awardTerm) {
         List<ReportTracking> reportTrackings = new ArrayList<ReportTracking>();
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put(AwardConstants.AWARD_REPORT_TERM_ID, awardTerm.getAwardReportTermId());
+//        params.put(AwardConstants.AWARD_REPORT_TERM_ID, awardTerm.getAwardReportTermId());
         Collection<ReportTracking> reportTrackingCollection = getBusinessObjectService().findMatching(ReportTracking.class, params);
         //if there are none, check to make sure this isn't due to award versioning and the id changing
         if (reportTrackingCollection != null && !reportTrackingCollection.isEmpty()) {
             reportTrackings.addAll(reportTrackingCollection);
         } else {
             params.clear();
-            params.put(AwardConstants.AWARD_ID, awardTerm.getAward().getAwardId());
+//            params.put(AwardConstants.AWARD_ID, awardTerm.getAward().getAwardId());
             params.put(REPORT_CLASS_CODE, awardTerm.getReportClassCode());
             params.put(REPORT_CODE, awardTerm.getReportCode());
             params.put(FREQUENCY_CODE, awardTerm.getFrequencyCode());
@@ -310,7 +311,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     @Override
     public List<ReportTracking> getReportTacking(Award award) {
         Map params = new HashMap();
-        params.put(AwardConstants.AWARD_NUMBER, award.getAwardNumber());
+        params.put(AWARD_NUMBER, award.getAwardNumber());
         Collection<ReportTracking> reportTrackingCollection = getBusinessObjectService().findMatching(ReportTracking.class, params);
         List<ReportTracking> reportTrackings = new ArrayList<ReportTracking>();
         reportTrackings.addAll(reportTrackingCollection);

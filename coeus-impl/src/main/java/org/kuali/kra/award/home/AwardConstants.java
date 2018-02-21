@@ -23,11 +23,11 @@ public final class AwardConstants {
 	public static final String STATE_SPONSOR_TYPE_PARAM = "STATE_SPONSOR_TYPE";
 	public static final String INVOICE_REPORT_DESC_PARAM = "FIN_SYS_INVOICE_REPORT_DESC";
 	public static final String ROOT_AWARD_SUFFIX = "-00001";
-	public static final String AWARD_ID = "awardId";
-	public static final String AWARD_NUMBER = "awardNumber";
-	public static final String AWARD_REPORT_TERM_ID = "awardReportTermId";
+//	public static final String AWARD_ID = "awardId";
+//	public static final String AWARD_NUMBER = "awardNumber";
+//	public static final String AWARD_REPORT_TERM_ID = "awardReportTermId";
 	public static final String AWARD_SEQUENCE_STATUS = "awardSequenceStatus";
-	public static final String MAX_AWARD_ID = "max(awardId)";
+//	public static final String MAX_AWARD_ID = "max(awardId)";
 
 	private AwardConstants() {
 		throw new UnsupportedOperationException();
