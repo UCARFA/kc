@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2785: Ensure internal attachment errors display when submitting to S2S
+  * Jeff Largent on Thu, 22 Feb 2018 10:55:07 -0500 [View Commit](../../commit/af6af4b8f06ace3c551cff57f443169ce8e3ed74)
+
+## coeus-1802.0030
 * RESKC-2791: Update ART notifications param to send weekly
   * Jeff Largent on Wed, 21 Feb 2018 14:12:26 -0500 [View Commit](../../commit/fbd76245fe6169cd58023200bc2024bf3826e10a)
 
