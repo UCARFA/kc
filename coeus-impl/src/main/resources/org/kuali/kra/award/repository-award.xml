@@ -591,7 +591,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<collection-descriptor name="awardReportTermRecipients" element-class-ref="org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="awardReportTermId" />
-    	</collection-descriptor>		
+    	</collection-descriptor>
 		<reference-descriptor name="distribution" class-ref="org.kuali.kra.award.home.Distribution" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="ospDistributionCode"/>
 		</reference-descriptor>
@@ -1115,6 +1115,7 @@
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/>
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERM_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="dueDate" column="DUE_DATE" jdbc-type="DATE" />
 		<field-descriptor name="amount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1134,7 +1135,10 @@
 		<field-descriptor name="awardReportTermDescription" column="AWARD_REPORT_TERM_DESC" jdbc-type="VARCHAR" />
 		<reference-descriptor name="reportStatus" class-ref="org.kuali.kra.award.paymentreports.ReportStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="reportStatusCode"/>
-		</reference-descriptor> 
+		</reference-descriptor>
+		<reference-descriptor name="awardReportTerm" class-ref="org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm" auto-retrieve="true" auto-update="link" auto-delete="none">
+			<foreignkey field-ref="awardReportTermId"/>
+		</reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.home.AwardTransferringSponsor" table="AWARD_TRANSFERRING_SPONSOR">

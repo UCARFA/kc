@@ -42,6 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -87,7 +88,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
     
     public ActionForward generatePaymentSchedules(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) 
             throws Exception {
-        
+
         (((AwardForm) form).getPaymentScheduleBean()).generatePaymentSchedules();
         
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
@@ -292,15 +293,23 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteAwardReportTerm(ActionMapping mapping, ActionForm form,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm =(AwardForm) form;
-        AwardReportTerm newReport = 
-            (awardForm.getAwardReportsBean()).deleteAwardReportTermItem(getLineToDelete(request));
-        ActionForward af = this.confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, newReport, 
+    public ActionForward deleteAwardReportTerm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        Award award = awardForm.getAwardDocument().getAward();
+        AwardReportTerm deletedReport = awardForm.getAwardReportsBean().deleteAwardReportTermItem(getLineToDelete(request));
+        ActionForward af = this.confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, deletedReport,
                 AWARD_REPORT_TERM_PROPERTY, null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));
-        List<ReportTracking> reportTrackings = this.getReportTrackingService().getReportTracking(newReport);
+
+        List<ReportTracking> reportTrackings = this.getReportTrackingService().getReportTracking(deletedReport);
         awardForm.getReportTrackingsToDelete().addAll(reportTrackings);
+
+        List<AwardPaymentSchedule> schedulesToDelete = award.getPaymentScheduleItems().stream()
+                .filter(invoice -> invoice.getAwardReportTermId() != null &&
+                        invoice.getAwardReportTermId().equals(deletedReport.getAwardReportTermId()))
+                .collect(Collectors.toList());
+        award.getPaymentScheduleItems().removeAll(schedulesToDelete);
+        getBusinessObjectService().delete(schedulesToDelete);
+
         return af;
     }
 
