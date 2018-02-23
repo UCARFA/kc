@@ -9,10 +9,11 @@ package org.kuali.kra.award.paymentreports.paymentschedule;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.paymentreports.ReportStatus;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -26,7 +27,8 @@ public class AwardPaymentSchedule extends AwardAssociate {
 
 
     private static final long serialVersionUID = 1387310207139506329L;
-    private Long awardPaymentScheduleId; 
+    private Long awardPaymentScheduleId;
+    private Long awardReportTermId;
     private Date dueDate; 
     private ScaleTwoDecimal amount;
     private Date submitDate; 
@@ -40,6 +42,8 @@ public class AwardPaymentSchedule extends AwardAssociate {
     private String reportStatusCode;
     private String submittedByPersonId;
     private String awardReportTermDescription;
+
+    private AwardReportTerm awardReportTerm;
 
     /**
      * submittedByPerson is not persisted!
@@ -67,7 +71,15 @@ public class AwardPaymentSchedule extends AwardAssociate {
 
     public void setAwardPaymentScheduleId(Long awardPaymentScheduleId) {
         this.awardPaymentScheduleId = awardPaymentScheduleId;
-    }    
+    }
+
+    public Long getAwardReportTermId() {
+        return awardReportTermId;
+    }
+
+    public void setAwardReportTermId(Long awardReportTermId) {
+        this.awardReportTermId = awardReportTermId;
+    }
 
     public Date getDueDate() {
         return dueDate;
@@ -314,5 +326,13 @@ public class AwardPaymentSchedule extends AwardAssociate {
 
     public void setAwardReportTermDescription(String awardReportTermDescription) {
         this.awardReportTermDescription = awardReportTermDescription;
+    }
+
+    public AwardReportTerm getAwardReportTerm() {
+        return awardReportTerm;
+    }
+
+    public void setAwardReportTerm(AwardReportTerm awardReportTerm) {
+        this.awardReportTerm = awardReportTerm;
     }
 }
