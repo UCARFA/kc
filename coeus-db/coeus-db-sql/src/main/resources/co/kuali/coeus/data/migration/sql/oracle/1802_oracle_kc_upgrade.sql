@@ -29,4 +29,5 @@ spool 1802_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1802_010__clean_up_report_tracking_relationships.sql
 @./kc/bootstrap/V1802_011__remove_art_overdue_column.sql
 @./kc/bootstrap/V1802_012__send_art_notifications_weekly.sql
+@./kc/bootstrap/V1802_013__award_payment_schedule_term_fk.sql
 commit;

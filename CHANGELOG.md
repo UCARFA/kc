@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2491: Delete payment schedules when associated term is deleted
+  * Jeff Largent on Fri, 23 Feb 2018 09:45:25 -0500 [View Commit](../../commit/4d8e83d56818b9ecc45068b00ace78a30f712645)
+
+## coeus-1802.0032
 * No Changes
 
 
