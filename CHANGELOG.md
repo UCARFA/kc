@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2078: update s2s, add tests
+  * Travis Schneeberger on Fri, 23 Feb 2018 13:53:21 -0500 [View Commit](../../commit/3289940adca59fcf8f02f7dd278fb948335940a5)
+
+## coeus-1802.0033
 * RESKC-2491: Delete payment schedules when associated term is deleted
   * Jeff Largent on Fri, 23 Feb 2018 09:45:25 -0500 [View Commit](../../commit/4d8e83d56818b9ecc45068b00ace78a30f712645)
 
