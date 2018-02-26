@@ -76,8 +76,9 @@ public class SubAwardFDPAgreement extends SubawardFdp {
         final SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail = xmlObject.getSubContractData().getSubcontractDetail() != null ? xmlObject.getSubContractData().getSubcontractDetail() : SubContractDataDocument.SubContractData.SubcontractDetail.Factory.newInstance();
         final SubContractDataDocument.SubContractData.SubcontractAmountInfo amountInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractAmountInfoArray()) ? xmlObject.getSubContractData().getSubcontractAmountInfoArray()[0] : SubContractDataDocument.SubContractData.SubcontractAmountInfo.Factory.newInstance();
 
-        if (amountInfo.getPerformanceStartDate() != null) {
-            setField(document, AgreementPdf.Field.POP_START.getfName(), formatDate(amountInfo.getPerformanceStartDate().getTime()));
+        //purposefully mapping the period of performance start date to the subaward start date
+        if (subcontractDetail.getStartDate() != null) {
+            setField(document, AgreementPdf.Field.POP_START.getfName(), formatDate(subcontractDetail.getStartDate().getTime()));
         }
 
         if (amountInfo.getPerformanceEndDate() != null) {
@@ -121,6 +122,7 @@ public class SubAwardFDPAgreement extends SubawardFdp {
         setField(document, AgreementPdf.Field.TERM_2_CONTACT.getfName(), getTermContactFromCode(templateInfo.getInvoiceOrPaymentContactCd(), primeAuthorizedOfficial, primePrincipalInvestigator, primeAdministrativeContact, primeFinancialContact));
         setField(document, AgreementPdf.Field.TERM_3_CONTACT.getfName(), getTermContactFromCode(templateInfo.getFinalStmtOfCostsContactCd(), primeAuthorizedOfficial, primePrincipalInvestigator, primeAdministrativeContact, primeFinancialContact));
 
+        setField(document, AgreementPdf.Field.PROJECT_BUDGET_INVOICE_DROPDOWN.getfName(), "");
         if (StringUtils.isNotBlank(templateInfo.getFinalStatementDueCd())) {
             setField(document, AgreementPdf.Field.PROJECT_BUDGET_INVOICE_DROPDOWN.getfName(), FinalStatementDue.PTE.getCode().equals(templateInfo.getFinalStatementDueCd()) ? AgreementPdf.Field.PROJECT_PERIOD_END_DATE_VALUE : AgreementPdf.Field.BUDGET_PERIOD_END_DATE_VALUE);
         }

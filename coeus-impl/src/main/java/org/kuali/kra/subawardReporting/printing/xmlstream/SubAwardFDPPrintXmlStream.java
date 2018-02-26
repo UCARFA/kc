@@ -516,6 +516,10 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 subContractTemplateInfo.setDataSharingCd(subawardTemplate.getDataSharingCd());
             }
 
+            if (subawardTemplate.getFinalStatementDueCd() != null) {
+                subContractTemplateInfo.setFinalStatementDueCd(subawardTemplate.getFinalStatementDueCd());
+            }
+
             templateDataList.add(subContractTemplateInfo);
         }
         subContractData.setSubcontractTemplateInfoArray(templateDataList.toArray(new SubcontractTemplateInfo[0]));
@@ -540,7 +544,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             rolodexDetailsType.setPincode(subaward.getOrganization().getRolodex().getPostalCode());
         }
 
-        getPeriodOfPerformanceStartDate(subaward).ifPresent(date -> subcontractDetail.setStartDate(getDateTimeService().getCalendar(date)));
+        if (subaward.getStartDate() != null) {
+            subcontractDetail.setStartDate(getDateTimeService().getCalendar(subaward.getStartDate()));
+        }
         if (subaward.getEndDate() != null) {
             subcontractDetail.setEndDate(getDateTimeService().getCalendar(subaward.getEndDate()));
         }
@@ -603,10 +609,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 subContractAmountInfo.setObligatedChange(subContractAmountInfo.getObligatedChange().add(lastSubAwardAmountInfo.getObligatedChangeIndirect().bigDecimalValue()));
             }
 
-            if (subaward.getStartDate()  != null){
-                subContractAmountInfo.setPerformanceStartDate(getDateTimeService().getCalendar(subaward.getStartDate()));
-            }
-
+            getPeriodOfPerformanceStartDate(subaward).ifPresent(date -> subContractAmountInfo.setPerformanceStartDate(getDateTimeService().getCalendar(date)));
             getPeriodOfPerformanceEndDate(subaward).ifPresent(date -> subContractAmountInfo.setPerformanceEndDate(getDateTimeService().getCalendar(date)));
 
             if (lastSubAwardAmountInfo.getModificationEffectiveDate() != null){
