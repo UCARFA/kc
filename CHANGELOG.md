@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2796,RESKC-2798,RESKC-2799: fdp fixes
+  * Travis Schneeberger on Mon, 26 Feb 2018 10:53:55 -0500 [View Commit](../../commit/2156bbb04a5361f310b8060c3810124c02f11bd1)
+* RESKC-2792: Only send real emails in Prod environments
+
+* This change ensures that real emails cannot be sent in non-Prod environments, and aggregates all email related parameter checks in `KcEmailServiceImpl`.
+  * Jeff Largent on Mon, 26 Feb 2018 11:30:15 -0500 [View Commit](../../commit/a55199d89dde557189a1b6b96b628ca14f3c54cd)
+
+## coeus-1802.0034
 * RESKC-2078: update s2s, add tests
   * Travis Schneeberger on Fri, 23 Feb 2018 13:53:21 -0500 [View Commit](../../commit/3289940adca59fcf8f02f7dd278fb948335940a5)
 
