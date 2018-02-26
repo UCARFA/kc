@@ -49,7 +49,7 @@ public class SubAwardFDPModification extends SubawardFdp {
         }
 
         if (StringUtils.isNotBlank(primePrincipalInvestigator.getFullName())) {
-            setField(document, ModificationPdf.Field.PTE_EMAIL.getfName(), primePrincipalInvestigator.getFullName());
+            setField(document, ModificationPdf.Field.PTE_EMAIL.getfName(), primePrincipalInvestigator.getEmailAddress());
         }
     }
 
@@ -71,7 +71,7 @@ public class SubAwardFDPModification extends SubawardFdp {
         final SubContractDataDocument.SubContractData.SubcontractAmountInfo amountInfo = ArrayUtils.isNotEmpty(xmlObject.getSubContractData().getSubcontractAmountInfoArray()) ?
                 xmlObject.getSubContractData().getSubcontractAmountInfoArray()[0] : SubContractDataDocument.SubContractData.SubcontractAmountInfo.Factory.newInstance();
 
-
+        //purposefully mapping the period of performance start date to the subaward start date
         if (subcontractDetail.getStartDate() != null) {
             setField(document, ModificationPdf.Field.START_DATE.getfName(), formatDate(subcontractDetail.getStartDate().getTime()));
         }
