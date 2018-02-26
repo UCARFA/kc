@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.mail.EmailAttachment;
 import org.kuali.coeus.common.framework.mail.KcEmailService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,20 @@ import java.util.concurrent.Executors;
 public class KcEmailServiceImpl implements KcEmailService {
     private static final Log LOG = LogFactory.getLog(KcEmailServiceImpl.class);
     
-    public static final String DEFAULT_ENCODING = "UTF-8";
+    private static final String DEFAULT_ENCODING = "UTF-8";
+
+    protected static final String EMAIL_NOTIFICATIONS_ENABLED_PARAM = "EMAIL_NOTIFICATIONS_ENABLED";
+    protected static final boolean EMAIL_NOTIFICATIONS_ENABLED_DEFAULT = false;
+
+    protected static final String EMAIL_NOTIFICATIONS_TEST_ENABLED_PARAM = "EMAIL_NOTIFICATION_TEST_ENABLED";
+    protected static final boolean EMAIL_NOTIFICATIONS_TEST_ENABLED_DEFAULT = false;
+
+    protected static final String EMAIL_NOTIFICATION_TEST_ADDRESS_PARAM = "EMAIL_NOTIFICATION_TEST_ADDRESS";
+
+    protected static final String EMAIL_NOTIFICATIONS_FROM_ADDRESS_PARAM = "EMAIL_NOTIFICATION_FROM_ADDRESS";
+    protected static final String EMAIL_NOTIFICATIONS_FROM_ADDRESS_CONFIG_PARAM = "mail.from";
+
+    protected static final String KC_DEFAULT_EMAIL_RECIPIENT_PARAM = "KC_DEFAULT_EMAIL_RECIPIENT";
 
     @Autowired
     @Qualifier("mailSender")
@@ -60,14 +74,16 @@ public class KcEmailServiceImpl implements KcEmailService {
     @Override
     public void sendEmailWithAttachments(String from, Set<String> toAddresses, String subject, Set<String> ccAddresses,
                                          Set<String> bccAddresses, String body, boolean htmlMessage, List<EmailAttachment> attachments) {
-        
-        if (mailSender != null) {
-            if(CollectionUtils.isEmpty(toAddresses) && 
-                    CollectionUtils.isEmpty(ccAddresses) && 
+        if (mailSender != null && isEmailEnabled()) {
+            populateDefaultAddressIfNoRecipients(toAddresses);
+
+            if(CollectionUtils.isEmpty(toAddresses) &&
+                    CollectionUtils.isEmpty(ccAddresses) &&
                     CollectionUtils.isEmpty(bccAddresses)){
                 return;
             }
-            
+
+            String testAddress = getEmailNotificationTestAddress();
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = null;
             
@@ -80,22 +96,15 @@ public class KcEmailServiceImpl implements KcEmailService {
                 } else {
                     LOG.warn("Sending message with empty subject.");
                 }
-                
-                
-                if(isEmailTestEnabled()){
-                    helper.setText(getTestMessageBody(body,toAddresses,ccAddresses,bccAddresses),true);
-                    String toAddress = getEmailNotificationTestAddress();
-                    if(StringUtils.isNotBlank(getEmailNotificationTestAddress())){
-                        helper.addTo(toAddress);
-                    }
-                }else{
+
+                if (isProduction()) {
                     helper.setText(body, htmlMessage);
                     if (CollectionUtils.isNotEmpty(toAddresses)) {
                         for (String toAddress: toAddresses) {
-                            try{
+                            try {
                                 helper.addTo(toAddress);
-                            }catch(Exception ex){
-                                LOG.warn("Could not set to address:",ex);
+                            } catch (Exception ex) {
+                                LOG.warn("Could not set to address:", ex);
                             }
                         }
                     }
@@ -103,32 +112,38 @@ public class KcEmailServiceImpl implements KcEmailService {
                         for (String ccAddress: ccAddresses) {
                             try{
                                 helper.addCc(ccAddress);
-                            }catch(Exception ex){
-                                LOG.warn("Could not set to address:",ex);
+                            } catch (Exception ex) {
+                                LOG.warn("Could not set to address:", ex);
                             }
                         }
                     }
                     if (CollectionUtils.isNotEmpty(bccAddresses)) {
                         for (String bccAddress : bccAddresses) {
-                            try{
+                            try {
                                 helper.addBcc(bccAddress);
-                            }catch(Exception ex){
-                                LOG.warn("Could not set to address:",ex);
+                            } catch (Exception ex) {
+                                LOG.warn("Could not set to address:", ex);
                             }
                         }
                     }
+                } else if (isEmailTestEnabled() && StringUtils.isNotBlank(testAddress)) {
+                    helper.setText(getTestMessageBody(body, toAddresses, ccAddresses, bccAddresses), true);
+                    helper.addTo(testAddress);
+                } else {
+                    // If we're not in a Production environment and test emails aren't enabled, don't send anything
+                    return;
                 }
                 
                 if (CollectionUtils.isNotEmpty(attachments)) {
                     for (EmailAttachment attachment : attachments) {
-                        try{
+                        try {
                             helper.addAttachment(attachment.getFileName(), new ByteArrayResource(attachment.getContents()), attachment.getMimeType());
-                        }catch(Exception ex){
-                            LOG.warn("Could not set to address:",ex);
+                        } catch (Exception ex) {
+                            LOG.warn("Could not set to address:", ex);
                         }
                     }
                 }
-                executorService.execute(() -> mailSender.send(message));
+                mailSender.send(message);
 
             } catch (MessagingException ex) {
                 LOG.error("Failed to create mime message helper.", ex);
@@ -137,12 +152,16 @@ public class KcEmailServiceImpl implements KcEmailService {
             LOG.info("Failed to send email due to inability to obtain valid email mailSender, please check your configuration.");
         }
     }
-    
-    private String getEmailNotificationTestAddress() {
-        String testAddress = parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
-                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATION_TEST_ADDRESS");
-        return testAddress;
+
+    private void populateDefaultAddressIfNoRecipients(Set<String> recipients) {
+        if (CollectionUtils.isEmpty(recipients)) {
+            String defaultRecipient = getDefaultToAddress();
+            if (StringUtils.isNotBlank(defaultRecipient)) {
+                recipients.add(defaultRecipient);
+            }
+        }
     }
+
     private String getTestMessageBody(String body, Set<String> toAddresses, Set<String> ccAddresses, Set<String> bccAddresses) {
         StringBuffer testEmailBody = new StringBuffer("");
         testEmailBody.append( "-----------------------------------------------------------<br/>");
@@ -164,24 +183,46 @@ public class KcEmailServiceImpl implements KcEmailService {
         return testEmailBody.toString()+"<br/>"+body;
         
     }
-    private boolean isEmailTestEnabled() {
-        Boolean emailTestEnabled = parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
-                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATION_TEST_ENABLED");
-        return emailTestEnabled==null?false:emailTestEnabled;
+
+    protected boolean isProduction() {
+        return ConfigContext.getCurrentContextConfig().isProductionEnvironment();
     }
+
+    protected boolean isEmailEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, EMAIL_NOTIFICATIONS_ENABLED_PARAM, EMAIL_NOTIFICATIONS_ENABLED_DEFAULT);
+    }
+
+    protected boolean isEmailTestEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, EMAIL_NOTIFICATIONS_TEST_ENABLED_PARAM, EMAIL_NOTIFICATIONS_TEST_ENABLED_DEFAULT);
+    }
+
+    private String getEmailNotificationTestAddress() {
+        return parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, EMAIL_NOTIFICATION_TEST_ADDRESS_PARAM);
+    }
+
     @Override
     public String getDefaultFromAddress() {
-        String fromAddress = parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
-                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATION_FROM_ADDRESS");
-        return fromAddress!=null?fromAddress:configurationService.getPropertyValueAsString("mail.from");
+        String xmlFromAddress = configurationService.getPropertyValueAsString(EMAIL_NOTIFICATIONS_FROM_ADDRESS_CONFIG_PARAM);
+        return parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, EMAIL_NOTIFICATIONS_FROM_ADDRESS_PARAM, xmlFromAddress);
+    }
+
+    protected String getDefaultToAddress() {
+        return parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, KC_DEFAULT_EMAIL_RECIPIENT_PARAM);
     }
 
     public void setMailSender(JavaMailSenderImpl mailSender) {
     	this.mailSender = mailSender;
     }
+
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
+
     public JavaMailSenderImpl getMailSender() {
     	return mailSender;
     }

@@ -7,37 +7,23 @@
  */
 package org.kuali.coeus.common.notification.impl.service.impl;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.framework.mail.EmailAttachment;
 import org.kuali.coeus.common.framework.mail.KcEmailService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.api.rolodex.RolodexContract;
-import org.kuali.coeus.common.api.rolodex.RolodexService;
-import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.common.notification.impl.NotificationContext;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationType;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.exception.UnknownRoleException;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
+import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -45,13 +31,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.ken.api.notification.Notification;
-import org.kuali.rice.ken.api.notification.NotificationChannel;
-import org.kuali.rice.ken.api.notification.NotificationContentType;
-import org.kuali.rice.ken.api.notification.NotificationPriority;
-import org.kuali.rice.ken.api.notification.NotificationProducer;
-import org.kuali.rice.ken.api.notification.NotificationRecipient;
-import org.kuali.rice.ken.api.notification.NotificationSender;
+import org.kuali.rice.ken.api.notification.*;
 import org.kuali.rice.ken.api.service.SendNotificationService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kim.api.KimConstants;
@@ -63,6 +43,11 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
+import java.sql.Timestamp;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Defines methods for creating and sending KC Notifications.
@@ -77,7 +62,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private static final Log LOG = LogFactory.getLog(KcNotificationServiceImpl.class);
     private static final String KC_NOTIFICATION_DOC_TYPE_NAME = "KcNotificationDocumentTypeName";
     
-    private static final String KC_DEFAULT_EMAIL_RECIPIENT = "KC_DEFAULT_EMAIL_RECIPIENT";
     private static final String ACTIVE = "active";
     private static final String TRUE = "true";
 
@@ -222,19 +206,17 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     
     @Override
     public void sendEmailNotification(NotificationContext context) {
-        if (isEmailEnabled()) {
-            KcNotification notification = createNotificationObject(context);
+        KcNotification notification = createNotificationObject(context);
 
-            if (notification.getNotificationType() != null && notification.getNotificationType().isActive()) {
-                String subject = notification.getSubject();
-                String message = notification.getMessage();
-                Collection<NotificationRecipient.Builder> notificationRecipients = getNotificationRecipients(context);
-                Set<String> toAddresses = getRecipientEmailAddresses(notificationRecipients);
+        if (notification.getNotificationType() != null && notification.getNotificationType().isActive()) {
+            String subject = notification.getSubject();
+            String message = notification.getMessage();
+            Collection<NotificationRecipient.Builder> notificationRecipients = getNotificationRecipients(context);
+            Set<String> toAddresses = getRecipientEmailAddresses(notificationRecipients);
 
-                String fromAddress = getKcEmailService().getDefaultFromAddress();
+            String fromAddress = getKcEmailService().getDefaultFromAddress();
 
-                sendEmailNotification(fromAddress, toAddresses, subject, message, context.getEmailAttachments());
-            }
+            sendEmailNotification(fromAddress, toAddresses, subject, message, context.getEmailAttachments());
         }
     }
     
@@ -531,18 +513,14 @@ public class KcNotificationServiceImpl implements KcNotificationService {
 	}
     
     private void sendEmailNotification(String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients, List<EmailAttachment> attachments) {
-        if (isEmailEnabled()) {
-            Set<String> toAddresses = getRecipientEmailAddresses(notificationRecipients);              
-            sendEmailNotification(getKcEmailService().getDefaultFromAddress(), toAddresses, subject, message, attachments);
-        }
+        Set<String> toAddresses = getRecipientEmailAddresses(notificationRecipients);
+        sendEmailNotification(getKcEmailService().getDefaultFromAddress(), toAddresses, subject, message, attachments);
     }
         
             
     private void sendEmailNotification(String fromAddress, Set<String> toAddresses, String subject, String message, List<EmailAttachment> attachments) {
-        if (isEmailEnabled()) {
-            getKcEmailService().sendEmailWithAttachments(fromAddress, toAddresses, subject, null, null, 
-                                                     message, true, attachments);
-        }
+        getKcEmailService().sendEmailWithAttachments(fromAddress, toAddresses, subject, null, null,
+                                                 message, true, attachments);
     }
     
     private Set<String> getRecipientEmailAddresses(Collection<NotificationRecipient.Builder> recipients) {
@@ -553,13 +531,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             	emailAddresses.addAll(getRecipientEmailAddresses(recipient));
             }
         }
-        
-        if(emailAddresses.isEmpty()){
-        	String defaultEmailRecipient = parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,KC_DEFAULT_EMAIL_RECIPIENT);
-        	if(defaultEmailRecipient!=null){
-        		emailAddresses.add(defaultEmailRecipient);
-        	}
-        }
+
         return emailAddresses;
     }
 
@@ -591,19 +563,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
 		}
 		return recipientEmailAddresses;
 	}
-    
-    private boolean isEmailEnabled() {
-        boolean emailEnabled = false;
-
-        try {
-            emailEnabled = parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
-                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATIONS_ENABLED");
-        } catch (Exception e) {
-            LOG.warn("Email Notifications parameter not configured, defaulting to disabled.");
-        }
-        
-        return emailEnabled;
-    }
 
     private void fillinNotificationObject(KcNotification notification, NotificationContext context, List<NotificationTypeRecipient> notificationTypeRecipients) {
         fillinNotificationObject(notification, context);
