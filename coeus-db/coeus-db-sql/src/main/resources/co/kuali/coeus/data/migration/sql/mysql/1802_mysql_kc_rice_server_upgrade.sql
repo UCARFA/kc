@@ -22,4 +22,5 @@
 \. ./rice/bootstrap/V1802_004__version_lock_feature.sql
 \. ./rice/bootstrap/V1802_007__art_pi_digest_cron_trigger.sql
 \. ./rice/bootstrap/V1802_009__art_unit_admin_digest_cron_trigger.sql
+\. ./rice/bootstrap/V1802_014__remove_parameter.sql
 commit;

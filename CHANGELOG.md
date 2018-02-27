@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-841: update s2s, remove unused parameter
+  * Travis Schneeberger on Tue, 27 Feb 2018 14:51:47 -0500 [View Commit](../../commit/6d98be92fb8ce00434997b9d59860098f6a0041c)
+
+## coeus-1802.0037
 * No Changes
 
 
