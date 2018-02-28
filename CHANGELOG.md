@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2813: fdp dynamic field sizing
+  * Travis Schneeberger on Wed, 28 Feb 2018 15:57:57 -0500 [View Commit](../../commit/7fd1c7a621541702559032dcc9e24ab2ff544842)
+
+## coeus-1802.0041
 * Updating footer. (#2774)
 
   * Gayathri Athreya on Wed, 28 Feb 2018 11:37:33 -0700 [View Commit](../../commit/201086f0867a889e1136ac2d26cad992cdb26088)
