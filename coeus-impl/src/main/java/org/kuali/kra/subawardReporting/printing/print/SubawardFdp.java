@@ -522,17 +522,17 @@ public abstract class SubawardFdp extends AbstractPrint {
 
     private void setGenTermsAndConditions1To4(PDDocument document, String policy, String cfr, String policyStatement, String intTerms, String nceContact) {
 
-        setFieldAppearance(document, Attachment2Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR);
+        setFieldAppearance(document, Attachment2Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), StringUtils.length(policyStatement) < 100 ? Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR_FONT_10 : StringUtils.length(policyStatement) > 100 && StringUtils.length(policyStatement) < 175 ? Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR_FONT_8 : Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR_FONT_5);
         setField(document, Attachment2Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), policyStatement);
         if (StringUtils.isNotBlank(cfr)) {
             showField(document, Attachment2Pdf.Field.AGENCY_IMPLEMENTATION.getfName());
-            setFieldAppearance(document, Attachment2Pdf.Field.AGENCY_IMPLEMENTATION.getfName(), Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR);
+            setFieldAppearance(document, Attachment2Pdf.Field.AGENCY_IMPLEMENTATION.getfName(), StringUtils.length(cfr) < 16 ? Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR_FONT_10 : StringUtils.length(cfr) > 16 && StringUtils.length(cfr) < 20 ? Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR_FONT_8 : Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR_FONT_5);
             setField(document, Attachment2Pdf.Field.AGENCY_IMPLEMENTATION.getfName(), cfr);
         }
-        setFieldAppearance(document, Attachment2Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR);
+        setFieldAppearance(document, Attachment2Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), StringUtils.length(policy) < 100 ? Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR_FONT_10 : StringUtils.length(policy) > 100 && StringUtils.length(policy) < 175 ? Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR_FONT_8 : Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR_FONT_5);
         setField(document, Attachment2Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), policy);
 
-        setFieldAppearance(document, Attachment2Pdf.Field.RES_TERMS_COND.getfName(), Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR);
+        setFieldAppearance(document, Attachment2Pdf.Field.RES_TERMS_COND.getfName(), StringUtils.length(intTerms) < 75 ? Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR_FONT_10 : StringUtils.length(intTerms) > 75 && StringUtils.length(intTerms) < 150 ? Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR_FONT_8 : Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR_FONT_5);
         setField(document, Attachment2Pdf.Field.RES_TERMS_COND.getfName(), intTerms);
 
         setField(document, Attachment2Pdf.Field.NO_COST_EXT_CONTACT.getfName(), nceContact);
@@ -1149,7 +1149,10 @@ public abstract class SubawardFdp extends AbstractPrint {
             private static final String NCE_CONTACT_FINANCIAL = "Financial";
             private static final String NCE_CONTACT_PI = "Principal Investigator";
 
-            private static final String DEFAULT_APPEARANCE_STR = "/ArialMT 5 Tf 0 g";
+            private static final String DEFAULT_APPEARANCE_STR_FONT_5 = "/ArialMT 5 Tf 0 g";
+            private static final String DEFAULT_APPEARANCE_STR_FONT_8 = "/ArialMT 8 Tf 0 g";
+            private static final String DEFAULT_APPEARANCE_STR_FONT_10 = "/ArialMT 10 Tf 0 g";
+
 
             private final String fName;
             private final Set<String> values;
