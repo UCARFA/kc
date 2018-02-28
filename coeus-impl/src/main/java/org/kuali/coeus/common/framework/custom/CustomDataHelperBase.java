@@ -33,24 +33,24 @@ import java.util.Map.Entry;
  * The CustomDataHelperBase is the base class for all Custom Data Helper classes.
  */
 public abstract class CustomDataHelperBase<T extends DocumentCustomData> implements Serializable {
-        
+
     private SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
-   
+
     /*
      * Is the end-user allowed to modify the custom data values?
      */
     private boolean modifyCustomData = false;
 
-    
+
     protected abstract T getNewCustomData();
 
-    public abstract boolean documentNotRouted(); 
-        
+    public abstract boolean documentNotRouted();
+
     public abstract List<T> getCustomDataList();
-    
+
     public abstract Map<String, CustomAttributeDocument> getCustomAttributeDocuments();
-    
-    
+
+
     /**
      * This method builds the custom data collections used on the form and populates the values from the collection of AwardCustomData on the Award.
      * @param customAttributeGroups
@@ -59,7 +59,7 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     public void buildCustomDataCollectionsOnExistingDocument(SortedMap<String, List> customAttributeGroups) {
         boolean documentNotRouted = false;
         documentNotRouted = documentNotRouted();
-        
+
         /*
          * Going through all customDataDocs and adding the custom ones already in the document
          */
@@ -74,9 +74,9 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
                 }
             }
         }
-        
+
         /*
-         * Go through all the custom data documents and if the document HAS NOT ROUTED and there are new custom data documents available, 
+         * Go through all the custom data documents and if the document HAS NOT ROUTED and there are new custom data documents available,
          * add those to the document as well.
          */
         if (documentNotRouted) {
@@ -97,9 +97,9 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
         newCustomData.setCustomAttribute(customAttributeDocumentEntry.getValue().getCustomAttribute());
         newCustomData.setCustomAttributeId(customAttributeDocumentEntry.getValue().getId().longValue());
         newCustomData.setValue(customAttributeDocumentEntry.getValue().getCustomAttribute().getDefaultValue());
-        getCustomDataList().add(newCustomData);    
+        getCustomDataList().add(newCustomData);
     }
-    
+
     protected boolean alreadyExists(List<CustomAttributeDocument> entriesInCurrentGroup, Entry<String, CustomAttributeDocument> customAttributeDocumentEntry) {
         for ( CustomAttributeDocument entry : entriesInCurrentGroup) {
             if (entry.getId() == Integer.parseInt(customAttributeDocumentEntry.getKey())) {
@@ -110,12 +110,14 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     }
 
     protected void addToGroup(String groupName, SortedMap<String, List> customAttributeGroups, Entry<String, CustomAttributeDocument> customAttributeDocument) {
-                List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);   
+                List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
                 if (customAttributeDocumentList == null) {
                     customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
                     customAttributeGroups.put(groupName, customAttributeDocumentList);
                 }
         customAttributeDocumentList.add(customAttributeDocument.getValue());
+        Collections.sort(customAttributeDocumentList, new IdComparator());
+  //      Collections.sort(customAttributeDocumentList, new LabelComparator());
         }
 
     protected boolean isMatch(T documentCustomData, Entry<String, CustomAttributeDocument> customAttributeDocumentEntry) {
@@ -130,24 +132,24 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     public void buildCustomDataCollectionsOnNewDocument(SortedMap<String, List> customAttributeGroups) {
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:getCustomAttributeDocuments().entrySet()) {
             String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
-            
+
             addToCustomDataList(customAttributeDocumentEntry);
-            
+
             if (StringUtils.isEmpty(groupName)) {
                 groupName = "No Group";
             }
-            
+
             List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
             if (customAttributeDocumentList == null) {
                 customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
                 customAttributeGroups.put(groupName, customAttributeDocumentList);
-                
+
             }
             customAttributeDocumentList.add(getCustomAttributeDocuments().get(customAttributeDocumentEntry.getValue().getId().toString()));
             Collections.sort(customAttributeDocumentList, new LabelComparator());
         }
     }
-    
+
     public void prepareCustomData() {
         initializePermissions();
         SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
@@ -158,9 +160,9 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
         }
         setCustomAttributeGroups(customAttributeGroups);
     }
-    
+
     /**
-     * 
+     *
      * This method takes in a groupName from the data entry and return a valid string to use in the Map functions later.
      * Note, data entry may create a null group name, which is invalid with the Map funcitons.
      * @param groupName
@@ -169,14 +171,14 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     public String getValidCustomAttributeGroupName(String groupName) {
         return groupName != null ? groupName : "Custom Data Group";
     }
-    
+
     /**
      * Initialize the permissions for viewing/editing the Custom Data web page.
      */
     public void initializePermissions() {
         modifyCustomData = canModifyCustomData();
     }
-    
+
     /**
      * Can the current user modify the custom data values?
      * @return true if can modify the custom data; otherwise false
@@ -184,7 +186,7 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     public boolean canModifyCustomData() {
         return modifyCustomData;
     }
-    
+
     /**
      * Get the ModifyCustomData value.
      * @return the ModifyCustomData value
@@ -192,7 +194,7 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     public boolean getModifyCustomData() {
         return modifyCustomData;
     }
-    
+
     /**
      * Sets the customAttributeGroups attribute value.
      * @param customAttributeGroups The customAttributeGroups to set.
@@ -208,7 +210,7 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     public Map<String, List> getCustomAttributeGroups() {
         return customAttributeGroups;
     }
-    
+
     protected TaskAuthorizationService getTaskAuthorizationService() {
         return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
@@ -226,21 +228,21 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
      */
    public void setCustomAttributeContent(String documentNumber, String attributeName) {
        getCustomAttributeService().setCustomAttributeKeyValue(documentNumber, getCustomAttributeDocuments(), attributeName, getUserIdentifier());
-   } 
-   
+   }
+
    protected CustomAttributeService getCustomAttributeService() {
        return KcServiceLocator.getService(CustomAttributeService.class);
    }
-    
+
     /**
      * Sorts custom data attributes by label for alphabetical order on custom data panels.
      */
     public class LabelComparator implements Comparator
-    {    
+    {
         public LabelComparator(){}
-        
+
         public int compare(Object cad1, Object cad2 )
-        {    
+        {
             try
             {
                 String label1 = ((CustomAttributeDocument)cad1).getCustomAttribute().getLabel();
@@ -253,7 +255,32 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
                 {
                     label2 = "";
                 }
-                return label1.compareTo(label2);  
+                return label1.compareTo(label2);
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
+    }
+
+    /**
+     * SJW
+     *
+     * Sorts custom data attributes by ID for alphabetical order on custom data panels.
+     */
+    public class IdComparator implements Comparator
+    {
+        public IdComparator(){}
+
+        public int compare(Object cad1, Object cad2 )
+        {
+            try
+            {
+                Long id1 = ((CustomAttributeDocument)cad1).getCustomAttribute().getId();
+                Long id2 = ((CustomAttributeDocument)cad2).getCustomAttribute().getId();
+
+                return id1.compareTo(id2);
             }
             catch (Exception e)
             {
