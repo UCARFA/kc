@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2811, RESKC-2812, RESKC-2813: fdp fixes
+  * Travis Schneeberger on Wed, 28 Feb 2018 12:21:06 -0500 [View Commit](../../commit/097493822e9968ee31706a8ca9e10fe52cc59f3b)
+* RESKC-2792: Combine rolodex and employee emails before calling KcEmailService
+
+* This prevents the email service from being called twice (once with rolodex emails, once with employee emails), which can interfere with logic to email a default address when there are no valid recipients for a notification.
+  * Jeff Largent on Wed, 28 Feb 2018 10:02:18 -0500 [View Commit](../../commit/897cddf81b95c226f6aabb2ac3193c8118399248)
+
+## coeus-1802.0038
 * RESKC-841: update s2s, remove unused parameter
   * Travis Schneeberger on Tue, 27 Feb 2018 14:51:47 -0500 [View Commit](../../commit/6d98be92fb8ce00434997b9d59860098f6a0041c)
 
