@@ -182,17 +182,17 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             sendEmailNotification(subject, message, notificationRecipients, context.getEmailAttachments());
         }
     }
-    
+
     @Override
     public void sendNotification(NotificationContext context, KcNotification notification, List<NotificationTypeRecipient> notificationTypeRecipients) {
         String contextName = context.getContextName();
         String subject = notification.getSubject();
         String message = notification.getMessage();
         Set<NotificationRecipient.Builder> notificationRecipients = getNotificationRecipients(notificationTypeRecipients, context);
-        Set<String> emailRecipients = getEmailRecipients(notificationTypeRecipients);
+        Set<String> emailRecipients = getRecipientEmailAddresses(notificationRecipients);
+        emailRecipients.addAll(getEmailRecipients(notificationTypeRecipients));
 
         sendNotification(contextName, subject, message, notificationRecipients);
-        sendEmailNotification(subject, message, notificationRecipients, context.getEmailAttachments());
         sendEmailNotification(getKcEmailService().getDefaultFromAddress(), emailRecipients, subject, message, context.getEmailAttachments());
     }
     
@@ -493,7 +493,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             }
     
     private List<String> getRolodexRecipients(List<NotificationTypeRecipient> notificationRecipients) {
-        List<String> recipients = new ArrayList<String>();
+        List<String> recipients = new ArrayList<>();
 
         for (NotificationTypeRecipient notificationRecipient : notificationRecipients) {
             LOG.info("Processing recipient: " + notificationRecipient.getRolodexId() + ".");
@@ -507,7 +507,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
 		RolodexContract rolodex = getRolodexService().getRolodex(Integer.parseInt(rolodexId));
 		String emailAddress = null;
 		if (StringUtils.isNotBlank(rolodex.getEmailAddress())) {
-		    emailAddress = rolodex.getEmailAddress();
+		    emailAddress = rolodex.getEmailAddress().trim();
 		}
 		return emailAddress;
 	}
@@ -536,7 +536,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     }
 
 	protected Set<String> getRecipientEmailAddresses(NotificationRecipient.Builder recipient) {
-		Set<String> recipientEmailAddresses = new HashSet<String>();
+		Set<String> recipientEmailAddresses = new HashSet<>();
 		Entity entityInfo = null;
 		try {
 		  final String principalName = recipient.getRecipientId();
@@ -553,8 +553,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
 		            if (StringUtils.equals(KimConstants.EntityTypes.PERSON, entityType.getEntityTypeCode())) {
 		                if (entityType.getDefaultEmailAddress() != null &&
 		                        StringUtils.isNotBlank(entityType.getDefaultEmailAddress().getEmailAddress())) {
-		                	recipientEmailAddresses.add(entityType.getDefaultEmailAddress().getEmailAddress());
-		                    LOG.info("Added recipient email: " + entityType.getDefaultEmailAddress().getEmailAddress() +
+		                	recipientEmailAddresses.add(entityType.getDefaultEmailAddress().getEmailAddress().trim());
+		                    LOG.info("Added recipient email: " + entityType.getDefaultEmailAddress().getEmailAddress().trim() +
 		                             " for KIM user: " + recipient.getRecipientId());
 		                }
 		            }
