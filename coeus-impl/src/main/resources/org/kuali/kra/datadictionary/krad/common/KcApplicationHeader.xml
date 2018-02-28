@@ -59,7 +59,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Image" p:source="@{#ConfigProperties['kra.externalizable.images.url']}../../css/images/KualiCo.png" p:altText="KualiCo Logo" p:cssClasses="pull-right kc-footer-img"/>
-                <bean parent="Uif-Message" p:messageText="Copyright 2005-2017 Kuali, Inc. All rights reserved.[br]
+                <bean parent="Uif-Message" p:messageText="Copyright 2005-2018 Kuali, Inc. All rights reserved.[br]
 Portions of Kuali are copyrighted by other parties as described in the [link='@{#ConfigProperties['application.url']}/acknowledgments.jsp']Acknowledgments[/link] screen.
 [br][css='kc-applicationFooter-version']@{#ConfigProperties['version']} @{#ConfigProperties['datasource.ojb.platform']}[/css]" p:renderWrapperTag="false"/>
             </list>
