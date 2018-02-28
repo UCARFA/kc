@@ -55,6 +55,7 @@ public abstract class SubawardFdp extends AbstractPrint {
             Attachment3aForm.ATTACHMENT_3A.getId(), Attachment3bForm.ATTACHMENT_3B.getId(), Attachment3bPage2Form.ATTACHMENT_3B_PAGE2.getId(), "FDP_ATT_4")
             .collect(Collectors.toList());
 
+
     private Map<String, Resource> pdfForms;
 
     @Override
@@ -309,6 +310,7 @@ public abstract class SubawardFdp extends AbstractPrint {
             hideField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_BLANK.getfName());
             showField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_APPLICABLE.getfName());
             showField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_EXCHANGE_LABEL.getfName());
+            showField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_EXCHANGE2_LABEL.getfName());
             showField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_SUB_TO_PTE.getfName());
             showField(document, Attachment2Pdf.Field.HUMAN_SUBJECTS_DATA_PTE_TO_SUB.getfName());
 
@@ -433,6 +435,8 @@ public abstract class SubawardFdp extends AbstractPrint {
             setField(document, Attachment2Pdf.Field.COPYRIGHT.getfName(), Attachment2Pdf.Field.COPYRIGHT_SUBRECIPIENT_GRANTS);
         } else if (COPYRIGHTS_SHALL_GRANT_CODE.equals(templateInfo.getCopyRights())) {
             setField(document, Attachment2Pdf.Field.COPYRIGHT.getfName(), Attachment2Pdf.Field.COPYRIGHT_SUBRECIPIENT_SHALL_GRANT);
+        } else {
+            setField(document, Attachment2Pdf.Field.COPYRIGHT.getfName(), "");
         }
     }
 
@@ -517,13 +521,20 @@ public abstract class SubawardFdp extends AbstractPrint {
     }
 
     private void setGenTermsAndConditions1To4(PDDocument document, String policy, String cfr, String policyStatement, String intTerms, String nceContact) {
-        setField(document, Attachment2Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), policy);
+
+        setFieldAppearance(document, Attachment2Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR);
+        setField(document, Attachment2Pdf.Field.FEDERAL_AWARD_CONDITIONS.getfName(), policyStatement);
         if (StringUtils.isNotBlank(cfr)) {
             showField(document, Attachment2Pdf.Field.AGENCY_IMPLEMENTATION.getfName());
+            setFieldAppearance(document, Attachment2Pdf.Field.AGENCY_IMPLEMENTATION.getfName(), Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR);
             setField(document, Attachment2Pdf.Field.AGENCY_IMPLEMENTATION.getfName(), cfr);
         }
-        setField(document, Attachment2Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), policyStatement);
+        setFieldAppearance(document, Attachment2Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR);
+        setField(document, Attachment2Pdf.Field.GRANTS_POLICY_STATEMENT.getfName(), policy);
+
+        setFieldAppearance(document, Attachment2Pdf.Field.RES_TERMS_COND.getfName(), Attachment2Pdf.Field.DEFAULT_APPEARANCE_STR);
         setField(document, Attachment2Pdf.Field.RES_TERMS_COND.getfName(), intTerms);
+
         setField(document, Attachment2Pdf.Field.NO_COST_EXT_CONTACT.getfName(), nceContact);
     }
 
@@ -1073,6 +1084,7 @@ public abstract class SubawardFdp extends AbstractPrint {
                     .collect(Collectors.toSet())),
             HUMAN_SUBJECTS_DATA_BLANK("BlankHumanData"),
             HUMAN_SUBJECTS_DATA_EXCHANGE_LABEL("HSDexchange"),
+            HUMAN_SUBJECTS_DATA_EXCHANGE2_LABEL("HSDExchange"),
             HUMAN_SUBJECTS_DATA_APPLICABLE("HumanDataYesNo", Stream.of(Field.HUMAN_DATA_NOT_APPLICABLE, Field.HUMAN_DATA_APPLICABLE, Field.HUMAN_DATA_NOT_ADDRESSED, "").collect(Collectors.toSet())),
             HUMAN_SUBJECTS_DATA_TERMS_LABEL("TermorDUA"),
             HUMAN_SUBJECTS_DATA_TERMS_TIP("AddTermTooltip", true),
@@ -1136,6 +1148,8 @@ public abstract class SubawardFdp extends AbstractPrint {
             private static final String NCE_CONTACT_AUTHORIZED_OFFICIAL = "Authorized Official";
             private static final String NCE_CONTACT_FINANCIAL = "Financial";
             private static final String NCE_CONTACT_PI = "Principal Investigator";
+
+            private static final String DEFAULT_APPEARANCE_STR = "/ArialMT 5 Tf 0 g";
 
             private final String fName;
             private final Set<String> values;

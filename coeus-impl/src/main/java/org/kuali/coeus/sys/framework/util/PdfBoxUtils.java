@@ -107,7 +107,7 @@ public final class PdfBoxUtils {
      * @param pdfDocument the Pdf Document.  Cannot be null.
      * @param name the field name. Cannot be blank.
      * @param value the value to set the field to.  If null does nothing.  Cannot contain null values.
-     * @throws IllegalArgumentException if document is null or name is blank or the value is null or contains null values.
+     * @throws IllegalArgumentException if document is null or name is blank.
      */
     public static void setField(PDDocument pdfDocument, String name, List<String> value) {
         setF(pdfDocument, name, value);
@@ -129,7 +129,7 @@ public final class PdfBoxUtils {
      * @param pdfDocument the Pdf Document.  Cannot be null.
      * @param name the field name. Cannot be blank.
      * @param value the value to set the field to.  If null does nothing.
-     * @throws IllegalArgumentException if document is null or name is blank or value is null.
+     * @throws IllegalArgumentException if document is null or name is blank.
      */
     public static void setField(PDDocument pdfDocument, String name, String value) {
         setF(pdfDocument, name, value);
@@ -141,7 +141,7 @@ public final class PdfBoxUtils {
      * @param pdfDocument the Pdf Document.  Cannot be null.
      * @param name the field name. Cannot be blank.
      * @param value the value to set the field to.  If null does nothing.
-     * @throws IllegalArgumentException if document is null or name is blank or value is null.
+     * @throws IllegalArgumentException if document is null or name is blank.
      */
     public static void setFieldAsStr(PDDocument pdfDocument, String name, Object value) {
         if (value instanceof BigDecimal) {
@@ -217,6 +217,40 @@ public final class PdfBoxUtils {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Sets a form field appearance on a PDF Document.  If a field is not found nothing happens.
+     *
+     * @param pdfDocument the Pdf Document.  Cannot be null.
+     * @param name the field name. Cannot be blank.
+     * @param appearanceStr the appearance string that is compatible with pdf.  Cannot be null.
+     * @throws IllegalArgumentException if document is null or name or appearanceStr is blank.
+     */
+    public static void setFieldAppearance(PDDocument pdfDocument, String name, String appearanceStr) {
+        if (pdfDocument == null) {
+            throw new IllegalArgumentException("pdfDocument is null");
+        }
+
+        if (StringUtils.isBlank(name)) {
+            throw new IllegalArgumentException("name is blank");
+        }
+
+        if (StringUtils.isBlank(appearanceStr)) {
+            throw new IllegalArgumentException("appearanceStr is blank");
+        }
+
+        final PDDocumentCatalog docCatalog = pdfDocument.getDocumentCatalog();
+        final PDAcroForm acroForm = docCatalog.getAcroForm();
+        final PDField field = acroForm.getField(name);
+
+        if (field != null) {
+            final COSDictionary dict = field.getCOSObject();
+            dict.setString(COSName.DA, appearanceStr);
+
+        } else {
+            LOG.error("No field found with name:" + name);
         }
     }
 
