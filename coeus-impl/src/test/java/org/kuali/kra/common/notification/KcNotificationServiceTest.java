@@ -441,15 +441,14 @@ public class KcNotificationServiceTest {
     }
     
     private KcEmailService getMockKcEmailService(final Set<String> personEmailAddresses, final Set<String> rolodexEmailAddresses) {
+        Set<String> expectedEmailAddresses = new HashSet<>(personEmailAddresses);
+        expectedEmailAddresses.addAll(rolodexEmailAddresses);
         final KcEmailService service = context.mock(KcEmailService.class);
         context.checking(new Expectations() {{
             allowing(service).getDefaultFromAddress();
             will(returnValue(DEFAULT_FROM_ADDRESS_VALUE));
             
-            oneOf(service).sendEmailWithAttachments(DEFAULT_FROM_ADDRESS_VALUE, personEmailAddresses, SUBJECT_VALUE, null, null, MESSAGE_VALUE, true, 
-                                                    Collections.<EmailAttachment>emptyList());
-            
-            oneOf(service).sendEmailWithAttachments(DEFAULT_FROM_ADDRESS_VALUE, rolodexEmailAddresses, SUBJECT_VALUE, null, null, MESSAGE_VALUE, true, 
+            oneOf(service).sendEmailWithAttachments(DEFAULT_FROM_ADDRESS_VALUE, expectedEmailAddresses, SUBJECT_VALUE, null, null, MESSAGE_VALUE, true,
                                                     Collections.<EmailAttachment>emptyList());
         }});
         return service;
