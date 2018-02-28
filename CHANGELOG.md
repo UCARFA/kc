@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* Updating footer. (#2774)
+
+  * Gayathri Athreya on Wed, 28 Feb 2018 11:37:33 -0700 [View Commit](../../commit/201086f0867a889e1136ac2d26cad992cdb26088)
+
+## coeus-1802.0040
 * RESKC-2811, RESKC-2812, RESKC-2813: fdp fixes
   * Travis Schneeberger on Wed, 28 Feb 2018 12:21:06 -0500 [View Commit](../../commit/097493822e9968ee31706a8ca9e10fe52cc59f3b)
 * RESKC-2792: Combine rolodex and employee emails before calling KcEmailService
