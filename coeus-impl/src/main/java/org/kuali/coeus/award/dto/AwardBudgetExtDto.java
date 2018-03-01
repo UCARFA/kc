@@ -11,6 +11,7 @@ package org.kuali.coeus.award.dto;
 
 import com.codiform.moo.annotation.CollectionProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.kuali.coeus.common.api.BudgetPeriodDto;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.List;

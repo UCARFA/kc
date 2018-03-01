@@ -13,6 +13,8 @@ import com.codiform.moo.annotation.Property;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.kuali.coeus.common.api.RateClassDto;
+import org.kuali.coeus.common.api.RateTypeDto;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.json.JsonFormats;
 

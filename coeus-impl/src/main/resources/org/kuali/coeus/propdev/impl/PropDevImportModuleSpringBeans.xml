@@ -87,6 +87,8 @@
     <bean id="medusaService" parent="grlImporter" p:serviceName="medusaService" />
     <bean id="propAwardPersonRoleService" parent="grlImporter" p:serviceName="propAwardPersonRoleService" />
 
+    <bean id="commonApiService" parent="grlImporter" p:serviceName="commonApiService" />
+
     <!-- IRB -->
 
     <bean id="proposalDevelopmentProtocolDocumentService" parent="grlImporter" p:serviceName="proposalDevelopmentProtocolDocumentService" />

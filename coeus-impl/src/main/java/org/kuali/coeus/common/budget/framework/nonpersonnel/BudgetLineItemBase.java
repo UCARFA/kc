@@ -30,6 +30,7 @@ public abstract class BudgetLineItemBase extends KcPersistableBusinessObjectBase
     @Transient
     private ScaleTwoDecimal indirectCost;
 
+
     @Transient
     private transient BudgetService budgetService;
 

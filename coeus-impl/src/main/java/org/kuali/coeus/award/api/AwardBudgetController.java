@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.award.dto.AwardBudgetExtDto;
 import org.kuali.coeus.award.dto.AwardBudgetGeneralInfoDto;
 import org.kuali.coeus.award.dto.AwardDto;
-import org.kuali.coeus.award.dto.BudgetPeriodDto;
+import org.kuali.coeus.common.api.BudgetPeriodDto;
 import org.kuali.coeus.common.api.document.service.CommonApiService;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;

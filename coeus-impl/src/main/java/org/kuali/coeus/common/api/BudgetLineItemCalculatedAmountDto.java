@@ -7,7 +7,7 @@
  * Agreement with this file. If not, please write to license@kuali.co.
  */
 
-package org.kuali.coeus.award.dto;
+package org.kuali.coeus.common.api;
 
 import com.codiform.moo.annotation.Property;
 import com.fasterxml.jackson.annotation.JsonIgnore;

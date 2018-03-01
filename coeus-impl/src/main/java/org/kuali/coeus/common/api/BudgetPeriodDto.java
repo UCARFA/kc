@@ -5,12 +5,13 @@
  * You should have received a copy of the Kuali, Inc. Pre-Release License
  * Agreement with this file. If not, please write to license@kuali.co.
  */
-package org.kuali.coeus.award.dto;
+package org.kuali.coeus.common.api;
 
 import com.codiform.moo.annotation.CollectionProperty;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.kuali.coeus.common.api.BudgetLineItemDto;
 import org.kuali.coeus.instprop.impl.api.customSerializers.CustomSqlDateSerializer;
 import org.kuali.coeus.instprop.impl.api.customSerializers.ScaleTwoDecimalSerializer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -42,6 +43,7 @@ public class BudgetPeriodDto {
     private ScaleTwoDecimal totalFringeAmount;
     @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal underrecoveryAmount;
+    private Integer budgetPeriod;
 
     @JsonProperty(value="budgetLineItems")
     @CollectionProperty(source="budgetLineItems", itemClass= BudgetLineItemDto.class)
@@ -178,5 +180,13 @@ public class BudgetPeriodDto {
 
     public void setPeriodNumber(Integer periodNumber) {
         this.periodNumber = periodNumber;
+    }
+
+    public Integer getBudgetPeriod() {
+        return budgetPeriod;
+    }
+
+    public void setBudgetPeriod(Integer budgetPeriod) {
+        this.budgetPeriod = budgetPeriod;
     }
 }

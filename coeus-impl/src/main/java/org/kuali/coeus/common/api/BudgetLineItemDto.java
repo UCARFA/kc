@@ -5,7 +5,7 @@
  * You should have received a copy of the Kuali, Inc. Pre-Release License
  * Agreement with this file. If not, please write to license@kuali.co.
  */
-package org.kuali.coeus.award.dto;
+package org.kuali.coeus.common.api;
 
 
 import com.codiform.moo.annotation.CollectionProperty;
@@ -38,6 +38,7 @@ public class BudgetLineItemDto {
     private ScaleTwoDecimal lineItemCost;
     @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal obligatedAmount;
+    private String hierarchyProposalNumber;
     private String lineItemDescription;
     private Integer lineItemSequence;
     private Boolean onOffCampusFlag;
@@ -65,6 +66,9 @@ public class BudgetLineItemDto {
     @JsonProperty(value="budgetLineItemCalculatedAmounts")
     @CollectionProperty(source="budgetLineItemCalculatedAmounts", itemClass= BudgetLineItemCalculatedAmountDto.class)
     private List<BudgetLineItemCalculatedAmountDto> budgetLineItemCalculatedAmounts;
+    @JsonProperty(value="budgetRateAndBaseList")
+    @CollectionProperty(source="budgetRateAndBaseList", itemClass=BudgetRateAndBaseDto.class)
+    private List<BudgetRateAndBaseDto> budgetRateAndBaseList;
 
     public String getBudgetCategoryTypeCode() {
         return budgetCategoryTypeCode;
@@ -264,5 +268,21 @@ public class BudgetLineItemDto {
 
     public void setApplyRateFlag(boolean applyRateFlag) {
         this.applyRateFlag = applyRateFlag;
+    }
+
+    public String getHierarchyProposalNumber() {
+        return hierarchyProposalNumber;
+    }
+
+    public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+        this.hierarchyProposalNumber = hierarchyProposalNumber;
+    }
+
+    public List<BudgetRateAndBaseDto> getBudgetRateAndBaseList() {
+        return budgetRateAndBaseList;
+    }
+
+    public void setBudgetRateAndBaseList(List<BudgetRateAndBaseDto> budgetRateAndBaseList) {
+        this.budgetRateAndBaseList = budgetRateAndBaseList;
     }
 }

@@ -5,7 +5,7 @@
  * You should have received a copy of the Kuali, Inc. Pre-Release License
  * Agreement with this file. If not, please write to license@kuali.co.
  */
-package org.kuali.coeus.award.dto;
+package org.kuali.coeus.common.api;
 
 public class CostElementDto {
 
