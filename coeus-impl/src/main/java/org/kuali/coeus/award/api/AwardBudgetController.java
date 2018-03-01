@@ -316,6 +316,9 @@ public class AwardBudgetController extends RestController {
 
             List<BudgetLineItem> budgetLineItems = budgetPeriodDto.getBudgetLineItems().stream().map(budgetLineItemDto -> {
                 AwardBudgetLineItemExt budgetLineItem = commonApiService.convertObject(budgetLineItemDto, AwardBudgetLineItemExt.class);
+                if (budgetLineItem.getBudgetRateAndBaseList() == null) {
+                    budgetLineItem.setBudgetRateAndBaseList(new ArrayList<>());
+                }
                 BudgetCategory newBudgetCategory = new BudgetCategory();
                 newBudgetCategory.setBudgetCategoryTypeCode(budgetLineItemDto.getBudgetCategoryTypeCode());
                 newBudgetCategory.refreshNonUpdateableReferences();
