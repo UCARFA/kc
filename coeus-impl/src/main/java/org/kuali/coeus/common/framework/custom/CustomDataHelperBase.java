@@ -23,11 +23,25 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
+
+/*
+    Create CUSTOM_ATTRIBUTE_SORT Parameter in Kuali.
+        Example:
+            Namespace: KC-GEN
+            Component: All
+            Application ID: KC
+            Parameter Name: CUSTOM_ATTRIBUTE_SORT
+            Paramter Value: alpha
+            Parameter Description: Sort value (id or alpha) for Custom Attributes
+            Parameter Type Code: Config
+            Parameter Constraint Code: Allowed
+*/
 
 /**
  * The CustomDataHelperBase is the base class for all Custom Data Helper classes.
@@ -110,15 +124,19 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     }
 
     protected void addToGroup(String groupName, SortedMap<String, List> customAttributeGroups, Entry<String, CustomAttributeDocument> customAttributeDocument) {
-                List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
-                if (customAttributeDocumentList == null) {
-                    customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-                    customAttributeGroups.put(groupName, customAttributeDocumentList);
-                }
-        customAttributeDocumentList.add(customAttributeDocument.getValue());
-        Collections.sort(customAttributeDocumentList, new IdComparator());
-  //      Collections.sort(customAttributeDocumentList, new LabelComparator());
+        List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
+        if (customAttributeDocumentList == null) {
+            customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
+            customAttributeGroups.put(groupName, customAttributeDocumentList);
         }
+        customAttributeDocumentList.add(customAttributeDocument.getValue());
+        String customAttributeSort = getParameterService().getParameterValueAsString("KC-GEN", "All", "CUSTOM_ATTRIBUTE_SORT");
+        if (customAttributeSort != null && customAttributeSort.equals("id")) {
+            Collections.sort(customAttributeDocumentList, new IdComparator());
+        } else if (customAttributeSort != null && customAttributeSort.equals("alpha")) {
+            Collections.sort(customAttributeDocumentList, new LabelComparator());
+        }
+    }
 
     protected boolean isMatch(T documentCustomData, Entry<String, CustomAttributeDocument> customAttributeDocumentEntry) {
         return documentCustomData.getCustomAttributeId() == ((long)customAttributeDocumentEntry.getValue().getId());
@@ -265,9 +283,7 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     }
 
     /**
-     * SJW
-     *
-     * Sorts custom data attributes by ID for alphabetical order on custom data panels.
+     * Sorts custom data attributes by ID for numerical order on custom data panels.
      */
     public class IdComparator implements Comparator
     {
@@ -287,5 +303,12 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
                 return 0;
             }
         }
+    }
+
+    /*
+     * Get the parameter service
+     */
+    private ParameterService getParameterService() {
+        return KcServiceLocator.getService(ParameterService.class);
     }
 }
