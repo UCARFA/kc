@@ -8,8 +8,6 @@
 package org.kuali.coeus.common.budget.impl.period;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.coeus.common.budget.framework.core.AwardBudgetSaveEvent;
@@ -41,7 +39,6 @@ import java.util.stream.Collectors;
 
 @KcBusinessRule("budgetPeriodRule")
 public class BudgetPeriodRule {
-    private static final Log LOG = LogFactory.getLog(BudgetPeriodRule.class);
 
     private static final String NEW_BUDGET_PERIOD = "newBudgetPeriod";
     private static final String DEFAULT_ERROR_PATH_PREFIX = "document.budgetPeriods";
@@ -469,30 +466,22 @@ public class BudgetPeriodRule {
     
     private String compareDate(Budget budget, Date periodStartDate, Date periodEndDate, Date previousPeriodEndDate) {
         String returnErrorValue = null;
-        LOG.info("prd st dt " + periodStartDate.getTime() +  "  --  prd end dt " + periodEndDate.getTime() + "  --  budget start dt " + budget.getStartDate().getTime()
-                + "  --  budget end dt " + budget.getEndDate().getTime());
+
         Date budgetEndDate = new Date(budget.getBudgetEndDate().getTime());
         Date budgetStartDate = new Date(budget.getBudgetStartDate().getTime());
         if (periodStartDate.after(budgetEndDate)) {
-            LOG.info("ERROR_PERIOD_START_AFTER_PROJECT_END" + periodStartDate + budget.getEndDate());
             returnErrorValue = "ERROR_PERIOD_START_AFTER_PROJECT_END";
         } else if (periodStartDate.before(budgetStartDate)) {
-            LOG.info("ERROR_PERIOD_START_BEFORE_PROJECT_START" + periodStartDate + budget.getStartDate());
             returnErrorValue = "ERROR_PERIOD_START_BEFORE_PROJECT_START";
         } else if (periodEndDate.before(budget.getStartDate())) {
-            LOG.info("ERROR_PERIOD_END_BEFORE_PROJECT_START" + periodEndDate + budget.getStartDate());
             returnErrorValue = "ERROR_PERIOD_END_BEFORE_PROJECT_START";
         } else if (periodEndDate.after(budgetEndDate)) {
-            LOG.info("ERROR_PERIOD_END_AFTER_PROJECT_END" + periodEndDate + budget.getEndDate());
             returnErrorValue = "ERROR_PERIOD_END_AFTER_PROJECT_END";
         } else if (periodStartDate.after(periodEndDate)) {
-            LOG.info("ERROR_PERIOD_START_AFTER_PERIOD_END" + periodStartDate + periodEndDate);
             returnErrorValue = "ERROR_PERIOD_START_AFTER_PERIOD_END";
         } else if (previousPeriodEndDate != null && !periodStartDate.after(previousPeriodEndDate)) {
-            LOG.info("ERROR_PERIOD_START_BEFORE_PREVIOUS_END" + previousPeriodEndDate + periodStartDate);
             returnErrorValue = "ERROR_PERIOD_START_BEFORE_PREVIOUS_END";
         } else if (previousPeriodEndDate != null && !periodEndDate.after(previousPeriodEndDate)) {
-            LOG.info("ERROR_PERIOD_END_BEFORE_PREVIOUS_END" + previousPeriodEndDate + periodEndDate);
             returnErrorValue = "ERROR_PERIOD_END_BEFORE_PREVIOUS_END";
         }
         return returnErrorValue;
