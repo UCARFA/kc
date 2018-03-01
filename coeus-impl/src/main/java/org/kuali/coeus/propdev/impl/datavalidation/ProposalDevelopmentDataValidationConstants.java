@@ -77,6 +77,7 @@ public final class ProposalDevelopmentDataValidationConstants {
     public static final String QUESTIONS = "questions";
     public static final String KEY_PERSONNEL = "keyPersonnel";
     public static final String PROPOSAL_ORGANIZATION_LOCATION = "proposal.Organization/Location";
+    public static final String PROPOSAL_SPONSOR_PROGRAM_INFO_LOCATION = "proposal.SponsorProgramInformation";
 
     private ProposalDevelopmentDataValidationConstants() {
         throw new UnsupportedOperationException("do not call");

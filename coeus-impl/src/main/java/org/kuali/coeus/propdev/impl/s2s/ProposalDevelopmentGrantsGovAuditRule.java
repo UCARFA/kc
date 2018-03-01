@@ -253,10 +253,14 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
                     getAuditErrors(ORGANIZATION_PAGE_NAME,APPLICANT_ORGANIZATION_SECTION_NAME, provider, AUDIT_ERRORS).add(new org.kuali.rice.krad.util.AuditError(ORGANIZATION_PAGE_ID,
                             Constants.GRANTS_GOV_GENERIC_ERROR_KEY, ORGANIZATION_PAGE_ID + PAGE_SECTION_DELIMETER + APPLICANT_ORGANIZATION_SECTION_ID,
                             new String[]{error.getMessageKey()}));
+                } else if (StringUtils.equals(error.getLink(), PROPOSAL_SPONSOR_PROGRAM_INFO_LOCATION)) {
+                    getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME, NO_SECTION_ID, provider, AUDIT_ERRORS).add(new org.kuali.rice.krad.util.AuditError(SPONSOR_PROGRAM_INFO_PAGE_ID,
+                            Constants.GRANTS_GOV_GENERIC_ERROR_KEY, SPONSOR_PROGRAM_INFO_PAGE_ID,
+                            new String[]{error.getMessageKey()}));
                 } else {
-                getAuditErrors(Constants.S2S_PAGE_NAME, Constants.S2S_OPPORTUNITY_SECTION_NAME,provider, AUDIT_ERRORS).add(new org.kuali.rice.krad.util.AuditError(Constants.S2S_PAGE_ID,
-                        Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.S2S_PAGE_ID + PAGE_SECTION_DELIMETER + Constants.S2S_OPPORTUNITY_SECTION_ID,
-                        new String[]{error.getMessageKey()}));
+                    getAuditErrors(Constants.S2S_PAGE_NAME, Constants.S2S_OPPORTUNITY_SECTION_NAME,provider, AUDIT_ERRORS).add(new org.kuali.rice.krad.util.AuditError(Constants.S2S_PAGE_ID,
+                            Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.S2S_PAGE_ID + PAGE_SECTION_DELIMETER + Constants.S2S_OPPORTUNITY_SECTION_ID,
+                            new String[]{error.getMessageKey()}));
                 }
             }
         }

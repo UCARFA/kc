@@ -376,7 +376,15 @@
   <bean id="ProposalPerson-eraCommonsUserName-parentBean" abstract="true" parent="KcPerson-eraCommonsUserName"/>
 
   <bean id="ProposalPerson-nsfId" parent="ProposalPerson-nsfId-parentBean"/>
-  <bean id="ProposalPerson-nsfId-parentBean" abstract="true" parent="KcPersonExtendedAttributes-nsfId"/>
+  <bean id="ProposalPerson-nsfId-parentBean" abstract="true" parent="KcPersonExtendedAttributes-nsfId">
+    <property name="maxLength" value="12" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="12"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="12" parent="Uif-TextControl"/>
+    </property>
+  </bean>
 
   <bean id="ProposalPerson-city" parent="ProposalPerson-city-parentBean" />
   <bean id="ProposalPerson-city-parentBean" abstract="true" parent="KraAttributeReferenceDummy-city"/>
