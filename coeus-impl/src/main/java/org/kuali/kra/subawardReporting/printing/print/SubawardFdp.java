@@ -653,7 +653,7 @@ public abstract class SubawardFdp extends AbstractPrint {
             }
         }
 
-        setField(document, Attachment3aPdf.Field.PTE_CONTACTS_EMAIL_INVOICES.getfName(), fromYN(primeFinancialContact.getInvoicesEmailed()));
+        setField(document, Attachment3aPdf.Field.PTE_CONTACTS_EMAIL_INVOICES.getfName(), fromYN(primeFinancialContact.getInvoicesEmailed()) ? Attachment3aPdf.Field.EMAIL_INVOICES_TRUE : Attachment3aPdf.Field.EMAIL_INVOICES_FALSE);
 
         if (StringUtils.isNotBlank(primeFinancialContact.getInvoiceEmailDifferent())) {
             setField(document, Attachment3aPdf.Field.PTE_CONTACTS_INVOICE_EMAIL.getfName(), primeFinancialContact.getInvoiceEmailDifferent());
@@ -1229,7 +1229,7 @@ public abstract class SubawardFdp extends AbstractPrint {
             PTE_CONTACTS_FIN_NAME("PTEFCName"),
             PTE_CONTACTS_FIN_EMAIL("PTEFCEmail"),
             PTE_CONTACTS_FIN_PHONE("PTEFCPhone"),
-            PTE_CONTACTS_EMAIL_INVOICES("EmailInvoices"),
+            PTE_CONTACTS_EMAIL_INVOICES("EmailInvoices", Stream.of(Attachment3aPdf.Field.EMAIL_INVOICES_TRUE, Attachment3aPdf.Field.EMAIL_INVOICES_FALSE).collect(Collectors.toSet())),
             PTE_CONTACTS_INVOICE_EMAIL("PTEInvoiceEmail"),
             PTE_CONTACTS_AUTH_OFFICIAL_NAME("PTEAOName"),
             PTE_CONTACTS_AUTH_OFFICIAL_EMAIL("PTEAOEmail"),
@@ -1237,6 +1237,10 @@ public abstract class SubawardFdp extends AbstractPrint {
             PTE_CONTACTS_PI_ADDRESS("PTEPIAddress"),
             PTE_CONTACTS_ADMIN_ADDRESS("PTEAdminAddress"),
             PTE_CONTACTS_INVOICE_ADDRESS("PTEInvoiceAddress");
+
+            private static final String EMAIL_INVOICES_TRUE = "Yes";
+            private static final String EMAIL_INVOICES_FALSE = "No";
+
             private final String fName;
             private final Set<String> values;
             private final boolean readOnly;
