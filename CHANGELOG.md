@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-2818, RESKC-2819: fdp mapping fixes
+  * Travis Schneeberger on Fri, 2 Mar 2018 16:09:39 -0500 [View Commit](../../commit/d0489f0200d90cc70d6f67e68ac0aa1567fbdf29)
+* RESKC-2081: Allow PD applicant organization to be changed
+  * Jeff Largent on Fri, 2 Mar 2018 11:10:08 -0500 [View Commit](../../commit/00b180e4bdbafaf4dd8483c94cfc19732ac87b56)
+
+## coeus-1803.0003
 * No Changes
 
 
