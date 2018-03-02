@@ -264,7 +264,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                     try {
                         getProposalHierarchyService().calculateAndSetProposalAppDocStatus(this, dto);
                     } catch (ProposalHierarchyException pe) {
-                        throw new RuntimeException(String.format("ProposalHierarchyException thrown while updating app doc status for document %s", getDocumentNumber()));
+                        throw new RuntimeException(String.format("ProposalHierarchyException thrown while updating app doc status for document %s", getDocumentNumber()), pe);
                     }
                 }
                 bp.setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, false));
@@ -314,7 +314,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                     try {
                         getProposalHierarchyService().removeFromHierarchy(this.getDevelopmentProposal());
                     } catch (ProposalHierarchyException e) {
-                        throw new RuntimeException(String.format("COULD NOT REMOVE CHILD:%s", this.getDevelopmentProposal().getProposalNumber()));
+                        throw new RuntimeException(String.format("COULD NOT REMOVE CHILD:%s", this.getDevelopmentProposal().getProposalNumber()), e);
                     }
                 }
                 if (isLastSubmitterApprovalAction(event.getActionTaken()) && shouldAutogenerateInstitutionalProposal()) {

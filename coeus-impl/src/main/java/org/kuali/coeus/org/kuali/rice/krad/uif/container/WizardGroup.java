@@ -8,6 +8,7 @@
 package org.kuali.coeus.org.kuali.rice.krad.uif.container;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.log4j.Logger;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.uif.component.Component;
@@ -20,7 +21,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
 
 public class WizardGroup extends DialogGroup {
 
@@ -42,7 +43,7 @@ public class WizardGroup extends DialogGroup {
                 step = ((NotificationHelper) notificationHelper).getNotificationStep();
             }
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            LOG.info("Property notification helper was not found on the form." + e.getMessage());
+            LOG.info("Property notification helper was not found on the form." + e.getMessage(), e);
         }
 
         List<Component> currentItems = new ArrayList<>();

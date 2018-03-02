@@ -457,7 +457,7 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
                 return false;
             }
             catch (Exception e) {
-                LOG.info(e.getMessage());
+                LOG.info(e.getMessage(), e);
                 throw new RuntimeException("QuestionMaintenanceDocumentRule encountered exception", e);
             }
         }

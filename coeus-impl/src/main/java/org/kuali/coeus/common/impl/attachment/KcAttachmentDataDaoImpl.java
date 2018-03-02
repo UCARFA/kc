@@ -164,7 +164,7 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao {
 	            schema = conn.getSchema();
 	        }
         } catch (AbstractMethodError e) {
-        	LOG.info("Unable to retrieve schema, using catalog " + e.getMessage());
+        	LOG.info("Unable to retrieve schema, using catalog " + e.getMessage(), e);
         }
 
         // The Oracle database stores its table names as Upper-Case,

@@ -75,11 +75,11 @@ public class DisclosureStatusRetrievalServiceImpl implements DisclosureStatusRet
             }
         } catch (UnknownHttpStatusCodeException e) {
             if (LOG.isWarnEnabled()) {
-                LOG.warn(url+ "returned status code "  + e.getRawStatusCode());
+                LOG.warn(url+ "returned status code "  + e.getRawStatusCode(), e);
             }
         } catch (RuntimeException e) {
             if (LOG.isErrorEnabled()) {
-                LOG.error(url+ "returned error " + e.getMessage());
+                LOG.error(url+ "returned error " + e.getMessage(), e);
             }
         }
         return projectStatuses;

@@ -109,7 +109,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         try {
             getProtocolActionRequestService().rejectedInRouting(protocol);
         }catch(Exception ex) {
-            LOG.error(ex.getMessage());
+            LOG.error(ex.getMessage(), ex);
         }
     }
     
@@ -171,7 +171,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         try {
             getProtocolActionRequestService().recalledInRouting(protocol);
         }catch(Exception ex) {
-            LOG.error(ex.getMessage());
+            LOG.error(ex.getMessage(), ex);
         }
     }
 

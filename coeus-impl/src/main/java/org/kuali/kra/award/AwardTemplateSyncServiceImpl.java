@@ -527,7 +527,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
             return m;
         }
         catch (Exception e) {
-            throw new IllegalStateException( "Could not find generic getOrCreateNewListElementObject, this should never happen." );
+            throw new IllegalStateException( "Could not find generic getOrCreateNewListElementObject, this should never happen.",e);
         }
     }
     

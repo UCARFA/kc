@@ -1165,7 +1165,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
                     allRecipients.add(copiedRecipient);
                 }
                 catch (Exception ex) {
-                    LOG.error(ex.getMessage());
+                    LOG.error(ex.getMessage(), ex);
                 }
             }
             int i = 1;
@@ -1189,7 +1189,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
                         allRecipients.add(copiedRecipient);
                     }
                     catch (Exception ex) {
-                        LOG.error(ex.getMessage());
+                        LOG.error(ex.getMessage(), ex);
                     }
                 }
                 i++;

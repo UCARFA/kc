@@ -98,7 +98,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
 
             return (String) xpath.evaluate(xpathExpression, document, XPathConstants.STRING);
         } catch (Exception e) {
-            throw new RiceRuntimeException();
+            throw new RiceRuntimeException(e);
         }
     }
 

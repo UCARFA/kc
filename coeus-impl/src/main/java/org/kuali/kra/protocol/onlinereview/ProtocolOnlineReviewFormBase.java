@@ -159,7 +159,7 @@ public abstract class ProtocolOnlineReviewFormBase extends KcTransactionalDocume
         try {
             nodes = getDocument().getDocumentHeader().getWorkflowDocument().getNodeNames();
         } catch (Exception e) {
-            getLogHook().warn(String.format("Workflow exception thrown while trying to get list of current route nodes. Message:%s",e.getMessage()));
+            getLogHook().warn(String.format("Workflow exception thrown while trying to get list of current route nodes. Message:%s",e.getMessage()), e);
             nodes = new HashSet<String>();
         }
         return nodes;

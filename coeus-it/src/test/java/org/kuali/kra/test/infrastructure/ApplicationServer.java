@@ -74,7 +74,7 @@ public class ApplicationServer implements Lifecycle {
             try {
                 server.stop();
             } catch (LifecycleException e) {
-                throw new RuntimeException("Unable to stop tomcat");
+                throw new RuntimeException("Unable to stop tomcat", e);
             }
         }));
 

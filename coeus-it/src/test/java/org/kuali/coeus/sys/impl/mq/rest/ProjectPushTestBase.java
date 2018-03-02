@@ -102,12 +102,12 @@ public abstract class ProjectPushTestBase extends KcIntegrationTestBase {
                 throw e;
             } catch(HttpServerErrorException e) {
                 if(e.getStatusCode().equals(HttpStatus.BAD_GATEWAY)) {
-                    LOG.error("Project endpoint unreachable.");
+                    LOG.error("Project endpoint unreachable.", e);
                 } else {
                     throw e;
                 }
             } catch(ResourceAccessException e) {
-                LOG.error("Project endpoint unreachable.");
+                LOG.error("Project endpoint unreachable.", e);
             } catch (RuntimeException e) {
                 LOG.error(createSentMsg(url, params, entity, method) + " in error " + e.getMessage());
                 throw e;

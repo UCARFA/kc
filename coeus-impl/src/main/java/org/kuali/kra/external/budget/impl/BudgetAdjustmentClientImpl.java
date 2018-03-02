@@ -66,7 +66,7 @@ public class BudgetAdjustmentClientImpl extends BudgetAdjustmentClientBase {
             try {
                 wsdlURL = new URL(serviceEndPointUrl + SOAP_SERVICE_NAME + "?wsdl");
             } catch (MalformedURLException mue) {
-                LOG.error("Could not construct financial system URL from config file: " + mue.getMessage());
+                LOG.error("Could not construct financial system URL from config file: " + mue.getMessage(), mue);
             }
         }
         

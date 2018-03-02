@@ -320,7 +320,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 return childProposal;
             }
             catch (WorkflowException e) {
-                throw new ProposalHierarchyException("Error cancelling empty parent proposal");
+                throw new ProposalHierarchyException("Error cancelling empty parent proposal", e);
             }
         }
         else {
