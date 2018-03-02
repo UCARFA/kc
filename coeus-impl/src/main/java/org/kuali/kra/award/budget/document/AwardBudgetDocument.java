@@ -229,7 +229,7 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
             KcServiceLocator.getService(DocumentService.class).saveDocument(this);
         }
         catch (WorkflowException e) {
-            throw new RuntimeException( "Could not save award document on action  taken.");
+            throw new RuntimeException( "Could not save award document on action  taken.", e);
         }
     }
     

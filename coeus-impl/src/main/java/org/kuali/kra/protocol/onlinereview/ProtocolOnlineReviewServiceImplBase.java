@@ -388,7 +388,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
             }
         } catch(Exception e) {
             String errorMessage = String.format("Exception generated while executing superUserCancel on document %s in removeOnlineReviewDocument. Message: %s",protocolOnlineReviewDocument.getDocumentNumber(), e.getMessage());
-            LOG.error(errorMessage);
+            LOG.error(errorMessage, e);
             throw new RuntimeException(errorMessage,e);
         }
     }
@@ -413,7 +413,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
             }
         } catch(Exception e) {
             String errorMessage = String.format("Workflow exception generated while executing superUserApprove on document %s in finalizeOnlineReviewDocument. Message:%s",protocolOnlineReviewDocument.getDocumentNumber(), e.getMessage());
-            LOG.error(errorMessage);
+            LOG.error(errorMessage, e);
             throw new RuntimeException(errorMessage,e);
         }
         

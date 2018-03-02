@@ -445,7 +445,7 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
         try {
             ql = (QueryList<E>) super.clone();
         } catch (CloneNotSupportedException e) { 
-            throw new AssertionError("not Cloneable");
+            throw new AssertionError("not Cloneable", e);
         }
 
         ArrayList<E> bl = (ArrayList<E>) this.backingList.clone();

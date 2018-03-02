@@ -163,7 +163,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
             result = document != null && document.getDocumentHeader().getWorkflowDocument().getNodeNames().contains(nodeName);
             return result;
         } catch(Exception we) {
-            LOG.error( String.format( "Exception generated when trying to determine if document %s is on active %s node.  Reason:%s", nodeName,document.getDocumentNumber(), we.getMessage()) );
+            LOG.error( String.format( "Exception generated when trying to determine if document %s is on active %s node.  Reason:%s", nodeName,document.getDocumentNumber(), we.getMessage()), we );
             throw new RuntimeException( String.format( "Exception generated when trying determine if document %s is on active %s route node.  Reason:%s", nodeName, document.getDocumentNumber(), we.getMessage()), we ); 
         }
     }
@@ -175,7 +175,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
             result = document != null && document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(nodeName);
             return result;
         } catch(Exception we) {
-            LOG.error( String.format( "Exception generated when trying to determine if document %s is on active or terminal %s node.  Reason:%s", nodeName,document.getDocumentNumber(), we.getMessage()) );
+            LOG.error( String.format( "Exception generated when trying to determine if document %s is on active or terminal %s node.  Reason:%s", nodeName,document.getDocumentNumber(), we.getMessage()), we );
             throw new RuntimeException( String.format( "Exception generated when trying determine if document %s is on active or terminal %s route node.  Reason:%s", nodeName, document.getDocumentNumber(), we.getMessage()), we ); 
         }
     }

@@ -168,7 +168,7 @@ public abstract class CommitteeDocumentRuleBase extends KcTransactionalDocumentR
                     }
                 }
                 catch (WorkflowException e) {
-                    LOG.info(e.getMessage());
+                    LOG.info(e.getMessage(), e);
                 }
             }
         }

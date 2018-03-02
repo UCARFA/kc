@@ -160,7 +160,7 @@ public class CommonDataOverrideServiceImpl implements CommonDataOverrideService 
         try{
             return PropertyUtils.getNestedProperty(bo,propertyName);
         } catch (Exception e) {
-            throw new RiceRuntimeException("propertyName [" + propertyName + "] can not be found on bo");
+            throw new RiceRuntimeException("propertyName [" + propertyName + "] can not be found on bo", e);
         }
     }
 

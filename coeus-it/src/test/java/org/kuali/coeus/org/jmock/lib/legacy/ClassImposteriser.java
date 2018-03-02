@@ -156,7 +156,7 @@ public class ClassImposteriser implements Imposteriser {
         try {
             return Object.class.getDeclaredMethod("finalize");
         } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("Could not find finalize method on Object");
+            throw new IllegalStateException("Could not find finalize method on Object", e);
         }
     }
     

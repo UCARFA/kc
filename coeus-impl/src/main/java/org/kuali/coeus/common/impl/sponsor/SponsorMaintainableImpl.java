@@ -107,7 +107,7 @@ public class SponsorMaintainableImpl extends KraMaintainableImpl {
             return sections;
         } catch (InstantiationException|IllegalAccessException var13) {
             LOG.error("Unable to create instance of object class" + var13.getMessage());
-            throw new RuntimeException("Unable to create instance of object class" + var13.getMessage());
+            throw new RuntimeException("Unable to create instance of object class" + var13.getMessage(), var13);
         }
     }
 

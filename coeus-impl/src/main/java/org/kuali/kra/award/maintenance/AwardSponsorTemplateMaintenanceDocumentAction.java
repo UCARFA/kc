@@ -69,7 +69,7 @@ public class AwardSponsorTemplateMaintenanceDocumentAction extends KualiMaintena
             awardTemplate = (AwardTemplate) getLookupService().findObjectBySearch(Class.forName(maintenanceForm.getBusinessObjectClassName()), requestParameters);
         } catch ( ClassNotPersistenceCapableException ex ) {
             if ( !document.getOldMaintainableObject().isExternalBusinessObject() ) {
-                throw new RuntimeException( "BO Class: " + maintenanceForm.getBusinessObjectClassName() + " is not persistable and is not externalizable - configuration error" );
+                throw new RuntimeException( "BO Class: " + maintenanceForm.getBusinessObjectClassName() + " is not persistable and is not externalizable - configuration error", ex );
             }
             // otherwise, let fall through
         }

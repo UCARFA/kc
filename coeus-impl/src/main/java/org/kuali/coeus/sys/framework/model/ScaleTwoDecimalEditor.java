@@ -35,7 +35,7 @@ public class ScaleTwoDecimalEditor extends PropertyEditorSupport implements Seri
 			try {
 				setValue(new ScaleTwoDecimal(numberFormat.parse(text).toString()));
 			} catch (ParseException e) {
-				throw new IllegalArgumentException(text + " is not parsable by the NumberFormat provided(" + numberFormat.toString() + ")");
+				throw new IllegalArgumentException(text + " is not parsable by the NumberFormat provided(" + numberFormat.toString() + ")", e);
 			}
 		} else {
 			setValue(new ScaleTwoDecimal(text));

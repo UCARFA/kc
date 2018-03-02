@@ -35,7 +35,7 @@ public class QuestionnairePostProcessor extends KcPostProcessor {
             DocumentRouteHeaderValue document = getRouteHeaderService().getRouteHeader(statusChangeEvent.getDocumentId());
             document.markDocumentFinalized();
         } catch (Exception e) {
-            LOG.debug("mark Questionnaire doc 'finalized' failed "+e.getMessage());
+            LOG.debug("mark Questionnaire doc 'finalized' failed "+e.getMessage(), e);
         }
         }
         return routeStatusChange;
