@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1803.0002
 * remove noisy debug logging
   * Travis Schneeberger on Thu, 1 Mar 2018 14:21:08 -0500 [View Commit](../../commit/8730074c29ea0ef0729962c102b751271b0d1784)
 
