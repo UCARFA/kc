@@ -43,7 +43,8 @@
 	<bean id="PropDev-ApplicantOrganizationPage-Section-parentBean" abstract="true" parent="Uif-VerticalBoxSubSection" p:fieldBindingObjectPath="document.developmentProposal.applicantOrganization">
 		<property name="items">
 			<list>
-                <bean parent="PropDev-PerformingOrganization-OrganizationSearch" p:order="10" p:quickfinder.render="false" />
+                <bean parent="PropDev-PerformingOrganization-OrganizationSearch" p:order="10"
+					  p:quickfinder.render="@{(#getParamAsBoolean('KC-PD','Document','Allow_Applicant_Organization_Change') == null ? false : #getParamAsBoolean('KC-PD','Document','Allow_Applicant_Organization_Change'))}" />
                 <bean parent="PropDev-PerformingOrganization-OrganizationId" p:order="20" />
                 <bean parent="PropDev-ApplicantOrganizationPage-Details" p:order="30" />
 				<bean parent="PropDev-CongressionalDistricts-Section" p:order="40" />
