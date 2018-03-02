@@ -8,6 +8,7 @@
 package org.kuali.coeus.propdev.impl.location;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +19,21 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProposalDevelopmentOrganizationController extends ProposalDevelopmentControllerBase {
 
+    private static final String ALLOW_APPLICANT_ORGANIZATION_CHANGE_PARAM = "Allow_Applicant_Organization_Change";
+    private static final String ORGANIZATION_PROPERTY = "organization";
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refresh", "refreshCaller=Organization-LookupView"} )
-    public ModelAndView refreshOrganization(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)
-            throws Exception {
-        getDataObjectService().wrap(form.getDevelopmentProposal().getPerformingOrganization()).fetchRelationship("organization");
-        form.getDevelopmentProposal().getPerformingOrganization().initializeDefaultCongressionalDistrict();
+    public ModelAndView refreshOrganization(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        initializeProposalSite(form.getDevelopmentProposal().getPerformingOrganization());
+        if (getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ALLOW_APPLICANT_ORGANIZATION_CHANGE_PARAM, false)) {
+            initializeProposalSite(form.getDevelopmentProposal().getApplicantOrganization());
+        }
         return getRefreshControllerService().refresh(form);
     }
+
+    protected void initializeProposalSite(ProposalSite site) {
+        getDataObjectService().wrap(site).fetchRelationship(ORGANIZATION_PROPERTY);
+        site.initializeDefaultCongressionalDistrict();
+    }
+
 }
