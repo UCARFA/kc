@@ -253,6 +253,10 @@
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
+				<!--	<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Parak33#</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
     			<!-- Kuali -->
     			<kcserver.fqdn>kc-sb.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>8080</kualiAppPort>
@@ -281,6 +285,10 @@
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
+				<!--	<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Parak33#</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
     			<!-- Kuali -->
     			<kcserver.fqdn>localhost</kcserver.fqdn>
     			<kualiAppPort>8080</kualiAppPort>
@@ -314,6 +322,10 @@
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
+				<!--	<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Parak33#</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
     			<!-- Kuali -->
     			<kcserver.fqdn>faswmbpro.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>8443</kualiAppPort>
@@ -347,6 +359,10 @@
                 <metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
+				<!--	<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Parak33#</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
                 <!-- Kuali -->
                 <kcserver.fqdn>localhost</kcserver.fqdn>
                 <kualiAppPort>8080</kualiAppPort>
@@ -382,6 +398,10 @@
 				<!-- responseSkew in seconds, past+future.  25200 seconds = 7 hours.  50400 = 14 hours -->
 				<websso.responseskew>50400</websso.responseskew>
 				<showPassword>false</showPassword>
+				<!--	<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Parak33#</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod1.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
@@ -415,6 +435,10 @@
     			<metadataIdp.fileName>prodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
+				<!--	<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Parak33#</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod2.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
@@ -448,6 +472,10 @@
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
+				<!--	<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Parak33#</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod3.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
@@ -482,6 +510,10 @@
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
+				<!--	<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Parak33#</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod4.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
@@ -515,6 +547,10 @@
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
+				<!--	<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Parak33#</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod5.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
@@ -548,6 +584,10 @@
 				<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
+				<!--	<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Parak33#</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
 				<!-- Kuali -->
 				<kcserver.fqdn>kcnonprod6.fanda.ucar.edu</kcserver.fqdn>
 				<kualiAppPort>443</kualiAppPort>
@@ -580,6 +620,10 @@
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
+				<!--	<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Parak33#</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
     			<!-- Kuali -->
     			<kcserver.fqdn>kcnonprod7.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
@@ -613,6 +657,10 @@
 				<metadataIdp.fileName>prodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
+				<!--	<samlKeystore>kualiProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Buff4!o</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
 				<!-- Kuali -->
 				<kcserver.fqdn>kuali.fanda.ucar.edu</kcserver.fqdn>
 				<kualiAppPort>443</kualiAppPort>
@@ -647,6 +695,10 @@
 				<metadataIdp.fileName>prodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>true</showPassword>
+				<!--	<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+				<samlKeystorePW>Parak33#</samlKeystorePW> -->
+				<samlKeystore>samlKeystore.jks</samlKeystore>
+				<samlKeystorePW>nalle123</samlKeystorePW>
 				<!-- Kuali -->
 				<kcserver.fqdn>kuali.fanda.ucar.edu</kcserver.fqdn>
 				<kualiAppPort>443</kualiAppPort>
