@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* RESKC-2827: allow single quotes in email addresses (#2785)
+
+  * Terry Durkin on Mon, 5 Mar 2018 12:41:57 -0500 [View Commit](../../commit/b55b355ba03bb92381928c8b1f152a5554ebb51c)
+
+## coeus-1803.0006
 * RESKC-2808: Allow dashes in notification type action codes
   * Jeff Largent on Mon, 5 Mar 2018 09:45:57 -0500 [View Commit](../../commit/887c30eb7001ddc0603277fef3d4189e12935383)
 
