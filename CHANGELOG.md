@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2771: sending page count to NIH validation service for attachments
+  * Travis Schneeberger on Tue, 6 Mar 2018 16:04:41 -0500 [View Commit](../../commit/5ac0b68fda4195114ac62470e962815488181c9c)
+
+## coeus-1803.0007
 * RESKC-2827: allow single quotes in email addresses (#2785)
 
   * Terry Durkin on Mon, 5 Mar 2018 12:41:57 -0500 [View Commit](../../commit/b55b355ba03bb92381928c8b1f152a5554ebb51c)
