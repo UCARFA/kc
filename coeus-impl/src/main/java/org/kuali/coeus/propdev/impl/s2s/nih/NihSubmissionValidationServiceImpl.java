@@ -22,6 +22,7 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
@@ -147,7 +148,18 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
         attachmentMetaData.setFileName(attachment.getFileName());
         attachmentMetaData.setMimeType(attachment.getFileName().toLowerCase().endsWith(".pdf") ? APPLICATION_PDF : attachment.getContentType());
         attachmentMetaData.setSizeInBytes(attachment.getContent().length);
+        attachmentMetaData.setPageCount(getPageCount(attachment));
         return attachmentMetaData;
+    }
+
+    private int getPageCount(AttachmentData attachment) {
+        try {
+            final PDDocument document = PDDocument.load(attachment.getContent());
+            return document.getNumberOfPages();
+        } catch (IOException|RuntimeException e) {
+            LOG.warn(e);
+            return 1;
+        }
     }
 
     private <T> void debugLogJaxbObject(Class<? extends T> clazz, T o) {
