@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2828, RESKC-2829: various fdp fixes
+  * Travis Schneeberger on Wed, 7 Mar 2018 09:19:10 -0500 [View Commit](../../commit/729f3d8742bb8d8c21fd5f99c4833cd8c78810e2)
+
+## coeus-1803.0008
 * RESKC-2771: sending page count to NIH validation service for attachments
   * Travis Schneeberger on Tue, 6 Mar 2018 16:04:41 -0500 [View Commit](../../commit/5ac0b68fda4195114ac62470e962815488181c9c)
 

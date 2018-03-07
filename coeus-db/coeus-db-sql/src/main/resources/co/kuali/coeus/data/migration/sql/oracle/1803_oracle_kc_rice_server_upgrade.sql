@@ -22,4 +22,5 @@ set sqlblanklines on
 
 spool 1803_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1803_002__change_applicant_org_parameter.sql
+@./rice/bootstrap/V1803_003__update_parameter_name.sql
 commit;

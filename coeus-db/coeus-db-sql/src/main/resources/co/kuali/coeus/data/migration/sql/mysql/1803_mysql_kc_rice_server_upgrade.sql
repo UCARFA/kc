@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1803_002__change_applicant_org_parameter.sql
+\. ./rice/bootstrap/V1803_003__update_parameter_name.sql
 commit;
