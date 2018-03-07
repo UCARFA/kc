@@ -26,8 +26,8 @@ public class SubAwardFDPModification extends SubawardFdp {
             setField(document, ModificationPdf.Field.SUBRECIPIENT.getfName(), subcontractDetail.getSubcontractorName());
         }
 
-        if (StringUtils.isNotBlank(subcontractDetail.getSubcontractorOrgRolodexDetails().getEmail())) {
-            setField(document, ModificationPdf.Field.SUBEMAIL.getfName(), subcontractDetail.getSubcontractorOrgRolodexDetails().getEmail());
+        if (StringUtils.isNotBlank(subcontractDetail.getSiteInvestigatorEmail())) {
+            setField(document, ModificationPdf.Field.SUBEMAIL.getfName(), subcontractDetail.getSiteInvestigatorEmail());
         }
 
         if (StringUtils.isNotBlank(subcontractDetail.getSiteInvestigator())) {
@@ -56,7 +56,12 @@ public class SubAwardFDPModification extends SubawardFdp {
     @Override
     protected void setAwardSubawardNumbers(PDDocument pdfDocument, SubContractDataDocument.SubContractData.SubcontractDetail subcontractDetail, AwardType award) {
         setField(pdfDocument, ModificationPdf.Field.PTE_FEDERAL_AWARD_NO.getfName(), award.getAwardDetails().getAwardHeader().getSponsorAwardNumber());
-        setField(pdfDocument, ModificationPdf.Field.FEDERAL_AWARDING_AGENCY.getfName(), award.getAwardDetails().getAwardHeader().getSponsorDescription());
+
+        if (award.getAwardDetails().getAwardHeader().getSponsorDescription() != null) {
+            setField(pdfDocument, ModificationPdf.Field.FEDERAL_AWARDING_AGENCY.getfName(), award.getAwardDetails().getAwardHeader().getSponsorDescription());
+        } else {
+            setField(pdfDocument, ModificationPdf.Field.FEDERAL_AWARDING_AGENCY.getfName(), "");
+        }
     }
 
     @Override
