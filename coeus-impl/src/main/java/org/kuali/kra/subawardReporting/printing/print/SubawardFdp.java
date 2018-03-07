@@ -273,7 +273,7 @@ public abstract class SubawardFdp extends AbstractPrint {
             setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpAmrmcFCoiGuidance());
         } else if (type == Attachment2SponsorFormType.AMRAA) {
             setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpAmraaFCoiGuidance());
-        } else if (type == Attachment2SponsorFormType.USADA) {
+        } else if (type == Attachment2SponsorFormType.USDA) {
             setField(document, Attachment2Pdf.Field.SPONSOR_AGENCY.getfName(), configInfo.getFdpUsdaFCoiGuidance());
         }
 
@@ -502,7 +502,7 @@ public abstract class SubawardFdp extends AbstractPrint {
             setGenTermsAndConditions1To4(document, configInfo.getFdpAmrmcPolicy(), configInfo.getFdpAmrmcCfr(),  configInfo.getFdpAmrmcGrantsPolicyStatement(), configInfo.getFdpAmrmcInterimResearchTerms(), nceContact);
         } else if (type == Attachment2SponsorFormType.AMRAA) {
             setGenTermsAndConditions1To4(document, configInfo.getFdpAmraaPolicy(), configInfo.getFdpAmraaCfr(), configInfo.getFdpAmraaGrantsPolicyStatement(), configInfo.getFdpAmraaInterimResearchTerms(), nceContact);
-        } else if (type == Attachment2SponsorFormType.USADA) {
+        } else if (type == Attachment2SponsorFormType.USDA) {
             setGenTermsAndConditions1To4(document, configInfo.getFdpUsdaPolicy(), configInfo.getFdpUsdaCfr(), configInfo.getFdpUsdaGrantsPolicyStatement(), configInfo.getFdpUsdaInterimResearchTerms(), nceContact);
         } else {
             setGenTermsAndConditions1To4(document, "", "", "", "", "");
@@ -1024,7 +1024,7 @@ public abstract class SubawardFdp extends AbstractPrint {
     }
 
     private enum Attachment2Form {
-        FDP_AFOSR("FDP_AFOSR", Attachment2SponsorFormType.AFOSR), FDP_AMRMC("FDP_AMRMC", Attachment2SponsorFormType.AMRMC), FDP_AMRAA("FDP_AMRAA", Attachment2SponsorFormType.AMRAA), FDP_ARO("FDP_ARO", Attachment2SponsorFormType.ARO), FDP_DOE("FDP_DOE", Attachment2SponsorFormType.DOE), FDP_EPA("FDP_EPA", Attachment2SponsorFormType.EPA), FDP_NASA("FDP_NASA", Attachment2SponsorFormType.NASA), FDP_NIH("FDP_NIH", Attachment2SponsorFormType.NIH), FDP_NSF("FDP_NSF", Attachment2SponsorFormType.NSF), FDP_ONR("FDP_ONR", Attachment2SponsorFormType.ONR), FDP_USDA("FDP_USDA", Attachment2SponsorFormType.USADA);
+        FDP_AFOSR("FDP_AFOSR", Attachment2SponsorFormType.AFOSR), FDP_AMRMC("FDP_AMRMC", Attachment2SponsorFormType.AMRMC), FDP_AMRAA("FDP_AMRAA", Attachment2SponsorFormType.AMRAA), FDP_ARO("FDP_ARO", Attachment2SponsorFormType.ARO), FDP_DOE("FDP_DOE", Attachment2SponsorFormType.DOE), FDP_EPA("FDP_EPA", Attachment2SponsorFormType.EPA), FDP_NASA("FDP_NASA", Attachment2SponsorFormType.NASA), FDP_NIH("FDP_NIH", Attachment2SponsorFormType.NIH), FDP_NSF("FDP_NSF", Attachment2SponsorFormType.NSF), FDP_ONR("FDP_ONR", Attachment2SponsorFormType.ONR), FDP_USDA("FDP_USDA", Attachment2SponsorFormType.USDA);
 
         private final String id;
         private final Attachment2SponsorFormType sponsorFormType;
@@ -1044,7 +1044,7 @@ public abstract class SubawardFdp extends AbstractPrint {
     }
 
     private enum Attachment2SponsorFormType {
-        AFOSR, AMRMC, AMRAA, ARO, DOE, EPA, NASA, NIH, NSF, ONR, USADA
+        AFOSR, AMRMC, AMRAA, ARO, DOE, EPA, NASA, NIH, NSF, ONR, USDA
     }
 
     static final class Attachment2Pdf {

@@ -35,6 +35,7 @@
                             <xs:element name="ModificationType" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="Comments" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="SiteInvestigator" type="xs:string" nillable="true" minOccurs="0"/>
+                            <xs:element name="SiteInvestigatorEmail" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="FsrsSubawardNumber" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="SubcontractorOrgRolodexDetails" type="subcontract:RolodexDetailsType" nillable="true" minOccurs="0"/>
                         </xs:sequence>

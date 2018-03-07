@@ -530,6 +530,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         RolodexDetailsType rolodexDetailsType = RolodexDetailsType.Factory.newInstance();
         if(subaward.getRolodex() != null ){
             subcontractDetail.setSiteInvestigator(subaward.getRolodex().getFullName());
+            subcontractDetail.setSiteInvestigatorEmail(subaward.getRolodex().getEmailAddress());
         }
         subcontractDetail.setFsrsSubawardNumber(subaward.getFsrsSubawardNumber());
         if (subaward.getOrganization() != null){
