@@ -28,6 +28,9 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -73,6 +76,10 @@ public class SalaryCalculatorTest {
     public Date createDateFromString(String date) throws Exception {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         return new Date(dateFormat.parse(date).getTime());
+    }
+
+    public String dateToString(LocalDate date) {
+        return date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
     }
 
     public BudgetRate createBudgetRate(String startDate, int rate) throws Exception {
@@ -523,6 +530,51 @@ public class SalaryCalculatorTest {
                 new ScaleTwoDecimal(11248.64));
     }
 
+    private void inflationBreakupSectionsTest(String startDate, String endDate, LocalDate rateStartDate, BudgetPerson person, int expectedSalary, int expectedFirstHalf, int expectedSecondHalf) throws Exception {
+        Budget budget = createBudget(startDate, endDate, person,
+                createBudgetRate(dateToString(rateStartDate.minus(2, ChronoUnit.YEARS)), 2),
+                createBudgetRate(dateToString(rateStartDate.minus(1, ChronoUnit.YEARS)), 2),
+                createBudgetRate(dateToString(rateStartDate), 2),
+                createBudgetRate(dateToString(rateStartDate.plus(1, ChronoUnit.YEARS)), 2));
+
+        BudgetPersonnelDetails details1 = createBudgetPersonnelDetails(1, person, startDate, dateToString(rateStartDate.minus(1, ChronoUnit.DAYS)));
+        BudgetLineItem lineItem1 = createBudgetLineItem(startDate, endDate, details1);
+
+        BudgetPersonnelDetails details2 = createBudgetPersonnelDetails(1, person, dateToString(rateStartDate), endDate);
+        BudgetLineItem lineItem2 = createBudgetLineItem(startDate, endDate, details2);
+
+        budget.getBudgetPeriods().add(createBudgetPeriod(1, startDate, endDate, lineItem1));
+        budget.getBudgetPeriods().add(createBudgetPeriod(1, startDate, endDate, lineItem2));
+
+        new MockSalaryCalculator(budget, details1).calculate();
+        new MockSalaryCalculator(budget, details2).calculate();
+
+        Assert.assertEquals(new ScaleTwoDecimal(expectedFirstHalf), details1.getSalaryRequested());
+        Assert.assertEquals(new ScaleTwoDecimal(expectedSecondHalf), details2.getSalaryRequested());
+
+        BudgetPersonnelDetails details3 = createBudgetPersonnelDetails(1, person, startDate, endDate);
+        BudgetLineItem lineItem3 = createBudgetLineItem(startDate, endDate, details3);
+
+        budget.getBudgetPeriods().clear();
+        budget.getBudgetPeriods().add(createBudgetPeriod(1, startDate, endDate, lineItem3));
+        new MockSalaryCalculator(budget, details3).calculate();
+
+        Assert.assertEquals(new ScaleTwoDecimal(expectedSalary), details3.getSalaryRequested());
+        Assert.assertEquals(details3.getSalaryRequested(), details1.getSalaryRequested().add(details2.getSalaryRequested()));
+    }
+
+    @Test
+    public void anniversaryDateEqualsEffectiveDateBeforePeriod() throws Exception {
+        String periodStart = "09/01/2017";
+        String periodEnd = "08/31/2018";
+        String effectiveDate = "07/01/2016";
+        String anniversaryDate = "07/01/2016";
+        LocalDate rateStartDate = LocalDate.of(2018, 7, 1);
+
+        isAnniversarySalaryDateEnabled = true;
+        BudgetPerson budgetPerson = createBudgetPerson("1", effectiveDate, 120000, 12, anniversaryDate);
+        inflationBreakupSectionsTest(periodStart, periodEnd, rateStartDate, budgetPerson, 122808, 102000, 20808);
+    }
 
 
     @Test
