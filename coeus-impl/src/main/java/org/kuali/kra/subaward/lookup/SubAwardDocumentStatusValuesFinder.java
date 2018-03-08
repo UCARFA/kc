@@ -4,23 +4,18 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SubAwardDocumentStatusValuesFinder extends KeyValuesBase {
 
     private static final long serialVersionUID = -3074955977161691637L;
 
-    /**
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
-
-        for (SubAwardDocumentStatusConstants documentStatus : SubAwardDocumentStatusConstants.values()) {
-            KeyValues.add(new ConcreteKeyValue(documentStatus.code(), documentStatus.description()));
-        }
-        return KeyValues;
+        return Arrays.stream(SubAwardDocumentStatusConstants.values())
+                .map(status -> new ConcreteKeyValue(status.code(), status.description()))
+                .collect(Collectors.toList());
     }
 
 }

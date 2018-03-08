@@ -995,8 +995,10 @@
     <property name="shortLabel" value="Document Status" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
-      <bean parent="AlphaValidationPattern"
-            p:allowWhitespace="false" />
+      <bean parent="AlphaValidationPattern" p:allowWhitespace="false" />
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaPatternConstraint" p:allowWhitespace="false" />
     </property>
     <property name="required" value="false" />
     <property name="control">

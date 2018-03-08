@@ -58,11 +58,9 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         fieldValues.remove(REQUISITIONER_USER_NAME);
         if (StringUtils.equals(fieldValues.get(SUB_AWARD_DOCUMENT_STATUS), SubAwardDocumentStatusConstants.Active.code())) {
             fieldValues.put(SUB_AWARD_DOCUMENT_STATUS, VersionStatus.ACTIVE.name());
-        }
-        else if (StringUtils.equals(fieldValues.get(SUB_AWARD_DOCUMENT_STATUS), SubAwardDocumentStatusConstants.Pending.code())) {
+        } else if (StringUtils.equals(fieldValues.get(SUB_AWARD_DOCUMENT_STATUS), SubAwardDocumentStatusConstants.Pending.code())) {
             fieldValues.put(SUB_AWARD_DOCUMENT_STATUS, VersionStatus.PENDING.name());
-        }
-        else {
+        } else {
             fieldValues.put(SUB_AWARD_DOCUMENT_STATUS, String.format("%s|%s", VersionStatus.ACTIVE.name(), VersionStatus.PENDING.name()));
         }
         return filterForLatestVersionNumber(filterForRequisitionerUserName((List<SubAward>) super.getSearchResultsUnbounded(fieldValues),requisitionerUserName));
@@ -78,8 +76,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
     @SuppressWarnings("unchecked")
     public List<HtmlData> getCustomActionUrls(
     BusinessObject businessObject, List pkNames) {
-        List<HtmlData> htmlDataList =
-        super.getCustomActionUrls(businessObject, pkNames);
+        List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         htmlDataList.add(getOpenLink((SubAward) businessObject, false));
         htmlDataList.add(getMedusaLink((SubAward) businessObject, false));
         return htmlDataList;
@@ -103,10 +100,8 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         parameters.put(VIEW_DOCUMENT, viewOnly.toString());
         parameters.put(DOC_OPENED_FROM_AWARD_SEARCH, "true");
         parameters.put(DOC_ID, subAwardDocument.getDocumentNumber());
-        parameters.put(PLACE_HOLDER_AWARD_ID,
-                subAward.getSubAwardId().toString());
-        String href = UrlFactory.parameterizeUrl(
-        "../" + getHtmlAction(), parameters);
+        parameters.put(PLACE_HOLDER_AWARD_ID, subAward.getSubAwardId().toString());
+        String href = UrlFactory.parameterizeUrl("../" + getHtmlAction(), parameters);
         htmlData.setHref(href);
         return htmlData;
     }
@@ -129,10 +124,8 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         parameters.put(DOC_ID, subAward.
         getSubAwardDocument().getDocumentNumber());
         parameters.put(DOC_OPENED_FROM_AWARD_SEARCH, "true");
-        parameters.put(PLACE_HOLDER_AWARD_ID,
-                subAward.getSubAwardId().toString());
-        String href  = UrlFactory.parameterizeUrl(
-         "../" + getHtmlAction(), parameters);
+        parameters.put(PLACE_HOLDER_AWARD_ID, subAward.getSubAwardId().toString());
+        String href  = UrlFactory.parameterizeUrl("../" + getHtmlAction(), parameters);
         htmlData.setHref(href);
         return htmlData;
     }
@@ -161,7 +154,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
 
     protected List<SubAward> filterForLatestVersionNumber(List<SubAward> subAwards) {
         List<SubAward> filteredSubAwards = CollectionUtils.createCorrectImplementationForCollection(subAwards);
-        Map<String, SubAward> latestVersionSubAwards = new TreeMap<String, SubAward>();
+        Map<String, SubAward> latestVersionSubAwards = new TreeMap<>();
         for (SubAward subAward : subAwards) {
             SubAward latestVersion = latestVersionSubAwards.get(subAward.getSubAwardCode());
             if (latestVersion == null || latestVersion.getSequenceNumber() < subAward.getSequenceNumber()) {

@@ -276,8 +276,7 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     public String getSubAwardSequenceStatusResult() {
         if (SubAwardDocumentStatusConstants.Active.code().equals(getSubAwardSequenceStatus())) {
             return SubAwardDocumentStatusConstants.Active.description();
-        }
-        else {
+        } else {
             return SubAwardDocumentStatusConstants.Pending.description();
         }
     }

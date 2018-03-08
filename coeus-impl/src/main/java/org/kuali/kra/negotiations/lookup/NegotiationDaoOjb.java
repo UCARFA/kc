@@ -45,6 +45,10 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
     private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final String NEGOTIATION_AGE = "negotiationAge";
 
+    private static final String SUBAWARD_SEQUENCE_STATUS = "subAwardSequenceStatus";
+    private static final String SUBAWARD_ID = "subAwardId";
+    private static final String SUBAWARD_CODE = "subAwardCode";
+
     private static Map<String, String> awardTransform;
     private static Map<String, String> proposalTransform;
     private static Map<String, String> proposalLogTransform;
@@ -292,18 +296,16 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         Criteria criteria = getCollectionCriteriaFromMap(new SubAward(), values);
 
         Criteria activeSubAwardSubCriteria = new Criteria();
-        Collection<String> versionStatuses = new ArrayList();
-        versionStatuses.add("PENDING");
-        versionStatuses.add("ACTIVE");
-        activeSubAwardSubCriteria.addIn("subAwardSequenceStatus",versionStatuses);
+        Collection<String> versionStatuses = Arrays.asList(VersionStatus.PENDING.name(), VersionStatus.ACTIVE.name());
+        activeSubAwardSubCriteria.addIn(SUBAWARD_SEQUENCE_STATUS, versionStatuses);
         ReportQueryByCriteria activeSubAwardIdsQuery = QueryFactory.newReportQuery(SubAward.class, activeSubAwardSubCriteria);
-        activeSubAwardIdsQuery.setAttributes(new String[]{"max(subAwardId)"});
-        activeSubAwardIdsQuery.addGroupBy("subAwardCode");
-        criteria.addIn("subAwardId",activeSubAwardIdsQuery);
+        activeSubAwardIdsQuery.setAttributes(new String[]{"max(" + SUBAWARD_ID + ")"});
+        activeSubAwardIdsQuery.addGroupBy(SUBAWARD_CODE);
+        criteria.addIn(SUBAWARD_ID, activeSubAwardIdsQuery);
 
         Criteria negotiationCrit = new Criteria();
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(SubAward.class, criteria);
-        subQuery.setAttributes(new String[] {"subAwardId"});
+        subQuery.setAttributes(new String[] {SUBAWARD_ID});
         negotiationCrit.addIn(ASSOCIATED_DOC_ID_ATTR, subQuery);
         negotiationCrit.addEqualTo(NEGOTIATION_TYPE_ATTR, 
                 getNegotiationService().getNegotiationAssociationType(NegotiationAssociationType.SUB_AWARD_ASSOCIATION).getId());
