@@ -9,18 +9,18 @@ package org.kuali.coeus.common.budget.impl.calculator;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
-import org.kuali.coeus.common.budget.framework.core.DateSortable;
-import org.kuali.coeus.common.budget.framework.query.operator.*;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.common.budget.framework.core.DateSortable;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.query.QueryList;
+import org.kuali.coeus.common.budget.framework.query.operator.*;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -106,8 +106,8 @@ public class SalaryCalculator {
                 return iInflationRCEquals && iInflationRTEquals && startDateLtEqualsEndDate && startDateGtEqualsStartDate && onOffCampusEquals;
             };
 
-            return (getInflationRates() == null ? getBudgetRates().stream().filter(dateAndRateAndOnOffCampusFlag)
-                    : getInflationRates().stream().filter(dateAndRateAndOnOffCampusFlag))
+            return (getInflationRates() == null ? getBudgetRates() : getInflationRates()).stream()
+                    .filter(dateAndRateAndOnOffCampusFlag)
                     .collect(Collectors.toCollection(QueryList::new));
         } else {
             return new QueryList<>();
@@ -260,7 +260,7 @@ public class SalaryCalculator {
                 salaryDetails = new SalaryDetails();
                 salaryDetails.setBoundary(boundary);
                 if (!personFlag && budgetRate != null) {
-                    salaryDetails.setActualBaseSalary(getPrevSalaryBase(budgetPerson, boundary));
+                    salaryDetails.setActualBaseSalary(getPrevSalaryBase(budgetPerson, boundary, budgetRate));
                     if (prevBudgetProposalRate != null
                             && budgetPerson.getEffectiveDate().before(prevBudgetProposalRate.getStartDate())
                             && budgetPerson.getEffectiveDate().before(boundary.getStartDate())
@@ -302,7 +302,7 @@ public class SalaryCalculator {
             salaryDetails.setWorkingMonths(prevSalaryDetails.getWorkingMonths());
         }
         if (budgetPerson != null) {
-            salaryDetails.setActualBaseSalary(getPrevSalaryBase(budgetPerson, boundary));
+            salaryDetails.setActualBaseSalary(getPrevSalaryBase(budgetPerson, boundary, budgetRate));
 
             BudgetPerson newBudgetPerson = getBudgetPersonApplied(budgetPerson, boundary);
             if (budgetRate != null
@@ -569,7 +569,7 @@ public class SalaryCalculator {
         return inflationRates;
     }
 
-    private ScaleTwoDecimal getPrevSalaryBase(BudgetPerson budgetPerson, Boundary boundary) {
+    private ScaleTwoDecimal getPrevSalaryBase(BudgetPerson budgetPerson, Boundary boundary, BudgetRate currentRate) {
         Date p1StartDate = budget.getBudgetPeriods().get(0).getStartDate();
         BudgetPerson newBudgetPerson = budgetPerson;
         for (BudgetPerson budgetPerson1 : budget.getBudgetPersons()) {
@@ -593,7 +593,11 @@ public class SalaryCalculator {
         Date previousEndDate = getPreviousPeriodEndDate();
 
         if (isAnniversarySalaryDateEnabled() && budgetPerson.getSalaryAnniversaryDate() != null) {
-            qlist.addAll(createAnnualInflationRates(budgetPerson, previousEndDate));
+            qlist.addAll(createAnnualInflationRates(budgetPerson, previousEndDate).stream()
+                    // Filter out generated dates that are the same as the rate for the current breakup interval
+                    // so that it doesn't get applied twice
+                    .filter(rate -> !isSameRate(rate, currentRate))
+                    .collect(Collectors.toList()));
         } else {
             qlist.addAll(filterInflationRates(p1StartDate, add(boundary.getStartDate(), -1)));
         }
@@ -604,6 +608,22 @@ public class SalaryCalculator {
         }
         return new ScaleTwoDecimal(calBase);
 
+    }
+
+    private boolean isSameRate(BudgetRate rate1, BudgetRate rate2) {
+         if (rate1 == null && rate2 == null) {
+             return true;
+         } else if (rate1 == null || rate2 == null) {
+             return false;
+         }
+         return StringUtils.equals(rate1.getRateClassCode(), rate2.getRateClassCode()) &&
+                StringUtils.equals(rate1.getRateTypeCode(), rate2.getRateTypeCode()) &&
+                StringUtils.equals(rate1.getActivityTypeCode(), rate2.getActivityTypeCode()) &&
+                StringUtils.equals(rate1.getFiscalYear(), rate2.getFiscalYear()) &&
+                Objects.equals(rate1.getOnOffCampusFlag(), rate2.getOnOffCampusFlag()) &&
+                Objects.equals(rate1.getStartDate(), rate2.getStartDate()) &&
+                Objects.equals(rate1.getApplicableRate(), rate2.getApplicableRate()) &&
+                Objects.equals(rate1.getInstituteRate(), rate2.getInstituteRate());
     }
 
     protected Date getPreviousPeriodEndDate() {
