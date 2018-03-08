@@ -1,6 +1,16 @@
 
 
 ## CURRENT
+* RESKC-1786: Fixed issue where inflation rate was being applied twice...
+
+  * ...when a person's effective date occurred before the period start date and their salary anniversary date was between (or on) the effective date and period start date.
+  * Jeff Largent on Thu, 8 Mar 2018 16:48:00 -0500 [View Commit](../../commit/25dafea6b6323edc11a4a33d792f040d4ca838f8)
+* RESKC-2810: Minor contribution cleanup
+  * Jeff Largent on Wed, 7 Mar 2018 22:50:10 -0500 [View Commit](../../commit/5aa7ea8b4c72201df34afb00d22ff16c0ee7bdb2)
+* [#] Added 'Document Status' field to SubAward lookup and results
+  * rojlarge on Wed, 20 Jan 2016 21:48:22 -0500 [View Commit](../../commit/af91a5603a4cffe334649b16839b8decf225f9bb)
+
+## coeus-1803.0010
 * No Changes
 
 
