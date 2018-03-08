@@ -675,7 +675,7 @@
 				<samlKey>kcprod</samlKey>
 				<samlKeyPW>fyrneice1</samlKeyPW>
 				<!-- Kuali -->
-				<kcserver.fqdn>kuali.fanda.ucar.edu</kcserver.fqdn>
+				<kcserver.fqdn>kuali.fin.ucar.edu</kcserver.fqdn>
 				<kualiAppPort>443</kualiAppPort>
 				<kualiAppProtocol>https</kualiAppProtocol>
 				<kualiAppVersion>PRODUCTION:1609.0056</kualiAppVersion>
