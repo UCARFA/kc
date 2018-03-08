@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1803.0011
 * RESKC-1786: Fixed issue where inflation rate was being applied twice...
 
   * ...when a person's effective date occurred before the period start date and their salary anniversary date was between (or on) the effective date and period start date.
