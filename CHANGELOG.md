@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-2491: Ensure that associated schedules get deleted along with unsaved reports
+  * Jeff Largent on Fri, 9 Mar 2018 13:34:44 -0500 [View Commit](../../commit/c20d708e64b80135bf211f6f90dc24c00e41bb91)
+* RESKC-2810: Make "Final" default document status for SubAward lookup
+  * Jeff Largent on Fri, 9 Mar 2018 12:56:20 -0500 [View Commit](../../commit/0bc3982a19a6f6df5edcd3d208fecace213d4445)
+
+## coeus-1803.0013
 * RESKC-1844: Don't update timestamp / user when T&M docs are archived
   * Jeff Largent on Fri, 9 Mar 2018 10:36:14 -0500 [View Commit](../../commit/667aa2ee8ac8f4cd2ca09fc33a045ecfde49d502)
 
