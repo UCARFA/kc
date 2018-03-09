@@ -11,10 +11,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.award.finance.timeAndMoney.dao.TimeAndMoneyPostsDao;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
-import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -470,6 +470,13 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
         }
            
         return isComplete;
+    }
+
+    @Override
+    protected void preUpdate() {
+        if (!VersionStatus.ARCHIVED.name().equals(documentStatus)) {
+            super.preUpdate();
+        }
     }
 
     @Override
