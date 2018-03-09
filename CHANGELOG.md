@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-1844: Don't update timestamp / user when T&M docs are archived
+  * Jeff Largent on Fri, 9 Mar 2018 10:36:14 -0500 [View Commit](../../commit/667aa2ee8ac8f4cd2ca09fc33a045ecfde49d502)
+
+## coeus-1803.0012
 * No Changes
 
 
