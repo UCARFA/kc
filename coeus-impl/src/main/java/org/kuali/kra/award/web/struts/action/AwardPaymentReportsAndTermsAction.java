@@ -304,13 +304,17 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         awardForm.getReportTrackingsToDelete().addAll(reportTrackings);
 
         List<AwardPaymentSchedule> schedulesToDelete = award.getPaymentScheduleItems().stream()
-                .filter(invoice -> invoice.getAwardReportTermId() != null &&
-                        invoice.getAwardReportTermId().equals(deletedReport.getAwardReportTermId()))
+                .filter(schedule -> scheduleBelongsToReportTerm(schedule, deletedReport))
                 .collect(Collectors.toList());
         award.getPaymentScheduleItems().removeAll(schedulesToDelete);
         getBusinessObjectService().delete(schedulesToDelete);
 
         return af;
+    }
+
+    private boolean scheduleBelongsToReportTerm(AwardPaymentSchedule schedule, AwardReportTerm term) {
+        return term.equals(schedule.getAwardReportTerm()) ||
+                (schedule.getAwardReportTermId() != null && schedule.getAwardReportTermId().equals(term.getAwardReportTermId()));
     }
 
     /**
