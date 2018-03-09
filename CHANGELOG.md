@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1803.0014
 * RESKC-2491: Ensure that associated schedules get deleted along with unsaved reports
   * Jeff Largent on Fri, 9 Mar 2018 13:34:44 -0500 [View Commit](../../commit/c20d708e64b80135bf211f6f90dc24c00e41bb91)
 * RESKC-2810: Make "Final" default document status for SubAward lookup
