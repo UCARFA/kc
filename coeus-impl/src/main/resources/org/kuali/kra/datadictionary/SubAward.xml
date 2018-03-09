@@ -1089,7 +1089,7 @@
         <bean p:attributeName="requisitionerUnit" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="archiveLocation" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="closeoutDate" parent="FieldDefinition" p:forceInquiry="true" />
-        <bean p:attributeName="subAwardSequenceStatus" parent="FieldDefinition" p:defaultValue="BOTH" />
+        <bean p:attributeName="subAwardSequenceStatus" parent="FieldDefinition" p:defaultValue="ACTIVE" />
       </list>
     </property>
     <property name="resultFields" >
@@ -1135,7 +1135,7 @@
         <bean p:propertyName="requisitionerUnit" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="archiveLocation" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="closeoutDate" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="subAwardSequenceStatus" parent="Uif-LookupCriteriaInputField" p:defaultValue="BOTH" />
+        <bean p:propertyName="subAwardSequenceStatus" parent="Uif-LookupCriteriaInputField" p:defaultValue="ACTIVE" />
       </list>
     </property>
     <property name="resultFields">
