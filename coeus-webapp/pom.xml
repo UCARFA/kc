@@ -688,7 +688,7 @@
 				<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
 				<jdbcKualiMySQL.password>MuleD33r#</jdbcKualiMySQL.password>
 				<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kuali.fanda.ucar.edu:1443/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kuali.fin.ucar.edu:1443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
 			</properties>
 		</profile>
