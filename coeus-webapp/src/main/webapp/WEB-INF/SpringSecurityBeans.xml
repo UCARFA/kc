@@ -21,7 +21,7 @@
     	<security:intercept-url pattern="/api/**" access="permitAll"/>
     	<security:intercept-url pattern="/**/hr-import/hrimport/**" access="permitAll"/>
 	    <!-- SJW Comment out for production: -->
-        <security:intercept-url pattern="/samlsecurity/**" access="permitAll"/>
+        <!-- <security:intercept-url pattern="/samlsecurity/**" access="permitAll"/> -->
 		
         <!-- Secured pages -->
         <security:intercept-url pattern="/**" access="isAuthenticated()"/>
