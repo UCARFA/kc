@@ -314,7 +314,8 @@
     </bean>
 
     <!-- Initialization of OpenSAML library-->
-    <bean class="org.springframework.security.saml.SAMLBootstrap"/>
+  <!--  <bean class="org.springframework.security.saml.SAMLBootstrap"/> -->
+    <bean class="edu.ucar.fanda.springframework.security.saml.CustomSAMLBootstrap"/>
 
     <!-- Initialization of the velocity engine -->
     <bean id="velocityEngine" class="org.springframework.security.saml.util.VelocityFactory" factory-method="getEngine"/>
