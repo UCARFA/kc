@@ -300,7 +300,7 @@
     			<!-- JDBC -->
     			<jdbcKualiMySQL.url>jdbc:mysql://localhost:3306/coeus</jdbcKualiMySQL.url>
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
-    			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
+    			<jdbcKualiMySQL.password></jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
 				<tomcat.deployUrl>http://localhost:8080/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
@@ -672,7 +672,7 @@
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
 				<samlKeystore>kualiProdSamlKeystore.jks</samlKeystore>
-				<samlKeystorePW>Buff4!o</samlKeystorePW>
+				<samlKeystorePW></samlKeystorePW>
 				<samlKey>kcprod</samlKey>
 				<samlKeyPW></samlKeyPW>
 				<!-- Kuali -->
