@@ -30,7 +30,7 @@ public class MetadataForm {
 
     private boolean local;
 
-    private boolean includeDiscovery = true;
+    private boolean includeDiscovery = false;
     private boolean includeDiscoveryExtension = false;
 
     private String customDiscoveryURL;
@@ -38,9 +38,9 @@ public class MetadataForm {
 
     private boolean requestSigned = true;
     private boolean wantAssertionSigned;
-    private boolean requireLogoutRequestSigned;
+    private boolean requireLogoutRequestSigned = true;
     private boolean requireLogoutResponseSigned;
-    private boolean requireArtifactResolveSigned;
+    private boolean requireArtifactResolveSigned = true;
 
     public MetadataForm() {
     }

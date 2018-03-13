@@ -13,7 +13,7 @@
         <!-- Change showPassword to true for local authentication -->
         <param name="auth.core.enabled">true</param>
         <param name="adfs.enabled">${adfs.enabled}</param>
-        <param name="showPassword">false</param>
+        <param name="showPassword">${showPassword}</param>
         <param name="kc.rest.admin.username">${kualiRest.user}</param>
         <param name="kc.rest.admin.password">${kualiRest.password}</param>
  
