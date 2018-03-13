@@ -11,8 +11,10 @@ package org.kuali.coeus.sys.framework.util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.pdfbox.cos.COSBase;
 import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.cos.COSName;
+import org.apache.pdfbox.cos.COSString;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.PDResources;
@@ -45,6 +47,7 @@ public final class PdfBoxUtils {
     private static final COSName HELVETICA_OBLIQUE = COSName.getPDFName("Helvetica-Oblique");
     private static final String ON_VALUES_STR = "on_values=";
     private static final String OPTIONS_STR = "options=";
+    private static final String DEFAULT_APPEARANCE_STR = "defaultAppearance=";
 
     private PdfBoxUtils() {
         throw new UnsupportedOperationException("do not call");
@@ -268,11 +271,26 @@ public final class PdfBoxUtils {
     /**
      * for some reason flattened pdfs have a font of ArialMT, Helvetica, Helvetica-Bold, or Helvetica-Oblique which is not available in the default resources.
      */
-    private static void doMissingDefaultResourcesWorkaround(PDResources resources) {
-        resources.put(ARIAL_MT, PDType1Font.HELVETICA);
-        resources.put(HELVETICA, PDType1Font.HELVETICA);
-        resources.put(HELVETICA_BOLD, PDType1Font.HELVETICA);
-        resources.put(HELVETICA_OBLIQUE, PDType1Font.HELVETICA);
+    public static void doMissingDefaultResourcesWorkaround(PDResources resources) {
+        try {
+            if (resources.getFont(ARIAL_MT) == null) {
+                resources.put(ARIAL_MT, PDType1Font.HELVETICA);
+            }
+
+            if (resources.getFont(HELVETICA) == null) {
+                resources.put(HELVETICA, PDType1Font.HELVETICA);
+            }
+
+            if (resources.getFont(HELVETICA_BOLD) == null) {
+                resources.put(HELVETICA_BOLD, PDType1Font.HELVETICA);
+            }
+
+            if (resources.getFont(HELVETICA_OBLIQUE) == null) {
+                resources.put(HELVETICA_OBLIQUE, PDType1Font.HELVETICA);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static String booleanToStr(boolean value) {
@@ -458,6 +476,11 @@ public final class PdfBoxUtils {
                 } else if (field instanceof PDChoice) {
                     outputString.append(OPTIONS_STR).append(((PDChoice) field).getOptions()).append(COMMA_SEPARATOR);
                 }
+                final COSBase defaultAppearance = field.getCOSObject().getDictionaryObject(COSName.DA);
+                if (defaultAppearance != null) {
+                    outputString.append(DEFAULT_APPEARANCE_STR).append(defaultAppearance instanceof COSString ? ((COSString) defaultAppearance).getString() : defaultAppearance).append(COMMA_SEPARATOR);
+                }
+
                 outputString.append(TYPE_STR).append(field.getClass().getName());
                 LOG.info(outputString);
             }

@@ -95,6 +95,8 @@ public abstract class SubawardFdp extends AbstractPrint {
                     try (ByteArrayOutputStream out = new ByteArrayOutputStream();
                          PDDocument pdfDocument = PDDocument.load(selectedForm.getValue().getInputStream())) {
 
+                        doMissingDefaultResourcesWorkaround(pdfDocument.getDocumentCatalog().getAcroForm().getDefaultResources());
+
                         final SubContractDataDocument xmlObject = (SubContractDataDocument) xml.get(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType());
                         if (xmlObject != null) {
                             fillTemplateOrAttachment(selectedForm, pdfDocument, xmlObject);
@@ -844,6 +846,8 @@ public abstract class SubawardFdp extends AbstractPrint {
             SUBAWARD_NUMBER ("SubawardNumber"),
             SUBJECTO_FFATA ("SubjectoFFATA", Stream.of(Field.YES, Field.NO).collect(Collectors.toSet())),
             CARRYOVER_RADIO_BUTTON("Carryover", Stream.of(Field.CARRYOVER_YES, Field.CARRYOVER_NO).collect(Collectors.toSet()));
+
+            protected static final String DEFAULT_APPEARANCE_STR_FONT_8 = "/ArialMT 8 Tf 0 g";
 
             protected static final String CARRYOVER_YES = "CarryoverYes";
             protected static final String CARRYOVER_NO = "CarryoverNo";
