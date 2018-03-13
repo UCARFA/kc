@@ -454,7 +454,7 @@
 				<samlKey>kcnonprod</samlKey>
 				<samlKeyPW>fyrneice1</samlKeyPW>
     			<!-- Kuali -->
-    			<kcserver.fqdn>kcnonprod2.fanda.ucar.edu</kcserver.fqdn>
+    			<kcserver.fqdn>kcnonprod2.fin.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
     			<kualiAppProtocol>https</kualiAppProtocol>
     			<kualiAppVersion>TRAINING:1609.0056</kualiAppVersion>
@@ -466,7 +466,7 @@
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
     			<jdbcKualiMySQL.password>kuali</jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kcnonprod2.fanda.ucar.edu:2443/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kcnonprod2.fin.ucar.edu:2443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
