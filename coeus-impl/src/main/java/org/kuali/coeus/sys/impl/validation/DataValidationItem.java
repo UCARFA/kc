@@ -7,7 +7,9 @@
  */
 package org.kuali.coeus.sys.impl.validation;
 
-public class DataValidationItem {
+import java.io.Serializable;
+
+public class DataValidationItem implements Serializable {
     private String area;
     private String section;
     private String description;

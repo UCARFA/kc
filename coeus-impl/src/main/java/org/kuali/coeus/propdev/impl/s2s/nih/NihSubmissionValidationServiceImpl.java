@@ -153,8 +153,7 @@ public class NihSubmissionValidationServiceImpl implements NihSubmissionValidati
     }
 
     private int getPageCount(AttachmentData attachment) {
-        try {
-            final PDDocument document = PDDocument.load(attachment.getContent());
+        try (final PDDocument document = PDDocument.load(attachment.getContent())) {
             return document.getNumberOfPages();
         } catch (IOException|RuntimeException e) {
             LOG.warn(e);
