@@ -26,4 +26,6 @@ public interface FormUtilityService {
     void reorderXmlElements(Document doc);
 
     void removeAllEmptyNodes(Document document, String xpath, int parentLevel) throws XPathExpressionException;
+
+    void correctAttachmentNameHrefHash(Document document, Map<String, String> attachmentHashes);
 }

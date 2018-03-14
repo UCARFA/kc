@@ -8,15 +8,14 @@
 package org.kuali.coeus.propdev.impl.s2s;
 
 import com.lowagie.text.pdf.*;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -37,6 +36,15 @@ public class FormUtilityServiceImpl implements FormUtilityService {
     private static final Log LOG = LogFactory.getLog(FormUtilityServiceImpl.class);
 
     private static final String DUPLICATE_FILE_NAMES = "Attachments contain duplicate file names";
+    private static final String ATTACHMENTS_NS = "http://apply.grants.gov/system/Attachments-V1.0";
+    private static final String ATTACHED_FILE = "AttachedFile";
+    private static final String FILE_NAME = "FileName";
+    private static final String FILE_LOCATION = "FileLocation";
+    private static final String HASH_VALUE = "HashValue";
+    private static final String GLOBAL_NS = "http://apply.grants.gov/system/Global-V1.0";
+    private static final String HREF = "href";
+    private static final String HASH_ALGORITHM = "hashAlgorithm";
+    private static final String SHA_1 = "SHA-1";
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -181,6 +189,58 @@ public class FormUtilityServiceImpl implements FormUtilityService {
         if (moreEmptyElements.getLength() > 0) {
             removeAllEmptyNodes(document, xpath, parentLevel);
         }
+    }
+
+    @Override
+    public void correctAttachmentNameHrefHash(Document document, Map<String, String> attachmentHashes) {
+       final NodeList attachments = document.getElementsByTagNameNS(ATTACHMENTS_NS, ATTACHED_FILE);
+       if (attachments != null) {
+           for (int i = 0; i < attachments.getLength(); i++) {
+               final Node attachment = attachments.item(i);
+               final NodeList attachmentElements = attachment.getChildNodes();
+               if (attachmentElements != null) {
+                   Node fileName = null;
+                   Node fileLocation = null;
+                   Node hashValue = null;
+                   for (int j = 0; j < attachmentElements.getLength(); j++) {
+                       final Node node = attachmentElements.item(j);
+                       if (FILE_NAME.equals(node.getLocalName()) && ATTACHMENTS_NS.equals(node.getNamespaceURI())) {
+                           fileName = node;
+                       } else if (FILE_LOCATION.equals(node.getLocalName()) && ATTACHMENTS_NS.equals(node.getNamespaceURI())) {
+                           fileLocation = node;
+                       } else if (HASH_VALUE.equals(node.getLocalName()) && GLOBAL_NS.equals(node.getNamespaceURI())) {
+                           hashValue = node;
+                       }
+                   }
+
+                   if (fileName != null && fileLocation != null) {
+                       final Node location = fileLocation.getAttributes().getNamedItemNS(ATTACHMENTS_NS, HREF);
+                       if (location == null || !StringUtils.equals(fileName.getTextContent(), location.getTextContent())) {
+                           final Attr href = document.createAttributeNS(ATTACHMENTS_NS, HREF);
+                           href.setValue(fileName.getTextContent());
+                           ((Element) fileLocation).setAttributeNode(href);
+                       }
+                   }
+
+                   if (hashValue == null) {
+                       hashValue = document.createElementNS(GLOBAL_NS, HASH_VALUE);
+                       attachment.appendChild(hashValue);
+                   }
+
+                   final Attr hashAlgorithm = (Attr) hashValue.getAttributes().getNamedItemNS(GLOBAL_NS, HASH_ALGORITHM);
+                   if (hashAlgorithm == null || StringUtils.isBlank(hashAlgorithm.getValue())) {
+                       final Attr newHashAlgorithm = document.createAttributeNS(GLOBAL_NS, HASH_ALGORITHM);
+                       newHashAlgorithm.setValue(SHA_1);
+                       ((Element) hashValue).setAttributeNode(newHashAlgorithm);
+                   }
+
+                   final String hash = hashValue.getTextContent();
+                   if (StringUtils.isBlank(hash) && fileName != null && StringUtils.isNotBlank(fileName.getTextContent()) && attachmentHashes.containsKey(fileName.getTextContent())) {
+                       hashValue.setTextContent(attachmentHashes.get(fileName.getTextContent()));
+                   }
+               }
+           }
+       }
     }
 
     /**

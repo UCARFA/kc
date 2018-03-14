@@ -7,7 +7,9 @@
  */
 package org.kuali.coeus.propdev.impl.custom;
 
-public class ProposalDevelopmentCustomDataGroupDto {
+import java.io.Serializable;
+
+public class ProposalDevelopmentCustomDataGroupDto implements Serializable {
     private String description;
     private String idSuffix;
 

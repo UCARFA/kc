@@ -25,7 +25,7 @@ public class AddProjectPersonnelHelper extends AddProjectBudgetLineItemHelper {
 	public static final String BUDGET_PERSON = "budgetPerson";
 
 	private BudgetPerson editBudgetPerson;
-    private DataObjectService dataObjectService;
+    private transient DataObjectService dataObjectService;
     private List<TbnPerson> tbnPersons;
     private BudgetPersonnelDetails budgetPersonnelDetail;
     private BudgetPersonnelDetails editBudgetPersonnelDetail;
