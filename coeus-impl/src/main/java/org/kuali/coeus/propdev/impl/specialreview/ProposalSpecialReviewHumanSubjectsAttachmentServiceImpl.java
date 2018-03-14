@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.s2s.FormUtilityService;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
+import org.kuali.coeus.s2sgen.api.hash.GrantApplicationHashService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,6 +33,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.kuali.coeus.sys.framework.util.CollectionUtils.*;
+
 @Component("proposalSpecialReviewHumanSubjectsAttachmentService")
 public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements ProposalSpecialReviewHumanSubjectsAttachmentService {
 
@@ -49,6 +52,10 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
     @Autowired
     @Qualifier("formUtilityService")
     private FormUtilityService formUtilityService;
+
+    @Autowired
+    @Qualifier("grantApplicationHashService")
+    private GrantApplicationHashService grantApplicationHashService;
 
     @Override
     public Map<String, Object> getSpecialReviewAttachmentXmlFileData(byte pdfFileContents[]) {
@@ -101,7 +108,7 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
                 if (document != null) {
                     Element form;
                     form = document.getDocumentElement();
-                    xml = processForm(form);
+                    xml = processForm(form, attachments);
                     fileData.put(CONTENT, xml);
                 }
             }
@@ -116,10 +123,15 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
     }
 
 
-    private String processForm(Element form) throws TransformerException, XPathExpressionException {
+    private String processForm(Element form, Map<String, byte[]> attachments) throws TransformerException, XPathExpressionException {
 
         String formXML;
         Document doc = formUtilityService.node2Dom(form);
+        formUtilityService.correctAttachmentNameHrefHash(doc, attachments
+                .entrySet()
+                .stream()
+                .map(e -> entry(e.getKey(), getGrantApplicationHashService().computeAttachmentHash(e.getValue())))
+                .collect(entriesToMap()));
         formUtilityService.removeAllEmptyNodes(doc, EMPTY_NODES, 0);
         formUtilityService.removeAllEmptyNodes(doc, OTHER_PERS, 1);
         formUtilityService.removeAllEmptyNodes(doc, EMPTY_NODES, 0);
@@ -139,5 +151,13 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
 
     public void setFormUtilityService(FormUtilityService formUtilityService) {
         this.formUtilityService = formUtilityService;
+    }
+
+    public GrantApplicationHashService getGrantApplicationHashService() {
+        return grantApplicationHashService;
+    }
+
+    public void setGrantApplicationHashService(GrantApplicationHashService grantApplicationHashService) {
+        this.grantApplicationHashService = grantApplicationHashService;
     }
 }
