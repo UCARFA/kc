@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-2836: making sure fileName and href match to satisfy grants.gov rules, making sure a hashValue exists for each attachment
+  * Travis Schneeberger on Wed, 14 Mar 2018 14:32:06 -0400 [View Commit](../../commit/bbbcea25e075e791c928dba0d90071ba753a5c9b)
+* RESKC-2836: minor fixes
+  * Travis Schneeberger on Wed, 14 Mar 2018 11:14:23 -0400 [View Commit](../../commit/3e00f8d43b5b4743461600f7dd7872a1e6670039)
+
+## coeus-1803.0018
 * No Changes
 
 
