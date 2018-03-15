@@ -15,13 +15,12 @@ import org.kuali.coeus.propdev.api.s2s.S2sFormConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewHumanSubjectsAttachmentService;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
-import org.kuali.coeus.s2sgen.api.core.InfastructureConstants;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.s2sgen.api.generate.FormGenerationResult;
 import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
-import org.kuali.coeus.s2sgen.api.hash.GrantApplicationHashService;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +38,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component("s2sUserAttachedFormService")
 public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormService {
@@ -53,10 +53,6 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     @Autowired
     @Qualifier("formMappingService")
     private FormMappingService formMappingService;
-
-    @Autowired
-    @Qualifier("grantApplicationHashService")
-    private GrantApplicationHashService grantApplicationHashService;
 
     @Autowired
     @Qualifier("globalVariableService")
@@ -93,7 +89,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
                     s2sException.setTabErrorKey(USER_ATTACHED_FORMS_ERRORS);
                     throw s2sException;
                 }
-                Map<String, byte[]> attachments = formUtilityService.extractAttachments(reader);
+                Map<String, KcFile> attachments = formUtilityService.extractAttachments(reader);
                 formBeans = extractAndPopulateXml(developmentProposal,reader,s2sUserAttachedForm,attachments);
             }
             setFormsAvailability(developmentProposal,formBeans);
@@ -109,7 +105,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         throw s2sException;
     }
 
-    protected List<S2sUserAttachedForm> extractAndPopulateXml(ProposalDevelopmentDocument developmentProposal, PdfReader reader, S2sUserAttachedForm userAttachedForm, Map<String, byte[]> attachments) throws TransformerException, IOException, SAXException, ParserConfigurationException, XPathExpressionException {
+    protected List<S2sUserAttachedForm> extractAndPopulateXml(ProposalDevelopmentDocument developmentProposal, PdfReader reader, S2sUserAttachedForm userAttachedForm, Map<String, KcFile> attachments) throws TransformerException, IOException, SAXException, ParserConfigurationException, XPathExpressionException {
         List<S2sUserAttachedForm> formBeans = new ArrayList<>();
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Document domDocument = xfaForm.getDomDocument();
@@ -188,7 +184,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     }
 
     protected void addForm(ProposalDevelopmentDocument developmentProposal, List<S2sUserAttachedForm> formBeans, Element form,
-                           S2sUserAttachedForm userAttachedFormBean, Map<String, byte[]> attachments) throws TransformerException, XPathExpressionException {
+                           S2sUserAttachedForm userAttachedFormBean, Map<String, KcFile> attachments) throws TransformerException, XPathExpressionException {
         S2sUserAttachedForm userAttachedForm = processForm(developmentProposal, form,userAttachedFormBean,attachments);
         if(userAttachedForm!=null){
             formBeans.add(userAttachedForm);
@@ -209,7 +205,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         }
     }
 
-    private S2sUserAttachedForm processForm(ProposalDevelopmentDocument developmentProposal, Element form, S2sUserAttachedForm userAttachedForm, Map<String, byte[]> attachments) throws TransformerException, XPathExpressionException {
+    private S2sUserAttachedForm processForm(ProposalDevelopmentDocument developmentProposal, Element form, S2sUserAttachedForm userAttachedForm, Map<String, KcFile> attachments) throws TransformerException, XPathExpressionException {
         
         String formname;
         String namespaceUri;
@@ -230,23 +226,18 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
 
         doHumanStudiesWorkaround(doc, attachments);
 
+        formUtilityService.correctAttachmentXml(doc, attachments);
         String xpathEmptyNodes = "//*[not(node()) and local-name(.) != 'FileLocation' and local-name(.) != 'HashValue' and local-name(.) != 'FileName']";// and not(FileLocation[@href])]";// and string-length(normalize-space(@*)) = 0 ]";
         String xpathOtherPers = "//*[local-name(.)='ProjectRole' and local-name(../../.)='OtherPersonnel' and count(../NumberOfPersonnel)=0]";
         formUtilityService.removeAllEmptyNodes(doc, xpathEmptyNodes, 0);
         formUtilityService.removeAllEmptyNodes(doc, xpathOtherPers, 1);
         formUtilityService.removeAllEmptyNodes(doc, xpathEmptyNodes, 0);
-        NodeList hashValueNodes =  doc.getElementsByTagName("glob:HashValue");
-        for (int i = 0; i < hashValueNodes.getLength(); i++) {
-            Node hashValue = hashValueNodes.item(i);
-            ((Element)hashValue).setAttribute("xmlns:glob", "http://apply.grants.gov/system/Global-V1.0");
-        }
-
         formUtilityService.reorderXmlElements(doc);
 
         S2sUserAttachedForm newUserAttachedForm = cloneUserAttachedForm(userAttachedForm);
         newUserAttachedForm.setNamespace(namespaceUri);
         newUserAttachedForm.setFormName(formname);
-        updateAttachmentNodes(doc, newUserAttachedForm, attachments);
+        updateAttachmentNodes(newUserAttachedForm, attachments);
         formXML = formUtilityService.docToString(doc);
 
         S2sUserAttachedFormFile newUserAttachedFormFile = new S2sUserAttachedFormFile();
@@ -278,16 +269,16 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
      * @param doc         the form as an Xml Document.  This document could get modified by this method.
      * @param attachments form attachments.  This map could get modified by this method.
      */
-    private void doHumanStudiesWorkaround(Document doc, Map<String, byte[]> attachments) {
-        final Map<String, byte[]> allHsAttachments = new HashMap<>();
+    private void doHumanStudiesWorkaround(Document doc, Map<String, KcFile> attachments) {
+        final Map<String, KcFile> allHsAttachments = new HashMap<>();
 
         final NodeList hsAtt = doc.getElementsByTagNameNS("http://apply.grants.gov/forms/PHSHumanSubjectsAndClinicalTrialsInfo-V1.0", "ATT");
         for (int i = 0; i < hsAtt.getLength(); i++) {
             final Node attachmentName = hsAtt.item(i);
-            byte[] hsAttPdf = attachments.get(attachmentName.getTextContent());
+            final KcFile hsAttPdf = attachments.get(attachmentName.getTextContent());
             if (hsAttPdf != null) {
                 try {
-                    final Map<String, Object> hsAttinfo = proposalSpecialReviewHumanSubjectsAttachmentService.getSpecialReviewAttachmentXmlFileData(hsAttPdf);
+                    final Map<String, Object> hsAttinfo = proposalSpecialReviewHumanSubjectsAttachmentService.getSpecialReviewAttachmentXmlFileData(hsAttPdf.getData());
                     if (hsAttinfo != null) {
                         final String hsXml = (String) hsAttinfo.get(ProposalSpecialReviewHumanSubjectsAttachmentService.CONTENT);
                         if (StringUtils.isNotBlank(hsXml)) {
@@ -299,7 +290,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
                                 hsAttachmentNode.appendChild(doc.importNode(hsNode, true));
                             }
                         }
-                        final Map<String, byte[]> hsctAttachments = (Map<String, byte[]>) hsAttinfo.get(ProposalSpecialReviewHumanSubjectsAttachmentService.FILES);
+                        final Map<String, KcFile> hsctAttachments = (Map<String, KcFile>) hsAttinfo.get(ProposalSpecialReviewHumanSubjectsAttachmentService.FILES);
                         if (hsctAttachments != null) {
                             allHsAttachments.putAll(hsctAttachments);
                         }
@@ -352,66 +343,23 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         return newUserAttachedForm;
     }
 
-    private void updateAttachmentNodes(Document document, S2sUserAttachedForm userAttachedFormBean, Map<String, byte[]> attachments) {
-        NodeList lstFileName = document.getElementsByTagNameNS("http://apply.grants.gov/system/Attachments-V1.0", "FileName");
-        NodeList lstFileLocation = document.getElementsByTagNameNS("http://apply.grants.gov/system/Attachments-V1.0", "FileLocation");
-        NodeList lstHashValue = document.getElementsByTagNameNS("http://apply.grants.gov/system/Global-V1.0", "HashValue");
-        NodeList lstMimeType = document.getElementsByTagNameNS("http://apply.grants.gov/system/Attachments-V1.0","MimeType");
+    private void updateAttachmentNodes(S2sUserAttachedForm userAttachedFormBean, Map<String, KcFile> attachments) {
+        final List<S2sUserAttachedFormAtt> attachmentList = attachments.values()
+                .stream()
+                .map(attachment -> {
+                    S2sUserAttachedFormAtt userAttachedFormAttachment = new S2sUserAttachedFormAtt();
+                    S2sUserAttachedFormAttFile userAttachedFormAttachmentFile = new S2sUserAttachedFormAttFile();
+                    userAttachedFormAttachmentFile.setAttachment(attachment.getData());
+                    userAttachedFormAttachment.getS2sUserAttachedFormAttFiles().add(userAttachedFormAttachmentFile);
+                    userAttachedFormAttachment.setContentId(attachment.getName());
+                    userAttachedFormAttachment.setName(attachment.getName());
+                    userAttachedFormAttachment.setType(attachment.getType());
+                    userAttachedFormAttachment.setProposalNumber(userAttachedFormBean.getProposalNumber());
+                    userAttachedFormAttachment.setS2sUserAttachedForm(userAttachedFormBean);
+                    return userAttachedFormAttachment;
+                })
+                .collect(Collectors.toList());
 
-
-        if ( (lstFileName.getLength() != lstFileLocation.getLength()) || 
-                (lstFileLocation.getLength() != lstHashValue.getLength())) {
-            throw new S2SException("Attachment node occurrences and number of attachments mismatch in PDF File");
-        }
-
-        org.w3c.dom.Node fileNode, hashNode, mimeTypeNode;
-        org.w3c.dom.NamedNodeMap fileNodeMap;
-        String fileName;
-        byte[] fileBytes;
-        String hashValue;
-        String contentId;
-        List<S2sUserAttachedFormAtt> attachmentList = new ArrayList<>();
-        for (int index = 0; index < lstFileName.getLength(); index++) {
-            fileNode = lstFileName.item(index);
-            if (fileNode.getFirstChild() == null) {
-                continue;//no attachments
-            }
-            fileName = fileNode.getFirstChild().getNodeValue();
-            fileBytes = attachments.get(fileName);
-            if (fileBytes == null || fileBytes.length == 0) {
-                throw new S2SException("FileName mismatch in XML and PDF extracted file");
-            }
-
-            hashValue = grantApplicationHashService.computeAttachmentHash(fileBytes);
-            hashNode = lstHashValue.item(index);
-            NamedNodeMap hashNodeMap = hashNode.getAttributes();
-            Node temp = document.createTextNode(hashValue);
-            hashNode.appendChild(temp);
-
-            Node hashAlgorithmNode = hashNodeMap.getNamedItemNS("http://apply.grants.gov/system/Global-V1.0", "hashAlgorithm");
-            hashAlgorithmNode.setNodeValue(InfastructureConstants.HASH_ALGORITHM);
-            hashNodeMap.setNamedItemNS(hashAlgorithmNode);
-            
-            fileNode = lstFileLocation.item(index);
-            fileNodeMap = fileNode.getAttributes();
-            fileNode = fileNodeMap.getNamedItemNS("http://apply.grants.gov/system/Attachments-V1.0", "href");
-            contentId = fileNode.getNodeValue();
-
-            S2sUserAttachedFormAtt userAttachedFormAttachment = new S2sUserAttachedFormAtt();
-            S2sUserAttachedFormAttFile userAttachedFormAttachmentFile = new S2sUserAttachedFormAttFile();
-            userAttachedFormAttachmentFile.setAttachment(fileBytes);
-            userAttachedFormAttachment.getS2sUserAttachedFormAttFiles().add(userAttachedFormAttachmentFile);
-            userAttachedFormAttachment.setContentId(contentId);
-            userAttachedFormAttachment.setName(fileName);
-            
-            mimeTypeNode = lstMimeType.item(0);
-            String contentType = mimeTypeNode.getFirstChild().getNodeValue();
-            userAttachedFormAttachment.setType(contentType);
-
-            userAttachedFormAttachment.setProposalNumber(userAttachedFormBean.getProposalNumber());
-            userAttachedFormAttachment.setS2sUserAttachedForm(userAttachedFormBean);
-            attachmentList.add(userAttachedFormAttachment);
-        }
         userAttachedFormBean.setS2sUserAttachedFormAtts(attachmentList);
     }
 
@@ -452,14 +400,6 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
 
     public void setFormMappingService(FormMappingService formMappingService) {
         this.formMappingService = formMappingService;
-    }
-
-    public GrantApplicationHashService getGrantApplicationHashService() {
-        return grantApplicationHashService;
-    }
-
-    public void setGrantApplicationHashService(GrantApplicationHashService grantApplicationHashService) {
-        this.grantApplicationHashService = grantApplicationHashService;
     }
 
     public GlobalVariableService getGlobalVariableService() {

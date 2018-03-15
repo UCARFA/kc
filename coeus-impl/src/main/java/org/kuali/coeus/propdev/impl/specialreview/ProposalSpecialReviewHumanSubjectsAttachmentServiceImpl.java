@@ -13,7 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.s2s.FormUtilityService;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
-import org.kuali.coeus.s2sgen.api.hash.GrantApplicationHashService;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,16 +32,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.kuali.coeus.sys.framework.util.CollectionUtils.*;
-
 @Component("proposalSpecialReviewHumanSubjectsAttachmentService")
 public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements ProposalSpecialReviewHumanSubjectsAttachmentService {
 
     private static final String EMPTY_NODES = "//*[not(node()) and local-name(.) != 'FileLocation' and local-name(.) != 'HashValue' and local-name(.) != 'FileName']";
     private static final String OTHER_PERS = "//*[local-name(.)='ProjectRole' and local-name(../../.)='OtherPersonnel' and count(../NumberOfPersonnel)=0]";
-    private static final String GLOB_HASH_VALUE = "glob:HashValue";
-    private static final String GLOBAL_V1_0 = "http://apply.grants.gov/system/Global-V1.0";
-    private static final String XMLNS_GLOB = "xmlns:glob";
     private static final String MESSAGE = "The pdf form does not contain any data.";
     private static final String UPLOADED_FILE_IS_EMPTY = "Uploaded file is empty";
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
@@ -53,14 +47,10 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
     @Qualifier("formUtilityService")
     private FormUtilityService formUtilityService;
 
-    @Autowired
-    @Qualifier("grantApplicationHashService")
-    private GrantApplicationHashService grantApplicationHashService;
-
     @Override
     public Map<String, Object> getSpecialReviewAttachmentXmlFileData(byte pdfFileContents[]) {
         String xml;
-        Map<String, byte[]> attachments;
+        Map<String, KcFile> attachments;
         Map<String, Object> fileData = new HashMap<>();
         PdfReader reader = null;
         try {
@@ -123,23 +113,14 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
     }
 
 
-    private String processForm(Element form, Map<String, byte[]> attachments) throws TransformerException, XPathExpressionException {
+    private String processForm(Element form, Map<String, KcFile> attachments) throws TransformerException, XPathExpressionException {
 
         String formXML;
         Document doc = formUtilityService.node2Dom(form);
-        formUtilityService.correctAttachmentNameHrefHash(doc, attachments
-                .entrySet()
-                .stream()
-                .map(e -> entry(e.getKey(), getGrantApplicationHashService().computeAttachmentHash(e.getValue())))
-                .collect(entriesToMap()));
+        formUtilityService.correctAttachmentXml(doc, attachments);
         formUtilityService.removeAllEmptyNodes(doc, EMPTY_NODES, 0);
         formUtilityService.removeAllEmptyNodes(doc, OTHER_PERS, 1);
         formUtilityService.removeAllEmptyNodes(doc, EMPTY_NODES, 0);
-        NodeList hashValueNodes = doc.getElementsByTagName(GLOB_HASH_VALUE);
-        for (int i = 0; i < hashValueNodes.getLength(); i++) {
-            Node hashValue = hashValueNodes.item(i);
-            ((Element) hashValue).setAttribute(XMLNS_GLOB, GLOBAL_V1_0);
-        }
         formUtilityService.reorderXmlElements(doc);
         formXML = formUtilityService.docToString(doc);
         return formXML;
@@ -151,13 +132,5 @@ public class ProposalSpecialReviewHumanSubjectsAttachmentServiceImpl implements 
 
     public void setFormUtilityService(FormUtilityService formUtilityService) {
         this.formUtilityService = formUtilityService;
-    }
-
-    public GrantApplicationHashService getGrantApplicationHashService() {
-        return grantApplicationHashService;
-    }
-
-    public void setGrantApplicationHashService(GrantApplicationHashService grantApplicationHashService) {
-        this.grantApplicationHashService = grantApplicationHashService;
     }
 }
