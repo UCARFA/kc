@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2836: handling pdf file attachments in user attached forms properly.
+  * Travis Schneeberger on Thu, 15 Mar 2018 14:39:14 -0400 [View Commit](../../commit/3e601d6a3dd6b54cf472ee2b4df7176ced0ed722)
+
+## coeus-1803.0020
 * No Changes
 
 
