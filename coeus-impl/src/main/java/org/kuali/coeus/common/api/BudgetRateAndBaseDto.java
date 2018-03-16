@@ -5,8 +5,10 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 public class BudgetRateAndBaseDto {
 
     private String rateClassCode;
+    private String rateTypeCode;
     private ScaleTwoDecimal appliedRate;
     private ScaleTwoDecimal calculatedCost;
+    private ScaleTwoDecimal baseCost;
 
     public String getRateClassCode() {
         return rateClassCode;
@@ -14,6 +16,14 @@ public class BudgetRateAndBaseDto {
 
     public void setRateClassCode(String rateClassCode) {
         this.rateClassCode = rateClassCode;
+    }
+
+    public String getRateTypeCode() {
+        return rateTypeCode;
+    }
+
+    public void setRateTypeCode(String rateTypeCode) {
+        this.rateTypeCode = rateTypeCode;
     }
 
     public ScaleTwoDecimal getAppliedRate() {
@@ -30,5 +40,13 @@ public class BudgetRateAndBaseDto {
 
     public void setCalculatedCost(ScaleTwoDecimal calculatedCost) {
         this.calculatedCost = calculatedCost;
+    }
+
+    public ScaleTwoDecimal getBaseCost() {
+        return baseCost;
+    }
+
+    public void setBaseCost(ScaleTwoDecimal baseCost) {
+        this.baseCost = baseCost;
     }
 }

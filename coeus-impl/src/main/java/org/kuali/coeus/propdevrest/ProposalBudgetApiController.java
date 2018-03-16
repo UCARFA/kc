@@ -72,7 +72,7 @@ public class ProposalBudgetApiController extends org.kuali.coeus.sys.framework.c
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping(value = "/budgets/config", consumes = MediaType.APPLICATION_JSON_VALUE,
+    @GetMapping(value = "/budgets/modular-budget/config", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public Map<String, Object> getBudgetConfiguration() {
