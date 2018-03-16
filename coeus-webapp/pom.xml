@@ -386,7 +386,7 @@
                 <kualiRest.user>admin</kualiRest.user>
                 <kualiRest.password></kualiRest.password>
                 <!-- JDBC -->
-                <jdbcKualiMySQL.url>jdbc:mysql://kcnonprod4.fanda.ucar.edu:43306/coeus</jdbcKualiMySQL.url>
+                <jdbcKualiMySQL.url>jdbc:mysql://kcnonprod4.fin.ucar.edu:43306/coeus</jdbcKualiMySQL.url>
                 <jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
                 <jdbcKualiMySQL.password></jdbcKualiMySQL.password>
                 <!--  Tomcat deployment url -->
@@ -417,7 +417,7 @@
 				<samlKey>kcnonprod</samlKey>
 				<samlKeyPW></samlKeyPW>
     			<!-- Kuali -->
-    			<kcserver.fqdn>kcnonprod1.fanda.ucar.edu</kcserver.fqdn>
+    			<kcserver.fqdn>kcnonprod1.fin.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
     			<kualiAppProtocol>https</kualiAppProtocol>
     			<kualiAppVersion>INTEGRATION:coeus-webapp:1609.0056</kualiAppVersion>
@@ -429,7 +429,7 @@
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
     			<jdbcKualiMySQL.password></jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kcnonprod1.fanda.ucar.edu:1443/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kcnonprod1.fin.ucar.edu:1443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
@@ -491,7 +491,7 @@
 				<samlKey>kcnonprod</samlKey>
 				<samlKeyPW></samlKeyPW>
     			<!-- Kuali -->
-    			<kcserver.fqdn>kcnonprod3.fanda.ucar.edu</kcserver.fqdn>
+    			<kcserver.fqdn>kcnonprod3.fin.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
     			<kualiAppProtocol>https</kualiAppProtocol>
     			<kualiAppVersion>TEST:coeus-webapp:1609.0056</kualiAppVersion>
@@ -503,7 +503,7 @@
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
     			<jdbcKualiMySQL.password></jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kcnonprod3.fanda.ucar.edu:3443/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kcnonprod3.fin.ucar.edu:3443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
@@ -529,7 +529,7 @@
 				<samlKey>kcnonprod</samlKey>
 				<samlKeyPW></samlKeyPW>
     			<!-- Kuali -->
-    			<kcserver.fqdn>kcnonprod4.fanda.ucar.edu</kcserver.fqdn>
+    			<kcserver.fqdn>kcnonprod4.fin.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
     			<kualiAppProtocol>https</kualiAppProtocol>
     			<kualiAppVersion>INTEGRATION:coeus-webapp:1609.0056</kualiAppVersion>
@@ -541,7 +541,7 @@
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
     			<jdbcKualiMySQL.password></jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kcnonprod4.fanda.ucar.edu:4443/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kcnonprod4.fin.ucar.edu:4443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
@@ -566,7 +566,7 @@
 				<samlKey>kcnonprod</samlKey>
 				<samlKeyPW></samlKeyPW>
     			<!-- Kuali -->
-    			<kcserver.fqdn>kcnonprod5.fanda.ucar.edu</kcserver.fqdn>
+    			<kcserver.fqdn>kcnonprod5.fin.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
     			<kualiAppProtocol>https</kualiAppProtocol>
     			<kualiAppVersion>SANDBOX:coeus-webapp:1609.0056</kualiAppVersion>
@@ -578,7 +578,7 @@
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
     			<jdbcKualiMySQL.password></jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kcnonprod5.fanda.ucar.edu:5443/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kcnonprod5.fin.ucar.edu:5443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
@@ -603,7 +603,7 @@
 				<samlKey>kcnonprod</samlKey>
 				<samlKeyPW></samlKeyPW>
 				<!-- Kuali -->
-				<kcserver.fqdn>kcnonprod6.fanda.ucar.edu</kcserver.fqdn>
+				<kcserver.fqdn>kcnonprod6.fin.ucar.edu</kcserver.fqdn>
 				<kualiAppPort>443</kualiAppPort>
 				<kualiAppProtocol>https</kualiAppProtocol>
 				<kualiAppVersion>AWARD_IMPORT_TEST:coeus-webapp:1609.0056</kualiAppVersion>
@@ -615,7 +615,7 @@
 				<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
 				<jdbcKualiMySQL.password></jdbcKualiMySQL.password>
 				<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kcnonprod6.fanda.ucar.edu:6443/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kcnonprod6.fin.ucar.edu:6443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
 			</properties>
 		</profile>
@@ -639,7 +639,7 @@
 				<samlKey>kcnonprod</samlKey>
 				<samlKeyPW></samlKeyPW>
     			<!-- Kuali -->
-    			<kcserver.fqdn>kcnonprod7.fanda.ucar.edu</kcserver.fqdn>
+    			<kcserver.fqdn>kcnonprod7.fin.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>443</kualiAppPort>
     			<kualiAppProtocol>https</kualiAppProtocol>
     			<kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
@@ -651,7 +651,7 @@
     			<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
     			<jdbcKualiMySQL.password></jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kcnonprod7.fanda.ucar.edu:7443/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kcnonprod7.fin.ucar.edu:7443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
@@ -714,7 +714,7 @@
 				<samlKey>kcprod</samlKey>
 				<samlKeyPW></samlKeyPW>
 				<!-- Kuali -->
-				<kcserver.fqdn>kuali.fanda.ucar.edu</kcserver.fqdn>
+				<kcserver.fqdn>kuali.fin.ucar.edu</kcserver.fqdn>
 				<kualiAppPort>443</kualiAppPort>
 				<kualiAppProtocol>https</kualiAppProtocol>
 				<kualiAppVersion>PRODUCTION:1609.0056</kualiAppVersion>
@@ -726,7 +726,7 @@
 				<jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
 				<jdbcKualiMySQL.password></jdbcKualiMySQL.password>
 				<!--  Tomcat deployment url -->
-				<tomcat.deployUrl>https://kuali.fanda.ucar.edu:1443/manager/text</tomcat.deployUrl>
+				<tomcat.deployUrl>https://kuali.fin.ucar.edu:1443/manager/text</tomcat.deployUrl>
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
 			</properties>
 		</profile>
