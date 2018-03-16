@@ -401,24 +401,29 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                 equals(budgetRateAndBase.getRateClassCode()) && budgetCalculatedAmounts.getApplyRateFlag());
     }
 
+    @Override
     public boolean roundFandAbase() {
         return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 ParameterConstants.DOCUMENT_COMPONENT,
                 Constants.ROUND_F_AND_A_BASE);
     }
 
+    @Override
     public Collection<String> getConsortiumFnaOnlyCostElements() {
         return parameterService.getParameterValuesAsString(Budget.class, Constants.PARAMETER_FNA_COST_ELEMENTS);
     }
 
+    @Override
     public String getFnaRateClassType() {
         return parameterService.getParameterValueAsString(Budget.class, Constants.PARAMETER_FNA_RATE_CLASS_TYPE);
     }
 
+    @Override
     public String getCostelementSubconFandAUnder25K() {
         return parameterService.getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
     }
 
+    @Override
     public String getCostelementSubconFandAOver25K() {
         return parameterService.getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
     }
