@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-2454: Added a couple additional properties and updated config route
+  * Jeff Largent on Fri, 16 Mar 2018 14:48:10 -0400 [View Commit](../../commit/aee7a5d10818a24b0cf2c48c0ecdc5ee7d9adbc0)
+* RESKC-2454: Adding info required by modular budget to monolith API
+  * Jeff Largent on Fri, 16 Mar 2018 09:26:28 -0400 [View Commit](../../commit/bebce27e52bfc5262257ab193159b826a17dd7c3)
+
+## coeus-1803.0021
 * RESKC-2836: handling pdf file attachments in user attached forms properly.
   * Travis Schneeberger on Thu, 15 Mar 2018 14:39:14 -0400 [View Commit](../../commit/3e601d6a3dd6b54cf472ee2b4df7176ced0ed722)
 
