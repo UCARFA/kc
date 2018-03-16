@@ -12,26 +12,16 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import java.util.List;
 
 public interface ProposalPersonService {
-    public String getPersonName(ProposalDevelopmentDocument doc, String userId);
+    String getPersonName(ProposalDevelopmentDocument doc, String userId);
 
-    public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber);
-    
+    List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber);
 
-    /**
-     * This method is to get division name using the 4th level node on the Unit hierarchy
-     * 
-     * @param proposalPerson Proposal person.
-     * @return divisionName based on the 4th level node on the Unit hierarchy.
-     */
-    public String getProposalPersonDivisionName(ProposalPerson proposalPerson);
 
     /**
      * This method is to get list of ProposalPersons by matching partial name.
      * Wildcards work as well.
      *
      * @param partialName String representing partial name from search screen
-     * @return
      */
-    public List<ProposalPerson> getProposalPersonsByPartialName(String partialName);
-
+    List<ProposalPerson> getProposalPersonsByPartialName(String partialName);
 }
