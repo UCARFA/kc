@@ -13,11 +13,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.kuali.coeus.common.api.BudgetPeriodDto;
 import org.kuali.coeus.common.api.RateClassDto;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class ModularBudgetDto {
 
     private Long budgetId;
+    private Timestamp updateTimestamp;
     @Property(translate = true, update = true)
     private RateClassDto rateClass;
     @JsonProperty(value="budgetPeriods")
@@ -31,6 +33,14 @@ public class ModularBudgetDto {
 
     public void setBudgetId(Long budgetId) {
         this.budgetId = budgetId;
+    }
+
+    public Timestamp getUpdateTimestamp() {
+        return updateTimestamp;
+    }
+
+    public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        this.updateTimestamp = updateTimestamp;
     }
 
     public RateClassDto getRateClass() {

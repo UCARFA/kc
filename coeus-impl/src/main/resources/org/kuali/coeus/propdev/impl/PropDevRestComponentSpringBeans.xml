@@ -38,6 +38,7 @@
     <import resource="classpath:org/kuali/coeus/propdev/impl/PropDevRestImportRiceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/propdev/impl/PropDevRestImportModuleSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/propdev/impl/PropDevImportModuleSpringBeans.xml"/>
+    <bean id="budgetModularService" parent="grlImporter" p:serviceName="budgetModularService" />
 
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">

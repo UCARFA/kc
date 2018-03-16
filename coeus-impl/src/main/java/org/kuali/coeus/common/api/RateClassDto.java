@@ -12,6 +12,7 @@ package org.kuali.coeus.common.api;
 public class RateClassDto {
     private String code;
     private String description;
+    private String rateClassTypeCode;
 
     public String getCode() {
         return code;
@@ -27,5 +28,13 @@ public class RateClassDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getRateClassTypeCode() {
+        return rateClassTypeCode;
+    }
+
+    public void setRateClassTypeCode(String rateClassTypeCode) {
+        this.rateClassTypeCode = rateClassTypeCode;
     }
 }

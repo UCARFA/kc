@@ -37,6 +37,8 @@ public class BudgetLineItemDto {
     @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal lineItemCost;
     @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
+    private ScaleTwoDecimal directCost;
+    @JsonDeserialize(using = ScaleTwoDecimalSerializer.class)
     private ScaleTwoDecimal obligatedAmount;
     private String hierarchyProposalNumber;
     private String lineItemDescription;
@@ -164,6 +166,14 @@ public class BudgetLineItemDto {
 
     public void setLineItemCost(ScaleTwoDecimal lineItemCost) {
         this.lineItemCost = lineItemCost;
+    }
+
+    public ScaleTwoDecimal getDirectCost() {
+        return directCost;
+    }
+
+    public void setDirectCost(ScaleTwoDecimal directCost) {
+        this.directCost = directCost;
     }
 
     public String getLineItemDescription() {
