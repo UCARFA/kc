@@ -293,7 +293,13 @@
             <bean parent="Uif-DataField" p:propertyName="ggTrackingId" p:order="40"/>
             <bean parent="Uif-DataField" p:propertyName="agencyTrackingId" p:order="50"/>
             <bean parent="Uif-DataField" p:propertyName="comments" p:order="60"/>
-            <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Attachments" p:order="70">
+            <bean parent="Uif-LinkField"
+                  p:render="@{displayedS2sAppSubmission != null and displayedS2sAppSubmission.s2sApplication != null}"
+                  p:readOnly="true" p:label="Grant Application XML" p:link.linkText="@{displayedS2sAppSubmission?.s2sApplication?.name}"
+                  p:link.href="?methodToCall=retrieveGrantApplicationXml&amp;formKey=@{formKey}"
+                  p:order="70"/>
+            <bean parent="Uif-DataField" p:label="Grant Application XML" p:readOnly="true" p:propertyName="s2sApplication.application" p:render="@{displayedS2sAppSubmission == null or displayedS2sAppSubmission.s2sApplication == null}" p:order="80"/>
+            <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Attachments" p:order="90">
                 <property name="group">
                     <bean parent="Uif-VerticalBoxGroup">
                         <property name="items">
@@ -388,6 +394,11 @@
 				</bean>
             </list>
         </property>
+        <property name="subCollections">
+            <list>
+                <bean parent="PropDev-OpportunityPage-UserAttachedFormAttachments-Collection" p:order="10"/>
+            </list>
+        </property>
         <property name="layoutManager.libraryCssClasses">
             <list>
                 <value>table</value>
@@ -399,6 +410,18 @@
         </property>
     </bean>
 
+    <bean id="PropDev-OpportunityPage-UserAttachedFormAttachments-Collection" parent="PropDev-OpportunityPage-UserAttachedFormAttachments-Collection-parentBean"/>
+    <bean id="PropDev-OpportunityPage-UserAttachedFormAttachments-Collection-parentBean" parent="Uif-StackedSubCollection-WithinSubSection"
+          p:propertyName="s2sUserAttachedFormAtts" p:renderAddLine="false" p:renderLineActions="false" p:collectionObjectClass="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAtt" p:header.headerText="Attachments">
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField"
+                      p:readOnly="true" p:fieldLabel.render="false" p:link.linkText="@{#line.name}"
+                      p:link.href="?methodToCall=getFileFromLine&amp;formKey=@{formKey}&amp;fileName=@{#ViewHelper.urlEncode(#line.name)}&amp;propertyPath=@{#collectionGroup.bindingInfo.bindingPath}FileMetas&amp;selectedLineIndex=@{#index}"
+                      p:order="10"/>
+            </list>
+        </property>
+    </bean>
 
     <bean id="PropDev-OpportunityPage-AddUserAttachedForm" parent="PropDev-OpportunityPage-AddUserAttachedForm-parentBean"/>
     <bean id="PropDev-OpportunityPage-AddUserAttachedForm-parentBean" abstract="true" parent="Uif-DialogGroup"
