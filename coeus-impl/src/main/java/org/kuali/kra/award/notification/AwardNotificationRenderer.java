@@ -13,7 +13,6 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.text.SimpleDateFormat;
 import java.util.Map;
@@ -103,8 +102,8 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
         } else {
             result.put("{FINAL_EXPIRATION_DATE}", StringUtils.EMPTY);
         }
-        if (award.getAwardEffectiveDate() != null) {
-            result.put("{OBLIGATION_EFFECTIVE_DATE}", dateFormatter.format(award.getAwardEffectiveDate()));
+        if (awardAmountInfo != null && awardAmountInfo.getCurrentFundEffectiveDate() != null) {
+            result.put("{OBLIGATION_EFFECTIVE_DATE}", dateFormatter.format(awardAmountInfo.getCurrentFundEffectiveDate()));
         } else {
             result.put("{OBLIGATION_EFFECTIVE_DATE}", StringUtils.EMPTY);
         }
@@ -113,24 +112,13 @@ public class AwardNotificationRenderer extends NotificationRendererBase {
         } else {
             result.put("{OBLIGATION_EXPIRATION_DATE}", StringUtils.EMPTY);
         }
-        if (awardAmountInfo != null) {
-            ScaleTwoDecimal totalAmount = ScaleTwoDecimal.ZERO;
-            if (awardAmountInfo.getObligatedTotalDirect() != null) {
-                totalAmount = totalAmount.add(awardAmountInfo.getObligatedTotalDirect());
-            }
-            if (awardAmountInfo.getObligatedTotalIndirect() != null) {
-                totalAmount = totalAmount.add(awardAmountInfo.getObligatedTotalIndirect());
-            }
-            result.put("{OBLIGATED_TOTAL_AMOUNT}", totalAmount.toString());
+        if (awardAmountInfo != null && awardAmountInfo.getAmountObligatedToDate() != null) {
+            result.put("{OBLIGATED_TOTAL_AMOUNT}", awardAmountInfo.getAmountObligatedToDate().toString());
         } else {
             result.put("{OBLIGATED_TOTAL_AMOUNT}", ZERO);
         }
-        if (awardAmountInfo != null) {
-            ScaleTwoDecimal totalAmount = ScaleTwoDecimal.ZERO;
-            if (awardAmountInfo.getAnticipatedTotalAmount() != null) {
-                totalAmount = totalAmount.add(awardAmountInfo.getAnticipatedTotalAmount());
-            }
-            result.put("{ANTICIPATED_TOTAL_AMOUNT}", totalAmount.toString());
+        if (awardAmountInfo != null && awardAmountInfo.getAnticipatedTotalAmount() != null) {
+            result.put("{ANTICIPATED_TOTAL_AMOUNT}", awardAmountInfo.getAnticipatedTotalAmount().toString());
         } else {
             result.put("{ANTICIPATED_TOTAL_AMOUNT}", ZERO);
         }
