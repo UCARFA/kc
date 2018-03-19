@@ -41,12 +41,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 @Controller
 public class ProposalDevelopmentS2SController extends ProposalDevelopmentControllerBase {
@@ -166,6 +174,27 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
             throws Exception {
         form.getDevelopmentProposal().setGrantsGovSelectFlag(true);
         return printForms(form,response);
+    }
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=retrieveGrantApplicationXml"})
+    public ModelAndView retrieveGrantApplicationXml(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response)
+            throws Exception {
+
+        final S2sAppSubmission submission =  form.getDisplayedS2sAppSubmission();
+        if (submission != null && submission.getS2sApplication() != null) {
+            final S2sApplication application = submission.getS2sApplication();
+
+            try (ByteArrayOutputStream out = new ByteArrayOutputStream(); StringReader in = new StringReader(application.getApplication())) {
+                final Transformer tf = TransformerFactory.newInstance().newTransformer();
+                tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                tf.setOutputProperty(OutputKeys.INDENT, "yes");
+                final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(in));
+                tf.transform(new DOMSource(doc), new StreamResult(out));
+
+                ControllerFileUtils.streamOutputToResponse(response, out, application.getContentType(), application.getName(), out.size());
+            }
+        }
+        return null;
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=printForms"})
@@ -313,7 +342,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=deleteUserAttachedForm"})
     public ModelAndView deleteUserAttachedForm( ProposalDevelopmentDocumentForm form, HttpServletResponse response,
-                                                 @RequestParam("selectedLine") String selectedLine) throws Exception {
+                                                 @RequestParam("selectedLine") String selectedLine) {
         S2sUserAttachedForm deleteForm = form.getDevelopmentProposal().getS2sUserAttachedForms().remove(Integer.parseInt(selectedLine));
         getDataObjectService().delete(deleteForm);
         getS2sUserAttachedFormService().resetFormAvailability(form.getProposalDevelopmentDocument(), deleteForm.getNamespace());
@@ -322,7 +351,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refreshSubmissionDetails"})
-    public ModelAndView refreshSubmissionDetails( ProposalDevelopmentDocumentForm form) throws Exception {
+    public ModelAndView refreshSubmissionDetails( ProposalDevelopmentDocumentForm form) {
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         try{
             getS2sSubmissionService().refreshGrantsGov(document);
@@ -334,7 +363,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveUserAttachedForm")
-    public ModelAndView saveUserAttachedForm(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+    public ModelAndView saveUserAttachedForm(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 

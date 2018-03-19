@@ -1,77 +1,53 @@
-/* Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
+/*
+ * Copyright © 2005-2018 Kuali, Inc. - All Rights Reserved
  * You may use and modify this code under the terms of the Kuali, Inc.
  * Pre-Release License Agreement. You may not distribute it.
  *
  * You should have received a copy of the Kuali, Inc. Pre-Release License
  * Agreement with this file. If not, please write to license@kuali.co.
  */
-package org.kuali.coeus.propdev.impl.s2s;
+
+package org.kuali.coeus.common.framework.attachment;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
-import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.propdev.api.s2s.S2sApplicationContract;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.file.FileMeta;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-@Entity
-@Table(name = "S2S_APPLICATION")
-public class S2sApplication extends KcPersistableBusinessObjectBase implements S2sApplicationContract, FileMeta {
+public class FileMetaKcFileDto implements FileMeta, KcFile, Serializable {
 
-    @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
+    private String id;
+    private String name;
+    private String type;
+    private byte[] data;
+    private String url;
+    private Date dateUploaded;
 
-    @Column(name = "APPLICATION")
-    @Lob
-    private String application;
-
-    @Transient
-    private transient String url;
-
-    @Transient
     private transient DateTimeService dateTimeService;
-
-    @Transient
     private transient KcAttachmentService kcAttachmentService;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
-    private List<S2sAppAttachments> s2sAppAttachmentList;
-
     @Override
-    public String getProposalNumber() {
-        return proposalNumber;
+    public String getType() {
+        return type;
     }
 
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
-    public String getApplication() {
-        return application;
+    public byte[] getData() {
+        return data;
     }
 
-    public void setApplication(String application) {
-        this.application = application;
-    }
-
-    @Override
-    public List<S2sAppAttachments> getS2sAppAttachmentList() {
-        return s2sAppAttachmentList;
-    }
-
-    public void setS2sAppAttachmentList(List<S2sAppAttachments> s2sAppAttachmentList) {
-        this.s2sAppAttachmentList = s2sAppAttachmentList;
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
     @Override
@@ -81,37 +57,37 @@ public class S2sApplication extends KcPersistableBusinessObjectBase implements S
 
     @Override
     public String getId() {
-        return getProposalNumber();
+        return id;
     }
 
     @Override
     public void setId(String id) {
-        setProposalNumber(id);
+        this.id = id;
     }
 
     @Override
     public String getName() {
-        return "Grant Application.xml";
+        return name;
     }
 
     @Override
     public void setName(String name) {
-        //no op
+        this.name = name;
     }
 
     @Override
     public String getContentType() {
-        return "text/xml";
+        return type;
     }
 
     @Override
     public void setContentType(String contentType) {
-        //no op
+        type = contentType;
     }
 
     @Override
     public Long getSize() {
-        return (long) application.length();
+        return (long) data.length;
     }
 
     @Override
@@ -126,18 +102,18 @@ public class S2sApplication extends KcPersistableBusinessObjectBase implements S
 
     @Override
     public Date getDateUploaded() {
-        return this.getUpdateTimestamp();
+        return dateUploaded;
     }
 
     @Override
     public void setDateUploaded(Date dateUploaded) {
-        this.setUpdateTimestamp(new Timestamp(dateUploaded.getTime()));
+        this.dateUploaded = dateUploaded;
     }
 
     @Override
     public String getDateUploadedFormatted() {
-        if (this.getUpdateTimestamp() != null) {
-            return getDateTimeService().toString(new Date(this.getUpdateTimestamp().getTime()), CoreConstants.TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE_DEFAULT);
+        if (dateUploaded != null) {
+            return getDateTimeService().toString(dateUploaded, CoreConstants.TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE_DEFAULT);
         }
         return StringUtils.EMPTY;
     }

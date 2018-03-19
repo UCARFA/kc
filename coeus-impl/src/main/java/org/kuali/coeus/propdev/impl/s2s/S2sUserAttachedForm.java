@@ -7,6 +7,7 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
+import org.kuali.coeus.common.framework.attachment.FileMetaKcFileDto;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormContract;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
@@ -64,8 +66,8 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
     private transient byte[] newFormFileBytes;
 
     public S2sUserAttachedForm() {
-        s2sUserAttachedFormAtts = new ArrayList<S2sUserAttachedFormAtt>();
-        s2sUserAttachedFormFileList = new ArrayList<S2sUserAttachedFormFile>();
+        s2sUserAttachedFormAtts = new ArrayList<>();
+        s2sUserAttachedFormFileList = new ArrayList<>();
     }
 
     @Override
@@ -122,85 +124,61 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
         this.description = description;
     }
 
-    /**
-     * Gets the edit attribute. 
-     * @return Returns the edit.
-     */
     public boolean isEdit() {
         return edit;
     }
 
-    /**
-     * Sets the edit attribute value.
-     * @param edit The edit to set.
-     */
     public void setEdit(boolean edit) {
         this.edit = edit;
     }
 
-    /**
-     * Gets the newFormFile attribute. 
-     * @return Returns the newFormFile.
-     */
     public MultipartFile getNewFormFile() {
         return newFormFile;
     }
 
-    /**
-     * Sets the newFormFile attribute value.
-     * @param newFormFile The newFormFile to set.
-     */
     public void setNewFormFile(MultipartFile newFormFile) {
         this.newFormFile = newFormFile;
     }
 
-    /**
-     * Gets the s2sUserAttachedFormAtts attribute. 
-     * @return Returns the s2sUserAttachedFormAtts.
-     */
     @Override
     public List<S2sUserAttachedFormAtt> getS2sUserAttachedFormAtts() {
         return s2sUserAttachedFormAtts;
     }
 
-    /**
-     * Sets the s2sUserAttachedFormAtts attribute value.
-     * @param s2sUserAttachedFormAtts The s2sUserAttachedFormAtts to set.
+    /*
+     * This getter exists because the BO contract is incompatible with FileMeta.  This is an adapter method.
+     * Be careful renaming this method as it is referenced by KRAD xml
      */
+    public List<FileMetaKcFileDto> getS2sUserAttachedFormAttsFileMetas() {
+        return getS2sUserAttachedFormAtts().stream().map(att -> {
+            final FileMetaKcFileDto file = new FileMetaKcFileDto();
+            file.setId(String.valueOf(att.getId()));
+            file.setData(att.getData());
+            file.setName(att.getName());
+            file.setType(att.getType());
+            file.setDateUploaded(att.getUpdateTimestamp());
+            file.setUrl("");
+            return file;
+        }).collect(Collectors.toList());
+    }
+
     public void setS2sUserAttachedFormAtts(List<S2sUserAttachedFormAtt> s2sUserAttachedFormAtts) {
         this.s2sUserAttachedFormAtts = s2sUserAttachedFormAtts;
     }
 
-    /**
-     * Gets the s2sUserAttachedFormFileList attribute. 
-     * @return Returns the s2sUserAttachedFormFileList.
-     */
     @Override
     public List<S2sUserAttachedFormFile> getS2sUserAttachedFormFileList() {
         return s2sUserAttachedFormFileList;
     }
 
-    /**
-     * Sets the s2sUserAttachedFormFileList attribute value.
-     * @param s2sUserAttachedFormFileList The s2sUserAttachedFormFileList to set.
-     */
     public void setS2sUserAttachedFormFileList(List<S2sUserAttachedFormFile> s2sUserAttachedFormFileList) {
         this.s2sUserAttachedFormFileList = s2sUserAttachedFormFileList;
     }
-
-    /**
-     * Gets the newFormFileBytes attribute. 
-     * @return Returns the newFormFileBytes.
-     */
 
     public byte[] getNewFormFileBytes() {
         return newFormFileBytes;
     }
 
-    /**
-     * Sets the newFormFileBytes attribute value.
-     * @param newFormFileBytes The newFormFileBytes to set.
-     */
     public void setNewFormFileBytes(byte[] newFormFileBytes) {
         this.newFormFileBytes = newFormFileBytes;
     }
@@ -212,5 +190,4 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
 	public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
 		this.developmentProposal = developmentProposal;
 	}
-
 }
