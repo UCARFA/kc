@@ -1,6 +1,50 @@
 
 
 ## CURRENT
+* RESKC-1494: Fix TBN calculations (#2798)
+
+  * When a Budget includes more than one TBA, each with different Salary Effective Date, the system is confusing the TBAs and pulls the wrong Base Salary for calculating the Requested Salary amount.
+  * 
+  * For example, in Proposal No: 1499 in res-demo1:
+  * 1. The Proposal Period is 07/01/2016 - 06/31/2017
+  * 
+  * 2. In the budget > Project Personnel, I added 2 TBA Research:
+  * 
+  * TBA Research - 1 with Salary Effective Date 07/01/2015 and Base Salary of $10,000
+  * TBA Research - 2 with Salary Effective Date 07/01/2016 and Base Salary of $20,000
+  * 3. In the Assign Personnel to Periods section, when I budgeted for TBA Research -1, the system used the Base Salary of $20,000 (which is the Base Salary of the TBA Research - 2) to calculate the Requested Salary, INSTEAD of using the Base Salary of $10,000
+  * (This is happening with all TBN categories, for example, if user has TBA Research - 1 and TBA Post-Doc-1 with different salary effective dates, the system will also confuse the two even-though they are different TBN categories)
+  * 
+  * Steps to reproduce:
+  * 
+  * 1. Create a Proposal (e.g. Project Period: 07/01/2016 - 06/30/2017)
+  * 
+  * 2. Create a new, detailed Budget version.
+  * 
+  * 3. In the Project Personnel section, add 2 TBA Research.
+  * 
+  * 4. Click the [Details] button for the TBA Research - 1 and complete as follows:
+  * a. Salary Effective Date: 07/01/2015
+  * b. Base Salary: 10000
+  * c. Click the [Save Changes] button
+  * 
+  * 5. Then click the [Details] button for the TBA Research - 2 and complete as follows:
+  * a. Salary Effective Date: 07/01/2016
+  * b. Base Salary: 20000
+  * c. Click the [Save Changes] button
+  * 
+  * 6. Navigate to the Assign Project Personnel to Periods section and click the [Assign Personnel...] button. In the Add Personnel to Period window select/enter:
+  * a. Person: TBA Research - 1
+  * b. Object Code: Research Staff - On
+  * e. Effort %: 100
+  * f. Charged %: 100
+  * h. Click the [Assign to Period 1] button
+  * 
+  * 7. You will notice that the Requested Salary amount that is calculated, is based on the Base Salary for TBA Research - 2 INSTEAD of the Base Salary for TBA Research - 1  * Gayathri Athreya on Mon, 19 Mar 2018 13:25:48 -0700 [View Commit](../../commit/f85767cca345f28f4aa682c620d899a39a40314f)
+* RESKC-2625: Ensure obligation-related award notice params are being populated correctly
+  * Jeff Largent on Mon, 19 Mar 2018 13:07:18 -0400 [View Commit](../../commit/65831e69f5a0bc801d294fd2b9dea8045c94d543)
+
+## coeus-1803.0023
 * RESKC-841: removing logic to populate division when adding a proposal person, updating s2s
   * Travis Schneeberger on Fri, 16 Mar 2018 16:20:11 -0400 [View Commit](../../commit/0e9f01c20ba84c99202c7b1bceaf1d9e3ec924e8)
 
