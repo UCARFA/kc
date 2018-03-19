@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2836: proposal opportunity search screen improvements
+  * Travis Schneeberger on Mon, 19 Mar 2018 17:00:10 -0400 [View Commit](../../commit/ce2a17731ab4ffcbd0e2679735d905a3ea8e2b0e)
+
+## coeus-1803.0024
 * RESKC-1494: Fix TBN calculations (#2798)
 
   * When a Budget includes more than one TBA, each with different Salary Effective Date, the system is confusing the TBAs and pulls the wrong Base Salary for calculating the Requested Salary amount.
