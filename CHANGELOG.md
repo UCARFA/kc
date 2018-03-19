@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-841: removing logic to populate division when adding a proposal person, updating s2s
+  * Travis Schneeberger on Fri, 16 Mar 2018 16:20:11 -0400 [View Commit](../../commit/0e9f01c20ba84c99202c7b1bceaf1d9e3ec924e8)
+
+## coeus-1803.0022
 * RESKC-2454: Added a couple additional properties and updated config route
   * Jeff Largent on Fri, 16 Mar 2018 14:48:10 -0400 [View Commit](../../commit/aee7a5d10818a24b0cf2c48c0ecdc5ee7d9adbc0)
 * RESKC-2454: Adding info required by modular budget to monolith API
