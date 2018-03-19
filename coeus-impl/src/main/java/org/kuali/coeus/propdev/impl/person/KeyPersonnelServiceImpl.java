@@ -43,12 +43,15 @@ import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
+import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_BIOGRAPHY_DEFAULT_DOC_TYPE;
+import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATOR;
+
 @Component("keyPersonnelService")
-public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
+public class KeyPersonnelServiceImpl implements KeyPersonnelService {
 
     private static final Log LOG = LogFactory.getLog(KeyPersonnelServiceImpl.class);
 
-    private static final String ROLODEX_PERSON = "Unknown";
     public static final String INVESTIGATOR = "investigator";
     public static final String UNIT = "unit";
     public static final String UNIT_TOTAL = "Unit Total:";
@@ -76,17 +79,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     private PersonEditableService personEditableService;
 
     @Autowired
-    @Qualifier("proposalPersonService")
-    ProposalPersonService proposalPersonService;
-
-    @Autowired
     @Qualifier("propAwardPersonRoleService")
-    PropAwardPersonRoleService propAwardPersonRoleService;
-
-    protected ProposalPersonService getProposalPersonService (){return proposalPersonService;}
-    public  void setProposalPersonService (ProposalPersonService proposalPersonService){
-        this.proposalPersonService = proposalPersonService;
-    }
+    private PropAwardPersonRoleService propAwardPersonRoleService;
 
     @Override
     public void populateDocument(ProposalDevelopmentDocument document) {
@@ -183,15 +177,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                 unit.setLeadUnit(false);
             }                
         }
-        if(proposalPerson.getHomeUnit()!=null){
-            proposalPerson.refreshReferenceObject("homeUnitRef");
-            String divisionName = getProposalPersonService().getProposalPersonDivisionName(proposalPerson);
-            proposalPerson.setDivision(divisionName);
-        }
-        else
-        {   
-            proposalPerson.setDivision(ROLODEX_PERSON);
-        }
+
         if (proposalPerson.getCitizenshipTypeCode() != null) {
             getDataObjectService().wrap(proposalPerson).fetchRelationship("citizenshipType");
         }
@@ -317,7 +303,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      */
     @Override
     public Map calculateCreditSplitTotals(ProposalDevelopmentDocument document) {
-        Map<String, Map<String,ScaleTwoDecimal>> retval = new HashMap<String,Map<String,ScaleTwoDecimal>>();
+        Map<String, Map<String,ScaleTwoDecimal>> retval = new HashMap<>();
 
         // Initialize investigator credit types if there aren't any
         if (document.getDevelopmentProposal().getInvestigatorCreditTypes() == null || document.getDevelopmentProposal().getInvestigatorCreditTypes().size() == 0) {
@@ -546,8 +532,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     protected void populateUnitLineItems(List<ProposalCreditSplitListDto> creditSplitListItems, ProposalPerson investigator, Map<String, CreditSplit> totalUnitSplits) {
         for(ProposalPersonUnit unit : investigator.getUnits()) {
-            List<CreditSplit> unitCreditSplits = new ArrayList<>();
-            unitCreditSplits.addAll(unit.getCreditSplits());
+            List<CreditSplit> unitCreditSplits = new ArrayList<>(unit.getCreditSplits());
             creditSplitListItems.add(createProposalCreditSplitListDto(unitCreditSplits,
                     unit.getUnit().getUnitNumber() + " - " + unit.getUnit().getUnitName(),UNIT));
             for(ProposalUnitCreditSplit unitCreditSplit : unit.getCreditSplits()){
@@ -563,8 +548,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     protected void populateInvestigatorLineItems(List<ProposalCreditSplitListDto> creditSplitListItems, Map<String, CreditSplit> totalInvestigatorSplits, ProposalPerson investigator) {
-        List<CreditSplit> creditSplits = new ArrayList<>();
-        creditSplits.addAll(investigator.getCreditSplits());
+        List<CreditSplit> creditSplits = new ArrayList<>(investigator.getCreditSplits());
         creditSplitListItems.add(createProposalCreditSplitListDto(creditSplits, investigator.getFullName(),INVESTIGATOR));
         for(CreditSplit investigatorCreditSplit : creditSplits){
             populateTotalsMap(totalInvestigatorSplits, investigatorCreditSplit);

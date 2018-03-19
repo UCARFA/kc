@@ -15,13 +15,10 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.unit.Unit;
-import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -31,7 +28,6 @@ import org.kuali.rice.krad.data.DataObjectService;
 public class ProposalPersonServiceTest {
 	private Mockery context;
 	private ProposalPersonServiceImpl proposalPersonService;
-	private UnitService unitService;
 	private DataObjectService dataObjectService;
 	private GenericQueryResults.Builder proposalPersonListBuilder;
 	private KcPersonService kcPersonService;
@@ -44,7 +40,6 @@ public class ProposalPersonServiceTest {
 			}
 		};
 		proposalPersonService = new ProposalPersonServiceImpl();
-		unitService = context.mock(UnitService.class);
 		dataObjectService = context.mock(DataObjectService.class);
 		kcPersonService = context.mock(KcPersonService.class);
 
@@ -56,65 +51,6 @@ public class ProposalPersonServiceTest {
 				add(proposalPerson);
 			}
 		});
-	}
-
-	@Test
-	public void test_getProposalPersonDivisionName() {
-		ProposalPerson proposalPerson = new ProposalPerson();
-		proposalPerson.setHomeUnit("000001");
-		final List<Unit> units = new ArrayList<Unit>();
-
-		Unit unit1 = new Unit();
-		Unit unit2 = new Unit();
-		Unit unit3 = new Unit();
-		Unit unit4 = new Unit();
-
-		unit1.setUnitName("unitA");
-		unit2.setUnitName("unitB");
-		unit3.setUnitName("unitC");
-		unit4.setUnitName("unitD");
-
-		units.add(unit1);
-		units.add(unit2);
-		units.add(unit3);
-		units.add(unit4);
-
-		context.checking(new Expectations() {
-			{
-				oneOf(unitService).getUnitHierarchyForUnit("000001");
-				will(returnValue(units));
-			}
-		});
-		proposalPersonService.setUnitService(unitService);
-		Assert.assertEquals(proposalPersonService
-				.getProposalPersonDivisionName(proposalPerson), "unitD");
-	}
-
-	@Test
-	public void test_getProposalPersonDivisionName_no_unitName() {
-		ProposalPerson proposalPerson = new ProposalPerson();
-		proposalPerson.setHomeUnit("000001");
-		final List<Unit> units = new ArrayList<Unit>();
-
-		Unit unit1 = new Unit();
-		Unit unit2 = new Unit();
-		Unit unit3 = new Unit();
-		Unit unit4 = new Unit();
-
-		units.add(unit1);
-		units.add(unit2);
-		units.add(unit3);
-		units.add(unit4);
-
-		context.checking(new Expectations() {
-			{
-				oneOf(unitService).getUnitHierarchyForUnit("000001");
-				will(returnValue(units));
-			}
-		});
-		proposalPersonService.setUnitService(unitService);
-		Assert.assertNull(proposalPersonService
-				.getProposalPersonDivisionName(proposalPerson));
 	}
 
 	@Test
