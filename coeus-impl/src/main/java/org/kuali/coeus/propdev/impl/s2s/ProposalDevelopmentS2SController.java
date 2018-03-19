@@ -342,7 +342,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=deleteUserAttachedForm"})
     public ModelAndView deleteUserAttachedForm( ProposalDevelopmentDocumentForm form, HttpServletResponse response,
-                                                 @RequestParam("selectedLine") String selectedLine) throws Exception {
+                                                 @RequestParam("selectedLine") String selectedLine) {
         S2sUserAttachedForm deleteForm = form.getDevelopmentProposal().getS2sUserAttachedForms().remove(Integer.parseInt(selectedLine));
         getDataObjectService().delete(deleteForm);
         getS2sUserAttachedFormService().resetFormAvailability(form.getProposalDevelopmentDocument(), deleteForm.getNamespace());
@@ -351,7 +351,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refreshSubmissionDetails"})
-    public ModelAndView refreshSubmissionDetails( ProposalDevelopmentDocumentForm form) throws Exception {
+    public ModelAndView refreshSubmissionDetails( ProposalDevelopmentDocumentForm form) {
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         try{
             getS2sSubmissionService().refreshGrantsGov(document);
@@ -363,7 +363,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveUserAttachedForm")
-    public ModelAndView saveUserAttachedForm(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+    public ModelAndView saveUserAttachedForm(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
