@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2711: Removing unused constants and interface methods
+  * Jeff Largent on Tue, 20 Mar 2018 15:26:16 -0400 [View Commit](../../commit/136d0a7c8605e0a081a58d57c24752d191429f34)
+* RESKC-2711: Check authorization for modular budget API and remove config endpoint
+  * Jeff Largent on Tue, 20 Mar 2018 15:18:32 -0400 [View Commit](../../commit/6ef25e210d4751a816fc678d35afc9f703cd6cf6)
+* RESKC-2836: minor UI improvements
+  * Travis Schneeberger on Tue, 20 Mar 2018 12:54:17 -0400 [View Commit](../../commit/698f988e096f3700a085708b5ae55cd37e85331a)
+
+## coeus-1803.0026
 * RESKC-2836: fixing test
   * Travis Schneeberger on Tue, 20 Mar 2018 08:52:06 -0400 [View Commit](../../commit/c25dffd5f18d2a72dd37631333705f20c65d45f3)
 
