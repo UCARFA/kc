@@ -32,12 +32,6 @@ import java.util.Optional;
 @RestController("proposalBudgetApiController")
 public class ProposalBudgetApiController extends org.kuali.coeus.sys.framework.controller.rest.RestController {
 
-    private static final String CONSORTIUM_FNA_COST_ELEMENTS = "consortiumFnaCostElements";
-    private static final String SUBCONTRACTOR_FNA_UNDER_25K_COST_ELEMENT = "subcontractorFnaUnder25kCostElement";
-    private static final String SUBCONTRACTOR_FNA_OVER_25K_COST_ELEMENT = "subcontractorFnaOver25kCostElement";
-    private static final String FNA_RATE_CLASS_TYPE_CODE = "fnaRateClassTypeCode";
-    private static final String ROUND_FNA_BASE = "roundFnaBase";
-
     @Autowired
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
