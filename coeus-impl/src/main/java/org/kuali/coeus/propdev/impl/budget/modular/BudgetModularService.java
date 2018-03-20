@@ -10,8 +10,6 @@ package org.kuali.coeus.propdev.impl.budget.modular;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 
-import java.util.Collection;
-
 public interface BudgetModularService {
 
     void generateModularPeriod(BudgetPeriod budgetPeriod);
@@ -19,15 +17,5 @@ public interface BudgetModularService {
     BudgetModularSummary processModularSummary(Budget budget, boolean synchModular);
 
     void synchModularBudget(Budget budget, boolean recalculateFromModifiedDirectCost);
-
-    boolean roundFandAbase();
-
-    Collection<String> getConsortiumFnaOnlyCostElements();
-
-    String getFnaRateClassType();
-
-    String getCostelementSubconFandAUnder25K();
-
-    String getCostelementSubconFandAOver25K();
 
 }
