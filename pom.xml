@@ -2370,7 +2370,7 @@
     </profiles>
 
     <repositories>
-	<repository>
+	    <repository>
             <id>ucar-libs</id>
             <name>UCAR Kuali Repository</name>
             <url>http://fateam:8081/artifactory/libs-release</url>
