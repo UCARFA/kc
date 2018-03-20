@@ -411,7 +411,7 @@
     </bean>
 
     <bean id="PropDev-OpportunityPage-UserAttachedFormAttachments-Collection" parent="PropDev-OpportunityPage-UserAttachedFormAttachments-Collection-parentBean"/>
-    <bean id="PropDev-OpportunityPage-UserAttachedFormAttachments-Collection-parentBean" parent="Uif-StackedSubCollection-WithinSubSection"
+    <bean id="PropDev-OpportunityPage-UserAttachedFormAttachments-Collection-parentBean" abstract="true" parent="Uif-StackedSubCollection-WithinSubSection"
           p:propertyName="s2sUserAttachedFormAtts" p:renderAddLine="false" p:renderLineActions="false" p:collectionObjectClass="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAtt" p:header.headerText="Attachments">
         <property name="items">
             <list>

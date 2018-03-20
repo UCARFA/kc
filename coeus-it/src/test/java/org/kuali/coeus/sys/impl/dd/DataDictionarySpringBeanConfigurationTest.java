@@ -18,7 +18,6 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsAbstractException;
 import org.springframework.beans.factory.config.*;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -40,7 +39,8 @@ public class DataDictionarySpringBeanConfigurationTest extends KcIntegrationTest
      */
     @Test
     public void test_all_spring_bean_retrieval() {
-        toEachSpringBean(BeanFactory::getBean, false);
+        //noinspection ResultOfMethodCallIgnored
+        toEachSpringBean((defaultListableBeanFactory, name) -> defaultListableBeanFactory.getBean(name).toString(), false);
     }
 
     /**
@@ -85,6 +85,7 @@ public class DataDictionarySpringBeanConfigurationTest extends KcIntegrationTest
      * @param function the function to apply
      * @param ignoreCreationException whether to ignore exception that occurs when creating a bean
      */
+    @SuppressWarnings("deprecation")
     private void toEachSpringBean(VoidFunction function, boolean ignoreCreationException) {
         final List<KeyValue<String, Exception>> failedBeans = new ArrayList<>();
 
