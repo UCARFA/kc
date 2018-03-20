@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2836: fixing test
+  * Travis Schneeberger on Tue, 20 Mar 2018 08:52:06 -0400 [View Commit](../../commit/c25dffd5f18d2a72dd37631333705f20c65d45f3)
+
+## coeus-1803.0025
 * RESKC-2836: proposal opportunity search screen improvements
   * Travis Schneeberger on Mon, 19 Mar 2018 17:00:10 -0400 [View Commit](../../commit/ce2a17731ab4ffcbd0e2679735d905a3ea8e2b0e)
 
