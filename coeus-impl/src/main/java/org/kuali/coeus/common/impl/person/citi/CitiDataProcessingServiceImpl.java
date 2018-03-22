@@ -66,7 +66,7 @@ public class CitiDataProcessingServiceImpl implements CitiDataProcessingService 
                                 PersonTrainingCitiRecordStatus.ERRORED.getCode())
                                 .collect(Collectors.toList())));
 
-        final List<PersonTraining> targetRecords = sourceRecords.stream().map(sr -> {
+        sourceRecords.forEach(sr -> {
             resetErroredStatus(sr);
             final List<PersonTrainingCitiRecordError> errors = validateCitiRecord(sr);
 
@@ -96,17 +96,12 @@ public class CitiDataProcessingServiceImpl implements CitiDataProcessingService 
                 addErrors(sr, new PersonTrainingCitiRecordError("principal id not found from institutional username " + sr.getInstitutionalUsername()));
             }
 
-            if (PersonTrainingCitiRecordStatus.ERRORED.getCode().equals(sr.getStatusCode())) {
-                return null;
-            } else {
+            if (!PersonTrainingCitiRecordStatus.ERRORED.getCode().equals(sr.getStatusCode())) {
                 sr.setStatusCode(PersonTrainingCitiRecordStatus.PROCESSED.getCode());
-                return createOrUpdatePersonTraining(sr, mapping, principal);
+                getBusinessObjectService().save(createOrUpdatePersonTraining(sr, mapping, principal));
             }
-
-        }).filter(Objects::nonNull).collect(Collectors.toList());
-
-        getBusinessObjectService().save(targetRecords);
-        getBusinessObjectService().save(sourceRecords);
+            getBusinessObjectService().save(sr);
+        });
     }
 
     protected PersonTrainingCitiMap createAndSaveEmptyMapping(PersonTrainingCitiRecord sr) {
