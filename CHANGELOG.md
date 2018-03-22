@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2846: switch citi processing to incremental saves
+  * Travis Schneeberger on Thu, 22 Mar 2018 10:37:29 -0400 [View Commit](../../commit/3d77b0d34bbba3160093c5bfa50fd47f0e2cc78c)
+
+## coeus-1803.0028
 * RESKC-2711: Removing unused constants and interface methods
   * Jeff Largent on Tue, 20 Mar 2018 15:26:16 -0400 [View Commit](../../commit/136d0a7c8605e0a081a58d57c24752d191429f34)
 * RESKC-2711: Check authorization for modular budget API and remove config endpoint
