@@ -18,13 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Properties;
 
 @Controller
@@ -41,8 +37,7 @@ public class ProposalDevelopmentCopyController extends ProposalDevelopmentContro
     private ProposalCopyService proposalCopyService;
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=copy")
-    public ModelAndView copy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView copy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         ProposalCopyCriteria proposalCopyCriteria = form.getProposalCopyCriteria();
         if (StringUtils.isNotBlank(proposalCopyCriteria.getLeadUnitNumber())) {
             ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
@@ -58,7 +53,7 @@ public class ProposalDevelopmentCopyController extends ProposalDevelopmentContro
 
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=displayCopyDialog")
-    public ModelAndView displayCopyDialog(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+    public ModelAndView displayCopyDialog(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         ((ProposalDevelopmentViewHelperServiceImpl)form.getView().getViewHelperService()).populateQuestionnaires(form);
         return getModelAndViewService().showDialog(COPY_DIALOG,true,form);
     }
