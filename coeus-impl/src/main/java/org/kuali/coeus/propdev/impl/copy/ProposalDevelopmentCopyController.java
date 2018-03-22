@@ -43,14 +43,17 @@ public class ProposalDevelopmentCopyController extends ProposalDevelopmentContro
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=copy")
     public ModelAndView copy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
-        ProposalCopyService proposalCopyService = getProposalCopyService();
-        getPessimisticLockService().releaseAllLocksForUser(proposalDevelopmentDocument.getPessimisticLocks(), getGlobalVariableService().getUserSession().getPerson());
         ProposalCopyCriteria proposalCopyCriteria = form.getProposalCopyCriteria();
-        ProposalDevelopmentDocument newDoc = proposalCopyService.copyProposal(proposalDevelopmentDocument, proposalCopyCriteria);
-
-        return returnToDocument(form, newDoc.getDocumentNumber());
+        if (StringUtils.isNotBlank(proposalCopyCriteria.getLeadUnitNumber())) {
+            ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
+            ProposalCopyService proposalCopyService = getProposalCopyService();
+            getPessimisticLockService().releaseAllLocksForUser(proposalDevelopmentDocument.getPessimisticLocks(), getGlobalVariableService().getUserSession().getPerson());
+            ProposalDevelopmentDocument newDoc = proposalCopyService.copyProposal(proposalDevelopmentDocument, proposalCopyCriteria);
+            if (newDoc != null) {
+                return returnToDocument(form, newDoc.getDocumentNumber());
+            }
+        }
+        return null;
     }
 
 
