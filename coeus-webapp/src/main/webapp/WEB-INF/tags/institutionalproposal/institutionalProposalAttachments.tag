@@ -213,9 +213,11 @@ opacity:1;
             	                  </c:choose>
 						   </c:when>
 						   <c:otherwise>
+                               <c:if test="${!readOnly}">
 								<html:image property="methodToCall.deleteAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
 									   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
 									   alt="Delete Attachment"/>
+                               </c:if>
 						   </c:otherwise>
 						   </c:choose>
 						   </c:if>
