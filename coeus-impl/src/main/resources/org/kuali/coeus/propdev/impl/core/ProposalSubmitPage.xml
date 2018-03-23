@@ -95,10 +95,20 @@
 					 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="90"
 					 	p:render="@{#actionFlags[#{deleteDocument}] and !#parent.readOnly}">
 					 	<property name="confirmationDialog">
-			          		<bean id="ProposalDeleteDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete ?"/>
-			          	</property>
+			          		<bean id="ProposalDeleteDialog" parent="Uif-DialogGroup">
+                                <property name="headerText" value="Please Confirm to Continue"/>
+                                <property name="promptText" value="@{#ViewHelper.isProposalStatusInProgress(document.developmentProposal) ? 'Are you sure you want to delete ?' : ('Delete not available for proposal with status ' + #ViewHelper.getProposalStatusForDisplay(document.developmentProposal))}"/>
+                                <property name="dialogCssClass" value="modal-sm"/>
+                                <property name="footer.items">
+                                    <list>
+                                        <bean parent="Uif-DialogDismissButton" p:actionLabel="@{#ViewHelper.isProposalStatusInProgress(document.developmentProposal) ? 'Cancel' : 'OK'}"/>
+                                        <bean parent="Uif-DialogConfirmButton" p:actionLabel="OK" p:render="@{#ViewHelper.isProposalStatusInProgress(document.developmentProposal)}"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </property>
 					 </bean>
-					 
+
 					<bean id="PropDev-Resumbit-SubmitToSponsorButton" parent="Uif-SecondaryActionButton" p:actionLabel="Submit to Sponsor" p:methodToCall="submitToSponsor" p:order="100"
 					 	p:render="@{#actionFlags[#{submitToSponsor}] and #editModes['submitToSponsor'] and !document.developmentProposal.child}" p:onClickScript="jQuery(this).hide();">
 					</bean>	
