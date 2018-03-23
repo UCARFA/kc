@@ -44,8 +44,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProposalBudgetProjectPersonnelController extends ProposalBudgetControllerBase {
 
     private static final String ADD_PERSONNEL_HELPER_ERROR_PATH = "addProjectPersonnelHelper.editBudgetPersonnelDetail.";
+    private static final String TBN_REGEX = "\\s*-\\s*";
 
-	@Autowired
+    @Autowired
     @Qualifier("wizardControllerService")
     private WizardControllerService wizardControllerService;
 
@@ -119,7 +120,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 				.filter(person -> StringUtils.isNotBlank(person.getTbnId()))
 				.map(BudgetPerson::getPersonName)
 				.filter(StringUtils::isNotBlank)
-				.filter(personName -> personName.startsWith(newPerson.getPersonName()))
+				.filter(personName -> doesCategoryExist(newPerson, personName))
 				.map(personName -> personName.replace(tbnPrefix, ""))
 				.map(Integer::valueOf)
 				.sorted()
@@ -142,7 +143,13 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		return tbnName(tbnPrefix, (sequences.get(sequences.size() - 1) + 1));
 	}
 
-	private String tbnName(String prefix, int sequence) {
+    private boolean doesCategoryExist(BudgetPerson newPerson, String personName) {
+        String actualNamePerson = personName.split(TBN_REGEX)[0];
+        String actualNameNewPerson = newPerson.getPersonName().split(TBN_REGEX)[0];
+        return actualNamePerson.equalsIgnoreCase(actualNameNewPerson);
+    }
+
+    private String tbnName(String prefix, int sequence) {
 		return prefix + sequence;
 	}
 
