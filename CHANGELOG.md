@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-1830: only allow prop dev delete when status is In Progress
+  * Travis Schneeberger on Fri, 23 Mar 2018 11:01:35 -0400 [View Commit](../../commit/dba13d398ee5e04a73391ed2105b6dc25dddeb0b)
+* RESKC-2557: checking for lead unit on copy
+  * Travis Schneeberger on Thu, 22 Mar 2018 16:06:01 -0400 [View Commit](../../commit/55ba1baf34ab9149497af6643e5f9bf4d9952b7b)
+
+## coeus-1803.0029
 * RESKC-2846: switch citi processing to incremental saves
   * Travis Schneeberger on Thu, 22 Mar 2018 10:37:29 -0400 [View Commit](../../commit/3d77b0d34bbba3160093c5bfa50fd47f0e2cc78c)
 
