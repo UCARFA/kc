@@ -89,6 +89,9 @@ public class ProposalDevelopmentSubmitController extends
     public static final String PROPOSAL_NUMBER = "proposalNumber";
     public static final String PROPOSAL_STATE = "proposalState";
     private static final String ENABLE_PD_WORKFLOW_APPROVAL_COMMENTS = "ENABLE_PD_WORKFLOW_APPROVAL_COMMENTS";
+    private static final String APPROVE_CHECK = "approveCheck";
+    private static final String APPROVE = "approve";
+    private static final String DATAVALIDATION = "datavalidation";
 
     private final Logger LOGGER = Logger.getLogger(ProposalDevelopmentSubmitController.class);
 
@@ -653,7 +656,7 @@ public class ProposalDevelopmentSubmitController extends
         }
         
 		if (getValidationState(form).equals(AuditHelper.ValidationState.ERROR)) {
-			getGlobalVariableService().getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION);
+			getGlobalVariableService().getMessageMap().putError(DATAVALIDATION, KeyConstants.ERROR_WORKFLOW_SUBMISSION);
 			return getModelAndViewService().getModelAndView(form);
 		}
 
@@ -661,7 +664,7 @@ public class ProposalDevelopmentSubmitController extends
         
         final boolean approvalComments = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, ENABLE_PD_WORKFLOW_APPROVAL_COMMENTS);
 		if (approvalComments) {
-			if (form.getMethodToCall().equals("approveCheck")) {
+			if (APPROVE_CHECK.equals(form.getMethodToCall()) || APPROVE.equals(form.getMethodToCall())) {
 				return getModelAndViewService().showDialog("PropDev-SubmitPage-ApproveDialog", false, form);
 			}
 		}
