@@ -821,6 +821,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return state != null ? state.getDescription() : "";
     }
 
+    public boolean isProposalStatusInProgress(DevelopmentProposal proposal) {
+        final ProposalState state = proposal.getHierarchyAwareProposalStatus();
+        return state != null && ProposalState.IN_PROGRESS.equals(state.getCode());
+    }
+
    public String getProjectStatusForPerson(ProposalPerson person) {
         DisclosureProjectStatus projectStatus = getCoiStatusForPerson(person);
         return projectStatus.getStatus() == null ? "" : projectStatus.getStatus();
