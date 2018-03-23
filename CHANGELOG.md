@@ -1,6 +1,19 @@
 
 
 ## CURRENT
+* upgrade s2s (#2811)
+
+  * Gayathri Athreya on Fri, 23 Mar 2018 10:25:30 -0700 [View Commit](../../commit/6c10049d7b089c94e305a8b4ad7d09e6069e25eb)
+* RESKC-2596: making sure approval comments display when warnings exist and proposal.approval.dialog.enabled is on
+  * Travis Schneeberger on Fri, 23 Mar 2018 12:57:16 -0400 [View Commit](../../commit/2f21d7faa77cc77c8176b548db99620995e7b39a)
+* RESKC-2561: Fixed IP delete button issue. (#2810)
+
+  * Gayathri Athreya on Fri, 23 Mar 2018 09:45:33 -0700 [View Commit](../../commit/f7f3a9288c40b513a20ef0f87f95abdd45e4dc77)
+* RESKC-2396: Fix STE while adding TBNs (#2808)
+
+  * Gayathri Athreya on Fri, 23 Mar 2018 09:33:33 -0700 [View Commit](../../commit/c579fd6caa97704e0f5eebd47a6b25e1e0540ec6)
+
+## coeus-1803.0030
 * RESKC-1830: only allow prop dev delete when status is In Progress
   * Travis Schneeberger on Fri, 23 Mar 2018 11:01:35 -0400 [View Commit](../../commit/dba13d398ee5e04a73391ed2105b6dc25dddeb0b)
 * RESKC-2557: checking for lead unit on copy
