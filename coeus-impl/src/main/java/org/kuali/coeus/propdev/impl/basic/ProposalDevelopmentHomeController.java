@@ -26,6 +26,7 @@ import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
@@ -72,6 +73,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     private static final String ERROR_PROPOSAL_DEVELOPMENT_CREATE_PI = "error.proposalDevelopment.create.pi";
     private static final String APROPOSAL_CREATED_ACTION_TYPE_CODE = "910";
     private static final String PROPOSAL_CREATED_NOTIFICATION = "Proposal created notification";
+    private static final String USER_NAME = "userName";
 
     @Autowired
     @Qualifier("dataDictionaryService")
@@ -148,7 +150,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        form.setPageId(null);
        form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.IN_PROGRESS);
        getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship(PROPOSAL_STATE);
-       getPessimisticLockService().releaseAllLocksForUser(form.getDocument().getPessimisticLocks(),getGlobalVariableService().getUserSession().getPerson());
+       getPessimisticLockService().releaseAllLocksForUser(form.getDocument().getPessimisticLocks(), getLoggedInUser());
        form.getDocument().refreshPessimisticLocks();
        generateForms(form.getDevelopmentProposal());
 
@@ -232,26 +234,27 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
                 List<PessimisticLock> locks = pessimisticLockService.getPessimisticLocksForDocument(document.getDocumentNumber());
                 boolean lockAlreadyExists = locks.stream().anyMatch(
                         lock -> StringUtils.countMatches(lock.getLockDescriptor(), KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL) > 0 &&
-                        lock.isOwnedByUser(getGlobalVariableService().getUserSession().getPerson())
+                        lock.isOwnedByUser(getLoggedInUser())
                 );
                 if (!lockAlreadyExists) {
-                    pessimisticLockService.generateNewLock(document.getDocumentNumber(), document.getDocumentNumber() + "-" + KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL);
+                    pessimisticLockService.generateNewLock(document.getDocumentNumber(),
+                            document.getDocumentNumber() + "-" + KraAuthorizationConstants.LOCK_DESCRIPTOR_PERSONNEL);
                     document.refreshPessimisticLocks();
                 }
             }
 
-            WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-            form.setDocTypeName(workflowDocument.getDocumentTypeName());
+            form.setDocTypeName(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
             form.setProposalCopyCriteria(new ProposalCopyCriteria(document));
             if (form.getView().getViewHelperService() instanceof ProposalDevelopmentViewHelperServiceImpl) {
                 ((ProposalDevelopmentViewHelperServiceImpl) form.getView().getViewHelperService()).populateQuestionnaires(form);
             }
 
-             if (!this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,
-                        getGlobalVariableService().getUserSession().getPerson())) {
-                    throw new DocumentAuthorizationException(getGlobalVariableService().getUserSession().getPerson().getPrincipalName(),
-                            "open", document.getDocumentNumber());
-             }
+            try {
+                String[] certUserName = form.getInitialRequestParameters().get(USER_NAME);
+                checkAuthorization(document, form.getViewId(), certUserName);
+            } catch (AuthorizationException e) {
+                return showAuthorizationPage(form, e.getMessage());
+            }
 
             if (StringUtils.isNotEmpty(userName)) {
                 for (ProposalPerson person : form.getDevelopmentProposal().getProposalPersons()) {
@@ -264,6 +267,30 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
             return getModelAndViewService().getModelAndView(form);
         }
+    }
+
+    public ModelAndView showAuthorizationPage(ProposalDevelopmentDocumentForm form, String message) {
+        return getModelAndViewService().getMessageView(form, "Authorization Exception Report",
+                "Error Message: [color=red]"+ message + "[/color]");
+    }
+
+    public void checkAuthorization(ProposalDevelopmentDocument document, String viewId, String[] userName) {
+
+            final Person loggedInUser = getLoggedInUser();
+            if (viewId != null && StringUtils.equalsIgnoreCase(viewId, Constants.CERTIFICATION_VIEW)) {
+                if (userName == null || (selfCertifyOnly() && !loggedInUser.getPrincipalName().equalsIgnoreCase(userName[0]))) {
+                    throw new DocumentAuthorizationException(loggedInUser.getPrincipalName(),
+                            "open", document.getDocumentNumber());
+                }
+            }
+            if (!this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document, loggedInUser)) {
+                throw new DocumentAuthorizationException(loggedInUser.getPrincipalName(),
+                        "open", document.getDocumentNumber());
+            }
+    }
+
+    public Person getLoggedInUser() {
+        return getGlobalVariableService().getUserSession().getPerson();
     }
 
     @Override
@@ -433,8 +460,8 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
             }
 
             return modelAndView;
-           }catch (AuthorizationException e) {
-               return getModelAndViewService().getMessageView(form, "Authorization Exception Report", "Error Message: [color=red]"+ e.getMessage() + "[/color]");
+           } catch (AuthorizationException e) {
+               return showAuthorizationPage(propDevForm, e.getMessage());
            }
        }
    }
