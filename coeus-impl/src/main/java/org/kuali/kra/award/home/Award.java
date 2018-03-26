@@ -19,6 +19,7 @@ import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.custom.CustomDataContainer;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
 import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -145,6 +146,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private static final String UNIT_NUMBER = "unitNumber";
     private static final String COLON = ":";
     public static final String AWARD_ID = "awardId";
+
+    private FiscalYearMonthService fiscalYearMonthService;
+
     private Long awardId;
     private AwardDocument awardDocument;
     @Property(update = false)
@@ -2563,13 +2567,13 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public AwardFandaRate getCurrentFandaRate() {
         List<AwardFandaRate> rates = this.getAwardFandaRate();
         Calendar calendar = Calendar.getInstance();
-        int currentYear = calendar.get(Calendar.YEAR);
+        int currentFiscalYear = this.getFiscalYearMonthService().getFiscalYearFromDate(calendar);
         
         // when both On and Off campus rates are in, send the higher one.
         // Ideally only one should be there
         // the single rate validation parameter needs to be set on award
         AwardFandaRate currentFandaRate = rates.stream()
-                .filter(rate -> Integer.parseInt(rate.getFiscalYear()) == currentYear)
+                .filter(rate -> Integer.parseInt(rate.getFiscalYear()) == currentFiscalYear)
                 .max(Comparator.comparing(AwardFandaRate::getApplicableFandaRate))
                 .orElse(null);
 
@@ -2949,5 +2953,14 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public List<AwardPerson> getPersonsSelectedForCreditSplit() {
         return getAwardService().getPersonsSelectedForCreditSplit(projectPersons);
+    }
+    public void setFiscalYearMonthService(FiscalYearMonthService fiscalYearMonthService) {
+        this.fiscalYearMonthService = fiscalYearMonthService;
+    }
+    protected FiscalYearMonthService getFiscalYearMonthService() {
+        if (this.fiscalYearMonthService == null) {
+            this.fiscalYearMonthService = KcServiceLocator.getService(FiscalYearMonthService.class);
+        }
+        return this.fiscalYearMonthService;
     }
 }

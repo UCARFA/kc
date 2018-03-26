@@ -14,6 +14,9 @@ import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.impl.fiscalyear.FiscalYearMonthServiceImpl;
+import org.kuali.kra.award.commitments.AwardFandARateAuditRule;
+import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
 import org.kuali.kra.award.contacts.ContactRoleFixtureFactory;
@@ -22,6 +25,7 @@ import org.kuali.kra.bo.KcPersonFixtureFactory;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -36,6 +40,46 @@ public class AwardTest {
     private static final int ROLODEX_ID = 1002;
     
     private Award awardBo;
+
+    class MockFiscalYearMonthServiceImpl extends FiscalYearMonthServiceImpl {
+        Integer month;
+        Integer year;
+
+        public void setCurrentFiscalMonth(Integer month) {
+            this.month = month;
+        }
+
+        public void setCurrentFiscalYear(Integer year) {
+            this.year = year;
+        }
+
+        @Override
+        public Integer getCurrentFiscalMonth() {
+            return month;
+        }
+
+        @Override
+        public Integer getCurrentFiscalYear() {
+            return year;
+        }
+
+        @Override
+        public Integer getFiscalYearMonth() { return 6; }
+
+        @Override
+        public Integer getFiscalYearFromDate(Calendar date) {
+            Integer fiscalStartMonth = getFiscalYearMonth();
+            Integer year = date.get(Calendar.YEAR);
+            Integer month = date.get(Calendar.MONTH);
+            if (fiscalStartMonth != 0 && month >= fiscalStartMonth) {
+                year = year.intValue() + 1;
+            }
+            return year;
+        }
+
+
+    }
+
 
     @Before
     public void setUp() throws Exception {
@@ -140,4 +184,38 @@ public class AwardTest {
         awardBo.add(kpPerson);
         awardBo.add(piPerson);
     }
+    @Test
+    public void test_getCurrentFAndARate(){
+        ScaleTwoDecimal rate = new ScaleTwoDecimal(50);
+        Integer fiscalYear;
+        AwardFandaRate newRate = new AwardFandaRate();
+        MockFiscalYearMonthServiceImpl fiscalYearMonthService = new MockFiscalYearMonthServiceImpl();
+        awardBo.setFiscalYearMonthService(fiscalYearMonthService);
+        fiscalYearMonthService.setCurrentFiscalYear(fiscalYearMonthService.getFiscalYearFromDate(Calendar.getInstance()));
+        List<AwardFandaRate> RateList = new ArrayList<AwardFandaRate>();
+
+        Assert.assertNull(awardBo.getCurrentFandaRate());
+
+        fiscalYear = fiscalYearMonthService.getCurrentFiscalYear() + 1;
+        newRate.setFiscalYear(fiscalYear.toString());
+        newRate.setApplicableFandaRate(rate);
+        RateList.add(newRate);
+        awardBo.setAwardFandaRate(RateList);
+        Assert.assertNull(awardBo.getCurrentFandaRate());
+
+        fiscalYear = fiscalYearMonthService.getCurrentFiscalYear() - 1;
+        newRate.setFiscalYear(fiscalYear.toString());
+        newRate.setApplicableFandaRate(rate);
+        RateList.add(newRate);
+        awardBo.setAwardFandaRate(RateList);
+        Assert.assertNull(awardBo.getCurrentFandaRate());
+
+        fiscalYear = fiscalYearMonthService.getCurrentFiscalYear();
+        newRate.setFiscalYear(fiscalYear.toString());
+        newRate.setApplicableFandaRate(rate);
+        RateList.add(newRate);
+        awardBo.setAwardFandaRate(RateList);
+        Assert.assertEquals(awardBo.getCurrentFandaRate().getApplicableFandaRate(),rate);
+    }
+
 }
