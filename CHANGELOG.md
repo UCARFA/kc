@@ -1,6 +1,13 @@
 
 
 ## CURRENT
+* RESKC-2711: Made sure proposal number is included in mod budget API
+  * Jeff Largent on Mon, 26 Mar 2018 09:41:31 -0400 [View Commit](../../commit/2106f21383532808974b9495d94de9d32cd6af0c)
+* RESKC-2291: CSU Contribution: Fixed bug where fiscal year was compared to calendar year in getcurrentfandarate method. (#2815)
+
+  * (cherry picked from commit f5685d5)  * Tyler Wilson on Mon, 26 Mar 2018 07:38:59 -0600 [View Commit](../../commit/0a5d09c3a07673432d7656df0257b44c70cc776d)
+
+## coeus-1803.0032
 * No Changes
 
 
