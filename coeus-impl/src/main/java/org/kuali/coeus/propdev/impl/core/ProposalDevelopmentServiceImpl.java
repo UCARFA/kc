@@ -14,15 +14,14 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.coi.framework.Project;
 import org.kuali.coeus.coi.framework.ProjectPublisher;
 import org.kuali.coeus.coi.framework.ProjectRetrievalService;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
-import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonCertificationDetails;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -188,6 +187,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         handleProjectPush(proposalDocument.getDevelopmentProposal().getProposalNumber());
         deleteCertDetails(proposalDocument.getDevelopmentProposal());
+        proposalDocument.getDevelopmentProposal().setFinalBudget(null);
         dataObjectService.delete(proposalDocument.getDevelopmentProposal());
 
         proposalDocument.setDevelopmentProposal(null);
