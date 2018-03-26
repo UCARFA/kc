@@ -25,6 +25,7 @@ public class ModularBudgetDto {
     @JsonProperty(value="budgetPeriods")
     @CollectionProperty(source="budgetPeriods", itemClass=BudgetPeriodDto.class)
     private List<BudgetPeriodDto> budgetPeriods;
+    @Property(source = "mvel:?developmentProposal.?proposalNumber")
     private String proposalNumber;
 
     public Long getBudgetId() {
