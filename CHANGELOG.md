@@ -1,6 +1,13 @@
 
 
 ## CURRENT
+* RESKC-1768: Fixing KP Cert authorization (#2814)
+
+  * Gayathri Athreya on Mon, 26 Mar 2018 11:22:08 -0700 [View Commit](../../commit/6d5330dcce6009d4419d7ec41adcd7c4391dc6f5)
+* RESKC-2807: Ensure final budget reference is removed before deleting proposal
+  * Jeff Largent on Mon, 26 Mar 2018 13:46:07 -0400 [View Commit](../../commit/0bbf64617c7c4bdb807ecf3f245639899b8b2b0d)
+
+## coeus-1803.0034
 * No Changes
 
 
