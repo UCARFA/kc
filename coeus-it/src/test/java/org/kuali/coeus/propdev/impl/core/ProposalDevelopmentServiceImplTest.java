@@ -10,15 +10,25 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonCertificationDetails;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.sql.Date;
+import java.util.Collections;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class ProposalDevelopmentServiceImplTest extends ProposalDevelopmentRuleTestBase {
 
@@ -31,17 +41,22 @@ public class ProposalDevelopmentServiceImplTest extends ProposalDevelopmentRuleT
     @Test
     public void testDeleteProposal() throws Exception {
         ProposalDevelopmentDocument document = saveDoc();
+        String proposalNumber = document.getDevelopmentProposal().getProposalNumber();
         final ProposalPerson personnel = getPersonnel();
         getKeyPersonnelService().addProposalPerson(personnel, document);
         getDocumentService().saveDocument(document);
         setCertDetails(document.getDevelopmentProposal().getProposalPerson(0));
         getDocumentService().saveDocument(document);
         getProposalDevelopmentService().deleteProposal(document);
+        assertNull(getDataObjectService().find(DevelopmentProposal.class, proposalNumber));
+        QueryByCriteria criteria = QueryByCriteria.Builder.forAttribute("proposalNumber", proposalNumber).build();
+        assertEquals(0, getDataObjectService().findMatching(ProposalPersonCertificationDetails.class, criteria).getResults().size());
     }
 
     @Test
     public void testDeleteProposalMultiplePersonnel() throws Exception {
         ProposalDevelopmentDocument document = saveDoc();
+        String proposalNumber = document.getDevelopmentProposal().getProposalNumber();
         getKeyPersonnelService().addProposalPerson(getPersonnel(), document);
         document = (ProposalDevelopmentDocument) getDocumentService().saveDocument(document);
         getKeyPersonnelService().addProposalPerson(getPersonnel2(), document);
@@ -50,6 +65,25 @@ public class ProposalDevelopmentServiceImplTest extends ProposalDevelopmentRuleT
         setCertDetails(document.getDevelopmentProposal().getProposalPerson(1));
         getDocumentService().saveDocument(document);
         getProposalDevelopmentService().deleteProposal(document);
+        assertNull(getDataObjectService().find(DevelopmentProposal.class, proposalNumber));
+        QueryByCriteria criteria = QueryByCriteria.Builder.forAttribute("proposalNumber", proposalNumber).build();
+        assertEquals(0, getDataObjectService().findMatching(ProposalPersonCertificationDetails.class, criteria).getResults().size());
+    }
+
+    @Test
+    public void testDeleteProposalWithBudgets() throws Exception {
+        ProposalDevelopmentDocument document = saveDoc();
+        String proposalNumber = document.getDevelopmentProposal().getProposalNumber();
+        Map<String, Object> budgetOptions = Collections.singletonMap("modularBudgetFlag", Boolean.FALSE);
+        ProposalDevelopmentBudgetExt submissionBudget = (ProposalDevelopmentBudgetExt) getBudgetService().addBudgetVersion(document, "included for submission", budgetOptions);
+        document = (ProposalDevelopmentDocument) getDocumentService().saveDocument(document);
+        document.getDevelopmentProposal().setFinalBudget(submissionBudget);
+        ProposalDevelopmentBudgetExt nonSubmissionBudget = (ProposalDevelopmentBudgetExt) getBudgetService().addBudgetVersion(document, "not included for submission", budgetOptions);
+        document = (ProposalDevelopmentDocument) getDocumentService().saveDocument(document);
+        getProposalDevelopmentService().deleteProposal(document);
+        assertNull(getDataObjectService().find(DevelopmentProposal.class, proposalNumber));
+        assertNull(getDataObjectService().find(ProposalDevelopmentBudgetExt.class, submissionBudget.getBudgetId()));
+        assertNull(getDataObjectService().find(ProposalDevelopmentBudgetExt.class, nonSubmissionBudget.getBudgetId()));
     }
 
     protected void setCertDetails(ProposalPerson person) {
@@ -110,6 +144,14 @@ public class ProposalDevelopmentServiceImplTest extends ProposalDevelopmentRuleT
         return document;
     }
 
+
+    protected ProposalBudgetService getBudgetService() {
+        return KcServiceLocator.getService(ProposalBudgetService.class);
+    }
+
+    protected DataObjectService getDataObjectService() {
+        return KcServiceLocator.getService(DataObjectService.class);
+    }
 
     protected ProposalDevelopmentService getProposalDevelopmentService() {
         return KcServiceLocator.getService(ProposalDevelopmentService.class);
