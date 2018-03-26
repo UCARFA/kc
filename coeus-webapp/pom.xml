@@ -433,7 +433,7 @@
 				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
-    	
+
     	<profile>
     		<id>kcnonprod2</id>
     		<properties>
