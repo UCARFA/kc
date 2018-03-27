@@ -179,7 +179,7 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
         String sourceAccountField = this.fieldStarter + ".sourceAccount";
         if (StringUtils.isEmpty(sourceAccount)) {
             if (isCostShareTypeEnabled()) {
-                addValidationMessage(getValidationMessageType(), sourceAccountField, KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING);
+                addValidationMessage(getValidationMessageType(), sourceAccountField, KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING, "Cost Sharing");
             } else {
                 isValid = false;
                 if (displayNullFieldErrors) {
