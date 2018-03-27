@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2843: Replace segment integration with direct Google Analytics
+  * Jeff Largent on Tue, 27 Mar 2018 11:31:54 -0400 [View Commit](../../commit/c06645fba88a041e6abe139f054ac107f530bfcf)
+
+## coeus-1803.0036
 * No Changes
 
 
