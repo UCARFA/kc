@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1803.0038
 * RESKC-2354: Make unrecovered F&A validations clearer and make sure they are hard audit errors
   * Jeff Largent on Tue, 27 Mar 2018 17:13:39 -0400 [View Commit](../../commit/f442606089e4abe423173372640a03688d77de0f)
 
