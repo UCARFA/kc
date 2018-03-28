@@ -20,6 +20,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.kim.impl.role.RoleBo;
 import org.kuali.rice.kim.impl.role.RoleBoLite;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -35,6 +36,9 @@ import java.util.stream.Collectors;
 @Component("wizardControllerService")
 public class WizardControllerServiceImpl implements WizardControllerService {
 
+    private static final Collection<String> PEOPLE_CRITERIA = 
+    		Arrays.asList("lastName", "firstName", "principalName", "emailAddress", "phoneNumber", "primaryDepartmentCode", "campusCode", "active");
+	
     @Autowired
     @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
@@ -54,7 +58,7 @@ public class WizardControllerServiceImpl implements WizardControllerService {
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
-
+    
     @Override
     public List<Object> performWizardSearch(Map<String,String> searchCriteria, String lineType){
         if (StringUtils.equals(lineType, PersonTypeConstants.EMPLOYEE.getCode())) {
@@ -64,14 +68,14 @@ public class WizardControllerServiceImpl implements WizardControllerService {
         } else {
             return prepareRoleResults(searchCriteria);
         }
-    }
+    } 
 
     protected List<Object> preparePersonResults(Map<String,String> searchCriteria) {
         List<Object> results = new ArrayList<>();
         getKcPersonService().modifyFieldValues(searchCriteria);
         searchCriteria.put("active","Y");
         searchCriteria.remove("officePhone");
-        List<Person> persons = getPersonService().findPeople(filterCriteria(searchCriteria, searchCriteria.keySet()),false);
+        List<Person> persons = getPersonService().findPeople(filterCriteria(searchCriteria, PEOPLE_CRITERIA),false);
         searchCriteria.put("officePhone",searchCriteria.get("phoneNumber"));
         searchCriteria.remove("phoneNumber");
         List<KcPerson> kcPersons = getKcPersonService().createKcPersonsFromPeople(persons);

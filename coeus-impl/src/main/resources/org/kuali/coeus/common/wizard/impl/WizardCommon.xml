@@ -205,8 +205,6 @@
           p:headerText="Role Search Results">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="role.kimRoleType.name"
-                      p:label="Role Type Name" p:order="20" />
                 <bean parent="Uif-DataField" p:propertyName="role.namespaceCode"
                       p:label="Namespace" p:order="30" />
                 <bean parent="Uif-DataField" p:propertyName="role.name"
