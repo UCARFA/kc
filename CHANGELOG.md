@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* RESKC-1996:Fix exceptions by excluding roletype name from roles and restricting people criteria (#2813)
+
+  * Douglas Pace on Wed, 28 Mar 2018 12:53:00 -0700 [View Commit](../../commit/dde1e5ac0ad6a92116c1ecaacb9b8db796f39a9d)
+
+## coeus-1803.0039
 * No Changes
 
 
