@@ -30,7 +30,9 @@ import static org.kuali.rice.krad.util.GlobalVariables.getAuditErrorMap;
 @KcBusinessRule("budgetCostShareAuditRule")
 public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase {
     public static final String BUDGET_COST_SHARE_ERROR_KEY = "budgetCostShareAuditErrors";
-    
+
+    private static final String[] PARAMS = { "Cost Sharing" };
+
     @KcEventMethod
     public boolean processCostShareAuditRules(BudgetAuditEvent event) {
         Budget budget = event.getBudget();
@@ -42,7 +44,6 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
 
         List<BudgetCostShare> costShares = budget.getBudgetCostShares();
         boolean retval = true;
-        String[] params = { "Cost Sharing" };
 
         // Forces full allocation of cost sharing
         if (budget.getUnallocatedCostSharing().isNonZero() && budget.isCostSharingEnforced()) {
@@ -53,17 +54,15 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
                                 new AuditError("document.budget.budgetCostShare",
                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
                                     Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
-                                    params));
+                                        PARAMS));
 
             }
-            for (int i = 0; i < costShares.size(); i++) {
-                getAuditErrors(BUDGET_COST_SHARE_ERROR_KEY, Constants.BUDGET_COST_SHARE_PANEL_NAME)
-                        .add(
-                                new AuditError("document.budget.budgetCostShares[" + i + "].shareAmount",
-                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
-                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
-                                    params));
-            }
+            getAuditErrors(BUDGET_COST_SHARE_ERROR_KEY, Constants.BUDGET_COST_SHARE_PANEL_NAME)
+                    .add(
+                            new AuditError("document.budget.budgetCostShare",
+                                KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
+                                Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                                    PARAMS));
         }
 
         int i = 0;
@@ -78,7 +77,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
                                 new AuditError("document.budget.budgetCostShares[" + i + "].sourceAccount",
                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
                                     Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
-                                    params));
+                                        getParamsForMissingSourceEntry(i)));
             }
             int numberOfProjectPeriods = -1;
             if (budget.getBudgetPeriods() != null) {
@@ -103,25 +102,25 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
         boolean retval = true;
         if (budget.isCostSharingApplicable() && budget.isCostSharingEnforced()) {
             List<BudgetCostShare> costShares = budget.getBudgetCostShares();
-            String[] params = { "Cost Sharing" };
-            retval &= verifyCostSharingAllocation(budget, costShares, params);
-            retval &= verifySourceAccount(budget, costShares, params);
+            retval &= verifyCostSharingAllocation(budget, costShares);
+            retval &= verifySourceAccount(budget, costShares);
         }
         return retval;
     }
     
-    protected boolean verifySourceAccount(Budget budget, List<BudgetCostShare> costShares, String[] params) {
+    protected boolean verifySourceAccount(Budget budget, List<BudgetCostShare> costShares) {
         BudgetConstants.BudgetAuditRules budgetCostSharingRule = BudgetConstants.BudgetAuditRules.COST_SHARING;
 
         boolean isValid = true;
         // Forces inclusion of source account
-        for (BudgetCostShare costShare : costShares) {
+        for (int i = 0; i < costShares.size(); i++) {
+            BudgetCostShare costShare = costShares.get(i);
             String source = costShare.getSourceAccount();
             Integer fiscalYear = costShare.getProjectPeriod();
             if (StringUtils.isEmpty(source) || source.length() == 0) {
                 getAuditErrors(budgetCostSharingRule.getErrorKey(), budgetCostSharingRule.getLabel()).add(new AuditError(budgetCostSharingRule.getPageId(),
                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
-                                    budgetCostSharingRule.getPageId(), params));
+                                    budgetCostSharingRule.getPageId(), getParamsForMissingSourceEntry(i)));
                 isValid = false;
             }
             int numberOfProjectPeriods = budget.getBudgetPeriods() != null ? budget.getBudgetPeriods().size() : -1;
@@ -146,23 +145,27 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
         return true;
     }
     
-    protected boolean verifyCostSharingAllocation(Budget budget, List<BudgetCostShare> costShares, String[] params) {
+    protected boolean verifyCostSharingAllocation(Budget budget, List<BudgetCostShare> costShares) {
         BudgetConstants.BudgetAuditRules budgetCostSharingRule = BudgetConstants.BudgetAuditRules.COST_SHARING;
         // Forces full allocation of cost sharing
         if (budget.getUnallocatedCostSharing().isNonZero()) {
             if (costShares.isEmpty()) {
                 getAuditErrors(budgetCostSharingRule.getErrorKey(), budgetCostSharingRule.getLabel()).add(new AuditError("budget.budgetCostShare", 
-                		KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO, budgetCostSharingRule.getPageId(), params));
+                		KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO, budgetCostSharingRule.getPageId(), PARAMS));
             }else {
                 for (int i = 0; i < costShares.size(); i++) {
                     getAuditErrors(budgetCostSharingRule.getErrorKey(), budgetCostSharingRule.getLabel()).add(new AuditError("budget.budgetCostShares[" + i + "].shareAmount",
                                         KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
-                                        budgetCostSharingRule.getPageId(), params));
+                                        budgetCostSharingRule.getPageId(), PARAMS));
                 }
             }
             return false;
         }
         return true;
+    }
+
+    private String[] getParamsForMissingSourceEntry(int i) {
+        return new String[] { String.format("%s entry #%d", PARAMS[0], i + 1) };
     }
 
     /**

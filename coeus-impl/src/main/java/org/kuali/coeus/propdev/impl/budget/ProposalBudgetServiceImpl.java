@@ -466,7 +466,8 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     @Override
     public boolean validateCostShare(ProposalDevelopmentBudgetExt budget) {
         boolean valid = Boolean.TRUE;
-        for(BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
+        for(int i = 0; i < budget.getBudgetCostShares().size(); i++) {
+            BudgetCostShare budgetCostShare = budget.getBudgetCostShares().get(i);
             if (budgetCostShare.getUnitNumber() != null) {
                 valid &= validateUnit(budgetCostShare.getUnitNumber(), UNIT_NUMBER);
             }
@@ -474,7 +475,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
                 valid &= isValidSourceAccountCostShareType(Constants.VALIDATION_MESSAGE_ERROR, budgetCostShare, SOURCE_ACCOUNT);
             }
             if (Objects.isNull(budgetCostShare.getSourceAccount())) {
-                valid &= addValidationMessage(ERROR, SOURCE_ACCOUNT, KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING);
+                valid &= addValidationMessage(ERROR, SOURCE_ACCOUNT, KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING, String.format("Cost Sharing entry #%d", i + 1));
             }
             valid = isUniqueSourceAccountFiscalYear(budget, valid, budgetCostShare, isCostShareTypeEnabled());
 
@@ -484,9 +485,10 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         if (isCostShareTypeEnabled()) {
             String validationMessageType = getValidationMessageType();
             final boolean activeAccountsAbsent = getBusinessObjectService().countMatching(Account.class, Collections.singletonMap(ACTIVE, Boolean.TRUE)) < 1;
-            for(BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
+            for(int i = 0; i < budget.getBudgetCostShares().size(); i++) {
+                BudgetCostShare budgetCostShare = budget.getBudgetCostShares().get(i);
                 if (Objects.isNull(budgetCostShare.getUnit())) {
-                    valid &= addValidationMessage(validationMessageType, UNIT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_UNIT_MISSING);
+                    valid &= addValidationMessage(validationMessageType, UNIT, KeyConstants.ERROR_BUDGET_DISTRIBUTION_UNIT_MISSING, String.valueOf(i + 1));
                 }
                 if (Objects.isNull(budgetCostShare.getCostShareTypeCode())) {
                     valid &= addValidationMessage(validationMessageType, COST_SHARE_TYPE, KeyConstants.ERROR_BUDGET_DISTRIBUTION_COST_SHARE_TYPE_MISSING);
