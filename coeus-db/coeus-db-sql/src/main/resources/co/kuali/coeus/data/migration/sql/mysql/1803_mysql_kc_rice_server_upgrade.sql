@@ -20,4 +20,5 @@
 
 \. ./rice/bootstrap/V1803_002__change_applicant_org_parameter.sql
 \. ./rice/bootstrap/V1803_003__update_parameter_name.sql
+\. ./rice/bootstrap/V1803_005__excluded_cp_report_codes_parameter.sql
 commit;

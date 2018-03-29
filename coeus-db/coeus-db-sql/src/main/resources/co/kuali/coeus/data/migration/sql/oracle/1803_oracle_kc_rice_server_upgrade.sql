@@ -23,4 +23,7 @@ set sqlblanklines on
 spool 1803_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1803_002__change_applicant_org_parameter.sql
 @./rice/bootstrap/V1803_003__update_parameter_name.sql
+@./rice/bootstrap/V1803_004__api_feature_flag.sql
+@./rice/bootstrap/V1803_005__excluded_cp_report_codes_parameter.sql
+@./rice/bootstrap/V1803_006__api_fix_feature_flag.sql
 commit;

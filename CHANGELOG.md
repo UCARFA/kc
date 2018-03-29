@@ -1,6 +1,27 @@
 
 
 ## CURRENT
+* Fix failing tests. (#2824)
+
+  * Gayathri Athreya on Thu, 29 Mar 2018 11:44:36 -0700 [View Commit](../../commit/cad3b5899aa6d015590997ea260da0fe06aeef6b)
+* RESKC-2838: a variety of fdp printing fixes
+
+* move the sponsor attachments panel up, so that the onscreen display order for attachment 2 is after the coverpage/modifications and attachment 1
+* ensure that all PDF attachments appear in the subaward attachments page, based on the subaward inclusions parameter
+* use the subaward inclusions parameter to inform the display order onscreen- descend order on left column first, then right (same order as the 3A, 3B attachments above)
+* display the attachment type as well as the attachment description in the print panel.
+* the pdf printout order should be the same as the onscreen order - so that Agreements/Modifcations first,  sponsor attachment, then rest of agreement attachments, and then the user added sub attachments (again, in order defined in the subaward inclusion parameter)
+  * Travis Schneeberger on Thu, 29 Mar 2018 13:39:31 -0400 [View Commit](../../commit/ca503d766c91cb7d532ff1f782429a471615de29)
+* RESKC-1599: Parameterized proposal type codes excluded from pending reports
+  * Jeff Largent on Thu, 29 Mar 2018 12:04:15 -0400 [View Commit](../../commit/0374a9a27ec0d6c30334ee9b58571a2656864371)
+* RESKC-2456: Adding authorization and tests (#2821)
+
+* RESKC-2456: Adding authorization and tests
+  * 
+* Changes according to review comments.
+  * Gayathri Athreya on Thu, 29 Mar 2018 09:01:45 -0700 [View Commit](../../commit/c6a7e063b0fbe3065f7858740251ff1cd8528d48)
+
+## coeus-1803.0040
 * RESKC-1996:Fix exceptions by excluding roletype name from roles and restricting people criteria (#2813)
 
   * Douglas Pace on Wed, 28 Mar 2018 12:53:00 -0700 [View Commit](../../commit/dde1e5ac0ad6a92116c1ecaacb9b8db796f39a9d)

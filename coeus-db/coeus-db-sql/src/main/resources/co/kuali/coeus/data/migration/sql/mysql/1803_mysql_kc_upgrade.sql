@@ -19,4 +19,6 @@
 
 
 \. ./kc/bootstrap/V1803_001__nsf_error_messages.sql
+\. ./kc/bootstrap/V1803_004__api_feature_flag.sql
+\. ./kc/bootstrap/V1803_006__api_fix_feature_flag.sql
 commit;
