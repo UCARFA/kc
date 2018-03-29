@@ -76,30 +76,6 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
             subAwardForm.setUnitRulesMessages(getUnitRulesMessages(subAwardForm.getSubAwardDocument()));
         }
 
-        if(subAwardForm.getSubAwardDocument().getSubAwardList() != null) {
-            for(SubAward subAwardList:subAwardForm.getSubAwardDocument().getSubAwardList()) {
-                List<SubAwardAttachments> subAwardAttachmentsList = subAwardList.getSubAwardAttachments();
-                if(subAwardAttachmentsList != null && !subAwardAttachmentsList.isEmpty()) {
-                     for(SubAwardAttachments subAwardAttachments:subAwardAttachmentsList) {
-                            if(subAwardAttachments.getFileName() != null) {
-                                String printAttachmentTypeInclusion=getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_PRINT_ATTACHMENT_TYPE_INCLUSION);
-                                String[] attachmentTypeCode=printAttachmentTypeInclusion.split("\\,");
-                                for (String anAttachmentTypeCode : attachmentTypeCode) {
-                                    if (StringUtils.equals(subAwardAttachments.getSubAwardAttachmentTypeCode(), anAttachmentTypeCode)) {
-                                        String[] fileNameSplit = subAwardAttachments.getFileName().split("\\.pdf");
-                                        if (getSubAwardPrintingService().isPdf(subAwardAttachments.getAttachmentContent())) {
-                                            subAwardAttachments.setFileNameSplit(fileNameSplit[0]);
-                                        }
-                                    }
-                                }
-                             }
-                            SubAwardAttachmentType subAwardAttachmentTypeValue =  getBusinessObjectService().findBySinglePrimaryKey(SubAwardAttachmentType.class, subAwardAttachments.getSubAwardAttachmentTypeCode());
-                            subAwardAttachments.setTypeAttachment(subAwardAttachmentTypeValue);
-                     }
-                }
-            }
-        }
-
         return actionForward;
     }
 

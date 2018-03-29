@@ -16,30 +16,26 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.subaward.SubAwardForm;
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**.
- *
- * This class represents the Struts Action for
- *  SubAward Actions page(SubAwardActions.jsp)
- */
-public class SubAwardActionsAction  extends
-SubAwardAction implements AuditModeAction {
+public class SubAwardActionsAction extends SubAwardAction implements AuditModeAction {
+
     @Override
-    public ActionForward execute(ActionMapping mapping,
-    ActionForm form, ServletRequest request, ServletResponse response)
-       throws Exception {
-        ActionForward actionForward = super.
-        execute(mapping, form, request, response);
-        return actionForward;
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        if(subAwardForm.getSubAwardDocument().getSubAwardList() != null) {
+            for (SubAward subAwardList : subAwardForm.getSubAwardDocument().getSubAwardList()) {
+                subAwardList.setSubAwardAttachmentsForPrint(null);
+            }
+        }
+        return super.execute(mapping, form, request, response);
     }
+
     @Override
     public ActionForward activate(ActionMapping mapping,
     ActionForm form, HttpServletRequest request,

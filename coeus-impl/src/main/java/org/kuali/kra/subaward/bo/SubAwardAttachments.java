@@ -29,7 +29,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      private String  description;
      private Long subAwardId;
      private transient FormFile newFile;
-     private String subAwardAttachmentTypeCode;
+     private Integer subAwardAttachmentTypeCode;
      private Integer documentId;
      private String fileName;
      private String fileDataId;
@@ -37,7 +37,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      private transient SoftReference<byte[]> document;
      private String mimeType;
      private Boolean selectToPrint = false;
-     private String fileNameSplit;
+
      private String documentStatusCode;
      private boolean modifyAttachment=false;
 
@@ -45,21 +45,6 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      private Timestamp lastUpdateTimestamp;
      
      private transient KcAttachmentDataDao kcAttachmentDataDao;
-     /**
-     * Gets the fileNameSplit attribute. 
-     * @return Returns the fileNameSplit.
-     */
-    public String getFileNameSplit() {
-        return fileNameSplit;
-    }
-
-    /**
-     * Sets the fileNameSplit attribute value.
-     * @param fileNameSplit The fileNameSplit to set.
-     */
-    public void setFileNameSplit(String fileNameSplit) {
-        this.fileNameSplit = fileNameSplit;
-    }
 
     public final Boolean getSelectToPrint() {
          return selectToPrint;
@@ -68,9 +53,9 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      public final void setSelectToPrint(Boolean selectToPrint) {
          this.selectToPrint = selectToPrint;
      }
-     
 
-     
+
+
 
      @Override
      public String getName() {
@@ -157,11 +142,11 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
         this.subAwardId = subAwardId;
     }
 
-    public String getSubAwardAttachmentTypeCode() {
+    public Integer getSubAwardAttachmentTypeCode() {
         return subAwardAttachmentTypeCode;
     }
 
-    public void setSubAwardAttachmentTypeCode(String subAwardAttachmentTypeCode) {
+    public void setSubAwardAttachmentTypeCode(Integer subAwardAttachmentTypeCode) {
         this.subAwardAttachmentTypeCode = subAwardAttachmentTypeCode;
     }
 
@@ -304,11 +289,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
             return false;
         return true;
     }
-    
-    /**
-     * 
-     * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
-     */
+
     @Override
     protected void preUpdate() {
         super.preUpdate();

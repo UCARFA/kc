@@ -19,7 +19,7 @@
 	padding-left: 65px;
 	padding-right: .2em;
 }
-.multi-col-list dl dd ul { 
+.multi-col-list dl dd ul {
  	list-style: none; 
  	padding: 0;
 }
@@ -39,8 +39,6 @@ li.truncateAlign table {
 }
 </style>
 <c:set var="subAwardPrintAgreementAttributes" value="${DataDictionary.SubAwardPrintAgreement.attributes}" />
-<c:set var="subAwardForms" value="${DataDictionary.SubAwardForms.attributes}" />
-<c:set var="subAwardAttachments" value="${DataDictionary.SubAwardAttachments.attributes}" />
 <c:set var="action" value="SubAwardHomeAction" />
 <c:set var="subAwardPrintAgreement" value="${KualiForm.subAwardPrintAgreement }"/>
 
@@ -49,7 +47,7 @@ li.truncateAlign table {
 		<h3>
 			<span class="subhead-left">Print</span>
 		</h3>
-		<table id="print-table" cellpadding="0" cellspacing="0" summary="Print Options">
+		<table cellpadding="0" cellspacing="0" summary="Print Options">
 			<tr>
 				<th rowspan="8" scope="row" style="width:150px; text-align:center;">Agreement/Modification</th>
 				</tr>
@@ -73,10 +71,10 @@ li.truncateAlign table {
 				<tr>
 				<td scope="row" style="width:160px; text-align:center;" nowrap="nowrap">FDP Template:</td>
 				<td>
-						<table id="print-table" cellpadding="0" cellspacing="0">
+						<table cellpadding="0" cellspacing="0">
 						<tr>
 
-						<div class="multi-col-list" id="awardPrintNoticeItems">
+						<div class="multi-col-list awardPrintNoticeItems">
 						<dl><dd><ul>
 						<li>
 				         <html:radio property="subAwardPrintAgreement.fdpType" value="fdpAgreement" />
@@ -94,10 +92,41 @@ li.truncateAlign table {
 					</table>
 				</td>
 				</tr>
+			<tr>
+				<td scope="row" style="width:160px; text-align:center;">Sponsor Attachments:</td>
+				<td>
+					<div class="multi-col-list awardPrintNoticeItems">
+						<dl>
+							<dd><ul>
+								<c:forEach var="form" items="${KualiForm.document.subAwardList[0].subAwardForms}" varStatus="status">
+									<c:if test="${status.index % 2 == 0}" >
+										<li>
+											<html:checkbox property="document.subAwardList[0].subAwardForms[${status.index}].selectToPrint"/>
+											<c:out value="${KualiForm.document.subAwardList[0].subAwardForms[status.index].description}"/>
+										</li>
+									</c:if>
+								</c:forEach>
+							</ul></dd>
+							<dd><ul>
+								<c:forEach var="form" items="${KualiForm.document.subAwardList[0].subAwardForms}" varStatus="status">
+									<c:if test="${status.index % 2 != 0}" >
+										<li>
+											<html:checkbox property="document.subAwardList[0].subAwardForms[${status.index}].selectToPrint"/>
+											<c:out value="${KualiForm.document.subAwardList[0].subAwardForms[status.index].description}"/>
+										</li>
+									</c:if>
+								</c:forEach>
+							</ul></dd>
+						</dl>
+					</div>
+
+				</td>
+
+			</tr>
 				<tr>
 					<td scope="row" style="width:160px; text-align:center;" nowrap="nowrap">FDP Template Attachments:</td>
 					  <td>
-						<div class="multi-col-list" id="awardPrintNoticeItems">
+						<div class="multi-col-list awardPrintNoticeItems">
 						<dl><dd><ul>
 						<li><kul:htmlControlAttribute property="subAwardPrintAgreement.attachment3A" 
 		      							attributeEntry="${subAwardPrintAgreementAttributes.attachment3A}" readOnly="false"/>
@@ -120,84 +149,49 @@ li.truncateAlign table {
 						</ul></dd></dl>
 						</div>
 				</td>
-				</tr> 
-				<tr>
-				<td scope="row" style="width:160px; text-align:center;">Sponsor Attachments:</td>
-				<td>
-				<div class="multi-col-list" id="awardPrintNoticeItems">
-				<dl>
-				<c:forEach var="form" items="${KualiForm.document.subAwardList[0].subAwardForms}" varStatus="status">
-				
-				<c:choose>
-				<c:when test="${status.index % 2 == 0}" >
-				 <dd><ul>
-				  <li>
-				  <html:checkbox property="document.subAwardList[0].subAwardForms[${status.index}].selectToPrint"/>
-				  <c:out value="${KualiForm.document.subAwardList[0].subAwardForms[status.index].description}"/>
-				</li>
-				</ul></dd>
-      			   </c:when>
-      			  <c:otherwise >
-      			 <dd><ul>
-      			  <li>
-      			  <html:checkbox property="document.subAwardList[0].subAwardForms[${status.index}].selectToPrint"/>
-      			  <c:out value="${KualiForm.document.subAwardList[0].subAwardForms[status.index].description}"/>
-      			  </li>
-      			  </ul></dd>
-      			  </c:otherwise>
-      			  </c:choose>
-      			  </c:forEach>
-      			  </dl>
-				  </div>
-				
-				</td>
-				
-			   </tr>
+				</tr>
 			   <tr>
 				<td scope="row" style="width:160px; text-align:center;">Subaward Attachments:</td>
 				
 				<td>
-				
-				
-				<div class="multi-col-list" id="awardPrintNoticeItems">
+				<div class="multi-col-list awardPrintNoticeItems">
 				 <dl>
-				<c:forEach var="attachment" items="${KualiForm.document.subAwardList[0].subAwardAttachments}" varStatus="status">
-				<c:if test="${KualiForm.document.subAwardList[0].subAwardAttachments[status.index].fileNameSplit!=null}" >
-				<c:choose>
-				<c:when test="${status.index % 2 == 0}" >
-				 <dd><ul>
-				  <li class="truncateAlign">
-				  <html:checkbox property="document.subAwardList[0].subAwardAttachments[${status.index}].selectToPrint"/>
-				  <kra:truncateComment textAreaFieldName="document.subAwardList[0].subAwardAttachments[${status.index}].description" action="subAwardActions" textAreaLabel="Descripton" 
-				  textValue="${KualiForm.document.subAwardList[0].subAwardAttachments[status.index].description}" displaySize="30"/>
-				  </li>
-				  </ul></dd>
-      			  </c:when>
-      			  <c:otherwise >
-      			 <dd><ul>
-      			  <li class="truncateAlign">
-				  <html:checkbox property="document.subAwardList[0].subAwardAttachments[${status.index}].selectToPrint"/>
-				  <kra:truncateComment textAreaFieldName="document.subAwardList[0].subAwardAttachments[${status.index}].description" action="subAwardActions" textAreaLabel="Descripton" 
-				  textValue="${KualiForm.document.subAwardList[0].subAwardAttachments[status.index].description}" displaySize="30"/>
-				  </li>
-      			  </ul></dd>
-      			  </c:otherwise>
-      			  </c:choose>
-      			  </c:if>
-      			  </c:forEach>
-      			  </dl>
+					 <dd>
+						 <ul>
+							 <c:forEach var="attachment" items="${KualiForm.document.subAwardList[0].subAwardAttachmentsForPrint}" varStatus="status">
+								 <c:if test="${status.index % 2 == 0}" >
+								 	<li>
+										<html:checkbox property="document.subAwardList[0].subAwardAttachmentsForPrint[${status.index}].selectToPrint" title="${attachment.typeAttachment.description} -  ${attachment.description}"/>
+										<c:out value="${attachment.typeAttachment.description} -  ${attachment.description}" />
+									</li>
+								 </c:if>
+							 </c:forEach>
+						 </ul>
+					 </dd>
+					 <dd>
+						 <ul>
+							 <c:forEach var="attachment" items="${KualiForm.document.subAwardList[0].subAwardAttachmentsForPrint}" varStatus="status">
+								 <c:if test="${status.index % 2 != 0}" >
+									 <li>
+										 <html:checkbox property="document.subAwardList[0].subAwardAttachmentsForPrint[${status.index}].selectToPrint" title="${attachment.typeAttachment.description} -  ${attachment.description}"/>
+										 <c:out value="${attachment.typeAttachment.description} -  ${attachment.description}" />
+									 </li>
+								 </c:if>
+							 </c:forEach>
+						 </ul>
+					 </dd>
+					</dl>
+
       			 </div>
       			  </td>
       			  </tr>
 			   
 				<tr>
 				  <td colspan="3" style="text-align: center;">
-					  <html:image property="methodToCall.selectAllSubAwardPrintNoticeItems.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="setAllItemsIn('awardPrintNoticeItems', true);return false;" />
-      			      <html:image property="methodToCall.deselectAllSubAwardPrintNoticeItems.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="setAllItemsIn('awardPrintNoticeItems', false);return false;" />
+					  <html:image property="methodToCall.selectAllSubAwardPrintNoticeItems.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="setAllItemsInClass('awardPrintNoticeItems', true);return false;" />
+      			      <html:image property="methodToCall.deselectAllSubAwardPrintNoticeItems.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="setAllItemsInClass('awardPrintNoticeItems', false);return false;" />
 				  </td>
 				</tr>
-				
-				
     	</table>
 		</div>
 </kul:tab>

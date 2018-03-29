@@ -8,6 +8,7 @@
 package org.kuali.kra.subaward.bo;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.common.framework.custom.CustomDataContainer;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.org.Organization;
@@ -26,6 +27,7 @@ import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.PdfBoxUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.infrastructure.Constants;
@@ -35,6 +37,8 @@ import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.subaward.lookup.SubAwardDocumentStatusConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.util.AutoPopulatingList;
 
@@ -165,9 +169,13 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
     @SkipVersioning
     private transient List<SubAwardAmountReleased> subAwardAmountReleasedList;
 
+    @SkipVersioning
+    private transient List<SubAwardAttachments> subAwardAttachmentsForPrint;
+
     private VersionHistorySearchBo versionHistory;
 
     private transient BusinessObjectService businessObjectService;
+    private transient ParameterService parameterService;
 
     public List<SubAwardForms> getSubAwardForms() {
         if (CollectionUtils.isEmpty(subAwardForms)) {
@@ -221,6 +229,54 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
         }
 
         return this.subAwardAttachments;
+    }
+
+    public List<SubAwardAttachments> getSubAwardAttachmentsForPrint() {
+        if (subAwardAttachmentsForPrint == null) {
+            final List<String> printAttachmentTypeInclusion = Arrays.stream(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_PRINT_ATTACHMENT_TYPE_INCLUSION)
+                    .split(","))
+                    .filter(StringUtils::isNotBlank)
+                    .map(String::trim)
+                    .distinct()
+                    .collect(Collectors.toList());
+
+
+            final List<SubAwardAttachments> attachments = getSubAwardAttachments()
+                    .stream()
+                    .filter(attach -> printAttachmentTypeInclusion.contains(attach.getSubAwardAttachmentTypeCode().toString()))
+                    .filter(attach -> PdfBoxUtils.isValidPdf(attach.getAttachmentContent()))
+                    .sorted(Comparator.comparing(attach -> printAttachmentTypeInclusion.indexOf(attach.getSubAwardAttachmentTypeCode().toString())))
+                    .collect(Collectors.toList());
+
+            final int size = attachments.size();
+            if (size > 0) {
+                final int halfSize = isEven(size) ? size / 2 : (size + 1) / 2;
+                final List<SubAwardAttachments> left = attachments.subList(0, halfSize);
+                final List<SubAwardAttachments> right = attachments.subList(halfSize, size);
+
+                final List<SubAwardAttachments> sorted = new ArrayList<>();
+                for (int i = 0; i < left.size(); i++) {
+                    sorted.add(left.get(i));
+                    if (right.size() > i) {
+                        sorted.add(right.get(i));
+                    }
+                }
+
+                subAwardAttachmentsForPrint = sorted;
+            } else {
+                subAwardAttachmentsForPrint = Collections.emptyList();
+            }
+        }
+
+        return subAwardAttachmentsForPrint;
+    }
+
+    public void setSubAwardAttachmentsForPrint(List<SubAwardAttachments> subAwardAttachmentsForPrint) {
+        this.subAwardAttachmentsForPrint = subAwardAttachmentsForPrint;
+    }
+
+    private static boolean isEven(int i) {
+        return (i & 1) == 0;
     }
 
     public void setAttachments(List<SubAwardAttachments> attachments) {
@@ -1175,5 +1231,17 @@ implements Permissionable, SequenceOwner<SubAward>, CustomDataContainer, Negotia
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

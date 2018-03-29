@@ -13,6 +13,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -111,6 +112,23 @@ public final class CollectionUtils {
      */
     public static <K, V> Map.Entry<K, V> entry(K key, V value) {
         return new AbstractMap.SimpleEntry<K, V>(key, value);
+    }
+
+
+    /**
+     * Convenience method to a return a Collector that converts an Map.Entry to a Map which type is provided as a mapSupplier.
+     * @param <K> the key type
+     * @param <U> the value type
+     * @param <M> the map type
+     * @param mapSupplier supplies a new instance of a Map.  cannot be null.
+     * @return A Collector from Map.Entry to Map as defined by the mapSupplier
+     */
+    public static <K, U, M extends Map<K, U>> Collector<Map.Entry<K, U>, ?, M> entriesToMap(Supplier<M> mapSupplier) {
+        if (mapSupplier == null) {
+            throw new IllegalArgumentException("mapSupplier cannot be null");
+        }
+
+        return Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (u,v) -> { throw new IllegalStateException(String.format("Duplicate key %s", u)); }, mapSupplier);
     }
 
     /**
