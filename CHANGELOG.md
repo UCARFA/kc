@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1803.0042
 * RESKC-1497: Ensure all opportunity info gets copied to proposal when initiating from opportunity lookup
   * Jeff Largent on Thu, 29 Mar 2018 14:41:11 -0400 [View Commit](../../commit/a2cfaa2345cac2632656c78c8c68220bc7285831)
 
