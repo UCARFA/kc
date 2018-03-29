@@ -26,6 +26,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
@@ -36,6 +37,8 @@ import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyVersionService;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -100,6 +103,9 @@ public class TimeAndMoneyController extends RestController {
     @Autowired
     @Qualifier("permissionService")
     private PermissionService permissionService;
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     @RequestMapping(method= RequestMethod.GET, value="/time-and-money-posts/",
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -337,17 +343,26 @@ public class TimeAndMoneyController extends RestController {
         return timeAndMoneyDto;
     }
 
+    public boolean isApiAuthEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_GEN, ParameterConstants.DOCUMENT_COMPONENT,
+                FeatureFlagConstants.ENABLE_API_AUTHORIZATION);
+    }
+
     protected void assertUserHasReadAccess() {
-        if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
-                Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.READ_CLASS, Collections.singletonMap(KcKimAttributes.CLASS_NAME, Award.class.getName()))) {
-            throw new UnauthorizedAccessException();
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                    Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.READ_CLASS, Collections.singletonMap(KcKimAttributes.CLASS_NAME, Award.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
         }
     }
 
     protected void assertUserHasWriteAccess() {
-        if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
-                Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.WRITE_CLASS, Collections.singletonMap(KcKimAttributes.CLASS_NAME, Award.class.getName()))) {
-            throw new UnauthorizedAccessException();
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                    Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.WRITE_CLASS, Collections.singletonMap(KcKimAttributes.CLASS_NAME, Award.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
         }
     }
 

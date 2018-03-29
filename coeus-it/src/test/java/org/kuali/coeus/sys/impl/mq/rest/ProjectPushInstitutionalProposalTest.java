@@ -19,6 +19,7 @@ import org.kuali.coeus.instprop.impl.api.service.InstitutionalProposalApiService
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerDao;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.impl.controller.rest.audit.RestAuditLoggerFactoryImpl;
 import org.kuali.coeus.sys.impl.controller.rest.audit.RestAuditLoggerImpl;
@@ -26,15 +27,30 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 import javax.jms.ObjectMessage;
 import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class ProjectPushInstitutionalProposalTest extends ProjectPushTestBase {
+
+    public void useAuthorizedUser() {
+        GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setAuditErrorMap(new HashMap<>());
+        final UserSession userSession = new UserSession("admin");
+        userSession.setKualiSessionId(UUID.randomUUID().toString());
+        GlobalVariables.setUserSession(userSession);
+
+    }
 
     public static final String INST_PROP_PROJECT_RETRIEVAL_SERVICE = "instPropProjectRetrievalService";
     InstitutionalProposalDocument ipDocument;
@@ -43,6 +59,7 @@ public class ProjectPushInstitutionalProposalTest extends ProjectPushTestBase {
 
     @Before
     public void setUp() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useAuthorizedUser();
         String jsonInString = getIpJson();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -54,9 +71,9 @@ public class ProjectPushInstitutionalProposalTest extends ProjectPushTestBase {
 
     @Test
 	public void test() throws Exception {
-        final Project awardProject = getProjectRetrievalService().retrieveProject(getDocumentIdentifier());
+        final Project project = getProjectRetrievalService().retrieveProject(getDocumentIdentifier());
         if(isCoiEnabled()) {
-            ObjectMessage message = getMessageFromProject(awardProject);
+            ObjectMessage message = getMessageFromProject(project);
             getRestMessageConsumer().onMessage(message);
         }
     }
@@ -153,6 +170,18 @@ public class ProjectPushInstitutionalProposalTest extends ProjectPushTestBase {
                 return KcServiceLocator.getService(CommonApiService.class);
             }
 
+
+            public PermissionService getPermissionService() {
+                return KcServiceLocator.getService(PermissionService.class);
+            }
+
+            public GlobalVariableService getGlobalVariableService() {
+                return KcServiceLocator.getService(GlobalVariableService.class);
+            }
+
+            public boolean isApiAuthEnabled() {
+                return true;
+            }
             @Override
             public DocumentService getDocumentService() {
                 return KcServiceLocator.getService(DocumentService.class);

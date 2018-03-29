@@ -48,7 +48,7 @@ public class AwardBudgetControllerTest extends KcIntegrationTestBase {
 
     @Before
     public void beforeTest() {
-        updateParameterForTesting(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+        updateParameterForTesting(Constants.MODULE_NAMESPACE_GEN, ParameterConstants.DOCUMENT_COMPONENT,
                 FeatureFlagConstants.ENABLE_API_AUTHORIZATION, "true");
     }
 

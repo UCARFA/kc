@@ -160,7 +160,7 @@ public class AwardAccountController extends RestController {
     }
 
     public boolean isApiAuthEnabled() {
-        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_GEN, ParameterConstants.DOCUMENT_COMPONENT,
                 FeatureFlagConstants.ENABLE_API_AUTHORIZATION);
     }
 

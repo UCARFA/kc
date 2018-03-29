@@ -46,7 +46,7 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
 
     @Before
     public void setUp() throws Exception {
-        updateParameterForTesting(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+        updateParameterForTesting(Constants.MODULE_NAMESPACE_GEN, ParameterConstants.DOCUMENT_COMPONENT,
                 FeatureFlagConstants.ENABLE_API_AUTHORIZATION, "true");
     }
 
