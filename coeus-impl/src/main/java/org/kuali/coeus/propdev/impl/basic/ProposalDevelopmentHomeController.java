@@ -14,10 +14,10 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
-import org.kuali.coeus.propdev.impl.person.AddEmployeePiHelper;
-import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
+import org.kuali.coeus.propdev.impl.person.AddEmployeePiHelper;
+import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
@@ -25,7 +25,6 @@ import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -468,6 +467,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
     protected void setS2sOpportunityFromLookup(DocumentFormBase form, ProposalDevelopmentDocumentForm propDevForm) throws ParseException {
         if (StringUtils.isNotBlank(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.OPPORTUNITY_ID))) {
+            DevelopmentProposal developmentProposal = propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal();
 
             S2sOpportunity opportunity = new S2sOpportunity();
             Calendar openingDate = Calendar.getInstance();
@@ -479,16 +479,19 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
             opportunity.setOpeningDate(openingDate);
             opportunity.setCompetetionId(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.COMPETETION_ID));
             opportunity.setInstructionUrl(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.INSTRUCTION_URL));
+            opportunity.setCfdaNumber(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.CFDA_NUMBER));
             opportunity.setOpportunityId(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.OPPORTUNITY_ID));
             final String opportunityTitle = form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.OPPORTUNITY_TITLE);
             String trimmedTitle = StringUtils.substring(opportunityTitle, 0, ProposalDevelopmentConstants.S2sConstants.OPP_TITLE_MAX_LENGTH);
             opportunity.setOpportunityTitle(trimmedTitle);
             opportunity.setProviderCode(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.PROVIDER_CODE));
             opportunity.setSchemaUrl(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.SCHEMA_URL));
-            opportunity.setDevelopmentProposal(propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal());
+            opportunity.setDevelopmentProposal(developmentProposal);
 
-            propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(opportunity);
-
+            developmentProposal.setS2sOpportunity(opportunity);
+            developmentProposal.setProgramAnnouncementTitle(opportunityTitle);
+            developmentProposal.setProgramAnnouncementNumber(opportunity.getOpportunityId());
+            developmentProposal.setCfdaNumber(opportunity.getCfdaNumber());
         }
     }
 
