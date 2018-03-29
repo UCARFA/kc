@@ -18,12 +18,16 @@ import org.kuali.coeus.common.api.document.service.CommonApiService;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.version.service.AwardVersionService;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.dao.TimeAndMoneyDao;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -33,7 +37,9 @@ import org.kuali.kra.timeandmoney.service.TimeAndMoneyService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyVersionService;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.exception.UnknownDocumentIdException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +49,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequestMapping(value="/api/v1")
@@ -94,12 +97,16 @@ public class TimeAndMoneyController extends RestController {
     @Autowired
     @Qualifier("timeAndMoneyVersionService")
     private TimeAndMoneyVersionService timeAndMoneyVersionService;
+    @Autowired
+    @Qualifier("permissionService")
+    private PermissionService permissionService;
 
     @RequestMapping(method= RequestMethod.GET, value="/time-and-money-posts/",
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     List<TimeAndMoneyPostDto> getTimeAndMoneyPosts() {
+        assertUserHasReadAccess();
         List<TimeAndMoneyPosts> timeAndMoneyPosts;
         timeAndMoneyPosts = timeAndMoneyPostsDao.getActiveTimeAndMoneyPosts();
         return timeAndMoneyPosts.stream().map(
@@ -113,6 +120,7 @@ public class TimeAndMoneyController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     TimeAndMoneyPostDto getPost(@PathVariable Long id) {
+        assertUserHasReadAccess();
         TimeAndMoneyPosts timeAndMoneyPosts = timeAndMoneyPostsDao.getTimeAndMoneyPost(id);
         if(timeAndMoneyPosts == null) {
             throw new ResourceNotFoundException("Time and money posts with id " + id + " not found.");
@@ -126,6 +134,7 @@ public class TimeAndMoneyController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public TimeAndMoneyPostDto putTimeAndMoneyPost(@RequestBody TimeAndMoneyPostDto timeAndMoneyPostDto, @PathVariable Long id) {
+        assertUserHasWriteAccess();
         TimeAndMoneyPosts timeAndMoneyPosts = timeAndMoneyPostsDao.getTimeAndMoneyPost(id);
         if(timeAndMoneyPosts == null) {
             throw new ResourceNotFoundException("Time and money posts with id " + id + " not found.");
@@ -141,7 +150,13 @@ public class TimeAndMoneyController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public TimeAndMoneyDto getTimeAndMoneydocument(@PathVariable String documentNumber) {
-        TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) commonApiService.getDocumentFromDocId(Long.parseLong(documentNumber));
+        assertUserHasReadAccess();
+        TimeAndMoneyDocument timeAndMoneyDocument;
+        try {
+            timeAndMoneyDocument = (TimeAndMoneyDocument) commonApiService.getDocumentFromDocId(Long.parseLong(documentNumber));
+        } catch (UnknownDocumentIdException e) {
+            throw new ResourceNotFoundException("The time and money document with document number " + documentNumber + "could not be retrieved");
+        }
         TimeAndMoneyDto timeAndMoneyDto = commonApiService.convertObject(timeAndMoneyDocument, TimeAndMoneyDto.class);
         timeAndMoneyDto.setTransactionDetails(timeAndMoneyDao.getTransactionDetailsForDocument(documentNumber).stream().map(item -> commonApiService.convertObject(item, TransactionDetailDto.class)).collect(Collectors.toList()));
         timeAndMoneyDto.setTimeAndMoneyDocumentNbr(timeAndMoneyDocument.getDocumentNumber());
@@ -155,7 +170,11 @@ public class TimeAndMoneyController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public String createTimeAndMoneyDocument(@RequestBody TimeAndMoneyDto timeAndMoneyDto) throws Exception {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
+        if (timeAndMoneyDto == null) {
+            throw new UnprocessableEntityException("No data provided to create document");
+        }
         String awardId = timeAndMoneyDto.getAwardId();
         Award award = awardDao.getAward(Long.parseLong(awardId));
         if(award == null) {
@@ -236,7 +255,12 @@ public class TimeAndMoneyController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public String versionTimeAndMoney(@RequestBody TimeAndMoneyDto timeAndMoneyDto, @PathVariable String documentNumber) throws Exception {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
+        if (timeAndMoneyDto == null) {
+            throw new UnprocessableEntityException("No data provided to version document.");
+        }
+
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyDao.getTimeAndMoneyDocument(documentNumber);
         if(timeAndMoneyDocument == null) {
             throw new ResourceNotFoundException("Time and money document with number " + documentNumber + " was not found.");
@@ -264,8 +288,15 @@ public class TimeAndMoneyController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public TimeAndMoneyDto submitDocument(@PathVariable String documentNumber) throws WorkflowException {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
-        TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) commonApiService.getDocumentFromDocId(Long.parseLong(documentNumber));
+        TimeAndMoneyDocument timeAndMoneyDocument;
+        try {
+            timeAndMoneyDocument = (TimeAndMoneyDocument) commonApiService.getDocumentFromDocId(Long.parseLong(documentNumber));
+
+        } catch(UnknownDocumentIdException exception) {
+            throw new ResourceNotFoundException("The document with document number" + documentNumber + " could not be located.");
+        }
         Award award = awardVersionService.getWorkingAwardVersion(timeAndMoneyDocument.getRootAwardNumber());
         timeAndMoneyDocument.setAward(award);
         commonApiService.routeDocument(timeAndMoneyDocument);
@@ -304,6 +335,20 @@ public class TimeAndMoneyController extends RestController {
         TimeAndMoneyDto timeAndMoneyDto = commonApiService.convertObject(timeAndMoneyDocument, TimeAndMoneyDto.class);
         addTransactionDetails(documentNumber, timeAndMoneyDto);
         return timeAndMoneyDto;
+    }
+
+    protected void assertUserHasReadAccess() {
+        if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.READ_CLASS, Collections.singletonMap(KcKimAttributes.CLASS_NAME, Award.class.getName()))) {
+            throw new UnauthorizedAccessException();
+        }
+    }
+
+    protected void assertUserHasWriteAccess() {
+        if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.WRITE_CLASS, Collections.singletonMap(KcKimAttributes.CLASS_NAME, Award.class.getName()))) {
+            throw new UnauthorizedAccessException();
+        }
     }
 
 }

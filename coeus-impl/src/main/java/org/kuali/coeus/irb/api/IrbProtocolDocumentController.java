@@ -19,10 +19,15 @@ import org.kuali.coeus.irb.api.dto.IrbProtocolPersonDto;
 import org.kuali.coeus.irb.api.dto.IrbProtocolSubmissionDto;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.NotImplementedException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -40,16 +45,21 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolNumberService;
+import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.InvalidActionTakenException;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -68,6 +78,7 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,6 +93,18 @@ public class IrbProtocolDocumentController extends RestController implements  In
     @Autowired
     @Qualifier("restAuditLoggerFactory")
     private RestAuditLoggerFactory restAuditLoggerFactory;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("permissionService")
+    private PermissionService permissionService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     @Autowired
     @Qualifier("documentService")
@@ -151,6 +174,7 @@ public class IrbProtocolDocumentController extends RestController implements  In
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
     public IrbProtocolDto createProtocol(@RequestBody IrbProtocolDto protocolDto) throws WorkflowException, IllegalAccessException {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getNewDocument(ProtocolDocument.class);
         Protocol protocol = commonApiService.convertObject(protocolDto, Protocol.class);
@@ -229,6 +253,7 @@ public class IrbProtocolDocumentController extends RestController implements  In
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @ResponseBody
     void deleteProtocol(@PathVariable Long documentNumber) throws WorkflowException {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         ProtocolDocument protocolDocument = getProtocolDocument(documentNumber);
         DocumentRouteHeaderValue routeHeader = routeHeaderService.getRouteHeader(protocolDocument.getDocumentHeader().getWorkflowDocument().getDocumentId());
@@ -247,6 +272,7 @@ public class IrbProtocolDocumentController extends RestController implements  In
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     IrbProtocolDto getProtocol(@PathVariable Long documentNumber) {
+        assertUserHasReadAccess();
         commonApiService.clearErrors();
         ProtocolDocument protocolDocument = getProtocolDocument(documentNumber);
         Protocol protocol = protocolDocument.getProtocol();
@@ -261,6 +287,7 @@ public class IrbProtocolDocumentController extends RestController implements  In
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     IrbProtocolSubmissionDto takeAction(@RequestBody IrbProtocolActionDto protocolActionDto, @PathVariable Long documentNumber) throws Exception {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         ProtocolDocument protocolDocument = getProtocolDocument(documentNumber);
         List<ErrorMessage> errors = commonApiService.getAuditErrors(protocolDocument);
@@ -368,6 +395,33 @@ public class IrbProtocolDocumentController extends RestController implements  In
         irbProtocolDtoProperties = getDtoProperties(IrbProtocolDto.class);
         irbPersonDtoProperties = getDtoProperties(IrbProtocolPersonDto.class);
         irbProtocolActionDtoProperties = getDtoProperties(IrbProtocolActionDto.class);
+    }
+
+    public boolean isApiAuthEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+                FeatureFlagConstants.ENABLE_API_AUTHORIZATION);
+    }
+
+    protected void assertUserHasReadAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null ||
+                    !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                            Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.READ_CLASS,
+                            Collections.singletonMap(KcKimAttributes.CLASS_NAME, Protocol.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
+
+    protected void assertUserHasWriteAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null ||
+                    !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                            Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.WRITE_CLASS,
+                            Collections.singletonMap(KcKimAttributes.CLASS_NAME, Protocol.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
     }
 
     public void setDocumentService(DocumentService documentService) {

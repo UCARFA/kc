@@ -18,7 +18,9 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
@@ -27,15 +29,20 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AwardControllerBase extends RestController {
@@ -54,6 +61,12 @@ public class AwardControllerBase extends RestController {
     @Autowired
     @Qualifier("rolodexService")
     private RolodexService rolodexService;
+    @Autowired
+    @Qualifier("permissionService")
+    private PermissionService permissionService;
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     protected void translateCollections(AwardDto awardDto, AwardDocument awardDocument) {
 
@@ -193,5 +206,55 @@ public class AwardControllerBase extends RestController {
         award.getAwardAmountInfo().setObligationExpirationDate(awardDto.getObligationEndDate());
         award.getAwardAmountInfo().setFinalExpirationDate(awardDto.getProjectEndDate());
         award.setAwardEffectiveDate(awardDto.getAwardEffectiveDate());
+    }
+
+    public boolean isApiAuthEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+                FeatureFlagConstants.ENABLE_API_AUTHORIZATION);
+    }
+
+    protected void assertUserHasBudgetReadAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                    Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.READ_CLASS, Collections.singletonMap(KcKimAttributes.CLASS_NAME, AwardBudgetExt.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
+
+    protected void assertUserHasAwardPersonReadAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                    Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.READ_CLASS, Collections.singletonMap(KcKimAttributes.CLASS_NAME, AwardPerson.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
+
+    protected void assertUserHasAwardPersonWriteAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                    Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.WRITE_CLASS, Collections.singletonMap(KcKimAttributes.CLASS_NAME, AwardPerson.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
+
+    protected void assertUserHasReadAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                    Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.READ_CLASS, Collections.singletonMap(KcKimAttributes.CLASS_NAME, Award.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
+
+    protected void assertUserHasWriteAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null || !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                    Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.WRITE_CLASS, Collections.singletonMap(KcKimAttributes.CLASS_NAME, Award.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
     }
 }

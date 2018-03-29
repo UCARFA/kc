@@ -11,6 +11,7 @@ package org.kuali.coeus.award.api;
 
 import org.junit.Assert;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
 import org.kuali.coeus.award.dto.AwardDto;
 import org.kuali.coeus.award.finance.timeAndMoney.api.TimeAndMoneyController;
 import org.kuali.coeus.award.finance.timeAndMoney.dto.TimeAndMoneyDto;
@@ -21,14 +22,25 @@ import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 import java.beans.IntrospectionException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 public class AwardControllerTestBase extends KcIntegrationTestBase {
+
+    @Before
+    public void beforeTest() {
+        updateParameterForTesting(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+                FeatureFlagConstants.ENABLE_API_AUTHORIZATION, "true");
+    }
+
     public Award testAwardTMVersion2(ObjectMapper mapper, Award award1, String tm1DocumentNumber) throws Exception {
         AwardPerson person;
         String awardString2 = getAwardVersion2();
@@ -455,12 +467,30 @@ public class AwardControllerTestBase extends KcIntegrationTestBase {
         return new java.sql.Date( cal.getTime().getTime() );
     }
 
+    public void useUnauthorizedUser() {
+        GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setAuditErrorMap(new HashMap<>());
+        final UserSession userSession = new UserSession("quickstart");
+        userSession.setKualiSessionId(UUID.randomUUID().toString());
+        GlobalVariables.setUserSession(userSession);
+
+    }
+
     public AwardController getAwardController() throws IntrospectionException {
         return KcServiceLocator.getService(AwardController.class);
     }
 
     public TimeAndMoneyController getTimeAndMoneyController() throws IntrospectionException {
         return KcServiceLocator.getService(TimeAndMoneyController.class);
+    }
+
+    public void useAuthorizedUser() {
+        GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setAuditErrorMap(new HashMap<>());
+        final UserSession userSession = new UserSession("admin");
+        userSession.setKualiSessionId(UUID.randomUUID().toString());
+        GlobalVariables.setUserSession(userSession);
+
     }
 
     public void setupCreditSplits(AwardPerson person) {

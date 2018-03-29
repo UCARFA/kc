@@ -9,6 +9,7 @@ package org.kuali.coeus.award.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.award.dto.AwardBudgetExtDto;
 import org.kuali.coeus.award.dto.AwardBudgetGeneralInfoDto;
@@ -16,6 +17,7 @@ import org.kuali.coeus.award.dto.AwardDto;
 import org.kuali.coeus.award.finance.timeAndMoney.api.TimeAndMoneyController;
 import org.kuali.coeus.award.finance.timeAndMoney.dto.TimeAndMoneyDto;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
@@ -23,20 +25,50 @@ import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 import java.beans.IntrospectionException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 public class AwardBudgetControllerTest extends KcIntegrationTestBase {
 
+    @Before
+    public void beforeTest() {
+        updateParameterForTesting(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+                FeatureFlagConstants.ENABLE_API_AUTHORIZATION, "true");
+    }
+
+    public void useAuthorizedUser() {
+        GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setAuditErrorMap(new HashMap<>());
+        final UserSession userSession = new UserSession("admin");
+        userSession.setKualiSessionId(UUID.randomUUID().toString());
+        GlobalVariables.setUserSession(userSession);
+
+    }
+
+    public void useUnauthorizedUser() {
+        GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setAuditErrorMap(new HashMap<>());
+        final UserSession userSession = new UserSession("quickstart");
+        userSession.setKualiSessionId(UUID.randomUUID().toString());
+        GlobalVariables.setUserSession(userSession);
+
+    }
 
     public void setupCreditSplits(AwardPerson person) {
         List<AwardPersonCreditSplit> creditSplits = new ArrayList<>();
@@ -68,7 +100,6 @@ public class AwardBudgetControllerTest extends KcIntegrationTestBase {
 
         List<AwardPersonUnitCreditSplit> unitCreditSplits = new ArrayList<>();
 
-
         AwardPersonUnitCreditSplit awardUnitCreditSplit8 = new AwardPersonUnitCreditSplit();
         awardUnitCreditSplit8.setCredit(new ScaleTwoDecimal(100));
         awardUnitCreditSplit8.setInvCreditTypeCode("0");
@@ -94,6 +125,7 @@ public class AwardBudgetControllerTest extends KcIntegrationTestBase {
 
     @Test
     public void testAwardBudget() throws Exception {
+        useAuthorizedUser();
         // POST
         String awardJsonRequiredForTimeAndMoney = getawardJson();
         ObjectMapper mapper = new ObjectMapper();
@@ -187,6 +219,50 @@ public class AwardBudgetControllerTest extends KcIntegrationTestBase {
         Assert.assertTrue(awardBudget.getAwardBudgetStatusCode().equalsIgnoreCase("-1"));
 
 
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testCreateBudgetWithoutAuthorization() throws IOException, IntrospectionException,
+            IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getAwardBudgetController().createBudget(11L, null);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testCancelDocumentWithoutAuthorization() throws IOException, IntrospectionException,
+            IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getAwardBudgetController().cancelDocument(11L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testChangeBudgetStatusWithoutAuthorization() throws Exception {
+        useUnauthorizedUser();
+        getAwardBudgetController().changeBudgetStatus(11L, null);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testRouteAwardBudgetWithoutAuthorization() throws Exception {
+        useUnauthorizedUser();
+        getAwardBudgetController().routeAwardBudget(11L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testGetAwardBudgetWithoutAuthorization() throws Exception {
+        useUnauthorizedUser();
+        getAwardBudgetController().getAwardBudget("11");
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testGetAwardBudgetByStatusWithoutAuthorization() throws Exception {
+        useUnauthorizedUser();
+        getAwardBudgetController().getAwardBudgetByStatus(5);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testModifyAwardBudgetWithoutAuthorization() throws Exception {
+        useUnauthorizedUser();
+        getAwardBudgetController().modifyAwardBudget(null, "5");
     }
 
     public String getAwardBudgetGeneralInfoString() {

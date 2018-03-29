@@ -14,18 +14,28 @@ import org.kuali.coeus.instprop.impl.api.service.InstitutionalProposalApiService
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.InvalidActionTakenException;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -65,6 +75,19 @@ public class InstitutionalProposalDocumentController extends RestController {
     @Qualifier("commonApiService")
     private CommonApiService commonApiService;
 
+    @Autowired
+    @Qualifier("permissionService")
+    private PermissionService permissionService;
+
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     private List<String> ipDtoProperties;
     private List<String> ipPersonDtoProperties;
 
@@ -92,6 +115,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
     public String createInstitutionalProposal(@RequestBody InstitutionalProposalDto ipDto, @RequestParam(value = "createProposalLog", required = false) boolean createProposalLog) throws WorkflowException, InvocationTargetException, IllegalAccessException {
+        assertUserHasWriteAccess();
         RestAuditLogger auditLogger = getRestAuditLoggerFactory().getNewAuditLogger(InstitutionalProposalDto.class, ipDtoProperties);
         getCommonApiService().clearErrors();
         InstitutionalProposal proposal = getCommonApiService().convertObject(ipDto, InstitutionalProposal.class);
@@ -124,6 +148,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void deleteInstitutionalProposal(@PathVariable Long documentNumber) throws WorkflowException {
+        assertUserHasWriteAccess();
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         DocumentRouteHeaderValue routeHeader = getRouteHeaderService().getRouteHeader(proposalDocument.getDocumentHeader().getWorkflowDocument().getDocumentId());
         if (!routeHeader.getDocRouteStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD)) {
@@ -141,6 +166,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     InstitutionalProposalDto getInstitutionalProposal(@PathVariable Long documentNumber) {
+        assertUserHasReadAccess();
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         InstitutionalProposal proposal = proposalDocument.getInstitutionalProposal();
         InstitutionalProposalDto proposalDto = getCommonApiService().convertObject(proposal, InstitutionalProposalDto.class);
@@ -154,6 +180,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
     public List<IpPersonDto> addProposalPersons(@RequestBody List<IpPersonDto> ipPersonDto, @PathVariable Long documentNumber) throws WorkflowException {
+        assertUserHasWriteAccess();
         getCommonApiService().clearErrors();
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         RestAuditLogger auditLogger = getRestAuditLoggerFactory().getNewAuditLogger(IpPersonDto.class, ipPersonDtoProperties);
@@ -171,6 +198,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     List<IpPersonDto> getAllProposalPersons(@PathVariable Long documentNumber) throws WorkflowException {
+        assertUserHasReadAccess();
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         InstitutionalProposalDto proposalDto = getCommonApiService().
                 convertObject(proposalDocument.getInstitutionalProposal(), InstitutionalProposalDto.class);
@@ -192,7 +220,9 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void deleteProposalPerson(@PathVariable Long documentNumber, @PathVariable Long id) throws WorkflowException {
-        InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
+        assertUserHasWriteAccess();
+        InstitutionalProposalDocument proposalDocument =
+                (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         RestAuditLogger auditLogger = getRestAuditLoggerFactory().getNewAuditLogger(IpPersonDto.class, ipPersonDtoProperties);
         InstitutionalProposalPerson person = getInstitutionalProposalPerson(id, proposalDocument);
         IpPersonDto personDto = getCommonApiService().convertObject(person, IpPersonDto.class);
@@ -207,6 +237,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     IpPersonDto getProposalPerson(@PathVariable Long documentNumber, @PathVariable Long id) throws WorkflowException {
+        assertUserHasReadAccess();
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getCommonApiService().getDocumentFromDocId(documentNumber);
         InstitutionalProposalPerson person = getInstitutionalProposalPerson(id, proposalDocument);
         IpPersonDto personDto = getCommonApiService().convertObject(person, IpPersonDto.class);
@@ -218,6 +249,7 @@ public class InstitutionalProposalDocumentController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void routeDocument(@PathVariable Long documentNumber) throws WorkflowException {
+        assertUserHasWriteAccess();
         getCommonApiService().clearErrors();
         InstitutionalProposalDocument proposalDocument = (InstitutionalProposalDocument) getDocumentService().getByDocumentHeaderId(documentNumber.toString());
         getCommonApiService().routeDocument(proposalDocument);
@@ -233,6 +265,41 @@ public class InstitutionalProposalDocumentController extends RestController {
                 throw new UnprocessableEntityException("Document " + proposalDocument.getDocumentNumber() + " with status " + workflowDocument.getStatus() +
                         " is not in a state to be saved.");
         }
+    }
+
+    public boolean isApiAuthEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+                FeatureFlagConstants.ENABLE_API_AUTHORIZATION);
+    }
+
+    protected void assertUserHasReadAccess() {
+        if (isApiAuthEnabled()) {
+            if (getGlobalVariableService().getUserSession() == null ||
+                    !getPermissionService().hasPermissionByTemplate(getGlobalVariableService().getUserSession().getPrincipalId(),
+                            Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.READ_CLASS,
+                            Collections.singletonMap(KcKimAttributes.CLASS_NAME, InstitutionalProposal.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
+
+    protected void assertUserHasWriteAccess() {
+        if (isApiAuthEnabled()) {
+            if (getGlobalVariableService().getUserSession() == null ||
+                    !getPermissionService().hasPermissionByTemplate(getGlobalVariableService().getUserSession().getPrincipalId(),
+                            Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.WRITE_CLASS,
+                            Collections.singletonMap(KcKimAttributes.CLASS_NAME, InstitutionalProposal.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
+
+    public PermissionService getPermissionService() {
+        return permissionService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
     }
 
     public RouteHeaderService getRouteHeaderService() {

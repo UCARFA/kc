@@ -24,6 +24,7 @@
     <bean id="dictionaryValidationService" parent="grlImporter" p:serviceName="dictionaryValidationService" />
     <bean id="legacyDataAdapter" parent="grlImporter" p:serviceName="legacyDataAdapter" />
     <bean id="permissionService" parent="grlImporter" p:serviceName="kimPermissionService" />
+    <bean id="parameterService" parent="grlImporter" p:serviceName="parameterService" />
     <bean id="kualiConfigurationService" parent="grlImporter" p:serviceName="kualiConfigurationService" />
     <bean id="dataDictionaryService" parent="grlImporter" p:serviceName="dataDictionaryService" />
     <bean id="documentService" parent="grlImporter" p:serviceName="documentService" />

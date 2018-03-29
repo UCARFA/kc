@@ -11,31 +11,66 @@ package org.kuali.coeus.irb.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.irb.api.dto.IrbProtocolActionDto;
 import org.kuali.coeus.irb.api.dto.IrbProtocolDto;
 import org.kuali.coeus.irb.api.dto.IrbProtocolSubmissionDto;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
 
+    @Before
+    public void setUp() throws Exception {
+        updateParameterForTesting(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+                FeatureFlagConstants.ENABLE_API_AUTHORIZATION, "true");
+    }
+
+    public void useAuthorizedUser() {
+        GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setAuditErrorMap(new HashMap<>());
+        final UserSession userSession = new UserSession("admin");
+        userSession.setKualiSessionId(UUID.randomUUID().toString());
+        GlobalVariables.setUserSession(userSession);
+
+    }
+
+    public void useUnauthorizedUser() {
+        GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setAuditErrorMap(new HashMap<>());
+        final UserSession userSession = new UserSession("quickstart");
+        userSession.setKualiSessionId(UUID.randomUUID().toString());
+        GlobalVariables.setUserSession(userSession);
+
+    }
+
     @Test
     public void testProtocolExpeditedLifecycleGoodJson() throws Exception {
-
+        useAuthorizedUser();
         // POST
         IrbProtocolDto irbProtocolDto = createProtocol();
         ObjectMapper mapper;
@@ -86,6 +121,7 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
 
     @Test
     public void deleteProtocolTest() throws IllegalAccessException, WorkflowException, IntrospectionException, IOException {
+        useAuthorizedUser();
         // POST
         IrbProtocolDto irbProtocolDto = createProtocol();
 
@@ -101,7 +137,7 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
 
     @Test
     public void testProtocolExemptLifecycleGoodJson() throws Exception {
-
+        useAuthorizedUser();
         // POST
         IrbProtocolDto irbProtocolDto = createProtocol();
 
@@ -150,7 +186,7 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
 
     @Test(expected = UnprocessableEntityException.class)
     public void testProtocolAuditErrors() throws Exception {
-
+        useAuthorizedUser();
         // POST
         IrbProtocolDto irbProtocolDto = createBadProtocol();
 
@@ -185,6 +221,7 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
     }
 
     public IrbProtocolDto createBadProtocol() throws IOException, WorkflowException, IllegalAccessException, IntrospectionException {
+        useAuthorizedUser();
         String jsonInString = getJsonWithPersonIssues();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -211,6 +248,7 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
     }
 
     public IrbProtocolDto createProtocol() throws IOException, WorkflowException, IllegalAccessException, IntrospectionException {
+        useAuthorizedUser();
         String jsonInString = getCorrectJson();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -239,6 +277,31 @@ public class IrbProtocolDocumentControllerTest extends KcIntegrationTestBase {
         Assert.assertTrue(irbProtocolDto.getProtocolPersons().get(2).getAffiliationTypeCode().toString().equalsIgnoreCase("4"));
 
         return irbProtocolDto;
+    }
+
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testCreateProtocolUnauthorizedUser() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getDocumentController().createProtocol(null);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testDeleteProtocolUnauthorizedUser() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getDocumentController().deleteProtocol(null);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testGetProtocolUnauthorizedUser() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getDocumentController().getProtocol(null);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testTakeActionUnauthorizedUser() throws Exception {
+        useUnauthorizedUser();
+        getDocumentController().takeAction(null, 123L);
     }
 
     public String getApprovalJson() {

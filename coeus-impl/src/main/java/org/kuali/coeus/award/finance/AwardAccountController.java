@@ -13,10 +13,19 @@ import org.kuali.coeus.award.dto.AwardDto;
 import org.kuali.coeus.award.finance.dao.AccountDao;
 import org.kuali.coeus.common.api.document.service.CommonApiService;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
 import org.kuali.coeus.sys.framework.rest.SearchResults;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +37,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -53,10 +63,23 @@ public class AwardAccountController extends RestController {
     @Qualifier("commonApiService")
     private CommonApiService commonApiService;
 
+    @Autowired
+    @Qualifier("permissionService")
+    private PermissionService permissionService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
     @RequestMapping(value="/v1/accounts")
     public @ResponseBody
     AccountResults getAccounts(@RequestParam(value = "startIndex", required = false) Integer startIndex,
                                      @RequestParam(value = "size", required = false) Integer size) {
+        assertUserHasAccountReadAccess();
         return Translate.to(AccountResults.class).from(transformSearchResults(getAccountDao().getAccounts(startIndex, size)));
     }
 
@@ -64,6 +87,7 @@ public class AwardAccountController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     public
     void updateAccount(@Valid @RequestBody AccountDto account, @PathVariable String accountNumber) throws Exception {
+        assertUserHasAccountWriteAccess();
         AwardAccount currentAccount = accountDao.getAccount(accountNumber);
         if(Objects.isNull(currentAccount)) {
             sendErrorResponse(NO_SUCH_ACCOUNT);
@@ -83,6 +107,7 @@ public class AwardAccountController extends RestController {
     @RequestMapping(method=RequestMethod.GET, value="v1/accounts/{accountNumber}")
     public @ResponseBody
     AccountResults getAccount(@PathVariable String accountNumber) throws Exception {
+        assertUserHasAccountReadAccess();
         AwardAccount account = accountDao.getAccount(accountNumber);
         ArrayList<AwardAccount> accounts = new ArrayList<>();
         accounts.add(account);
@@ -96,7 +121,8 @@ public class AwardAccountController extends RestController {
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
-    List<AwardPostsDto> getAwardPosts(@RequestParam(value="accountNumber", required=false) String accountNumber) {
+    public List<AwardPostsDto> getAwardPosts(@RequestParam(value="accountNumber", required=false) String accountNumber) {
+        assertUserHasPostReadAccess();
         List<AwardPosts> awardPostsList = getAccountDao().getActiveAwardPosts(accountNumber);
         return awardPostsList.stream()
                 .map(awardPost -> translateAwardPosts(awardPost))
@@ -115,7 +141,8 @@ public class AwardAccountController extends RestController {
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
-    AwardPostsDto getAwardPosts(@PathVariable Long postId, @RequestBody AwardPostsDto awardPostsDto) {
+    public AwardPostsDto getAwardPosts(@PathVariable Long postId, @RequestBody AwardPostsDto awardPostsDto) {
+        assertUserHasPostWriteAccess();
         AwardPosts awardPost = getAccountDao().getAwardPostsById(postId);
         if(awardPost == null) {
             throw new ResourceNotFoundException("The award post entry with id " + postId + " was not found.");
@@ -130,6 +157,55 @@ public class AwardAccountController extends RestController {
         result.setResults(accounts);
         result.setTotalResults(accounts.size());
         return result;
+    }
+
+    public boolean isApiAuthEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+                FeatureFlagConstants.ENABLE_API_AUTHORIZATION);
+    }
+
+    protected void assertUserHasPostReadAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null ||
+                    !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                            Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.READ_CLASS,
+                            Collections.singletonMap(KcKimAttributes.CLASS_NAME, AwardPosts.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
+
+    protected void assertUserHasPostWriteAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null ||
+                    !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                            Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.WRITE_CLASS,
+                            Collections.singletonMap(KcKimAttributes.CLASS_NAME, AwardPosts.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
+
+    protected void assertUserHasAccountReadAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null ||
+                    !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                            Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.READ_CLASS,
+                            Collections.singletonMap(KcKimAttributes.CLASS_NAME, AwardAccount.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
+
+    protected void assertUserHasAccountWriteAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null ||
+                    !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                            Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.WRITE_CLASS,
+                            Collections.singletonMap(KcKimAttributes.CLASS_NAME, AwardAccount.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
     }
 
     protected void sendErrorResponse(String msg) throws IOException {

@@ -9,6 +9,7 @@ package org.kuali.coeus.instprop.impl.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.api.document.service.CommonApiService;
 import org.kuali.coeus.instprop.impl.api.dto.InstitutionalProposalDto;
@@ -17,31 +18,67 @@ import org.kuali.coeus.instprop.impl.api.service.InstitutionalProposalApiService
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerDao;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.impl.controller.rest.audit.RestAuditLoggerFactoryImpl;
 import org.kuali.coeus.sys.impl.controller.rest.audit.RestAuditLoggerImpl;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 
 public class InstitutionalProposalDocumentControllerTest extends KcIntegrationTestBase{
 
+    @Before
+    public void setUp() throws Exception {
+        updateParameterForTesting(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+                FeatureFlagConstants.ENABLE_API_AUTHORIZATION, "true");
+    }
+
+    public void useAuthorizedUser() {
+        GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setAuditErrorMap(new HashMap<>());
+        final UserSession userSession = new UserSession("admin");
+        userSession.setKualiSessionId(UUID.randomUUID().toString());
+        GlobalVariables.setUserSession(userSession);
+
+    }
+
+    public void useUnauthorizedUser() {
+        GlobalVariables.setMessageMap(new MessageMap());
+        GlobalVariables.setAuditErrorMap(new HashMap<>());
+        final UserSession userSession = new UserSession("quickstart");
+        userSession.setKualiSessionId(UUID.randomUUID().toString());
+        GlobalVariables.setUserSession(userSession);
+
+    }
+
     @Test
     public void testCreateProposalGoodJson() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
-
+        useAuthorizedUser();
         // POST
         String jsonInString = getCorrectJson();
         ObjectMapper mapper = new ObjectMapper();
@@ -96,6 +133,7 @@ public class InstitutionalProposalDocumentControllerTest extends KcIntegrationTe
 
     @Test
     public void testCreateProposalPersonsEndpoint() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useAuthorizedUser();
         String jsonInString = getCorrectJson();
         ObjectMapper mapper = new ObjectMapper();
         InstitutionalProposalDto ipDto = mapper.readValue(jsonInString, InstitutionalProposalDto.class);
@@ -137,14 +175,71 @@ public class InstitutionalProposalDocumentControllerTest extends KcIntegrationTe
 
     }
 
+    @Test(expected = ResourceNotFoundException.class)
+    public void deleteInstitutionalProposal() throws IntrospectionException, WorkflowException {
+        useAuthorizedUser();
+        getDocumentController().deleteInstitutionalProposal(11L);
+    }
+
     @Test(expected = UnprocessableEntityException.class)
     public void testCreateProposalMissingData() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useAuthorizedUser();
         String jsonInString = getBadJson();
         ObjectMapper mapper = new ObjectMapper();
 
         InstitutionalProposalDto ipDto = mapper.readValue(jsonInString, InstitutionalProposalDto.class);
         getDocumentController().createInstitutionalProposal(ipDto, true);
     }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testCreateProposalUnauthorizedUser() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getDocumentController().createInstitutionalProposal(null, true);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void deleteInstitutionalProposalUnauthorizedUser() throws IntrospectionException, WorkflowException {
+        useUnauthorizedUser();
+        getDocumentController().deleteInstitutionalProposal(1L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void getInstitutionalProposalUnauthorizedUser() throws IntrospectionException {
+        useUnauthorizedUser();
+        getDocumentController().getInstitutionalProposal(1L);
+
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void addProposalPersonsUnauthorizedUser() throws IntrospectionException, WorkflowException {
+        useUnauthorizedUser();
+        getDocumentController().addProposalPersons(null, 1L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void getAllProposalPersonsUnauthorizedUser() throws IntrospectionException, WorkflowException {
+        useUnauthorizedUser();
+        getDocumentController().getAllProposalPersons(1L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void deleteProposalPersonUnauthorizedUser() throws IntrospectionException, WorkflowException {
+        useUnauthorizedUser();
+        getDocumentController().deleteProposalPerson(1L, 1L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void getProposalPersonUnauthorizedUser() throws IntrospectionException, WorkflowException {
+        useUnauthorizedUser();
+        getDocumentController().deleteProposalPerson(1L, 1L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void routeDocumentUnauthorizedUser() throws IntrospectionException, WorkflowException {
+        useUnauthorizedUser();
+        getDocumentController().routeDocument(1L);
+    }
+
 
     public String getGoodPersonsJson() {
         return "      [\n" +
@@ -265,6 +360,18 @@ public class InstitutionalProposalDocumentControllerTest extends KcIntegrationTe
             @Override
             public CommonApiService getCommonApiService() {
                 return KcServiceLocator.getService(CommonApiService.class);
+            }
+
+            public PermissionService getPermissionService() {
+                return KcServiceLocator.getService(PermissionService.class);
+            }
+
+            public GlobalVariableService getGlobalVariableService() {
+                return KcServiceLocator.getService(GlobalVariableService.class);
+            }
+
+            public boolean isApiAuthEnabled() {
+                return true;
             }
 
             @Override

@@ -29,6 +29,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.award.budget.*;
@@ -37,9 +38,16 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -115,11 +123,20 @@ public class AwardBudgetController extends RestController {
     @Qualifier("auditHelper")
     private AuditHelper auditHelper;
 
+    @Autowired
+    @Qualifier("permissionService")
+    private PermissionService permissionService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
     @RequestMapping(method= RequestMethod.POST, value="/awards/{awardId}/budgets",
             consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
     AwardBudgetExtDto createBudget(@PathVariable Long awardId, @RequestBody AwardBudgetExtDto awardBudgetExtDto) throws WorkflowException, InvocationTargetException, IllegalAccessException {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         AwardDocument awardDocument = getAwardDocumentById(awardId);
         checkIfBudgetCanBeCreated(awardDocument, awardBudgetExtDto.getName());
@@ -186,6 +203,7 @@ public class AwardBudgetController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public void cancelDocument(@PathVariable Long budgetId) {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         Budget budget = businessObjectService.findBySinglePrimaryKey(Budget.class, budgetId);
         if (budget != null) {
@@ -209,6 +227,7 @@ public class AwardBudgetController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public void changeBudgetStatus(@PathVariable Long budgetId, @RequestBody AwardBudgetActionDto actionDto) throws Exception {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         Map<String, String> criteria = new HashMap<>();
         criteria.put(AWARD_BUDGET_STATUS_CODE, actionDto.getStatusCode());
@@ -231,6 +250,7 @@ public class AwardBudgetController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public void routeAwardBudget(@PathVariable Long budgetId) {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         Budget budget = businessObjectService.findBySinglePrimaryKey(Budget.class, budgetId);
         if (budget != null) {
@@ -259,6 +279,7 @@ public class AwardBudgetController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     AwardBudgetExtDto getAwardBudget(@PathVariable String budgetId) {
+        assertUserHasReadAccess();
         AwardBudgetExt budget = getAwardDao().getAwardBudget(budgetId);
         if(budget == null) {
             throw new ResourceNotFoundException("Budget with budget id " + budgetId + " not found.");
@@ -270,6 +291,7 @@ public class AwardBudgetController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     List<AwardBudgetExtDto> getAwardBudgetByStatus(@RequestParam(value = "budgetStatusCode", required = true) Integer budgetStatusCode) {
+        assertUserHasReadAccess();
         List<AwardBudgetExt> budgets = getAwardDao().getAwardBudgetByStatusCode(budgetStatusCode);
         return budgets.stream().map(budget ->
                         commonApiService.convertObject(budget, AwardBudgetExtDto.class)
@@ -280,6 +302,7 @@ public class AwardBudgetController extends RestController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void modifyAwardBudget(@RequestBody AwardBudgetGeneralInfoDto generalInfoDto, @PathVariable String budgetId) {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         AwardBudgetExt budget = getAwardDao().getAwardBudget(budgetId);
         if(budget == null) {
@@ -417,6 +440,33 @@ public class AwardBudgetController extends RestController {
                 return awardDto;
             }).collect(Collectors.toList());
         return awardDtos;
+    }
+
+    public boolean isApiAuthEnabled() {
+        return parameterService.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+                FeatureFlagConstants.ENABLE_API_AUTHORIZATION);
+    }
+
+    protected void assertUserHasReadAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null ||
+                    !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                            Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.READ_CLASS,
+                            Collections.singletonMap(KcKimAttributes.CLASS_NAME, AwardBudgetExt.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
+
+    protected void assertUserHasWriteAccess() {
+        if (isApiAuthEnabled()) {
+            if (globalVariableService.getUserSession() == null ||
+                    !permissionService.hasPermissionByTemplate(globalVariableService.getUserSession().getPrincipalId(),
+                            Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.WRITE_CLASS,
+                            Collections.singletonMap(KcKimAttributes.CLASS_NAME, AwardBudgetExt.class.getName()))) {
+                throw new UnauthorizedAccessException();
+            }
+        }
     }
 
     public AwardDao getAwardDao() {

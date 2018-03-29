@@ -7,27 +7,39 @@
  */
 package org.kuali.coeus.award.api;
 
-import org.junit.Assert;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.award.dto.AwardDto;
 import org.kuali.coeus.award.finance.timeAndMoney.api.TimeAndMoneyController;
 import org.kuali.coeus.award.finance.timeAndMoney.dto.TimeAndMoneyDto;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 
 import java.beans.IntrospectionException;
 import java.util.Calendar;
 
 public class AwardHierarchyControllerTest extends AwardControllerTestBase {
 
+    @Before
+    public void beforeTest() {
+        updateParameterForTesting(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+                FeatureFlagConstants.ENABLE_API_AUTHORIZATION, "true");
+    }
+
     @Test
     public void testAwardHierarchy() throws Exception {
+        useAuthorizedUser();
         // POST
         String parentAwardJson = getAwardVersion1();
         ObjectMapper mapper = new ObjectMapper();
@@ -235,6 +247,7 @@ public class AwardHierarchyControllerTest extends AwardControllerTestBase {
 
     @Test
     public void testAwardHierarchyProcess2() throws Exception {
+        useAuthorizedUser();
         // POST
         String parentAwardJson = getParentAward1Json();
         ObjectMapper mapper = new ObjectMapper();
@@ -301,6 +314,12 @@ public class AwardHierarchyControllerTest extends AwardControllerTestBase {
 
         setupCreditSplits(childAward.getProjectPerson(0));
         getAwardController().submitDocument(childAward.getAwardId());
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testCreateChildWithoutAuthorization() throws Exception {
+        useUnauthorizedUser();
+        getAwardHierarchyController().createChild(null, 11L);
     }
 
     public String getChildAwardVersion1() {
@@ -566,6 +585,7 @@ public class AwardHierarchyControllerTest extends AwardControllerTestBase {
 
 
     }
+
 
     @Override
     public AwardController getAwardController() throws IntrospectionException {

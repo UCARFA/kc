@@ -9,6 +9,7 @@ package org.kuali.coeus.award.api;
 
 import org.junit.Assert;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.award.dto.AwardDto;
 import org.kuali.coeus.award.dto.AwardPersonDto;
@@ -16,6 +17,7 @@ import org.kuali.coeus.award.finance.timeAndMoney.api.TimeAndMoneyController;
 import org.kuali.coeus.award.finance.timeAndMoney.dto.TimeAndMoneyDto;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -23,25 +25,37 @@ import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnitCreditSplit;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AwardControllerTest extends AwardControllerTestBase {
 
+
+    @Before
+    public void beforeTest() {
+        updateParameterForTesting(Constants.MODULE_NAMESPACE_SYSTEM, ParameterConstants.DOCUMENT_COMPONENT,
+                FeatureFlagConstants.ENABLE_API_AUTHORIZATION, "true");
+    }
+
     @Test
     public void testAwardCreationGoodJson() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useAuthorizedUser();
         // POST
         String jsonInString = getCorrectJson();
         ObjectMapper mapper = new ObjectMapper();
@@ -116,6 +130,7 @@ public class AwardControllerTest extends AwardControllerTestBase {
 
     @Test
     public void testAwardVersioningAndRouting() throws Exception {
+        useAuthorizedUser();
         // POST
         String jsonInString = getAwardOnePerson();
         ObjectMapper mapper = new ObjectMapper();
@@ -144,6 +159,7 @@ public class AwardControllerTest extends AwardControllerTestBase {
 
     @Test(expected = UnprocessableEntityException.class)
     public void testAwardVersioningFailure() throws Exception {
+        useAuthorizedUser();
         // POST
         String jsonInString = getAwardOnePerson();
         ObjectMapper mapper = new ObjectMapper();
@@ -222,7 +238,8 @@ public class AwardControllerTest extends AwardControllerTestBase {
 
     @Test(expected = ResourceNotFoundException.class)
     public void testWrongDocumentError() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
-       class AwardControllerMock extends AwardController {
+        useAuthorizedUser();
+        class AwardControllerMock extends AwardController {
            @Override
            protected Document getDocument(Long documentNumber) {
               return new ProtocolDocument();
@@ -234,6 +251,7 @@ public class AwardControllerTest extends AwardControllerTestBase {
 
     @Test
     public void testRightDocumentError() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useAuthorizedUser();
         class AwardControllerMock extends AwardController {
             @Override
             protected Document getDocument(Long documentNumber) {
@@ -248,6 +266,7 @@ public class AwardControllerTest extends AwardControllerTestBase {
 
     @Test
     public void testAwardCreationNoCollections() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useAuthorizedUser();
         String json = getJsonWithoutCollections();
         ObjectMapper mapper = new ObjectMapper();
         AwardDto awardDto = mapper.readValue(json, AwardDto.class);
@@ -293,6 +312,7 @@ public class AwardControllerTest extends AwardControllerTestBase {
 
     @Test
     public void testAwardVersioningAndTandM() throws Exception {
+        useAuthorizedUser();
         // POST
         ObjectMapper mapper = new ObjectMapper();
         String awardString1 = getAwardVersion1();
@@ -393,6 +413,73 @@ public class AwardControllerTest extends AwardControllerTestBase {
 
     }
 
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testAwardVersioningAndRoutingWithoutAuthorization() throws Exception {
+        useUnauthorizedUser();
+        String jsonInString = getCorrectAwardJsonDifferentNoticeDate();
+        ObjectMapper mapper = new ObjectMapper();
+        AwardDto differentAwardDto = mapper.readValue(jsonInString, AwardDto.class);
+        AwardDto differentAwardDtoResponse = getAwardController().versionAward(differentAwardDto, 11L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testAwardCreationGoodJsonWithoutAuthorization() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        String jsonInString = getCorrectJson();
+        ObjectMapper mapper = new ObjectMapper();
+
+        AwardDto awardDto = mapper.readValue(jsonInString, AwardDto.class);
+        AwardDto newAwardDto = getAwardController().createAward(awardDto);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testGetAwardWithoutAuthorization() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getAwardController().getAward(11L, false);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testGetAwardByCriteriaWithoutAuthorization() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getAwardController().getAwardByCriteria("11", "00001", false);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testDeleteAwardWithoutAuthorization() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getAwardController().deleteAward(11L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testSubmitDocumentWithoutAuthorization() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getAwardController().submitDocument(11L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testGetBudgetsWithoutAuthorization() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getAwardController().getBudgets(11L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testAddAwardPersonsWithoutAuthorization() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getAwardController().addAwardPersons(null, 11L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testGetAwardPersonsWithoutAuthorization() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getAwardController().getAwardPersons(11L);
+    }
+
+    @Test(expected = UnauthorizedAccessException.class)
+    public void testDeletePersonWithoutAuthorization() throws IOException, IntrospectionException, IllegalAccessException, InvocationTargetException, WorkflowException {
+        useUnauthorizedUser();
+        getAwardController().deletePerson(11L, 1L);
+    }
+
     @Override
     public java.sql.Date getDate(int year, int month, int day) {
         Calendar cal = Calendar.getInstance();
@@ -407,6 +494,7 @@ public class AwardControllerTest extends AwardControllerTestBase {
 
         return new java.sql.Date( cal.getTime().getTime() );
     }
+
 
     @Override
     public AwardController getAwardController() throws IntrospectionException {

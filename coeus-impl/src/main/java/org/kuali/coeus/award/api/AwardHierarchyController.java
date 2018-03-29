@@ -71,6 +71,7 @@ public class AwardHierarchyController extends AwardControllerBase {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     AwardDto createChild(@RequestBody AwardDto awardDto, @PathVariable Long awardId) throws Exception {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         Award award = getAwardDao().getAward(awardId);
         if(award == null) {

@@ -21,6 +21,7 @@ import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLogger;
 import org.kuali.coeus.sys.framework.controller.rest.audit.RestAuditLoggerFactory;
 import org.kuali.coeus.sys.framework.rest.NotImplementedException;
 import org.kuali.coeus.sys.framework.rest.ResourceNotFoundException;
+import org.kuali.coeus.sys.framework.rest.UnauthorizedAccessException;
 import org.kuali.coeus.sys.framework.rest.UnprocessableEntityException;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -39,6 +40,7 @@ import org.kuali.rice.kew.api.exception.InvalidActionTakenException;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -94,6 +96,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @Qualifier("timeAndMoneyExistenceService")
     private TimeAndMoneyExistenceService timeAndMoneyExistenceService;
 
+
     @Autowired
     @Qualifier("restAuditLoggerFactory")
     private RestAuditLoggerFactory restAuditLoggerFactory;
@@ -105,6 +108,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     AwardDto getAward(@PathVariable Long awardId, @RequestParam(value = "includeBudgets", required = false) boolean includeBudgets) {
+        assertUserHasReadAccess();
         commonApiService.clearErrors();
         Award award = getAwardDao().getAward(awardId);
         if(award == null) {
@@ -130,6 +134,7 @@ public class AwardController extends AwardControllerBase implements Initializing
                                          @RequestParam(value = "awardHierarchy", required = false) String awardHierarchy,
                                          @RequestParam(value = "includeBudgets", required = false) boolean includeBudgets
                                          ) {
+        assertUserHasReadAccess();
         commonApiService.clearErrors();
         List<AwardDto> awardDtos = new ArrayList<>();
         if(StringUtils.isBlank(awardNumber) && StringUtils.isBlank(awardHierarchy)) {
@@ -151,6 +156,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     AwardDto versionAward(@RequestBody AwardDto awardDto, @PathVariable Long awardId) throws Exception {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         Award award = getAwardDao().getAward(awardId);
         if(award == null) {
@@ -199,6 +205,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
     public AwardDto createAward(@RequestBody AwardDto awardDto) throws WorkflowException, InvocationTargetException, IllegalAccessException {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         Award award = commonApiService.convertObject(awardDto, Award.class);
         defaultValues(award, awardDto);
@@ -234,6 +241,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void deleteAward(@PathVariable Long awardId) throws WorkflowException {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         AwardDocument awardDocument = getAwardDocumentById(awardId);
         DocumentRouteHeaderValue routeHeader = routeHeaderService.getRouteHeader(awardDocument.getDocumentHeader().getWorkflowDocument().getDocumentId());
@@ -252,6 +260,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void submitDocument(@PathVariable Long awardId) throws WorkflowException {
+        assertUserHasWriteAccess();
         commonApiService.clearErrors();
         AwardDocument awardDocument = getAwardDocumentById(awardId);
         commonApiService.routeDocument(awardDocument);
@@ -262,6 +271,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     List<AwardBudgetExtDto> getBudgets( @PathVariable Long awardId) {
+        assertUserHasBudgetReadAccess();
         commonApiService.clearErrors();
         Award award = getAwardDao().getAward(awardId);
         if(award == null) {
@@ -278,6 +288,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
     List<AwardPersonDto> addAwardPersons(@RequestBody List<AwardPersonDto> awardPersonsDto, @PathVariable Long awardId) throws WorkflowException {
+        assertUserHasAwardPersonWriteAccess();
         commonApiService.clearErrors();
         AwardDocument awardDocument = getAwardDocumentById(awardId);
         addPersons(awardPersonsDto, awardDocument);
@@ -291,6 +302,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     List<AwardPersonDto> getAwardPersons(@PathVariable Long awardId) throws WorkflowException {
+        assertUserHasAwardPersonReadAccess();
         commonApiService.clearErrors();
         AwardDocument awardDocument = getAwardDocumentById(awardId);
         return getAwardPersonDtos(awardDocument);
@@ -302,6 +314,7 @@ public class AwardController extends AwardControllerBase implements Initializing
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     void deletePerson(@PathVariable Long awardId, @PathVariable Long id) throws WorkflowException {
+        assertUserHasAwardPersonWriteAccess();
         commonApiService.clearErrors();
         AwardDocument awardDocument = getAwardDocumentById(awardId);
         if(awardDocument.getAward().getProjectPersons() != null) {
