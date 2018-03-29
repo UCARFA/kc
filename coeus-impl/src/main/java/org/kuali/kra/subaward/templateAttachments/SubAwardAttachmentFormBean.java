@@ -23,8 +23,6 @@ import org.kuali.kra.subaward.bo.SubAwardAttachments;
 import org.kuali.kra.subaward.bo.SubAwardReports;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-
-
 public class SubAwardAttachmentFormBean implements Serializable {
    
    
@@ -37,7 +35,7 @@ public class SubAwardAttachmentFormBean implements Serializable {
     private boolean disableAttachmentRemovalIndicator=false;
 
     /**
-     * Gets the newReport attribute. 
+     * Gets the newReport attribute.
      * @return Returns the newReport.
      */
     public SubAwardReports getNewReport() {
@@ -118,17 +116,16 @@ public class SubAwardAttachmentFormBean implements Serializable {
     
     /**
      * Creates a map containing the highest doc number from a collection of attachments for each type code.
-     * @param <T> the type
      * @param attachments the collection of attachments
      * @return the map
      */
-    private Map<String, Integer> createTypeToMaxDocNumber(List<SubAwardAttachments> attachments) {
+    private Map<Integer, Integer> createTypeToMaxDocNumber(List<SubAwardAttachments> attachments) {
         
-        final Map<String, Integer> typeToDocNumber = new HashMap<String, Integer>();
+        final Map<Integer, Integer> typeToDocNumber = new HashMap<>();
         
          for (SubAwardAttachments attachment : attachments) {
             final Integer curMax = typeToDocNumber.get(attachment.getSubAwardAttachmentTypeCode());
-            if (curMax == null || curMax.intValue() < attachment.getDocumentId().intValue()) {
+            if (curMax == null || curMax < attachment.getDocumentId()) {
                 typeToDocNumber.put(attachment.getSubAwardAttachmentTypeCode(), attachment.getDocumentId());
             }
         }
@@ -172,7 +169,7 @@ public class SubAwardAttachmentFormBean implements Serializable {
     
     /** 
      * refreshes a given Collection of attachment's references that can change.
-     * @param attachments the attachments.
+     * @param reports the attachments.
      */
     private void refreshReportReferences(List<SubAwardReports> reports) {
         assert reports != null : "the report was null";
@@ -184,14 +181,13 @@ public class SubAwardAttachmentFormBean implements Serializable {
 
     /** 
      * assigns a document id to all attachments in the passed in collection based on the passed in type to doc number map. 
-     * 
-     * @param <T> the type of attachments
+     *
      * @param attachments the collection of attachments that require doc number assignment
      * @param typeToDocNumber the map that contains all the highest doc numbers of existing attachments based on type code
      */
     
     private void assignDocumentId(List<SubAwardAttachments> attachments,
-            final Map<String, Integer> typeToDocNumber) {
+            final Map<Integer, Integer> typeToDocNumber) {
             for (SubAwardAttachments attachment : attachments) {
                 if (attachment.isNew()) {
                     final Integer nextDocNumber = SubAwardAttachmentFormBean.createNextDocNumber(typeToDocNumber.get(attachment.getSubAwardAttachmentTypeCode()));
@@ -206,7 +202,7 @@ public class SubAwardAttachmentFormBean implements Serializable {
      * @return the new doc number.
      */
     private static Integer createNextDocNumber(final Integer docNumber) {
-        return docNumber == null ? NumberUtils.INTEGER_ONE : Integer.valueOf(docNumber.intValue() + 1);
+        return docNumber == null ? NumberUtils.INTEGER_ONE : Integer.valueOf(docNumber + 1);
     }
     
     /**

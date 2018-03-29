@@ -119,11 +119,7 @@ public class PrintingServiceImpl implements PrintingService {
             throw new PrintingException(e.getMessage(), e);
         }
 
-        // Add all the attachments.
-        if (printableArtifact.getAttachments() != null) {
-            pdfByteMap.putAll(printableArtifact.getAttachments());
-        }
-        return printableArtifact.sortPdfForms(pdfByteMap);
+        return pdfByteMap;
 
     }
 
@@ -192,7 +188,11 @@ public class PrintingServiceImpl implements PrintingService {
         List<String> bookmarksList = new ArrayList<>();
         List<byte[]> pdfBaosList = new ArrayList<>();
         for (Printable printableArtifact : printableArtifactList) {
-            Map<String, byte[]> printBytes = printableArtifact.sortPdfForms(getPrintBytes(printableArtifact));
+            final Map<String, byte[]> printBytes = new LinkedHashMap<>(printableArtifact.sortPdfForms(getPrintBytes(printableArtifact)));
+            if (printableArtifact.getAttachments() != null) {
+                printBytes.putAll(printableArtifact.getAttachments());
+            }
+
             for (Map.Entry<String, byte[]> entry : printBytes.entrySet()) {
                 if (isPdfGoodToMerge(entry.getValue())) {
                     bookmarksList.add(entry.getKey());

@@ -351,7 +351,7 @@ SubAwardFfataReportingRule {
     public boolean processsAddSubawardAttachmentRule(AddSubAwardAttachmentEvent event) {
         boolean valid = true;
         
-        if( StringUtils.isBlank(event.getSubAwardAttachments().getSubAwardAttachmentTypeCode())) {
+        if( event.getSubAwardAttachments().getSubAwardAttachmentTypeCode() == null) {
             valid = false;
             LOG.debug(SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
             reportError(SUB_AWARD_ATTACHMENT_TYPE_CODE, SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
@@ -375,7 +375,7 @@ SubAwardFfataReportingRule {
     @Override
     public boolean processApplySubawardAttachmentModificationRule(AddSubAwardAttachmentEvent event) {
         boolean valid = true;
-        if( StringUtils.isBlank(event.getSubAwardAttachments().getSubAwardAttachmentTypeCode())) {
+        if( event.getSubAwardAttachments().getSubAwardAttachmentTypeCode() == null) {
             valid = false;
             LOG.debug(SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
             reportError(event.getErrorPathPrefix() + SUB_AWARD_ATTACHMENT_TYPE_CODE_PROP, SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED);

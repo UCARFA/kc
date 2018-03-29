@@ -26,5 +26,4 @@ public interface SubAwardPrintingService {
 
 	AttachmentDataSource printSubAwardFDPReport(SubAwardPrintAgreement agreement, SubAward subAward);
 
-	boolean isPdf(byte[] data);
 }

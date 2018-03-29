@@ -8,6 +8,7 @@
 package org.kuali.coeus.sys.framework.util;
 
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -51,6 +52,26 @@ public final class PdfBoxUtils {
 
     private PdfBoxUtils() {
         throw new UnsupportedOperationException("do not call");
+    }
+
+    /**
+     * Checks if a byte[] represents a valid pdf.
+     *
+     * @param pdfBytes the pdf bytes.  If empty or null the method will return false
+     * @return true if the byte array represents a valid pdf
+     */
+    public static boolean isValidPdf(byte[] pdfBytes) {
+        if (ArrayUtils.isEmpty(pdfBytes)) {
+            return false;
+        }
+
+        //noinspection EmptyTryBlock
+        try (PDDocument ignored = PDDocument.load(pdfBytes)) {
+            //noop
+        } catch (IOException|RuntimeException e) {
+            return false;
+        }
+        return true;
     }
 
     /**

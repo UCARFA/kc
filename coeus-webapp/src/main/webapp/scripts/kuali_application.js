@@ -1416,6 +1416,10 @@ function setAllItemsIn(id, value) {
 	jQuery("#" + id + " INPUT[type='checkbox']").attr('checked', value);
 }
 
+function setAllItemsInClass(clazz, value) {
+    jQuery("." + clazz + " INPUT[type='checkbox']").attr('checked', value);
+}
+
 function selectAllInstitutionalProposalKeywords(document) {
     var j = 0;
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {

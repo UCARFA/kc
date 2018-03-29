@@ -367,7 +367,7 @@
 		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT"  />
 		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
-		<field-descriptor name="subAwardAttachmentTypeCode" column="ATTACHMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="subAwardAttachmentTypeCode" column="ATTACHMENT_TYPE_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="fileDataId" column="FILE_DATA_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>

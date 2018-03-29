@@ -7,12 +7,13 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.sql.Timestamp;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.sys.api.model.KcFile;
@@ -22,6 +23,8 @@ import org.kuali.rice.kim.api.identity.PersonService;
 
 public class SubAwardAttachments extends SubAwardAssociate implements Comparable<SubAwardAttachments>,KcFile {
 
+    private static final Log LOG = LogFactory.getLog(SubAwardAttachments.class);
+
      private String  subAwardCode;
      private Integer sequenceNumber;
      private Integer attachmentId;
@@ -29,7 +32,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      private String  description;
      private Long subAwardId;
      private transient FormFile newFile;
-     private String subAwardAttachmentTypeCode;
+     private Integer subAwardAttachmentTypeCode;
      private Integer documentId;
      private String fileName;
      private String fileDataId;
@@ -37,7 +40,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      private transient SoftReference<byte[]> document;
      private String mimeType;
      private Boolean selectToPrint = false;
-     private String fileNameSplit;
+
      private String documentStatusCode;
      private boolean modifyAttachment=false;
 
@@ -45,21 +48,6 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      private Timestamp lastUpdateTimestamp;
      
      private transient KcAttachmentDataDao kcAttachmentDataDao;
-     /**
-     * Gets the fileNameSplit attribute. 
-     * @return Returns the fileNameSplit.
-     */
-    public String getFileNameSplit() {
-        return fileNameSplit;
-    }
-
-    /**
-     * Sets the fileNameSplit attribute value.
-     * @param fileNameSplit The fileNameSplit to set.
-     */
-    public void setFileNameSplit(String fileNameSplit) {
-        this.fileNameSplit = fileNameSplit;
-    }
 
     public final Boolean getSelectToPrint() {
          return selectToPrint;
@@ -68,9 +56,9 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      public final void setSelectToPrint(Boolean selectToPrint) {
          this.selectToPrint = selectToPrint;
      }
-     
 
-     
+
+
 
      @Override
      public String getName() {
@@ -119,7 +107,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
         }
         //if we didn't have a softreference, grab the data from the db
         byte[] newData = getKcAttachmentDataDao().getData(fileDataId);
-        document = new SoftReference<byte[]>(newData);
+        document = new SoftReference<>(newData);
         return newData;
     }
 
@@ -129,7 +117,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
         } else {
             setFileDataId(getKcAttachmentDataDao().saveData(document, null));
         }
-        this.document = new SoftReference<byte[]>(document);
+        this.document = new SoftReference<>(document);
     }
     public SubAwardAttachments() {
          super();
@@ -157,11 +145,11 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
         this.subAwardId = subAwardId;
     }
 
-    public String getSubAwardAttachmentTypeCode() {
+    public Integer getSubAwardAttachmentTypeCode() {
         return subAwardAttachmentTypeCode;
     }
 
-    public void setSubAwardAttachmentTypeCode(String subAwardAttachmentTypeCode) {
+    public void setSubAwardAttachmentTypeCode(Integer subAwardAttachmentTypeCode) {
         this.subAwardAttachmentTypeCode = subAwardAttachmentTypeCode;
     }
 
@@ -297,18 +285,15 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
             return false;
         }
         if (mimeType == null) {
-            if (other.mimeType != null)
+            if (other.mimeType != null) {
                 return false;
+            }
         }
         else if (!mimeType.equals(other.mimeType))
             return false;
         return true;
     }
-    
-    /**
-     * 
-     * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
-     */
+
     @Override
     protected void preUpdate() {
         super.preUpdate();
@@ -317,11 +302,6 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
         }
     }
 
-    /**
-     * 
-     * This method returns the full name of the update user.
-     * @return
-     */
     public String getLastUpdateUserName() {
         Person updateUser = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getLastUpdateUser());
         return updateUser != null ? updateUser.getName() : this.getUpdateUser();
@@ -344,8 +324,8 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
                mimeType = newFile.getContentType();
                fileName = newFile.getFileName();
            }
-       } catch (FileNotFoundException e) {
        } catch (IOException e) {
+           LOG.warn(e.getMessage(), e);
        }
    }
 
