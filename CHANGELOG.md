@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-1497: Ensure all opportunity info gets copied to proposal when initiating from opportunity lookup
+  * Jeff Largent on Thu, 29 Mar 2018 14:41:11 -0400 [View Commit](../../commit/a2cfaa2345cac2632656c78c8c68220bc7285831)
+
+## coeus-1803.0041
 * Fix failing tests. (#2824)
 
   * Gayathri Athreya on Thu, 29 Mar 2018 11:44:36 -0700 [View Commit](../../commit/cad3b5899aa6d015590997ea260da0fe06aeef6b)
