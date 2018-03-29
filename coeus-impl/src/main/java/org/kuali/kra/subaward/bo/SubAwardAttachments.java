@@ -7,12 +7,13 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.sql.Timestamp;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.sys.api.model.KcFile;
@@ -21,6 +22,8 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 
 public class SubAwardAttachments extends SubAwardAssociate implements Comparable<SubAwardAttachments>,KcFile {
+
+    private static final Log LOG = LogFactory.getLog(SubAwardAttachments.class);
 
      private String  subAwardCode;
      private Integer sequenceNumber;
@@ -104,7 +107,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
         }
         //if we didn't have a softreference, grab the data from the db
         byte[] newData = getKcAttachmentDataDao().getData(fileDataId);
-        document = new SoftReference<byte[]>(newData);
+        document = new SoftReference<>(newData);
         return newData;
     }
 
@@ -114,7 +117,7 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
         } else {
             setFileDataId(getKcAttachmentDataDao().saveData(document, null));
         }
-        this.document = new SoftReference<byte[]>(document);
+        this.document = new SoftReference<>(document);
     }
     public SubAwardAttachments() {
          super();
@@ -282,8 +285,9 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
             return false;
         }
         if (mimeType == null) {
-            if (other.mimeType != null)
+            if (other.mimeType != null) {
                 return false;
+            }
         }
         else if (!mimeType.equals(other.mimeType))
             return false;
@@ -298,11 +302,6 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
         }
     }
 
-    /**
-     * 
-     * This method returns the full name of the update user.
-     * @return
-     */
     public String getLastUpdateUserName() {
         Person updateUser = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getLastUpdateUser());
         return updateUser != null ? updateUser.getName() : this.getUpdateUser();
@@ -325,8 +324,8 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
                mimeType = newFile.getContentType();
                fileName = newFile.getFileName();
            }
-       } catch (FileNotFoundException e) {
        } catch (IOException e) {
+           LOG.warn(e.getMessage(), e);
        }
    }
 

@@ -23,8 +23,6 @@ import org.kuali.kra.subaward.bo.SubAwardAttachments;
 import org.kuali.kra.subaward.bo.SubAwardReports;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-
-
 public class SubAwardAttachmentFormBean implements Serializable {
    
    
@@ -37,7 +35,7 @@ public class SubAwardAttachmentFormBean implements Serializable {
     private boolean disableAttachmentRemovalIndicator=false;
 
     /**
-     * Gets the newReport attribute. 
+     * Gets the newReport attribute.
      * @return Returns the newReport.
      */
     public SubAwardReports getNewReport() {
@@ -204,7 +202,7 @@ public class SubAwardAttachmentFormBean implements Serializable {
      * @return the new doc number.
      */
     private static Integer createNextDocNumber(final Integer docNumber) {
-        return docNumber == null ? NumberUtils.INTEGER_ONE : Integer.valueOf(docNumber.intValue() + 1);
+        return docNumber == null ? NumberUtils.INTEGER_ONE : Integer.valueOf(docNumber + 1);
     }
     
     /**
