@@ -10,7 +10,9 @@ package org.kuali.kra.krms;
 public final class KcKrmsConstants {
     
     public static final String UNIT_NUMBER = "Unit Number";
-    
+    public static final String NAMESPACE_CODE = "namespaceCode";
+    public static final String NAME = "name";
+
     // Ideally these should be in Rice's KrmsConstants
     public static final String MESSAGE_SEPARATOR = ":";
     public static final String MESSAGE_TYPE_ERROR = "E";

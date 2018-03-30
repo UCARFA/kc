@@ -25,6 +25,57 @@ import java.util.ArrayList;
 public class AwardJavaFunctionKrmsTermServiceImplTest {
 
     @Test
+    public void testCommentRule() {
+
+        Award award = new Award();
+        AwardComment comment1 = new AwardComment();
+        AwardJavaFunctionKrmsTermServiceImpl termService = new AwardJavaFunctionKrmsTermServiceImpl();
+        boolean result = termService.checkCommentEntered(award, "null");
+        Assert.assertFalse(result);
+
+        comment1.setCommentTypeCode("1");
+        award.getAwardComments().add(comment1);
+        termService = new AwardJavaFunctionKrmsTermServiceImpl();
+        result = termService.checkCommentEntered(award, "null");
+        Assert.assertFalse(result);
+
+        award.getAwardComments().get(0).setCommentTypeCode(null);
+        result = termService.checkCommentEntered(award, "null");
+        Assert.assertFalse(result);
+
+        award.getAwardComments().get(0).setCommentTypeCode("1");
+        result = termService.checkCommentEntered(award, "1");
+        Assert.assertFalse(result);
+
+        award.getAwardComments().get(0).setCommentTypeCode(null);
+        result = termService.checkCommentEntered(award, "1");
+        Assert.assertFalse(result);
+
+
+        comment1.setCommentTypeCode("1");
+        comment1.setComments("Bleh");
+        award.getAwardComments().add(comment1);
+        termService = new AwardJavaFunctionKrmsTermServiceImpl();
+        result = termService.checkCommentEntered(award, "null");
+        Assert.assertFalse(result);
+
+        award.getAwardComments().get(0).setCommentTypeCode(null);
+        award.getAwardComments().get(0).setComments("Bleh");
+        result = termService.checkCommentEntered(award, "null");
+        Assert.assertTrue(result);
+
+        award.getAwardComments().get(0).setCommentTypeCode("1");
+        award.getAwardComments().get(0).setComments("Bleh");
+        result = termService.checkCommentEntered(award, "1");
+        Assert.assertTrue(result);
+
+        award.getAwardComments().get(0).setCommentTypeCode(null);
+        result = termService.checkCommentEntered(award, "1");
+        Assert.assertFalse(result);
+
+    }
+
+    @Test
     public void testAwardCalendarEffortRule() {
 
         Award award = new Award();
