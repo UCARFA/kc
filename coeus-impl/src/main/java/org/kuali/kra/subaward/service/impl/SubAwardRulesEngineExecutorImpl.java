@@ -28,13 +28,13 @@ public class SubAwardRulesEngineExecutorImpl extends KcRulesEngineExecuter {
     @Override
     public EngineResults performExecute(RouteContext routeContext, Engine engine) {
         Map<String, String> contextQualifiers = new HashMap<String, String>();
-        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_SUBAWARD);
-        contextQualifiers.put("name", KcKrmsConstants.SubAward.SUBAWARD_CONTEXT);
+        contextQualifiers.put(KcKrmsConstants.NAMESPACE_CODE, Constants.MODULE_NAMESPACE_SUBAWARD);
+        contextQualifiers.put(KcKrmsConstants.NAME, KcKrmsConstants.SubAward.SUBAWARD_CONTEXT);
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
-        String unitNumber = getElementValue(docContent, "//document/subAwardList[1]/" + SubAward.class.getName() + "[1]/leadUnitNumber[1]");
+        String unitNumber = getElementValue(docContent, "//requisitionerUnit");
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
-                Collections.singletonMap("Unit Number", unitNumber));
+                Collections.singletonMap(KcKrmsConstants.UNIT_NUMBER, unitNumber));
         KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("subAwardFactBuilderService");
         Facts.Builder factsBuilder = Facts.Builder.create();
         fbService.addFacts(factsBuilder, docContent);
