@@ -38,9 +38,9 @@ public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineEx
     }
     @Override
     public EngineResults performExecute(RouteContext routeContext, Engine engine) {
-        Map<String, String> contextQualifiers = new HashMap<String, String>();
-        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
-        contextQualifiers.put("name", KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT);
+        Map<String, String> contextQualifiers = new HashMap<>();
+        contextQualifiers.put(KcKrmsConstants.NAMESPACE_CODE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
+        contextQualifiers.put(KcKrmsConstants.NAME, KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT);
 
         String docContent = routeContext.getDocument().getDocContent();
         String proposalNumber = getElementValue(docContent, "//proposalNumber");
@@ -64,12 +64,12 @@ public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineEx
         String docContent = routeContext.getDocument().getDocContent();
         String unitNumber = getElementValue(docContent, "//ownedByUnitNumber");
 
-        Map<String,String> params = new HashMap<String, String>();
+        Map<String,String> params = new HashMap<>();
         params.put("developmentProposal.proposalNumber", proposalNumber);
 
-        List<ProposalPerson> proposalPersons = (List<ProposalPerson>) dataObjectService.findMatching(ProposalPerson.class,
+        List<ProposalPerson> proposalPersons = dataObjectService.findMatching(ProposalPerson.class,
         		QueryByCriteria.Builder.andAttributes(params).build()).getResults();
-        List<String> units = new ArrayList<String>();
+        List<String> units = new ArrayList<>();
         units.add(unitNumber);
 
         for (ProposalPerson proposalPerson : proposalPersons) {

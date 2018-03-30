@@ -28,16 +28,16 @@ public class CoiDisclosureRulesEngineExecutorImpl  extends KcRulesEngineExecuter
     
     @Override
     public EngineResults performExecute(RouteContext routeContext, Engine engine) {
-        Map<String, String> contextQualifiers = new HashMap<String, String>();
-        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_COIDISCLOSURE);
-        contextQualifiers.put("name", KcKrmsConstants.CoiDisclosure.COI_DISCLOSURE_CONTEXT);
+        Map<String, String> contextQualifiers = new HashMap<>();
+        contextQualifiers.put(KcKrmsConstants.NAMESPACE_CODE, Constants.MODULE_NAMESPACE_COIDISCLOSURE);
+        contextQualifiers.put(KcKrmsConstants.NAME, KcKrmsConstants.CoiDisclosure.COI_DISCLOSURE_CONTEXT);
 
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
         String unitNumber = getElementValue(docContent, "//document/coiDisclosureList[1]/" + CoiDisclosure.class.getName() + "[1]/disclosurePersons[1]/" + DisclosurePerson.class.getName() + "[1]/disclosurePersonUnits[1]/" + DisclosurePersonUnit.class.getName() + "[1]/unitNumber[1]");
         
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
-                Collections.singletonMap("Unit Number", unitNumber));
+                Collections.singletonMap(KcKrmsConstants.UNIT_NUMBER, unitNumber));
 
         KcKrmsFactBuilderService fbService = KcServiceLocator.getService("coiDisclosureFactBuilderService");
         Facts.Builder factsBuilder = Facts.Builder.create();
