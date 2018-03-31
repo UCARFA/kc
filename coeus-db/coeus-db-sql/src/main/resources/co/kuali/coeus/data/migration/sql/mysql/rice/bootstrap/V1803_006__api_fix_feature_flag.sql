@@ -8,4 +8,4 @@
 -- Agreement with this file. If not, please write to license@kuali.co.
 --
 
-UPDATE KRCR_PARM_T SET NMSPC_CD = 'KC-GEN' WHERE PARM_NM = 'RESKC-2456_Enable_Api_Authorization';
+UPDATE KRCR_PARM_T SET NMSPC_CD = 'KC-GEN' WHERE NMSPC_CD='KC-SYS' and CMPNT_CD='Document' and PARM_NM = 'RESKC-2456_Enable_Api_Authorization';
