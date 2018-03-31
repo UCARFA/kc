@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-2110: fix subaward peopleflow for retrieving unit number
+  * Travis Schneeberger on Fri, 30 Mar 2018 13:55:22 -0400 [View Commit](../../commit/4d6b3c55def232f657e7fe54e49090ab0681c734)
+* RESKC-2110: add peopleflow support for Award
+  * Travis Schneeberger on Fri, 30 Mar 2018 13:54:43 -0400 [View Commit](../../commit/cae280d0538aaec7a303d8fd611dcce356683eb9)
+
+## coeus-1803.0043
 * No Changes
 
 
