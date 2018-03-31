@@ -73,7 +73,8 @@
 			</policies>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" nextNode="hasSync"/>
+					<start name="Initiated" nextNode="PeopleFlows"/>
+					<requests name="PeopleFlows" nextNode="hasSync"/>
 					<split name="hasSync">
 						<branch name="True">
 							<requests name="SyncValidationApproval" nextNode="AwardStandardApprovalInSync"/>
@@ -100,6 +101,10 @@
 					<mandatoryRoute>false</mandatoryRoute>
 					<finalApproval>false</finalApproval>
 				</start>
+				<requests name="PeopleFlows">
+					<activationType>R</activationType>
+					<rulesEngine executorClass="org.kuali.kra.award.service.impl.AwardRulesEngineExecutorImpl"/>
+				</requests>
 				<split name="hasSync">
        			   <type>org.kuali.coeus.sys.framework.workflow.SimpleBooleanSplitNode</type>
         		</split>

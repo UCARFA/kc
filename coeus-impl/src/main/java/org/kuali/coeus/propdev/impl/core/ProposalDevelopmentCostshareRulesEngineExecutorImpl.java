@@ -25,8 +25,6 @@ import java.util.Map;
 
 public class ProposalDevelopmentCostshareRulesEngineExecutorImpl extends ProposalDevelopmentRulesEngineExecutorImpl  {
 
-    public static final String NAMESPACE_CODE = "namespaceCode";
-    public static final String NAME = "name";
     private KcKrmsFactBuilderServiceHelper kcKrmsFactBuilderServiceHelper;
     @Override
     protected KcKrmsFactBuilderServiceHelper getKcKrmsFactBuilderServiceHelper (){
@@ -38,8 +36,8 @@ public class ProposalDevelopmentCostshareRulesEngineExecutorImpl extends Proposa
     @Override
     public EngineResults performExecute(RouteContext routeContext, Engine engine) {
         Map<String, String> contextQualifiers = new HashMap<>();
-        contextQualifiers.put(NAMESPACE_CODE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
-        contextQualifiers.put(NAME, KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT);
+        contextQualifiers.put(KcKrmsConstants.NAMESPACE_CODE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
+        contextQualifiers.put(KcKrmsConstants.NAME, KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT);
 
         String docContent = routeContext.getDocument().getDocContent();
         String proposalNumber = getElementValue(docContent, "//proposalNumber");

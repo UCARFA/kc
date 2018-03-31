@@ -26,16 +26,16 @@ public class IacucProtocolRulesEngineExecutorImpl extends KcRulesEngineExecuter 
     
     @Override
     public EngineResults performExecute(RouteContext routeContext, Engine engine) {
-        Map<String, String> contextQualifiers = new HashMap<String, String>();
-        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_IACUC);
-        contextQualifiers.put("name", KcKrmsConstants.IacucProtocol.IACUC_PROTOCOL_CONTEXT);
+        Map<String, String> contextQualifiers = new HashMap<>();
+        contextQualifiers.put(KcKrmsConstants.NAMESPACE_CODE, Constants.MODULE_NAMESPACE_IACUC);
+        contextQualifiers.put(KcKrmsConstants.NAME, KcKrmsConstants.IacucProtocol.IACUC_PROTOCOL_CONTEXT);
 
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
         String unitNumber = getElementValue(docContent, "//leadUnitNumber");
         
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
-                Collections.singletonMap("Unit Number", unitNumber));
+                Collections.singletonMap(KcKrmsConstants.UNIT_NUMBER, unitNumber));
 
         KcKrmsFactBuilderService fbService = KcServiceLocator.getService("iacucProtocolFactBuilderService");
         Facts.Builder factsBuilder = Facts.Builder.create();

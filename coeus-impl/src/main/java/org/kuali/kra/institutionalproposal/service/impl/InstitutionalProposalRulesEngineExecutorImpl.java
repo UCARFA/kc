@@ -27,14 +27,14 @@ public class InstitutionalProposalRulesEngineExecutorImpl extends KcRulesEngineE
 
     @Override
     public EngineResults performExecute(RouteContext routeContext, Engine engine) {
-        Map<String, String> contextQualifiers = new HashMap<String, String>();
-        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL);
-        contextQualifiers.put("name", KcKrmsConstants.InstitutionalProposal.INSTITUTIONAL_PROPOSAL_CONTEXT);
+        Map<String, String> contextQualifiers = new HashMap<>();
+        contextQualifiers.put(KcKrmsConstants.NAMESPACE_CODE, Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL);
+        contextQualifiers.put(KcKrmsConstants.NAME, KcKrmsConstants.InstitutionalProposal.INSTITUTIONAL_PROPOSAL_CONTEXT);
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
         String unitNumber = getElementValue(docContent, "//document/institutionalProposalList[1]/" + InstitutionalProposal.class.getName() + "[1]/unitNumber[1]");
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
-                Collections.singletonMap("Unit Number", unitNumber));
+                Collections.singletonMap(KcKrmsConstants.UNIT_NUMBER, unitNumber));
         KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("institutionalProposalFactBuilderService");
         Facts.Builder factsBuilder = Facts.Builder.create();
         fbService.addFacts(factsBuilder, docContent);

@@ -19,7 +19,12 @@ import java.util.Objects;
 
 public class AwardJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements AwardJavaFunctionKrmsTermService {
 
+    @Override
     public Boolean checkCommentEntered(Award award, String commentTypeCode) {
+        if (commentTypeCode != null && commentTypeCode.equalsIgnoreCase("null")) {
+            commentTypeCode = null;
+        }
+
         for (AwardComment comment : award.getAwardComments()) {
             if (StringUtils.equals(comment.getCommentTypeCode(), commentTypeCode) && StringUtils.isNotBlank(comment.getComments())) {
                 return true;

@@ -26,14 +26,14 @@ public class AwardBudgetRulesEngineExecutorImpl extends KcRulesEngineExecuter {
 
     @Override
     public EngineResults performExecute(RouteContext routeContext, Engine engine) {
-        Map<String, String> contextQualifiers = new HashMap<String, String>();
-        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_AWARD_BUDGET);
-        contextQualifiers.put("name", KcKrmsConstants.AwardBudget.BUDGET_CONTEXT);
+        Map<String, String> contextQualifiers = new HashMap<>();
+        contextQualifiers.put(KcKrmsConstants.NAMESPACE_CODE, Constants.MODULE_NAMESPACE_AWARD_BUDGET);
+        contextQualifiers.put(KcKrmsConstants.NAME, KcKrmsConstants.AwardBudget.BUDGET_CONTEXT);
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
         String unitNumber = getElementValue(docContent, "//document/leadUnitNumber[1]");
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
-                Collections.singletonMap("Unit Number", unitNumber));
+                Collections.singletonMap(KcKrmsConstants.UNIT_NUMBER, unitNumber));
         KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("awardBudgetFactBuilderService");
         Facts.Builder factsBuilder = Facts.Builder.create();
         fbService.addFacts(factsBuilder, docContent);
