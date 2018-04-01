@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* RESKC-2865:Fix dead lock when installed on empty database (#2828)
+
+  * Douglas Pace on Sat, 31 Mar 2018 16:14:37 -0700 [View Commit](../../commit/5d4f14349c02256dfd3fe4fc4919c20dd8fa25a9)
+
+## coeus-1803.0044
 * RESKC-2110: fix subaward peopleflow for retrieving unit number
   * Travis Schneeberger on Fri, 30 Mar 2018 13:55:22 -0400 [View Commit](../../commit/4d6b3c55def232f657e7fe54e49090ab0681c734)
 * RESKC-2110: add peopleflow support for Award
