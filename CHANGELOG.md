@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* REKC-1010: Increase set of characters filenames can have (#2827)
+
+  * Gayathri Athreya on Mon, 2 Apr 2018 07:34:41 -0700 [View Commit](../../commit/620f0c931d6ef26c4ee08d57d3cae7a569051baf)
+
+## coeus-1803.0045
 * RESKC-2865:Fix dead lock when installed on empty database (#2828)
 
   * Douglas Pace on Sat, 31 Mar 2018 16:14:37 -0700 [View Commit](../../commit/5d4f14349c02256dfd3fe4fc4919c20dd8fa25a9)
