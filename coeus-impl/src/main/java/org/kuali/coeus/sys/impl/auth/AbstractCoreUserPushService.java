@@ -43,6 +43,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public abstract class AbstractCoreUserPushService<T> implements CoreUserPushService {
 
 	private static final Integer NUMBER_OF_USERS_LIMIT = 100000;
+	private static final String INCLUDE_INACTIVE_PARAM = "includeInactive";
 
 	protected abstract List<T> getAllPeople();
 
@@ -148,7 +149,7 @@ public abstract class AbstractCoreUserPushService<T> implements CoreUserPushServ
 	}
 
 	protected List<AuthUser> getAllAuthServiceUsers() {
-		String uri = UriComponentsBuilder.fromHttpUrl(getUsersApiUrl()).queryParam(LIMIT_PARAM, NUMBER_OF_USERS_LIMIT).build().encode().toString();
+		String uri = UriComponentsBuilder.fromHttpUrl(getUsersApiUrl()).queryParam(LIMIT_PARAM, NUMBER_OF_USERS_LIMIT).queryParam(INCLUDE_INACTIVE_PARAM, Boolean.TRUE).build().encode().toString();
 		ResponseEntity<List<AuthUser>> result = restOperations.exchange(uri, HttpMethod.GET,
 				new HttpEntity<String>(authServiceRestUtilService.getAuthServiceStyleHttpHeadersForUser()), new ParameterizedTypeReference<List<AuthUser>>() { });
 		return result.getBody();
