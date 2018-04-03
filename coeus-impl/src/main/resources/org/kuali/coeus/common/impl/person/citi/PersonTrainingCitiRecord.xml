@@ -223,7 +223,7 @@
     <bean id="PersonTrainingCitiRecord-group" parent="PersonTrainingCitiRecord-group-parentBean"/>
     <bean abstract="true" id="PersonTrainingCitiRecord-group-parentBean" parent="KraAttributeReferenceDummy-description">
         <property name="name" value="group" />
-        <property name="required" value="true" />
+        <property name="required" value="false" />
         <property name="label" value="Group" />
         <property name="shortLabel" value="Group" />
         <property name="summary" value="Group" />
@@ -298,7 +298,7 @@
     <bean id="PersonTrainingCitiRecord-stage" parent="PersonTrainingCitiRecord-stage-parentBean"/>
     <bean abstract="true" id="PersonTrainingCitiRecord-stage-parentBean" parent="KraAttributeReferenceDummy-description">
         <property name="name" value="stage" />
-        <property name="required" value="true" />
+        <property name="required" value="false" />
         <property name="label" value="Stage" />
         <property name="shortLabel" value="Stage" />
         <property name="summary" value="Stage" />
