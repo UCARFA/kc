@@ -172,4 +172,80 @@ public class CitiDataProcessingServiceImplTest extends KcIntegrationTestBase {
 
         Assert.assertTrue(Objects.toString(trainings), CollectionUtils.isNotEmpty(trainings));
     }
+
+    /**
+     * Group is only used for display purposes in the UI.  It isn't strictly required for citi to training mapping
+     */
+    @Test
+    public void test_basic_load_with_map_optional_group() {
+        PersonTrainingCitiRecord record = new PersonTrainingCitiRecord();
+        record.setGroupId("1");
+
+        record.setStageNumber("2");
+        record.setStage("A stage");
+        record.setCurriculum("A curr");
+        record.setInstitutionalUsername("quickstart");
+        record.setPassingScore("70");
+        record.setStatusCode(PersonTrainingCitiRecordStatus.STAGED.getCode());
+
+        record = businessObjectService.save(record);
+
+        PersonTrainingCitiMap map = new PersonTrainingCitiMap();
+        map.setGroupId("1");
+        map.setStageNumber("2");
+        map.setTrainingCode(1);
+
+        map = businessObjectService.save(map);
+
+        citiDataProcessingService.processRecords();
+        record = businessObjectService.findBySinglePrimaryKey(PersonTrainingCitiRecord.class, record.getId());
+
+        Assert.assertTrue(record.getErrors() != null ? Objects.toString(new ArrayList<>(record.getErrors())) : "", CollectionUtils.isEmpty(record.getErrors()));
+        Assert.assertEquals(PersonTrainingCitiRecordStatus.PROCESSED.getCode(), record.getStatusCode());
+
+        final Map<String, Object> criteria = new HashMap<>();
+        criteria.put("trainingCode", 1);
+        criteria.put("personId", "10000000001");
+        final Collection<PersonTraining> trainings = businessObjectService.findMatching(PersonTraining.class, criteria);
+
+        Assert.assertTrue(Objects.toString(trainings), CollectionUtils.isNotEmpty(trainings));
+    }
+
+    /**
+     * Stage is only used for display purposes in the UI.  It isn't strictly required for citi to training mapping
+     */
+    @Test
+    public void test_basic_load_with_map_optional_stage() {
+        PersonTrainingCitiRecord record = new PersonTrainingCitiRecord();
+        record.setGroupId("1");
+        record.setGroup("A group");
+        record.setStageNumber("2");
+
+        record.setCurriculum("A curr");
+        record.setInstitutionalUsername("quickstart");
+        record.setPassingScore("70");
+        record.setStatusCode(PersonTrainingCitiRecordStatus.STAGED.getCode());
+
+        record = businessObjectService.save(record);
+
+        PersonTrainingCitiMap map = new PersonTrainingCitiMap();
+        map.setGroupId("1");
+        map.setStageNumber("2");
+        map.setTrainingCode(1);
+
+        map = businessObjectService.save(map);
+
+        citiDataProcessingService.processRecords();
+        record = businessObjectService.findBySinglePrimaryKey(PersonTrainingCitiRecord.class, record.getId());
+
+        Assert.assertTrue(record.getErrors() != null ? Objects.toString(new ArrayList<>(record.getErrors())) : "", CollectionUtils.isEmpty(record.getErrors()));
+        Assert.assertEquals(PersonTrainingCitiRecordStatus.PROCESSED.getCode(), record.getStatusCode());
+
+        final Map<String, Object> criteria = new HashMap<>();
+        criteria.put("trainingCode", 1);
+        criteria.put("personId", "10000000001");
+        final Collection<PersonTraining> trainings = businessObjectService.findMatching(PersonTraining.class, criteria);
+
+        Assert.assertTrue(Objects.toString(trainings), CollectionUtils.isNotEmpty(trainings));
+    }
 }
