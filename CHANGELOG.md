@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* No Changes
+
+
+## coeus-1804.0002
 * get inactive ppl from core (#2830)
 
   * Terry Durkin on Tue, 3 Apr 2018 11:19:19 -0400 [View Commit](../../commit/df7657ee5113270fdefceaa49139ca143156d04d)
