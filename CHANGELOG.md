@@ -1,6 +1,15 @@
 
 
 ## CURRENT
+* get inactive ppl from core (#2830)
+
+  * Terry Durkin on Tue, 3 Apr 2018 11:19:19 -0400 [View Commit](../../commit/df7657ee5113270fdefceaa49139ca143156d04d)
+* RESKC-2868: making stage and group optional
+  * Travis Schneeberger on Tue, 3 Apr 2018 10:55:14 -0400 [View Commit](../../commit/258e2e7fc90fcee37cf7c4fae52c1d052f211a93)
+* RESKC-2868: test to make sure we handle mix-case usernames
+  * Travis Schneeberger on Tue, 3 Apr 2018 10:40:31 -0400 [View Commit](../../commit/5ec95db4ef18a414074eeae42df180e6f3006fdb)
+
+## coeus-1804.0001
 * REKC-1010: Increase set of characters filenames can have (#2827)
 
   * Gayathri Athreya on Mon, 2 Apr 2018 07:34:41 -0700 [View Commit](../../commit/620f0c931d6ef26c4ee08d57d3cae7a569051baf)
