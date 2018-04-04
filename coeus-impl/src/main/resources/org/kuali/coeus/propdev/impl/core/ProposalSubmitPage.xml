@@ -165,7 +165,8 @@
         <property name="footer.items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="OK" p:methodToCall="reject" p:order="10"
-                      p:dialogDismissOption="REQUEST"  p:successCallback="dismissDialog('PropDev-SubmitPage-RejectDialog');" p:dialogResponse="true"/>
+                      p:dialogDismissOption="REQUEST"  p:successCallback="dismissDialog('PropDev-SubmitPage-RejectDialog');"
+                      p:clearDirtyOnAction="true" p:dialogResponse="true"/>
                 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="cancelReject" p:order="20"
                       p:dialogDismissOption="REQUEST" p:successCallback="dismissDialog('PropDev-SubmitPage-RejectDialog');" p:dialogResponse="false"/>
             </list>

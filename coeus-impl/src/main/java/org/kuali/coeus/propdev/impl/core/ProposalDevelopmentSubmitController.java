@@ -811,9 +811,8 @@ public class ProposalDevelopmentSubmitController extends
             }
         }
 
-        form.setCanEditView(null);
-        form.setEvaluateFlagsAndModes(true);
-        return getTransactionalDocumentControllerService().reload(form);
+            return getNavigationControllerService().returnToHub(form);
+
     }
 
     protected void sendRejectNotification(ProposalDevelopmentDocumentForm form, List<NotificationTypeRecipient> recipients) {
