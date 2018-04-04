@@ -13,12 +13,16 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.coi.framework.Project;
 import org.kuali.coeus.coi.framework.ProjectPublisher;
 import org.kuali.coeus.coi.framework.ProjectRetrievalService;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.krms.KcKrmsFactBuilderService;
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
-import org.kuali.coeus.common.framework.auth.perm.Permissionable;
-import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
@@ -39,8 +43,6 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -49,8 +51,6 @@ import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
-import org.kuali.coeus.common.framework.krms.KcKrmsFactBuilderService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -110,7 +110,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
 
     private transient boolean documentSaveAfterVersioning;
     private transient AwardService awardService;
-
+    private transient BusinessObjectService businessObjectService;
     private transient ProjectRetrievalService projectRetrievalService;
     private transient ProjectPublisher projectPublisher;
     private transient AwardAccountService awardAccountService;
@@ -347,8 +347,11 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             }
         }
         if (modifiedProposals.size() > 0) {
-            getInstitutionalProposalService().fundInstitutionalProposals(modifiedProposals);
-            getAward().refreshReferenceObject("fundingProposals");
+            getInstitutionalProposalService().fundInstitutionalProposals(modifiedProposals).forEach(ip -> {
+                List<AwardFundingProposal> removedFundingProposals = getAward().removeFundingProposals(ip.getProposalNumber());
+                getBusinessObjectService().delete(removedFundingProposals);
+                getAward().add(ip);
+            });
         }
     }
 
@@ -592,12 +595,13 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         for (AwardFundingProposal awardFundingProposal : this.getAward().getFundingProposals()) {
             proposalsToUpdate.add(awardFundingProposal.getProposal().getProposalNumber());
         }
-        //remove any funding proposals for this award
-        KcServiceLocator.getService(BusinessObjectService.class).delete(getAward().getFundingProposals());
-        getAward().getFundingProposals().clear();
-        
+
         getInstitutionalProposalService().defundInstitutionalProposals(proposalsToUpdate, 
                 this.getAward().getAwardNumber(), this.getAward().getSequenceNumber());
+
+        // remove any funding proposals for this award after the de-funding process
+        getBusinessObjectService().delete(getAward().getFundingProposals());
+        getAward().getFundingProposals().clear();
     }
     
     /*
@@ -701,6 +705,17 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     public boolean isCanceled() {
         WorkflowDocument workflow = getDocumentHeader().getWorkflowDocument();
         return workflow.isCanceled();
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
     public ProjectPublisher getProjectPublisher() {

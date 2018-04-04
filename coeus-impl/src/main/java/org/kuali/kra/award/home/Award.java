@@ -2061,16 +2061,33 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public AwardFundingProposal removeFundingProposal(int index) {
         final AwardFundingProposal afp = (index >= 0) ? getAllFundingProposalsSortedBySequence().get(index) : null;
         if (afp != null) {
-            fundingProposals.remove(afp);
-            allFundingProposals.remove(afp);
-            afp.getProposalId();
-            final InstitutionalProposal proposal = getInstitutionalProposalService().getInstitutionalProposal(afp.getProposalId().toString());
-            if (proposal != null) {
-                proposal.remove(afp);
-            }
+            removeFundingProposal(afp);
         }
 
         return afp;
+    }
+
+    /**
+     * Removes any funding proposals associated with the provided proposal number
+     *
+     * @param proposalNumber The proposal number of the IP version(s) to be removed
+     */
+    public List<AwardFundingProposal> removeFundingProposals(String proposalNumber) {
+        List<AwardFundingProposal> fundingProposals = getAllFundingProposals().stream()
+                .filter(afp -> afp.getProposal() != null)
+                .filter(afp -> StringUtils.equals(afp.getProposal().getProposalNumber(), proposalNumber))
+                .collect(Collectors.toList());
+        fundingProposals.forEach(this::removeFundingProposal);
+        return fundingProposals;
+    }
+
+    public void removeFundingProposal(AwardFundingProposal afp) {
+        fundingProposals.remove(afp);
+        allFundingProposals.remove(afp);
+        final InstitutionalProposal proposal = getInstitutionalProposalService().getInstitutionalProposal(afp.getProposalId().toString());
+        if (proposal != null) {
+            proposal.remove(afp);
+        }
     }
 
     /**
