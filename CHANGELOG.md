@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* RESKC-2306: Added full name to the Last Updated By field on the Header of Award Document and Time and Money Document.
+
+* RESKC-2306: Added full name to the Last Updated By field on the Header of Award Document and Time and Money Document.  * Omar Soto Fortuño on Wed, 4 Apr 2018 13:48:18 -0400 [View Commit](../../commit/47ae44a46cfa326d06167e41d3fd5de146bea064)
+
+## coeus-1804.0003
 * No Changes
 
 
