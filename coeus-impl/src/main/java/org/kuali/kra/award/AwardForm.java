@@ -11,6 +11,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.aspectj.apache.bcel.classfile.Constant;
 import org.kuali.coeus.award.AccountInformationBean;
 import org.kuali.coeus.award.finance.AwardAccount;
 import org.kuali.coeus.award.finance.AwardPostHistoryBean;
@@ -74,6 +75,7 @@ import org.kuali.coeus.common.framework.medusa.MedusaBean;
 import org.kuali.kra.award.service.AwardHierarchyUIService;
 import org.kuali.coeus.common.budget.framework.core.BudgetVersionFormBase;
 import org.kuali.coeus.common.framework.custom.CustomDataDocumentForm;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.CountFlag;
@@ -1275,20 +1277,21 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     }
 
     private void setupLastUpdate(AwardDocument awardDocument) {
-        String createDateStr = null;
-        String updateUser = null;
         if (awardDocument.getUpdateTimestamp() != null) {
-            createDateStr = CoreApiServiceLocator.getDateTimeService().toString(awardDocument.getUpdateTimestamp(), "MM/dd/yy");
-            updateUser = awardDocument.getUpdateUser().length() > NUMBER_30 ? awardDocument.getUpdateUser().substring(0, NUMBER_30)
-                    : awardDocument.getUpdateUser();
+            String createDateStr = CoreApiServiceLocator.getDateTimeService().toString(awardDocument.getUpdateTimestamp(), Constants.MM_DD_YY_DATE_FORMAT);
+            String lastUpdatedBy = awardDocument.getUpdateUser();
+            KcPerson user = getKcPersonService().getKcPersonByUserName(awardDocument.getUpdateUser());
+
+            if (user != null && isShowFullNameEnabled()) {
+                lastUpdatedBy = user.getFullName() + " (" + awardDocument.getUpdateUser() + ")";
+            }
+            lastUpdatedBy = StringUtils.substring(lastUpdatedBy, 0, NUMBER_30);
             getDocInfo().add(
-                    new HeaderField(UPDATE_TIMESTAMP_DD_NAME, createDateStr + " by " + updateUser));
+                    new HeaderField(UPDATE_TIMESTAMP_DD_NAME, createDateStr + " by " + lastUpdatedBy));
         } else {
             getDocInfo().add(new HeaderField(UPDATE_TIMESTAMP_DD_NAME, Constants.EMPTY_STRING));
         }
-
     }
-
 
     private void setupSponsor(AwardDocument awardDocument) {
         if (awardDocument.getAward().getSponsor() == null) {
@@ -1441,6 +1444,11 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     protected boolean isAutoPostAward() {
         return getParameterService().getParameterValueAsBoolean(
                 Constants.PARAMETER_MODULE_AWARD, ParameterConstants.ALL_COMPONENT, Constants.AWARD_AUTO_POST_ENABLED);
+    }
+
+    protected boolean isShowFullNameEnabled() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.MODULE_NAMESPACE_GEN, ParameterConstants.ALL_COMPONENT, FeatureFlagConstants.SHOW_FULL_NAME_IN_LAST_UPDATED_BY, false);
     }
 
     public List<ExtraButton> getExtraActionsButtons() {
