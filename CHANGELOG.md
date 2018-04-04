@@ -1,6 +1,14 @@
 
 
 ## CURRENT
+* RESKC-2696: Made sure that latest version of funding proposals are are associated with award (#2833)
+
+  * Jeff Largent on Wed, 4 Apr 2018 16:40:39 -0400 [View Commit](../../commit/045e55ab491a8c1f811fbbac1713f6dc7944f732)
+* RESKC-2299: Fixing STE when adhoc approver rejects document. (#2832)
+
+  * Gayathri Athreya on Wed, 4 Apr 2018 13:00:12 -0700 [View Commit](../../commit/0a79bb5d11a5f5e63385ed53c29a02fced13f7ce)
+
+## coeus-1804.0004
 * RESKC-2306: Added full name to the Last Updated By field on the Header of Award Document and Time and Money Document.
 
 * RESKC-2306: Added full name to the Last Updated By field on the Header of Award Document and Time and Money Document.  * Omar Soto Fortuño on Wed, 4 Apr 2018 13:48:18 -0400 [View Commit](../../commit/47ae44a46cfa326d06167e41d3fd5de146bea064)
