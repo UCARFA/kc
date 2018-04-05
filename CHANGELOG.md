@@ -4,6 +4,10 @@
 * No Changes
 
 
+## coeus-1804.0006
+* No Changes
+
+
 ## coeus-1804.0005
 * RESKC-2696: Made sure that latest version of funding proposals are are associated with award (#2833)
 
