@@ -44,9 +44,8 @@
 			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Budget Period" p:iconClass="icon-plus" p:render="@{!#parent.readOnly}"/>
 		</property>
         <property name="addLineDialog">
-            <bean p:id="PropBudget-PeriodsPage-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Budget Period" p:retrieveViaAjax="true"
-                  p:destroyDialogOnHidden="true"
-                  p:onHideDialogScript="retrieveComponent('PropBudget-PeriodsPage-CollectionGroup');">
+            <bean p:id="PropBudget-PeriodsPage-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Budget Period"
+                  p:destroyDialogOnHidden="true">
                 <property name="footer.items">
                     <list>
                         <bean parent="Uif-AddLineAction-Dialog" p:order="10" p:dialogDismissOption=""
@@ -99,7 +98,7 @@
             <list>
                 <bean parent="Uif-DeleteLineAction-IconOnly" p:order="40"
                       p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
-                      p:iconClass="icon-trash">
+                      p:iconClass="icon-trash" p:methodToCall="deleteBudgetPeriod">
                         <property name="confirmationDialog">
                             <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete period?"/>
                         </property>
