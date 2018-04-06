@@ -1,6 +1,10 @@
 
 
 ## CURRENT
+* RESKC-2268: Ensured that calculated amounts are reset when Award Budget rate type changes
+  * Jeff Largent on Fri, 6 Apr 2018 15:34:28 -0400 [View Commit](../../commit/e4d28a85b2e2d360da52571e02ebcece7da68c2b)
+
+## coeus-1804.0011
 * RESKC-2853: Change validation pattern for opportunity title field on Institutional Proposals so, it will be the same as it’s in Development Proposal. Same fix as done in RESKC-2188. (#2840)
 
   * Omar Soto Fortuño on Fri, 6 Apr 2018 14:04:03 -0400 [View Commit](../../commit/82e76624f9bb6d4ac50a83235158a360ba2591f7)
