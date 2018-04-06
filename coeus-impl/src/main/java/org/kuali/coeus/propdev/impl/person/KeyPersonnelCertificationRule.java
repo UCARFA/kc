@@ -59,7 +59,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) document;
-        valid &= doesNonEmployeeNeedCertification(pdDoc);
+        valid &= doesNonEmployeeHaveCertification(pdDoc.getDevelopmentProposal().getProposalPersons());
         if(getKeyPersonCertDeferralParm().equalsIgnoreCase(ProposalDevelopmentConstants.ParameterValues.KEY_PERSON_CERTIFICATION_BEFORE_SUBMIT)) {
             valid &= this.validateAllCertificationsComplete(pdDoc);
         }
@@ -75,14 +75,14 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
     }
 
 
-    public boolean doesNonEmployeeNeedCertification(ProposalDevelopmentDocument pdDoc) {
+    public boolean doesNonEmployeeHaveCertification(List<ProposalPerson> proposalPersons) {
         final Boolean validationEnabled = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,
                 ENABLE_KEY_PERSON_VALIDATION_FOR_NON_EMPLOYEE_PERSONNEL);
         int index = 0;
         boolean valid = true;
         if (validationEnabled) {
-            for (ProposalPerson person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
-                if (doesNonEmployeeNeedCertification(person)) {
+            for (ProposalPerson person : proposalPersons) {
+                if (doesNonEmployeeHaveCertification(person)) {
                     generateAuditError(index, person.getFullName(), ERROR_PROPOSAL_PERSON_NONEMPLOYEE_CERTIFICATION_INCOMPLETE);
                     valid = false;
                 }
@@ -92,7 +92,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
         return valid;
     }
 
-    public boolean doesNonEmployeeNeedCertification(ProposalPerson person) {
+    public boolean doesNonEmployeeHaveCertification(ProposalPerson person) {
         return person.getPersonId() == null && getPermissionsService().doesPersonRequireCertification(person) && !validKeyPersonCertification(person);
     }
 
@@ -110,9 +110,9 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
     }
 
     protected boolean isRouterPiAndCertified(ProposalDevelopmentDocument pdDoc) {
-        String loggedInUser = getGlobalVariableService().getUserSession().getPrincipalId();
+        String loggedInUser = getLoggedInUser();
         for (ProposalPerson person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
-            if (StringUtils.equalsIgnoreCase(person.getPersonId(), loggedInUser) && (person.isCoInvestigator() || person.isPrincipalInvestigator())) {
+            if (isPersonLoggedInPiOrCoi(loggedInUser, person)) {
                 if (hasCertification(person) && !validKeyPersonCertification(person)) {
                     generateAuditError(0,person.getFullName(), ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE);
                     return false;
@@ -120,6 +120,15 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
             }
         }
         return true;
+    }
+
+    protected String getLoggedInUser() {
+        return getGlobalVariableService().getUserSession().getPrincipalId();
+    }
+
+    private boolean isPersonLoggedInPiOrCoi(String loggedInUser, ProposalPerson person) {
+        return StringUtils.equalsIgnoreCase(person.getPersonId(), loggedInUser) &&
+                (person.isCoInvestigator() || person.isPrincipalInvestigator());
     }
 
     @Override
@@ -180,9 +189,10 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
         //questionnaires should continue to be answerable only to the following approvers,
         //possibly as well as other roles. i.e. Aggregator.
         PropAwardPersonRole personRole = person.getRole();
-        if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
+        if (personRole.getCertificationRequired() &&
+                (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
                 || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
-                || (personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE) && person.getOptInCertificationStatus())) {
+                || (personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE) && person.getOptInCertificationStatus()))) {
                 return true;
         }
         

@@ -199,7 +199,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
                 final String errorStarter = "document.developmentProposal.proposalPersons[";
                 final String errorFinish = "].questionnaireHelper.answerHeaders[0].questions";
                 String errorKey = errorStarter + personIndex + errorFinish;
-                if (certificationRule.doesNonEmployeeNeedCertification(person)) {
+                if (certificationRule.doesNonEmployeeHaveCertification(person)) {
                     GlobalVariables.getMessageMap().putWarning(errorKey, ERROR_PROPOSAL_PERSON_NONEMPLOYEE_CERTIFICATION_INCOMPLETE,
                             person.getFullName());
                 }
