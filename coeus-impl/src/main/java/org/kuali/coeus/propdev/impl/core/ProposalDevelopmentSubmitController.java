@@ -49,6 +49,7 @@ import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -118,6 +119,10 @@ public class ProposalDevelopmentSubmitController extends
     @Autowired
     @Qualifier("workflowDocumentActionsService")
     protected WorkflowDocumentActionsService workflowDocumentActionsService;
+
+    @Autowired
+    @Qualifier("documentDictionaryService")
+    private DocumentDictionaryService documentDictionaryService;
 
     @Autowired
     @Qualifier("groupService")
@@ -811,8 +816,18 @@ public class ProposalDevelopmentSubmitController extends
             }
         }
 
+        if (canOpenDocument(form.getDocument())) {
+            form.setCanEditView(null);
+            form.setEvaluateFlagsAndModes(true);
+            return getTransactionalDocumentControllerService().reload(form);
+        }
+        else {
             return getNavigationControllerService().returnToHub(form);
+        }
+    }
 
+    public boolean canOpenDocument(Document document) {
+        return getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document, getGlobalVariableService().getUserSession().getPerson());
     }
 
     protected void sendRejectNotification(ProposalDevelopmentDocumentForm form, List<NotificationTypeRecipient> recipients) {
@@ -919,6 +934,14 @@ public class ProposalDevelopmentSubmitController extends
 
     public void setConfigurationService(ConfigurationService configurationService) {
       this.configurationService = configurationService;
+    }
+
+    public DocumentDictionaryService getDocumentDictionaryService() {
+        return documentDictionaryService;
+    }
+
+    public void setDocumentDictionaryService(DocumentDictionaryService documentDictionaryService) {
+        this.documentDictionaryService = documentDictionaryService;
     }
 
     public WorkflowDocumentService getKradWorkflowDocumentService() {
