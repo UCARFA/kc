@@ -207,13 +207,15 @@ opacity:1;
             	                 </c:if>
             	              </c:when>
 						   <c:otherwise>
+							   <c:if test="${!empty KualiForm.editingMode['fullEntry'] && !readOnly}">
 								    <html:image property="methodToCall.deleteAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
 									   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"
 									   alt="Delete Attachment"/>
-									   <html:image styleId="replaceHistoryOfChangesAttachment.line${itrStatus.index}" 
-												onclick="javascript: showHide('instFileDiv${itrStatus.index}','replaceInstDiv${itrStatus.index}') ; return false"  
-												src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif' styleClass="tinybutton"
-												property="methodToCall.replaceNarrativeAttachment.line${itrStatus.index}.anchor${currentTabIndex};return false" />
+							   		<html:image styleId="replaceHistoryOfChangesAttachment.line${itrStatus.index}"
+										onclick="javascript: showHide('instFileDiv${itrStatus.index}','replaceInstDiv${itrStatus.index}') ; return false"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif' styleClass="tinybutton"
+										property="methodToCall.replaceNarrativeAttachment.line${itrStatus.index}.anchor${currentTabIndex};return false" />
+							   </c:if>
 							</c:otherwise>    
 						   </c:choose>
 					   </c:if>
