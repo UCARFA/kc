@@ -19,4 +19,5 @@
 
 
 \. ./rice/bootstrap/V1804_001__show_full_name_in_last_updated_by_param.sql
+\. ./rice/bootstrap/V1804_002__show_full_name_in_pessimistic_lock_by_param.sql
 commit;

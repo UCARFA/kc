@@ -1,6 +1,58 @@
 
 
 ## CURRENT
+* RESKC-2869: TBN fix (#2834)
+
+  * Found that adding TBNs with certain descriptions is causing a STE. Specifically if named like below:
+  * TBA-Graduate Assistant
+  * TBA-Grad or Undergrad Student
+  * TBA-Postdoctoral Fellow
+  * TBA-Classified Staff
+  * TBA-Unclassified Staff
+  * TBA-Faculty
+  * 
+  * Doesn't seem to like the '-' in the name of the TBN; if you attempt to add more than one or an additional one it will go to below error.
+  * 
+  * Steps to Reproduce:
+  * 
+  * create proposal (or use proposal 11844 in res-tst1)
+  * add budget
+  * add TBNs to Project Personnel that contain '-' (more than one or one and then another) and get STE  * Gayathri Athreya on Fri, 6 Apr 2018 08:50:55 -0700 [View Commit](../../commit/fc866531538a5d374cb60e77d5478ceb8d85d083)
+* RESKC-2871: Fix certification (#2837)
+
+  * If in the Proposal Award Person role table, the certification requirement for co-investigators is turned off - the system is still throwing an error in PD requiring the certification.
+  * 
+  * Steps to Reproduce:
+  * (Configure the Proposal Award Person Role maintenance table so that Certification is not required for Co-Investigators)
+  * 1. Create a PD with min. info to save
+  * 2. Navigate to Key Personnel section and add a PI and at least one Co-I
+  * 3. Run Data Validation
+  * 
+  * Actual Result: You will see the following Error(s) for those users added as Co-Investigators: The Investigators are not all certified. Please certify xxxxxx.
+  * 
+  * Expected Result: No error message should result for Co-Investigators since they are not required to certify based on the configuration in the Proposal Award Person role table)  * Gayathri Athreya on Fri, 6 Apr 2018 08:50:17 -0700 [View Commit](../../commit/1ce610c77983801247185e850de563327ab84a7e)
+* RESKC-2299: SUMMARY: Discovered that if an ad-hoc approver attempts to use the 'return' option to send it back to the initiator it will give them a STE and not return the proposal  Not sure if this is caused by some lack of permission setup or some larger issue - you would think a user being ad-hoc routed to with the 'return' button available would be able to use without issue or config needed. (#2838)
+
+  * STEPS TO REPRODUCE:
+  * 1. create a proposal with all required fields to route (or use an existing enroute proposal like doc 97158)
+  * 2. open proposal and go to the Summary/Submit tab
+  * 3. click Ad Hoc Recipients button
+  * 4. add 'tdurkin' as an ad hoc recipient for Approve; click 'ok'
+  * 5. click Send Adhoc button and open workflow to verify it's now in tdurkin's action list for approve
+  * 6. login as tdurkin and open proposal
+  * 7. click 'return' and include text on description and click 'ok' - get STE
+  * 
+  * TEST INFO:
+  * res-tst1 document number: 97158
+  * 
+  * ACTUAL RESULTS: the proposal does not return and gives user STE - prevents return action
+  * 
+  * EXPECTED RESULTS: the proposal successfully returns to the initiator as expected.  * Gayathri Athreya on Fri, 6 Apr 2018 08:49:46 -0700 [View Commit](../../commit/d97c4c05b63ad59269783f8d5e9169db736cf97d)
+* RESKC-2307: Added full name to the Pessimistic Lock message. (#2835)
+
+  * Omar Soto Fortuño on Fri, 6 Apr 2018 10:58:35 -0400 [View Commit](../../commit/5489edef35562b28c93b4a079448f0a9be49691c)
+
+## coeus-1804.0008
 * RESKC-2154: Made sure that budget periods are correctly re-sequenced when one is deleted
 
 * Also made sure that KRAD doesn't try do an AJAX refresh after adding a budget period, since this can overwrite the newly added row.
