@@ -7,20 +7,9 @@
  */
 package org.kuali.coeus.propdev.impl.budget.core;
 
-import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUDGET_CONFIRMATION;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.period.AddBudgetPeriodAndTotalEvent;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.period.GenerateBudgetPeriodEvent;
-import org.kuali.coeus.common.budget.framework.period.SaveBudgetPeriodAndTotalEvent;
+import org.kuali.coeus.common.budget.framework.period.*;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -36,6 +25,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUDGET_CONFIRMATION;
 
 @Controller
 @RequestMapping(value = "/proposalBudget")
@@ -92,6 +89,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
             ObjectPropertyUtils.setPropertyValue(form, addLineBindingPath, new BudgetPeriod());
         }
     	form.setUpdateComponentId(NEW_PERIOD_DIALOG_ID);
+        form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATEPAGE.getKey());
         return getModelAndViewService().getModelAndView(form);
     }
     
@@ -100,6 +98,16 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         BindingInfo addLineBindingInfo = (BindingInfo) form.getViewPostMetadata().getComponentPostData(
                 parameters.getSelectedCollectionId(), UifConstants.PostMetadata.ADD_LINE_BINDING_INFO);
         return addLineBindingInfo.getBindingPath();
+    }
+
+    @Transactional @RequestMapping(params="methodToCall=deleteBudgetPeriod")
+    public ModelAndView deleteBudgetPeriod(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+        Budget budget = form.getBudget();
+        int lineToDelete = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+        if (lineToDelete >= 0) {
+            getBudgetSummaryService().deleteBudgetPeriod(budget, lineToDelete);
+        }
+        return getModelAndViewService().getModelAndView(form);
     }
     
     @Transactional @RequestMapping(params="methodToCall=saveBudgetPeriod")
