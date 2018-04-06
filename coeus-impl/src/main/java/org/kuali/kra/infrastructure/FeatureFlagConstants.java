@@ -12,5 +12,6 @@ public interface FeatureFlagConstants {
 
     String ENABLE_API_AUTHORIZATION = "RESKC-2456_Enable_Api_Authorization";
     String SHOW_FULL_NAME_IN_LAST_UPDATED_BY = "Show_Full_Name_In_Last_Updated_By";
+    String SHOW_FULL_NAME_IN_PESSIMISTIC_LOCK = "Show_Full_Name_In_Pessimistic_Lock";
 
 }

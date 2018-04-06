@@ -16,6 +16,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.task.Task;
@@ -36,6 +38,7 @@ import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.iacuc.committee.web.struts.form.IacucCommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.FeatureFlagConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.irb.ProtocolForm;
@@ -48,6 +51,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -105,6 +109,8 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
     private static final String ONE_ADHOC_REQUIRED_ERROR_KEY = "error.adhoc.oneAdHocRequired";
     private static final String DOCUMENT_RELOAD_QUESTION="DocReload";
     public static final String KRAD_PORTAL_URL = "/kc-krad/landingPage?viewId=Kc-LandingPage-RedirectView";
+
+    private KcPersonService kcPersonService;
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -363,10 +369,19 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
     protected String generatePessimisticLockMessage(PessimisticLock lock) {
         String descriptor = (lock.getLockDescriptor() != null) ? lock.getLockDescriptor() : "";
         String message = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(KeyConstants.LOCKED_DOCUMENT_MESSAGE);
+        String lockedBy = lock.getOwnedByUser().getPrincipalName();
+
+        if (isShowFullNameEnabled()) {
+            KcPerson lockPerson = getKcPersonService().getKcPersonByPersonId(lock.getOwnedByUser().getPrincipalId());
+
+            if (lockPerson != null) {
+                lockedBy = lockPerson.getFullName() + " (" + lock.getOwnedByUser().getPrincipalName() + ")";
+            }
+        }
 
         descriptor = getDocumentType(descriptor);
         message = message.replace("{DOCUMENT_TYPE}", descriptor);
-        message = message.replace("{LOCKED_BY}", lock.getOwnedByUser().getPrincipalName());
+        message = message.replace("{LOCKED_BY}", lockedBy);
         message = message.replace("{TIMESTAMP}", org.kuali.rice.core.api.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()));
         message = message.replace("{DATESTAMP}", org.kuali.rice.core.api.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp()));
         
@@ -1193,6 +1208,17 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
             return forward;
         }
     }
-    
+
+    private KcPersonService getKcPersonService() {
+        if (kcPersonService == null) {
+            kcPersonService = KcServiceLocator.getService(KcPersonService.class);
+        }
+        return kcPersonService;
+    }
+
+    protected boolean isShowFullNameEnabled() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.MODULE_NAMESPACE_GEN, ParameterConstants.ALL_COMPONENT, FeatureFlagConstants.SHOW_FULL_NAME_IN_PESSIMISTIC_LOCK, false);
+    }
 
 }
