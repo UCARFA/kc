@@ -1,6 +1,11 @@
 
 
 ## CURRENT
+* RESKC-1875: Fixed bug that allowed SubAward Viewer to see the Delete and Replace buttons for the attachments. (#2839)
+
+  * Omar Soto Fortuño on Fri, 6 Apr 2018 12:08:51 -0400 [View Commit](../../commit/da0ebda3d6280c750f74e323aabeb12c5b143c85)
+
+## coeus-1804.0009
 * RESKC-2869: TBN fix (#2834)
 
   * Found that adding TBNs with certain descriptions is causing a STE. Specifically if named like below:
