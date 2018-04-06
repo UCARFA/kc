@@ -1,6 +1,12 @@
 
 
 ## CURRENT
+* RESKC-2154: Made sure that budget periods are correctly re-sequenced when one is deleted
+
+* Also made sure that KRAD doesn't try do an AJAX refresh after adding a budget period, since this can overwrite the newly added row.
+  * Jeff Largent on Thu, 5 Apr 2018 15:36:37 -0400 [View Commit](../../commit/075be74debe9b408b793415f4085404ebfebd0a0)
+
+## coeus-1804.0007
 * No Changes
 
 
