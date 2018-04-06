@@ -7,10 +7,6 @@
  */
 package org.kuali.coeus.propdev.impl.budget.person;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.Interval;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -39,12 +35,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 @Controller
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetProjectPersonnelController extends ProposalBudgetControllerBase {
 
     private static final String ADD_PERSONNEL_HELPER_ERROR_PATH = "addProjectPersonnelHelper.editBudgetPersonnelDetail.";
-    private static final String TBN_REGEX = "\\s*-\\s*";
+    private static final String TBN_REGEX = "\\s*-\\s*[0-9]+$";
 
     @Autowired
     @Qualifier("wizardControllerService")
@@ -113,7 +113,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
        return getModelAndViewService().getModelAndView(form);
 	}
 
-	private String getNextTbnName(List<BudgetPerson> current, BudgetPerson newPerson) {
+	protected String getNextTbnName(List<BudgetPerson> current, BudgetPerson newPerson) {
 		final String tbnPrefix = newPerson.getPersonName() + " - ";
 
 		final List<Integer> sequences = current.stream()
