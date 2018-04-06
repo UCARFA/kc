@@ -178,6 +178,7 @@ public class BudgetParametersAction extends BudgetAction {
                                                                                                budget.getOnOffCampusFlag());
             }
             updateBudgetPeriodDbVersion(budget);
+            getCalculationService().resetBudgetLineItemCalculatedAmounts(budget);
             return super.save(mapping, form, request, response);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
