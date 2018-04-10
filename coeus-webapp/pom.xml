@@ -258,7 +258,7 @@
     			<kualiAppPort>8080</kualiAppPort>
     			<kualiAppProtocol>http</kualiAppProtocol>
     			<kualiAppVersion>localhost:coeus-webapp:1609.0056</kualiAppVersion>
-    			<kualiAppName>kc-dev</kualiAppName>
+    			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password></kualiRest.password>
     			<!-- JDBC -->
@@ -309,7 +309,7 @@
     			<kualiAppPort>8443</kualiAppPort>
     			<kualiAppProtocol>https</kualiAppProtocol>
     			<kualiAppVersion>FASWMBPRO:coeus-webapp:1609.0056</kualiAppVersion>
-    			<kualiAppName>kc-dev</kualiAppName>
+    			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password></kualiRest.password>
     			<!-- JDBC -->
@@ -375,7 +375,7 @@
 				<!-- SJW - Add responseSkew due to clock differences on container systems (container is GMT) -->
 				<!-- responseSkew in seconds, past+future.  25200 seconds = 7 hours.  50400 = 14 hours -->
 				<websso.responseskew>50400</websso.responseskew>
-				<showPassword>false</showPassword>
+				<showPassword>true</showPassword>
 				<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
 				<samlKeystorePW></samlKeystorePW>
 				<samlKey>kcnonprod</samlKey>
@@ -450,7 +450,7 @@
     			<metadataSp.filename>kcnonprod3fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
-				<showPassword>false</showPassword>
+				<showPassword>true</showPassword>
 				<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
 				<samlKeystorePW></samlKeystorePW>
 				<samlKey>kcnonprod</samlKey>
@@ -483,7 +483,7 @@
     			-->
     			<!-- Disable ADFS -->
     			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
-    			<adfs.enabled>false</adfs.enabled>
+    			<adfs.enabled>true</adfs.enabled>
     			<maven.war.webxml>src/main/webapp/WEB-INF/web-noadfs.xml</maven.war.webxml> 			
     			<metadataSp.filename>kcnonprod4fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
@@ -525,7 +525,7 @@
     			<metadataSp.filename>kcnonprod5fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
-				<showPassword>false</showPassword>
+				<showPassword>true</showPassword>
 				<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
 				<samlKeystorePW></samlKeystorePW>
 				<samlKey>kcnonprod</samlKey>
@@ -562,7 +562,7 @@
 				<metadataSp.filename>kcnonprod6fandaucaredu_sp.xml</metadataSp.filename>
 				<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
-				<showPassword>false</showPassword>
+				<showPassword>true</showPassword>
 				<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
 				<samlKeystorePW></samlKeystorePW>
 				<samlKey>kcnonprod</samlKey>
@@ -594,7 +594,7 @@
     			-->
     			<!-- Disable ADFS -->
     			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
-    			<adfs.enabled>false</adfs.enabled>    			
+    			<adfs.enabled>true</adfs.enabled>
     			<metadataSp.filename>kcnonprod7fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
@@ -668,7 +668,7 @@
 				-->
 				<!-- Disable ADFS -->
 				<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
-				<adfs.enabled>false</adfs.enabled>
+				<adfs.enabled>true</adfs.enabled>
 
 				<metadataSp.filename>kualifinucaredu_sp.xml</metadataSp.filename>
 				<metadataIdp.fileName>prodadfsmetadata.xml</metadataIdp.fileName>
