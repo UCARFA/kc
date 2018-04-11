@@ -350,7 +350,7 @@
                 <kualiRest.user>admin</kualiRest.user>
                 <kualiRest.password></kualiRest.password>
                 <!-- JDBC -->
-                <jdbcKualiMySQL.url>jdbc:mysql://kcnonprod4.fin.ucar.edu:43306/coeus</jdbcKualiMySQL.url>
+                <jdbcKualiMySQL.url>jdbc:mysql://kcnonprod1.fin.ucar.edu:13306/coeus</jdbcKualiMySQL.url>
                 <jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
                 <jdbcKualiMySQL.password></jdbcKualiMySQL.password>
                 <!--  Tomcat deployment url -->
@@ -402,18 +402,18 @@
     		<id>kcnonprod2</id>
     		<properties>
     			<!-- ADFS/SAML -->   
-    			<!-- Enable ADFS -->
+    			<!-- Enable ADFS
     			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
     			<adfs.enabled>true</adfs.enabled>
-
-    			<!-- Disable ADFS
+				-->
+    			<!-- Disable ADFS -->
     			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
     			<adfs.enabled>false</adfs.enabled>
-				-->
+
     			<metadataSp.filename>kcnonprod2finucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>prodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
-				<showPassword>false</showPassword>
+				<showPassword>true</showPassword>
 				<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
 				<samlKeystorePW></samlKeystorePW>
 				<samlKey>kcnonprod</samlKey>
