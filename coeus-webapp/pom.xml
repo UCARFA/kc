@@ -81,16 +81,24 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-            </resource>
-            <resource>
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
                 <includes>
+                    <include>**/*.properties</include>
                     <include>META-INF/kc-config-build.xml</include>
+                    <include>META-INF/kc-config.xml</include>
+                    <include>META-INF/kc-config-ucar.xml</include>
                 </includes>
             </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>metadata/*</include>
+                    <include>security/*</include>
+                </includes>
+            </resource>
+
         </resources>
 
         <plugins>
@@ -168,6 +176,38 @@
         </plugins>
     </build>
     <profiles>
+        <!-- Localhost -->
+        <profile>
+            <id>localhost</id>
+            <properties>
+                <!-- Disable ADFS -->
+                <web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
+                <adfs.enabled>false</adfs.enabled>
+                <metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
+                <metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+                <websso.responseskew>60</websso.responseskew>
+                <showPassword>false</showPassword>
+                <samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
+                <samlKeystorePW></samlKeystorePW>
+                <samlKey>kcnonprod</samlKey>
+                <samlKeyPW></samlKeyPW>
+                <!-- Kuali -->
+                <kcserver.fqdn>localhost</kcserver.fqdn>
+                <kualiAppPort>8080</kualiAppPort>
+                <kualiAppProtocol>http</kualiAppProtocol>
+                <kualiAppVersion>localhost:coeus-webapp:1804.0013</kualiAppVersion>
+                <kualiAppName>ra</kualiAppName>
+                <kualiRest.user>apiuser</kualiRest.user>
+                <kualiRest.password></kualiRest.password>
+                <!-- JDBC -->
+                <jdbcKualiMySQL.url>jdbc:mysql://localhost:3306/coeus</jdbcKualiMySQL.url>
+                <jdbcKualiMySQL.userName>coeus</jdbcKualiMySQL.userName>
+                <jdbcKualiMySQL.password></jdbcKualiMySQL.password>
+                <!--  Tomcat deployment url -->
+                <tomcat.deployUrl>http://localhost:8080/manager/text</tomcat.deployUrl>
+                <tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
+            </properties>
+        </profile>
     	<profile>
     		<id>build-jsfrontend-node</id>
     		<activation>

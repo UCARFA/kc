@@ -1,0 +1,57 @@
+<config>
+    <param name="application.http.scheme">${kualiAppProtocol}</param>
+    <param name="application.host">${kcserver.fqdn}</param>
+    <param name="http.port">${kualiAppPort}</param>
+    <param name="app.context.name">${kualiAppName}</param>
+    <param name="version">${kualiAppVersion}</param>
+
+    <!-- Auth parameters -->
+    <!-- To disable ADFS auth, set auth.core.enabled to false, comment -->
+    <!-- out filter.login.class and filtermapping.login.1, and modify -->
+    <!-- the web.xml to comment out sections with labeled with UCAR. -->
+    <!-- Change showPassword to true for local authentication -->
+    <param name="auth.core.enabled">true</param>
+    <param name="adfs.enabled">${adfs.enabled}</param>
+    <param name="showPassword">${showPassword}</param>
+    <param name="kc.rest.admin.username">${kualiRest.user}</param>
+    <param name="kc.rest.admin.password">${kualiRest.password}</param>
+
+    <!-- Comment out the following 2 lines to disable ADFS -->
+    <!--
+    <param name="filter.login.class">edu.ucar.fanda.kuali.auth.UcarLoginFilter</param>
+    <param name="filtermapping.login.1">/*</param>
+
+
+    <param name="keystore.alias">${kcserver.fqdn}</param>
+    <param name="keystore.file">/usr/local/kuali/config/keystore/keystore.file</param>
+    <param name="keystore.password">BornOnTheBayou</param>
+    -->
+    <!-- KC Client DB -->
+    <!--         <param name="datasource.url">jdbc:mysql://localhost:3306/coeus</param> -->
+    <param name="datasource.url">${jdbcKualiMySQL.url}</param>
+    <param name="datasource.username">${jdbcKualiMySQL.userName}</param>
+    <param name="datasource.password">${jdbcKualiMySQL.password}</param>
+    <param name="datasource.ojb.platform">MySQL</param>
+
+    <!-- Rice Server DB -->
+    <!-- Should be the same as KC Client DB when running bundled mode -->
+    <!--         <param name="server.datasource.url">jdbc:mysql://localhost:3306/coeus</param> -->
+    <param name="server.datasource.url">${jdbcKualiMySQL.url}</param>
+    <param name="server.datasource.username">${jdbcKualiMySQL.userName}</param>
+    <param name="server.datasource.password">${jdbcKualiMySQL.password}</param>
+
+    <!-- Logging print Configuration -->
+    <param name="print.logging.directory">/usr/local/kuali/logs</param>
+    <param name="print.logging.enable">true</param>
+
+    <!-- Mail server configuration -->
+    <param name="mail.smtp.host">corona.fanda.ucar.edu</param>
+    <param name="mail.smtp.port">25</param>
+    <param name="mail.transport.protocol">smtp</param>
+
+    <!-- SchemaSpy -->
+    <param name="kc.schemaspy.enabled">false</param>
+
+    <!-- Get Help URL -->
+    <param name="feedback.link.url">https://www2.fin.ucar.edu/opex/kuali/learning-resources</param>
+</config>
