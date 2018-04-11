@@ -219,7 +219,7 @@
                 <metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
                 <metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
                 <websso.responseskew>60</websso.responseskew>
-                <showPassword>false</showPassword>
+                <showPassword>true</showPassword>
                 <samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
                 <samlKeystorePW></samlKeystorePW>
                 <samlKey>kcnonprod</samlKey>
