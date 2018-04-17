@@ -173,6 +173,17 @@
                     </webResources>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <configuration>
+                    <path>${tomcat.deployContextPath}</path>
+                    <update>true</update>
+                    <url>${tomcat.deployUrl}</url>
+                    <username>teamcity</username>
+                    <password>HotnCold!</password>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <profiles>
