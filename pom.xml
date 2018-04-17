@@ -131,6 +131,8 @@
         <xmlbeans.version>2.6.0</xmlbeans.version>
         <xmlsec.version>2.0.8</xmlsec.version>
         <xstream.version>1.2.2</xstream.version>
+        <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
+        <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
 
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
@@ -412,6 +414,12 @@
                             </manifestEntries>
                         </archive>
                     </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>${tomcat7-maven-plugin.version}</version>
                 </plugin>
 
                 <plugin>
