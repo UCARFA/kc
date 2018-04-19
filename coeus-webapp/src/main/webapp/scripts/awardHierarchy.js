@@ -129,6 +129,8 @@ function openSelectedAward(requestTracker) {
         	var txtImage = "<img src=\"static/images/award_holding.gif\" alt=\"Hold\" title=\"Hold\" />";
         }else if(awardStatus == 7){
             var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"WRAP\" title=\"WRAP\" />";
+        }else if(awardStatus == 8){
+            var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"In Progress\" title=\"In Progress\" />";
         }
         
         var index = awardNumber.indexOf("-");

@@ -174,6 +174,8 @@ function openPreviousAwards(requestTracker) {
         	var txtImage = "<img src=\"static/images/award_holding.gif\" alt=\"Hold\" title=\"Hold\" />";
         }else if(text11 == 7){
             var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"WRAP\" title=\"WRAP\" />";
+        }else if(text11 == 8){
+            var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"In Progress\" title=\"In Progress\" />";
         }
         
         var index = awardNumber.indexOf("-");

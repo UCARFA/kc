@@ -68,6 +68,10 @@
               <c:set var="statusImg" value="static/images/award_pending.gif"/>
               <c:set var="statusNm" value="WRAP"/>
           </c:when>
+          <c:when test="${node.bo.awardStatus.statusCode == 8}">
+              <c:set var="statusImg" value="static/images/award_pending.gif"/>
+              <c:set var="statusNm" value="In Progress"/>
+          </c:when>
           <c:otherwise><c:set var="statusImg" value="static/images/award_inactive.gif"/></c:otherwise>
       </c:choose>
       <span class="medusaNode"><a name="${node.type}-${node.bo.awardId}" class="${hideOpen}"><img src="static/images/sponsor12.gif"/><img src="${statusImg}" alt="${statusNm}" title="${statusNm}"/>Award ${node.bo.awardNumber}</a></span><!-- hack for treeview --><a></a>
