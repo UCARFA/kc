@@ -12,11 +12,25 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
+
+/*
+    Create CUSTOM_ATTRIBUTE_SORT Parameter in Kuali.
+        Example:
+            Namespace: KC-GEN
+            Component: All
+            Application ID: KC
+            Parameter Name: CUSTOM_ATTRIBUTE_SORT
+            Paramter Value: alpha
+            Parameter Description: Sort value (id or alpha) for Custom Attributes
+            Parameter Type Code: Config
+            Parameter Constraint Code: Allowed
+*/
 
 /**
  * The CustomDataHelperBase is the base class for all Custom Data Helper classes.
@@ -105,6 +119,12 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
                     customAttributeGroups.put(groupName, customAttributeDocumentList);
                 }
         customAttributeDocumentList.add(customAttributeDocument.getValue());
+        String customAttributeSort = getParameterService().getParameterValueAsString("KC-GEN", "All", "CUSTOM_ATTRIBUTE_SORT");
+        if (customAttributeSort != null && customAttributeSort.equals("id")) {
+            Collections.sort(customAttributeDocumentList, new IdComparator());
+        } else if (customAttributeSort != null && customAttributeSort.equals("alpha")) {
+            Collections.sort(customAttributeDocumentList, new LabelComparator());
+        }
         }
 
     protected boolean isMatch(T documentCustomData, Entry<String, CustomAttributeDocument> customAttributeDocumentEntry) {
@@ -250,5 +270,35 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
                 return 0;
             }
         }
+    }
+
+    /**
+     * Sorts custom data attributes by ID for numerical order on custom data panels.
+     */
+    public class IdComparator implements Comparator
+    {
+        public IdComparator(){}
+
+        public int compare(Object cad1, Object cad2 )
+        {
+            try
+            {
+                Long id1 = ((CustomAttributeDocument)cad1).getCustomAttribute().getId();
+                Long id2 = ((CustomAttributeDocument)cad2).getCustomAttribute().getId();
+
+                return id1.compareTo(id2);
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
+    }
+
+    /*
+     * Get the parameter service
+     */
+    private ParameterService getParameterService() {
+        return KcServiceLocator.getService(ParameterService.class);
     }
 }
