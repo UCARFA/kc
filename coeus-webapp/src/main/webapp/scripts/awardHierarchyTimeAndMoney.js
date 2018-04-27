@@ -167,7 +167,7 @@ function openPreviousAwards(requestTracker) {
         }else if(text11 == 3){
         	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"Pending\" title=\"Pending\" />";
         }else if(text11 == 4){
-        	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"In Closeout\" title=\"Incloseout\" />";
+        	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"In Closeout\" title=\"In Closeout\" />";
         }else if(text11 == 5){
         	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Closed\" title=\"Closed\" />";
         }else if(text11 == 6){
