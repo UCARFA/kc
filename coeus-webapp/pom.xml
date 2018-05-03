@@ -258,7 +258,7 @@
     			<kualiAppPort>8080</kualiAppPort>
     			<kualiAppProtocol>http</kualiAppProtocol>
     			<kualiAppVersion>localhost:coeus-webapp:1609.0056</kualiAppVersion>
-    			<kualiAppName>kc-dev</kualiAppName>
+    			<kualiAppName>ra</kualiAppName>
     			<kualiRest.user>apiuser</kualiRest.user>
     			<kualiRest.password></kualiRest.password>
     			<!-- JDBC -->
@@ -267,7 +267,7 @@
     			<jdbcKualiMySQL.password></jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
 				<tomcat.deployUrl>http://localhost:8080/manager/text</tomcat.deployUrl>
-				<tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
+				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
     	<!-- Steve's Workstation -->

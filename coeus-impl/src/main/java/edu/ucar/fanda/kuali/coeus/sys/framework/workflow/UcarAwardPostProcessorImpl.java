@@ -75,7 +75,6 @@ public class UcarAwardPostProcessorImpl extends KcPostProcessor {
             if (contractId != null && (statusChangeEvent.getOldRouteStatus().equals("P") && statusChangeEvent.getNewRouteStatus().equals("F"))) {
                 String keyPartDesc = "";
                 if (sponsorAwardID != null) {
-                 //   keyPartDesc = awardDocument.getAward().getSponsor().getSponsorName();
                     keyPartDesc = sponsorAwardID + " " + awardDocument.getAward().getSponsor().getSponsorName();
                 } else {
                     keyPartDesc = contractId;
