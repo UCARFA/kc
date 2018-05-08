@@ -17,7 +17,6 @@
     <param name="kc.rest.admin.password">${kualiRest.password}</param>
 
     <!-- Comment out the following 2 lines to disable ADFS -->
-    <!--
     <param name="filter.login.class">edu.ucar.fanda.kuali.auth.UcarLoginFilter</param>
     <param name="filtermapping.login.1">/*</param>
 
@@ -25,7 +24,7 @@
     <param name="keystore.alias">${kcserver.fqdn}</param>
     <param name="keystore.file">/usr/local/kuali/config/keystore/keystore.file</param>
     <param name="keystore.password">BornOnTheBayou</param>
-    -->
+
     <!-- KC Client DB -->
     <!--         <param name="datasource.url">jdbc:mysql://localhost:3306/coeus</param> -->
     <param name="datasource.url">${jdbcKualiMySQL.url}</param>

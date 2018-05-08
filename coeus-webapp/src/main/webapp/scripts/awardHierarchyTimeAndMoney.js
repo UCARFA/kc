@@ -179,9 +179,11 @@ function builduUi(info, awardNumber) {
             1:      '<img src="static/images/award_active.gif" alt="Active" title="Active" />',
             2:      '<img src="static/images/award_inactive.gif" alt="Inactive" title="Inactive"/>',
             3:      '<img src="static/images/award_pending.gif" alt="Pending" title="Pending"/>',
-            4:      '<img src="static/images/award_inactive.gif" alt="Terminated" title="Terminated"/>',
+            4:      '<img src="static/images/award_pending.gif" alt="In Closeout" title="In Closeout"/>',
             5:      '<img src="static/images/award_inactive.gif" alt="Closed" title="Closed" />',
-            6:      '<img src="static/images/award_holding.gif" alt="Hold" title="Hold"/>'
+            6:      '<img src="static/images/award_holding.gif" alt="Hold" title="Hold"/>',
+            7:      '<img src="static/images/award_pending.gif" alt="WRAP" title="WRAP"/>',
+            8:      '<img src="static/images/award_pending.gif" alt="In Progress" title="In Progress"/>'
         };
 
         return images[status];

@@ -25,7 +25,8 @@
 			<description>Manage Award</description>
 			<label>KC Award</label>
 			<parent>KC</parent>
-			<postProcessorName>org.kuali.coeus.sys.framework.workflow.KcPostProcessor</postProcessorName>
+			<!-- SJW <postProcessorName>org.kuali.coeus.sys.framework.workflow.KcPostProcessor</postProcessorName> -->
+			<postProcessorName>edu.ucar.fanda.kuali.coeus.sys.framework.workflow.UcarAwardPostProcessorImpl</postProcessorName>
 			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
@@ -304,6 +305,29 @@
 				    </lookup>
 					<fieldEvaluation>
 						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/principalInvestigatorName</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>ProposalSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>ProposalSearchAttribute</label>
+			<description>ProposalSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="institutionalProposalNo" title="Institutional Proposal">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.kra.institutionalproposal.home.InstitutionalProposal">
+						<fieldConversions>
+							<fieldConversion lookupFieldName="proposalNumber" localFieldName="institutionalProposalNo"/>
+						</fieldConversions>
+					</lookup>
+					<fieldEvaluation>
+						<xpathexpression>//awardList/org.kuali.kra.award.home.Award/institutionalProposalNo</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
 			</searchingConfig>
