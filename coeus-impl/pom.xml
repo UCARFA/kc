@@ -798,7 +798,6 @@
     </dependencies>
 
     <profiles>
-        <!--
         <profile>
             <id>grm</id>
             <activation>
@@ -828,6 +827,5 @@
                 </dependency>
             </dependencies>
         </profile>
-       -->
     </profiles>
 </project>
