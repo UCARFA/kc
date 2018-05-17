@@ -798,9 +798,9 @@
     </dependencies>
 
     <profiles>
+        <!--
         <profile>
             <id>grm</id>
-            <!-- comment out activation section to turn this profile off permanently-->
             <activation>
                 <property>
                     <name>!grm.off</name>
@@ -828,5 +828,6 @@
                 </dependency>
             </dependencies>
         </profile>
+       -->
     </profiles>
 </project>

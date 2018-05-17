@@ -50,17 +50,17 @@ public class AwardPrintNotice extends BusinessObjectBase {
 		costShare = false;
 		faRates = false;
 		benefitsRates = false;
-		flowThru = false;
-		comments = true;
+		flowThru = true;
+		comments = false;
 		technicalReports = false;
 		reports = false;
-		payment = false;
+		payment = true;
 		closeout = false;
 		sponsorContacts = true;
 		otherData = true;
 		keywords = false;
 		fundingSummary = true;
-		hierarchy = false;
+		hierarchy = true;
 		requireSignature = false;
 	}
 

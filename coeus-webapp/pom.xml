@@ -268,7 +268,7 @@
                 <kcserver.fqdn>kcnonprod4.fin.ucar.edu</kcserver.fqdn>
                 <kualiAppPort>443</kualiAppPort>
                 <kualiAppProtocol>https</kualiAppProtocol>
-                <kualiAppVersion>INTEGRATION:coeus-webapp:1804.0013</kualiAppVersion>
+                <kualiAppVersion>coeus-webapp:1804.0013</kualiAppVersion>
                 <kualiAppName>ra</kualiAppName>
                 <kualiRest.user>apiuser</kualiRest.user>
                 <kualiRest.password></kualiRest.password>
