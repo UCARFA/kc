@@ -111,7 +111,7 @@ function openSelectedAward(requestTracker) {
         }else if(awardStatus == 3){
         	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"Pending\" title=\"Pending\" />";
         }else if(awardStatus == 4){
-        	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"In Closeout\" title=\"In Closeout\" />";
+        	var txtImage = "<img src=\"static/images/award_pending.gif\" alt=\"In Closeout\" title=\"In Closeout\" />";
         }else if(awardStatus == 5){
         	var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Closed\" title=\"Closed\" />";
         }else if(awardStatus == 6){
