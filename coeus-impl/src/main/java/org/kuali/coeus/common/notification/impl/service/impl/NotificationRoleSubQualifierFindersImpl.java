@@ -19,14 +19,17 @@
 package org.kuali.coeus.common.notification.impl.service.impl;
 
 import org.kuali.coeus.common.notification.impl.service.NotificationRoleSubQualifierFinders;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class NotificationRoleSubQualifierFindersImpl implements NotificationRoleSubQualifierFinders {
 
@@ -43,7 +46,13 @@ public class NotificationRoleSubQualifierFindersImpl implements NotificationRole
     public List<KeyValue> getKeyValuesForRole(String roleName) {
         KeyValuesFinder finder = getFinders().get(roleName);
         if (finder != null) {
-            return asKeyValueList(finder.getKeyLabelMap());
+            Boolean sortUnitAdminTypes = KcServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-AWARD", "All", "AWARD_NOTICE_SORT_UNIT_ADMIN_TYPES");
+            if((roleName.equals("KC-AWARD:All Unit Administrators") || roleName.equals("KC-WKFLW:Unit Administrator")) && sortUnitAdminTypes != null && sortUnitAdminTypes) {
+                Map <String, String> unitAdminTypesSortedMap = new TreeMap<String, String>(finder.getKeyLabelMap());
+                return asKeyValueList(unitAdminTypesSortedMap);
+            } else {
+                return asKeyValueList(finder.getKeyLabelMap());
+            }
         } else {
             return new ArrayList<KeyValue>();
         }
