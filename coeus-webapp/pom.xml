@@ -267,7 +267,7 @@
     			<jdbcKualiMySQL.password></jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
 				<tomcat.deployUrl>http://localhost:8080/manager/text</tomcat.deployUrl>
-				<tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
+				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
     	<!-- Steve's Workstation -->
@@ -318,7 +318,7 @@
     			<jdbcKualiMySQL.password></jdbcKualiMySQL.password>
     			<!--  Tomcat deployment url -->
 				<tomcat.deployUrl>https://faswmbpro.fanda.ucar.edu:8443/manager/text</tomcat.deployUrl>
-				<tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
+				<tomcat.deployContextPath>/ra</tomcat.deployContextPath>
     		</properties>
     	</profile>
   	<!-- Generic Developer Workstation no ADFS -->
@@ -484,7 +484,6 @@
     			<!-- Disable ADFS -->
     			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
     			<adfs.enabled>false</adfs.enabled>
-    			<maven.war.webxml>src/main/webapp/WEB-INF/web-noadfs.xml</maven.war.webxml> 			
     			<metadataSp.filename>kcnonprod4fandaucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
