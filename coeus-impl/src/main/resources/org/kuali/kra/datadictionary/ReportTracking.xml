@@ -78,7 +78,14 @@
     <bean id="ReportTracking-awardReportTermId" parent="ReportTracking-awardReportTermId-parentBean" />
 	<bean id="ReportTracking-awardReportTermId-parentBean" abstract="true" parent="AwardReportTerm-awardReportTermId" />
     <bean id="ReportTracking-awardNumber" parent="ReportTracking-awardNumber-parentBean" />
-    <bean id="ReportTracking-awardNumber-parentBean" abstract="true" parent="Award-awardNumber"/>
+    <bean id="ReportTracking-awardNumber-parentBean" abstract="true" parent="Award-awardNumber">
+    <property name="name" value="awardNumber"/>
+    <property name="label" value="Award ID"/>
+    <property name="shortLabel" value="Award ID"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Award ID"/>
+    <property name="description" value="Award ID"/>
+    </bean>
     <bean id="ReportTracking-piName" parent="ReportTracking-piName-parentBean" />
     <bean id="ReportTracking-piName-parentBean" abstract="true" parent="AwardContact-fullName">
     	<property name="name" value="piName" />
@@ -426,7 +433,7 @@
         </property>
         <property name="lookupFields" >
             <list>
-        <bean parent="FieldDefinition" p:attributeName="awardNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="awardNumber" p:useShortLabel="true"/>
         <bean parent="FieldDefinition" p:attributeName="piName"/>
         <bean parent="FieldDefinition" p:attributeName="dueDate"/>
         <bean parent="FieldDefinition" p:attributeName="reportClassCode"/>
@@ -447,7 +454,7 @@
         </property>
         <property name="resultFields" >
             <list>
-        <bean parent="FieldDefinition" p:attributeName="awardNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="awardNumber" p:useShortLabel="true"/>
         <bean parent="FieldDefinition" p:attributeName="piName"/>
         <bean parent="FieldDefinition" p:attributeName="dueDate"/>
         <bean parent="FieldDefinition" p:attributeName="reportClass.description"/>
@@ -476,7 +483,7 @@
     <property name="headerText" value="Award Reporting Lookup"/>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="awardNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="awardNumber" p:useShortLabel="true" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="piName" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="dueDate" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="reportClassCode" parent="Uif-LookupCriteriaInputField"/>
@@ -497,7 +504,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="awardNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="awardNumber" p:useShortLabel="true" parent="Uif-DataField"/>
         <bean p:propertyName="piName" parent="Uif-DataField"/>
         <bean p:propertyName="dueDate" parent="Uif-DataField"/>
         <bean p:propertyName="reportClass.description" parent="Uif-DataField"/>
