@@ -45,11 +45,13 @@ public class UcarAwardPostProcessorImpl extends KcPostProcessor {
         System.out.println(">>>>> Status Change Event - Old: " + statusChangeEvent.getOldRouteStatus() + ", New: " + statusChangeEvent.getNewRouteStatus());
         ProcessDocReport processDocReport = ((PostProcessorService) KcServiceLocator.getService("kcPostProcessorService")).doRouteStatusChange(statusChangeEvent);
         Boolean httpPostAwardInfo = getParameterService().getParameterValueAsBoolean("KC-AWARD", "All", "HTTPPOST_AWARD_INFO");
+        // Document Route Status: I - Initial, S - Saved, P = Processed, F - Final
         if (processDocReport.isSuccess() && ((statusChangeEvent.getOldRouteStatus().equals("I") && statusChangeEvent.getNewRouteStatus().equals("S")) || (statusChangeEvent.getOldRouteStatus().equals("P") && statusChangeEvent.getNewRouteStatus().equals("F"))) && httpPostAwardInfo != null && httpPostAwardInfo) {
             UcarHttpUtil httpUtil = new UcarHttpUtil();
             AwardDocument awardDocument = (AwardDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(statusChangeEvent.getDocumentId());
             String awardNumber = awardDocument.getAward().getAwardNumber();
             String awardTitle = awardDocument.getAward().getTitle();
+
             if (awardNumber != null && awardTitle != null) {
                 HashMap<String, String> awardPayload = new HashMap<String, String>();
                 awardPayload.put("keyPartType", "kualiAwardNum");
@@ -67,6 +69,21 @@ public class UcarAwardPostProcessorImpl extends KcPostProcessor {
                 awardSponsorIdPayload.put("keyPartCode", sponsorAwardCode);
                 awardSponsorIdPayload.put("keyPartDesc",sponsorAwardID);
                 httpUtil.httpPost(awardSponsorIdPayload, "ACTIVEMQ_KEYPARTS_URL");
+            }
+
+            String contractId = awardDocument.getAward().getFinancialChartOfAccountsCode();
+            if (contractId != null && (statusChangeEvent.getOldRouteStatus().equals("P") && statusChangeEvent.getNewRouteStatus().equals("F"))) {
+                String keyPartDesc = "";
+                if (sponsorAwardID != null) {
+                    keyPartDesc = sponsorAwardID + " " + awardDocument.getAward().getSponsor().getSponsorName();
+                } else {
+                    keyPartDesc = contractId;
+                }
+                HashMap<String, String> contractIdPayload = new HashMap<String, String>();
+                contractIdPayload.put("keyPartType", "contractId");
+                contractIdPayload.put("keyPartCode", contractId);
+                contractIdPayload.put("keyPartDesc",keyPartDesc);
+                httpUtil.httpPost(contractIdPayload, "ACTIVEMQ_KEYPARTS_URL");
             }
         }
         return processDocReport;

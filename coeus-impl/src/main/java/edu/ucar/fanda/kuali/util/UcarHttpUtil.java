@@ -37,7 +37,7 @@ public class UcarHttpUtil {
                 request.setEntity(entity);
                 HttpResponse response = httpClient.execute(request);
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                System.err.println("Connection to Message Queue Failed: " + ex.getMessage());
             }
         }
     }
