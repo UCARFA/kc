@@ -15,13 +15,13 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springmodules.orm.ojb.OjbOperationException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * OJB Implementation of <code>{@link RolodexDao}</code>
@@ -29,7 +29,11 @@ import java.util.Map;
  */
 public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(RolodexDaoOjb.class);
-    
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
+
     @Override
     public List<? extends BusinessObject> getNonOrganizationalRolodexResults(Map fieldValues, boolean usePrimaryKeys) {
         Collection searchResults = new ArrayList();
@@ -78,7 +82,13 @@ public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
         return retval;
     }
 
-    
+    @Override
+    public List<Rolodex> getRolodexByEmail(String emailAddress) {
+        Map<String, String> criteria = new HashMap<>();
+        criteria.put("emailAddress", emailAddress);
+        return (List<Rolodex>) getBusinessObjectService().findMatching(Rolodex.class, criteria);
+    }
+
     private PersistableBusinessObject checkBusinessObjectClass(Class businessObjectClass) {
         if (businessObjectClass == null) {
             throw new IllegalArgumentException("BusinessObject class passed to RolodexDaoOjb findCollectionBySearchHelper... method was null");
@@ -94,5 +104,9 @@ public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
             throw new RuntimeException("RolodexDaoOjb could not get instance of " + businessObjectClass.getName(), e);
         }
         return businessObject;
+    }
+
+    private BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
 }

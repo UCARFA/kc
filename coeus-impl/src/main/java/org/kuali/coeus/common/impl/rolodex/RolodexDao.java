@@ -30,4 +30,6 @@ public interface RolodexDao {
      * @return Collection of <code>{@link Rolodex}</code> instances
      */
     public List<? extends BusinessObject> getNonOrganizationalRolodexResults(Map fieldValues, boolean usePrimaryKeys);
+
+    public List<Rolodex> getRolodexByEmail(String emailAddress);
 }

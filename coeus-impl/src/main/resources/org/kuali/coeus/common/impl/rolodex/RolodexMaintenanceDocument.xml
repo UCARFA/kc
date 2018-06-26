@@ -14,6 +14,7 @@
   <bean id="RolodexMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="dataObjectClass" value="org.kuali.coeus.common.framework.rolodex.Rolodex"/>
     <property name="maintainableClass" value="org.kuali.coeus.common.impl.rolodex.RolodexMaintainableImpl"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.impl.rolodex.RolodexMaintenanceDocumentRule"/>
     <property name="maintainableSections">
       <list>
         <ref bean="RolodexMaintenanceDocument-EditRolodex"/>
@@ -55,7 +56,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="countryCode" p:webUILeaveFieldFunction="updateStateFromCountry"/>
         <bean parent="MaintainableFieldDefinition" p:name="county"/>
         <bean parent="MaintainableFieldDefinition" p:name="deleteFlag"/>
-        <bean parent="MaintainableFieldDefinition" p:name="emailAddress"/>
+        <bean parent="MaintainableFieldDefinition" p:name="emailAddress" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="faxNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="firstName"/>
         <bean parent="MaintainableFieldDefinition" p:name="middleName"/>
@@ -104,7 +105,7 @@
                             <bean parent="Uif-InputField" p:propertyName="countryCode" p:order="70"/>
                             <bean parent="Uif-InputField" p:propertyName="county" p:order="80"/>
                             <bean parent="Uif-InputField" p:propertyName="deleteFlag" p:order="90"/>
-                            <bean parent="Uif-InputField" p:propertyName="emailAddress" p:order="100"/>
+                            <bean parent="Uif-InputField" p:propertyName="emailAddress" p:required="true" p:order="100"/>
                             <bean parent="Uif-InputField" p:propertyName="faxNumber" p:order="110"/>
                             <bean parent="Uif-InputField" p:propertyName="firstName" p:order="120"/>
                             <bean parent="Uif-InputField" p:propertyName="middleName" p:order="130"/>

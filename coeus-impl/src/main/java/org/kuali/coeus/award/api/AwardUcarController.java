@@ -45,7 +45,7 @@ public class AwardUcarController extends AwardControllerBase {
     @RequestMapping(method= RequestMethod.GET, value="/award_named_user", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
-    AwardDto getAwardByUser(@RequestParam(value = "awardNumber", required = true) String awardNumber,
+    List<AwardDto> getAwardByUser(@RequestParam(value = "awardNumber", required = true) String awardNumber,
                                   @RequestParam(value = "includeBudgets", required = false) boolean includeBudgets,
                                   @RequestHeader(value="userName", required = true) String userName
     ) {
@@ -55,7 +55,7 @@ public class AwardUcarController extends AwardControllerBase {
         List<Award> awards = getAwardDao().getAwardByAwardNumber(awardNumber);
         List<AwardDto> awardDtos = translateAwards(includeBudgets, awards);
         Boolean userFound = false;
-        AwardDto activeAwardDto = new AwardDto();
+        List<AwardDto> activeAwardDtos = new ArrayList<>();
         for (AwardDto awardDto : awardDtos) {
             if (awardDto.getAwardSequenceStatus().equals("ACTIVE")) {
                 List<AwardPersonDto> projectPersonList = awardDto.getProjectPersons();
@@ -63,7 +63,7 @@ public class AwardUcarController extends AwardControllerBase {
                     String projectPersonUserName = StringUtils.substringBefore(projectPerson.getEmailAddress(), "@");
                     if(projectPersonUserName.equals(userName) && (projectPerson.getRoleCode().equals("PI") || projectPerson.getRoleCode().equals("COI"))) {
                         userFound = true;
-                        activeAwardDto = awardDto;
+                        activeAwardDtos.add(awardDto);
                         break;
                     }
                 }
@@ -71,14 +71,14 @@ public class AwardUcarController extends AwardControllerBase {
                     List<AwardUnitContactDto> awardUnitContacts = awardDto.getAwardUnitContacts();
                     for (AwardUnitContactDto unitContact : awardUnitContacts) {
                         if (unitContact.getPerson().getUserName().equals(userName)) {
-                            activeAwardDto = awardDto;
+                            activeAwardDtos.add(awardDto);
                             break;
                         }
                     }
                 }
             }
         }
-        return activeAwardDto;
+        return activeAwardDtos;
     }
 
     // Add award note
