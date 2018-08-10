@@ -6,6 +6,7 @@
 **/coeus.iml
 **/.DS_Store
 **/Thumbs.db
+**/activemq-data
 bin
 .project
 .classpath
@@ -14,3 +15,4 @@ target
 .idea
 coeus.iml
 **/bin
+btm*.tlog
