@@ -36,7 +36,8 @@
     </property>
 	    <property name="required" value="true" />
 	    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.award.contacts.AwardSponsorContactProjectRolesValuesFinder" p:includeKeyInLabel="false"/>
+    <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.award.contacts.AwardSponsorContactProjectRolesValuesFinder" p:includeKeyInLabel="false"/>
+	<!--	<bean parent="SelectControlDefinition" p:valuesFinderClass="edu.ucar.fanda.kuali.kra.award.contacts.UcarAwardSponsorContactProjectRolesValuesFinder" p:includeKeyInLabel="false"/>  -->
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.kra.award.contacts.AwardSponsorContactProjectRolesValuesFinder"/>

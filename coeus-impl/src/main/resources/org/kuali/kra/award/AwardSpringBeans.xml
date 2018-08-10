@@ -933,6 +933,10 @@
                     <property name="taskName" value="modifyAward" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
+                <bean class="org.kuali.kra.award.document.authorizer.AdminModifyAwardAuthorizer" parent="parentAwardAuthorizer">
+                    <property name="taskName" value="adminModifyAward" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
                 <bean class="org.kuali.kra.award.document.authorizer.ViewAwardAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="viewAward" />
                 </bean>

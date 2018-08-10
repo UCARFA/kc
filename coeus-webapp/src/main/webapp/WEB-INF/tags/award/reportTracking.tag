@@ -15,6 +15,8 @@
 <c:set var="reportTrackingAttributes" value="${DataDictionary.ReportTracking.attributes}" />
 <c:set var="reportTrackingBeanAttributes" value="${DataDictionary.ReportTrackingBean.attributes}" />
 <c:set var="reportTrackingReadOnly" value="${!KualiForm.permissionsHelper.maintainAwardReportTracking }"/>
+<c:set var="limitEditableReportClasses" value='<%=org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator.getParameterService().getParameterValueAsBoolean("KC-AWARD", "Document", "LIMIT_EDITABLE_REPORT_CLASSES")%>' />
+<c:set var="editableReportClasses" value='<%=org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString("KC-AWARD", "Document", "EDITABLE_REPORT_CLASSES")%>' />
 
 <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false"
 	tabTitle="Details - Report Tracking"
@@ -23,6 +25,14 @@
 
 	<kra:softError softErrorKey="awardReportTerms-${KualiForm.document.award.awardReportTermItems[index].reportClassCode}-${KualiForm.document.award.awardReportTermItems[index].frequencyCode}-${KualiForm.document.award.awardReportTermItems[index].frequencyBaseCode}-${KualiForm.document.award.awardReportTermItems[index].ospDistributionCode}" />
 	<table cellpadding="0" cellspacing="0" summary="">
+		<c:if test="${limitEditableReportClasses && adminModifyAward}">
+			<c:set var="reportTrackingReadOnly" value="true" />
+			<c:forEach var="editableReportClass" items="${editableReportClasses}" >
+				<c:if test="${KualiForm.document.award.awardReportTermItems[index].reportClassCode == editableReportClass && reportTrackingReadOnly}">
+					<c:set var="reportTrackingReadOnly" value="false" />
+				</c:if>
+			</c:forEach>
+		</c:if>
 		<c:if test="${!reportTrackingReadOnly}">
 		<tr>
 			<th colspan="3"><div align="center">Edit Selected:</div></th>

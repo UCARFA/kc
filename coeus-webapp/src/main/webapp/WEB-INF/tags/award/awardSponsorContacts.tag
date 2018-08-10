@@ -47,17 +47,15 @@
            	        							  			'org.emailAddress',
            	        							  			'rolodexId');"
            	        							  			readOnly="${readOnly}"/>
-  					<c:if test="${!readOnly}">
   						<kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" fieldConversions="rolodexId:sponsorContactsBean.rolodexId" 
   									anchor="${tabKey}" lookupParameters="sponsorContactsBean.rolodexId:rolodexId"/>
-  					</c:if>
   			   </c:if> 
   			   <c:if test="${readOnly}">
 					<html:hidden styleId ="org.fullName" property="sponsorContactsBean.newAwardContact.rolodex.fullName" />
 				</c:if>
-				
-				${kfunc:registerEditableProperty(KualiForm, "sponsorContactsBean.rolodexId")}
-				<html:hidden styleId ="rolodexId" property="sponsorContactsBean.rolodexId" />
+				<c:if test="${!readOnly}">
+					${kfunc:registerEditableProperty(KualiForm, "sponsorContactsBean.rolodexId")}
+					<html:hidden styleId ="rolodexId" property="sponsorContactsBean.rolodexId" />
 
 
 				<div id="org.fullName.div">&nbsp; <c:if
@@ -73,11 +71,11 @@
 						</c:otherwise>
 					</c:choose>
 				</c:if></div>
-				</td>  
+				</td>
 
 	        	<td class="infoline" style="font-size: 80%">
 	        		<div align="center">
-		        		<kul:htmlControlAttribute property="sponsorContactsBean.contactRoleCode" 
+		        		<kul:htmlControlAttribute property="sponsorContactsBean.contactRoleCode"
 	                									attributeEntry="${awardSponsorContactAttributes.contactRoleCode}" />
 					</div>
 	        	</td>
@@ -88,13 +86,13 @@
 	        		<c:out value="${KualiForm.sponsorContactsBean.newAwardContact.contact.emailAddress}" />&nbsp;
 	        	</td>
 	        	<td class="infoline">
-	        		<div align="center">	        			
+	        		<div align="center">
 			        	<html:image property="methodToCall.addSponsorContact" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton addButton" />
 			        </div>
 	        	</td>
 			</tr>
 			</tbody>
-				
+			</c:if>
 			<c:forEach var="awardContact" items="${KualiForm.sponsorContactsBean.sponsorContacts}" varStatus="awardContactRowStatus">
 				<tr>
 					<th class="infoline" scope="row">
@@ -135,7 +133,7 @@
 	                
 					<td>
 						<div align="center">
-						  <c:if test="${!readOnly}">
+						  <c:if test="${!readOnly && !adminModifyAward}">
 							<html:image property="methodToCall.deleteSponsorContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
   							<c:if test="${KualiForm.syncMode}">
@@ -152,7 +150,7 @@
     
     	<div align="center">
     		<c:set var="syncPropertyName" value="sponsorContacts" />
-    		<c:if test="${!readOnly}">
+    		<c:if test="${!readOnly && !adminModifyAward}">
 				<kra-a:awardSyncButton scopeNames="SPONSOR_CONTACTS_TAB" tabKey="${tabKey}"/>
 		    </c:if>
 		</div>

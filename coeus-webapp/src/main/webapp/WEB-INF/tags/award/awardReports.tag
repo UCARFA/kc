@@ -7,6 +7,9 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="reportTrackingReadOnly" value="${!KualiForm.permissionsHelper.maintainAwardReportTracking }"/>
+<c:set var="limitEditableReportClasses" value='<%=org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator.getParameterService().getParameterValueAsBoolean("KC-AWARD", "Document", "LIMIT_EDITABLE_REPORT_CLASSES")%>' />
+<c:set var="editableReportClasses" value='<%=org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString("KC-AWARD", "Document", "EDITABLE_REPORT_CLASSES")%>' />
+
 <kul:tab tabTitle="Reports" defaultOpen="false"
 	tabErrorKey="document.awardList[0].awardReportTermItems,document.award.awardTemplate.REPORTS_TAB,methodToCall.selectAllMultEdit.AwardReportTermItemsIndex*,methodToCall.selectNoneMultiEdit.AwardReportTermItemsIndex*,awardReportTerm"
 	auditCluster="reportsAuditErrors"
@@ -19,14 +22,29 @@
 
 		<c:forEach var="reportClass" items="${KualiForm.reportClasses}"
 			varStatus="reportClassIndex">
-			<c:if
-				test="${KualiForm.reportClassForPaymentsAndInvoices.reportClassCode != reportClass.key}">
-				<kra-a:awardReportClasses index="${reportClassIndex.index}"
-					reportClassKey="${reportClass.key}"
-					reportClassLabel="${reportClass.value}"
-					reportCodeLabel="* Report Type" />
-			</c:if>
+
+			<c:choose>
+				<c:when test="${!KualiForm.editingMode['viewOnly'] && limitEditableReportClasses && adminModifyAward}">
+					<c:forEach var="editableReportClass" items="${editableReportClasses}" >
+						<c:if test="${reportClass.key == editableReportClass}">
+							<c:set var="readOnly" value="false" scope="request" />
+							<kra-a:awardReportClasses index="${reportClassIndex.index}"
+													  reportClassKey="${reportClass.key}"
+													  reportClassLabel="${reportClass.value}"
+													  reportCodeLabel="* Report Type" />
+						</c:if>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<kra-a:awardReportClasses index="${reportClassIndex.index}"
+											  reportClassKey="${reportClass.key}"
+											  reportClassLabel="${reportClass.value}"
+											  reportCodeLabel="* Report Type" />
+				</c:otherwise>
+			</c:choose>
+
 		</c:forEach>
+		<c:set var="readOnly" value="true" scope="request" />
 		<br/> <br/>
 		<kra-a:awardReportsMiscellaneousProcurementPurchasing />
 		<div align="center">

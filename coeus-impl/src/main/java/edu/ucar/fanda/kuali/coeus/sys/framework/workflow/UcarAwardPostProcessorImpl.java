@@ -45,28 +45,31 @@ public class UcarAwardPostProcessorImpl extends KcPostProcessor {
         System.out.println(">>>>> Status Change Event - Old: " + statusChangeEvent.getOldRouteStatus() + ", New: " + statusChangeEvent.getNewRouteStatus());
         ProcessDocReport processDocReport = ((PostProcessorService) KcServiceLocator.getService("kcPostProcessorService")).doRouteStatusChange(statusChangeEvent);
         Boolean httpPostAwardInfo = getParameterService().getParameterValueAsBoolean("KC-AWARD", "All", "HTTPPOST_AWARD_INFO");
-        if (processDocReport.isSuccess() && ((statusChangeEvent.getOldRouteStatus().equals("I") && statusChangeEvent.getNewRouteStatus().equals("S")) || (statusChangeEvent.getOldRouteStatus().equals("P") && statusChangeEvent.getNewRouteStatus().equals("F"))) && httpPostAwardInfo != null && httpPostAwardInfo) {
-            UcarHttpUtil httpUtil = new UcarHttpUtil();
-            AwardDocument awardDocument = (AwardDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(statusChangeEvent.getDocumentId());
-            String awardNumber = awardDocument.getAward().getAwardNumber();
-            String awardTitle = awardDocument.getAward().getTitle();
-            if (awardNumber != null && awardTitle != null) {
-                HashMap<String, String> awardPayload = new HashMap<String, String>();
-                awardPayload.put("keyPartType", "kualiAwardNum");
-                awardPayload.put("keyPartCode", awardNumber);
-                awardPayload.put("keyPartDesc",awardTitle);
-                httpUtil.httpPost(awardPayload, "ACTIVEMQ_KEYPARTS_URL");
-            }
+        // Document Route Status: I - Initial, S - Saved, P = Processed, F - Final, R - ?
+        if (processDocReport.isSuccess() && ((statusChangeEvent.getOldRouteStatus().equals("I") && statusChangeEvent.getNewRouteStatus().equals("S")) || (statusChangeEvent.getOldRouteStatus().equals("P") && statusChangeEvent.getNewRouteStatus().equals("F")))) {
+            if (httpPostAwardInfo != null && httpPostAwardInfo) {
+                UcarHttpUtil httpUtil = new UcarHttpUtil();
+                AwardDocument awardDocument = (AwardDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(statusChangeEvent.getDocumentId());
+                String awardNumber = awardDocument.getAward().getAwardNumber();
+                String awardTitle = awardDocument.getAward().getTitle();
+                if (awardNumber != null && awardTitle != null) {
+                    HashMap<String, String> awardPayload = new HashMap<String, String>();
+                    awardPayload.put("keyPartType", "kualiAwardNum");
+                    awardPayload.put("keyPartCode", awardNumber);
+                    awardPayload.put("keyPartDesc",awardTitle);
+                    httpUtil.httpPost(awardPayload, "ACTIVEMQ_KEYPARTS_URL");
+                }
 
-            String sponsorAwardID = awardDocument.getAward().getSponsorAwardNumber();
-            if (sponsorAwardID != null) {
-                String sponsorAwardCode = sponsorAwardID.replaceAll("[-\\.,/#\\(\\)\\?\\[\\]\\s]", "");
-                sponsorAwardCode = StringUtils.right(sponsorAwardCode, 8 );
-                HashMap<String, String> awardSponsorIdPayload = new HashMap<String, String>();
-                awardSponsorIdPayload.put("keyPartType", "sponsorAwardNum");
-                awardSponsorIdPayload.put("keyPartCode", sponsorAwardCode);
-                awardSponsorIdPayload.put("keyPartDesc",sponsorAwardID);
-                httpUtil.httpPost(awardSponsorIdPayload, "ACTIVEMQ_KEYPARTS_URL");
+                String sponsorAwardID = awardDocument.getAward().getSponsorAwardNumber();
+                if (sponsorAwardID != null) {
+                    String sponsorAwardCode = sponsorAwardID.replaceAll("[-\\.,/#\\(\\)\\?\\[\\]\\s]", "");
+                    sponsorAwardCode = StringUtils.right(sponsorAwardCode, 8 );
+                    HashMap<String, String> awardSponsorIdPayload = new HashMap<String, String>();
+                    awardSponsorIdPayload.put("keyPartType", "sponsorAwardNum");
+                    awardSponsorIdPayload.put("keyPartCode", sponsorAwardCode);
+                    awardSponsorIdPayload.put("keyPartDesc",sponsorAwardID);
+                    httpUtil.httpPost(awardSponsorIdPayload, "ACTIVEMQ_KEYPARTS_URL");
+                }
             }
         }
         return processDocReport;

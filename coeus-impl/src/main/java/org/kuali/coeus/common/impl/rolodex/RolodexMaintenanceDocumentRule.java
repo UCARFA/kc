@@ -34,13 +34,23 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
                 Parameter Type Code: Config
                 Parameter Constraint Code: Allowed
         */
-        Boolean enforceUniqueEmail = getParameterService().getParameterValueAsBoolean("KC-GEN", "All", "ENFORCE_UNIQUE_EMAIL");
-        if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION) && enforceUniqueEmail != null && enforceUniqueEmail) {
-            Rolodex newRolodex = (Rolodex) document.getDocumentBusinessObject();
-            if (newRolodex.getEmailAddress() == null || newRolodex.getEmailAddress().isEmpty() || !checkEmailUnique(newRolodex)) {
-                getGlobalVariableService().getMessageMap().putError(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "emailAddress", "error.rolodex.emailAddress.unique", new String[]{"Email Address"});
+        // MAINTENANCE_EDIT_ACTION
+
+        String maintainenceAction = document.getNewMaintainableObject().getMaintenanceAction();
+        if (!maintainenceAction.equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
+            Boolean enforceUniqueEmail = getParameterService().getParameterValueAsBoolean("KC-GEN", "All", "ENFORCE_UNIQUE_EMAIL");
+          //  Rolodex newRolodex = (Rolodex) document.getDocumentBusinessObject();
+            if (enforceUniqueEmail != null && enforceUniqueEmail) {
+                Rolodex newRolodex = (Rolodex) document.getNewMaintainableObject().getDataObject();
+                Rolodex oldRolodex = (Rolodex) document.getOldMaintainableObject().getDataObject();
+                if ((newRolodex.getEmailAddress() == null || newRolodex.getEmailAddress().isEmpty())
+                     || (maintainenceAction.equals(KRADConstants.MAINTENANCE_EDIT_ACTION) && newRolodex.getEmailAddress() != oldRolodex.getEmailAddress() && !checkEmailUnique(newRolodex))
+                     || (!maintainenceAction.equals(KRADConstants.MAINTENANCE_EDIT_ACTION) && !checkEmailUnique(newRolodex))) {
+                    getGlobalVariableService().getMessageMap().putError(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "emailAddress", "error.rolodex.emailAddress.unique", new String[]{"Email Address"});
+                }
             }
         }
+
         boolean success = super.processGlobalRouteDocumentBusinessRules(document);
 
         return success;

@@ -19,6 +19,11 @@
   	extraTopButtons="${KualiForm.extraTopButtons}" >
 
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+<c:set var="adminModifyAward" value="${KualiForm.editingMode['adminModifyAward']}" scope="request" />
+
+<c:if test="${adminModifyAward}">
+	<c:set var="readOnly" value="true" scope="request" />
+</c:if>
 
 <%-- modeled after ProposalDevelopmentKeyPersonnel.jsp --%>
 <div align="right">
@@ -29,7 +34,13 @@
 <div id="workarea">
 	<kra-a:awardProjectPersonnel />
 	<kra-a:awardUnitContacts />
+	<c:if test="${adminModifyAward && KualiForm.editingMode['fullEntry']}">
+		<c:set var="readOnly" value="false" scope="request" />
+	</c:if>
 	<kra-a:awardSponsorContacts />
+	<c:if test="${adminModifyAward}">
+		<c:set var="readOnly" value="true" scope="request" />
+	</c:if>
 	<kra-a:awardCentralAdministrationContacts />
 	<kul:panelFooter />
 </div>

@@ -999,5 +999,7 @@ public interface Constants {
     String PROJECT_STATUS_FEATURE_FLAG = "COI_PROJECT_STATUS_FEATURE";
     String ENABLE_LOCK_ON_DOCUMENT_VERSION = "Enable_Lock_On_Document_Version";
 
+    // UCAR
+    String ADMIN_MODIFY_AWARD = "adminModifyAward";
 }
 

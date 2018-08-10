@@ -53,7 +53,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="addressLine3"/>
         <bean parent="MaintainableFieldDefinition" p:name="city"/>
         <bean parent="MaintainableFieldDefinition" p:name="comments"/>
-        <bean parent="MaintainableFieldDefinition" p:name="countryCode" p:webUILeaveFieldFunction="updateStateFromCountry"/>
+        <bean parent="MaintainableFieldDefinition" p:name="countryCode" p:webUILeaveFieldFunction="updateStateFromCountry" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="county"/>
         <bean parent="MaintainableFieldDefinition" p:name="deleteFlag"/>
         <bean parent="MaintainableFieldDefinition" p:name="emailAddress" p:required="true"/>
@@ -61,13 +61,14 @@
         <bean parent="MaintainableFieldDefinition" p:name="firstName"/>
         <bean parent="MaintainableFieldDefinition" p:name="middleName"/>
         <bean parent="MaintainableFieldDefinition" p:name="lastName"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organization" p:required="true"/>
+      <!--  <bean parent="MaintainableFieldDefinition" p:name="organization" p:required="true" p:unconditionallyReadOnly="true"/> -->
+        <bean parent="MaintainableFieldDefinition" p:name="sponsor.sponsorName" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="ownedByUnit" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="phoneNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="postalCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="prefix"/>
         <bean parent="MaintainableFieldDefinition" p:name="isSponsorAddress" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="sponsorCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="state"/>
         <bean parent="MaintainableFieldDefinition" p:name="suffix"/>
         <bean parent="MaintainableFieldDefinition" p:name="title"/>
@@ -102,7 +103,7 @@
                             <bean parent="Uif-InputField" p:propertyName="addressLine3" p:order="40"/>
                             <bean parent="Uif-InputField" p:propertyName="city" p:order="50"/>
                             <bean parent="Uif-InputField" p:propertyName="comments" p:order="60"/>
-                            <bean parent="Uif-InputField" p:propertyName="countryCode" p:order="70"/>
+                            <bean parent="Uif-InputField" p:propertyName="countryCode" p:required="true" p:order="70"/>
                             <bean parent="Uif-InputField" p:propertyName="county" p:order="80"/>
                             <bean parent="Uif-InputField" p:propertyName="deleteFlag" p:order="90"/>
                             <bean parent="Uif-InputField" p:propertyName="emailAddress" p:required="true" p:order="100"/>
@@ -110,12 +111,13 @@
                             <bean parent="Uif-InputField" p:propertyName="firstName" p:order="120"/>
                             <bean parent="Uif-InputField" p:propertyName="middleName" p:order="130"/>
                             <bean parent="Uif-InputField" p:propertyName="lastName" p:order="140"/>
-                            <bean parent="Uif-InputField" p:propertyName="organization" p:required="true" p:order="150"/>
+                           <!-- <bean parent="Uif-InputField" p:propertyName="organization" p:required="true" p:order="150" p:unconditionallyReadOnly="true"/> -->
+                            <bean parent="Uif-InputField" p:propertyName="sponsor.sponsorName" p:order="150" p:unconditionallyReadOnly="true"/>
                             <bean parent="Uif-DataField" p:propertyName="ownedByUnit" p:required="true" p:order="160"/>
                             <bean parent="Uif-InputField" p:propertyName="phoneNumber" p:order="170"/>
                             <bean parent="Uif-InputField" p:propertyName="postalCode" p:order="180"/>
                             <bean parent="Uif-InputField" p:propertyName="prefix" p:order="190"/>
-                            <bean parent="Uif-InputField" p:propertyName="sponsorCode" p:order="200"/>
+                            <bean parent="Uif-InputField" p:propertyName="sponsorCode"  p:required="true" p:order="200"/>
                             <bean parent="Uif-InputField" p:propertyName="state" p:order="210"/>
                             <bean parent="Uif-InputField" p:propertyName="suffix" p:order="220"/>
                             <bean parent="Uif-InputField" p:propertyName="title" p:order="230"/>

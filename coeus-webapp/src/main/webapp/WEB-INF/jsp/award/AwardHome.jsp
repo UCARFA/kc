@@ -17,15 +17,21 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="home"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
-  	
+
 <c:set var="displayKeywordPanel" value="true" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+<c:set var="adminModifyAward" value="${KualiForm.editingMode['adminModifyAward']}" scope="request" />
 
 <div align="right">
    <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
    <kul:help documentTypeName="AwardDocument" pageName="Award" />
 </div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+
+<c:if test="${adminModifyAward}">
+  <c:set var="readOnly" value="true" scope="request" />
+</c:if>
+
 <kra-a:awardFundingProposals />
 <kra-a:awardDetailsDates />
 <kra-a:awardSubaward />
@@ -52,10 +58,10 @@ var kualiElements = kualiForm.elements;
 	<c:set var="extraButtonProperty" value="methodToCall.editOrVersion"/>
 	<c:set var="extraButtonAlt" value="Edit or Version"/>
 </c:if>
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" 
-						extraButtonSource="${extraButtonSource}" 
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true"
+						extraButtonSource="${extraButtonSource}"
 						extraButtonProperty="${extraButtonProperty}"
-						extraButtonAlt="${extraButtonAlt}" 
+						extraButtonAlt="${extraButtonAlt}"
 					    suppressCancelButton="true"/>
 
 </kul:documentPage>

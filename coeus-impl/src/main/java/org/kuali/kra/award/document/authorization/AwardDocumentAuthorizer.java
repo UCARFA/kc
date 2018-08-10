@@ -109,6 +109,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             if (canCreateAward(user.getPrincipalId())) {
                 editModes.add(Constants.CAN_CREATE_AWARD_KEY);
             }
+            if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.ADMIN_MODIFY_AWARD.getAwardTaskName())) {
+                editModes.add(Constants.ADMIN_MODIFY_AWARD);
+            }
             if (canCreateAwardAccount(document)) {
                 editModes.add(CREATE_AWARD_ACCOUNT);
             }

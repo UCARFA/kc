@@ -533,8 +533,12 @@
   <bean id="Rolodex-sponsor.sponsorName" parent="Rolodex-sponsor.sponsorName-parentBean"/>
   <bean abstract="true" id="Rolodex-sponsor.sponsorName-parentBean" parent="Sponsor-sponsorName">
     <property name="name" value="sponsor.sponsorName"/>
+    <!-- SJW
     <property name="label" value="Sponsor"/>
     <property name="shortLabel" value="Sponsor"/>
+    -->
+    <property name="label" value="Organization (Name From Sponsor Code Lookup)"/>
+    <property name="shortLabel" value="Organization (Name From Sponsor Code Lookup)"/>
   </bean>
 
   <bean id="Rolodex-city" parent="Rolodex-city-parentBean"/>

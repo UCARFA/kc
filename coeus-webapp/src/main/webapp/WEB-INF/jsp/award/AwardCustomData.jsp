@@ -23,6 +23,12 @@
   	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
   	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
+
+	<c:set var="adminModifyAward" value="${KualiForm.editingMode['adminModifyAward']}" scope="request" />
+
+	<c:if test="${adminModifyAward}">
+		<c:set var="readOnly" value="true" scope="request" />
+	</c:if>
   	
   	<div align="right">
        <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
