@@ -346,7 +346,7 @@
                 <kualiAppPort>8080</kualiAppPort>
                 <kualiAppProtocol>http</kualiAppProtocol>
                 <kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
-                <kualiAppName>kc-dev</kualiAppName>
+                <kualiAppName>ra</kualiAppName>
                 <kualiRest.user>admin</kualiRest.user>
                 <kualiRest.password></kualiRest.password>
                 <!-- JDBC -->
@@ -355,7 +355,7 @@
                 <jdbcKualiMySQL.password></jdbcKualiMySQL.password>
                 <!--  Tomcat deployment url -->
                 <tomcat.deployUrl>http://localhost:8080/manager/text</tomcat.deployUrl>
-                <tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
+                <tomcat.deployContextPath>/ra</tomcat.deployContextPath>
             </properties>
         </profile> 	
 
@@ -402,16 +402,17 @@
     		<id>kcnonprod2</id>
     		<properties>
     			<!-- ADFS/SAML -->   
-    			<!-- Enable ADFS
+    			<!-- Enable ADFS -->
     			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
     			<adfs.enabled>true</adfs.enabled>
-				-->
-    			<!-- Disable ADFS -->
+
+    			<!-- Disable ADFS
     			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
     			<adfs.enabled>false</adfs.enabled>
-
+				-->
     			<metadataSp.filename>kcnonprod2finucaredu_sp.xml</metadataSp.filename>
-    			<metadataIdp.fileName>prodadfsmetadata.xml</metadataIdp.fileName>
+    			<!-- SJW <metadataIdp.fileName>prodadfsmetadata.xml</metadataIdp.fileName> -->
+				<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>true</showPassword>
 				<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
