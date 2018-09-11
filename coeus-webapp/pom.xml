@@ -285,7 +285,8 @@
 				-->
     			<metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
 				<!-- BAD TEST <metadataSp.filename>kualievalfandaucaredu_sp.xml</metadataSp.filename> -->
-    			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+    		<!--	<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName> -->
+				<metadataIdp.fileName>https://adfs.test.ucar.edu/FederationMetadata/2007-06/FederationMetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
 				<!--
@@ -346,7 +347,7 @@
                 <kualiAppPort>8080</kualiAppPort>
                 <kualiAppProtocol>http</kualiAppProtocol>
                 <kualiAppVersion>coeus-webapp:1609.0056</kualiAppVersion>
-                <kualiAppName>kc-dev</kualiAppName>
+                <kualiAppName>ra</kualiAppName>
                 <kualiRest.user>admin</kualiRest.user>
                 <kualiRest.password></kualiRest.password>
                 <!-- JDBC -->
@@ -355,7 +356,7 @@
                 <jdbcKualiMySQL.password></jdbcKualiMySQL.password>
                 <!--  Tomcat deployment url -->
                 <tomcat.deployUrl>http://localhost:8080/manager/text</tomcat.deployUrl>
-                <tomcat.deployContextPath>/kc-dev</tomcat.deployContextPath>
+                <tomcat.deployContextPath>/ra</tomcat.deployContextPath>
             </properties>
         </profile> 	
 
@@ -411,7 +412,8 @@
     			<adfs.enabled>false</adfs.enabled>
 
     			<metadataSp.filename>kcnonprod2finucaredu_sp.xml</metadataSp.filename>
-    			<metadataIdp.fileName>prodadfsmetadata.xml</metadataIdp.fileName>
+    			<!-- SJW <metadataIdp.fileName>prodadfsmetadata.xml</metadataIdp.fileName> -->
+				<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>true</showPassword>
 				<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
