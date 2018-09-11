@@ -150,10 +150,19 @@
                             </constructor-arg>
                             <constructor-arg>
                                 <bean class="org.opensaml.util.resource.ClasspathResource">
-                                 	<constructor-arg value="/metadata/${metadataIdp.fileName}"/>
-                         <!--       <constructor-arg value="/metadata/nonprodadfsmetadata.xml"/> -->
+                                    <constructor-arg value="/metadata/${metadataIdp.fileName}"/>
                                 </bean>
                             </constructor-arg>
+                        <!-- SJW HTTP Connector for Metadata
+                        <bean class="org.opensaml.saml2.metadata.provider.HTTPMetadataProvider">
+                            <constructor-arg>
+                                <value type="java.lang.String">${metadataIdp.fileName}</value>
+                            </constructor-arg>
+                            <constructor-arg>
+
+                                <value type="int">5000</value>
+                            </constructor-arg>
+                    -->
                             <property name="parserPool" ref="parserPool"/>
                         </bean>
                     </constructor-arg>

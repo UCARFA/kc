@@ -285,7 +285,8 @@
 				-->
     			<metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
 				<!-- BAD TEST <metadataSp.filename>kualievalfandaucaredu_sp.xml</metadataSp.filename> -->
-    			<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
+    		<!--	<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName> -->
+				<metadataIdp.fileName>https://adfs.test.ucar.edu/FederationMetadata/2007-06/FederationMetadata.xml</metadataIdp.fileName>
 				<websso.responseskew>60</websso.responseskew>
 				<showPassword>false</showPassword>
 				<!--
