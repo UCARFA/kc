@@ -283,18 +283,15 @@
     			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
     			<adfs.enabled>false</adfs.enabled>
 				-->
-    			<metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
-				<!-- BAD TEST <metadataSp.filename>kualievalfandaucaredu_sp.xml</metadataSp.filename> -->
-    		<!--	<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName> -->
-				<metadataIdp.fileName>https://adfs.test.ucar.edu/FederationMetadata/2007-06/FederationMetadata.xml</metadataIdp.fileName>
-				<websso.responseskew>60</websso.responseskew>
-				<showPassword>false</showPassword>
+
 				<!--
 				<samlKeystore>samlKeystore.jks</samlKeystore>
 				<samlKeystorePW>Parak33#</samlKeystorePW>
 				<samlKey>apollo</samlKey>
 				<samlKeyPW>nalle123</samlKeyPW>
 				-->
+				<websso.responseskew>60</websso.responseskew>
+				<showPassword>true</showPassword>
 				<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
 				<samlKeystorePW></samlKeystorePW>
 				<samlKey>kcnonprod</samlKey>
@@ -305,6 +302,8 @@
 				<samlKey>kcprod</samlKey>
 				<samlKeyPW>fyrneice1</samlKeyPW>
 				-->
+				<metadataSp.filename>faswmbprofandaucaredu_sp.xml</metadataSp.filename>
+				<metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName>
     			<!-- Kuali -->
     			<kcserver.fqdn>faswmbpro.fanda.ucar.edu</kcserver.fqdn>
     			<kualiAppPort>8443</kualiAppPort>
@@ -403,19 +402,19 @@
     		<id>kcnonprod2</id>
     		<properties>
     			<!-- ADFS/SAML -->   
-    			<!-- Enable ADFS
+    			<!-- Enable ADFS -->
     			<web.xml.path>src/main/resources/adfs/web.xml</web.xml.path>
     			<adfs.enabled>true</adfs.enabled>
-				-->
-    			<!-- Disable ADFS -->
+
+    			<!-- Disable ADFS
     			<web.xml.path>src/main/resources/noadfs/web.xml</web.xml.path>
     			<adfs.enabled>false</adfs.enabled>
-
+				-->
     			<metadataSp.filename>kcnonprod2finucaredu_sp.xml</metadataSp.filename>
     			<metadataIdp.fileName>prodadfsmetadata.xml</metadataIdp.fileName>
 				<!-- <metadataIdp.fileName>nonprodadfsmetadata.xml</metadataIdp.fileName> -->
 				<websso.responseskew>60</websso.responseskew>
-				<showPassword>true</showPassword>
+				<showPassword>false</showPassword>
 				<samlKeystore>kualiNonProdSamlKeystore.jks</samlKeystore>
 				<samlKeystorePW></samlKeystorePW>
 				<samlKey>kcnonprod</samlKey>
